@@ -19,13 +19,6 @@
     "semantic/modes/main-color/primary",
     "semantic/modes/main-color/accent",
     "semantic/modes/support-color/extra1",
-    "semantic/modes/support-color/extra2",
-    "semantic/modes/support-color/system1",
-    "semantic/modes/support-color/system2",
-    "semantic/modes/support-color/system3",
-    "semantic/modes/support-color/system4",
-    "semantic/modes/support-color/system5",
-    "semantic/modes/support-color/system6",
     "semantic/style"
   ]
 }
