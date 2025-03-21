@@ -47,16 +47,18 @@ function App() {
   );
 
   return (
-    <div>
+    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
       {activePage === 'showcase' && (
-        <div style={{position: 'absolute', top: '1rem', right: '1rem'}}>
+        <div style={{position: 'absolute', top: '1rem', right: '1rem', zIndex: 10}}>
           <ThemeToggle isDarkMode={isDarkMode} onToggle={toggleTheme} />
         </div>
       )}
       
       <Navigation activePage={activePage} onNavigate={handleNavigate} />
       
-      {activePage === 'showcase' ? renderShowcase() : <LoginPage />}
+      <div style={{ display: 'flex', flex: 1, width: '100%', overflow: 'hidden' }}>
+        {activePage === 'showcase' ? renderShowcase() : <LoginPage />}
+      </div>
     </div>
   );
 }

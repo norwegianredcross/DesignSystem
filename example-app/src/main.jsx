@@ -6,6 +6,9 @@ import App from './App.jsx'
 import '@digdir/designsystemet-css'
 import '@digdir/designsystemet-theme'
 
+// Import custom Red Cross tokens (must be imported after the design system)
+import './styles/redcross-tokens.css'
+
 // Import application styles
 import './index.css'
 
