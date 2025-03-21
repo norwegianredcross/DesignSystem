@@ -1,0 +1,38 @@
+/* Navigation.css */
+
+.main-navigation {
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 2rem;
+  margin-bottom: 1rem;
+}
+
+.main-navigation ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 1.5rem;
+}
+
+.main-navigation li {
+  padding: 0.5rem 0;
+}
+
+.main-navigation li.active {
+  border-bottom: 2px solid var(--ds-color-primary-border-default);
+}
+
+.main-navigation button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #333;
+  padding: 0;
+}
+
+.main-navigation li.active button {
+  font-weight: 500;
+  color: var(--ds-color-primary-text-default);
+}
