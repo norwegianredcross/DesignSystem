@@ -96,6 +96,9 @@ const VippsSection = styled.div`
   padding: var(--ds-spacing-6);
   height: 100%;
   box-shadow: var(--ds-shadow-sm);
+  max-width: 300px;
+  width: 100%;
+  margin: 0 auto;
 `;
 
 const SectionTitle = styled(Heading)`
@@ -153,6 +156,9 @@ const LoginOptions = styled.div`
   padding: var(--ds-spacing-6);
   height: 100%;
   box-shadow: var(--ds-shadow-sm);
+  max-width: 480px;
+  width: 100%;
+  margin: 0 auto;
 `;
 
 const VippsButton = styled.button`

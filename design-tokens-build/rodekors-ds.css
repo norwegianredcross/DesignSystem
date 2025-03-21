@@ -19,7 +19,7 @@
   --ds-color-primary-border-strong: #bb261a;
   --ds-color-primary-text-subtle: #bb261a;
   --ds-color-primary-text-default: #57110c;
-  --ds-color-primary-base-default: #D52B1E;
+  --ds-color-primary-base-default: #c61ed6;
   --ds-color-primary-base-hover: #b12419;
   --ds-color-primary-base-active: #8e1d14;
   --ds-color-primary-base-contrast-subtle: #fdf4f4;
@@ -140,7 +140,7 @@
   --ds-color-primary-border-strong: #bb261a;
   --ds-color-primary-text-subtle: #bb261a;
   --ds-color-primary-text-default: #57110c;
-  --ds-color-primary-base-default: #D52B1E;
+  --ds-color-primary-base-default: #c61ed6;
   --ds-color-primary-base-hover: #b12419;
   --ds-color-primary-base-active: #8e1d14;
   --ds-color-primary-base-contrast-subtle: #fdf4f4;
@@ -939,7 +939,7 @@
   --ds-color-border-strong: var(--ds-color-primary-border-strong);
   --ds-color-text-subtle: var(--ds-color-primary-text-subtle);
   --ds-color-text-default: var(--ds-color-primary-text-default);
-  --ds-color-base-default: var(--ds-color-primary-base-default);
+  --ds-color-base-default: #ce21ba;
   --ds-color-base-hover: var(--ds-color-primary-base-hover);
   --ds-color-base-active: var(--ds-color-primary-base-active);
   --ds-color-base-contrast-subtle: var(--ds-color-primary-base-contrast-subtle);
