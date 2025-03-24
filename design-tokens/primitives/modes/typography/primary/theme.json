@@ -2,7 +2,7 @@
   "theme": {
     "font-family": {
       "$type": "fontFamilies",
-      "$value": "Inter"
+      "$value": "Myriad-pro"
     },
     "font-weight": {
       "medium": {
