@@ -38,10 +38,22 @@ export function ShowcasePage() {
   const [checkboxValue, setCheckboxValue] = useState(false)
   const [radioValue, setRadioValue] = useState("option1")
   const [textFieldValue, setTextFieldValue] = useState("")
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+
+    // Apply the theme globally by updating the `data-color-scheme` attribute on the <html> element
+    document.documentElement.setAttribute('data-color-scheme', newTheme);
+
+    // Update the `color-scheme` property for browser support
+    document.documentElement.style.setProperty('color-scheme', newTheme);
+  };
 
   return (
     <div className="showcase-container">
-      <header className="showcase-header">
+      <header className="showcase-header" style={{ backgroundColor: 'var(--header-background-color)', color: 'var(--header-text-color)' }}>
         <div className="logo-container">
           <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M16 0L29.8564 8V24L16 32L2.14359 24V8L16 0Z" fill="#1E2B3C" />
@@ -67,7 +79,7 @@ export function ShowcasePage() {
         </div>
       </header>
 
-      <div className="showcase-navigation">
+      <div className="showcase-navigation" style={{ backgroundColor: 'var(--sidebar-background-color)', color: 'var(--sidebar-text-color)' }}>
         <Breadcrumbs>
           <Breadcrumbs.Item href="#">Home</Breadcrumbs.Item>
           <Breadcrumbs.Item href="#">Components</Breadcrumbs.Item>
@@ -76,7 +88,7 @@ export function ShowcasePage() {
       </div>
 
       <main className="showcase-content">
-        <div className="showcase-sidebar">
+        <div className="showcase-sidebar" style={{ backgroundColor: 'var(--sidebar-background-color)', color: 'var(--sidebar-text-color)' }}>
           <nav>
             <Heading level={2} data-size="sm">
               Components
@@ -108,6 +120,13 @@ export function ShowcasePage() {
         </div>
 
         <div className="showcase-main">
+          <div style={{ position: 'fixed', top: '10px', right: '10px', zIndex: 1000 }}>
+            <div className="theme-toggle-button">
+              <Button onClick={toggleTheme} data-size="md">
+                Switch to {theme === 'light' ? 'Dark' : 'Light'} Theme
+              </Button>
+            </div>
+          </div>
           {selectedTab === "form-elements" && (
             <section>
               <Heading level={2} data-size="md">
@@ -700,7 +719,7 @@ export function ShowcasePage() {
         </div>
       </main>
 
-      <footer className="showcase-footer">
+      <footer className="showcase-footer" style={{ backgroundColor: 'var(--footer-background-color)', color: 'var(--footer-text-color)' }}>
         <Divider />
         <div className="footer-content">
           <Paragraph data-size="sm">Designsystemet Showcase - Created with Digdir Designsystemet v1.0.2</Paragraph>
