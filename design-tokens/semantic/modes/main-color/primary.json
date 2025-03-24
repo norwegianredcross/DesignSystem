@@ -47,7 +47,7 @@
       },
       "base-default": {
         "$type": "color",
-        "$value": "#ce21ba"
+        "$value": "{color.primary.base-default}"
       },
       "base-hover": {
         "$type": "color",

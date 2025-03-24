@@ -1,0 +1,1 @@
+.ds-list{--dsc-list-padding-inline:var(--ds-size-6) 0;--dsc-list-margin-top:var(--ds-size-3);--dsc-list-margin-top-nested:var(--ds-size-2);margin:0;padding-inline:var(--dsc-list-padding-inline)}.ds-list>li+li{margin-top:var(--dsc-list-margin-top)}.ds-list>li>:is(ol,ul)>li+li{margin-top:var(--dsc-list-margin-top-nested)}.ds-list>li:before{content:"\200B";position:absolute}

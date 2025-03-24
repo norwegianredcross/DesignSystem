@@ -8,16 +8,17 @@
     "primitives/modes/typography/size/small",
     "primitives/modes/typography/size/medium",
     "primitives/modes/typography/size/large",
-    "primitives/modes/typography/primary/rodekors-ds",
-    "primitives/modes/typography/secondary/rodekors-ds",
+    "primitives/modes/typography/primary/theme",
+    "primitives/modes/typography/secondary/theme",
     "primitives/modes/color-scheme/dark/global",
-    "primitives/modes/color-scheme/dark/rodekors-ds",
+    "primitives/modes/color-scheme/dark/theme",
     "primitives/modes/color-scheme/light/global",
-    "primitives/modes/color-scheme/light/rodekors-ds",
-    "themes/rodekors-ds",
+    "primitives/modes/color-scheme/light/theme",
+    "themes/theme",
     "semantic/color",
     "semantic/modes/main-color/primary",
-    "semantic/modes/main-color/accent",
+    "semantic/modes/main-color/secondary-hav",
+    "semantic/modes/main-color/secondary-jungel",
     "semantic/style"
   ]
 }

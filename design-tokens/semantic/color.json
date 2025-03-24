@@ -66,70 +66,136 @@
         "$value": "{color.primary.16}"
       }
     },
-    "accent": {
+    "secondary-hav": {
       "background-default": {
         "$type": "color",
-        "$value": "{color.accent.1}"
+        "$value": "{color.secondary-hav.1}"
       },
       "background-tinted": {
         "$type": "color",
-        "$value": "{color.accent.2}"
+        "$value": "{color.secondary-hav.2}"
       },
       "surface-default": {
         "$type": "color",
-        "$value": "{color.accent.3}"
+        "$value": "{color.secondary-hav.3}"
       },
       "surface-tinted": {
         "$type": "color",
-        "$value": "{color.accent.4}"
+        "$value": "{color.secondary-hav.4}"
       },
       "surface-hover": {
         "$type": "color",
-        "$value": "{color.accent.5}"
+        "$value": "{color.secondary-hav.5}"
       },
       "surface-active": {
         "$type": "color",
-        "$value": "{color.accent.6}"
+        "$value": "{color.secondary-hav.6}"
       },
       "border-subtle": {
         "$type": "color",
-        "$value": "{color.accent.7}"
+        "$value": "{color.secondary-hav.7}"
       },
       "border-default": {
         "$type": "color",
-        "$value": "{color.accent.8}"
+        "$value": "{color.secondary-hav.8}"
       },
       "border-strong": {
         "$type": "color",
-        "$value": "{color.accent.9}"
+        "$value": "{color.secondary-hav.9}"
       },
       "text-subtle": {
         "$type": "color",
-        "$value": "{color.accent.10}"
+        "$value": "{color.secondary-hav.10}"
       },
       "text-default": {
         "$type": "color",
-        "$value": "{color.accent.11}"
+        "$value": "{color.secondary-hav.11}"
       },
       "base-default": {
         "$type": "color",
-        "$value": "{color.accent.12}"
+        "$value": "{color.secondary-hav.12}"
       },
       "base-hover": {
         "$type": "color",
-        "$value": "{color.accent.13}"
+        "$value": "{color.secondary-hav.13}"
       },
       "base-active": {
         "$type": "color",
-        "$value": "{color.accent.14}"
+        "$value": "{color.secondary-hav.14}"
       },
       "base-contrast-subtle": {
         "$type": "color",
-        "$value": "{color.accent.15}"
+        "$value": "{color.secondary-hav.15}"
       },
       "base-contrast-default": {
         "$type": "color",
-        "$value": "{color.accent.16}"
+        "$value": "{color.secondary-hav.16}"
+      }
+    },
+    "secondary-jungel": {
+      "background-default": {
+        "$type": "color",
+        "$value": "{color.secondary-jungel.1}"
+      },
+      "background-tinted": {
+        "$type": "color",
+        "$value": "{color.secondary-jungel.2}"
+      },
+      "surface-default": {
+        "$type": "color",
+        "$value": "{color.secondary-jungel.3}"
+      },
+      "surface-tinted": {
+        "$type": "color",
+        "$value": "{color.secondary-jungel.4}"
+      },
+      "surface-hover": {
+        "$type": "color",
+        "$value": "{color.secondary-jungel.5}"
+      },
+      "surface-active": {
+        "$type": "color",
+        "$value": "{color.secondary-jungel.6}"
+      },
+      "border-subtle": {
+        "$type": "color",
+        "$value": "{color.secondary-jungel.7}"
+      },
+      "border-default": {
+        "$type": "color",
+        "$value": "{color.secondary-jungel.8}"
+      },
+      "border-strong": {
+        "$type": "color",
+        "$value": "{color.secondary-jungel.9}"
+      },
+      "text-subtle": {
+        "$type": "color",
+        "$value": "{color.secondary-jungel.10}"
+      },
+      "text-default": {
+        "$type": "color",
+        "$value": "{color.secondary-jungel.11}"
+      },
+      "base-default": {
+        "$type": "color",
+        "$value": "{color.secondary-jungel.12}"
+      },
+      "base-hover": {
+        "$type": "color",
+        "$value": "{color.secondary-jungel.13}"
+      },
+      "base-active": {
+        "$type": "color",
+        "$value": "{color.secondary-jungel.14}"
+      },
+      "base-contrast-subtle": {
+        "$type": "color",
+        "$value": "{color.secondary-jungel.15}"
+      },
+      "base-contrast-default": {
+        "$type": "color",
+        "$value": "{color.secondary-jungel.16}"
       }
     },
     "neutral": {
