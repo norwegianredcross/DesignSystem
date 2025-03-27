@@ -17,6 +17,7 @@
     "themes/theme",
     "semantic/color",
     "semantic/modes/main-color/primary",
+    "semantic/modes/main-color/inverted",
     "semantic/modes/main-color/secondary-hav",
     "semantic/modes/main-color/secondary-jungel",
     "semantic/style"
