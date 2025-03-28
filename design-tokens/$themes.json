@@ -149,9 +149,9 @@
     "$figmaModeId": "40960:6",
     "name": "theme",
     "selectedTokenSets": {
-      "themes/theme": "enabled"
+      "themes/theme": "enabled",
+      "themes/theme2": "enabled"
     },
-    "group": "Theme",
     "$figmaVariableReferences": {
       "color.primary.1": "76bcba1256971f0a5d2b10779e1ff4587d4dfeba",
       "color.primary.2": "dab9db6abe91997d327fe4697e6191a86562823f",
@@ -229,7 +229,9 @@
       "border-radius.6": "1acd68612e285c61af8d54a883c030e8fc524cd8",
       "border-radius.base": "560d48dd5d43499065a74e63675b0161ec75c1f1",
       "border-radius.scale": "48c423a3d3b5bc1764a1dcd232d44dfb509ccf2f"
-    }
+    },
+    "$figmaStyleReferences": {},
+    "group": "Theme"
   },
   {
     "id": "368d753fcac4455f289500eaa42e70dc0a03522f",
