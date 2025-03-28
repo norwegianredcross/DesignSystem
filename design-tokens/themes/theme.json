@@ -213,7 +213,7 @@
       },
       "4": {
         "$type": "color",
-        "$value": "{theme2.neutral.4}"
+        "$value": "{theme.neutral.4}"
       },
       "5": {
         "$type": "color",
