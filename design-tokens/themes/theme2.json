@@ -310,7 +310,7 @@
     },
     "base": {
       "$type": "dimension",
-      "$value": "6"
+      "$value": "9999px"
     },
     "scale": {
       "$type": "dimension",
