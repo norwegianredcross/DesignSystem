@@ -3,67 +3,67 @@
     "primary": {
       "1": {
         "$type": "color",
-        "$value": "{theme.primary.1}"
+        "$value": "{theme2.primary.1}"
       },
       "2": {
         "$type": "color",
-        "$value": "{theme.primary.2}"
+        "$value": "{theme2.primary.2}"
       },
       "3": {
         "$type": "color",
-        "$value": "{theme.primary.3}"
+        "$value": "{theme2.primary.3}"
       },
       "4": {
         "$type": "color",
-        "$value": "{theme.primary.4}"
+        "$value": "{theme2.primary.4}"
       },
       "5": {
         "$type": "color",
-        "$value": "{theme.primary.5}"
+        "$value": "{theme2.primary.5}"
       },
       "6": {
         "$type": "color",
-        "$value": "{theme.primary.6}"
+        "$value": "{theme2.primary.6}"
       },
       "7": {
         "$type": "color",
-        "$value": "{theme.primary.7}"
+        "$value": "{theme2.primary.7}"
       },
       "8": {
         "$type": "color",
-        "$value": "{theme.primary.8}"
+        "$value": "{theme2.primary.8}"
       },
       "9": {
         "$type": "color",
-        "$value": "{theme.primary.9}"
+        "$value": "{theme2.primary.9}"
       },
       "10": {
         "$type": "color",
-        "$value": "{theme.primary.10}"
+        "$value": "{theme2.primary.10}"
       },
       "11": {
         "$type": "color",
-        "$value": "{theme.primary.11}"
+        "$value": "{theme2.primary.11}"
       },
       "12": {
         "$type": "color",
-        "$value": "{theme.primary.12}"
+        "$value": "{theme2.primary.12}"
       },
       "13": {
         "$type": "color",
-        "$value": "{theme.primary.13}"
+        "$value": "{theme2.primary.13}"
       },
       "14": {
         "$type": "color",
-        "$value": "{theme.primary.14}"
+        "$value": "{theme2.primary.14}"
       },
       "15": {
         "$type": "color",
-        "$value": "{theme.primary.15}"
+        "$value": "{theme2.primary.15}"
       },
       "16": {
         "$type": "color",
-        "$value": "{theme.primary.16}"
+        "$value": "{theme2.primary.16}"
       }
     },
     "secondary-hav": {
@@ -201,67 +201,67 @@
     "neutral": {
       "1": {
         "$type": "color",
-        "$value": "{theme.neutral.1}"
+        "$value": "{theme2.neutral.1}"
       },
       "2": {
         "$type": "color",
-        "$value": "{theme.neutral.2}"
+        "$value": "{theme2.neutral.2}"
       },
       "3": {
         "$type": "color",
-        "$value": "{theme.neutral.3}"
+        "$value": "{theme2.neutral.3}"
       },
       "4": {
         "$type": "color",
-        "$value": "{theme.neutral.4}"
+        "$value": "{theme2.neutral.4}"
       },
       "5": {
         "$type": "color",
-        "$value": "{theme.neutral.5}"
+        "$value": "{theme2.neutral.5}"
       },
       "6": {
         "$type": "color",
-        "$value": "{theme.neutral.6}"
+        "$value": "{theme2.neutral.6}"
       },
       "7": {
         "$type": "color",
-        "$value": "{theme.neutral.7}"
+        "$value": "{theme2.neutral.7}"
       },
       "8": {
         "$type": "color",
-        "$value": "{theme.neutral.8}"
+        "$value": "{theme2.neutral.8}"
       },
       "9": {
         "$type": "color",
-        "$value": "{theme.neutral.9}"
+        "$value": "{theme2.neutral.9}"
       },
       "10": {
         "$type": "color",
-        "$value": "{theme.neutral.10}"
+        "$value": "{theme2.neutral.10}"
       },
       "11": {
         "$type": "color",
-        "$value": "{theme.neutral.11}"
+        "$value": "{theme2.neutral.11}"
       },
       "12": {
         "$type": "color",
-        "$value": "{theme.neutral.12}"
+        "$value": "{theme2.neutral.12}"
       },
       "13": {
         "$type": "color",
-        "$value": "{theme.neutral.13}"
+        "$value": "{theme2.neutral.13}"
       },
       "14": {
         "$type": "color",
-        "$value": "{theme.neutral.14}"
+        "$value": "{theme2.neutral.14}"
       },
       "15": {
         "$type": "color",
-        "$value": "{theme.neutral.15}"
+        "$value": "{theme2.neutral.15}"
       },
       "16": {
         "$type": "color",
-        "$value": "{theme.neutral.16}"
+        "$value": "{theme2.neutral.16}"
       }
     }
   },

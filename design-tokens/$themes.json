@@ -7,7 +7,9 @@
       "primitives/modes/size/medium": "source",
       "primitives/modes/size/global": "enabled",
       "primitives/modes/typography/size/medium": "enabled",
-      "semantic/modes/main-color/inverted": "disabled"
+      "primitives/modes/color-scheme/dark/theme2": "disabled",
+      "primitives/modes/color-scheme/light/theme2": "disabled",
+      "primitives/modes/typography/primary/theme2": "disabled"
     },
     "$figmaCollectionId": "VariableCollectionId:36248:20757",
     "$figmaModeId": "41630:1",
@@ -56,7 +58,9 @@
       "primitives/modes/size/large": "source",
       "primitives/modes/size/global": "enabled",
       "primitives/modes/typography/size/large": "enabled",
-      "semantic/modes/main-color/inverted": "disabled"
+      "primitives/modes/color-scheme/dark/theme2": "disabled",
+      "primitives/modes/color-scheme/light/theme2": "disabled",
+      "primitives/modes/typography/primary/theme2": "disabled"
     },
     "$figmaCollectionId": "VariableCollectionId:36248:20757",
     "$figmaModeId": "41630:2",
@@ -105,7 +109,9 @@
       "primitives/modes/size/small": "source",
       "primitives/modes/size/global": "enabled",
       "primitives/modes/typography/size/small": "enabled",
-      "semantic/modes/main-color/inverted": "disabled"
+      "primitives/modes/color-scheme/dark/theme2": "disabled",
+      "primitives/modes/color-scheme/light/theme2": "disabled",
+      "primitives/modes/typography/primary/theme2": "disabled"
     },
     "$figmaCollectionId": "VariableCollectionId:36248:20757",
     "$figmaModeId": "41630:3",
@@ -153,7 +159,9 @@
     "name": "theme",
     "selectedTokenSets": {
       "themes/theme": "enabled",
-      "semantic/modes/main-color/inverted": "disabled"
+      "primitives/modes/color-scheme/dark/theme2": "disabled",
+      "primitives/modes/color-scheme/light/theme2": "disabled",
+      "primitives/modes/typography/primary/theme2": "disabled"
     },
     "group": "Theme",
     "$figmaVariableReferences": {
@@ -242,14 +250,16 @@
     "name": "Primary",
     "selectedTokenSets": {
       "primitives/modes/typography/primary/theme": "enabled",
-      "semantic/modes/main-color/inverted": "disabled"
+      "primitives/modes/color-scheme/dark/theme2": "disabled",
+      "primitives/modes/color-scheme/light/theme2": "disabled",
+      "primitives/modes/typography/primary/theme2": "disabled"
     },
     "group": "Typography",
     "$figmaVariableReferences": {
-      "theme.font-family": "429d9a070662b0bc29309df48145e8d870ca7c2e",
-      "theme.font-weight.medium": "864cb2f13a6c024014cf8b378bf03fe96d393438",
-      "theme.font-weight.semibold": "564f3eb8e778af08993e4be1840ae371e6008548",
-      "theme.font-weight.regular": "7727284e98386f5e6243aa617ef522ac245bdb66"
+      "theme2.font-weight.medium": "864cb2f13a6c024014cf8b378bf03fe96d393438",
+      "theme2.font-weight.semibold": "564f3eb8e778af08993e4be1840ae371e6008548",
+      "theme2.font-weight.regular": "7727284e98386f5e6243aa617ef522ac245bdb66",
+      "theme2.font-family": "429d9a070662b0bc29309df48145e8d870ca7c2e"
     }
   },
   {
@@ -259,14 +269,16 @@
     "name": "Secondary",
     "selectedTokenSets": {
       "primitives/modes/typography/secondary/theme": "enabled",
-      "semantic/modes/main-color/inverted": "disabled"
+      "primitives/modes/color-scheme/dark/theme2": "disabled",
+      "primitives/modes/color-scheme/light/theme2": "disabled",
+      "primitives/modes/typography/primary/theme2": "disabled"
     },
     "group": "Typography",
     "$figmaVariableReferences": {
-      "theme.font-family": "429d9a070662b0bc29309df48145e8d870ca7c2e",
-      "theme.font-weight.medium": "864cb2f13a6c024014cf8b378bf03fe96d393438",
-      "theme.font-weight.semibold": "564f3eb8e778af08993e4be1840ae371e6008548",
-      "theme.font-weight.regular": "7727284e98386f5e6243aa617ef522ac245bdb66"
+      "theme2.font-weight.medium": "864cb2f13a6c024014cf8b378bf03fe96d393438",
+      "theme2.font-weight.semibold": "564f3eb8e778af08993e4be1840ae371e6008548",
+      "theme2.font-weight.regular": "7727284e98386f5e6243aa617ef522ac245bdb66",
+      "theme2.font-family": "429d9a070662b0bc29309df48145e8d870ca7c2e"
     }
   },
   {
@@ -274,7 +286,9 @@
     "selectedTokenSets": {
       "primitives/modes/color-scheme/dark/global": "enabled",
       "primitives/modes/color-scheme/dark/theme": "enabled",
-      "semantic/modes/main-color/inverted": "disabled"
+      "primitives/modes/color-scheme/dark/theme2": "disabled",
+      "primitives/modes/color-scheme/light/theme2": "disabled",
+      "primitives/modes/typography/primary/theme2": "disabled"
     },
     "id": "9ebd8aed52afbffc17e2666e8b4653a53498b257",
     "$figmaCollectionId": "VariableCollectionId:34811:5472",
@@ -361,22 +375,6 @@
       "global.red.14": "9b8d34831bcccb80c2ad7f2cd6c9abf3eb0e4d64",
       "global.red.15": "1934989a85cbd43bfa7af886f446e10f8ee35bda",
       "global.red.16": "a6430337d208830cea3ba4c79540c127de073f25",
-      "theme.primary.1": "1e16270564cc0b49d647f7c0a85298980fbedcc4",
-      "theme.primary.2": "69b83dc36953ba758d0661f69e81518b0641d8cf",
-      "theme.primary.3": "83505a8da700defaa227efcb99157e2fafb6bd7b",
-      "theme.primary.4": "be82588452fc7925ac260cd8a8dae4983999a9c8",
-      "theme.primary.5": "21290c0130c3145a1bded3557bbda770716b07de",
-      "theme.primary.6": "1b2ae433b796e1e45b52f2f0a1619325196905a4",
-      "theme.primary.7": "eb1bbfba082ddbd0090a6089da4354b31c72e231",
-      "theme.primary.8": "af2ce1aae6ce2f38327b9a845f010ffca96830d9",
-      "theme.primary.9": "ee9f40999b0538bb40caa04bcc8838a658a7ce9a",
-      "theme.primary.10": "3b7fac6bb3a1f19aa4c2128f072f7cead86f87b1",
-      "theme.primary.11": "d7c021fc7d2cf1ae3fc6649a7121bf8c28913f0e",
-      "theme.primary.12": "e0f240fa97881d02c3ca08c19908f76ec09e49d7",
-      "theme.primary.13": "533c7ba51139504f2934d76732adedd9c8abea5f",
-      "theme.primary.14": "087553d56dd948a644375d696b9d5da5156b840b",
-      "theme.primary.15": "dc2391bc4d47a52686b138f2ab564037de46f800",
-      "theme.primary.16": "108d93e28d5c7792a5e9d69e28eaf5597e21ba0c",
       "theme.secondary-hav.1": "64b9395d01fdbf1259af4276207dfda1f1294d7a",
       "theme.secondary-hav.2": "1a68a3ac36e6b5737900319616d49463bac1b0e5",
       "theme.secondary-hav.3": "01e691e918283b404325239d2ae6f6dfdfd58f07",
@@ -409,22 +407,38 @@
       "theme.secondary-jungel.14": "c9dd97c92904bcdc5d6f20a90648917298bd4969",
       "theme.secondary-jungel.15": "e31ce1e797320682400494249bdb46978bb8d30b",
       "theme.secondary-jungel.16": "fe9c0ea78a5cf16ef200042ef504078e4a209186",
-      "theme.neutral.1": "0b9c25b409572502501046295fa3259cdc2605af",
-      "theme.neutral.2": "31d021486fae6b9e6aaa8b5343090cfb8ebcd76d",
-      "theme.neutral.3": "884b929485d7a71426eb544e8a2884bceb1372c7",
-      "theme.neutral.4": "2cceed3ae09cdc750c0ff3ee4310712361cb2a4a",
-      "theme.neutral.5": "60bd0fa66c834521d8c97f11b1bd387bb48cabb0",
-      "theme.neutral.6": "eee817c8e77646d08a9efc5c5a30cd5fdad9468d",
-      "theme.neutral.7": "014a0339463b1e5b429e2158298accf5f719c38e",
-      "theme.neutral.8": "707e888ae1d753d8a56ffd91699a272f0acdf02c",
-      "theme.neutral.9": "83117734e1e9a0b6f318a113eae3882594c75555",
-      "theme.neutral.10": "55a2ee56d6eece8a87cee1c464cd9b7a084164b8",
-      "theme.neutral.11": "e6297d622782e9f9c969231a546fee3e89892b58",
-      "theme.neutral.12": "6aec3cb1ace1ea3d83dc783c44854be5abb82826",
-      "theme.neutral.13": "f4efd029a9d3a94784db66999bfd751b164f4624",
-      "theme.neutral.14": "21e9e83a26e05f433f9cf023eddada7a8c06088d",
-      "theme.neutral.15": "af0f860b2d311ba356045213962b2e3ff7f3ad4f",
-      "theme.neutral.16": "77e9622d2fb16fca95e2511042d8dcc5e917e612"
+      "theme2.primary.2": "69b83dc36953ba758d0661f69e81518b0641d8cf",
+      "theme2.primary.3": "83505a8da700defaa227efcb99157e2fafb6bd7b",
+      "theme2.primary.4": "be82588452fc7925ac260cd8a8dae4983999a9c8",
+      "theme2.primary.5": "21290c0130c3145a1bded3557bbda770716b07de",
+      "theme2.primary.6": "1b2ae433b796e1e45b52f2f0a1619325196905a4",
+      "theme2.primary.7": "eb1bbfba082ddbd0090a6089da4354b31c72e231",
+      "theme2.primary.8": "af2ce1aae6ce2f38327b9a845f010ffca96830d9",
+      "theme2.primary.9": "ee9f40999b0538bb40caa04bcc8838a658a7ce9a",
+      "theme2.primary.10": "3b7fac6bb3a1f19aa4c2128f072f7cead86f87b1",
+      "theme2.primary.11": "d7c021fc7d2cf1ae3fc6649a7121bf8c28913f0e",
+      "theme2.primary.12": "e0f240fa97881d02c3ca08c19908f76ec09e49d7",
+      "theme2.primary.13": "533c7ba51139504f2934d76732adedd9c8abea5f",
+      "theme2.primary.14": "087553d56dd948a644375d696b9d5da5156b840b",
+      "theme2.primary.15": "dc2391bc4d47a52686b138f2ab564037de46f800",
+      "theme2.primary.16": "108d93e28d5c7792a5e9d69e28eaf5597e21ba0c",
+      "theme2.neutral.1": "0b9c25b409572502501046295fa3259cdc2605af",
+      "theme2.neutral.2": "31d021486fae6b9e6aaa8b5343090cfb8ebcd76d",
+      "theme2.neutral.3": "884b929485d7a71426eb544e8a2884bceb1372c7",
+      "theme2.neutral.4": "2cceed3ae09cdc750c0ff3ee4310712361cb2a4a",
+      "theme2.neutral.5": "60bd0fa66c834521d8c97f11b1bd387bb48cabb0",
+      "theme2.neutral.6": "eee817c8e77646d08a9efc5c5a30cd5fdad9468d",
+      "theme2.neutral.7": "014a0339463b1e5b429e2158298accf5f719c38e",
+      "theme2.neutral.8": "707e888ae1d753d8a56ffd91699a272f0acdf02c",
+      "theme2.neutral.9": "83117734e1e9a0b6f318a113eae3882594c75555",
+      "theme2.neutral.10": "55a2ee56d6eece8a87cee1c464cd9b7a084164b8",
+      "theme2.neutral.11": "e6297d622782e9f9c969231a546fee3e89892b58",
+      "theme2.neutral.12": "6aec3cb1ace1ea3d83dc783c44854be5abb82826",
+      "theme2.neutral.13": "f4efd029a9d3a94784db66999bfd751b164f4624",
+      "theme2.neutral.14": "21e9e83a26e05f433f9cf023eddada7a8c06088d",
+      "theme2.neutral.15": "af0f860b2d311ba356045213962b2e3ff7f3ad4f",
+      "theme2.neutral.16": "77e9622d2fb16fca95e2511042d8dcc5e917e612",
+      "theme2.primary.1": "1e16270564cc0b49d647f7c0a85298980fbedcc4"
     }
   },
   {
@@ -432,7 +446,9 @@
     "selectedTokenSets": {
       "primitives/modes/color-scheme/light/global": "enabled",
       "primitives/modes/color-scheme/light/theme": "enabled",
-      "semantic/modes/main-color/inverted": "disabled"
+      "primitives/modes/color-scheme/dark/theme2": "disabled",
+      "primitives/modes/color-scheme/light/theme2": "disabled",
+      "primitives/modes/typography/primary/theme2": "disabled"
     },
     "id": "0daa3ca0b427b9349da7e7dc00101b5668972926",
     "$figmaCollectionId": "VariableCollectionId:34811:5472",
@@ -519,22 +535,6 @@
       "global.red.14": "9b8d34831bcccb80c2ad7f2cd6c9abf3eb0e4d64",
       "global.red.15": "1934989a85cbd43bfa7af886f446e10f8ee35bda",
       "global.red.16": "a6430337d208830cea3ba4c79540c127de073f25",
-      "theme.primary.1": "1e16270564cc0b49d647f7c0a85298980fbedcc4",
-      "theme.primary.2": "69b83dc36953ba758d0661f69e81518b0641d8cf",
-      "theme.primary.3": "83505a8da700defaa227efcb99157e2fafb6bd7b",
-      "theme.primary.4": "be82588452fc7925ac260cd8a8dae4983999a9c8",
-      "theme.primary.5": "21290c0130c3145a1bded3557bbda770716b07de",
-      "theme.primary.6": "1b2ae433b796e1e45b52f2f0a1619325196905a4",
-      "theme.primary.7": "eb1bbfba082ddbd0090a6089da4354b31c72e231",
-      "theme.primary.8": "af2ce1aae6ce2f38327b9a845f010ffca96830d9",
-      "theme.primary.9": "ee9f40999b0538bb40caa04bcc8838a658a7ce9a",
-      "theme.primary.10": "3b7fac6bb3a1f19aa4c2128f072f7cead86f87b1",
-      "theme.primary.11": "d7c021fc7d2cf1ae3fc6649a7121bf8c28913f0e",
-      "theme.primary.12": "e0f240fa97881d02c3ca08c19908f76ec09e49d7",
-      "theme.primary.13": "533c7ba51139504f2934d76732adedd9c8abea5f",
-      "theme.primary.14": "087553d56dd948a644375d696b9d5da5156b840b",
-      "theme.primary.15": "dc2391bc4d47a52686b138f2ab564037de46f800",
-      "theme.primary.16": "108d93e28d5c7792a5e9d69e28eaf5597e21ba0c",
       "theme.secondary-hav.1": "64b9395d01fdbf1259af4276207dfda1f1294d7a",
       "theme.secondary-hav.2": "1a68a3ac36e6b5737900319616d49463bac1b0e5",
       "theme.secondary-hav.3": "01e691e918283b404325239d2ae6f6dfdfd58f07",
@@ -567,22 +567,38 @@
       "theme.secondary-jungel.14": "c9dd97c92904bcdc5d6f20a90648917298bd4969",
       "theme.secondary-jungel.15": "e31ce1e797320682400494249bdb46978bb8d30b",
       "theme.secondary-jungel.16": "fe9c0ea78a5cf16ef200042ef504078e4a209186",
-      "theme.neutral.1": "0b9c25b409572502501046295fa3259cdc2605af",
-      "theme.neutral.2": "31d021486fae6b9e6aaa8b5343090cfb8ebcd76d",
-      "theme.neutral.3": "884b929485d7a71426eb544e8a2884bceb1372c7",
-      "theme.neutral.4": "2cceed3ae09cdc750c0ff3ee4310712361cb2a4a",
-      "theme.neutral.5": "60bd0fa66c834521d8c97f11b1bd387bb48cabb0",
-      "theme.neutral.6": "eee817c8e77646d08a9efc5c5a30cd5fdad9468d",
-      "theme.neutral.7": "014a0339463b1e5b429e2158298accf5f719c38e",
-      "theme.neutral.8": "707e888ae1d753d8a56ffd91699a272f0acdf02c",
-      "theme.neutral.9": "83117734e1e9a0b6f318a113eae3882594c75555",
-      "theme.neutral.10": "55a2ee56d6eece8a87cee1c464cd9b7a084164b8",
-      "theme.neutral.11": "e6297d622782e9f9c969231a546fee3e89892b58",
-      "theme.neutral.12": "6aec3cb1ace1ea3d83dc783c44854be5abb82826",
-      "theme.neutral.13": "f4efd029a9d3a94784db66999bfd751b164f4624",
-      "theme.neutral.14": "21e9e83a26e05f433f9cf023eddada7a8c06088d",
-      "theme.neutral.15": "af0f860b2d311ba356045213962b2e3ff7f3ad4f",
-      "theme.neutral.16": "77e9622d2fb16fca95e2511042d8dcc5e917e612"
+      "theme2.primary.2": "69b83dc36953ba758d0661f69e81518b0641d8cf",
+      "theme2.primary.3": "83505a8da700defaa227efcb99157e2fafb6bd7b",
+      "theme2.primary.4": "be82588452fc7925ac260cd8a8dae4983999a9c8",
+      "theme2.primary.5": "21290c0130c3145a1bded3557bbda770716b07de",
+      "theme2.primary.6": "1b2ae433b796e1e45b52f2f0a1619325196905a4",
+      "theme2.primary.7": "eb1bbfba082ddbd0090a6089da4354b31c72e231",
+      "theme2.primary.8": "af2ce1aae6ce2f38327b9a845f010ffca96830d9",
+      "theme2.primary.9": "ee9f40999b0538bb40caa04bcc8838a658a7ce9a",
+      "theme2.primary.10": "3b7fac6bb3a1f19aa4c2128f072f7cead86f87b1",
+      "theme2.primary.11": "d7c021fc7d2cf1ae3fc6649a7121bf8c28913f0e",
+      "theme2.primary.12": "e0f240fa97881d02c3ca08c19908f76ec09e49d7",
+      "theme2.primary.13": "533c7ba51139504f2934d76732adedd9c8abea5f",
+      "theme2.primary.14": "087553d56dd948a644375d696b9d5da5156b840b",
+      "theme2.primary.15": "dc2391bc4d47a52686b138f2ab564037de46f800",
+      "theme2.primary.16": "108d93e28d5c7792a5e9d69e28eaf5597e21ba0c",
+      "theme2.neutral.1": "0b9c25b409572502501046295fa3259cdc2605af",
+      "theme2.neutral.2": "31d021486fae6b9e6aaa8b5343090cfb8ebcd76d",
+      "theme2.neutral.3": "884b929485d7a71426eb544e8a2884bceb1372c7",
+      "theme2.neutral.4": "2cceed3ae09cdc750c0ff3ee4310712361cb2a4a",
+      "theme2.neutral.5": "60bd0fa66c834521d8c97f11b1bd387bb48cabb0",
+      "theme2.neutral.6": "eee817c8e77646d08a9efc5c5a30cd5fdad9468d",
+      "theme2.neutral.7": "014a0339463b1e5b429e2158298accf5f719c38e",
+      "theme2.neutral.8": "707e888ae1d753d8a56ffd91699a272f0acdf02c",
+      "theme2.neutral.9": "83117734e1e9a0b6f318a113eae3882594c75555",
+      "theme2.neutral.10": "55a2ee56d6eece8a87cee1c464cd9b7a084164b8",
+      "theme2.neutral.11": "e6297d622782e9f9c969231a546fee3e89892b58",
+      "theme2.neutral.12": "6aec3cb1ace1ea3d83dc783c44854be5abb82826",
+      "theme2.neutral.13": "f4efd029a9d3a94784db66999bfd751b164f4624",
+      "theme2.neutral.14": "21e9e83a26e05f433f9cf023eddada7a8c06088d",
+      "theme2.neutral.15": "af0f860b2d311ba356045213962b2e3ff7f3ad4f",
+      "theme2.neutral.16": "77e9622d2fb16fca95e2511042d8dcc5e917e612",
+      "theme2.primary.1": "1e16270564cc0b49d647f7c0a85298980fbedcc4"
     }
   },
   {
@@ -592,7 +608,9 @@
       "semantic/style": "enabled",
       "semantic/color": "enabled",
       "primitives/globals": "source",
-      "semantic/modes/main-color/inverted": "disabled"
+      "primitives/modes/color-scheme/dark/theme2": "disabled",
+      "primitives/modes/color-scheme/light/theme2": "disabled",
+      "primitives/modes/typography/primary/theme2": "disabled"
     },
     "$figmaCollectionId": "VariableCollectionId:34811:5976",
     "$figmaModeId": "34811:5",
@@ -794,7 +812,9 @@
     "name": "primary",
     "selectedTokenSets": {
       "semantic/modes/main-color/primary": "enabled",
-      "semantic/modes/main-color/inverted": "disabled"
+      "primitives/modes/color-scheme/dark/theme2": "disabled",
+      "primitives/modes/color-scheme/light/theme2": "disabled",
+      "primitives/modes/typography/primary/theme2": "disabled"
     },
     "group": "Main color",
     "$figmaCollectionId": "VariableCollectionId:40350:32139",
@@ -823,7 +843,9 @@
     "name": "secondary-hav",
     "selectedTokenSets": {
       "semantic/modes/main-color/secondary-hav": "enabled",
-      "semantic/modes/main-color/inverted": "disabled"
+      "primitives/modes/color-scheme/dark/theme2": "disabled",
+      "primitives/modes/color-scheme/light/theme2": "disabled",
+      "primitives/modes/typography/primary/theme2": "disabled"
     },
     "group": "Main color",
     "$figmaCollectionId": "VariableCollectionId:40350:32139",
@@ -852,7 +874,9 @@
     "name": "secondary-jungel",
     "selectedTokenSets": {
       "semantic/modes/main-color/secondary-jungel": "enabled",
-      "semantic/modes/main-color/inverted": "disabled"
+      "primitives/modes/color-scheme/dark/theme2": "disabled",
+      "primitives/modes/color-scheme/light/theme2": "disabled",
+      "primitives/modes/typography/primary/theme2": "disabled"
     },
     "group": "Main color",
     "$figmaCollectionId": "VariableCollectionId:40350:32139",
