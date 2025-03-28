@@ -3,7 +3,7 @@
  */
 
 @layer ds.theme.color {
-[data-color="secondary-hav"] {
+[data-color="secondary-hav"], [data-color-scheme][data-color="secondary-hav"] {
   --ds-color-background-default: var(--ds-color-secondary-hav-background-default);
   --ds-color-background-tinted: var(--ds-color-secondary-hav-background-tinted);
   --ds-color-surface-default: var(--ds-color-secondary-hav-surface-default);

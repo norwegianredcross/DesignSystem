@@ -766,7 +766,7 @@
 
 @layer ds.theme.typography.primary {
 :root, [data-typography="primary"] {
-  --ds-font-family: Inter;
+  --ds-font-family: Myriad-pro;
   --ds-font-weight-medium: 500;
   --ds-font-weight-semibold: 600;
   --ds-font-weight-regular: 400;
@@ -887,7 +887,7 @@
  */
 
 @layer ds.theme.color {
-[data-color="danger"] {
+[data-color="danger"], [data-color-scheme][data-color="danger"] {
   --ds-color-background-default: var(--ds-color-danger-background-default);
   --ds-color-background-tinted: var(--ds-color-danger-background-tinted);
   --ds-color-surface-default: var(--ds-color-danger-surface-default);
@@ -913,7 +913,7 @@
  */
 
 @layer ds.theme.color {
-[data-color="info"] {
+[data-color="info"], [data-color-scheme][data-color="info"] {
   --ds-color-background-default: var(--ds-color-info-background-default);
   --ds-color-background-tinted: var(--ds-color-info-background-tinted);
   --ds-color-surface-default: var(--ds-color-info-surface-default);
@@ -939,7 +939,7 @@
  */
 
 @layer ds.theme.color {
-[data-color="neutral"] {
+[data-color="neutral"], [data-color-scheme][data-color="neutral"] {
   --ds-color-background-default: var(--ds-color-neutral-background-default);
   --ds-color-background-tinted: var(--ds-color-neutral-background-tinted);
   --ds-color-surface-default: var(--ds-color-neutral-surface-default);
@@ -991,7 +991,7 @@
  */
 
 @layer ds.theme.color {
-[data-color="secondary-hav"] {
+[data-color="secondary-hav"], [data-color-scheme][data-color="secondary-hav"] {
   --ds-color-background-default: var(--ds-color-secondary-hav-background-default);
   --ds-color-background-tinted: var(--ds-color-secondary-hav-background-tinted);
   --ds-color-surface-default: var(--ds-color-secondary-hav-surface-default);
@@ -1017,7 +1017,7 @@
  */
 
 @layer ds.theme.color {
-[data-color="secondary-jungel"] {
+[data-color="secondary-jungel"], [data-color-scheme][data-color="secondary-jungel"] {
   --ds-color-background-default: var(--ds-color-secondary-jungel-background-default);
   --ds-color-background-tinted: var(--ds-color-secondary-jungel-background-tinted);
   --ds-color-surface-default: var(--ds-color-secondary-jungel-surface-default);
@@ -1043,7 +1043,7 @@
  */
 
 @layer ds.theme.color {
-[data-color="success"] {
+[data-color="success"], [data-color-scheme][data-color="success"] {
   --ds-color-background-default: var(--ds-color-success-background-default);
   --ds-color-background-tinted: var(--ds-color-success-background-tinted);
   --ds-color-surface-default: var(--ds-color-success-surface-default);
@@ -1069,7 +1069,7 @@
  */
 
 @layer ds.theme.color {
-[data-color="warning"] {
+[data-color="warning"], [data-color-scheme][data-color="warning"] {
   --ds-color-background-default: var(--ds-color-warning-background-default);
   --ds-color-background-tinted: var(--ds-color-warning-background-tinted);
   --ds-color-surface-default: var(--ds-color-warning-surface-default);

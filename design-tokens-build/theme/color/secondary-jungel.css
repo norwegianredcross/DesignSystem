@@ -3,7 +3,7 @@
  */
 
 @layer ds.theme.color {
-[data-color="secondary-jungel"] {
+[data-color="secondary-jungel"], [data-color-scheme][data-color="secondary-jungel"] {
   --ds-color-background-default: var(--ds-color-secondary-jungel-background-default);
   --ds-color-background-tinted: var(--ds-color-secondary-jungel-background-tinted);
   --ds-color-surface-default: var(--ds-color-secondary-jungel-surface-default);
