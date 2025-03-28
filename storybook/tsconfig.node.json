@@ -11,7 +11,8 @@
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",
-    "noEmit": true,
+    "noEmit": false, // Ensure emit is not disabled
+    "composite": true, // Add this
 
     /* Linting */
     "strict": true,

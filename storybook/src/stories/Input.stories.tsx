@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input } from '@designsystemet.no/react'; // Import from designsystemet.no
+import { Input } from '@digdir/designsystemet-react'; // Corrected import path
 import { Meta, Story } from '@storybook/react';
 
 export default {

@@ -1,4 +1,17 @@
 {
+  "compilerOptions": {
+    "jsx": "react-jsx", // Ensure the new JSX runtime is used
+    "module": "ESNext",
+    "target": "ESNext",
+    "moduleResolution": "Node",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "composite": true, // Add this
+    "noEmit": false // Ensure emit is not disabled
+  },
+  "include": ["src", ".storybook"],
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },

@@ -1,0 +1,12 @@
+@import url('https://fonts.cdnfonts.com/css/myriad-pro'); /* Use CDN or local font path */
+@import '@digdir/designsystemet-css';
+@import '@digdir/designsystemet-theme';
+@import '../../design-tokens-build/theme.css'; /* Import design tokens */
+
+body {
+  font-family: var(--ds-font-family, 'Inter'), sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--ds-color-neutral-background-default);
+  color: var(--ds-color-neutral-text-default);
+}

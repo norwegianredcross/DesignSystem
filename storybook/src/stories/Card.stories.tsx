@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card } from '@designsystemet.no/react'; // Import from designsystemet.no
+import { Card } from '@digdir/designsystemet-react'; // Correct import
 import { Meta, Story } from '@storybook/react';
 
 export default {
@@ -11,7 +11,12 @@ export default {
   },
 } as Meta;
 
-const Template: Story<{ title: string; content: string }> = (args) => <Card {...args} />;
+const Template: Story<{ title: string; content: string }> = (args) => (
+  <Card>
+    <Card.Block>{args.title}</Card.Block>
+    <Card.Block>{args.content}</Card.Block>
+  </Card>
+);
 
 export const Default = Template.bind({});
 Default.args = {

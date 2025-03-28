@@ -18,7 +18,7 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthrough": true,
+    "noFallthroughCasesInSwitch": true, // Replace invalid option
     /* Paths */
     "baseUrl": ".",
     "paths": {
