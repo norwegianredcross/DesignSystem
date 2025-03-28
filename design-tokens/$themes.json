@@ -6,8 +6,7 @@
     "selectedTokenSets": {
       "primitives/modes/size/medium": "source",
       "primitives/modes/size/global": "enabled",
-      "primitives/modes/typography/size/medium": "enabled",
-      "semantic/modes/main-color/inverted": "disabled"
+      "primitives/modes/typography/size/medium": "enabled"
     },
     "$figmaCollectionId": "VariableCollectionId:36248:20757",
     "$figmaModeId": "41630:1",
@@ -55,8 +54,7 @@
     "selectedTokenSets": {
       "primitives/modes/size/large": "source",
       "primitives/modes/size/global": "enabled",
-      "primitives/modes/typography/size/large": "enabled",
-      "semantic/modes/main-color/inverted": "disabled"
+      "primitives/modes/typography/size/large": "enabled"
     },
     "$figmaCollectionId": "VariableCollectionId:36248:20757",
     "$figmaModeId": "41630:2",
@@ -104,8 +102,7 @@
     "selectedTokenSets": {
       "primitives/modes/size/small": "source",
       "primitives/modes/size/global": "enabled",
-      "primitives/modes/typography/size/small": "enabled",
-      "semantic/modes/main-color/inverted": "disabled"
+      "primitives/modes/typography/size/small": "enabled"
     },
     "$figmaCollectionId": "VariableCollectionId:36248:20757",
     "$figmaModeId": "41630:3",
@@ -152,8 +149,7 @@
     "$figmaModeId": "40960:6",
     "name": "theme",
     "selectedTokenSets": {
-      "themes/theme": "enabled",
-      "semantic/modes/main-color/inverted": "disabled"
+      "themes/theme": "enabled"
     },
     "group": "Theme",
     "$figmaVariableReferences": {
@@ -241,15 +237,14 @@
     "$figmaModeId": "36248:2",
     "name": "Primary",
     "selectedTokenSets": {
-      "primitives/modes/typography/primary/theme": "enabled",
-      "semantic/modes/main-color/inverted": "disabled"
+      "primitives/modes/typography/primary/theme": "enabled"
     },
     "group": "Typography",
     "$figmaVariableReferences": {
-      "theme.font-family": "429d9a070662b0bc29309df48145e8d870ca7c2e",
-      "theme.font-weight.medium": "864cb2f13a6c024014cf8b378bf03fe96d393438",
-      "theme.font-weight.semibold": "564f3eb8e778af08993e4be1840ae371e6008548",
-      "theme.font-weight.regular": "7727284e98386f5e6243aa617ef522ac245bdb66"
+      "theme.font-family": "aba3f292047c35bb815dd4012b52866805b70788",
+      "theme.font-weight.medium": "7e0095fdc584b2cf20b06bcbc845eb7778edf8a9",
+      "theme.font-weight.semibold": "cdc9ff5a617082a9066cef3aa45eead1b5ef5a8d",
+      "theme.font-weight.regular": "0726e46d9523147b308dfd54781a68d1e6ab5455"
     }
   },
   {
@@ -258,23 +253,21 @@
     "$figmaModeId": "44797:0",
     "name": "Secondary",
     "selectedTokenSets": {
-      "primitives/modes/typography/secondary/theme": "enabled",
-      "semantic/modes/main-color/inverted": "disabled"
+      "primitives/modes/typography/secondary/theme": "enabled"
     },
     "group": "Typography",
     "$figmaVariableReferences": {
-      "theme.font-family": "429d9a070662b0bc29309df48145e8d870ca7c2e",
-      "theme.font-weight.medium": "864cb2f13a6c024014cf8b378bf03fe96d393438",
-      "theme.font-weight.semibold": "564f3eb8e778af08993e4be1840ae371e6008548",
-      "theme.font-weight.regular": "7727284e98386f5e6243aa617ef522ac245bdb66"
+      "theme.font-family": "aba3f292047c35bb815dd4012b52866805b70788",
+      "theme.font-weight.medium": "7e0095fdc584b2cf20b06bcbc845eb7778edf8a9",
+      "theme.font-weight.semibold": "cdc9ff5a617082a9066cef3aa45eead1b5ef5a8d",
+      "theme.font-weight.regular": "0726e46d9523147b308dfd54781a68d1e6ab5455"
     }
   },
   {
     "name": "Dark",
     "selectedTokenSets": {
       "primitives/modes/color-scheme/dark/global": "enabled",
-      "primitives/modes/color-scheme/dark/theme": "enabled",
-      "semantic/modes/main-color/inverted": "disabled"
+      "primitives/modes/color-scheme/dark/theme": "enabled"
     },
     "id": "9ebd8aed52afbffc17e2666e8b4653a53498b257",
     "$figmaCollectionId": "VariableCollectionId:34811:5472",
@@ -361,22 +354,22 @@
       "global.red.14": "9b8d34831bcccb80c2ad7f2cd6c9abf3eb0e4d64",
       "global.red.15": "1934989a85cbd43bfa7af886f446e10f8ee35bda",
       "global.red.16": "a6430337d208830cea3ba4c79540c127de073f25",
-      "theme.primary.1": "1e16270564cc0b49d647f7c0a85298980fbedcc4",
-      "theme.primary.2": "69b83dc36953ba758d0661f69e81518b0641d8cf",
-      "theme.primary.3": "83505a8da700defaa227efcb99157e2fafb6bd7b",
-      "theme.primary.4": "be82588452fc7925ac260cd8a8dae4983999a9c8",
-      "theme.primary.5": "21290c0130c3145a1bded3557bbda770716b07de",
-      "theme.primary.6": "1b2ae433b796e1e45b52f2f0a1619325196905a4",
-      "theme.primary.7": "eb1bbfba082ddbd0090a6089da4354b31c72e231",
-      "theme.primary.8": "af2ce1aae6ce2f38327b9a845f010ffca96830d9",
-      "theme.primary.9": "ee9f40999b0538bb40caa04bcc8838a658a7ce9a",
-      "theme.primary.10": "3b7fac6bb3a1f19aa4c2128f072f7cead86f87b1",
-      "theme.primary.11": "d7c021fc7d2cf1ae3fc6649a7121bf8c28913f0e",
-      "theme.primary.12": "e0f240fa97881d02c3ca08c19908f76ec09e49d7",
-      "theme.primary.13": "533c7ba51139504f2934d76732adedd9c8abea5f",
-      "theme.primary.14": "087553d56dd948a644375d696b9d5da5156b840b",
-      "theme.primary.15": "dc2391bc4d47a52686b138f2ab564037de46f800",
-      "theme.primary.16": "108d93e28d5c7792a5e9d69e28eaf5597e21ba0c",
+      "theme.primary.1": "11b02f384ea6f8d6dbc5bba31044f60b07659d12",
+      "theme.primary.2": "35ec4ed40077f730ad50352d9a94fa3409f3ff6a",
+      "theme.primary.3": "4249f43f0a1e853fd76fe425055d1601e21c13fc",
+      "theme.primary.4": "2478a7343c3584ff16d866481b3a9c4c0da05a2c",
+      "theme.primary.5": "307f8f3e4c2dace8210c7d48c6dcb74a1fbbd58d",
+      "theme.primary.6": "b8129df0e9f60d752375eaf234570ae7e342bf04",
+      "theme.primary.7": "e7a465310896e5c97f1b86423cf13d2232f3face",
+      "theme.primary.8": "aa04d3c407158e4fe15065851019fa8faa197fb9",
+      "theme.primary.9": "6b740ad6577d2b2c7431cf324df5d0bb618cebe2",
+      "theme.primary.10": "c939ac4ae76038db2b815b01a6adcee9d24d6487",
+      "theme.primary.11": "8ed98e1e5f307a1ee29531b8e440492ae69514c8",
+      "theme.primary.12": "79dfd9cbcbbc0f499451f6a9c7870c513f13ee0d",
+      "theme.primary.13": "ae7bfd11840177ca1ecd9b2e2919498c6be8ed49",
+      "theme.primary.14": "e2a91eea196f5c5b30392b42201035b0116a9db2",
+      "theme.primary.15": "f027a9aad93912a38d956da36c0dd2d21da9b9a9",
+      "theme.primary.16": "11edd121e64df73f4106f323561a4f71cbe87a27",
       "theme.secondary-hav.1": "64b9395d01fdbf1259af4276207dfda1f1294d7a",
       "theme.secondary-hav.2": "1a68a3ac36e6b5737900319616d49463bac1b0e5",
       "theme.secondary-hav.3": "01e691e918283b404325239d2ae6f6dfdfd58f07",
@@ -409,30 +402,29 @@
       "theme.secondary-jungel.14": "c9dd97c92904bcdc5d6f20a90648917298bd4969",
       "theme.secondary-jungel.15": "e31ce1e797320682400494249bdb46978bb8d30b",
       "theme.secondary-jungel.16": "fe9c0ea78a5cf16ef200042ef504078e4a209186",
-      "theme.neutral.1": "0b9c25b409572502501046295fa3259cdc2605af",
-      "theme.neutral.2": "31d021486fae6b9e6aaa8b5343090cfb8ebcd76d",
-      "theme.neutral.3": "884b929485d7a71426eb544e8a2884bceb1372c7",
-      "theme.neutral.4": "2cceed3ae09cdc750c0ff3ee4310712361cb2a4a",
-      "theme.neutral.5": "60bd0fa66c834521d8c97f11b1bd387bb48cabb0",
-      "theme.neutral.6": "eee817c8e77646d08a9efc5c5a30cd5fdad9468d",
-      "theme.neutral.7": "014a0339463b1e5b429e2158298accf5f719c38e",
-      "theme.neutral.8": "707e888ae1d753d8a56ffd91699a272f0acdf02c",
-      "theme.neutral.9": "83117734e1e9a0b6f318a113eae3882594c75555",
-      "theme.neutral.10": "55a2ee56d6eece8a87cee1c464cd9b7a084164b8",
-      "theme.neutral.11": "e6297d622782e9f9c969231a546fee3e89892b58",
-      "theme.neutral.12": "6aec3cb1ace1ea3d83dc783c44854be5abb82826",
-      "theme.neutral.13": "f4efd029a9d3a94784db66999bfd751b164f4624",
-      "theme.neutral.14": "21e9e83a26e05f433f9cf023eddada7a8c06088d",
-      "theme.neutral.15": "af0f860b2d311ba356045213962b2e3ff7f3ad4f",
-      "theme.neutral.16": "77e9622d2fb16fca95e2511042d8dcc5e917e612"
+      "theme.neutral.1": "7cbf6f17c410c967bf29e802cde38a7342ea921c",
+      "theme.neutral.2": "d6cc6e7e65db9f37927a181019fe02d9426797c7",
+      "theme.neutral.3": "360415614f5ed94a54d1deaff5ec968252bc3444",
+      "theme.neutral.4": "1f723901fa00c5dba1b87b4ed5fb6a92e6fb21ee",
+      "theme.neutral.5": "5306b8ac2a61406dd13ecef45aeca8ff47ac44e5",
+      "theme.neutral.6": "5b50b2f446b8ce7aa583cd8f5a320747b46986ea",
+      "theme.neutral.7": "02a4b8214a068ccc1d5fb390190be0b39c4e0f66",
+      "theme.neutral.8": "9b271cd26aade43a94e477ba57f26ba3983ba2c5",
+      "theme.neutral.9": "d6dd55a8bfadb5e70039a8613062db42b9b96fa2",
+      "theme.neutral.10": "1e84f9f1eef06fc7448dc04362a77782bfb092cf",
+      "theme.neutral.11": "c514783e5bb6171446ace93a43a25d829b2c9542",
+      "theme.neutral.12": "907efc090469878b69d388bade07fa91ddb94ded",
+      "theme.neutral.13": "6df3aa37bacda06222d056aa11730548762ce557",
+      "theme.neutral.14": "4f5c0cf812f1456e964e04771416f9f4879735ec",
+      "theme.neutral.15": "a64fce4d91f1a1eac07a54c0053c4c59cccaf88d",
+      "theme.neutral.16": "170db5701fbd2c528e6d223c4dbbf5921d3cd563"
     }
   },
   {
     "name": "Light",
     "selectedTokenSets": {
       "primitives/modes/color-scheme/light/global": "enabled",
-      "primitives/modes/color-scheme/light/theme": "enabled",
-      "semantic/modes/main-color/inverted": "disabled"
+      "primitives/modes/color-scheme/light/theme": "enabled"
     },
     "id": "0daa3ca0b427b9349da7e7dc00101b5668972926",
     "$figmaCollectionId": "VariableCollectionId:34811:5472",
@@ -519,22 +511,22 @@
       "global.red.14": "9b8d34831bcccb80c2ad7f2cd6c9abf3eb0e4d64",
       "global.red.15": "1934989a85cbd43bfa7af886f446e10f8ee35bda",
       "global.red.16": "a6430337d208830cea3ba4c79540c127de073f25",
-      "theme.primary.1": "1e16270564cc0b49d647f7c0a85298980fbedcc4",
-      "theme.primary.2": "69b83dc36953ba758d0661f69e81518b0641d8cf",
-      "theme.primary.3": "83505a8da700defaa227efcb99157e2fafb6bd7b",
-      "theme.primary.4": "be82588452fc7925ac260cd8a8dae4983999a9c8",
-      "theme.primary.5": "21290c0130c3145a1bded3557bbda770716b07de",
-      "theme.primary.6": "1b2ae433b796e1e45b52f2f0a1619325196905a4",
-      "theme.primary.7": "eb1bbfba082ddbd0090a6089da4354b31c72e231",
-      "theme.primary.8": "af2ce1aae6ce2f38327b9a845f010ffca96830d9",
-      "theme.primary.9": "ee9f40999b0538bb40caa04bcc8838a658a7ce9a",
-      "theme.primary.10": "3b7fac6bb3a1f19aa4c2128f072f7cead86f87b1",
-      "theme.primary.11": "d7c021fc7d2cf1ae3fc6649a7121bf8c28913f0e",
-      "theme.primary.12": "e0f240fa97881d02c3ca08c19908f76ec09e49d7",
-      "theme.primary.13": "533c7ba51139504f2934d76732adedd9c8abea5f",
-      "theme.primary.14": "087553d56dd948a644375d696b9d5da5156b840b",
-      "theme.primary.15": "dc2391bc4d47a52686b138f2ab564037de46f800",
-      "theme.primary.16": "108d93e28d5c7792a5e9d69e28eaf5597e21ba0c",
+      "theme.primary.1": "11b02f384ea6f8d6dbc5bba31044f60b07659d12",
+      "theme.primary.2": "35ec4ed40077f730ad50352d9a94fa3409f3ff6a",
+      "theme.primary.3": "4249f43f0a1e853fd76fe425055d1601e21c13fc",
+      "theme.primary.4": "2478a7343c3584ff16d866481b3a9c4c0da05a2c",
+      "theme.primary.5": "307f8f3e4c2dace8210c7d48c6dcb74a1fbbd58d",
+      "theme.primary.6": "b8129df0e9f60d752375eaf234570ae7e342bf04",
+      "theme.primary.7": "e7a465310896e5c97f1b86423cf13d2232f3face",
+      "theme.primary.8": "aa04d3c407158e4fe15065851019fa8faa197fb9",
+      "theme.primary.9": "6b740ad6577d2b2c7431cf324df5d0bb618cebe2",
+      "theme.primary.10": "c939ac4ae76038db2b815b01a6adcee9d24d6487",
+      "theme.primary.11": "8ed98e1e5f307a1ee29531b8e440492ae69514c8",
+      "theme.primary.12": "79dfd9cbcbbc0f499451f6a9c7870c513f13ee0d",
+      "theme.primary.13": "ae7bfd11840177ca1ecd9b2e2919498c6be8ed49",
+      "theme.primary.14": "e2a91eea196f5c5b30392b42201035b0116a9db2",
+      "theme.primary.15": "f027a9aad93912a38d956da36c0dd2d21da9b9a9",
+      "theme.primary.16": "11edd121e64df73f4106f323561a4f71cbe87a27",
       "theme.secondary-hav.1": "64b9395d01fdbf1259af4276207dfda1f1294d7a",
       "theme.secondary-hav.2": "1a68a3ac36e6b5737900319616d49463bac1b0e5",
       "theme.secondary-hav.3": "01e691e918283b404325239d2ae6f6dfdfd58f07",
@@ -567,22 +559,22 @@
       "theme.secondary-jungel.14": "c9dd97c92904bcdc5d6f20a90648917298bd4969",
       "theme.secondary-jungel.15": "e31ce1e797320682400494249bdb46978bb8d30b",
       "theme.secondary-jungel.16": "fe9c0ea78a5cf16ef200042ef504078e4a209186",
-      "theme.neutral.1": "0b9c25b409572502501046295fa3259cdc2605af",
-      "theme.neutral.2": "31d021486fae6b9e6aaa8b5343090cfb8ebcd76d",
-      "theme.neutral.3": "884b929485d7a71426eb544e8a2884bceb1372c7",
-      "theme.neutral.4": "2cceed3ae09cdc750c0ff3ee4310712361cb2a4a",
-      "theme.neutral.5": "60bd0fa66c834521d8c97f11b1bd387bb48cabb0",
-      "theme.neutral.6": "eee817c8e77646d08a9efc5c5a30cd5fdad9468d",
-      "theme.neutral.7": "014a0339463b1e5b429e2158298accf5f719c38e",
-      "theme.neutral.8": "707e888ae1d753d8a56ffd91699a272f0acdf02c",
-      "theme.neutral.9": "83117734e1e9a0b6f318a113eae3882594c75555",
-      "theme.neutral.10": "55a2ee56d6eece8a87cee1c464cd9b7a084164b8",
-      "theme.neutral.11": "e6297d622782e9f9c969231a546fee3e89892b58",
-      "theme.neutral.12": "6aec3cb1ace1ea3d83dc783c44854be5abb82826",
-      "theme.neutral.13": "f4efd029a9d3a94784db66999bfd751b164f4624",
-      "theme.neutral.14": "21e9e83a26e05f433f9cf023eddada7a8c06088d",
-      "theme.neutral.15": "af0f860b2d311ba356045213962b2e3ff7f3ad4f",
-      "theme.neutral.16": "77e9622d2fb16fca95e2511042d8dcc5e917e612"
+      "theme.neutral.1": "7cbf6f17c410c967bf29e802cde38a7342ea921c",
+      "theme.neutral.2": "d6cc6e7e65db9f37927a181019fe02d9426797c7",
+      "theme.neutral.3": "360415614f5ed94a54d1deaff5ec968252bc3444",
+      "theme.neutral.4": "1f723901fa00c5dba1b87b4ed5fb6a92e6fb21ee",
+      "theme.neutral.5": "5306b8ac2a61406dd13ecef45aeca8ff47ac44e5",
+      "theme.neutral.6": "5b50b2f446b8ce7aa583cd8f5a320747b46986ea",
+      "theme.neutral.7": "02a4b8214a068ccc1d5fb390190be0b39c4e0f66",
+      "theme.neutral.8": "9b271cd26aade43a94e477ba57f26ba3983ba2c5",
+      "theme.neutral.9": "d6dd55a8bfadb5e70039a8613062db42b9b96fa2",
+      "theme.neutral.10": "1e84f9f1eef06fc7448dc04362a77782bfb092cf",
+      "theme.neutral.11": "c514783e5bb6171446ace93a43a25d829b2c9542",
+      "theme.neutral.12": "907efc090469878b69d388bade07fa91ddb94ded",
+      "theme.neutral.13": "6df3aa37bacda06222d056aa11730548762ce557",
+      "theme.neutral.14": "4f5c0cf812f1456e964e04771416f9f4879735ec",
+      "theme.neutral.15": "a64fce4d91f1a1eac07a54c0053c4c59cccaf88d",
+      "theme.neutral.16": "170db5701fbd2c528e6d223c4dbbf5921d3cd563"
     }
   },
   {
@@ -591,8 +583,7 @@
     "selectedTokenSets": {
       "semantic/style": "enabled",
       "semantic/color": "enabled",
-      "primitives/globals": "source",
-      "semantic/modes/main-color/inverted": "disabled"
+      "primitives/globals": "source"
     },
     "$figmaCollectionId": "VariableCollectionId:34811:5976",
     "$figmaModeId": "34811:5",
@@ -793,8 +784,7 @@
     "id": "593774a74235b661fff40693ca7bda160aadfb74",
     "name": "primary",
     "selectedTokenSets": {
-      "semantic/modes/main-color/primary": "enabled",
-      "semantic/modes/main-color/inverted": "disabled"
+      "semantic/modes/main-color/primary": "enabled"
     },
     "group": "Main color",
     "$figmaCollectionId": "VariableCollectionId:40350:32139",
@@ -822,8 +812,7 @@
     "id": "0e666b502c0bdbe85bc1894e68fa8f0b3bd2e008",
     "name": "secondary-hav",
     "selectedTokenSets": {
-      "semantic/modes/main-color/secondary-hav": "enabled",
-      "semantic/modes/main-color/inverted": "disabled"
+      "semantic/modes/main-color/secondary-hav": "enabled"
     },
     "group": "Main color",
     "$figmaCollectionId": "VariableCollectionId:40350:32139",
@@ -851,8 +840,7 @@
     "id": "85fc03ee17c9566df128ceadaa420f2ad4c4957d",
     "name": "secondary-jungel",
     "selectedTokenSets": {
-      "semantic/modes/main-color/secondary-jungel": "enabled",
-      "semantic/modes/main-color/inverted": "disabled"
+      "semantic/modes/main-color/secondary-jungel": "enabled"
     },
     "group": "Main color",
     "$figmaCollectionId": "VariableCollectionId:40350:32139",

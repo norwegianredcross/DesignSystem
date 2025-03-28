@@ -1,0 +1,22 @@
+{
+  "theme2": {
+    "font-family": {
+      "$type": "fontFamilies",
+      "$value": "Poppins"
+    },
+    "font-weight": {
+      "medium": {
+        "$type": "fontWeights",
+        "$value": "Medium"
+      },
+      "semibold": {
+        "$type": "fontWeights",
+        "$value": "SemiBold"
+      },
+      "regular": {
+        "$type": "fontWeights",
+        "$value": "Regular"
+      }
+    }
+  }
+}
