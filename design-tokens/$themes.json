@@ -7,9 +7,7 @@
       "primitives/modes/size/medium": "source",
       "primitives/modes/size/global": "enabled",
       "primitives/modes/typography/size/medium": "enabled",
-      "primitives/modes/color-scheme/dark/theme2": "disabled",
-      "primitives/modes/color-scheme/light/theme2": "disabled",
-      "primitives/modes/typography/primary/theme2": "disabled"
+      "primitives/modes/typography/secondary/theme2": "disabled"
     },
     "$figmaCollectionId": "VariableCollectionId:36248:20757",
     "$figmaModeId": "41630:1",
@@ -58,9 +56,7 @@
       "primitives/modes/size/large": "source",
       "primitives/modes/size/global": "enabled",
       "primitives/modes/typography/size/large": "enabled",
-      "primitives/modes/color-scheme/dark/theme2": "disabled",
-      "primitives/modes/color-scheme/light/theme2": "disabled",
-      "primitives/modes/typography/primary/theme2": "disabled"
+      "primitives/modes/typography/secondary/theme2": "disabled"
     },
     "$figmaCollectionId": "VariableCollectionId:36248:20757",
     "$figmaModeId": "41630:2",
@@ -109,9 +105,7 @@
       "primitives/modes/size/small": "source",
       "primitives/modes/size/global": "enabled",
       "primitives/modes/typography/size/small": "enabled",
-      "primitives/modes/color-scheme/dark/theme2": "disabled",
-      "primitives/modes/color-scheme/light/theme2": "disabled",
-      "primitives/modes/typography/primary/theme2": "disabled"
+      "primitives/modes/typography/secondary/theme2": "disabled"
     },
     "$figmaCollectionId": "VariableCollectionId:36248:20757",
     "$figmaModeId": "41630:3",
@@ -159,9 +153,7 @@
     "name": "theme",
     "selectedTokenSets": {
       "themes/theme": "enabled",
-      "primitives/modes/color-scheme/dark/theme2": "disabled",
-      "primitives/modes/color-scheme/light/theme2": "disabled",
-      "primitives/modes/typography/primary/theme2": "disabled"
+      "primitives/modes/typography/secondary/theme2": "disabled"
     },
     "group": "Theme",
     "$figmaVariableReferences": {
@@ -250,9 +242,7 @@
     "name": "Primary",
     "selectedTokenSets": {
       "primitives/modes/typography/primary/theme": "enabled",
-      "primitives/modes/color-scheme/dark/theme2": "disabled",
-      "primitives/modes/color-scheme/light/theme2": "disabled",
-      "primitives/modes/typography/primary/theme2": "disabled"
+      "primitives/modes/typography/secondary/theme2": "disabled"
     },
     "group": "Typography",
     "$figmaVariableReferences": {
@@ -269,9 +259,7 @@
     "name": "Secondary",
     "selectedTokenSets": {
       "primitives/modes/typography/secondary/theme": "enabled",
-      "primitives/modes/color-scheme/dark/theme2": "disabled",
-      "primitives/modes/color-scheme/light/theme2": "disabled",
-      "primitives/modes/typography/primary/theme2": "disabled"
+      "primitives/modes/typography/secondary/theme2": "disabled"
     },
     "group": "Typography",
     "$figmaVariableReferences": {
@@ -286,9 +274,7 @@
     "selectedTokenSets": {
       "primitives/modes/color-scheme/dark/global": "enabled",
       "primitives/modes/color-scheme/dark/theme": "enabled",
-      "primitives/modes/color-scheme/dark/theme2": "disabled",
-      "primitives/modes/color-scheme/light/theme2": "disabled",
-      "primitives/modes/typography/primary/theme2": "disabled"
+      "primitives/modes/typography/secondary/theme2": "disabled"
     },
     "id": "9ebd8aed52afbffc17e2666e8b4653a53498b257",
     "$figmaCollectionId": "VariableCollectionId:34811:5472",
@@ -446,9 +432,7 @@
     "selectedTokenSets": {
       "primitives/modes/color-scheme/light/global": "enabled",
       "primitives/modes/color-scheme/light/theme": "enabled",
-      "primitives/modes/color-scheme/dark/theme2": "disabled",
-      "primitives/modes/color-scheme/light/theme2": "disabled",
-      "primitives/modes/typography/primary/theme2": "disabled"
+      "primitives/modes/typography/secondary/theme2": "disabled"
     },
     "id": "0daa3ca0b427b9349da7e7dc00101b5668972926",
     "$figmaCollectionId": "VariableCollectionId:34811:5472",
@@ -608,9 +592,7 @@
       "semantic/style": "enabled",
       "semantic/color": "enabled",
       "primitives/globals": "source",
-      "primitives/modes/color-scheme/dark/theme2": "disabled",
-      "primitives/modes/color-scheme/light/theme2": "disabled",
-      "primitives/modes/typography/primary/theme2": "disabled"
+      "primitives/modes/typography/secondary/theme2": "disabled"
     },
     "$figmaCollectionId": "VariableCollectionId:34811:5976",
     "$figmaModeId": "34811:5",
@@ -812,9 +794,7 @@
     "name": "primary",
     "selectedTokenSets": {
       "semantic/modes/main-color/primary": "enabled",
-      "primitives/modes/color-scheme/dark/theme2": "disabled",
-      "primitives/modes/color-scheme/light/theme2": "disabled",
-      "primitives/modes/typography/primary/theme2": "disabled"
+      "primitives/modes/typography/secondary/theme2": "disabled"
     },
     "group": "Main color",
     "$figmaCollectionId": "VariableCollectionId:40350:32139",
@@ -843,9 +823,7 @@
     "name": "secondary-hav",
     "selectedTokenSets": {
       "semantic/modes/main-color/secondary-hav": "enabled",
-      "primitives/modes/color-scheme/dark/theme2": "disabled",
-      "primitives/modes/color-scheme/light/theme2": "disabled",
-      "primitives/modes/typography/primary/theme2": "disabled"
+      "primitives/modes/typography/secondary/theme2": "disabled"
     },
     "group": "Main color",
     "$figmaCollectionId": "VariableCollectionId:40350:32139",
@@ -874,9 +852,7 @@
     "name": "secondary-jungel",
     "selectedTokenSets": {
       "semantic/modes/main-color/secondary-jungel": "enabled",
-      "primitives/modes/color-scheme/dark/theme2": "disabled",
-      "primitives/modes/color-scheme/light/theme2": "disabled",
-      "primitives/modes/typography/primary/theme2": "disabled"
+      "primitives/modes/typography/secondary/theme2": "disabled"
     },
     "group": "Main color",
     "$figmaCollectionId": "VariableCollectionId:40350:32139",
