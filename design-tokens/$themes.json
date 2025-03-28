@@ -242,9 +242,9 @@
     "group": "Typography",
     "$figmaVariableReferences": {
       "theme.font-family": "aba3f292047c35bb815dd4012b52866805b70788",
-      "theme.font-weight.medium": "7e0095fdc584b2cf20b06bcbc845eb7778edf8a9",
       "theme.font-weight.semibold": "cdc9ff5a617082a9066cef3aa45eead1b5ef5a8d",
-      "theme.font-weight.regular": "0726e46d9523147b308dfd54781a68d1e6ab5455"
+      "theme.font-weight.regular": "0726e46d9523147b308dfd54781a68d1e6ab5455",
+      "theme.font-weight.medium": "7e0095fdc584b2cf20b06bcbc845eb7778edf8a9"
     }
   },
   {
@@ -258,9 +258,9 @@
     "group": "Typography",
     "$figmaVariableReferences": {
       "theme.font-family": "aba3f292047c35bb815dd4012b52866805b70788",
-      "theme.font-weight.medium": "7e0095fdc584b2cf20b06bcbc845eb7778edf8a9",
       "theme.font-weight.semibold": "cdc9ff5a617082a9066cef3aa45eead1b5ef5a8d",
-      "theme.font-weight.regular": "0726e46d9523147b308dfd54781a68d1e6ab5455"
+      "theme.font-weight.regular": "0726e46d9523147b308dfd54781a68d1e6ab5455",
+      "theme.font-weight.medium": "7e0095fdc584b2cf20b06bcbc845eb7778edf8a9"
     }
   },
   {

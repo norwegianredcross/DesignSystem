@@ -272,15 +272,15 @@
   "font-weight": {
     "medium": {
       "$type": "fontWeights",
-      "$value": "{theme2.font-weight.medium}"
+      "$value": "{theme.font-weight.medium}"
     },
     "semibold": {
       "$type": "fontWeights",
-      "$value": "{theme2.font-weight.semibold}"
+      "$value": "{theme.font-weight.semibold}"
     },
     "regular": {
       "$type": "fontWeights",
-      "$value": "{theme2.font-weight.regular}"
+      "$value": "{theme.font-weight.regular}"
     }
   },
   "border-radius": {
