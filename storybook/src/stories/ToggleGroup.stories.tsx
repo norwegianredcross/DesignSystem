@@ -51,7 +51,7 @@ Neutral.args = {
 export const Primary = Template.bind({});
 Primary.args = {
   variant: 'primary',
-  size: 'md',
+  size: 'md',   
 };
 
 export const Small = Template.bind({});
