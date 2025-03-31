@@ -1,45 +1,42 @@
 import React from 'react';
+import { Meta, Story } from '@storybook/react';
+// Replace with the actual path to your Alert component
 import { Alert } from '@digdir/designsystemet-react';
-import { Meta, StoryFn } from '@storybook/react';
 
 export default {
-  title: 'Komponenter/Alert',
+  title: 'Components/Alert',
   component: Alert,
   argTypes: {
     variant: {
-      control: { type: 'select' },
-      options: ['info', 'success', 'warning', 'error'], // Variants available in the library
+      control: 'select',
+      options: ['info', 'success', 'warning', 'error'], // Ensure these variants exist
     },
-    children: { control: 'text' },
+    message: { control: 'text' },
   },
 } as Meta;
 
-const Template: StoryFn<{ variant: string; children: string }> = (args) => (
-  <Alert data-color={args.variant}>
-    {args.children}
-  </Alert>
-);
+const Template: Story = (args) => <Alert {...args} />;
 
 export const Info = Template.bind({});
 Info.args = {
   variant: 'info',
-  children: 'This is an informational alert.',
+  message: 'This is an informational alert with sample text.',
 };
 
 export const Success = Template.bind({});
 Success.args = {
   variant: 'success',
-  children: 'This is a success alert.',
+  message: 'This is a success alert with sample text.',
 };
 
 export const Warning = Template.bind({});
 Warning.args = {
   variant: 'warning',
-  children: 'This is a warning alert.',
+  message: 'This is a warning alert with sample text.',
 };
 
 export const Error = Template.bind({});
 Error.args = {
   variant: 'error',
-  children: 'This is an error alert.',
+  message: 'This is an error alert with sample text.',
 };

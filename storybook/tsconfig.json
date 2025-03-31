@@ -9,7 +9,8 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "composite": true, // Add this
-    "noEmit": false // Ensure emit is not disabled
+    "noEmit": false, // Ensure emit is not disabled
+    "typeRoots": ["./src/@types", "./node_modules/@types"]
   },
   "include": ["src", ".storybook"],
   "files": [],
