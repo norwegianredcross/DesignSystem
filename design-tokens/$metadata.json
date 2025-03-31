@@ -24,6 +24,7 @@
     "semantic/modes/main-color/primary",
     "semantic/modes/main-color/secondary-hav",
     "semantic/modes/main-color/secondary-jungel",
+    "semantic/modes/main-color/inverted",
     "semantic/style"
   ]
 }
