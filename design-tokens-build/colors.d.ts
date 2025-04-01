@@ -5,6 +5,5 @@ declare module '@digdir/designsystemet-react/colors' {
     primary-brand: never;
     secondary-hav: never;
     secondary-jungel: never;
-    support-oransje: never;
   }
 }

@@ -139,13 +139,5 @@
       "semantic/modes/main-color/secondary-jungel": "enabled"
     },
     "group": "Main color"
-  },
-  {
-    "id": "86f16e26cf5f4142fdde0f2aecf68a42083e0efa",
-    "name": "support-purple",
-    "selectedTokenSets": {
-      "semantic/modes/support-color/support-purple": "enabled"
-    },
-    "group": "Support color"
   }
 ]
