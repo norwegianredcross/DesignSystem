@@ -25,6 +25,20 @@
     "semantic/modes/main-color/secondary-hav",
     "semantic/modes/main-color/secondary-jungel",
     "semantic/modes/main-color/inverted",
-    "semantic/style"
+    "semantic/style",
+    "Color scheme/Light",
+    "Color scheme/Dark",
+    "Semantic/Semantic",
+    "Theme/theme2",
+    "Theme/theme",
+    "Main color/secondary-hav",
+    "Main color/secondary-jungel",
+    "Main color/Inverted",
+    "Main color/primary",
+    "Typography/Primary",
+    "Typography/Secondary",
+    "Size/medium",
+    "Size/large",
+    "Size/small"
   ]
 }

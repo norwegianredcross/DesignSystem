@@ -1,0 +1,138 @@
+{
+  "font-size": {
+    "1": {
+      "$type": "number",
+      "$value": 11
+    },
+    "2": {
+      "$type": "number",
+      "$value": 13
+    },
+    "3": {
+      "$type": "number",
+      "$value": 14
+    },
+    "4": {
+      "$type": "number",
+      "$value": 16
+    },
+    "5": {
+      "$type": "number",
+      "$value": 18
+    },
+    "6": {
+      "$type": "number",
+      "$value": 21
+    },
+    "7": {
+      "$type": "number",
+      "$value": 24
+    },
+    "8": {
+      "$type": "number",
+      "$value": 30
+    },
+    "9": {
+      "$type": "number",
+      "$value": 36
+    },
+    "10": {
+      "$type": "number",
+      "$value": 48
+    }
+  },
+  "_size": {
+    "0": {
+      "$type": "number",
+      "$value": 0
+    },
+    "1": {
+      "$type": "number",
+      "$value": 3
+    },
+    "2": {
+      "$type": "number",
+      "$value": 7
+    },
+    "3": {
+      "$type": "number",
+      "$value": 10
+    },
+    "4": {
+      "$type": "number",
+      "$value": 14
+    },
+    "5": {
+      "$type": "number",
+      "$value": 17
+    },
+    "6": {
+      "$type": "number",
+      "$value": 21
+    },
+    "7": {
+      "$type": "number",
+      "$value": 24
+    },
+    "8": {
+      "$type": "number",
+      "$value": 28
+    },
+    "9": {
+      "$type": "number",
+      "$value": 32
+    },
+    "10": {
+      "$type": "number",
+      "$value": 35
+    },
+    "11": {
+      "$type": "number",
+      "$value": 39
+    },
+    "12": {
+      "$type": "number",
+      "$value": 42
+    },
+    "13": {
+      "$type": "number",
+      "$value": 46
+    },
+    "14": {
+      "$type": "number",
+      "$value": 49
+    },
+    "15": {
+      "$type": "number",
+      "$value": 53
+    },
+    "18": {
+      "$type": "number",
+      "$value": 64
+    },
+    "22": {
+      "$type": "number",
+      "$value": 78
+    },
+    "26": {
+      "$type": "number",
+      "$value": 92
+    },
+    "30": {
+      "$type": "number",
+      "$value": 106
+    },
+    "mode-font-size": {
+      "$type": "number",
+      "$value": 16
+    },
+    "base": {
+      "$type": "number",
+      "$value": 18
+    },
+    "step": {
+      "$type": "number",
+      "$value": 4
+    }
+  }
+}
