@@ -1044,7 +1044,7 @@
     },
     "group": "Main color",
     "$figmaCollectionId": "VariableCollectionId:40350:32139",
-    "$figmaModeId": "12602:3",
+    "$figmaModeId": "13041:2",
     "$figmaVariableReferences": {
       "color.main.background-default": "343a447b731bd7876643566aa191564fc5b8e1f3",
       "color.main.background-tinted": "db67dc3740dd73fa716d7cee796c643adde6b37b",
@@ -1072,7 +1072,7 @@
     },
     "group": "Main color",
     "$figmaCollectionId": "VariableCollectionId:40350:32139",
-    "$figmaModeId": "12602:4",
+    "$figmaModeId": "13041:3",
     "$figmaVariableReferences": {
       "color.main.background-default": "343a447b731bd7876643566aa191564fc5b8e1f3",
       "color.main.background-tinted": "db67dc3740dd73fa716d7cee796c643adde6b37b",
