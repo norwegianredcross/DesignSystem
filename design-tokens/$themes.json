@@ -6,8 +6,7 @@
     "selectedTokenSets": {
       "primitives/modes/size/medium": "source",
       "primitives/modes/size/global": "enabled",
-      "primitives/modes/typography/size/medium": "enabled",
-      "semantic/modes/main-color/primary-inverted": "disabled"
+      "primitives/modes/typography/size/medium": "enabled"
     },
     "$figmaCollectionId": "VariableCollectionId:36248:20757",
     "$figmaModeId": "41630:1",
@@ -55,8 +54,7 @@
     "selectedTokenSets": {
       "primitives/modes/size/large": "source",
       "primitives/modes/size/global": "enabled",
-      "primitives/modes/typography/size/large": "enabled",
-      "semantic/modes/main-color/primary-inverted": "disabled"
+      "primitives/modes/typography/size/large": "enabled"
     },
     "$figmaCollectionId": "VariableCollectionId:36248:20757",
     "$figmaModeId": "41630:2",
@@ -104,8 +102,7 @@
     "selectedTokenSets": {
       "primitives/modes/size/small": "source",
       "primitives/modes/size/global": "enabled",
-      "primitives/modes/typography/size/small": "enabled",
-      "semantic/modes/main-color/primary-inverted": "disabled"
+      "primitives/modes/typography/size/small": "enabled"
     },
     "$figmaCollectionId": "VariableCollectionId:36248:20757",
     "$figmaModeId": "41630:3",
@@ -152,8 +149,7 @@
     "$figmaModeId": "40960:6",
     "name": "brand-1",
     "selectedTokenSets": {
-      "themes/brand-1": "enabled",
-      "semantic/modes/main-color/primary-inverted": "disabled"
+      "themes/brand-1": "enabled"
     },
     "group": "Theme",
     "$figmaVariableReferences": {
@@ -241,8 +237,7 @@
     "$figmaModeId": "13040:0",
     "name": "brand-2",
     "selectedTokenSets": {
-      "themes/brand-2": "enabled",
-      "semantic/modes/main-color/primary-inverted": "disabled"
+      "themes/brand-2": "enabled"
     },
     "group": "Theme",
     "$figmaVariableReferences": {
@@ -331,8 +326,7 @@
     "name": "Primary",
     "selectedTokenSets": {
       "primitives/modes/typography/primary/brand-1": "enabled",
-      "primitives/modes/typography/primary/brand-2": "enabled",
-      "semantic/modes/main-color/primary-inverted": "disabled"
+      "primitives/modes/typography/primary/brand-2": "enabled"
     },
     "group": "Typography",
     "$figmaVariableReferences": {
@@ -353,8 +347,7 @@
     "name": "Secondary",
     "selectedTokenSets": {
       "primitives/modes/typography/secondary/brand-1": "enabled",
-      "primitives/modes/typography/secondary/brand-2": "enabled",
-      "semantic/modes/main-color/primary-inverted": "disabled"
+      "primitives/modes/typography/secondary/brand-2": "enabled"
     },
     "group": "Typography",
     "$figmaVariableReferences": {
@@ -373,8 +366,7 @@
     "selectedTokenSets": {
       "primitives/modes/color-scheme/dark/global": "enabled",
       "primitives/modes/color-scheme/dark/brand-1": "enabled",
-      "primitives/modes/color-scheme/dark/brand-2": "enabled",
-      "semantic/modes/main-color/primary-inverted": "disabled"
+      "primitives/modes/color-scheme/dark/brand-2": "enabled"
     },
     "id": "9ebd8aed52afbffc17e2666e8b4653a53498b257",
     "$figmaCollectionId": "VariableCollectionId:34811:5472",
@@ -596,8 +588,7 @@
     "selectedTokenSets": {
       "primitives/modes/color-scheme/light/global": "enabled",
       "primitives/modes/color-scheme/light/brand-1": "enabled",
-      "primitives/modes/color-scheme/light/brand-2": "enabled",
-      "semantic/modes/main-color/primary-inverted": "disabled"
+      "primitives/modes/color-scheme/light/brand-2": "enabled"
     },
     "id": "0daa3ca0b427b9349da7e7dc00101b5668972926",
     "$figmaCollectionId": "VariableCollectionId:34811:5472",
@@ -820,8 +811,7 @@
     "selectedTokenSets": {
       "semantic/style": "enabled",
       "semantic/color": "enabled",
-      "primitives/globals": "source",
-      "semantic/modes/main-color/primary-inverted": "disabled"
+      "primitives/globals": "source"
     },
     "$figmaCollectionId": "VariableCollectionId:34811:5976",
     "$figmaModeId": "34811:5",
@@ -1022,8 +1012,7 @@
     "id": "583261bc5871f0f893b2c39470562789ad2a99e0",
     "name": "primary-brand",
     "selectedTokenSets": {
-      "semantic/modes/main-color/primary-brand": "enabled",
-      "semantic/modes/main-color/primary-inverted": "disabled"
+      "semantic/modes/main-color/primary-brand": "enabled"
     },
     "group": "Main color",
     "$figmaCollectionId": "VariableCollectionId:40350:32139",
@@ -1051,8 +1040,7 @@
     "id": "0e666b502c0bdbe85bc1894e68fa8f0b3bd2e008",
     "name": "secondary-hav",
     "selectedTokenSets": {
-      "semantic/modes/main-color/secondary-hav": "enabled",
-      "semantic/modes/main-color/primary-inverted": "disabled"
+      "semantic/modes/main-color/secondary-hav": "enabled"
     },
     "group": "Main color",
     "$figmaCollectionId": "VariableCollectionId:40350:32139",
@@ -1080,8 +1068,7 @@
     "id": "85fc03ee17c9566df128ceadaa420f2ad4c4957d",
     "name": "secondary-jungel",
     "selectedTokenSets": {
-      "semantic/modes/main-color/secondary-jungel": "enabled",
-      "semantic/modes/main-color/primary-inverted": "disabled"
+      "semantic/modes/main-color/secondary-jungel": "enabled"
     },
     "group": "Main color",
     "$figmaCollectionId": "VariableCollectionId:40350:32139",
