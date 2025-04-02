@@ -22,6 +22,7 @@
     "themes/brand-2",
     "semantic/color",
     "semantic/modes/main-color/primary-brand",
+    "semantic/modes/main-color/primary-inverted",
     "semantic/modes/main-color/secondary-hav",
     "semantic/modes/main-color/secondary-jungel",
     "semantic/style"
