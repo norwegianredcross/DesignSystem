@@ -1,30 +1,34 @@
 import React, { useState } from 'react';
-import { Meta, Story } from '@storybook/react';
-// Replace with the actual path to your ToggleGroup component
+import type { Meta, StoryObj } from '@storybook/react';
 import { ToggleGroup } from '@digdir/designsystemet-react';
 
-export default {
+type ToggleGroupProps = React.ComponentProps<typeof ToggleGroup>;
+
+const meta: Meta<ToggleGroupProps> = {
   title: 'Components/ToggleGroup',
   component: ToggleGroup,
   argTypes: {
     variant: {
       control: 'select',
-      options: ['default', 'neutral', 'primary'], // Ensure these variants exist
+      options: ['default', 'neutral', 'primary'],
     },
     size: {
       control: 'select',
-      options: ['sm', 'md', 'lg'], // Ensure these sizes exist
+      options: ['sm', 'md', 'lg'],
     },
     onChange: { action: 'changed' },
   },
-} as Meta;
+};
 
-const Template: Story = (args) => {
+export default meta;
+type Story = StoryObj<ToggleGroupProps>;
+
+const Template = (args: ToggleGroupProps) => {
   const [selected, setSelected] = useState<string | null>(null);
 
   const handleChange = (value: string) => {
     setSelected(value);
-    args.onChange(value);
+    args.onChange?.(value);
   };
 
   return (
@@ -36,32 +40,42 @@ const Template: Story = (args) => {
   );
 };
 
-export const Default = Template.bind({});
-Default.args = {
-  variant: 'default',
-  size: 'md',
+export const Default: Story = {
+  render: Template,
+  args: {
+    variant: 'default',
+    size: 'md',
+  },
 };
 
-export const Neutral = Template.bind({});
-Neutral.args = {
-  variant: 'neutral',
-  size: 'md',
+export const Neutral: Story = {
+  render: Template,
+  args: {
+    variant: 'neutral',
+    size: 'md',
+  },
 };
 
-export const Primary = Template.bind({});
-Primary.args = {
-  variant: 'primary',
-  size: 'md',   
+export const Primary: Story = {
+  render: Template,
+  args: {
+    variant: 'primary',
+    size: 'md',
+  },
 };
 
-export const Small = Template.bind({});
-Small.args = {
-  variant: 'default',
-  size: 'sm',
+export const Small: Story = {
+  render: Template,
+  args: {
+    variant: 'default',
+    size: 'sm',
+  },
 };
 
-export const Large = Template.bind({});
-Large.args = {
-  variant: 'default',
-  size: 'lg',
+export const Large: Story = {
+  render: Template,
+  args: {
+    variant: 'default',
+    size: 'lg',
+  },
 };

@@ -1,24 +1,27 @@
-import React from 'react';
-import { Meta, Story } from '@storybook/react';
-// Replace with the actual path to your Table component
+import type { Meta, StoryObj } from '@storybook/react';
 import { Table } from '@digdir/designsystemet-react';
 
-export default {
+type TableProps = React.ComponentProps<typeof Table>;
+
+const meta: Meta<TableProps> = {
   title: 'Components/Table',
   component: Table,
   argTypes: {
     variant: {
       control: 'select',
-      options: ['default', 'striped'], // Ensure these variants exist
+      options: ['default', 'striped'],
     },
     size: {
       control: 'select',
-      options: ['sm', 'md', 'lg'], // Ensure these sizes exist
+      options: ['sm', 'md', 'lg'],
     },
   },
-} as Meta;
+};
 
-const Template: Story = (args) => (
+export default meta;
+type Story = StoryObj<TableProps>;
+
+const Template = (args: TableProps) => (
   <Table {...args}>
     <Table.Head>
       <Table.Row>
@@ -42,26 +45,34 @@ const Template: Story = (args) => (
   </Table>
 );
 
-export const Default = Template.bind({});
-Default.args = {
-  variant: 'default',
-  size: 'md',
+export const Default: Story = {
+  render: Template,
+  args: {
+    variant: 'default',
+    size: 'md',
+  },
 };
 
-export const Striped = Template.bind({});
-Striped.args = {
-  variant: 'striped',
-  size: 'md',
+export const Striped: Story = {
+  render: Template,
+  args: {
+    variant: 'striped',
+    size: 'md',
+  },
 };
 
-export const Small = Template.bind({});
-Small.args = {
-  variant: 'default',
-  size: 'sm',
+export const Small: Story = {
+  render: Template,
+  args: {
+    variant: 'default',
+    size: 'sm',
+  },
 };
 
-export const Large = Template.bind({});
-Large.args = {
-  variant: 'default',
-  size: 'lg',
+export const Large: Story = {
+  render: Template,
+  args: {
+    variant: 'default',
+    size: 'lg',
+  },
 };

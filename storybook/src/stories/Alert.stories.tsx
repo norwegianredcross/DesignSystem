@@ -1,45 +1,68 @@
-import React from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
 import { Alert } from '@digdir/designsystemet-react';
-import { Meta, Story } from '@storybook/react';
 
-export default {
-  title: 'Komponenter/Alert',
+type AlertProps = React.ComponentProps<typeof Alert>;
+
+const meta: Meta<AlertProps> = {
+  title: 'Components/Alert',
   component: Alert,
-  argTypes: {
-    variant: {
-      control: { type: 'select' },
-      options: ['info', 'success', 'warning', 'error'], // Variants available in the library
-    },
-    children: { control: 'text' },
+  tags: ['autodocs'],
+  args: {
+    children: 'This is an alert message.',
+    'data-color': 'info',
   },
-} as Meta;
-
-const Template: Story<{ variant: string; children: string }> = (args) => (
-  <Alert data-color={args.variant}>
-    {args.children}
-  </Alert>
-);
-
-export const Info = Template.bind({});
-Info.args = {
-  variant: 'info',
-  children: 'This is an informational alert.',
+  argTypes: {
+    'data-color': {
+      control: 'select',
+      options: ['info', 'success', 'warning', 'danger'],
+    },
+  },
 };
 
-export const Success = Template.bind({});
-Success.args = {
-  variant: 'success',
-  children: 'This is a success alert.',
+export default meta;
+type Story = StoryObj<AlertProps>;
+
+export const Info: Story = {
+  args: {
+    'data-color': 'info',
+  },
 };
 
-export const Warning = Template.bind({});
-Warning.args = {
-  variant: 'warning',
-  children: 'This is a warning alert.',
+export const Success: Story = {
+  args: {
+    'data-color': 'success',
+  },
 };
 
-export const Error = Template.bind({});
-Error.args = {
-  variant: 'error',
-  children: 'This is an error alert.',
+export const Warning: Story = {
+  args: {
+    'data-color': 'warning',
+  },
+};
+
+export const Danger: Story = {
+  args: {
+    'data-color': 'danger',
+  },
+};
+
+export const WithLongText: Story = {
+  args: {
+    children: 'Dette er en veldig lang melding som går over flere linjer for å vise hvordan Alert håndterer lange tekster.',
+    'data-color': 'info',
+  },
+};
+
+export const WithActions: Story = {
+  args: {
+    children: (
+      <>
+        Dette er en melding med handlinger.{' '}
+        <a href="#" style={{ textDecoration: 'underline' }}>
+          Les mer
+        </a>
+      </>
+    ),
+    'data-color': 'info',
+  },
 };
