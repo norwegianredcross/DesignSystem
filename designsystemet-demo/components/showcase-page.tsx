@@ -24,8 +24,11 @@ import {
   ToggleGroup,
   Tooltip
 } from "@digdir/designsystemet-react"
+import { ToggleSwitch } from "../src/components/ToggleSwitch"
 import {
-  BellIcon
+  BellIcon,
+  SunIcon,
+  MoonIcon
 } from "@navikt/aksel-icons"
 
 
@@ -160,13 +163,16 @@ export function ShowcasePage() {
 
         <div className="showcase-main">
           <div style={{ position: 'fixed', top: '10px', right: '10px', zIndex: 1000 }}>
-            <div className="theme-toggle-button">
-              <Button onClick={toggleTheme} data-size="md">
-                Switch to {theme === 'light' ? 'Dark' : 'Light'} Theme
-              </Button>
-              <Button onClick={toggleTheme2} data-size="md" style={{ marginLeft: '10px' }}>
-                Switch to {theme2 === 'theme' ? 'Theme2' : 'Theme'} 
-              </Button>
+            <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+              <ToggleSwitch 
+                icon={theme === 'light' ? <MoonIcon /> : <SunIcon />}
+                onChange={toggleTheme}
+                isThemeSwitch={true}
+              />
+              <ToggleSwitch 
+                label={theme2 === 'theme' ? '1' : '2'}
+                onChange={toggleTheme2}
+              />
             </div>
           </div>
           {selectedTab === "form-elements" && (
