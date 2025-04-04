@@ -33,7 +33,9 @@ jobs:
           publish_branch: gh-pages
           force_orphan: true
           keep_files: true
-          clean: true
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
           commit_message: 'deploy: update GitHub Pages'
+          custom_domain: 'norwegianredcross.github.io'
+          domain: 'norwegianredcross.github.io'
+          path: '/DesignSystem/'
