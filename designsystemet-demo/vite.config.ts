@@ -26,7 +26,12 @@ export default defineConfig({
       }
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
   }
+=======
+  },
+  base: "/DesignSystem/"
+>>>>>>> 666954e (feat: add GitHub Pages deployment workflow)
 =======
   },
   base: "/DesignSystem/"
