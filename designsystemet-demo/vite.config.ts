@@ -7,8 +7,24 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      "@": path.resolve(process.cwd(), "./src"),
     },
   },
+  publicDir: "public",
+  server: {
+    fs: {
+      allow: [
+        "public",
+        process.cwd()
+      ]
+    }
+  },
+  build: {
+    rollupOptions: {
+      input: {
+        main: path.resolve(process.cwd(), "index.html")
+      }
+    }
+  },
+  base: "/DesignSystem/"
 })
-
