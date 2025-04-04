@@ -39,6 +39,7 @@ export function ShowcasePage() {
   const [radioValue, setRadioValue] = useState("option1")
   const [textFieldValue, setTextFieldValue] = useState("")
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [theme2, setTheme2] = useState<'theme' | 'theme2'>('theme');
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
@@ -51,8 +52,24 @@ export function ShowcasePage() {
     document.documentElement.style.setProperty('color-scheme', newTheme);
   };
 
+  const toggleTheme2 = () => {
+    const newTheme2 = theme2 === 'theme' ? 'theme2' : 'theme';
+    setTheme2(newTheme2);
+
+    // Debugging: Log the new theme
+    console.log('Switching to:', newTheme2);
+
+    // Apply the theme globally by updating the `data-theme` and `data-color` attributes on the <html> element
+    document.documentElement.setAttribute('data-theme', newTheme2);
+    document.documentElement.setAttribute('data-color', newTheme2);
+
+    // Debugging: Verify the attributes are applied
+    console.log('HTML data-theme attribute:', document.documentElement.getAttribute('data-theme'));
+    console.log('HTML data-color attribute:', document.documentElement.getAttribute('data-color'));
+  };
+
   return (
-    <div className="showcase-container">
+    <div className="showcase-container" data-color={theme2}>
       <header className="showcase-header" style={{ backgroundColor: 'var(--header-background-color)', color: 'var(--header-text-color)' }}>
         <div className="logo-container">
           <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -124,6 +141,9 @@ export function ShowcasePage() {
             <div className="theme-toggle-button">
               <Button onClick={toggleTheme} data-size="md">
                 Switch to {theme === 'light' ? 'Dark' : 'Light'} Theme
+              </Button>
+              <Button onClick={toggleTheme2} data-size="md" style={{ marginLeft: '10px' }}>
+                Switch to {theme2 === 'theme' ? 'Theme2' : 'Theme'} 
               </Button>
             </div>
           </div>

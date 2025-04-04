@@ -4,7 +4,7 @@ import "./app.css"
 import "./showcase.css"
 import '@digdir/designsystemet-theme';
 //import '@digdir/designsystemet-css';
-import '../design-tokens-build/theme.css';
+import '../design-tokens-build/brand-1.css';
 import '@navikt/aksel-icons';
 // import { Button } from "@digdir/designsystemet-react"
 

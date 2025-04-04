@@ -1,9 +1,14 @@
-import type { Preview, StoryFn } from '@storybook/react';
+import type { Preview } from '@storybook/react';
 import '@digdir/designsystemet-css';
 import '@digdir/designsystemet-theme';
 import '../src/styles/global.css'; // Import your global CSS file
-import '../../design-tokens-build/theme.css'; // Import design tokens
+import '../../design-tokens-build/brand-1.css'; // Import design tokens
 import React from 'react';
+
+// Custom provider for global context or theming logic
+const CustomProvider: React.FC = ({ children }) => {
+  return <div>{children}</div>;
+};
 
 const preview: Preview = {
   parameters: {
@@ -21,14 +26,13 @@ const preview: Preview = {
       ],
     },
   },
+  decorators: [
+    (Story) => (
+      <CustomProvider>
+        <Story />
+      </CustomProvider>
+    ),
+  ],
 };
-
-const withTheme = (Story: StoryFn) => (
-  <div data-typography="primary" data-color-scheme="light">
-    <Story />
-  </div>
-);
-
-export const decorators = [withTheme];
 
 export default preview;

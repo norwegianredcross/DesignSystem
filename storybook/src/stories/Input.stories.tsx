@@ -1,26 +1,30 @@
-import React from 'react';
-import { Input } from '@digdir/designsystemet-react'; // Corrected import path
-import { Meta, Story } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
+import { Input } from '@digdir/designsystemet-react';
 
-export default {
+type InputProps = React.ComponentProps<typeof Input>;
+
+const meta: Meta<InputProps> = {
   title: 'Komponenter/Input',
   component: Input,
   argTypes: {
     placeholder: { control: 'text' },
     disabled: { control: 'boolean' },
   },
-} as Meta;
-
-const Template: Story<{ placeholder: string; disabled: boolean }> = (args) => <Input {...args} />;
-
-export const Default = Template.bind({});
-Default.args = {
-  placeholder: 'Enter text...',
-  disabled: false,
 };
 
-export const Disabled = Template.bind({});
-Disabled.args = {
-  placeholder: 'Disabled input',
-  disabled: true,
+export default meta;
+type Story = StoryObj<InputProps>;
+
+export const Default: Story = {
+  args: {
+    placeholder: 'Enter text...',
+    disabled: false,
+  },
+};
+
+export const Disabled: Story = {
+  args: {
+    placeholder: 'Disabled input',
+    disabled: true,
+  },
 };

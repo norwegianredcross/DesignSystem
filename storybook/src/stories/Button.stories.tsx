@@ -1,151 +1,77 @@
-import React from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '@digdir/designsystemet-react';
-import { Meta, StoryFn } from '@storybook/react';
 
-export default {
+const meta: Meta<typeof Button> = {
   title: 'Components/Button',
   component: Button,
-  parameters: {
-    docs: {
-      description: {
-        component: 'Buttons are used to trigger actions or events.',
-      },
-    },
+  tags: ['autodocs'],
+  args: {
+    children: 'Click Me',
+    variant: 'primary',
+    size: 'md',
   },
   argTypes: {
     variant: {
-      control: { type: 'select' },
-      options: ['primary', 'secondary', 'tertiary', 'neutral', 'danger'],
-      description: 'The variant of the button.',
+      control: 'select',
+      options: ['primary', 'secondary', 'tertiary'],
     },
     size: {
-      control: { type: 'select' },
+      control: 'select',
       options: ['sm', 'md', 'lg'],
-      description: 'The size of the button.',
     },
-    disabled: {
-      control: 'boolean',
-      description: 'Disables the button.',
-    },
-    loading: {
-      control: 'boolean',
-      description: 'Shows a loading state for the button.',
-    },
-    children: {
-      control: 'text',
-      description: 'The content of the button.',
-    },
+    disabled: { control: 'boolean' },
   },
-} as Meta;
-
-const Template: StoryFn<{
-  variant: string;
-  size: string;
-  disabled: boolean;
-  loading: boolean;
-  children: string;
-}> = (args) => (
-  <Button
-    {...args}
-    style={{
-      backgroundColor: `var(--ds-color-${args.variant}-base-default)`,
-      color: `var(--ds-color-${args.variant}-base-contrast-default)`,
-    }}
-  >
-    {args.children}
-  </Button>
-);
-
-export const Primary = Template.bind({});
-Primary.args = {
-  variant: 'primary',
-  size: 'md',
-  disabled: false,
-  loading: false,
-  children: 'Primary Button',
 };
 
-export const Secondary = Template.bind({});
-Secondary.args = {
-  variant: 'secondary',
-  size: 'md',
-  disabled: false,
-  loading: false,
-  children: 'Secondary Button',
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Primary: Story = {
+  args: {
+    variant: 'primary',
+  },
 };
 
-export const Tertiary = Template.bind({});
-Tertiary.args = {
-  variant: 'tertiary',
-  size: 'md',
-  disabled: false,
-  loading: false,
-  children: 'Tertiary Button',
+export const Secondary: Story = {
+  args: {
+    variant: 'secondary',
+  },
 };
 
-export const Danger = Template.bind({});
-Danger.args = {
-  variant: 'danger',
-  size: 'md',
-  disabled: false,
-  loading: false,
-  children: 'Danger Button',
+export const Tertiary: Story = {
+  args: {
+    variant: 'tertiary',
+  },
 };
 
-export const Disabled = Template.bind({});
-Disabled.args = {
-  variant: 'primary',
-  size: 'md',
-  disabled: true,
-  loading: false,
-  children: 'Disabled Button',
+export const Large: Story = {
+  args: {
+    size: 'lg',
+  },
 };
 
-export const Loading = Template.bind({});
-Loading.args = {
-  variant: 'primary',
-  size: 'md',
-  disabled: false,
-  loading: true,
-  children: 'Loading...',
+export const Small: Story = {
+  args: {
+    size: 'sm',
+  },
 };
 
-export const Sizes = () => (
-  <div style={{ display: 'flex', gap: '1rem' }}>
-    <Button size="sm" style={{ fontSize: 'var(--ds-font-size-2)' }}>
-      Small
-    </Button>
-    <Button size="md" style={{ fontSize: 'var(--ds-font-size-4)' }}>
-      Medium
-    </Button>
-    <Button size="lg" style={{ fontSize: 'var(--ds-font-size-6)' }}>
-      Large
-    </Button>
-  </div>
-);
+export const Disabled: Story = {
+  args: {
+    disabled: true,
+  },
+};
 
-export const Variants = () => (
-  <div style={{ display: 'flex', gap: '1rem' }}>
-    <Button variant="primary" style={{ backgroundColor: 'var(--ds-color-primary-base-default)' }}>
-      Primary
-    </Button>
-    <Button variant="secondary" style={{ backgroundColor: 'var(--ds-color-secondary-hav-base-default)' }}>
-      Secondary
-    </Button>
-    <Button variant="tertiary" style={{ backgroundColor: 'var(--ds-color-neutral-base-default)' }}>
-      Tertiary
-    </Button>
-    <Button variant="neutral" style={{ backgroundColor: 'var(--ds-color-neutral-base-default)' }}>
-      Neutral
-    </Button>
-    <Button variant="danger" style={{ backgroundColor: 'var(--ds-color-danger-base-default)' }}>
-      Danger
-    </Button>
-  </div>
-);
-
-export const FullWidth = () => (
-  <Button style={{ width: '100%', backgroundColor: 'var(--ds-color-primary-base-default)' }} variant="primary">
-    Full Width Button
-  </Button>
-);
+export const WithIcon: Story = {
+  args: {
+    children: (
+      <>
+        <span role="img" aria-label="icon">
+          🔍
+        </span>{' '}
+        Search
+      </>
+    ),
+    variant: 'primary',
+  },
+};
