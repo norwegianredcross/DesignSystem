@@ -24,11 +24,13 @@ import {
   ToggleGroup,
   Tooltip
 } from "@digdir/designsystemet-react"
+import { ToggleSwitch } from "../src/components/ToggleSwitch"
 import {
-  BellIcon
+  BellIcon,
+  SunIcon,
+  MoonIcon
 } from "@navikt/aksel-icons"
 
-import "@digdir/designsystemet-css"
 
 export function ShowcasePage() {
   const [searchValue, setSearchValue] = useState("")
@@ -52,24 +54,47 @@ export function ShowcasePage() {
     document.documentElement.style.setProperty('color-scheme', newTheme);
   };
 
-  const toggleTheme2 = () => {
+    const toggleTheme2 = () => {
     const newTheme2 = theme2 === 'theme' ? 'theme2' : 'theme';
     setTheme2(newTheme2);
 
-    // Debugging: Log the new theme
-    console.log('Switching to:', newTheme2);
+    console.log(`Switching to ${newTheme2}`);
 
-    // Apply the theme globally by updating the `data-theme` and `data-color` attributes on the <html> element
-    document.documentElement.setAttribute('data-theme', newTheme2);
-    document.documentElement.setAttribute('data-color', newTheme2);
+    // Remove any existing theme styles
+    const existingThemeLinks = document.querySelectorAll('link[data-theme]');
+    console.log(`Removing ${existingThemeLinks.length} existing theme links`);
+    existingThemeLinks.forEach(el => el.remove());
 
-    // Debugging: Verify the attributes are applied
-    console.log('HTML data-theme attribute:', document.documentElement.getAttribute('data-theme'));
-    console.log('HTML data-color attribute:', document.documentElement.getAttribute('data-color'));
+    // Create and append new theme link
+    const themeLink = document.createElement('link');
+    themeLink.id = 'theme-style';
+    themeLink.rel = 'stylesheet';
+    const themePath = newTheme2 === 'theme' 
+      ? '/design-tokens-build/brand-1.css' 
+      : '/design-tokens-build/brand-2.css';
+    themeLink.href = themePath;
+    themeLink.setAttribute('data-theme', newTheme2);
+    
+    console.log(`Loading theme from: ${themePath}`);
+
+    // Handle load/error events
+    themeLink.onload = () => {
+      console.log(`Successfully loaded ${newTheme2} theme`);
+      // Update the data attributes
+      document.documentElement.setAttribute('data-theme', newTheme2);
+      document.documentElement.setAttribute('data-color', newTheme2);
+    };
+    
+    themeLink.onerror = () => {
+      console.error(`Failed to load ${newTheme2} theme from ${themePath}`);
+    };
+
+    // Insert at the end of head to ensure proper cascade
+    document.head.appendChild(themeLink);
   };
 
   return (
-    <div className="showcase-container" data-color={theme2}>
+    <div className="showcase-container" data-theme={theme2}>
       <header className="showcase-header" style={{ backgroundColor: 'var(--header-background-color)', color: 'var(--header-text-color)' }}>
         <div className="logo-container">
           <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -138,13 +163,16 @@ export function ShowcasePage() {
 
         <div className="showcase-main">
           <div style={{ position: 'fixed', top: '10px', right: '10px', zIndex: 1000 }}>
-            <div className="theme-toggle-button">
-              <Button onClick={toggleTheme} data-size="md">
-                Switch to {theme === 'light' ? 'Dark' : 'Light'} Theme
-              </Button>
-              <Button onClick={toggleTheme2} data-size="md" style={{ marginLeft: '10px' }}>
-                Switch to {theme2 === 'theme' ? 'Theme2' : 'Theme'} 
-              </Button>
+            <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+              <ToggleSwitch 
+                icon={theme === 'light' ? <MoonIcon /> : <SunIcon />}
+                onChange={toggleTheme}
+                isThemeSwitch={true}
+              />
+              <ToggleSwitch 
+                label={theme2 === 'theme' ? '1' : '2'}
+                onChange={toggleTheme2}
+              />
             </div>
           </div>
           {selectedTab === "form-elements" && (
@@ -206,16 +234,45 @@ export function ShowcasePage() {
                     Switch
                   </Heading>
                   <div className="component-row">
-                    <Switch checked={switchValue} onChange={() => setSwitchValue(!switchValue)} data-size="sm">
-                      Small switch
-                    </Switch>
-                    <Switch checked={switchValue} onChange={() => setSwitchValue(!switchValue)} data-size="md">
-                      Medium switch
-                    </Switch>
-                    <Switch checked={switchValue} onChange={() => setSwitchValue(!switchValue)} data-size="lg">
-                      Large switch
-                    </Switch>
-                    <Switch disabled>Disabled switch</Switch>
+                  <Switch
+                    checked={switchValue}
+                    onChange={(e) => {
+                      console.log('Switch toggled, new value:', e.target.checked);
+                      setSwitchValue(e.target.checked);
+                    }}
+                    data-size="sm"
+                    aria-labelledby="switch-label-sm"
+                  >
+                    <span id="switch-label-sm">Small switch</span>
+                  </Switch>
+                  <Switch
+                    checked={switchValue}
+                    onChange={(e) => {
+                      console.log('Switch toggled, new value:', e.target.checked);
+                      setSwitchValue(e.target.checked);
+                    }}
+                    data-size="md"
+                    aria-labelledby="switch-label-md"
+                  >
+                    <span id="switch-label-md">Medium switch</span>
+                  </Switch>
+                  <Switch
+                    checked={switchValue}
+                    onChange={(e) => {
+                      console.log('Switch toggled, new value:', e.target.checked);
+                      setSwitchValue(e.target.checked);
+                    }}
+                    data-size="lg"
+                    aria-labelledby="switch-label-lg"
+                  >
+                    <span id="switch-label-lg">Large switch</span>
+                  </Switch>
+                  <Switch
+                    disabled
+                    aria-labelledby="switch-label-disabled"
+                  >
+                    <span id="switch-label-disabled">Disabled switch</span>
+                  </Switch>
                   </div>
 
                   <Divider />
@@ -751,4 +808,3 @@ export function ShowcasePage() {
     </div>
   )
 }
-

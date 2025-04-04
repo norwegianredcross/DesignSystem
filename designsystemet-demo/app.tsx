@@ -2,9 +2,6 @@
 import { ShowcasePage } from "./components/showcase-page"
 import "./app.css"
 import "./showcase.css"
-import '@digdir/designsystemet-theme';
-//import '@digdir/designsystemet-css';
-import '../design-tokens-build/brand-1.css';
 import '@navikt/aksel-icons';
 // import { Button } from "@digdir/designsystemet-react"
 
@@ -31,4 +28,3 @@ export default function App() {
     </div>
   )
 }
-

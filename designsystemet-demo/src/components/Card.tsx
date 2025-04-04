@@ -1,17 +1,14 @@
-import React from 'react';
+import { Card as DigdirCard } from "@digdir/designsystemet-react"
 
-export const Card = ({ title, content }: { title: string; content: string }) => (
+export const CustomCard = ({ title, content }: { title: string; content: string }) => (
   <div
-    style={{
-      border: '1px solid var(--ds-color-neutral-border-default)',
-      borderRadius: '8px',
-      padding: '16px',
-      backgroundColor: 'var(--ds-color-neutral-surface-default)',
-      color: 'var(--ds-color-neutral-text-default)',
-      fontFamily: 'inherit', // Inherit the global font
-    }}
+    className="bg-white rounded-lg shadow-md p-6 mb-6"
+    role="region"
+    aria-label={title}
   >
-    <h3 style={{ marginBottom: '8px' }}>{title}</h3>
-    <p>{content}</p>
+    <DigdirCard>
+      <h2 className="text-xl font-semibold mb-4">{title}</h2>
+      <p className="text-gray-600">{content}</p>
+    </DigdirCard>
   </div>
-);
+)
