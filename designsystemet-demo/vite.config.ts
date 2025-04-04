@@ -26,5 +26,5 @@ export default defineConfig({
       }
     }
   },
-  base: "/DesignSystem/"
+  base: process.env.NODE_ENV === 'production' ? '/DesignSystem/' : '/'
 })
