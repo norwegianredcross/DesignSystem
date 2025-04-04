@@ -25,5 +25,10 @@ export default defineConfig({
         main: path.resolve(process.cwd(), "index.html")
       }
     }
+<<<<<<< HEAD
   }
+=======
+  },
+  base: "/DesignSystem/"
+>>>>>>> 666954e (feat: add GitHub Pages deployment workflow)
 })
