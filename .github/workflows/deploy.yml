@@ -21,7 +21,7 @@ jobs:
       - name: Build
         run: |
           cd designsystemet-demo
-          vite build
+          npm run build
       - name: Prepare build directory
         run: |
           rm -rf build
