@@ -15,9 +15,13 @@ jobs:
         with:
           node-version: '18'
       - name: Install dependencies
-        run: npm ci
+        run: |
+          cd designsystemet-demo
+          npm ci
       - name: Build
-        run: vite build
+        run: |
+          cd designsystemet-demo
+          vite build
       - name: Copy build files to root
         run: |
           mkdir -p build
