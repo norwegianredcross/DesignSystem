@@ -5,6 +5,7 @@
 
 body {
   font-family: 'Myriad Pro', var(--ds-font-family, 'Inter'), sans-serif; /* Set Myriad Pro as the primary font */
+  font-stretch: normal; /* Ensure the font is not condensed */
   margin: 0;
   padding: 0;
   background-color: var(--ds-color-neutral-background-default);

@@ -6,7 +6,7 @@ const config: StorybookConfig = {
     "../src/stories/**/*.stories.@(js|jsx|ts|tsx)", // Include all story files
     "../src/stories/**/*.mdx" // Include MDX files for documentation
   ],
-
+  
   addons: [// Add link navigation between stories
   // Essential addons like controls, actions, etc.
   "@storybook/addon-links", // Add interaction testing
