@@ -27,6 +27,13 @@ jobs:
           mkdir -p build
           cp -r designsystemet-demo/dist/* build/
           mv build/index.html build/404.html
+      - name: Clear GitHub Pages cache
+        run: |
+          curl -X POST \
+          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/norwegianredcross/DesignSystem/pages/builds
+          
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
@@ -35,3 +42,4 @@ jobs:
           enable_jekyll: false
           publish_branch: gh-pages
           force_orphan: true
+          full_commit_message: "Deploy: $(date +'%Y-%m-%d %H:%M:%S')"
