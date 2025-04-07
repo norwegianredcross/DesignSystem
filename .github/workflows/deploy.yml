@@ -17,7 +17,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd designsystemet-demo
-          npm ci
+          npm install
       - name: Build
         run: |
           cd designsystemet-demo
