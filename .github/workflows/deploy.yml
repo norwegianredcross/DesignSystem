@@ -18,9 +18,14 @@ jobs:
         run: npm ci
       - name: Build
         run: vite build
+      - name: Copy build files to root
+        run: |
+          mkdir -p build
+          cp -r designsystemet-demo/dist/* build/
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./designsystemet-demo/dist
+          publish_dir: ./build
           publish_branch: gh-pages
+          force_orphan: true
