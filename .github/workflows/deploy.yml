@@ -22,11 +22,13 @@ jobs:
         run: |
           cd designsystemet-demo
           vite build
-      - name: Copy build files to root
+      - name: Prepare build directory
         run: |
+          rm -rf build
           mkdir -p build
-          cp -r designsystemet-demo/dist/* build/
+          cp -a designsystemet-demo/dist/. build/
           mv build/index.html build/404.html
+          ls -la build
       - name: Clear GitHub Pages cache
         run: |
           curl -X POST \
