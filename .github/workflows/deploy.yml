@@ -26,10 +26,12 @@ jobs:
         run: |
           mkdir -p build
           cp -r designsystemet-demo/dist/* build/
+          mv build/index.html build/404.html
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build
+          enable_jekyll: false
           publish_branch: gh-pages
           force_orphan: true
