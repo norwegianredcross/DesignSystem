@@ -1,0 +1,47 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: |
+          cd designsystemet-demo
+          npm ci
+      - name: Build
+        run: |
+          cd designsystemet-demo
+          vite build
+      - name: Prepare build directory
+        run: |
+          rm -rf build
+          mkdir -p build
+          cp -a designsystemet-demo/dist/. build/
+          mv build/index.html build/404.html
+          ls -la build
+      - name: Clear GitHub Pages cache
+        run: |
+          curl -X POST \
+          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/norwegianredcross/DesignSystem/pages/builds
+          
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
+          enable_jekyll: false
+          publish_branch: gh-pages
+          force_orphan: true
+          full_commit_message: "Deploy: $(date +'%Y-%m-%d %H:%M:%S')"
