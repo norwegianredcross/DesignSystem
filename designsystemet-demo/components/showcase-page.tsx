@@ -111,6 +111,14 @@ export function ShowcasePage() {
           </Heading>
         </div>
 
+        <div className="header-links">
+          <Link href="https://norwegianredcross.github.io/VippsLoginLib/" target="_blank" rel="noopener noreferrer">
+            MRK Test Page
+          </Link>
+          <Link href="https://github.com/norwegianredcross/ConferenceCenter" target="_blank" rel="noopener noreferrer">
+            RK Conference Test Page
+          </Link>
+        </div>
         <div className="search-container">
           <Search
             label="Search components"

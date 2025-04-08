@@ -13,6 +13,23 @@
   border-bottom: 1px solid #e9ecef;
 }
 
+.header-links {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.header-links a {
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 0;
+}
+
+.header-links a:hover {
+  text-decoration: underline;
+}
+
 .logo-container {
   display: flex;
   align-items: center;
@@ -182,4 +199,3 @@
     width: 100%;
   }
 }
-

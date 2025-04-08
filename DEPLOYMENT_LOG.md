@@ -44,3 +44,22 @@ The deployment now works because:
 1. Keep the workflow using `npm run build` rather than direct tool commands
 2. Consider adding a build verification step
 3. Document any future deployment changes in this log
+
+## Latest Fix - 2025-04-08
+
+### Issue
+- GitHub Pages showing 404 despite successful deployments
+- Missing index.html in gh-pages branch
+- Deployment timestamp not updating
+
+### Solution
+1. Rebuilt project locally: `npm run build`
+2. Force pushed built files to gh-pages branch:
+   ```bash
+   git push origin `git subtree split --prefix designsystemet-demo/dist main`:gh-pages --force
+   ```
+
+### Result
+- Site now accessible at https://norwegianredcross.github.io/DesignSystem/
+- All components loading correctly
+- Deployment timestamp updates properly
