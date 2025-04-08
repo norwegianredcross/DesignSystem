@@ -26,8 +26,10 @@ jobs:
         run: |
           rm -rf build
           mkdir -p build
-          cp -a designsystemet-demo/dist/. build/
+          cp -a dist/. build/
+          cp -a designsystemet-demo/public/. build/
           mv build/index.html build/404.html
+          echo "Base directory: /" > build/_config.yml
           ls -la build
       - name: Clear GitHub Pages cache
         run: |
