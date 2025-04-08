@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script>
+    const segment = 1;
+    sessionStorage.redirect = location.href.split('/').slice(0, 1 + segment).join('/');
+    location.replace(location.href.replace(location.origin, '').substr(0, location.href.replace(location.origin, '').indexOf('/' + location.href.split('/')[segment + 1]) + 1));
+  </script>
+</head>
+<body>
+  Redirecting to main page...
+</body>
+</html>
