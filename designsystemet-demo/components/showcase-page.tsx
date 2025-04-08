@@ -69,9 +69,10 @@ export function ShowcasePage() {
     const themeLink = document.createElement('link');
     themeLink.id = 'theme-style';
     themeLink.rel = 'stylesheet';
+    const basePath = window.location.pathname.includes('/DesignSystem/') ? '/DesignSystem' : '';
     const themePath = newTheme2 === 'theme' 
-      ? '/design-tokens-build/brand-1.css' 
-      : '/design-tokens-build/brand-2.css';
+      ? `${basePath}/design-tokens-build/brand-1.css` 
+      : `${basePath}/design-tokens-build/brand-2.css`;
     themeLink.href = themePath;
     themeLink.setAttribute('data-theme', newTheme2);
     
@@ -113,19 +114,17 @@ export function ShowcasePage() {
         <div className="search-container">
           <Search
             label="Search components"
-            data-size="sm"
             value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-            clearButton
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value)}
           />
         </div>
       </header>
 
       <div className="showcase-navigation" style={{ backgroundColor: 'var(--sidebar-background-color)', color: 'var(--sidebar-text-color)' }}>
         <Breadcrumbs>
-          <Breadcrumbs.Item href="#">Home</Breadcrumbs.Item>
-          <Breadcrumbs.Item href="#">Components</Breadcrumbs.Item>
-          <Breadcrumbs.Item current>Showcase</Breadcrumbs.Item>
+          <Breadcrumbs.Link href="#">Home</Breadcrumbs.Link>
+          <Breadcrumbs.Link href="#">Components</Breadcrumbs.Link>
+          <Breadcrumbs.Link>Showcase</Breadcrumbs.Link>
         </Breadcrumbs>
       </div>
 
@@ -196,7 +195,14 @@ export function ShowcasePage() {
                       onChange={(e) => setCheckboxValue(e.target.checked)}
                     />
                     <Checkbox label="Disabled checkbox" value="disabled" disabled />
-                    <Checkbox label="Indeterminate checkbox" value="indeterminate" indeterminate />
+                    <div className="checkbox-wrapper">
+                      <Checkbox
+                        value="indeterminate"
+                        checked={false}
+                        aria-labelledby="indeterminate-checkbox-label"
+                      />
+                      <label id="indeterminate-checkbox-label">Indeterminate checkbox</label>
+                    </div>
                     <Checkbox label="Checkbox with error" value="error" error="This is an error message" />
                   </Fieldset>
 
@@ -396,7 +402,7 @@ export function ShowcasePage() {
                   <Heading level={3} data-size="sm">
                     Full Width Button
                   </Heading>
-                  <Button fullWidth>Full Width Button</Button>
+                  <Button className="w-full">Full Width Button</Button>
                 </div>
               </Card>
             </section>
@@ -507,7 +513,7 @@ export function ShowcasePage() {
                   <Heading level={3} data-size="sm">
                     Basic Card
                   </Heading>
-                  <Card border>
+                  <Card variant="tinted">
                     <div className="card-content">
                       <Heading level={4} data-size="sm">
                         Card Title
@@ -525,7 +531,7 @@ export function ShowcasePage() {
                     Card Variants
                   </Heading>
                   <div className="component-grid">
-                    <Card border>
+                    <Card variant="tinted">
                       <div className="card-content">
                         <Heading level={4} data-size="sm">
                           With Border
@@ -543,7 +549,7 @@ export function ShowcasePage() {
                       </div>
                     </Card>
 
-                    <Card border className="custom-card">
+                    <Card variant="tinted" className="custom-card">
                       <div className="card-content">
                         <Heading level={4} data-size="sm">
                           Custom Styling
@@ -622,10 +628,17 @@ export function ShowcasePage() {
                     <Tag
                       data-color="primary"
                       onClick={() => alert("Tag clicked")}
-                      removable
-                      onRemove={() => alert("Remove clicked")}
                     >
-                      Removable
+                      Clickable
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          alert("Remove clicked");
+                        }}
+                        aria-label="Remove tag"
+                      >
+                        ×
+                      </button>
                     </Tag>
                   </div>
 
@@ -800,7 +813,7 @@ export function ShowcasePage() {
         <Divider />
         <div className="footer-content">
           <Paragraph data-size="sm">Designsystemet Showcase - Created with Digdir Designsystemet v1.0.2</Paragraph>
-          <Link href="https://designsystemet.no" external>
+          <Link href="https://designsystemet.no" target="_blank" rel="noopener noreferrer">
             Visit Designsystemet
           </Link>
         </div>
