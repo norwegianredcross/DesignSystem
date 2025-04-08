@@ -1,5 +1,6 @@
 import type { StorybookConfig } from '@storybook/react-vite';
 import { mergeConfig, loadEnv } from 'vite';
+import path from 'path';
 
 const config: StorybookConfig = {
   stories: [
@@ -7,11 +8,14 @@ const config: StorybookConfig = {
     "../src/stories/**/*.mdx" // Include MDX files for documentation
   ],
   
-  addons: [// Add link navigation between stories
-  // Essential addons like controls, actions, etc.
-  "@storybook/addon-links", // Add interaction testing
-  "@storybook/addon-essentials", // Accessibility testing
-  "@storybook/addon-interactions", "@storybook/addon-a11y", '@storybook/addon-mdx-gfm', '@chromatic-com/storybook'],
+  addons: [
+    "@storybook/addon-links", 
+    "@storybook/addon-essentials",
+    "@storybook/addon-interactions", 
+    "@storybook/addon-a11y", 
+    '@storybook/addon-mdx-gfm', 
+    '@chromatic-com/storybook'
+  ],
 
   framework: {
     name: "@storybook/react-vite",
@@ -22,21 +26,22 @@ const config: StorybookConfig = {
     try {
       // Load environment variables
       const env = loadEnv(configType === 'PRODUCTION' ? 'production' : 'development', process.cwd());
+      
+      // Get the project root directory
+      const projectRoot = '/Users/riccardomarini/Dropbox/Lavori/RedCross/DesignSystem';
 
       // Merge custom Vite configuration
       return mergeConfig(config, {
         resolve: {
           alias: {
-            '@': '/Users/michaelaavitsland/Desktop/DesignSystem/designsystemet-demo/src', // Alias for src directory
-            'design-tokens-build': '/Users/michaelaavitsland/Desktop/DesignSystem/design-tokens-build', // Alias for design tokens
+            '@': path.resolve(projectRoot, 'designsystemet-demo/src'),
+            'design-tokens-build': path.resolve(projectRoot, 'design-tokens-build'),
           },
         },
         server: {
           fs: {
             allow: [
-              '/Users/michaelaavitsland/Desktop/DesignSystem/design-tokens-build', // Allow design tokens
-              '/Users/michaelaavitsland/Desktop/DesignSystem/storybook/src', // Allow entire src directory
-              '/Users/michaelaavitsland/Desktop/DesignSystem/storybook/node_modules', // Allow node_modules
+              projectRoot, // Allow entire project directory
             ],
           },
           open: true, // Automatically open the browser
