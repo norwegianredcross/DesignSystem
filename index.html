@@ -1,38 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Norwegian Red Cross Design System</title>
-    <link
-      rel="stylesheet"
-      href="https://altinncdn.no/fonts/inter/v4.1/inter.css"
-      integrity="sha384-OcHzc/By/OPw9uJREawUCjP2inbOGKtKb4A/I2iXxmknUfog2H8Adx71tWVZRscD"
-      crossorigin="anonymous"
-    />
-    <link id="theme-style" rel="stylesheet" href="design-tokens-build/brand-1.css" />
-    <script type="module" crossorigin src="assets/main-0d793b87.js"></script>
-    <link rel="stylesheet" href="assets/index-cdd2efa4.css">
-    <style>
-      .storybook-link {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background-color: var(--ds-color-primary-brand-background-default);
-        color: var(--ds-color-primary-brand-text-default);
-        padding: 10px 20px;
-        border-radius: 4px;
-        text-decoration: none;
-        font-weight: bold;
-        z-index: 1000;
-      }
-      .storybook-link:hover {
-        background-color: var(--ds-color-primary-brand-background-hover);
-      }
-    </style>
-  </head>
-  <body>
-    <a href="storybook/index.html" class="storybook-link">View Storybook</a>
-    <div id="root"></div>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Norwegian Red Cross Design System</title>
+  <meta http-equiv="refresh" content="0;url=/DesignSystem/storybook/">
+  <link rel="stylesheet" href="/DesignSystem/storybook/design-tokens-build/brand-1.css">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: var(--ds-color-neutral-background-default);
+      color: var(--ds-color-neutral-text-default);
+    }
+    .container {
+      text-align: center;
+      max-width: 600px;
+      padding: 2rem;
+    }
+    h1 {
+      color: var(--ds-color-primary-brand-text-default);
+      margin-bottom: 1rem;
+    }
+    p {
+      margin-bottom: 2rem;
+    }
+    .links {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    a {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background-color: var(--ds-color-primary-brand-background-default);
+      color: var(--ds-color-primary-brand-text-default);
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: 500;
+      transition: background-color 0.2s;
+    }
+    a:hover {
+      background-color: var(--ds-color-primary-brand-background-hover);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Norwegian Red Cross Design System</h1>
+    <p>Redirecting to Storybook...</p>
+    <div class="links">
+      <a href="/DesignSystem/storybook/">Go to Storybook</a>
+    </div>
+  </div>
+  <script>
+    window.location.href = "/DesignSystem/storybook/";
+  </script>
+</body>
 </html>
