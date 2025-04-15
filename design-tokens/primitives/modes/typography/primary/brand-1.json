@@ -1,0 +1,22 @@
+{
+  "brand-1": {
+    "font-family": {
+      "$type": "fontFamilies",
+      "$value": "Myriad VF"
+    },
+    "font-weight": {
+      "medium": {
+        "$type": "fontWeights",
+        "$value": "Medium"
+      },
+      "semibold": {
+        "$type": "fontWeights",
+        "$value": "SemiBold"
+      },
+      "regular": {
+        "$type": "fontWeights",
+        "$value": "Regular"
+      }
+    }
+  }
+}
