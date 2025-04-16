@@ -10,8 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@digdir/designsystemet": "^1.0.3",
     "@digdir/designsystemet-css": "^1.0.3",
     "@digdir/designsystemet-react": "^1.0.3",
+    "date-fns": "^4.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

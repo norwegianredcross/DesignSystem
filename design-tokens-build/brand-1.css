@@ -766,7 +766,7 @@
 
 @layer ds.theme.typography.primary {
 :root, [data-typography="primary"] {
-  --ds-font-family: Myriad VF;
+  --ds-font-family: myriad-variable;
   --ds-font-weight-medium: 500;
   --ds-font-weight-semibold: 600;
   --ds-font-weight-regular: 400;
