@@ -1,8 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import {
-  Button as DigDirButton,
-  // Textfield,
-} from '@digdir/designsystemet-react';
 import { DateInput } from './components/DateInput'; // Adjust path if needed
 import { DatePicker } from './components/DatePicker';
 import { CalendarIcon } from './assets/images/CalendarIcon'; // Adjust path if needed

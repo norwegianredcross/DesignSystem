@@ -1,22 +1,22 @@
 // src/components/Field/Field.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
 import React from 'react';
-// --- Import YOUR exported components from index.tsx ---
-import { Field as DocumentedField, FieldProps, FieldDescription, FieldCounter } from './index';
-// --- Import the ORIGINAL Field and necessary inputs DIRECTLY from the library ---
+// --- Import YOUR exported components ---
+import { Field, FieldProps, FieldDescription, FieldCounter } from './index';
+// --- Import the ORIGINAL Field (for Affixes) and other necessary components DIRECTLY from the library ---
 import {
-  Field as DigDirField, // Use an alias to distinguish from your export
+  Field as DigDirField, // Use alias for original Field when needing dot notation
+  Label,
   Textfield,
   Textarea,
-  Checkbox,
-  Radio,
-  // We don't need to import sub-components individually here
-  // as we will use DigDirField.* notation in render
+  Select,
+  ValidationMessage,
 } from '@digdir/designsystemet-react';
 
-const meta: Meta<typeof DocumentedField> = { // Point meta to YOUR Field for docs
+// Point meta to YOUR Field for docs, but use original Field in render for sub-components
+const meta: Meta<typeof Field> = {
   title: 'Components/Field',
-  component: DocumentedField, // Document YOUR component
+  component: Field, // Document YOUR component wrapper
   tags: ['autodocs'],
   parameters: {
     docs: {
@@ -48,35 +48,31 @@ const meta: Meta<typeof DocumentedField> = { // Point meta to YOUR Field for doc
     children: {
       control: false,
       description:
-        'Field content, typically Field.Label, Field.Input, Field.Description, etc.',
+        'Field content, typically Label, Textfield, FieldDescription, etc.',
     },
-  } as ArgTypes<FieldProps>, // Use your FieldProps type here
+  } as ArgTypes<FieldProps>,
 };
 
 export default meta;
 
-// Use StoryObj<typeof DocumentedField> to link args to your documented component
-type Story = StoryObj<typeof DocumentedField>;
+type Story = StoryObj<typeof Field>;
 
 // --- Basic Example with Textfield ---
+// (Keep this story as is)
 export const DefaultTextfield: Story = {
   render: (args) => (
-    // --- Use the ORIGINAL DigDirField in render for dot notation ---
-    <DigDirField {...args}>
-      <DigDirField.Label id="textfield-default-label" htmlFor="textfield-default">
+    <Field {...args}>
+      <Label id="textfield-default-label" htmlFor="textfield-default">
         Label
-      </DigDirField.Label>
-      <FieldDescription>Short description for the field</FieldDescription> {/* Use exported one */}
-      <DigDirField.Input>
-        <Textfield
-          id="textfield-default"
-          placeholder="Enter text..."
-          aria-labelledby="textfield-default-label"
-        />
-      </DigDirField.Input>
-      <DigDirField.ValidationMessage error>Error message</DigDirField.ValidationMessage>
-    </DigDirField>
-    // --- END FIX ---
+      </Label>
+      <FieldDescription>Short description for the field</FieldDescription>
+      <Textfield
+        id="textfield-default"
+        placeholder="Enter text..."
+        aria-labelledby="textfield-default-label"
+      />
+      <ValidationMessage>Error message</ValidationMessage>
+    </Field>
   ),
   args: {
     'data-size': 'md',
@@ -85,55 +81,22 @@ export const DefaultTextfield: Story = {
   name: 'Basic (Textfield)',
 };
 
-// --- Example with Prefix and Suffix (Matching Digdir Example Structure) ---
-export const WithAffixes: Story = {
-  render: (args) => (
-    // --- Use the ORIGINAL DigDirField in render ---
-    <DigDirField {...args}>
-      <DigDirField.Label id="textfield-affix-label" htmlFor="textfield-affix">
-        Hvor mange kroner koster det per måned?
-      </DigDirField.Label>
-      {/* Use the Affixes wrapper */}
-      <DigDirField.Affixes>
-        {/* Use Affix for the prefix */}
-        <DigDirField.Affix>NOK</DigDirField.Affix>
-        {/* Place the input directly inside Affixes */}
-        <Textfield
-          id="textfield-affix"
-          type="number"
-          aria-labelledby="textfield-affix-label"
-        />
-        {/* Use Affix for the suffix */}
-        <DigDirField.Affix>pr. mnd.</DigDirField.Affix>
-      </DigDirField.Affixes>
-    </DigDirField>
-    // --- END FIX ---
-  ),
-  args: {
-    'data-size': 'md',
-  },
-  name: 'With Prefix/Suffix',
-};
-
 // --- Example with Counter ---
+// (Keep this story as is)
 export const WithCounter: Story = {
   render: (args) => (
-    // --- Use the ORIGINAL DigDirField in render ---
-    <DigDirField {...args}>
-      <DigDirField.Label id="textarea-counter-label" htmlFor="textarea-counter">
+    <Field {...args}>
+      <Label id="textarea-counter-label" htmlFor="textarea-counter">
         Legg til en beskrivelse
-      </DigDirField.Label>
-      <DigDirField.Input>
-        <Textarea
-          id="textarea-counter"
-          maxLength={50}
-          rows={3}
-          aria-labelledby="textarea-counter-label"
-        />
-      </DigDirField.Input>
-      <FieldCounter limit={50} /> {/* Use exported one */}
-    </DigDirField>
-    // --- END FIX ---
+      </Label>
+      <Textarea
+        id="textarea-counter"
+        maxLength={50}
+        rows={3}
+        aria-labelledby="textarea-counter-label"
+      />
+      <FieldCounter limit={50} />
+    </Field>
   ),
   args: {
     'data-size': 'md',
@@ -141,70 +104,138 @@ export const WithCounter: Story = {
   name: 'With Counter (Textarea)',
 };
 
-// --- Example with Checkbox ---
-export const WithCheckbox: Story = {
-  render: (args) => (
-    // --- Use the ORIGINAL DigDirField in render ---
-    <DigDirField {...args}>
-      <DigDirField.Label id="checkbox-agree-label" htmlFor="checkbox-agree">
-        <DigDirField.Input>
-          <Checkbox
-            id="checkbox-agree"
-            value="agree"
-            aria-labelledby="checkbox-agree-label"
-          >
-            Jeg godtar vilkårene
-          </Checkbox>
-        </DigDirField.Input>
-      </DigDirField.Label>
-      <FieldDescription>Les vilkårene nøye før du godtar.</FieldDescription> {/* Use exported one */}
-    </DigDirField>
-    // --- END FIX ---
-  ),
-  args: {
-    'data-size': 'md',
-    position: 'start',
-  },
-  name: 'With Checkbox',
-};
 
-// --- Example with Radio and End Position ---
-export const WithRadioEnd: Story = {
+// --- Affix Examples Story ---
+export const AffixExamples: Story = {
   render: (args) => (
-    // --- Use the ORIGINAL DigDirField in render ---
-    <DigDirField {...args}>
-      {/* Option 1 */}
-      <DigDirField.Label id="radio-option1-label" htmlFor="radio-option1">
-        <DigDirField.Input>
-          <Radio
-            id="radio-option1"
-            name="radio-position"
-            value="option1"
-            aria-labelledby="radio-option1-label"
-          >
-            Option 1
-          </Radio>
-        </DigDirField.Input>
-      </DigDirField.Label>
-      {/* Option 2 */}
-      <DigDirField.Label id="radio-option2-label" htmlFor="radio-option2">
-        <DigDirField.Input>
-          <Radio
-            id="radio-option2"
-            name="radio-position"
-            value="option2"
-            aria-labelledby="radio-option2-label"
-          >
-            Option 2
-          </Radio>
-        </DigDirField.Input>
-      </DigDirField.Label>
-    </DigDirField>
-    // --- END FIX ---
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }} data-color={args['data-color']}>
+      {/* Example 1: Textfield with Prefix/Suffix */}
+      {/* Use Field wrapper */}
+      <Label id="affix-example1-label" htmlFor="affix-example1">
+          Hvor mange kroner koster det per måned?
+        </Label>
+      <Field data-size={args['data-size']}>
+        
+        {/* Wrap Affixes in div to constrain width */}
+        <div style={{ display: 'inline-block', width: 'max-content' }}>
+          <DigDirField.Affixes>
+            <DigDirField.Affix>NOK</DigDirField.Affix>
+            <Textfield
+              id="affix-example1"
+              type="number"
+              aria-labelledby="affix-example1-label"
+            />
+            <DigDirField.Affix>pr. mnd.</DigDirField.Affix>
+          </DigDirField.Affixes>
+        </div>
+      </Field>
+
+      {/* Example 2: Textarea with Suffix */}
+      {/* Use Field wrapper */}
+      <Label id="affix-example2-label" htmlFor="affix-example2">
+          Hvor mange kilo veier eplene du har valgt?
+        </Label>
+      <Field data-size={args['data-size']}>
+        
+        {/* Wrap Affixes in div to constrain width */}
+        <div style={{ display: 'inline-block', width: 'max-content' }}>
+          <DigDirField.Affixes>
+            <Textarea
+              id="affix-example2"
+              rows={2}
+              aria-labelledby="affix-example2-label"
+            />
+            <DigDirField.Affix>KG</DigDirField.Affix>
+          </DigDirField.Affixes>
+        </div>
+      </Field>
+
+      {/* Example 3: Select with Prefix */}
+      {/* Use Field wrapper */}
+      <Label id="affix-example3-label" htmlFor="affix-example3">
+          Hvor mange kroner koster det?
+        </Label>
+      <Field data-size={args['data-size']}>
+        
+        {/* Wrap Affixes in div to constrain width */}
+        <div style={{ display: 'inline-block', width: 'max-content' }}>
+          <DigDirField.Affixes>
+            <DigDirField.Affix>NOK</DigDirField.Affix>
+            <Select id="affix-example3" aria-labelledby="affix-example3-label">
+              <Select.Option value="-1">Velg &hellip;</Select.Option>
+              <Select.Option value="10">10</Select.Option>
+              <Select.Option value="20">20</Select.Option>
+              <Select.Option value="30">30</Select.Option>
+            </Select>
+          </DigDirField.Affixes>
+        </div>
+      </Field>
+
+      {/* Example 4: No Affix (Keep Field wrapper) */}
+      <Field data-size={args['data-size']}>
+        <Label id="affix-example4-label" htmlFor="affix-example4">
+          No affix
+        </Label>
+        <Textfield id="affix-example4" aria-labelledby="affix-example4-label" />
+      </Field>
+
+      {/* Example 5: No Affix, Small Size (Keep Field wrapper) */}
+      <Field data-size="sm">
+        <Label id="affix-example5-label" htmlFor="affix-example5">
+          No affix and small size
+        </Label>
+        <Textfield id="affix-example5" aria-labelledby="affix-example5-label" />
+      </Field>
+
+      {/* Example 6: No Affix, Large Size (Keep Field wrapper) */}
+      <Field data-size="lg">
+        <Label id="affix-example6-label" htmlFor="affix-example6">
+          No affix and large size
+        </Label>
+        <Textfield id="affix-example6" aria-labelledby="affix-example6-label" />
+      </Field>
+
+      {/* Example 7: Affix, Small Size */}
+      {/* Use Field wrapper */}
+      <Label id="affix-example7-label" htmlFor="affix-example7">
+          Affix and small size
+        </Label>
+      <Field data-size="sm">
+        
+        {/* Wrap Affixes in div to constrain width */}
+        <div style={{ display: 'inline-block', width: 'max-content' }}>
+          <DigDirField.Affixes>
+            <DigDirField.Affix>NOK</DigDirField.Affix>
+            <Textfield id="affix-example7" aria-labelledby="affix-example7-label" />
+            <DigDirField.Affix>pr. mnd.</DigDirField.Affix>
+          </DigDirField.Affixes>
+        </div>
+      </Field>
+
+      {/* Example 8: Affix, Large Size */}
+      {/* Use Field wrapper */} 
+      <Label id="affix-example8-label" htmlFor="affix-example8">
+          Affix and large size
+        </Label>
+      <Field data-size="lg">
+       
+        {/* Wrap Affixes in div to constrain width */}
+        <div style={{ display: 'inline-block', width: 'max-content' }}>
+          <DigDirField.Affixes>
+            <DigDirField.Affix>NOK</DigDirField.Affix>
+            <Textfield id="affix-example8" aria-labelledby="affix-example8-label" />
+            <DigDirField.Affix>pr. mnd.</DigDirField.Affix>
+          </DigDirField.Affixes>
+        </div>
+      </Field>
+    </div>
   ),
   args: {
     'data-size': 'md',
-    position: 'end',
+    'data-color': 'neutral',
   },
-  name: 'With Radio (End Position)',
+  argTypes: {
+    position: { control: false },
+  },
+  name: 'Affix Examples',
 };
