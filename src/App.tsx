@@ -1,21 +1,24 @@
-import React, { useState } from 'react';
-// Import the original button and alias it
-import { Button as DigDirButton } from '@digdir/designsystemet-react';
-// Import the DatePicker
-import { DatePicker } from './components/DatePicker'; // Adjust path
+import React, { useState, useRef, useEffect } from 'react';
+import {
+  Button as DigDirButton,
+  // Textfield,
+} from '@digdir/designsystemet-react';
+import { DateInput } from './components/DateInput'; // Adjust path if needed
+import { DatePicker } from './components/DatePicker';
+import { CalendarIcon } from './assets/images/CalendarIcon'; // Adjust path if needed
+import { format, parse, isValid } from 'date-fns';
+import { nb } from 'date-fns/locale';
 
-// Import the icon components (if still needed elsewhere, otherwise remove)
-// import { ChevronRightIcon } from './assets/images/ChevronRightIcon';
-// import { ChevronLeftIcon } from './assets/images/ChevronLeftIcon';
-
-// Define available brands and modes
 type Brand = 'brand-1' | 'brand-2';
 type Mode = 'light' | 'dark';
 
 function App() {
   const [currentBrand, setCurrentBrand] = useState<Brand>('brand-1');
   const [currentMode, setCurrentMode] = useState<Mode>('light');
-  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date()); // State for selected date
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+  // We no longer need to track if the date picker is open
+  // const [isDatePickerOpen, setIsDatePickerOpen] = useState<boolean>(false);
+  const datePickerRef = useRef<HTMLDivElement>(null);
 
   const toggleBrand = () => {
     setCurrentBrand((prevBrand) =>
@@ -28,13 +31,60 @@ function App() {
   };
 
   const handleDateSelect = (date: Date) => {
-    console.log('Date selected:', date);
     setSelectedDate(date);
+    // No need to close the date picker anymore
+    // setIsDatePickerOpen(false);
   };
 
+  // Remove the toggleDatePicker function as the date picker is always visible
+  // const toggleDatePicker = () => {
+  //   setIsDatePickerOpen((prev) => !prev);
+  // };
+
+  const [inputValue, setInputValue] = useState<string>(
+    selectedDate ? format(selectedDate, 'dd.MM.yyyy', { locale: nb }) : '',
+  );
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setInputValue(value);
+    const parsedDate = parse(value, 'dd.MM.yyyy', new Date(), { locale: nb });
+    if (isValid(parsedDate)) {
+      setSelectedDate(parsedDate);
+    } else {
+      // Optionally handle invalid input, e.g., set selectedDate to null
+      // setSelectedDate(null);
+    }
+  };
+
+  useEffect(() => {
+    // Update input value when selectedDate changes
+    setInputValue(
+      selectedDate ? format(selectedDate, 'dd.MM.yyyy', { locale: nb }) : '',
+    );
+  }, [selectedDate]);
+
+  // Remove the click outside logic as the date picker is always visible
+  // useEffect(() => {
+  //   const handleClickOutside = (event: MouseEvent) => {
+  //     if (
+  //       datePickerRef.current &&
+  //       !datePickerRef.current.contains(event.target as Node)
+  //     ) {
+  //       setIsDatePickerOpen(false);
+  //     }
+  //   };
+  //   document.addEventListener('mousedown', handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener('mousedown', handleClickOutside);
+  //   };
+  // }, [datePickerRef]);
+
+  const formattedDate = selectedDate
+    ? format(selectedDate, 'dd.MM.yyyy', { locale: nb })
+    : '';
 
   return (
-    // Apply BOTH data-color and data-color-scheme attributes here
     <div
       data-color={currentBrand}
       data-color-scheme={currentMode}
@@ -42,15 +92,8 @@ function App() {
       style={{ padding: '20px' }}
     >
       <h1>Component Library Theme Test</h1>
-      <div style={{ marginBottom: '20px' }}>
-        <p>Current Brand: <strong>{currentBrand}</strong></p>
-        <p>Current Mode: <strong>{currentMode}</strong></p>
-        <p>Selected Date: <strong>{selectedDate ? selectedDate.toLocaleDateString() : 'None'}</strong></p>
-      </div>
-
-      {/* Buttons to toggle theme settings */}
       <div style={{ marginBottom: '20px', display: 'flex', gap: '10px' }}>
-         <button type="button" onClick={toggleBrand}>
+        <button type="button" onClick={toggleBrand}>
           Toggle Brand (Switch to {currentBrand === 'brand-1' ? 'brand-2' : 'brand-1'})
         </button>
         <button type="button" onClick={toggleMode}>
@@ -60,31 +103,35 @@ function App() {
 
       <hr />
 
-      {/* --- DatePicker Component --- */}
-      <h2>DatePicker</h2>
-      <DatePicker
-        selectedDate={selectedDate}
-        onDateSelect={handleDateSelect}
-      />
-      {/* --- End DatePicker --- */}
+      {/* --- DatePicker Input Section --- */}
+      <div
+        ref={datePickerRef}
+        style={{
+          marginBottom: '20px', // Add some space below the date picker
+          display: 'inline-block', // Or block
+        }}
+      >
+        <p style={{ marginBottom: '10px' }}>Selected Date: {formattedDate}</p>
+        {/* The DateInput remains */}
+        <div style={{ marginBottom: '10px' }}>
+          <DateInput
+            aria-label="Velg dato"
+            value={inputValue}
+            onChange={handleInputChange}
+            placeholder="dd.mm.åååå"
+            suffixIcon={<CalendarIcon />}
+            // The suffix icon can remain, but it won't toggle the date picker
+            // onSuffixClick={toggleDatePicker}
+          />
+        </div>
 
-
-      <hr style={{marginTop: '30px'}}/>
-
-      {/* Original DigDir Buttons (Optional for comparison) */}
-      <h2>Original @digdir/designsystemet-react Button</h2>
-       <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '20px' }}>
-        <DigDirButton variant="primary"> Primary </DigDirButton>
-        <DigDirButton variant="secondary"> Secondary </DigDirButton>
-        <DigDirButton variant="tertiary"> Tertiary </DigDirButton>
-        <DigDirButton variant="primary" data-color="danger"> Danger Colors </DigDirButton>
-        <DigDirButton variant="primary" data-color="secondary-hav"> Hav Colors </DigDirButton>
-        <DigDirButton variant="primary" data-color="secondary-jungel"> Jungel Colors </DigDirButton>
-        <DigDirButton variant="tertiary" icon aria-label="Previous"> {/* Example Icon Button */}
-          {/* <ChevronLeftIcon /> */} {/* Assuming icon exists */}
-        </DigDirButton>
+        {/* The DatePicker is always visible */}
+        <DatePicker
+          selectedDate={selectedDate}
+          onDateSelect={handleDateSelect}
+          initialDate={selectedDate || new Date()}
+        />
       </div>
-
     </div>
   );
 }

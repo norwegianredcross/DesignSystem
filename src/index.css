@@ -1,33 +1,55 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+/* src/index.css or a relevant CSS module */
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Wrapper for positioning context - Make it less intrusive */
+.dateInputWrapper {
+  position: relative;
+  display: block; /* Allow it to take full available width like a normal div */
+  /* REMOVE fixed width: width: 250px; */
 }
 
+/* Target the INPUT element INSIDE the Textfield with our custom class */
+.inputWithCalendarIcon input {
+  /* Add padding on the right to make space for the icon */
+  /* Ensure this value is large enough for the icon + desired gap */
+  padding-right: var(--ds-size-10, 40px) !important; /* Use !important cautiously */
+  /* Add box-sizing just in case */
+  box-sizing: border-box;
+}
 
+/* Icon Button - same absolute positioning */
+.calendarIconButton {
+  position: absolute;
+  right: var(--ds-size-2, 8px); /* Position within the padded space */
+  top: 50%;
+  transform: translateY(-50%);
+  padding: var(--ds-size-1, 4px);
+  margin: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--ds-color-neutral-text-subtle, #5d5d5d);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  z-index: 2;
+}
 
-/* src/index.css */
+.calendarIconButton:hover {
+  color: var(--ds-color-neutral-text-default, #2b2b2b);
+}
 
-/* Apply other global resets or styles if needed */
+/* Popover - same positioning */
+.datePickerPopover {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: var(--ds-size-1, 4px);
+  z-index: 10;
+}
+
+/* Remove conflicting body font-family from index.css if still present */
 body {
   margin: 0;
-  
-  font-family: "myriad-variable-concept", /* <--- Correct Name Required */
-    system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-
-  
+  /* font-family: should be controlled by theme variables */
 }
-
-/* You might have other global styles here */
-
-

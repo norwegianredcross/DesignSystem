@@ -4,15 +4,14 @@ import { Button as DigDirButton } from '@digdir/designsystemet-react';
 import {
   format,
   startOfMonth,
-  endOfMonth,
   startOfWeek,
-  endOfWeek,
   eachDayOfInterval,
   addMonths,
   subMonths,
   isSameMonth,
   isSameDay,
   isToday,
+  addDays,
 } from 'date-fns';
 import { nb } from 'date-fns/locale';
 
@@ -29,10 +28,14 @@ export interface DatePickerProps {
 
 const generateCalendarDays = (date: Date): Date[] => {
   const monthStart = startOfMonth(date);
-  const monthEnd = endOfMonth(date);
   const startDate = startOfWeek(monthStart, { locale: nb });
-  const endDate = endOfWeek(monthEnd, { locale: nb });
+  const endDate = addDays(startDate, 34);
   return eachDayOfInterval({ start: startDate, end: endDate });
+};
+
+const capitalizeFirstLetter = (string: string): string => {
+  if (!string) return string;
+  return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
 export const DatePicker: React.FC<DatePickerProps> = ({
@@ -44,6 +47,17 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     startOfMonth(initialDate),
   );
 
+  // --- Calculate if Prev Month should be disabled ---
+  const startOfRealCurrentMonth = useMemo(() => startOfMonth(new Date()), []);
+  const isPrevMonthDisabled = useMemo(() => {
+    // Disable if the currently displayed month is the same as or before the actual current month
+    return currentMonthDate <= startOfRealCurrentMonth;
+    // Or using isSameMonth for exact match:
+    // return isSameMonth(currentMonthDate, startOfRealCurrentMonth);
+  }, [currentMonthDate, startOfRealCurrentMonth]);
+  // --- End Calculation ---
+
+
   const calendarDays = useMemo(
     () => generateCalendarDays(currentMonthDate),
     [currentMonthDate],
@@ -51,14 +65,18 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 
   const dayNames = useMemo(() => {
     const firstDayOfWeek = startOfWeek(new Date(), { locale: nb });
-    return Array.from({ length: 7 }).map((_, i) =>
-      format(addMonths(firstDayOfWeek, i), 'EEEEEE', { locale: nb }),
-    );
+    return Array.from({ length: 7 }).map((_, i) => {
+      const dayName = format(addDays(firstDayOfWeek, i), 'EEEEEE', { locale: nb });
+      return capitalizeFirstLetter(dayName);
+    });
   }, []);
 
   const handlePrevMonth = useCallback(() => {
-    setCurrentMonthDate((prevDate) => startOfMonth(subMonths(prevDate, 1)));
-  }, []);
+    // Only update if not disabled
+    if (!isPrevMonthDisabled) {
+       setCurrentMonthDate((prevDate) => startOfMonth(subMonths(prevDate, 1)));
+    }
+  }, [isPrevMonthDisabled]); // Add dependency
 
   const handleNextMonth = useCallback(() => {
     setCurrentMonthDate((prevDate) => startOfMonth(addMonths(prevDate, 1)));
@@ -83,8 +101,9 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     [handleDateClick]
   );
 
-
-  const monthYearHeader = format(currentMonthDate, 'MMMM yyyy', { locale: nb });
+  const monthName = format(currentMonthDate, 'MMMM', { locale: nb });
+  const year = format(currentMonthDate, 'yyyy', { locale: nb });
+  const monthYearHeader = `${capitalizeFirstLetter(monthName)} ${year}`;
 
   return (
     <div className={styles.calendarContainer}>
@@ -92,10 +111,23 @@ export const DatePicker: React.FC<DatePickerProps> = ({
       <div className={styles.calendarHeader}>
         <span className={styles.monthYear}>{monthYearHeader}</span>
         <div className={styles.navigationButtons}>
-          <DigDirButton variant="tertiary" icon onClick={handlePrevMonth} aria-label="Forrige måned">
+          {/* --- Add disabled prop --- */}
+          <DigDirButton
+            variant="tertiary"
+            icon
+            onClick={handlePrevMonth}
+            aria-label="Forrige måned"
+            disabled={isPrevMonthDisabled} // Pass the disabled state
+          >
             <ChevronLeftIcon />
           </DigDirButton>
-          <DigDirButton variant="tertiary" icon onClick={handleNextMonth} aria-label="Neste måned">
+          {/* --- End Add --- */}
+          <DigDirButton
+            variant="tertiary"
+            icon
+            onClick={handleNextMonth}
+            aria-label="Neste måned"
+          >
             <ChevronRightIcon />
           </DigDirButton>
         </div>
@@ -114,14 +146,12 @@ export const DatePicker: React.FC<DatePickerProps> = ({
       <div className={styles.grid}>
         {calendarDays.map((day) => {
           const isCurrent = isSameMonth(day, currentMonthDate);
-          // Calculate isSelected - this can be boolean OR null
           const isSelectedRaw = selectedDate && isSameDay(day, selectedDate);
           const isTodayDate = isToday(day);
 
           const cellClasses = [
             styles.dateCell,
             !isCurrent ? styles.otherMonth : '',
-             // Use the raw value here for styling
             isSelectedRaw ? styles.selectedDate : '',
             isTodayDate && !isSelectedRaw ? styles.todayDate : '',
           ]
@@ -136,13 +166,13 @@ export const DatePicker: React.FC<DatePickerProps> = ({
               onKeyDown={(e) => handleKeyDown(e, day, isCurrent)}
               role="button"
               tabIndex={isCurrent ? 0 : -1}
-              // --- FIX HERE: Convert null to false ---
               aria-pressed={isSelectedRaw ?? false}
-              // --- END FIX ---
               aria-disabled={!isCurrent}
               aria-label={format(day, 'PPP', { locale: nb })}
             >
-              {format(day, 'd')}
+              <span className={styles.dateNumberContainer}>
+                {format(day, 'd')}
+              </span>
             </div>
           );
         })}

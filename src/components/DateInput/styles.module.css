@@ -1,0 +1,124 @@
+/* src/components/InputField/styles.module.css */
+
+/* Optional: Fieldset-like wrapper for better form structure */
+.fieldset {
+  margin-bottom: var(--ds-spacing-4, 16px); /* Adjust spacing as needed */
+}
+
+.fieldset label {
+  display: block;
+  margin-bottom: var(--ds-spacing-1, 4px);
+  /* Add any desired label styles */
+  font-weight: var(--ds-font-weight-medium, 500);
+  color: var(--ds-color-neutral-text-default, #2b2b2b);
+}
+
+.description {
+  font-size: var(--ds-font-size-sm, 14px);
+  color: var(--ds-color-neutral-text-subtle, #5d5d5d);
+  margin-top: var(--ds-spacing-1, 4px);
+  margin-bottom: var(--ds-spacing-2, 8px);
+}
+
+.error {
+  font-size: var(--ds-font-size-sm, 14px);
+  color: var(--ds-color-danger-text-default, #c30000);
+  margin-top: var(--ds-spacing-1, 4px);
+}
+
+
+/* --- Updated Input Wrapper --- */
+.inputWrapper {
+  display: flex; /* Use flexbox */
+  align-items: stretch; /* Make items fill height */
+  width: 100%;
+  /* Apply the main border and radius to the wrapper */
+  border: var(--ds-border-width-default, 1px) solid var(--ds-color-neutral-border-default, #797979);
+  border-radius: var(--ds-border-radius-md, 4px);
+  overflow: hidden; /* Clip inner corners */
+  transition: border-color 0.1s ease-out; /* Transition for border color */
+}
+
+.inputWrapperError {
+  border-color: var(--ds-color-danger-border-default, #c30000); /* Error border color */
+}
+/* --- End Updated Input Wrapper --- */
+
+
+/* Target the actual input element */
+.inputWrapper input {
+  box-sizing: border-box;
+  flex-grow: 1; /* Input takes up remaining space */
+  width: auto; /* Let flexbox determine width based on available space */
+  min-width: 0; /* Allow input to shrink properly */
+  background-color: var(--ds-color-neutral-background-default, #fff);
+  color: var(--ds-color-neutral-text-default, #2b2b2b);
+  border: none; /* No border on the input itself */
+  border-radius: 0; /* No radius on the input itself */
+  outline: none;
+  padding: var(--ds-size-2, 8px) var(--ds-size-3, 12px); /* Internal padding */
+  font-family: inherit;
+  font-size: inherit;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: box-shadow 0.1s ease-out;
+}
+
+/* --- Input Focus State using Box Shadow --- */
+.inputWrapper input:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 calc(var(--ds-border-width-focus, 3px) - var(--ds-border-width-default, 1px)) var(--ds-color-focus-outer, #2B2B2B);
+  position: relative;
+  z-index: 1;
+  /* Add focus state to the wrapper border as well */
+  border-color: var(--ds-color-focus-outer, #2B2B2B);
+}
+/* --- End Input Focus State --- */
+
+/* Handle disabled state for input */
+.inputWrapper input:disabled {
+    opacity: var(--ds-opacity-disabled, 0.5);
+    cursor: not-allowed;
+    background-color: var(--ds-color-neutral-surface-subtle, #f0f0f0); /* Lighter background for disabled */
+    color: var(--ds-color-neutral-text-subtle, #5d5d5d);
+}
+
+
+/* --- Updated Suffix Button Styles --- */
+.suffixButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0 var(--ds-size-3, 12px); /* Horizontal padding for icon */
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  border-left: var(--ds-border-width-default, 1px) solid var(--ds-color-neutral-border-default, #797979);
+  background-color: var(--ds-color-neutral-surface-tinted, #e8e8e8);
+  color: var(--ds-color-neutral-text-subtle, #5d5d5d);
+  font-size: 1.25rem;
+  box-sizing: border-box;
+  cursor: default;
+  transition: background-color 0.15s ease-out, border-color 0.15s ease-out, color 0.15s ease-out;
+  position: relative;
+  z-index: 0;
+}
+
+.suffixButtonInteractive {
+  cursor: pointer;
+}
+
+.suffixButtonInteractive:hover:not(:disabled) {
+ color: var(--ds-color-neutral-text-default, #2b2b2b);
+ background-color: var(--ds-color-neutral-surface-hover, #dadada);
+ /* border-left-color: var(--ds-color-neutral-border-strong, #5d5d5d); */
+}
+
+.suffixButton:disabled {
+  opacity: var(--ds-opacity-disabled, 0.3);
+  cursor: not-allowed;
+  background-color: var(--ds-color-neutral-surface-tinted, #e8e8e8);
+  border-left-color: var(--ds-color-neutral-border-default, #797979);
+}
+/* --- End Suffix Button Styles --- */
