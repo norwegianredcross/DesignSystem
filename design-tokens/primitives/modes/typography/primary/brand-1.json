@@ -2,7 +2,7 @@
   "brand-1": {
     "font-family": {
       "$type": "fontFamilies",
-      "$value": "Myriad VF"
+      "$value": "myriad-variable"
     },
     "font-weight": {
       "medium": {
