@@ -1,0 +1,3 @@
+[class^="ds-"], [class*=" ds-"] {
+    font-family: var(--ds-font-family, Arial, sans-serif) !important;
+  }
