@@ -1,8 +1,9 @@
+// .storybook/preview.ts
 import type { Preview } from '@storybook/react';
-import { themeDecorator } from './themeDecorator';
+import { themeDecorator } from './themeDecorator'; // Ensure this path is correct
 import '@digdir/designsystemet-css/index.css'; // Digdir's base styles
-import '../design-tokens-build/brand-1.css';   
-import './storybook-font-override.css';
+import '../design-tokens-build/brand-1.css';   // Correct path (relative to .storybook)
+import './storybook-font-override.css'; // Keep if needed
 
 const preview: Preview = {
   parameters: {

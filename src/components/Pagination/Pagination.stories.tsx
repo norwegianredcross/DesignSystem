@@ -1,7 +1,7 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
-import React, { useState } from 'react'; // Import useState for controlled example
-import { Pagination, PaginationProps, usePagination } from './index'; // Import component and hook
-import { Link } from '../Link'; // Assuming you have a Link component for the WithLinks story
+import { useState } from 'react'; 
+import { Pagination, PaginationProps, usePagination } from './index'; 
+import { Link } from '../Link';
 
 const meta: Meta<typeof Pagination> = {
   title: 'Components/Pagination',
@@ -58,7 +58,7 @@ export const Default: Story = {
     const { pages, prevButtonProps, nextButtonProps } = usePagination({
       currentPage,
       totalPages,
-      onChange: (event, page) => setCurrentPage(page),
+      onChange: (_e, page) => setCurrentPage(page),
     });
 
     return (
@@ -70,7 +70,6 @@ export const Default: Story = {
             </Pagination.Button>
           </Pagination.Item>
 
-          {/* FIX: Check typeof page instead of type property */}
           {pages.map(({ page, itemKey, buttonProps }) => (
             <Pagination.Item key={itemKey}>
               {typeof page === 'number' ? (
@@ -78,11 +77,10 @@ export const Default: Story = {
                   {page}
                 </Pagination.Button>
               ) : (
-                <span>...</span> // Render ellipsis if not a number
+                <span>...</span>
               )}
             </Pagination.Item>
           ))}
-          {/* END FIX */}
 
           <Pagination.Item>
             <Pagination.Button {...nextButtonProps} aria-label="Neste side">
@@ -103,7 +101,7 @@ export const Default: Story = {
 // --- Example Rendering Links ---
 export const WithLinks: Story = {
   render: (args) => {
-    const [currentPage, setCurrentPage] = useState(4);
+    const [currentPage] = useState(4);
     const totalPages = 10;
     const { pages, prevButtonProps, nextButtonProps } = usePagination({
       currentPage,
@@ -124,12 +122,10 @@ export const WithLinks: Story = {
               asChild
               aria-label="Forrige side"
             >
-              {/* Use your Link component or a simple anchor */}
               <Link href={generateHref(currentPage - 1)}>Forrige</Link>
             </Pagination.Button>
           </Pagination.Item>
 
-          {/* FIX: Check typeof page instead of type property */}
           {pages.map(({ page, itemKey, buttonProps }) => (
             <Pagination.Item key={itemKey}>
               {typeof page === 'number' ? (
@@ -141,11 +137,10 @@ export const WithLinks: Story = {
                   <Link href={generateHref(page)}>{page}</Link>
                 </Pagination.Button>
               ) : (
-                <span>...</span> // Render ellipsis if not a number
+                <span>...</span>
               )}
             </Pagination.Item>
           ))}
-          {/* END FIX */}
 
           <Pagination.Item>
             <Pagination.Button

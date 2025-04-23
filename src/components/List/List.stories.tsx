@@ -1,13 +1,9 @@
-import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
-import React from 'react';
-import { List } from './index'; // Import the main List namespace
-// Import components for context/examples
-import { Heading, Link, Paragraph } from '@digdir/designsystemet-react';
+import type { Meta, StoryObj} from '@storybook/react';
+import { List } from './index'; 
+import { Heading, Link } from '@digdir/designsystemet-react';
 
-// Meta configuration focuses on the List concept
 const meta: Meta = {
   title: 'Components/List',
-  // component: List, // Cannot directly render the namespace
   tags: ['autodocs'],
   parameters: {
     docs: {
@@ -17,7 +13,6 @@ const meta: Meta = {
       },
     },
   },
-  // Define common argTypes that might apply to both list types
   argTypes: {
     'data-size': {
       control: 'select',
@@ -41,10 +36,6 @@ const meta: Meta = {
 
 export default meta;
 
-// --- REMOVED generic Story type alias ---
-
-// --- Unordered List Example ---
-// FIX: Define type explicitly
 export const Unordered: StoryObj<typeof List.Unordered> = {
   render: (args) => (
     <List.Unordered {...args}>
@@ -65,7 +56,6 @@ export const Unordered: StoryObj<typeof List.Unordered> = {
 };
 
 // --- Ordered List Example ---
-// FIX: Define type explicitly
 export const Ordered: StoryObj<typeof List.Ordered> = {
   render: (args) => (
     <List.Ordered {...args}>
@@ -92,7 +82,6 @@ export const Ordered: StoryObj<typeof List.Ordered> = {
 };
 
 // --- List with Heading ---
-// FIX: Define type explicitly (using Unordered as the example list type)
 export const WithHeading: StoryObj<typeof List.Unordered> = {
   render: (args) => (
     <div>
@@ -114,13 +103,12 @@ export const WithHeading: StoryObj<typeof List.Unordered> = {
 };
 
 // --- Nested Lists ---
-// FIX: Define type explicitly (using Unordered as the top-level list type)
 export const Nested: StoryObj<typeof List.Unordered> = {
   render: (args) => (
     <List.Unordered {...args}>
       <List.Item>
         List Item 1
-        <List.Unordered> {/* Nested lists inherit props or can have their own */}
+        <List.Unordered>
           <List.Item>List Item 1.1</List.Item>
           <List.Item>List Item 1.2</List.Item>
         </List.Unordered>
@@ -128,7 +116,7 @@ export const Nested: StoryObj<typeof List.Unordered> = {
       <List.Item>List Item 2</List.Item>
       <List.Item>
         List Item 3
-        <List.Ordered> {/* Nested lists inherit props or can have their own */}
+        <List.Ordered> 
           <List.Item>List Item 3.1</List.Item>
           <List.Item>List Item 3.2</List.Item>
         </List.Ordered>
@@ -143,7 +131,6 @@ export const Nested: StoryObj<typeof List.Unordered> = {
 };
 
 // --- List of Links ---
-// FIX: Define type explicitly
 export const ListOfLinks: StoryObj<typeof List.Unordered> = {
   render: (args) => (
     <List.Unordered {...args} style={{ listStyle: 'none', paddingLeft: 0 }}>

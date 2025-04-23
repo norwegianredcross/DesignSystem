@@ -1,6 +1,6 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
-import { useState } from 'react'; // Import useState for controlled example
-import { Textarea, TextareaProps } from './index'; // Import the main Textarea component
+import { useState } from 'react';
+import { Textarea, TextareaProps } from './index'; 
 // Import components for context/examples
 import { Field, Label, Paragraph, Divider } from '@digdir/designsystemet-react';
 
@@ -18,7 +18,6 @@ const meta: Meta<typeof Textarea> = {
     layout: 'padded',
   },
   argTypes: {
-    // Props directly available on DigDirTextareaProps
     disabled: {
       control: 'boolean',
       description: 'Disables element',
@@ -32,12 +31,10 @@ const meta: Meta<typeof Textarea> = {
     cols: {
       control: 'number',
       description: 'Specifies the visible width of a text area.',
-      // defaultValue: 40, // Default might be handled by browser/CSS
     },
     rows: {
       control: 'number',
       description: 'Specifies the visible number of lines in a text area.',
-      // defaultValue: undefined, // Default handled by browser/CSS
     },
     maxLength: {
       control: 'number',
@@ -53,16 +50,11 @@ const meta: Meta<typeof Textarea> = {
       description: 'Changes size for descendant Designsystemet components.',
       defaultValue: 'md',
     },
-    // data-color is NOT listed as a prop for Textarea itself in the docs provided.
-    // It likely inherits color from context.
-    // 'data-color': { ... },
-    // Standard textarea attributes
-    value: { control: 'text', table: { disable: true } }, // Disable control for controlled example
+    value: { control: 'text', table: { disable: true } }, 
     defaultValue: { control: 'text' },
     name: { control: 'text' },
     placeholder: { control: 'text' },
     required: { control: 'boolean' },
-    // aria-labelledby is needed if label text is not passed via label prop
     'aria-labelledby': { control: 'text' },
     'aria-invalid': { control: 'boolean' },
     'aria-describedby': { control: 'text' },
@@ -84,13 +76,13 @@ export const Default: Story = {
         id="textarea-default"
         aria-labelledby="textarea-default-label"
         placeholder="Skriv en lengre tekst her..."
-        {...args} // Spread other args like rows, cols, etc.
+        {...args} 
       />
     </Field>
   ),
   args: {
     name: 'default-textarea',
-    rows: 4, // Example starting rows
+    rows: 4, 
     'data-size': 'md',
   },
 };
@@ -109,24 +101,19 @@ export const Controlled: Story = {
           aria-labelledby="textarea-controlled-label"
           value={textValue}
           onChange={(e) => setTextValue(e.target.value)}
-          rows={3} // Example rows
-          {...args} // Spread other args
+          rows={3} 
+          {...args}
         />
         <Divider style={{ margin: 'var(--ds-size-4) 0 var(--ds-size-2) 0' }} />
         <Paragraph style={{ margin: '0' }}>
           Du har skrevet inn: {textValue}
         </Paragraph>
-        {/* Example button from docs, functionality not tied to textarea */}
-        {/* <Button onClick={() => setTextValue('Jeg vil ha Pizza')}>
-          Jeg vil ha Pizza
-        </Button> */}
       </Field>
     );
   },
   args: {
     name: 'controlled-textarea',
     'data-size': 'md',
-    // value and onChange handled by state
   },
 };
 
@@ -189,8 +176,6 @@ export const WithMaxLength: Story = {
         placeholder="Start å skrive..."
         {...args}
       />
-      {/* You would typically import and use FieldCounter here */}
-      {/* <FieldCounter limit={args.maxLength} /> */}
     </Field>
   ),
   args: {

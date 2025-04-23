@@ -1,5 +1,5 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
-import { Spinner, SpinnerProps } from './index'; // Import the main Spinner component
+import { Spinner, SpinnerProps } from './index'; 
 
 const meta: Meta<typeof Spinner> = {
   title: 'Components/Spinner',
@@ -15,7 +15,6 @@ const meta: Meta<typeof Spinner> = {
     layout: 'centered',
   },
   argTypes: {
-    // Props directly available on DigDirSpinnerProps
     'aria-label': {
       control: 'text',
       description: 'Accessible label describing the loading state.',
@@ -27,9 +26,8 @@ const meta: Meta<typeof Spinner> = {
       description: 'Spinner size',
       defaultValue: 'md',
     },
-    // aria-hidden is required by the type, but likely always true, so no control needed.
     'aria-hidden': { table: { disable: true } },
-  } as ArgTypes<SpinnerProps>, // Use base SpinnerProps
+  } as ArgTypes<SpinnerProps>, 
 };
 
 export default meta;
@@ -41,7 +39,7 @@ export const Default: Story = {
   args: {
     'aria-label': 'Laster innhold',
     'data-size': 'md',
-    'aria-hidden': true, // FIX: Add required aria-hidden
+    'aria-hidden': true, 
   },
 };
 
@@ -61,13 +59,9 @@ export const Sizes: Story = {
   ),
   args: {
     'aria-label': 'Laster...',
-    // aria-hidden is added directly in render
   },
   argTypes: {
     'data-size': { control: false },
-    'aria-label': { control: 'text' }, // Keep label control for this story
+    'aria-label': { control: 'text' }, 
   },
 };
-
-// --- Color Variants Story Removed ---
-// (As data-color is not a valid prop)

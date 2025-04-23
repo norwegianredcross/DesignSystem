@@ -16,10 +16,9 @@ const meta: Meta<typeof Table> = {
           'Table organizes and displays data in rows and columns for easy scanning and comparison.',
       },
     },
-    layout: 'padded', // Allow table to take up space
+    layout: 'padded', 
   },
   argTypes: {
-    // Props directly available on DigDirTableProps
     zebra: {
       control: 'boolean',
       description: 'Will give the table zebra striping',
@@ -52,9 +51,7 @@ const meta: Meta<typeof Table> = {
       description: 'Changes color for descendant Designsystemet components.',
       defaultValue: 'neutral',
     },
-    // Children are defined within the story's render/args
     children: { control: false },
-    // caption is handled via <caption> tag
     caption: { table: { disable: true } },
   } as ArgTypes<TableProps>,
 };

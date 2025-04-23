@@ -1,7 +1,19 @@
 // src/components/Card/Card.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
+import React from 'react';
 import { Card, CardProps, CardBlock } from './index';
 import { Buttons } from '../Buttons';
+import {
+  Heading,
+  Field,
+  Label,
+  Select,
+  Textfield,
+  Paragraph,
+  Button,
+} from '@digdir/designsystemet-react';
+import { TrashFillIcon, PlusIcon } from '@navikt/aksel-icons';
+import cat1 from '../../assets/images/person.png'; // Adjust path as needed
 
 const meta: Meta<typeof Card> = {
   title: 'Components/Card',
@@ -42,7 +54,7 @@ export default meta;
 
 type Story = StoryObj<typeof Card>;
 
-// --- Default, Tinted, WithImage stories remain the same ---
+// --- Example Default ---
 export const Default: Story = {
   render: (args) => (
     <Card {...args}>
@@ -68,6 +80,7 @@ export const Default: Story = {
   },
 };
 
+// --- Example Tinted ---
 export const Tinted: Story = {
   render: (args) => (
     <Card {...args}>
@@ -83,36 +96,37 @@ export const Tinted: Story = {
   },
 };
 
+// --- Example with Image ---
 export const WithImage: Story = {
-  render: (args) => (
-    <Card {...args} style={{ maxWidth: '300px' }}>
-      <CardBlock>
-        <img
-          src="https://www.altinn.no/images/skd.svg"
-          alt="Skatteetaten logo"
-          style={{ width: '100%', display: 'block' }}
-        />
-      </CardBlock>
-      <CardBlock>
-        <h3>Card with Image</h3>
-        <p>The image is in a block with no padding.</p>
-      </CardBlock>
-    </Card>
-  ),
-  args: {
-    'data-color': 'neutral',
-  },
-};
-// --- End unchanged stories ---
+    name: 'Example with Image',
+    render: (args) => (
+      <Card {...args} style={{ maxWidth: '300px' }}>
+        <CardBlock>
+          <img
+            // --- Use a placeholder image URL ---
+            src="https://picsum.photos/seed/storybook/300/200" // Example: 300x200 placeholder
+            // --- End Change ---
+            alt="Random placeholder image" // Update alt text
+            style={{ width: '100%', display: 'block', aspectRatio: '3 / 2', objectFit: 'cover' }} // Adjusted aspect ratio
+          />
+        </CardBlock>
+        <CardBlock>
+          <h3>Card with Image</h3>
+          <p>The image uses an online placeholder.</p>
+        </CardBlock>
+      </Card>
+    ),
+    args: {
+      'data-color': 'neutral',
+    },
+  };
+  
 
+// --- Example as Link ---
 export const AsLink: Story = {
-  // The render function now just renders the Card with its args.
-  // The magic happens in args.children below.
   render: (args) => <Card {...args} style={{ maxWidth: '300px' }} />,
   args: {
     asChild: true,
-    // The SINGLE child passed to Card is the <a> tag.
-    // The visual content goes INSIDE the <a> tag.
     children: (
       <a href="https://designsystemet.no/">
         <h3>Link Card</h3>
@@ -124,13 +138,11 @@ export const AsLink: Story = {
   },
 };
 
+// --- Example as Button ---
 export const AsButton: Story = {
-  // The render function now just renders the Card with its args.
   render: (args) => <Card {...args} style={{ maxWidth: '300px' }} />,
   args: {
     asChild: true,
-    // The SINGLE child passed to Card is the <button> tag.
-    // The visual content goes INSIDE the <button> tag.
     children: (
       <button type="button" onClick={() => alert('Card clicked!')}>
         <h3>Button Card</h3>
@@ -141,14 +153,14 @@ export const AsButton: Story = {
   },
 };
 
-// --- ComposedContent story remains the same ---
+// --- Example with Composed Content ---
 export const ComposedContent: Story = {
   render: (args) => (
     <Card {...args}>
       <CardBlock>
         <h3>Composed Card</h3>
         <p>This card contains other components.</p>
-        <div style={{ marginTop: 'var(--ds-spacing-4)' }}>
+        <div style={{ marginTop: 'var(--ds-spacing-4, 16px)' }}>
           <Buttons variant="primary" data-size="sm">
             Action
           </Buttons>
@@ -163,4 +175,75 @@ export const ComposedContent: Story = {
     'data-color': 'neutral',
     variant: 'tinted',
   },
+};
+
+// --- Example Complex Composition ---
+export const ComplexComposition: Story = {
+  name: 'Example Complex Composition',
+  render: (args) => {
+    const options = [
+      { value: 'leder', label: 'Daglig leder' },
+      { value: 'medlem', label: 'Styremedlem' },
+      { value: 'ansatt', label: 'Ansatt' },
+    ];
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: '400px' }}>
+        <Card {...args}>
+          <CardBlock>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <Heading level={3} data-size="xs">Rolle 1</Heading>
+              <Button variant="secondary" data-color="danger" data-size="sm">
+                <TrashFillIcon aria-hidden />
+                Fjern
+              </Button>
+            </div>
+          </CardBlock>
+          <CardBlock>
+            <Field>
+              <Label htmlFor="rolle-select">Velg rolle</Label>
+              <Select id="rolle-select">
+                {options.map(({ value, label }, index) => (
+                  <Select.Option key={index} value={value}>
+                    {label}
+                  </Select.Option>
+                ))}
+              </Select>
+            </Field>
+            <Textfield label="Fødsels- eller d-nummer" />
+            <Textfield label="Etternavn" />
+          </CardBlock>
+          <CardBlock>
+            <Button variant="secondary" data-color="accent" data-size="sm">
+              Legg til rolle
+              <PlusIcon aria-hidden style={{ marginLeft: '4px' }}/>
+            </Button>
+          </CardBlock>
+        </Card>
+
+        <Card data-color="neutral">
+          <CardBlock>
+            <img src={cat1} alt="katt" style={{ width: '100%', display: 'block' }}/>
+          </CardBlock>
+          <CardBlock>
+            <Heading level={3} data-size="sm">Card Neutral</Heading>
+            <Paragraph>
+              Most provide as with carried business are much better more the
+              perfected designer. Writing slightly explain desk unable at supposedly
+              about this.
+            </Paragraph>
+          </CardBlock>
+        </Card>
+      </div>
+    );
+  },
+  args: {
+    'data-color': 'accent',
+    'data-size': 'md',
+    variant: 'default',
+  },
+  argTypes: {
+     asChild: { control: false },
+     children: { control: false },
+  }
 };

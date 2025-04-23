@@ -1,25 +1,23 @@
 import React, { forwardRef, InputHTMLAttributes } from 'react';
 import {
-  // Removed Textfield and TextfieldProps import from digdir/designsystemet-react
 } from '@digdir/designsystemet-react';
 
 import styles from './styles.module.css';
 
-// Define props based on standard HTML input attributes + custom ones
 export interface DateInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'prefix' | 'suffix' | 'label' | 'aria-label' | 'aria-labelledby'> {
-  label?: React.ReactNode; // Using React.ReactNode for more flexibility
+  label?: React.ReactNode; 
   suffixIcon?: React.ReactNode;
   onSuffixClick?: React.MouseEventHandler<HTMLButtonElement>;
   className?: string;
-  inputClassName?: string; // Keep this for applying classes directly to the input
+  inputClassName?: string; 
   'aria-label'?: string;
   'aria-labelledby'?: string;
-  description?: React.ReactNode; // Added description based on common form field patterns
-  error?: React.ReactNode; // Added error for displaying validation messages
+  description?: React.ReactNode; 
+  error?: React.ReactNode; 
 }
 
 export const DateInput = forwardRef<
-  HTMLInputElement, // Changed ref type to HTMLInputElement
+  HTMLInputElement, 
   DateInputProps
 >(
   (
@@ -48,19 +46,19 @@ export const DateInput = forwardRef<
       'aria-labelledby': ariaLabelledby,
       description,
       error,
-      ...rest // Capture any other standard input attributes
+      ...rest 
     } = props;
 
     const wrapperClasses = [
       styles.inputWrapper,
       className,
-      error ? styles.inputWrapperError : '', // Add error class to wrapper
+      error ? styles.inputWrapperError : '', 
     ]
       .filter(Boolean)
       .join(' ');
 
     const inputClasses = [
-      styles.input, // Apply the new input style
+      styles.input, 
       inputClassName,
     ]
       .filter(Boolean)
@@ -77,19 +75,18 @@ export const DateInput = forwardRef<
       console.warn('Warning: DateInput component should have a label, aria-label, or aria-labelledby for accessibility.');
     }
 
-    // Render a label if provided
     const labelElement = label ? (
       typeof label === 'string' ? <label htmlFor={id}>{label}</label> : label
     ) : null;
 
     return (
-      <div className={styles.fieldset}> {/* Optional: Add a fieldset-like wrapper for label/description/error */}
+      <div className={styles.fieldset}> 
         {labelElement}
         {description && <p className={styles.description}>{description}</p>} {/* Style this class */}
         <div className={wrapperClasses}>
           <input
             ref={ref}
-            type="text" // Assuming text input for date string
+            type="text" 
             value={value}
             readOnly={readOnly}
             placeholder={placeholder}
@@ -103,16 +100,16 @@ export const DateInput = forwardRef<
             onBlur={onBlur}
             autoComplete={autoComplete}
             aria-label={ariaLabel}
-            className={inputClasses} // Apply input-specific classes
-            {...rest} // Spread any other input attributes
+            className={inputClasses} 
+            {...rest} 
           />
           {suffixIcon && (
             <button
               type="button"
               className={suffixButtonClasses}
               onClick={onSuffixClick}
-              tabIndex={onSuffixClick && !disabled ? 0 : -1} // Make button focusable only when interactive and not disabled
-              aria-hidden={!onSuffixClick} // Hide from screen readers if not interactive
+              tabIndex={onSuffixClick && !disabled ? 0 : -1} 
+              aria-hidden={!onSuffixClick} 
               disabled={disabled}
               aria-label={onSuffixClick ? "Åpne datovelger" : undefined}
             >
@@ -120,7 +117,7 @@ export const DateInput = forwardRef<
             </button>
           )}
         </div>
-        {error && <p className={styles.error}>{error}</p>} {/* Style this class */}
+        {error && <p className={styles.error}>{error}</p>} 
       </div>
     );
   },

@@ -1,5 +1,7 @@
+// src/components/Avatar/Avatar.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
 import { Avatar, AvatarProps } from './index';
+import avatarPlaceholder from '../../assets/images/person.png'; 
 
 const meta: Meta<typeof Avatar> = {
   title: 'Components/Avatar',
@@ -44,33 +46,41 @@ export default meta;
 
 type Story = StoryObj<typeof Avatar>;
 
+// --- Example Default ---
 export const Default: Story = {
+  name: 'Example Default',
   args: {
     'aria-label': 'Ola Nordmann',
   },
 };
 
+// --- Example with Initials ---
 export const WithInitials: Story = {
+  name: 'Example with Initials',
   args: {
     'aria-label': 'Ola Nordmann',
     children: 'ON',
   },
 };
 
+// --- Example with Image ---
 export const WithImage: Story = {
+  name: 'Example with Image',
   args: {
     'aria-label': 'Ola Nordmann',
     children: (
       <img
-        src="https://randomuser.me/api/portraits/men/32.jpg"
-        alt=""
+        src={avatarPlaceholder}
+        alt="" 
         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
       />
     ),
   },
 };
 
+// --- Example Square ---
 export const Square: Story = {
+  name: 'Example Square',
   args: {
     'aria-label': 'Ola Nordmann',
     variant: 'square',
@@ -78,7 +88,9 @@ export const Square: Story = {
   },
 };
 
+// --- Example Brand2 Large ---
 export const Brand2Large: Story = {
+  name: 'Example Brand2 Large',
   args: {
     'aria-label': 'Ola Nordmann',
     'data-color': 'brand2',

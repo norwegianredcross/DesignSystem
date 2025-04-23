@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import {
   Avatar as DigDirAvatar,
   type AvatarProps as DigDirAvatarProps,

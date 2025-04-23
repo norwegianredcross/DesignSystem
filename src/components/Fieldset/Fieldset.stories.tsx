@@ -1,11 +1,8 @@
 // src/components/Fieldset/Fieldset.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
-import React from 'react';
-import { Fieldset, FieldsetProps } from './index'; // Import the main Fieldset component
-// Import components commonly used inside Fieldset
+import { Fieldset, FieldsetProps } from './index'; 
 import { Textfield, Textarea, Label } from '@digdir/designsystemet-react';
-// Import the Field component
-import { Field } from '../Field'; // Adjust path if necessary
+import { Field } from '../Field'; 
 
 const meta: Meta<typeof Fieldset> = {
   title: 'Components/Fieldset',
@@ -58,20 +55,16 @@ export const WithTextfields: Story = {
         </Fieldset.Description>
 
         <Field>
-          {/* Add id to Label */}
           <Label id="short-desc-label" htmlFor="short-desc">
             Kort beskrivelse
           </Label>
-          {/* Add aria-labelledby to Textfield */}
           <Textfield id="short-desc" aria-labelledby="short-desc-label" />
         </Field>
 
         <Field>
-          {/* Add id to Label */}
           <Label id="long-desc-label" htmlFor="long-desc">
             Lang beskrivelse
           </Label>
-          {/* Add aria-labelledby to Textarea */}
           <Textarea id="long-desc" aria-labelledby="long-desc-label" />
         </Field>
       </Fieldset>

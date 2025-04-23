@@ -1,18 +1,17 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
-import React, { useState } from 'react'; // Import useState for controlled example
-import { Dropdown, DropdownProps } from './index'; // Import the main Dropdown component
-import { Buttons } from '../Buttons'; // Assuming you have a Buttons component
-import { Paragraph } from '@digdir/designsystemet-react'; // For content examples
+import { useState } from 'react'; 
+import { Dropdown, DropdownProps } from './index'; 
+import { Buttons } from '../Buttons'; 
+import { Paragraph } from '@digdir/designsystemet-react'; 
 
 const meta: Meta<typeof Dropdown> = {
   title: 'Components/Dropdown',
   component: Dropdown,
   tags: ['autodocs'],
   parameters: {
-    layout: 'centered', // Dropdowns often benefit from centered layout
+    layout: 'centered',
   },
   argTypes: {
-    // Props directly available on DigDirDropdownProps
     placement: {
       control: 'select',
       options: [
@@ -57,7 +56,7 @@ const meta: Meta<typeof Dropdown> = {
     open: {
       control: 'boolean',
       description: 'When a boolean is provided, the popover will be controlled.',
-      table: { disable: true }, // Disable control, better managed via state/context
+      table: { disable: true },
     },
     onClose: {
       action: 'closed',
@@ -114,17 +113,15 @@ export const Default: Story = {
     </Dropdown.TriggerContext>
   ),
   args: {
-    // Default args for this story
     placement: 'bottom-start',
     'data-color': 'neutral',
   },
 };
 
-// --- Example without TriggerContext (using id and popovertarget) ---
+// --- Example without TriggerContext ---
 export const WithoutContext: Story = {
   render: (args) => (
     <>
-      {/* Ensure the button has popovertarget matching the Dropdown id */}
       <Buttons popovertarget="my-dropdown-example">Open Dropdown (No Context)</Buttons>
       <Dropdown {...args}>
         <Dropdown.Heading>Menu</Dropdown.Heading>
@@ -140,8 +137,7 @@ export const WithoutContext: Story = {
     </>
   ),
   args: {
-    id: 'my-dropdown-example', // ID must match popovertarget
-    placement: 'right-start',
+    id: 'my-dropdown-example', 
     'data-color': 'brand1',
   },
 };
@@ -181,7 +177,7 @@ export const Controlled: Story = {
         <Dropdown
           {...args}
           open={isOpen}
-          onClose={() => setIsOpen(false)} // Required when controlled
+          onClose={() => setIsOpen(false)} 
         >
           <Dropdown.List>
             <Dropdown.Item>
@@ -200,6 +196,5 @@ export const Controlled: Story = {
   args: {
     placement: 'bottom',
     'data-color': 'accent',
-    // 'open' prop is controlled by state in render function
   },
 };

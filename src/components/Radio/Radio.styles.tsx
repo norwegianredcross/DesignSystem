@@ -1,7 +1,7 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
-import React, { useState } from 'react'; // Import useState for controlled example
-import { Radio, RadioProps, Fieldset, useRadioGroup } from './index'; // Import component, hook, Fieldset
-import { ValidationMessage } from '@digdir/designsystemet-react'; // Import for group example
+import { useState } from 'react'; 
+import { Radio, RadioProps, Fieldset, useRadioGroup } from './index'; 
+import { ValidationMessage } from '@digdir/designsystemet-react'; 
 
 const meta: Meta<typeof Radio> = {
   title: 'Components/Radio',
@@ -14,14 +14,11 @@ const meta: Meta<typeof Radio> = {
           'Radio buttons allow users to select one option from a set. Use Fieldset for grouping.',
       },
     },
-    // layout: 'centered', // Might not be ideal for groups
   },
   argTypes: {
-    // Props directly available on DigDirRadioProps
     label: {
       control: 'text',
       description: 'Radio label',
-      // defaultValue: 'Radio', // Default shown in story instead
     },
     description: {
       control: 'text',
@@ -38,7 +35,7 @@ const meta: Meta<typeof Radio> = {
       defaultValue: false,
     },
     value: {
-      control: 'text', // Simple control, actual value depends on usage
+      control: 'text', 
       description: 'Value of the input element',
     },
     'data-size': {
@@ -54,16 +51,14 @@ const meta: Meta<typeof Radio> = {
       defaultValue: 'accent',
     },
     error: {
-      control: 'text', // Control for error message text
+      control: 'text',
       description: 'Error message for field (often used with Fieldset/hook)',
     },
-    // Aria attributes are passed directly if needed, or handled by hook
     'aria-label': { control: 'text' },
     'aria-labelledby': { control: 'text' },
-    // Props like 'checked', 'defaultChecked' are controlled by state/hook
     checked: { control: false },
     defaultChecked: { control: false },
-    name: { control: false }, // Usually handled by hook
+    name: { control: false }, 
   } as ArgTypes<RadioProps>,
 };
 
@@ -71,10 +66,9 @@ export default meta;
 
 type Story = StoryObj<typeof Radio>;
 
-// --- Single Radio (less common, needs context) ---
+// --- Single Radio  ---
 export const Single: Story = {
   render: (args) => (
-    // Needs a Fieldset/Label for proper context usually
     <Fieldset>
       <Radio {...args} />
     </Fieldset>
@@ -82,26 +76,23 @@ export const Single: Story = {
   args: {
     label: 'Enkeltvalg',
     value: 'single_option',
-    name: 'single-radio-group', // Need name even for one
+    name: 'single-radio-group', 
   },
 };
 
 // --- Radio Group Example ---
 export const RadioGroup: Story = {
   render: (args) => {
-    // Note: Hook usage requires this to be a functional component
     const [selectedValue, setSelectedValue] = useState<string>('jordbaer');
     const { getRadioProps } = useRadioGroup({
       name: 'ice-cream-flavor',
       value: selectedValue,
       onChange: (nextValue) => setSelectedValue(nextValue),
-      // Pass other group props from args if needed (disabled, readOnly)
       disabled: args.disabled,
       readOnly: args.readOnly,
     });
 
     return (
-      // Use Fieldset for grouping and accessibility
       <Fieldset>
         <Fieldset.Description>
           Velg din favorittsmak blant alternativene.
@@ -109,12 +100,12 @@ export const RadioGroup: Story = {
         <Radio
           label="Vanilje"
           {...getRadioProps('vanilje')}
-          data-size={args['data-size']} // Apply size/color from args if needed
+          data-size={args['data-size']} 
           data-color={args['data-color']}
         />
         <Radio
           label="Jordbær"
-          description="Jordbær er best" // Example with description
+          description="Jordbær er best" 
           {...getRadioProps('jordbaer')}
           data-size={args['data-size']}
           data-color={args['data-color']}
@@ -135,21 +126,18 @@ export const RadioGroup: Story = {
     );
   },
   argTypes: {
-    // Disable individual radio controls when showing group
     label: { control: false },
     description: { control: false },
     value: { control: false },
     checked: { control: false },
     defaultChecked: { control: false },
-    error: { control: false }, // Error handled in separate story
-    // Keep controls relevant to the group
+    error: { control: false }, 
     disabled: { control: 'boolean', defaultValue: false },
     readOnly: { control: 'boolean', defaultValue: false },
     'data-size': { control: 'select', options: ['sm', 'md', 'lg'] },
-    'data-color': { control: 'select', options: ['accent', 'neutral'] }, // Limit colors for group example clarity
+    'data-color': { control: 'select', options: ['accent', 'neutral'] }, 
   },
   args: {
-    // Default args for the group story
     disabled: false,
     readOnly: false,
     'data-size': 'md',
@@ -160,13 +148,13 @@ export const RadioGroup: Story = {
 // --- Radio Group with Error ---
 export const WithError: Story = {
   render: (args) => {
-    const [selectedValue, setSelectedValue] = useState<string>(''); // Start empty to show error
-    const errorMessage = args.error || 'Du må velge en smak!'; // Use error from args
+    const [selectedValue, setSelectedValue] = useState<string>(''); 
+    const errorMessage = args.error || 'Du må velge en smak!';
     const { getRadioProps, validationMessageProps } = useRadioGroup({
       name: 'ice-cream-error',
       value: selectedValue,
       onChange: setSelectedValue,
-      error: errorMessage, // Pass error message to hook
+      error: errorMessage, 
     });
 
     return (
@@ -192,12 +180,12 @@ export const WithError: Story = {
     defaultChecked: { control: false },
     disabled: { control: false },
     readOnly: { control: false },
-    error: { control: 'text', defaultValue: 'Du må velge en smak!' }, // Control error text
+    error: { control: 'text', defaultValue: 'Du må velge en smak!' }, 
   },
   args: {
     'data-size': 'md',
     'data-color': 'accent',
-    error: 'Du må velge en smak!', // Default error message for the story
+    error: 'Du må velge en smak!', 
   },
   name: 'Group with Error',
 };
@@ -217,7 +205,6 @@ export const Inline: Story = {
         <Fieldset.Description>
           Bekreft om du ønsker å bli kontaktet per e-post.
         </Fieldset.Description>
-        {/* Add inline style or class for layout */}
         <div style={{ display: 'flex', gap: '1rem' }}>
           <Radio label="Ja" {...getRadioProps('ja')} data-size={args['data-size']} />
           <Radio label="Nei" {...getRadioProps('nei')} data-size={args['data-size']} />

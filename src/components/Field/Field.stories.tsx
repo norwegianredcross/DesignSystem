@@ -1,11 +1,9 @@
 // src/components/Field/Field.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
 import React from 'react';
-// --- Import YOUR exported components ---
 import { Field, FieldProps, FieldDescription, FieldCounter } from './index';
-// --- Import the ORIGINAL Field (for Affixes) and other necessary components DIRECTLY from the library ---
 import {
-  Field as DigDirField, // Use alias for original Field when needing dot notation
+  Field as DigDirField,
   Label,
   Textfield,
   Textarea,
@@ -13,10 +11,9 @@ import {
   ValidationMessage,
 } from '@digdir/designsystemet-react';
 
-// Point meta to YOUR Field for docs, but use original Field in render for sub-components
 const meta: Meta<typeof Field> = {
   title: 'Components/Field',
-  component: Field, // Document YOUR component wrapper
+  component: Field,
   tags: ['autodocs'],
   parameters: {
     docs: {
@@ -57,9 +54,9 @@ export default meta;
 
 type Story = StoryObj<typeof Field>;
 
-// --- Basic Example with Textfield ---
-// (Keep this story as is)
+// --- Example Basic ---
 export const DefaultTextfield: Story = {
+  name: 'Example Basic',
   render: (args) => (
     <Field {...args}>
       <Label id="textfield-default-label" htmlFor="textfield-default">
@@ -78,12 +75,11 @@ export const DefaultTextfield: Story = {
     'data-size': 'md',
     'data-color': 'neutral',
   },
-  name: 'Basic (Textfield)',
 };
 
 // --- Example with Counter ---
-// (Keep this story as is)
 export const WithCounter: Story = {
+  name: 'Example with Counter',
   render: (args) => (
     <Field {...args}>
       <Label id="textarea-counter-label" htmlFor="textarea-counter">
@@ -101,23 +97,19 @@ export const WithCounter: Story = {
   args: {
     'data-size': 'md',
   },
-  name: 'With Counter (Textarea)',
 };
 
 
-// --- Affix Examples Story ---
+// --- Example Affixes ---
 export const AffixExamples: Story = {
+  name: 'Example Affixes',
   render: (args) => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }} data-color={args['data-color']}>
-      {/* Example 1: Textfield with Prefix/Suffix */}
-      {/* Use Field wrapper */}
-      <Label id="affix-example1-label" htmlFor="affix-example1">
+      <>
+        <Label id="affix-example1-label" htmlFor="affix-example1">
           Hvor mange kroner koster det per måned?
         </Label>
-      <Field data-size={args['data-size']}>
-        
-        {/* Wrap Affixes in div to constrain width */}
-        <div style={{ display: 'inline-block', width: 'max-content' }}>
+        <Field data-size={args['data-size']} style={{ display: 'inline-block', width: 'max-content' }}>
           <DigDirField.Affixes>
             <DigDirField.Affix>NOK</DigDirField.Affix>
             <Textfield
@@ -127,18 +119,14 @@ export const AffixExamples: Story = {
             />
             <DigDirField.Affix>pr. mnd.</DigDirField.Affix>
           </DigDirField.Affixes>
-        </div>
-      </Field>
+        </Field>
+      </>
 
-      {/* Example 2: Textarea with Suffix */}
-      {/* Use Field wrapper */}
-      <Label id="affix-example2-label" htmlFor="affix-example2">
+      <>
+        <Label id="affix-example2-label" htmlFor="affix-example2">
           Hvor mange kilo veier eplene du har valgt?
         </Label>
-      <Field data-size={args['data-size']}>
-        
-        {/* Wrap Affixes in div to constrain width */}
-        <div style={{ display: 'inline-block', width: 'max-content' }}>
+        <Field data-size={args['data-size']} style={{ display: 'inline-block', width: 'max-content' }}>
           <DigDirField.Affixes>
             <Textarea
               id="affix-example2"
@@ -147,18 +135,14 @@ export const AffixExamples: Story = {
             />
             <DigDirField.Affix>KG</DigDirField.Affix>
           </DigDirField.Affixes>
-        </div>
-      </Field>
+        </Field>
+      </>
 
-      {/* Example 3: Select with Prefix */}
-      {/* Use Field wrapper */}
-      <Label id="affix-example3-label" htmlFor="affix-example3">
+      <>
+        <Label id="affix-example3-label" htmlFor="affix-example3">
           Hvor mange kroner koster det?
         </Label>
-      <Field data-size={args['data-size']}>
-        
-        {/* Wrap Affixes in div to constrain width */}
-        <div style={{ display: 'inline-block', width: 'max-content' }}>
+        <Field data-size={args['data-size']} style={{ display: 'inline-block', width: 'max-content' }}>
           <DigDirField.Affixes>
             <DigDirField.Affix>NOK</DigDirField.Affix>
             <Select id="affix-example3" aria-labelledby="affix-example3-label">
@@ -168,66 +152,61 @@ export const AffixExamples: Story = {
               <Select.Option value="30">30</Select.Option>
             </Select>
           </DigDirField.Affixes>
-        </div>
-      </Field>
+        </Field>
+      </>
 
-      {/* Example 4: No Affix (Keep Field wrapper) */}
-      <Field data-size={args['data-size']}>
+      <>
         <Label id="affix-example4-label" htmlFor="affix-example4">
           No affix
         </Label>
-        <Textfield id="affix-example4" aria-labelledby="affix-example4-label" />
-      </Field>
+        <Field data-size={args['data-size']}>
+          <Textfield id="affix-example4" aria-labelledby="affix-example4-label" />
+        </Field>
+      </>
 
-      {/* Example 5: No Affix, Small Size (Keep Field wrapper) */}
-      <Field data-size="sm">
+      <>
         <Label id="affix-example5-label" htmlFor="affix-example5">
           No affix and small size
         </Label>
-        <Textfield id="affix-example5" aria-labelledby="affix-example5-label" />
-      </Field>
+        <Field data-size="sm">
+          <Textfield id="affix-example5" aria-labelledby="affix-example5-label" />
+        </Field>
+      </>
 
-      {/* Example 6: No Affix, Large Size (Keep Field wrapper) */}
-      <Field data-size="lg">
+      <>
         <Label id="affix-example6-label" htmlFor="affix-example6">
           No affix and large size
         </Label>
-        <Textfield id="affix-example6" aria-labelledby="affix-example6-label" />
-      </Field>
+        <Field data-size="lg">
+          <Textfield id="affix-example6" aria-labelledby="affix-example6-label" />
+        </Field>
+      </>
 
-      {/* Example 7: Affix, Small Size */}
-      {/* Use Field wrapper */}
-      <Label id="affix-example7-label" htmlFor="affix-example7">
+      <>
+        <Label id="affix-example7-label" htmlFor="affix-example7">
           Affix and small size
         </Label>
-      <Field data-size="sm">
-        
-        {/* Wrap Affixes in div to constrain width */}
-        <div style={{ display: 'inline-block', width: 'max-content' }}>
+        <Field data-size="sm" style={{ display: 'inline-block', width: 'max-content' }}>
           <DigDirField.Affixes>
             <DigDirField.Affix>NOK</DigDirField.Affix>
             <Textfield id="affix-example7" aria-labelledby="affix-example7-label" />
             <DigDirField.Affix>pr. mnd.</DigDirField.Affix>
           </DigDirField.Affixes>
-        </div>
-      </Field>
+        </Field>
+      </>
 
-      {/* Example 8: Affix, Large Size */}
-      {/* Use Field wrapper */} 
-      <Label id="affix-example8-label" htmlFor="affix-example8">
+      <>
+        <Label id="affix-example8-label" htmlFor="affix-example8">
           Affix and large size
         </Label>
-      <Field data-size="lg">
-       
-        {/* Wrap Affixes in div to constrain width */}
-        <div style={{ display: 'inline-block', width: 'max-content' }}>
+        <Field data-size="lg" style={{ display: 'inline-block', width: 'max-content' }}>
           <DigDirField.Affixes>
             <DigDirField.Affix>NOK</DigDirField.Affix>
             <Textfield id="affix-example8" aria-labelledby="affix-example8-label" />
             <DigDirField.Affix>pr. mnd.</DigDirField.Affix>
           </DigDirField.Affixes>
-        </div>
-      </Field>
+        </Field>
+      </>
     </div>
   ),
   args: {
@@ -237,5 +216,4 @@ export const AffixExamples: Story = {
   argTypes: {
     position: { control: false },
   },
-  name: 'Affix Examples',
 };

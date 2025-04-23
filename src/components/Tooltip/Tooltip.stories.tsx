@@ -1,5 +1,5 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
-import { Tooltip, TooltipProps } from './index'; // Import the main Tooltip component
+import { Tooltip, TooltipProps } from './index'; 
 // Import components for context/examples
 import { Button } from '@digdir/designsystemet-react';
 
@@ -14,10 +14,9 @@ const meta: Meta<typeof Tooltip> = {
           'Tooltip displays brief information on hover or focus, often explaining icons or providing secondary details.',
       },
     },
-    layout: 'centered', // Center for better viewing
+    layout: 'centered', 
   },
   argTypes: {
-    // Props directly available on DigDirTooltipProps
     content: {
       control: 'text',
       description: 'Content displayed inside the tooltip.',
@@ -36,7 +35,7 @@ const meta: Meta<typeof Tooltip> = {
       defaultValue: 'md',
     },
     children: {
-      control: 'text', // Simple control for string trigger
+      control: 'text', 
       description: 'The trigger element (string or React element).',
       defaultValue: 'My trigger (string)',
     },
@@ -68,16 +67,12 @@ export const DefaultStringTrigger: Story = {
 // --- Example with Button Trigger ---
 export const ButtonTrigger: Story = {
   render: (args) => (
-    // Spread args onto Tooltip
     <Tooltip {...args}>
-      {/* Children defined directly in render */}
       <Button>My trigger (button)</Button>
     </Tooltip>
   ),
   args: {
     content: 'This tooltip is triggered by the button.',
-    // FIX: Omit children from args when defined in render
-    // children: null,
     placement: 'bottom',
   },
   name: 'Button Trigger',
@@ -103,15 +98,11 @@ export const Placements: Story = {
     </div>
   ),
   args: {
-    // Common args for this story group
-    // FIX: Omit children from args when defined in render
-    // children: null,
-    // You could set a default content here if desired
     content: 'Tooltip content',
   },
-  // Disable placement control for this story as it shows all placements
+  
   argTypes: {
     placement: { control: false },
-    children: { control: false }, // Keep children control disabled for this story
+    children: { control: false },
   },
 };

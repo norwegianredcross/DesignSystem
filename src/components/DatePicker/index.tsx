@@ -1,24 +1,17 @@
 // src/components/DatePicker/DatePicker.tsx
+// (This is the code previously named Calendar.tsx)
 import React, { useState, useMemo, useCallback } from 'react';
-import { Button as DigDirButton } from '@digdir/designsystemet-react';
+import { Button as DigDirButton } from '@digdir/designsystemet-react'; 
 import {
-  format,
-  startOfMonth,
-  startOfWeek,
-  eachDayOfInterval,
-  addMonths,
-  subMonths,
-  isSameMonth,
-  isSameDay,
-  isToday,
-  addDays,
+  format, startOfMonth, startOfWeek, eachDayOfInterval,
+  addMonths, subMonths, isSameMonth, isSameDay, isToday, addDays,
 } from 'date-fns';
 import { nb } from 'date-fns/locale';
-
 import { ChevronLeftIcon } from '../../assets/images/ChevronLeftIcon';
 import { ChevronRightIcon } from '../../assets/images/ChevronRightIcon';
 
 import styles from './styles.module.css';
+
 
 export interface DatePickerProps {
   initialDate?: Date;
@@ -26,10 +19,11 @@ export interface DatePickerProps {
   onDateSelect?: (date: Date) => void;
 }
 
+// Utility functions
 const generateCalendarDays = (date: Date): Date[] => {
   const monthStart = startOfMonth(date);
   const startDate = startOfWeek(monthStart, { locale: nb });
-  const endDate = addDays(startDate, 34);
+  const endDate = addDays(startDate, 41); 
   return eachDayOfInterval({ start: startDate, end: endDate });
 };
 
@@ -37,6 +31,7 @@ const capitalizeFirstLetter = (string: string): string => {
   if (!string) return string;
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
+
 
 export const DatePicker: React.FC<DatePickerProps> = ({
   initialDate = new Date(),
@@ -47,16 +42,10 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     startOfMonth(initialDate),
   );
 
-  // --- Calculate if Prev Month should be disabled ---
   const startOfRealCurrentMonth = useMemo(() => startOfMonth(new Date()), []);
   const isPrevMonthDisabled = useMemo(() => {
-    // Disable if the currently displayed month is the same as or before the actual current month
-    return currentMonthDate <= startOfRealCurrentMonth;
-    // Or using isSameMonth for exact match:
-    // return isSameMonth(currentMonthDate, startOfRealCurrentMonth);
+     return false; // Simplified: Allow going back
   }, [currentMonthDate, startOfRealCurrentMonth]);
-  // --- End Calculation ---
-
 
   const calendarDays = useMemo(
     () => generateCalendarDays(currentMonthDate),
@@ -72,19 +61,18 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   }, []);
 
   const handlePrevMonth = useCallback(() => {
-    // Only update if not disabled
     if (!isPrevMonthDisabled) {
        setCurrentMonthDate((prevDate) => startOfMonth(subMonths(prevDate, 1)));
     }
-  }, [isPrevMonthDisabled]); // Add dependency
+  }, [isPrevMonthDisabled]);
 
   const handleNextMonth = useCallback(() => {
     setCurrentMonthDate((prevDate) => startOfMonth(addMonths(prevDate, 1)));
   }, []);
 
   const handleDateClick = useCallback(
-    (day: Date, isCurrent: boolean) => {
-      if (isCurrent && onDateSelect) {
+    (day: Date) => { 
+      if (onDateSelect) {
         onDateSelect(day);
       }
     },
@@ -92,10 +80,10 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   );
 
   const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLDivElement>, day: Date, isCurrent: boolean) => {
-      if (isCurrent && (event.key === 'Enter' || event.key === ' ')) {
+    (event: React.KeyboardEvent<HTMLDivElement>, day: Date) => {
+      if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
-        handleDateClick(day, isCurrent);
+        handleDateClick(day);
       }
     },
     [handleDateClick]
@@ -107,21 +95,18 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 
   return (
     <div className={styles.calendarContainer}>
-      {/* Header */}
       <div className={styles.calendarHeader}>
         <span className={styles.monthYear}>{monthYearHeader}</span>
         <div className={styles.navigationButtons}>
-          {/* --- Add disabled prop --- */}
           <DigDirButton
             variant="tertiary"
             icon
             onClick={handlePrevMonth}
             aria-label="Forrige måned"
-            disabled={isPrevMonthDisabled} // Pass the disabled state
+            disabled={isPrevMonthDisabled}
           >
             <ChevronLeftIcon />
           </DigDirButton>
-          {/* --- End Add --- */}
           <DigDirButton
             variant="tertiary"
             icon
@@ -133,7 +118,6 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         </div>
       </div>
 
-      {/* Day Names */}
       <div className={styles.grid}>
         {dayNames.map((dayName) => (
           <div key={dayName} className={styles.dayNameCell}>
@@ -142,18 +126,17 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         ))}
       </div>
 
-      {/* Dates Grid */}
       <div className={styles.grid}>
         {calendarDays.map((day) => {
-          const isCurrent = isSameMonth(day, currentMonthDate);
-          const isSelectedRaw = selectedDate && isSameDay(day, selectedDate);
+          const isCurrentMonth = isSameMonth(day, currentMonthDate);
+          const isSelectedDay = selectedDate && isSameDay(day, selectedDate);
           const isTodayDate = isToday(day);
 
           const cellClasses = [
             styles.dateCell,
-            !isCurrent ? styles.otherMonth : '',
-            isSelectedRaw ? styles.selectedDate : '',
-            isTodayDate && !isSelectedRaw ? styles.todayDate : '',
+            !isCurrentMonth ? styles.otherMonth : '',
+            isSelectedDay ? styles.selectedDate : '',
+            isTodayDate && !isSelectedDay ? styles.todayDate : '',
           ]
             .filter(Boolean)
             .join(' ');
@@ -162,12 +145,11 @@ export const DatePicker: React.FC<DatePickerProps> = ({
             <div
               key={day.toISOString()}
               className={cellClasses}
-              onClick={() => handleDateClick(day, isCurrent)}
-              onKeyDown={(e) => handleKeyDown(e, day, isCurrent)}
+              onClick={() => handleDateClick(day)}
+              onKeyDown={(e) => handleKeyDown(e, day)}
               role="button"
-              tabIndex={isCurrent ? 0 : -1}
-              aria-pressed={isSelectedRaw ?? false}
-              aria-disabled={!isCurrent}
+              tabIndex={0} // Make all dates focusable
+              aria-pressed={isSelectedDay ?? false}
               aria-label={format(day, 'PPP', { locale: nb })}
             >
               <span className={styles.dateNumberContainer}>
@@ -181,4 +163,5 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   );
 };
 
+// Use original displayName
 DatePicker.displayName = 'DatePicker';

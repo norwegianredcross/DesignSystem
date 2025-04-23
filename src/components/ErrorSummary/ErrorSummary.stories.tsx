@@ -1,6 +1,6 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
-import { ErrorSummary, ErrorSummaryProps } from './index'; // Import the main ErrorSummary component
-import { Textfield } from '@digdir/designsystemet-react'; // For context example
+import { ErrorSummary, ErrorSummaryProps } from './index'; 
+import { Textfield } from '@digdir/designsystemet-react'; 
 
 const meta: Meta<typeof ErrorSummary> = {
   title: 'Components/ErrorSummary',
@@ -15,15 +15,12 @@ const meta: Meta<typeof ErrorSummary> = {
     },
   },
   argTypes: {
-    // Props directly available on DigDirErrorSummaryProps based on docs
     'data-size': {
       control: 'select',
       options: ['sm', 'md', 'lg'],
       description: 'Changes size for descendant Designsystemet components.',
       defaultValue: 'md',
     },
-    // Note: data-color is NOT listed as a prop for ErrorSummary itself in the docs provided.
-    // It seems to inherently use danger colors.
     asChild: {
       control: 'boolean',
       description: 'Render as child element',
@@ -34,7 +31,6 @@ const meta: Meta<typeof ErrorSummary> = {
       description:
         'Must contain ErrorSummary.Heading and ErrorSummary.List with Items/Links',
     },
-    // heading prop is handled by ErrorSummary.Heading sub-component
     heading: { table: { disable: true } },
   } as ArgTypes<ErrorSummaryProps>,
 };
@@ -70,7 +66,6 @@ export const Default: Story = {
     </ErrorSummary>
   ),
   args: {
-    // Default args for this story
     'data-size': 'md',
   },
 };
@@ -80,19 +75,17 @@ export const WithTextFields: Story = {
   render: (args) => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       <Textfield
-        id="textfield-error-1" // ID matches href in ErrorSummary.Link
+        id="textfield-error-1" 
         label="Fornavn"
         error="Fornavn må være minst 2 tegn"
-        aria-describedby="errorsummary-heading" // Optional: Link field error to summary heading
+        aria-describedby="errorsummary-heading"
       />
       <Textfield
-        id="textfield-error-2" // ID matches href in ErrorSummary.Link
+        id="textfield-error-2" 
         label="Telefon"
         error="Telefonnummer kan kun inneholde siffer"
         aria-describedby="errorsummary-heading"
       />
-
-      {/* Render the ErrorSummary - typically shown only on submit */}
       <ErrorSummary {...args}>
         <ErrorSummary.Heading id="errorsummary-heading">
           For å gå videre må du rette opp følgende feil:

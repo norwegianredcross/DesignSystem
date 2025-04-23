@@ -1,10 +1,10 @@
+// src/components/Link/Link.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
-import React from 'react';
-import { Link, LinkProps } from './index'; // Import the main Link component
-// Import components for context/examples
+import React from 'react'; // Import React for JSX
+import { Link, LinkProps } from './index';
 import { Paragraph } from '@digdir/designsystemet-react';
-// Import an icon if needed for the icon example
-
+// --- Import Icon ---
+import { EnvelopeClosedIcon } from '@navikt/aksel-icons'; // Example icon for contact
 
 const meta: Meta<typeof Link> = {
   title: 'Components/Link',
@@ -19,7 +19,6 @@ const meta: Meta<typeof Link> = {
     },
   },
   argTypes: {
-    // Props directly available on DigDirLinkProps
     children: {
       control: 'text',
       description: 'The content to display inside the link.',
@@ -40,14 +39,13 @@ const meta: Meta<typeof Link> = {
       control: 'select',
       options: ['accent', 'brand1', 'brand2', 'brand3', 'neutral'],
       description: 'Changes color for descendant Designsystemet components.',
-      defaultValue: 'accent', // Default link color is often accent
+      defaultValue: 'accent',
     },
     asChild: {
       control: 'boolean',
       description: 'Render as child element',
       defaultValue: false,
     },
-    // Standard anchor attributes like target, rel are passed via {...props}
     target: { control: 'text' },
     rel: { control: 'text' },
   } as ArgTypes<LinkProps>,
@@ -57,16 +55,18 @@ export default meta;
 
 type Story = StoryObj<typeof Link>;
 
-// --- Basic Example ---
+// --- Example Default ---
 export const Default: Story = {
+  name: 'Example Default',
   args: {
     children: 'Gå til designsystemet',
     href: 'https://designsystemet.no/',
   },
 };
 
-// --- Link within Text ---
+// --- Example Link within Text ---
 export const InText: Story = {
+  name: 'Example Link within Text',
   render: (args) => (
     <Paragraph data-size={args['data-size']} data-color={args['data-color']}>
       Vi bruker komponenter fra et{' '}
@@ -74,47 +74,49 @@ export const InText: Story = {
     </Paragraph>
   ),
   args: {
-    children: 'fantastisk designsystem', // Override default children for this story
+    children: 'fantastisk designsystem',
     href: 'https://designsystemet.no/',
     'data-size': 'md',
-    'data-color': 'neutral', // Example using neutral context
+    'data-color': 'neutral',
   },
-  name: 'Link within Text',
 };
 
-// --- Link with Icon ---
+// --- Example Link with Icon ---
 export const WithIcon: Story = {
+  name: 'Example Link with Icon',
   render: (args) => (
     <Link {...args}>
-      Kontakt oss
+      {/* Add icon before text */}
+      <EnvelopeClosedIcon aria-hidden style={{ marginRight: 'var(--ds-spacing-1, 4px)', verticalAlign: 'middle' }} />
+      {args.children} {/* Use children from args */}
     </Link>
   ),
   args: {
-    children: 'Kontakt oss', // Default children overridden by render content
-    href: '#kontakt', // Example internal link
+    children: 'Kontakt oss',
+    href: 'mailto:designsystem@digdir.no', // Use mailto link
     'data-size': 'md',
     'data-color': 'accent',
   },
-  name: 'Link with Icon',
 };
 
-// --- Different Color and Size ---
+// --- Example Different Color and Size ---
 export const LargeNeutral: Story = {
+  name: 'Example Large Neutral',
   args: {
     children: 'Stor nøytral lenke',
     href: '#',
     'data-size': 'lg',
     'data-color': 'neutral',
   },
-  name: 'Large Neutral',
 };
 
-// --- External Link Example (Optional: Add target/rel) ---
+// --- Example External Link ---
 export const External: Story = {
+  name: 'Example External Link',
   args: {
     children: 'Ekstern Lenke (Ny Fane)',
     href: 'https://www.digdir.no/',
-    target: '_blank', // Open in new tab
-    rel: 'noopener noreferrer', // Security measure for target="_blank"
+    target: '_blank',
+    rel: 'noopener noreferrer',
   },
 };

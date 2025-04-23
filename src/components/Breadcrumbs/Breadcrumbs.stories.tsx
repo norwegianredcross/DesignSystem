@@ -1,3 +1,4 @@
+// src/components/Breadcrumbs/Breadcrumbs.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
 import {
   Breadcrumbs,
@@ -36,8 +37,9 @@ export default meta;
 
 type Story = StoryObj<typeof Breadcrumbs>;
 
-// Only back button
+// --- Example Only Back Button ---
 export const OnlyBackButton: Story = {
+  name: 'Example Only Back Button', 
   render: (args) => (
     <Breadcrumbs {...args}>
       <BreadcrumbsLink aria-label="Tilbake til nivå 3" href="/niva-3">
@@ -50,8 +52,9 @@ export const OnlyBackButton: Story = {
   },
 };
 
-// Only path
+// --- Example Only Path ---
 export const OnlyPath: Story = {
+  name: 'Example Only Path', 
   render: (args) => (
     <Breadcrumbs {...args}>
       <BreadcrumbsList>
@@ -75,8 +78,9 @@ export const OnlyPath: Story = {
   },
 };
 
-// Both back button and path (back on mobile, path on desktop)
+// --- Example Back Button and Path ---
 export const BackAndPath: Story = {
+  name: 'Example Back Button and Path', 
   render: (args) => (
     <Breadcrumbs {...args}>
       <BreadcrumbsLink aria-label="Tilbake til nivå 3" href="/niva-3">
@@ -103,8 +107,9 @@ export const BackAndPath: Story = {
   },
 };
 
-// Custom size and color
+// --- Example Custom Size and Color ---
 export const LargeBrand2: Story = {
+  name: 'Example Custom Size and Color', 
   render: (args) => (
     <Breadcrumbs {...args}>
       <BreadcrumbsList>

@@ -1,6 +1,6 @@
 // src/components/SkipLink/SkipLink.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
-import { SkipLink, SkipLinkProps } from './index'; // Import the main SkipLink component
+import { SkipLink, SkipLinkProps } from './index'; 
 
 const meta: Meta<typeof SkipLink> = {
   title: 'Components/SkipLink',
@@ -13,13 +13,11 @@ const meta: Meta<typeof SkipLink> = {
           'SkipLink allows keyboard users to bypass navigation and jump directly to the main content.',
       },
     },
-    // Add a note about how to view the SkipLink
     notes: 'To see the SkipLink, click inside the Story canvas and press the Tab key.',
-    // Use padded layout to give some space around the elements
     layout: 'padded',
   },
   argTypes: {
-    // Props directly available on DigDirSkipLinkProps
+
     children: {
       control: 'text',
       description: 'The content to display inside the skiplink.',
@@ -28,7 +26,7 @@ const meta: Meta<typeof SkipLink> = {
     href: {
       control: 'text',
       description: 'Href of the element ID to skip to (e.g., #main-content).',
-      defaultValue: '#main-content-story', // Use a unique ID for the story
+      defaultValue: '#main-content-story', 
     },
     'data-size': {
       control: 'select',
@@ -49,22 +47,19 @@ export default meta;
 
 type Story = StoryObj<typeof SkipLink>;
 
-// --- Basic Example (Matching Docs) ---
+// --- Basic Example ---
 export const Default: Story = {
   render: (args) => (
     <>
-      {/* Render the SkipLink using args */}
       <SkipLink {...args} />
-
-      {/* Render the target main element */}
       <main
-        id={args.href?.substring(1)} // Extract ID from href arg
-        tabIndex={-1} // Make the target focusable programmatically
+        id={args.href?.substring(1)} 
+        tabIndex={-1} 
         style={{
           padding: '2rem',
-          marginTop: '1rem', // Add some space below potential SkipLink position
-          border: '1px dashed #ccc', // Visual indicator for the target area
-          outline: 'none', // Remove default focus outline on main
+          marginTop: '1rem', 
+          border: '1px dashed #ccc', 
+          outline: 'none', 
         }}
       >
         Region som kan motta fokus fra skiplink. (ID: {args.href})
@@ -74,9 +69,9 @@ export const Default: Story = {
     </>
   ),
   args: {
-    // Default args matching the example
+
     children: 'Hopp til hovedinnhold',
-    href: '#main-content-story', // Use the default href from argTypes
+    href: '#main-content-story', 
     'data-size': 'md',
     'data-color': 'accent',
   },

@@ -20,7 +20,6 @@ const meta: Meta<typeof Tabs> = {
     layout: 'padded',
   },
   argTypes: {
-    // Props directly available on DigDirTabsProps
     defaultValue: {
       control: 'text',
       description: 'Default selected tab value (uncontrolled mode).',
@@ -28,12 +27,12 @@ const meta: Meta<typeof Tabs> = {
     value: {
       control: 'text',
       description: 'Selected tab value (controlled mode).',
-      table: { disable: true }, // Disable control, managed by state/defaultValue
+      table: { disable: true },
     },
     onChange: {
       action: 'changed',
       description: 'Callback with selected Tab value.',
-      table: { disable: true }, // Disable control
+      table: { disable: true }, 
     },
     'data-size': {
       control: 'select',
@@ -70,7 +69,7 @@ export const Default: Story = {
     </Tabs>
   ),
   args: {
-    defaultValue: 'value1', // Start with the first tab selected
+    defaultValue: 'value1',
     'data-size': 'md',
     'data-color': 'neutral',
   },
@@ -114,9 +113,9 @@ export const Controlled: Story = {
           Choose Tab 3
         </Button>
         <Tabs
-          {...args} // Spread common args like size/color
-          value={value} // Pass controlled value
-          onChange={setValue} // Pass state setter
+          {...args} 
+          value={value} 
+          onChange={setValue} 
         >
           <Tabs.List>
             <Tabs.Tab value="value1">
@@ -140,7 +139,6 @@ export const Controlled: Story = {
     );
   },
   args: {
-    // Don't set value/defaultValue here, it's controlled by state
     'data-size': 'md',
     'data-color': 'brand1',
   },
@@ -160,7 +158,7 @@ export const LargeSize: Story = {
   ),
   args: {
     defaultValue: 'value1',
-    'data-size': 'lg', // Set size
+    'data-size': 'lg', 
     'data-color': 'neutral',
   },
   name: 'Large Size',

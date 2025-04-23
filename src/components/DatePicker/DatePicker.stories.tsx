@@ -1,59 +1,150 @@
 // src/components/DatePicker/DatePicker.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
-import React, { useState, useEffect } from 'react';
-import { format, parse, isValid } from 'date-fns';
+import React, { useState, useEffect } from 'react'; // Import useState
+import { format, parse, isValid, subDays, addMonths } from 'date-fns';
 import { nb } from 'date-fns/locale';
+import { action } from '@storybook/addon-actions';
 
-import { DatePicker, DatePickerProps } from './index'; // Your DatePicker
-// Assuming DateInput and CalendarIcon are structured similarly or exported correctly
-// Adjust paths as needed
-import { DateInput } from '../DateInput/index'; // Assuming path
-import { CalendarIcon } from '../../assets/images/CalendarIcon'; // Assuming path
+import { DatePicker, DatePickerProps } from './index';
+import { DateInput } from '../DateInput';
+import { CalendarIcon } from '../../assets/images/CalendarIcon';
 
-// Define a wrapper component for the story render function
-const DatePickerWithInputDemo: React.FC<DatePickerProps> = (args) => {
-  // State for the selected date, initialized from args or default
-  const [selectedDate, setSelectedDate] = useState<Date | null>(
-    args.selectedDate || new Date(),
-  );
-  // State for the input field value
+const meta: Meta<typeof DatePicker> = {
+  title: 'Components/DatePicker (Calendar)',
+  component: DatePicker,
+  tags: ['autodocs'],
+  parameters: {},
+  argTypes: {
+    initialDate: {
+      control: { type: 'date' },
+      description: 'Initial month to display.',
+    },
+    selectedDate: {
+      control: { type: 'date' },
+      description: 'The currently selected date.',
+      // Keep control enabled for initial state setting if desired
+    },
+    onDateSelect: {
+      action: 'dateSelected',
+      description: 'Callback when a date is selected.',
+    },
+  } as ArgTypes<DatePickerProps>,
+};
+
+export default meta;
+
+type CalendarStory = StoryObj<typeof DatePicker>;
+
+// --- Stories for the standalone Calendar ---
+
+// FIX: Use render function with state for interactivity
+export const DefaultCalendar: CalendarStory = {
+  name: 'Calendar Only (Default)',
+  render: (args) => {
+    // Add state to manage selection within the story render
+    const [storySelectedDate, setStorySelectedDate] = useState<Date | null>(args.selectedDate || null);
+
+    const handleSelect = (date: Date) => {
+      setStorySelectedDate(date);
+      args.onDateSelect?.(date); // Call the Storybook action
+    };
+
+    return (
+      <DatePicker
+        {...args} // Pass initialDate etc. from args
+        selectedDate={storySelectedDate} // Use story's state for selection
+        onDateSelect={handleSelect} // Use story's handler
+      />
+    );
+  },
+  args: {
+    initialDate: new Date(),
+    selectedDate: null, // Initial state for the story's state hook
+    onDateSelect: action('dateSelected'),
+  },
+};
+
+// FIX: Use render function with state for interactivity
+export const CalendarWithSelectedDate: CalendarStory = {
+  name: 'Calendar Only (Selected)',
+   render: (args) => {
+    const [storySelectedDate, setStorySelectedDate] = useState<Date | null>(args.selectedDate || new Date()); // Initialize state from args
+
+    const handleSelect = (date: Date) => {
+      setStorySelectedDate(date);
+      args.onDateSelect?.(date);
+    };
+
+    return (
+      <DatePicker
+        {...args}
+        selectedDate={storySelectedDate}
+        onDateSelect={handleSelect}
+      />
+    );
+  },
+  args: {
+    initialDate: new Date(),
+    selectedDate: new Date(), // Set initial selected date via args
+    onDateSelect: action('dateSelected'),
+  },
+};
+
+// FIX: Use render function with state for interactivity
+export const CalendarStartingInPreviousMonth: CalendarStory = {
+  name: 'Calendar Only (Previous Month)',
+   render: (args) => {
+    const [storySelectedDate, setStorySelectedDate] = useState<Date | null>(args.selectedDate || null);
+
+    const handleSelect = (date: Date) => {
+      setStorySelectedDate(date);
+      args.onDateSelect?.(date);
+    };
+
+    return (
+      <DatePicker
+        {...args}
+        selectedDate={storySelectedDate}
+        onDateSelect={handleSelect}
+      />
+    );
+  },
+  args: {
+    initialDate: subDays(new Date(), 40), // Set initial month via args
+    selectedDate: null,
+    onDateSelect: action('dateSelected'),
+  },
+};
+
+// --- Story for Combined DateInput + DatePicker (like App.tsx) ---
+// (This one already works correctly with its own state management)
+const DatePickerInputCombo: React.FC<DatePickerProps> = (args) => {
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [inputValue, setInputValue] = useState<string>(
     selectedDate ? format(selectedDate, 'dd.MM.yyyy', { locale: nb }) : '',
   );
 
-  // Handler for when a date is selected in the DatePicker
   const handleDateSelect = (date: Date) => {
     setSelectedDate(date);
-    // Call the action from args if provided (for Storybook logging)
-    args.onDateSelect?.(date);
+    action('dateSelected')(date);
   };
 
-  // Handler for when the text input changes
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setInputValue(value);
-    // Try to parse the input value
     const parsedDate = parse(value, 'dd.MM.yyyy', new Date(), { locale: nb });
     if (isValid(parsedDate)) {
-      // If valid, update the selectedDate state
       setSelectedDate(parsedDate);
-      args.onDateSelect?.(parsedDate); // Also notify Storybook action
+      action('dateSelected')(parsedDate);
     }
-    // Optionally handle invalid input (e.g., clear selectedDate if input is invalid)
-    // else {
-    //   setSelectedDate(null);
-    // }
   };
 
-  // Effect to update the input field if the selectedDate prop changes
-  // (e.g., via Storybook controls, though direct control might be complex here)
   useEffect(() => {
     setInputValue(
       selectedDate ? format(selectedDate, 'dd.MM.yyyy', { locale: nb }) : '',
     );
   }, [selectedDate]);
 
-  // Format date for display
   const formattedDate = selectedDate
     ? format(selectedDate, 'dd.MM.yyyy', { locale: nb })
     : 'Ingen dato valgt';
@@ -70,72 +161,27 @@ const DatePickerWithInputDemo: React.FC<DatePickerProps> = (args) => {
           onChange={handleInputChange}
           placeholder="dd.mm.åååå"
           suffixIcon={<CalendarIcon />}
-          // The input doesn't directly control the DatePicker visibility here
         />
       </div>
-      {/* Render the DatePicker, passing state and handlers */}
       <DatePicker
-        {...args} // Pass through other args like initialDate
+        {...args}
         selectedDate={selectedDate}
         onDateSelect={handleDateSelect}
-        // Ensure initialDate reflects the current state if needed,
-        // or use the one from args for the initial month view
-        initialDate={args.initialDate || selectedDate || new Date()}
+        initialDate={selectedDate || args.initialDate || new Date()}
       />
     </div>
   );
 };
 
-// Storybook Meta Configuration
-const meta: Meta<typeof DatePicker> = {
-  title: 'Components/DatePicker Combined', // Changed title slightly
-  component: DatePickerWithInputDemo, // Render the demo component
-  tags: ['autodocs'],
-  parameters: {
-    docs: {
-      description: {
-        component: 'Demonstrates DatePicker used with a DateInput field.',
-      },
-    },
+export const CombinedInputAndCalendar: StoryObj<typeof DatePickerInputCombo> = {
+  name: 'Example Combined Input + Calendar', // Renamed
+  render: (args) => <DatePickerInputCombo {...args} />,
+  args: {
+    initialDate: new Date(),
   },
   argTypes: {
-    // Define argTypes based on DatePickerProps, but disable direct control
-    // for props managed by the demo component's state.
-    initialDate: {
-      control: { type: 'date' },
-      description: 'Initial month to display in the picker.',
-    },
-    selectedDate: {
-      control: { type: 'date' },
-      description: 'The currently selected date (managed by state in demo).',
-      table: { disable: true }, // Disable direct control
-    },
-    onDateSelect: {
-      action: 'dateSelected',
-      description: 'Callback when a date is selected.',
-      table: { disable: true }, // Disable direct control
-    },
-  } as ArgTypes<DatePickerProps>,
-};
-
-export default meta;
-
-// Define Story type based on the demo component
-type Story = StoryObj<typeof DatePickerWithInputDemo>;
-
-// --- Default Story ---
-export const Default: Story = {
-  args: {
-    // Initial args for the demo
-    initialDate: new Date(),
-    // selectedDate is managed by state, start with today
-  },
-};
-
-// --- Story starting with no date selected ---
-export const NoInitialDate: Story = {
-  args: {
-    initialDate: new Date(), // Still show current month initially
-    selectedDate: null, // Start with no date selected
-  },
+     initialDate: { control: { type: 'date' } },
+     selectedDate: { table: { disable: true } },
+     onDateSelect: { table: { disable: true } },
+  }
 };

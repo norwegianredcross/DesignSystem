@@ -1,6 +1,6 @@
 // src/components/Checkbox/Checkbox.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Checkbox,
   CheckboxProps,
@@ -14,7 +14,6 @@ const meta: Meta<typeof Checkbox> = {
   component: Checkbox,
   tags: ['autodocs'],
   argTypes: {
-    // Props directly available on DigDirCheckboxProps
     label: {
       control: 'text',
       description: 'Checkbox label',
@@ -56,33 +55,27 @@ const meta: Meta<typeof Checkbox> = {
     },
     'aria-label': { control: 'text' },
     'aria-labelledby': { control: 'text' },
-    // Props like 'checked', 'defaultChecked' are controlled by state/hook
     checked: { control: false },
     defaultChecked: { control: false },
-    // --- REMOVE indeterminate FROM argTypes ---
-    // indeterminate: {
-    //   control: false,
-    //   description: 'Sets the indeterminate state of the checkbox',
-    // },
-    // --- END REMOVAL ---
-  } as ArgTypes<CheckboxProps>, // Type assertion should now be valid
+  } as ArgTypes<CheckboxProps>,
 };
 
 export default meta;
 
-// ... rest of your stories remain the same ...
-
 type Story = StoryObj<typeof Checkbox>;
 
-// --- Default, WithDescription, Disabled, ReadOnly stories remain the same ---
+// --- Example Default ---
 export const Default: Story = {
+  name: 'Example Default', // Renamed
   args: {
     label: 'Default Checkbox',
     value: 'default',
   },
 };
 
+// --- Example with Description ---
 export const WithDescription: Story = {
+  name: 'Example with Description', // Renamed
   args: {
     label: 'Checkbox with Description',
     description: 'This explains the checkbox choice.',
@@ -90,7 +83,9 @@ export const WithDescription: Story = {
   },
 };
 
+// --- Example Disabled ---
 export const Disabled: Story = {
+  name: 'Example Disabled', // Renamed
   args: {
     label: 'Disabled Checkbox',
     disabled: true,
@@ -99,7 +94,9 @@ export const Disabled: Story = {
   },
 };
 
+// --- Example ReadOnly ---
 export const ReadOnly: Story = {
+  name: 'Example ReadOnly', // Renamed
   args: {
     label: 'Read Only Checkbox',
     readOnly: true,
@@ -107,10 +104,10 @@ export const ReadOnly: Story = {
     checked: true,
   },
 };
-// --- End unchanged stories ---
 
-// --- Group Example ---
+// --- Example Group ---
 export const CheckboxGroup: Story = {
+  name: 'Example Group', // Renamed
   render: (args) => {
     const [selectedValues, setSelectedValues] = useState<string[]>(['email']);
     const errorMessage = args.error ? 'Du må velge minst ett alternativ' : undefined;
@@ -180,8 +177,9 @@ export const CheckboxGroup: Story = {
   },
 };
 
-// --- Indeterminate Example ---
+// --- Example Indeterminate ---
 export const Indeterminate: Story = {
+  name: 'Example Indeterminate', // Renamed
   render: (args) => {
     const [selectedValues, setSelectedValues] = useState<string[]>([
       'content1',
@@ -199,7 +197,7 @@ export const Indeterminate: Story = {
         <Fieldset.Legend>Select Items</Fieldset.Legend>
         <Checkbox
           label="Select All"
-          {...getCheckboxProps({ allowIndeterminate: true })} // Hook handles indeterminate state
+          {...getCheckboxProps({ allowIndeterminate: true })}
           data-size={args['data-size']}
           data-color={args['data-color']}
         />
@@ -218,7 +216,6 @@ export const Indeterminate: Story = {
     );
   },
   argTypes: {
-    // Disable irrelevant controls for this specific story
     label: { control: false },
     description: { control: false },
     value: { control: false },

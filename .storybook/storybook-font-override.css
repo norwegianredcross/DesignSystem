@@ -1,3 +1,32 @@
 [class^="ds-"], [class*=" ds-"] {
     font-family: var(--ds-font-family, Arial, sans-serif) !important;
   }
+
+#story--components-tooltip--default-string-trigger-inner span {
+     font-family: var(--ds-font-family, Arial, sans-serif) !important;
+    font-size: var(--ds-body-sm-font-size, 0.875rem);
+    line-height: var(--ds-line-height-sm, 1.3);
+    font-weight: var(--ds-font-weight-regular, 400);
+}
+
+
+#main-content-story {
+    font-family: var(--ds-font-family, Arial, sans-serif) !important;
+    font-size: var(--ds-body-sm-font-size, 0.875rem);
+    line-height: var(--ds-line-height-sm, 1.3);
+    font-weight: var(--ds-font-weight-regular, 400);    
+}
+
+story--components-switch--controlled-inner p  {
+    font-family: var(--ds-font-family, Arial, sans-serif) !important;
+    font-size: var(--ds-body-sm-font-size, 0.875rem);
+    line-height: var(--ds-line-height-sm, 1.3);
+    font-weight: var(--ds-font-weight-regular, 400);
+}
+
+#storybook-root {
+    font-family: var(--ds-font-family, Arial, sans-serif) !important;
+    font-size: var(--ds-body-sm-font-size, 0.875rem);
+    line-height: var(--ds-line-height-sm, 1.3);
+    font-weight: var(--ds-font-weight-regular, 400);    
+}

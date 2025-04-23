@@ -1,12 +1,12 @@
+// src/components/Details/Details.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
-import { Details, DetailsProps } from './index'; // Import the main Details component
+import { Details, DetailsProps } from './index';
 
 const meta: Meta<typeof Details> = {
   title: 'Components/Details',
   component: Details,
   tags: ['autodocs'],
   argTypes: {
-    // Props directly available on DigDirDetailsProps
     'data-size': {
       control: 'select',
       options: ['sm', 'md', 'lg'],
@@ -19,13 +19,11 @@ const meta: Meta<typeof Details> = {
       description: 'Changes color for descendant Designsystemet components.',
       defaultValue: 'neutral',
     },
-    // The 'open' prop controls the state, usually handled internally or via state
     open: {
       control: 'boolean',
       description: 'Controls the open/closed state.',
-      defaultValue: false, // Default to closed
+      defaultValue: false,
     },
-    // Children are defined within the story's render/args
     children: {
       control: false,
       description: 'Must contain Details.Summary and Details.Content',
@@ -37,6 +35,7 @@ export default meta;
 
 type Story = StoryObj<typeof Details>;
 
+// --- Basic Example (Closed) ---
 export const DefaultClosed: Story = {
   render: (args) => (
     <Details {...args}>
@@ -50,10 +49,11 @@ export const DefaultClosed: Story = {
     </Details>
   ),
   args: {
-    // Default state is closed
   },
+  name: 'Default (Closed)',
 };
 
+// --- Basic Example (Open) ---
 export const DefaultOpen: Story = {
   render: (args) => (
     <Details {...args}>
@@ -66,10 +66,12 @@ export const DefaultOpen: Story = {
     </Details>
   ),
   args: {
-    open: true, // Start in the open state
+    open: true,
   },
+  name: 'Default (Open)',
 };
 
+// --- Example with Size and Color ---
 export const LargeBrand1: Story = {
   render: (args) => (
     <Details {...args}>
@@ -86,4 +88,5 @@ export const LargeBrand1: Story = {
     'data-color': 'brand1',
     open: false,
   },
+  name: 'Large Size, Brand1 Color',
 };

@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import {
   Badge as DigDirBadge,
   type BadgeProps as DigDirBadgeProps,
@@ -13,6 +13,4 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>((props, ref) => {
   return <DigDirBadge ref={ref} {...props} />;
 });
 Badge.displayName = 'Badge';
-
-// Optional: Export Badge.Position for floating badge use
 export const BadgePosition = DigDirBadgePosition;

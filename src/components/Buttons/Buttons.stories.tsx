@@ -1,14 +1,23 @@
 // src/components/Buttons/Buttons.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
 import { Buttons, ButtonsProps } from './index';
-// --- REMOVED Icon Imports ---
+import {
+  PencilWritingIcon,
+  TrashIcon,
+  ExternalLinkIcon,
+  ArrowRightIcon,
+  ArrowUndoIcon,
+  PlusCircleIcon,
+  BellIcon,
+  CogIcon,
+} from '@navikt/aksel-icons';
+import { Tooltip } from '../Tooltip'; // Adjust path if necessary
 
 const meta: Meta<typeof Buttons> = {
   title: 'Components/Buttons',
   component: Buttons,
   tags: ['autodocs'],
   argTypes: {
-    // --- argTypes remain largely the same, but remove 'icon' if not needed ---
     children: {
       control: 'text',
       description: 'Button label',
@@ -45,7 +54,6 @@ const meta: Meta<typeof Buttons> = {
       defaultValue: 'accent',
     },
     loading: {
-      // Keep as boolean for simple toggle, Digdir handles the visual
       control: 'boolean',
       description: 'Loading state',
       defaultValue: false,
@@ -61,24 +69,18 @@ const meta: Meta<typeof Buttons> = {
       description: 'Button type',
       defaultValue: 'button',
     },
-    // 'aria-label' is still useful for accessibility, keep it
     'aria-label': {
       control: 'text',
       description: 'Aria label (especially if children is empty/icon)',
     },
-    // --- REMOVED 'icon' argType if you simplified the component ---
-    // icon: {
-    //   control: 'boolean',
-    //   description: 'Icon only button styling (handled by children/aria-label)',
-    //   defaultValue: false,
-    // },
-  } as ArgTypes<ButtonsProps>, // Cast might need adjustment if props changed
+  } as ArgTypes<ButtonsProps>,
 };
 
 export default meta;
 
 type Story = StoryObj<typeof Buttons>;
 
+// --- Example Primary ---
 export const Primary: Story = {
   args: {
     children: 'Lagre',
@@ -86,6 +88,7 @@ export const Primary: Story = {
   },
 };
 
+// --- Example Secondary ---
 export const Secondary: Story = {
   args: {
     children: 'Avbryt',
@@ -93,6 +96,7 @@ export const Secondary: Story = {
   },
 };
 
+// --- Example Tertiary ---
 export const Tertiary: Story = {
   args: {
     children: 'Rediger',
@@ -100,6 +104,7 @@ export const Tertiary: Story = {
   },
 };
 
+// --- Example Danger ---
 export const Danger: Story = {
   args: {
     children: 'Slett',
@@ -108,29 +113,15 @@ export const Danger: Story = {
   },
 };
 
-// --- REMOVED IconOnly story as it required specific icon import ---
-// export const IconOnly: Story = {
-//   args: {
-//     children: '', // No children
-//     'aria-label': 'Rediger', // Important for accessibility
-//     variant: 'tertiary',
-//     // You might need specific styling or rely on Digdir's default icon handling
-//   },
-// };
-
-// --- REMOVED WithIconRight story ---
-// export const WithIconRight: Story = { ... };
-
+// --- Example Loading ---
 export const Loading: Story = {
   args: {
     children: 'Laster...',
-    loading: true, // Use the boolean prop, Digdir shows default spinner
+    loading: true,
   },
 };
 
-// --- REMOVED CustomLoader story ---
-// export const CustomLoader: Story = { ... };
-
+// --- Example Large Neutral ---
 export const LargeNeutral: Story = {
   args: {
     children: 'Videresend',
@@ -140,10 +131,9 @@ export const LargeNeutral: Story = {
   },
 };
 
+// --- Example as Link ---
 export const AsLink: Story = {
   render: (args) => (
-    // Ensure ButtonsProps type used by StoryObj includes asChild if needed
-    // or cast args if using the simplified direct export
     <Buttons asChild {...(args as any)}>
       <a href="https://designsystemet.no/" target="_blank" rel="noopener noreferrer">
         Gå til Designsystemet
@@ -152,7 +142,126 @@ export const AsLink: Story = {
   ),
   args: {
     asChild: true,
-    // Add other necessary props for styling the link like a button
     variant: 'primary',
+  },
+};
+
+// --- Example Tertiary with Left Icon ---
+export const TertiaryWithIcon: Story = {
+  name: 'Example Tertiary with Icon',
+  args: {
+    children: (
+      <>
+        <PencilWritingIcon aria-hidden />
+        Rediger
+      </>
+    ),
+    variant: 'tertiary',
+    'data-color': 'accent',
+  },
+};
+
+// --- Example Danger Buttons with Icon ---
+export const DangerWithIcon: Story = {
+  name: 'Example Danger with Icon',
+  render: (args) => (
+    <div style={{ display: 'flex', gap: '1rem' }}>
+      <Buttons {...args} variant="primary" data-color="danger">
+        <TrashIcon aria-hidden />
+        Slett
+      </Buttons>
+      <Buttons {...args} variant="secondary" data-color="danger">
+        <TrashIcon aria-hidden />
+        Slett
+      </Buttons>
+      <Buttons {...args} variant="tertiary" data-color="danger">
+        <TrashIcon aria-hidden />
+        Slett
+      </Buttons>
+    </div>
+  ),
+  args: {
+    'data-size': 'md',
+  },
+  argTypes: {
+    variant: { control: false },
+    'data-color': { control: false },
+    children: { control: false },
+  },
+};
+
+// --- Example As Link with Right Icon ---
+export const AsLinkWithIcon: Story = {
+  name: 'Example As Link with Icon',
+  render: (args) => (
+    <Buttons asChild {...(args as any)}>
+      <a target="_blank" rel="noreferrer" href="https://www.designsystemet.no">
+        Gå til Designsystemet
+        <ExternalLinkIcon title="Ekstern lenke" style={{ marginLeft: 'var(--ds-spacing-1, 4px)', verticalAlign: 'middle' }}/>
+      </a>
+    </Buttons>
+  ),
+  args: {
+    asChild: true,
+    variant: 'primary',
+  },
+};
+
+// --- Example Buttons with Icons Left/Right ---
+export const WithIcons: Story = {
+  name: 'Example With Icons',
+  render: (args) => (
+     <div style={{ display: 'flex', gap: '1rem' }}>
+        <Buttons {...args} variant='primary' data-color='neutral'>
+          Start utfylling
+          <ArrowRightIcon aria-hidden style={{ marginLeft: 'var(--ds-spacing-1, 4px)' }}/>
+        </Buttons>
+        <Buttons {...args} variant='secondary' data-color='neutral'>
+          <ArrowUndoIcon aria-hidden style={{ marginRight: 'var(--ds-spacing-1, 4px)' }}/>
+          Angre
+        </Buttons>
+     </div>
+  ),
+   args: {
+    'data-size': 'md',
+  },
+   argTypes: {
+    variant: { control: false },
+    'data-color': { control: false },
+    children: { control: false },
+  },
+};
+
+// --- Example Icon Only Buttons with Tooltip ---
+export const IconOnlyWithTooltip: Story = {
+  name: 'Example Icon Only with Tooltip',
+  render: (args) => (
+    <div style={{ display: 'flex', gap: '0.5rem' }}>
+       <Tooltip content='Legg til ny'>
+        <Buttons {...args} icon aria-label='Legg til ny'>
+          <PlusCircleIcon aria-hidden />
+        </Buttons>
+      </Tooltip>
+      <Tooltip content='Varslinger'>
+        <Buttons {...args} icon aria-label='Varslinger'>
+          <BellIcon aria-hidden />
+        </Buttons>
+      </Tooltip>
+      <Tooltip content='Instillinger'>
+        <Buttons {...args} icon aria-label='Innstillinger'>
+          <CogIcon aria-hidden />
+        </Buttons>
+      </Tooltip>
+    </div>
+  ),
+  args: {
+    variant: 'tertiary',
+    'data-color': 'neutral',
+    'data-size': 'md',
+  },
+   argTypes: {
+    variant: { control: false },
+    children: { control: false },
+    'aria-label': { control: false },
   },
 };

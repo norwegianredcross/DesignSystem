@@ -1,6 +1,6 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
-import { Divider, DividerProps } from './index'; // Import the main Divider component
-import { Paragraph, Heading } from '@digdir/designsystemet-react'; // For content examples
+import { Divider, DividerProps } from './index'; 
+import { Paragraph, Heading } from '@digdir/designsystemet-react'; 
 
 const meta: Meta<typeof Divider> = {
   title: 'Components/Divider',
@@ -15,10 +15,7 @@ const meta: Meta<typeof Divider> = {
     },
   },
   argTypes: {
-    // Divider typically doesn't have direct props like data-color/data-size
-    // It inherits styling from its context or uses predefined CSS variables.
-    // Therefore, no specific argTypes are needed here based on the provided description.
-  } as ArgTypes<DividerProps>, // Cast might be needed if DividerProps is complex
+  } as ArgTypes<DividerProps>, 
 };
 
 export default meta;
@@ -37,7 +34,7 @@ export const Default: Story = {
         distinct blocks of information, improving readability and structure.
       </Paragraph>
 
-      <Divider {...args} /> {/* Render the divider */}
+      <Divider {...args} /> 
 
       <Heading level={3} data-size="xs">
         Section 2 Title
@@ -47,12 +44,11 @@ export const Default: Story = {
         divider line above. It uses predefined CSS variables for styling.
       </Paragraph>
 
-      <Divider {...args} /> {/* Another divider */}
+      <Divider {...args} /> 
 
       <Paragraph>More content can follow.</Paragraph>
     </div>
   ),
   args: {
-    // Divider usually takes no specific args based on the description
   },
 };

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
-import { Tag, TagProps } from './index'; // Import the main Tag component
+import { Tag, TagProps } from './index'; 
 
 const meta: Meta<typeof Tag> = {
   title: 'Components/Tag',
@@ -12,10 +12,9 @@ const meta: Meta<typeof Tag> = {
           'Tags are static labels used to categorize elements or communicate status, progress, or process.',
       },
     },
-    layout: 'centered', // Center tags for better viewing
+    layout: 'centered', 
   },
   argTypes: {
-    // Props directly available on DigDirTagProps
     children: {
       control: 'text',
       description: 'The text content of the tag.',
@@ -29,12 +28,12 @@ const meta: Meta<typeof Tag> = {
     },
     'data-color': {
       control: 'select',
-      options: [ // Based on the color examples provided
+      options: [ 
         'neutral', 'success', 'warning', 'danger', 'info',
-        'brand1', 'brand2', 'brand3', 'accent' // Added accent as it's usually available
+        'brand1', 'brand2', 'brand3', 'accent' 
       ],
       description: 'Change the color scheme of the tag.',
-      defaultValue: 'neutral', // Defaulting to neutral
+      defaultValue: 'neutral', 
     },
   } as ArgTypes<TagProps>,
 };
@@ -47,7 +46,7 @@ type Story = StoryObj<typeof Tag>;
 export const Default: Story = {
   args: {
     children: 'Beta',
-    'data-color': 'info', // Example color
+    'data-color': 'info',
     'data-size': 'md',
   },
 };
@@ -55,7 +54,6 @@ export const Default: Story = {
 // --- Size Variants ---
 export const Sizes: Story = {
   render: (args) => (
-    // Use args only for potential global controls like data-color if needed
     <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
       <Tag data-size="sm" data-color={args['data-color']}>sm</Tag>
       <Tag data-size="md" data-color={args['data-color']}>md</Tag>
@@ -63,20 +61,17 @@ export const Sizes: Story = {
     </div>
   ),
   args: {
-    // Pass color from controls, default children are overridden
     'data-color': 'neutral',
   },
-  // Disable size control for this specific story as it shows all sizes
   argTypes: {
     'data-size': { control: false },
-    children: { control: false }, // Disable children control for this layout story
+    children: { control: false }, 
   },
 };
 
 // --- Color Variants ---
 export const Colors: Story = {
   render: (args) => (
-    // Use args only for potential global controls like data-size if needed
     <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
       <Tag data-color="neutral" data-size={args['data-size']}>neutral</Tag>
       <Tag data-color="success" data-size={args['data-size']}>success</Tag>
@@ -90,12 +85,10 @@ export const Colors: Story = {
     </div>
   ),
   args: {
-    // Pass size from controls, default children are overridden
     'data-size': 'md',
   },
-  // Disable color control for this specific story as it shows multiple colors
   argTypes: {
     'data-color': { control: false },
-    children: { control: false }, // Disable children control for this layout story
+    children: { control: false }, 
   },
 };

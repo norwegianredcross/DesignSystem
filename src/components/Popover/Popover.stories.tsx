@@ -1,8 +1,7 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
-import React, { useState } from 'react'; // Import useState for controlled example
-import { Popover, PopoverProps } from './index'; // Import the main Popover component
-// Import components for context/examples
-import { Button, Paragraph, Link } from '@digdir/designsystemet-react';
+import { useState } from 'react'; 
+import { Popover, PopoverProps } from './index'; 
+import { Button, Paragraph } from '@digdir/designsystemet-react';
 
 const meta: Meta<typeof Popover> = {
   title: 'Components/Popover',
@@ -15,10 +14,9 @@ const meta: Meta<typeof Popover> = {
           'Popover displays information or interactive elements over other content, anchored to a trigger element.',
       },
     },
-    layout: 'centered', // Popovers often benefit from centered layout
+    layout: 'centered', 
   },
   argTypes: {
-    // Props directly available on DigDirPopoverProps
     placement: {
       control: 'select',
       options: [
@@ -48,7 +46,7 @@ const meta: Meta<typeof Popover> = {
     open: {
       control: 'boolean',
       description: 'Controls the open/closed state (controlled mode).',
-      table: { disable: true }, // Disable control, better managed via state/context
+      table: { disable: true }, 
     },
     variant: {
       control: 'select',
@@ -77,7 +75,7 @@ const meta: Meta<typeof Popover> = {
       defaultValue: false,
     },
     children: {
-      control: 'text', // Simple control for basic text content
+      control: 'text', 
       description: 'Popover content.',
       defaultValue: 'Popover Content',
     },
@@ -108,7 +106,6 @@ export const Default: Story = {
 export const WithoutContext: Story = {
   render: (args) => (
     <>
-      {/* Ensure the button has popovertarget matching the Popover id */}
       <Button popovertarget="my-popover-example-no-context">
         Open Popover (No Context)
       </Button>
@@ -116,7 +113,7 @@ export const WithoutContext: Story = {
     </>
   ),
   args: {
-    id: 'my-popover-example-no-context', // ID must match popovertarget
+    id: 'my-popover-example-no-context', 
     children: 'Content for popover without context.',
     placement: 'right',
     'data-color': 'accent',
@@ -131,7 +128,6 @@ export const InteractiveContent: Story = {
       <Popover {...args}>
         <Paragraph data-size="sm">Are you sure you want to proceed?</Paragraph>
         <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-          {/* Buttons inside might need Popover.Close or manual close logic */}
           <Button data-size="sm" variant="secondary" onClick={() => alert('Cancelled')}>
             Cancel
           </Button>
@@ -143,7 +139,7 @@ export const InteractiveContent: Story = {
     </Popover.TriggerContext>
   ),
   args: {
-    children: null, // Children are defined in render
+    children: null, 
     placement: 'bottom-end',
     'data-color': 'neutral',
     variant: 'tinted',
@@ -181,7 +177,7 @@ export const Controlled: Story = {
         <Popover
           {...args}
           open={isOpen}
-          onClose={() => setIsOpen(false)} // Required when controlled
+          onClose={() => setIsOpen(false)} 
         >
           <Paragraph data-size="sm">This popover is controlled externally.</Paragraph>
           <Button data-size="sm" onClick={() => setIsOpen(false)} style={{marginTop: '8px'}}>Close Me</Button>
@@ -190,9 +186,8 @@ export const Controlled: Story = {
     );
   },
   args: {
-    children: null, // Children are defined in render
+    children: null,
     placement: 'bottom',
     'data-color': 'info',
-    // 'open' prop is controlled by state in render function
   },
 };

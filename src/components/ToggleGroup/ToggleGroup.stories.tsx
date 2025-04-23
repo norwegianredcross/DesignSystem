@@ -1,8 +1,20 @@
+// src/components/ToggleGroup/ToggleGroup.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
-import  { useState } from 'react'; // Import useState for controlled example
-import { ToggleGroup, ToggleGroupProps } from './index'; // Import the main ToggleGroup component
-// Import components for context/examples
+import { useState } from 'react';
+import { ToggleGroup, ToggleGroupProps } from './index';
 import { Button, Divider, Paragraph } from '@digdir/designsystemet-react';
+// --- Import Icons ---
+import {
+  AlignLeftIcon,
+  AlignCenterIcon,
+  AlignRightIcon,
+  EnvelopeClosedIcon,
+  DocPencilIcon,
+  ArchiveIcon,
+  PaperplaneIcon,
+} from '@navikt/aksel-icons';
+// --- Import Tooltip ---
+import { Tooltip } from '../Tooltip'; // Adjust path if necessary
 
 const meta: Meta<typeof ToggleGroup> = {
   title: 'Components/ToggleGroup',
@@ -18,7 +30,6 @@ const meta: Meta<typeof ToggleGroup> = {
     layout: 'centered',
   },
   argTypes: {
-    // Props directly available on DigDirToggleGroupProps
     defaultValue: {
       control: 'text',
       description: 'Default selected item value (uncontrolled mode).',
@@ -26,7 +37,7 @@ const meta: Meta<typeof ToggleGroup> = {
     name: {
       control: 'text',
       description: 'Form element name for the group.',
-      defaultValue: 'toggle-group-story', // Default name for story
+      defaultValue: 'toggle-group-story',
     },
     'data-size': {
       control: 'select',
@@ -43,12 +54,12 @@ const meta: Meta<typeof ToggleGroup> = {
     value: {
       control: 'text',
       description: 'Selected item value (controlled mode).',
-      table: { disable: true }, // Disable control, managed by state/defaultValue
+      table: { disable: true },
     },
     onChange: {
       action: 'changed',
       description: 'Callback with selected ToggleGroup.Item value.',
-      table: { disable: true }, // Disable control
+      table: { disable: true },
     },
     children: { control: false },
   } as ArgTypes<ToggleGroupProps>,
@@ -58,8 +69,9 @@ export default meta;
 
 type Story = StoryObj<typeof ToggleGroup>;
 
-// --- Basic Uncontrolled Example ---
+// --- Example Default ---
 export const Default: Story = {
+  name: 'Example Default',
   render: (args) => (
     <ToggleGroup {...args}>
       <ToggleGroup.Item value="innboks">Innboks</ToggleGroup.Item>
@@ -69,48 +81,71 @@ export const Default: Story = {
     </ToggleGroup>
   ),
   args: {
-    defaultValue: 'innboks', // Start with the first item selected
+    defaultValue: 'innboks',
     name: 'folder-toggle',
     'data-size': 'md',
     'data-color': 'neutral',
   },
 };
 
-// --- Example mimicking Icon Only (using text instead) ---
-export const TextInsteadOfIcons: Story = {
+// --- Example Icon Only with Tooltip ---
+export const IconOnlyWithTooltip: Story = {
+  name: 'Example Icon Only with Tooltip',
   render: (args) => (
     <ToggleGroup {...args}>
-      {/* Use short text instead of icons */}
-      <ToggleGroup.Item value="option-1">Left</ToggleGroup.Item>
-      <ToggleGroup.Item value="option-2">Center</ToggleGroup.Item>
-      <ToggleGroup.Item value="option-3">Right</ToggleGroup.Item>
+      <Tooltip content="Venstrestilt">
+        <ToggleGroup.Item value="option-1">
+          <AlignLeftIcon title="Venstrestilt" fontSize="1.5rem" />
+        </ToggleGroup.Item>
+      </Tooltip>
+      <Tooltip content="Midtstilt">
+        <ToggleGroup.Item value="option-2">
+          <AlignCenterIcon title="Midtstilt" fontSize="1.5rem" />
+        </ToggleGroup.Item>
+      </Tooltip>
+      <Tooltip content="Høyrestilt">
+        <ToggleGroup.Item value="option-3">
+          <AlignRightIcon title="Høyrestilt" fontSize="1.5rem" />
+        </ToggleGroup.Item>
+      </Tooltip>
     </ToggleGroup>
   ),
   args: {
     defaultValue: 'option-1',
-    name: 'alignment-toggle',
-    'data-size': 'md',
-    'data-color': 'accent',
+    name: 'alignment-icon-toggle',
+    'data-size': 'md', // Example size
+    'data-color': 'accent', // Example color
   },
-  name: 'Text Instead of Icons', // Renamed story
 };
 
-// --- Controlled Example (No Icons) ---
-export const Controlled: Story = {
+// --- Example Controlled with Icons and Text ---
+export const ControlledWithIcons: Story = {
+  name: 'Example Controlled with Icons',
   render: (args) => {
     const [value, setValue] = useState<string>('utkast');
     return (
       <>
         <ToggleGroup
-          {...args} // Spread common args like size/color
-          value={value} // Pass controlled value
-          onChange={setValue} // Pass state setter
+          {...args}
+          value={value}
+          onChange={setValue}
         >
-          {/* Items without icons */}
-          <ToggleGroup.Item value="innboks">Innboks</ToggleGroup.Item>
-          <ToggleGroup.Item value="utkast">Utkast</ToggleGroup.Item>
-          <ToggleGroup.Item value="arkiv">Arkiv</ToggleGroup.Item>
-          <ToggleGroup.Item value="sendt">Sendt</ToggleGroup.Item>
+          <ToggleGroup.Item value="innboks">
+            <EnvelopeClosedIcon aria-hidden fontSize="1.5rem" style={{ marginRight: '4px' }}/>
+            Innboks
+          </ToggleGroup.Item>
+          <ToggleGroup.Item value="utkast">
+            <DocPencilIcon aria-hidden fontSize="1.5rem" style={{ marginRight: '4px' }}/>
+            Utkast
+          </ToggleGroup.Item>
+          <ToggleGroup.Item value="arkiv">
+            <ArchiveIcon aria-hidden fontSize="1.5rem" style={{ marginRight: '4px' }}/>
+            Arkiv
+          </ToggleGroup.Item>
+          <ToggleGroup.Item value="sendt">
+            <PaperplaneIcon aria-hidden fontSize="1.5rem" style={{ marginRight: '4px' }}/>
+            Sendt
+          </ToggleGroup.Item>
         </ToggleGroup>
         <Divider style={{ margin: 'var(--ds-size-4) 0 var(--ds-size-2) 0' }} />
         <Paragraph>Du har valgt: {value}</Paragraph>
@@ -121,15 +156,15 @@ export const Controlled: Story = {
     );
   },
   args: {
-    // Don't set value/defaultValue here, it's controlled by state
-    name: 'controlled-folder-toggle',
+    name: 'controlled-folder-toggle-icons',
     'data-size': 'md',
     'data-color': 'brand1',
   },
 };
 
-// --- Example with Different Size ---
+// --- Example Large Size ---
 export const LargeSize: Story = {
+  name: 'Example Large Size',
   render: (args) => (
      <ToggleGroup {...args}>
       <ToggleGroup.Item value="large1">Large Option 1</ToggleGroup.Item>
@@ -139,8 +174,7 @@ export const LargeSize: Story = {
   args: {
     defaultValue: 'large1',
     name: 'large-toggle',
-    'data-size': 'lg', // Set size
+    'data-size': 'lg',
     'data-color': 'neutral',
   },
-  name: 'Large Size',
 };

@@ -1,7 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { DateInput } from './components/DateInput'; // Adjust path if needed
-import { DatePicker } from './components/DatePicker';
-import { CalendarIcon } from './assets/images/CalendarIcon'; // Adjust path if needed
+import React, { useState, useEffect } from 'react';
+import { DateInput } from './components/DateInput';
+import { CalendarIcon } from './assets/images/CalendarIcon';
 import { format, parse, isValid } from 'date-fns';
 import { nb } from 'date-fns/locale';
 
@@ -12,9 +11,6 @@ function App() {
   const [currentBrand, setCurrentBrand] = useState<Brand>('brand-1');
   const [currentMode, setCurrentMode] = useState<Mode>('light');
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
-  // We no longer need to track if the date picker is open
-  // const [isDatePickerOpen, setIsDatePickerOpen] = useState<boolean>(false);
-  const datePickerRef = useRef<HTMLDivElement>(null);
 
   const toggleBrand = () => {
     setCurrentBrand((prevBrand) =>
@@ -28,14 +24,7 @@ function App() {
 
   const handleDateSelect = (date: Date) => {
     setSelectedDate(date);
-    // No need to close the date picker anymore
-    // setIsDatePickerOpen(false);
   };
-
-  // Remove the toggleDatePicker function as the date picker is always visible
-  // const toggleDatePicker = () => {
-  //   setIsDatePickerOpen((prev) => !prev);
-  // };
 
   const [inputValue, setInputValue] = useState<string>(
     selectedDate ? format(selectedDate, 'dd.MM.yyyy', { locale: nb }) : '',
@@ -48,41 +37,23 @@ function App() {
     if (isValid(parsedDate)) {
       setSelectedDate(parsedDate);
     } else {
-      // Optionally handle invalid input, e.g., set selectedDate to null
-      // setSelectedDate(null);
+       // setSelectedDate(null);
     }
   };
 
   useEffect(() => {
-    // Update input value when selectedDate changes
     setInputValue(
       selectedDate ? format(selectedDate, 'dd.MM.yyyy', { locale: nb }) : '',
     );
   }, [selectedDate]);
 
-  // Remove the click outside logic as the date picker is always visible
-  // useEffect(() => {
-  //   const handleClickOutside = (event: MouseEvent) => {
-  //     if (
-  //       datePickerRef.current &&
-  //       !datePickerRef.current.contains(event.target as Node)
-  //     ) {
-  //       setIsDatePickerOpen(false);
-  //     }
-  //   };
-  //   document.addEventListener('mousedown', handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener('mousedown', handleClickOutside);
-  //   };
-  // }, [datePickerRef]);
-
   const formattedDate = selectedDate
     ? format(selectedDate, 'dd.MM.yyyy', { locale: nb })
-    : '';
+    : 'Ingen dato valgt';
 
   return (
     <div
-      data-color={currentBrand}
+      data-color={currentBrand === 'brand-1' ? 'primary-brand' : 'secondary-hav'}
       data-color-scheme={currentMode}
       className="app-container"
       style={{ padding: '20px' }}
@@ -99,16 +70,13 @@ function App() {
 
       <hr />
 
-      {/* --- DatePicker Input Section --- */}
       <div
-        ref={datePickerRef}
         style={{
-          marginBottom: '20px', // Add some space below the date picker
-          display: 'inline-block', // Or block
+          marginBottom: '20px',
+          display: 'inline-block',
         }}
       >
         <p style={{ marginBottom: '10px' }}>Selected Date: {formattedDate}</p>
-        {/* The DateInput remains */}
         <div style={{ marginBottom: '10px' }}>
           <DateInput
             aria-label="Velg dato"
@@ -116,17 +84,10 @@ function App() {
             onChange={handleInputChange}
             placeholder="dd.mm.åååå"
             suffixIcon={<CalendarIcon />}
-            // The suffix icon can remain, but it won't toggle the date picker
-            // onSuffixClick={toggleDatePicker}
           />
         </div>
 
-        {/* The DatePicker is always visible */}
-        <DatePicker
-          selectedDate={selectedDate}
-          onDateSelect={handleDateSelect}
-          initialDate={selectedDate || new Date()}
-        />
+     
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
+// src/components/Select/Select.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
-import { Select, SelectProps } from './index'; // Import the main Select component
-// Import components for context/examples
+import React from 'react';
+import { Select, SelectProps } from './index';
 import { Field, Label, ValidationMessage } from '@digdir/designsystemet-react';
 
 const meta: Meta<typeof Select> = {
@@ -14,10 +15,8 @@ const meta: Meta<typeof Select> = {
           'Select (dropdown list) allows users to choose one option from a static list.',
       },
     },
-    // layout: 'centered', // Might need more width depending on content
   },
   argTypes: {
-    // Props directly available on DigDirSelectProps
     'aria-invalid': {
       control: 'boolean',
       description: 'Indicates an error state for accessibility',
@@ -45,16 +44,11 @@ const meta: Meta<typeof Select> = {
       description: 'Changes size for descendant Designsystemet components.',
       defaultValue: 'md',
     },
-    // data-color is NOT listed as a prop for Select itself in the docs provided.
-    // It likely inherits color from context.
-    // 'data-color': { ... },
-    // Standard select attributes like value, defaultValue, name, required are passed via {...props}
     value: { control: 'text' },
     defaultValue: { control: 'text' },
     name: { control: 'text' },
     required: { control: 'boolean' },
-    id: { control: 'text' }, // Important for label association
-    // aria-labelledby is needed if label text is not passed via label prop
+    id: { control: 'text' },
     'aria-labelledby': { control: 'text' },
     children: {
       control: false,
@@ -68,7 +62,7 @@ export default meta;
 type Story = StoryObj<typeof Select>;
 
 const mountainOptions = [
-  { value: '', label: 'Velg et fjell …' }, // Placeholder option
+  { value: '', label: 'Velg et fjell …' },
   { value: 'galdhopiggen', label: 'Galdhøpiggen' },
   { value: 'glittertind', label: 'Glittertind' },
   { value: 'store_skagastolstind', label: 'Store Skagastølstind' },
@@ -94,137 +88,137 @@ const groupedMountainOptions = [
   },
 ];
 
-// --- Basic Example ---
+// --- Example Basic ---
 export const Default: Story = {
+  name: 'Example Basic',
   render: (args) => (
-    // Use Field and Label for structure and accessibility
-    <Field data-size={args['data-size']}>
-      <Label id="select-default-label" htmlFor="select-default">
-        Velg et fjell
-      </Label>
-      <Select id="select-default" aria-labelledby="select-default-label" {...args}>
-        {mountainOptions.map((opt) => (
-          <Select.Option key={opt.value} value={opt.value} disabled={opt.value === ''}>
-            {opt.label}
-          </Select.Option>
-        ))}
-      </Select>
-    </Field>
+    // Label outside Field
+    <>
+      <Label>Velg et fjell</Label>
+      <Field data-size={args['data-size']}>
+        <Select {...args}>
+          {mountainOptions.map((opt) => (
+            <Select.Option key={opt.value} value={opt.value} disabled={opt.value === ''}>
+              {opt.label}
+            </Select.Option>
+          ))}
+        </Select>
+      </Field>
+    </>
   ),
   args: {
     name: 'default-select',
     'data-size': 'md',
-    width: 'auto', // Default to auto width for this example
+    width: 'auto',
   },
 };
 
 // --- Example with Error ---
 export const WithError: Story = {
+  name: 'Example with Error',
   render: (args) => (
-    <Field data-size={args['data-size']}>
-      <Label id="select-error-label" htmlFor="select-error">
-        Velg et fjell *
-      </Label>
-      <Select
-        id="select-error"
-        aria-labelledby="select-error-label"
-        aria-describedby="select-error-message" // Link to error message
-        required // Mark as required
-        {...args} // Spread args, including aria-invalid
-      >
-        {mountainOptions.map((opt) => (
-          <Select.Option key={opt.value} value={opt.value} disabled={opt.value === ''}>
-            {opt.label}
-          </Select.Option>
-        ))}
-      </Select>
-      {/* Show error message when aria-invalid is true */}
-      {args['aria-invalid'] && (
-        <ValidationMessage id="select-error-message">
-          Du må velge et fjell fra listen.
-        </ValidationMessage>
-      )}
-    </Field>
+    // Label outside Field
+    <>
+      <Label>Velg et fjell *</Label>
+      <Field data-size={args['data-size']}>
+        <Select
+          required
+          aria-describedby={args['aria-invalid'] ? 'select-error-message-story' : undefined}
+          {...args}
+        >
+          {mountainOptions.map((opt) => (
+            <Select.Option key={opt.value} value={opt.value} disabled={opt.value === ''}>
+              {opt.label}
+            </Select.Option>
+          ))}
+        </Select>
+        {args['aria-invalid'] && (
+          <ValidationMessage id="select-error-message-story">
+            Du må velge et fjell fra listen.
+          </ValidationMessage>
+        )}
+      </Field>
+    </>
   ),
   args: {
     name: 'error-select',
     'data-size': 'md',
-    'aria-invalid': true, // Set invalid state
+    'aria-invalid': true,
     width: 'full',
   },
-  name: 'With Error',
 };
 
 // --- Example with Grouping ---
 export const WithGrouping: Story = {
+    name: 'Example with Grouping (Optgroup)',
     render: (args) => (
-      <Field data-size={args['data-size']}>
-        <Label id="select-grouped-label" htmlFor="select-grouped">
-          Velg et fjell
-        </Label>
-        <Select id="select-grouped" aria-labelledby="select-grouped-label" {...args}>
-          <Select.Option value="" disabled>Velg et fjell …</Select.Option>
-          {groupedMountainOptions.map((group) => (
-            // --- FIX: Use Optgroup (lowercase g) ---
-            <Select.Optgroup key={group.label} label={group.label}>
-            {/* --- END FIX --- */}
-              {group.options.map((opt) => (
-                <Select.Option key={opt.value} value={opt.value}>
-                  {opt.label}
-                </Select.Option>
-              ))}
-            </Select.Optgroup> // --- FIX: Closing tag also uses lowercase g ---
-          ))}
-        </Select>
-      </Field>
+      // Label outside Field
+      <>
+        <Label>Velg et fjell</Label>
+        <Field data-size={args['data-size']}>
+          <Select {...args}>
+            <Select.Option value="" disabled>Velg et fjell …</Select.Option>
+            {groupedMountainOptions.map((group) => (
+              <Select.Optgroup key={group.label} label={group.label}>
+                {group.options.map((opt) => (
+                  <Select.Option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </Select.Option>
+                ))}
+              </Select.Optgroup>
+            ))}
+          </Select>
+        </Field>
+      </>
     ),
     args: {
       name: 'grouped-select',
       'data-size': 'md',
       width: 'auto',
-      defaultValue: 'everest', // Example default value
+      defaultValue: 'everest',
     },
-    name: 'With Grouping (Optgroup)', // Updated story name slightly for clarity
   };
 
-// --- Disabled Example ---
+// --- Example Disabled ---
 export const Disabled: Story = {
+ name: 'Example Disabled',
  render: (args) => (
-    <Field data-size={args['data-size']}>
-      <Label id="select-disabled-label" htmlFor="select-disabled">
-        Utilgjengelig valg
-      </Label>
-      <Select id="select-disabled" aria-labelledby="select-disabled-label" {...args}>
-         <Select.Option value="1">Valgt (Deaktivert)</Select.Option>
-         {/* Add other options if needed, they will also be disabled */}
-      </Select>
-    </Field>
+    // Label outside Field
+    <>
+      <Label>Utilgjengelig valg</Label>
+      <Field data-size={args['data-size']}>
+        <Select {...args}>
+           <Select.Option value="1">Valgt (Deaktivert)</Select.Option>
+        </Select>
+      </Field>
+    </>
   ),
   args: {
     name: 'disabled-select',
     'data-size': 'md',
     disabled: true,
-    value: '1', // Show a selected value in the disabled state
+    value: '1',
   },
 };
 
-// --- ReadOnly Example ---
+// --- Example ReadOnly ---
 export const ReadOnly: Story = {
+ name: 'Example ReadOnly',
  render: (args) => (
-    <Field data-size={args['data-size']}>
-      <Label id="select-readonly-label" htmlFor="select-readonly">
-        Kun lesbart valg
-      </Label>
-      <Select id="select-readonly" aria-labelledby="select-readonly-label" {...args}>
-         <Select.Option value="galdhopiggen">Galdhøpiggen</Select.Option>
-         {/* Only the selected option needs to be present for readOnly */}
-      </Select>
-    </Field>
+    // Label outside Field
+    <>
+      <Label>Kun lesbart valg</Label>
+      <Field data-size={args['data-size']}>
+        <Select {...args}>
+           <Select.Option value="galdhopiggen">Galdhøpiggen</Select.Option>
+        </Select>
+      </Field>
+    </>
   ),
   args: {
     name: 'readonly-select',
     'data-size': 'md',
     readOnly: true,
-    value: 'galdhopiggen', // The value that should be displayed
+    value: 'galdhopiggen',
   },
 };

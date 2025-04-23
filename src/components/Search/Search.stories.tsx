@@ -1,10 +1,8 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
-import React, { useState } from 'react'; // Import useState for controlled example
-import { Search, SearchProps } from './index'; // Import the main Search component
-// Import components for context/examples
+import { useState } from 'react'; 
+import { Search, SearchProps } from './index'; 
 import { Label, Field } from '@digdir/designsystemet-react';
 
-// Define the extended props type for story controls
 type SearchStoryProps = SearchProps & {
   placeholder?: string;
   label?: string;
@@ -26,7 +24,6 @@ const meta: Meta<typeof Search> = {
     },
   },
   argTypes: {
-    // Props for the main Search wrapper
     'data-size': {
       control: 'select',
       options: ['sm', 'md', 'lg'],
@@ -39,14 +36,14 @@ const meta: Meta<typeof Search> = {
       description: 'Changes color for descendant Designsystemet components.',
       defaultValue: 'neutral',
     },
-    children: { control: false }, // Disable children control
+    children: { control: false }, 
 
-    // --- Story-specific controls ---
+
     placeholder: {
       control: 'text',
       description: 'Placeholder text for the Search.Input field',
       defaultValue: 'Søk...',
-      table: { category: 'Story Controls' }, // Group in Storybook UI
+      table: { category: 'Story Controls' },
     },
     label: {
       control: 'text',
@@ -72,20 +69,18 @@ const meta: Meta<typeof Search> = {
       defaultValue: true,
       table: { category: 'Story Controls' },
     },
-  } as ArgTypes<SearchStoryProps>, // Use the extended type for ArgTypes
+  } as ArgTypes<SearchStoryProps>, 
 };
 
 export default meta;
 
-// Use the extended Story type
+
 type Story = StoryObj<SearchStoryProps>;
 
 // --- Default Example ---
 export const Default: Story = {
   render: (args) => (
-    // Pass only valid Search wrapper props
     <Search data-size={args['data-size']} data-color={args['data-color']}>
-      {/* Pass sub-component props directly */}
       <Search.Input aria-label="Søk" placeholder={args.placeholder} />
       {/* Use boolean flags for conditional rendering */}
       {args.showClearButton && <Search.Clear />}
@@ -105,17 +100,15 @@ export const Default: Story = {
 // --- Without Search Button (Icon in Input) ---
 export const WithoutButton: Story = {
   render: (args) => (
-    // Pass only valid Search wrapper props
     <Search data-size={args['data-size']} data-color={args['data-color']}>
       <Search.Input aria-label="Søk" placeholder={args.placeholder} />
       {args.showClearButton && <Search.Clear />}
-      {/* No Search.Button rendered based on args.showSearchButton */}
     </Search>
   ),
   args: {
     placeholder: 'Søk med ikon...',
     showClearButton: true,
-    showSearchButton: false, // Control this via args
+    showSearchButton: false, 
     'data-size': 'md',
     'data-color': 'neutral',
   },
@@ -125,11 +118,8 @@ export const WithoutButton: Story = {
 // --- With External Label ---
 export const WithLabel: Story = {
   render: (args) => (
-    // Pass only valid Field props
     <Field data-size={args['data-size']} data-color={args['data-color']}>
-      {/* Use label arg for Label component */}
       <Label id="search-with-label-label" htmlFor="search-with-label">{args.label}</Label>
-      {/* Don't pass args to Search wrapper here */}
       <Search>
         <Search.Input
           id="search-with-label"
@@ -160,7 +150,6 @@ export const Controlled: Story = {
     const [searchValue, setSearchValue] = useState('Jeg vil ha Pizza');
     return (
       <div style={{ width: '300px' }}>
-        {/* Pass only valid Search wrapper props */}
         <Search data-size={args['data-size']} data-color={args['data-color']}>
           <Search.Input
             aria-label="Kontrollert søk"
@@ -200,7 +189,6 @@ export const WithinForm: Story = {
         }}
         style={{ width: '300px' }}
       >
-        {/* Pass only valid Search wrapper props */}
         <Search data-size={args['data-size']} data-color={args['data-color']}>
           <Search.Input
             aria-label="Skjemasøk"

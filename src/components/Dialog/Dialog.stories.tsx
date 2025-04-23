@@ -1,6 +1,6 @@
 // src/components/Dialog/Dialog.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { Dialog, DialogProps } from './index';
 import { Buttons } from '../Buttons';
 import { Heading, Paragraph, Textfield } from '@digdir/designsystemet-react';
@@ -26,7 +26,7 @@ const meta: Meta<typeof Dialog> = {
       defaultValue: 'neutral',
     },
     closeButton: {
-      control: 'text', // Can be boolean false or string (aria-label)
+      control: 'text', 
       description:
         'Screen reader label of close button. Set false to hide the close button.',
       defaultValue: 'Lukk dialogvindu',
@@ -83,8 +83,6 @@ export const DefaultTrigger: Story = {
           <Paragraph>This is the main content of the dialog.</Paragraph>
         </Dialog.Block>
         <Dialog.Block>
-          {/* FIX: Removed Dialog.Close wrapper */}
-          {/* A button inside TriggerContext often closes implicitly */}
           <Buttons variant="secondary" type="button">
             Close
           </Buttons>
@@ -196,16 +194,11 @@ export const WithForm: Story = {
     <Dialog.TriggerContext>
       <Dialog.Trigger>Open Form Dialog</Dialog.Trigger>
       <Dialog {...args}>
-        {/* Using form method="dialog" helps with implicit closing */}
         <form
           method="dialog"
           onSubmit={(e) => {
-            // If you need custom submit logic beyond just closing:
             e.preventDefault();
             alert('Form submitted!');
-            // Find the dialog and close it if needed, e.g., using a ref if not using method="dialog"
-            // const dialog = (e.target as HTMLFormElement).closest('dialog');
-            // dialog?.close();
           }}
         >
           <Dialog.Block>
@@ -215,14 +208,12 @@ export const WithForm: Story = {
             <Textfield
               label="Your Name"
               name="your-name"
-              autoFocus // Focus input on open
+              autoFocus 
             />
           </Dialog.Block>
           <Dialog.Block>
             <div style={{ display: 'flex', gap: 'var(--ds-spacing-3)' }}>
-              {/* FIX: Removed Dialog.Close wrapper */}
-              {/* This button will close the dialog because of method="dialog" */}
-              <Buttons variant="secondary" type="reset"> {/* Use type="reset" or type="button" */}
+              <Buttons variant="secondary" type="reset"> 
                 Cancel
               </Buttons>
               <Buttons variant="primary" type="submit">

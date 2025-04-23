@@ -1,12 +1,10 @@
+// src/components/Chip/Chip.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react';
-import React, { useState } from 'react'; // Needed for Removable example
-import { Chip } from './index'; // Import the main Chip namespace
+import { useState } from 'react';
+import { Chip } from './index';
 
-// Meta configuration focuses on the Chip concept rather than a single renderable component
 const meta: Meta = {
   title: 'Components/Chip',
-  // We don't provide a component here as Chip itself isn't rendered directly
-  // component: Chip,
   tags: ['autodocs'],
   parameters: {
     docs: {
@@ -16,12 +14,11 @@ const meta: Meta = {
       },
     },
   },
-  // argTypes can be defined per-story if needed, or omitted for variant showcase
 };
 
 export default meta;
 
-// --- Story for Chip.Radio ---
+// --- Example Radio Variant ---
 export const Radio: StoryObj = {
   render: () => (
     <div style={{ display: 'flex', gap: '8px' }}>
@@ -39,10 +36,10 @@ export const Radio: StoryObj = {
       </Chip.Radio>
     </div>
   ),
-  name: 'Radio Variant',
+  name: 'Example Radio Variant', // Renamed
 };
 
-// --- Story for Chip.Checkbox ---
+// --- Example Checkbox Variant ---
 export const Checkbox: StoryObj = {
   render: () => (
     <div style={{ display: 'flex', gap: '8px' }}>
@@ -60,10 +57,10 @@ export const Checkbox: StoryObj = {
       </Chip.Checkbox>
     </div>
   ),
-  name: 'Checkbox Variant',
+  name: 'Example Checkbox Variant', // Renamed
 };
 
-// --- Story for Chip.Removable ---
+// --- Example Removable Variant ---
 export const Removable: StoryObj = {
   render: () => {
     const [visibleChips, setVisibleChips] = useState([
@@ -81,7 +78,7 @@ export const Removable: StoryObj = {
         {visibleChips.map((chip) => (
           <Chip.Removable
             key={chip}
-            aria-label={`Fjern ${chip}`} // Important for accessibility
+            aria-label={`Fjern ${chip}`}
             onClick={() => handleRemove(chip)}
             data-color="neutral"
             data-size="md"
@@ -93,10 +90,10 @@ export const Removable: StoryObj = {
       </div>
     );
   },
-  name: 'Removable Variant',
+  name: 'Example Removable Variant', // Renamed
 };
 
-// --- Story for Chip.Button ---
+// --- Example Button Variant ---
 export const Button: StoryObj = {
   render: () => (
     <div style={{ display: 'flex', gap: '8px' }}>
@@ -112,5 +109,5 @@ export const Button: StoryObj = {
       <Chip.Button disabled>Disabled</Chip.Button>
     </div>
   ),
-  name: 'Button Variant',
+  name: 'Example Button Variant', // Renamed
 };

@@ -31,7 +31,9 @@ export default meta;
 
 type Story = StoryObj<typeof Alert>;
 
+// --- Example Info ---
 export const Info: Story = {
+  name: 'Example Info',
   args: {
     'data-color': 'info',
     children: 'This is an informational alert.',
@@ -39,7 +41,9 @@ export const Info: Story = {
   } as AlertProps,
 };
 
+// --- Example Warning ---
 export const Warning: Story = {
+  name: 'Example Warning',
   args: {
     'data-color': 'warning',
     children: 'Proceed with caution.',
@@ -47,7 +51,9 @@ export const Warning: Story = {
   } as AlertProps,
 };
 
+// --- Example Success ---
 export const Success: Story = {
+  name: 'Example Success',
   args: {
     'data-color': 'success',
     children: 'Operation completed successfully.',
@@ -55,7 +61,9 @@ export const Success: Story = {
   } as AlertProps,
 };
 
+// --- Example Danger ---
 export const Danger: Story = {
+  name: 'Example Danger',
   args: {
     'data-color': 'danger',
     children: 'An error occurred.',
@@ -63,7 +71,9 @@ export const Danger: Story = {
   } as AlertProps,
 };
 
+// --- Example No Title ---
 export const NoTitle: Story = {
+  name: 'Example No Title',
   args: {
     'data-color': 'info',
     children: 'This alert has no title.',

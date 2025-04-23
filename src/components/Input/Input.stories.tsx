@@ -1,7 +1,8 @@
+// src/components/Input/Input.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
-import React, { useState } from 'react'; // Import useState for controlled example
-import { Input, InputProps } from './index'; // Import the main Input component
-import { Label } from '@digdir/designsystemet-react'; // Import Label for accessibility
+import React, { useState } from 'react';
+import { Input, InputProps } from './index';
+import { Label, Paragraph } from '@digdir/designsystemet-react'; // Import Label
 
 const meta: Meta<typeof Input> = {
   title: 'Components/Input',
@@ -14,9 +15,9 @@ const meta: Meta<typeof Input> = {
           'Input is a basic form element for collecting user data. Use Label for accessibility.',
       },
     },
+    layout: 'padded',
   },
   argTypes: {
-    // Props directly available on DigDirInputProps
     'aria-invalid': {
       control: 'boolean',
       description: 'Indicates an error state for accessibility',
@@ -34,7 +35,7 @@ const meta: Meta<typeof Input> = {
     },
     type: {
       control: 'select',
-      options: [ // Common input types
+      options: [
         'text', 'number', 'email', 'password', 'search', 'tel', 'url', 'date',
         'datetime-local', 'month', 'week', 'time', 'color', 'file', 'hidden',
       ],
@@ -59,13 +60,11 @@ const meta: Meta<typeof Input> = {
     },
     size: {
       control: 'number',
-      description: 'Defines the width of Input in count of characters (HTML size attribute).',
+      description: 'HTML size attribute (input width in characters).',
     },
-    // Standard input attributes are usually passed via {...props}
-    value: { control: 'text' }, // For controlled example
+    value: { control: 'text' },
     placeholder: { control: 'text' },
     id: { control: 'text' },
-    // aria-labelledby is needed if label text is not passed via label prop
     'aria-labelledby': { control: 'text' },
   } as ArgTypes<InputProps>,
 };
@@ -74,10 +73,11 @@ export default meta;
 
 type Story = StoryObj<typeof Input>;
 
-// --- Basic Example ---
+// --- Example Basic ---
 export const Default: Story = {
+  name: 'Example Basic',
   render: (args) => (
-    <div>
+    <>
       <Label id="input-default-label" htmlFor="input-default">Input Label</Label>
       <Input
         id="input-default"
@@ -85,7 +85,7 @@ export const Default: Story = {
         placeholder="Type something..."
         {...args}
       />
-    </div>
+    </>
   ),
   args: {
     type: 'text',
@@ -94,10 +94,11 @@ export const Default: Story = {
   },
 };
 
-// --- Different Type Example ---
+// --- Example Email Type ---
 export const EmailType: Story = {
+  name: 'Example Email Type',
   render: (args) => (
-    <div>
+    <>
       <Label id="input-email-label" htmlFor="input-email">Email Address</Label>
       <Input
         id="input-email"
@@ -105,7 +106,7 @@ export const EmailType: Story = {
         placeholder="your.email@example.com"
         {...args}
       />
-    </div>
+    </>
   ),
   args: {
     type: 'email',
@@ -114,31 +115,32 @@ export const EmailType: Story = {
   },
 };
 
-// --- HTML Size Attribute Example ---
+// --- Example HTML Size Attribute ---
 export const HtmlSize: Story = {
-  render: (args) => (
-    <div>
-      <Label id="input-size-label" htmlFor="input-size">Input with size=10</Label>
-      <Input
-        id="input-size"
-        aria-labelledby="input-size-label"
-        {...args}
-      />
-    </div>
-  ),
-  args: {
-    type: 'text',
-    name: 'size-input',
-    size: 10, // HTML size attribute
-    'data-size': 'md', // Component size
-  },
-  name: 'HTML Size Attribute',
-};
-
-// --- Disabled Example ---
+    name: 'Example HTML Size Attribute',
+    render: (args) => (
+      <div>
+        <Label id="input-size-label" htmlFor="input-size">Input with size=10</Label>
+        <Input
+          id="input-size"
+          aria-labelledby="input-size-label"
+          {...args}
+        />
+      </div>
+    ),
+    args: {
+      type: 'text',
+      name: 'size-input',
+      size: 10, 
+      'data-size': 'md', 
+    },
+  };
+  
+// --- Example Disabled ---
 export const Disabled: Story = {
+  name: 'Example Disabled',
   render: (args) => (
-    <div>
+    <>
       <Label id="input-disabled-label" htmlFor="input-disabled">Disabled Input</Label>
       <Input
         id="input-disabled"
@@ -146,7 +148,7 @@ export const Disabled: Story = {
         value="Cannot edit"
         {...args}
       />
-    </div>
+    </>
   ),
   args: {
     type: 'text',
@@ -156,10 +158,11 @@ export const Disabled: Story = {
   },
 };
 
-// --- ReadOnly Example ---
+// --- Example ReadOnly ---
 export const ReadOnly: Story = {
+  name: 'Example ReadOnly',
   render: (args) => (
-    <div>
+    <>
       <Label id="input-readonly-label" htmlFor="input-readonly">Read Only Input</Label>
       <Input
         id="input-readonly"
@@ -167,7 +170,7 @@ export const ReadOnly: Story = {
         value="Cannot change, but can copy"
         {...args}
       />
-    </div>
+    </>
   ),
   args: {
     type: 'text',
@@ -177,10 +180,11 @@ export const ReadOnly: Story = {
   },
 };
 
-// --- Invalid State Example ---
+// --- Example Invalid State ---
 export const Invalid: Story = {
+  name: 'Example Invalid State',
   render: (args) => (
-    <div>
+    <>
       <Label id="input-invalid-label" htmlFor="input-invalid">Invalid Input</Label>
       <Input
         id="input-invalid"
@@ -188,43 +192,39 @@ export const Invalid: Story = {
         value="Incorrect value"
         {...args}
       />
-      {/* Typically paired with ValidationMessage */}
-      {/* <ValidationMessage error>Error details</ValidationMessage> */}
-    </div>
+    </>
   ),
   args: {
     type: 'text',
     name: 'invalid-input',
-    'aria-invalid': true, // Set invalid state
+    'aria-invalid': true,
     'data-size': 'md',
   },
-  name: 'Invalid State (aria-invalid)',
 };
 
 
-// --- Controlled Example ---
+// --- Example Controlled ---
 export const Controlled: Story = {
+  name: 'Example Controlled',
   render: (args) => {
     const [inputValue, setInputValue] = useState('Initial Value');
     return (
-      <div>
+      <>
         <Label id="input-controlled-label" htmlFor="input-controlled">Kontroller meg!</Label>
         <Input
           id="input-controlled"
           aria-labelledby="input-controlled-label"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
-          {...args} // Spread other args like data-size etc.
+          {...args}
         />
-        <p style={{ marginTop: '8px' }}>Du har skrevet inn: {inputValue}</p>
-      </div>
+        <Paragraph style={{ marginTop: '8px' }}>Du har skrevet inn: {inputValue}</Paragraph>
+      </>
     );
   },
   args: {
     type: 'text',
     name: 'controlled-input',
     'data-size': 'md',
-    // value and onChange are handled by the render function's state
   },
 };
- 
