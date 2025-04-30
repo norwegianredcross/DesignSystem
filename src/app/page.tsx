@@ -1,10 +1,5 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+// src/app/page.tsx
 
-export default function Home() {
-  return (
-    <div className={styles.page}>
-      
-    </div>
-  );
-}
+import HomePage from "../app/pages/home";
+
+export default HomePage;

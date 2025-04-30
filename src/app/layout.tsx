@@ -1,16 +1,14 @@
+// src/app/layout.tsx
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
+
+import "@digdir/designsystemet-css/index.css";
+import "../../design-tokens-build/brand-1.css"; 
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { ThemeManager } from "../../src/app/components/ThemeManager"; 
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -22,10 +20,18 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  console.log("[Server] RootLayout rendering on server");
+
+
+
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="stylesheet" href="https://use.typekit.net/vmx5jgv.css" />
+      </head>
+      <body className={inter.className}>
         {children}
+        <ThemeManager /> 
       </body>
     </html>
   );

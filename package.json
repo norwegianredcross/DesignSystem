@@ -9,6 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@digdir/designsystemet": "^1.0.4",
+    "@digdir/designsystemet-css": "^1.0.4",
+    "@digdir/designsystemet-react": "^1.0.4",
+    "@digdir/designsystemet-theme": "^1.0.4",
     "componentlibrary": "file:../../componentlibrary/componentlibrary-0.1.0.tgz",
     "next": "15.3.1",
     "react": "^19.0.0",
@@ -21,6 +25,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.3.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vite-plugin-lib-inject-css": "^2.2.2"
   }
 }
