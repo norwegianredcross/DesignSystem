@@ -2,11 +2,15 @@
   "name": "rk-demo",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://<username>.github.io/<repository-name>",
+
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "next build", 
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "predeploy": "npm run build", 
+    "deploy": "gh-pages -d out" 
   },
   "dependencies": {
     "@digdir/designsystemet": "^1.0.4",
@@ -25,7 +29,8 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.3.1",
+    "gh-pages": "^6.3.0", 
     "typescript": "^5",
-    "vite-plugin-lib-inject-css": "^2.2.2"
+    "vite-plugin-lib-inject-css": "^2.2.2" 
   }
 }
