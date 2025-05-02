@@ -22,9 +22,7 @@ function App() {
     setCurrentMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
   };
 
-  const handleDateSelect = (date: Date) => {
-    setSelectedDate(date);
-  };
+
 
   const [inputValue, setInputValue] = useState<string>(
     selectedDate ? format(selectedDate, 'dd.MM.yyyy', { locale: nb }) : '',

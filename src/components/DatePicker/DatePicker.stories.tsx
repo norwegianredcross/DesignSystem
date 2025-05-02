@@ -27,11 +27,13 @@ const meta: Meta<typeof DatePicker> = {
     },
     selectedDate: {
       control: { type: 'date' },
-      description: 'The currently selected date (primarily for standalone calendar stories).',
+      description:
+        'The currently selected date (primarily for standalone calendar stories).',
     },
     onDateSelect: {
       action: 'dateSelected',
-      description: 'Callback function when a date is selected in the calendar.',
+      description:
+        'Callback function when a date is selected in the calendar.',
     },
   } as ArgTypes<DatePickerProps>,
 };
@@ -127,7 +129,6 @@ export const CalendarStartingInPreviousMonth: CalendarStory = {
   },
 };
 
-
 // --- Story for Combined DateInput + DatePicker ---
 
 // This component wraps DateInput and DatePicker, managing their shared state
@@ -135,7 +136,7 @@ const DatePickerInputCombo: React.FC<DatePickerProps> = (args) => {
   // State for the actual Date object (null if none selected/invalid)
   const [selectedDate, setSelectedDate] = useState<Date | null>(
     // Initialize from args if provided and valid, otherwise null or default
-    args.selectedDate && isValid(args.selectedDate) ? args.selectedDate : null
+    args.selectedDate && isValid(args.selectedDate) ? args.selectedDate : null,
   );
   // State for the string value displayed in the DateInput (dd.MM.yyyy format)
   const [inputValue, setInputValue] = useState<string>(
@@ -151,7 +152,7 @@ const DatePickerInputCombo: React.FC<DatePickerProps> = (args) => {
 
   // Handler for when the text input changes
   const handleInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    _event: React.ChangeEvent<HTMLInputElement>, // Prefixed with underscore as it's unused
     formattedValue: string, // Use the formatted value from DateInput's onChange
   ) => {
     setInputValue(formattedValue); // Update the string state immediately

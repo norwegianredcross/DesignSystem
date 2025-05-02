@@ -1,6 +1,5 @@
 // src/components/Select/Select.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
-import React from 'react';
 import { Select, SelectProps } from './index';
 import { Field, Label, ValidationMessage } from '@digdir/designsystemet-react';
 

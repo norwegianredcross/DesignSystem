@@ -8,7 +8,6 @@ import {
   VideoIcon,
   EnvelopeClosedFillIcon,
 } from '@navikt/aksel-icons'; // Keep for icon examples
-import { Tooltip } from '../Tooltip'; // Keep for icon examples
 
 const meta: Meta<typeof Badge> = {
   title: 'Components/Badge',

@@ -149,7 +149,6 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
       (event: React.ChangeEvent<HTMLInputElement>) => {
         const input = event.target;
         const currentValueInInput = input.value;
-        const selectionStart = input.selectionStart ?? 0;
         const previousFormattedValue = displayValue;
 
         const currentDigits = getDigits(currentValueInInput).slice(0, 8);
