@@ -1,54 +1,81 @@
-# React + TypeScript + Vite
+# Design System Component Library (Norwegian Red Cross)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+## Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This repository contains a library of reusable UI components built with React and Vite, specifically tailored for Norwegian Red Cross digital projects. It leverages components and styling principles from [Digdir's Designsystemet](https://www.designsystemet.no/) while also including custom components to meet specific Red Cross requirements.
 
-## Expanding the ESLint configuration
+The primary goal is to ensure brand consistency, improve development efficiency, and maintain high accessibility standards across applications.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+[Storybook](https://norwegianredcross.github.io/DesignSystem/storybook/) serves as the interactive documentation and development environment for viewing and testing these components.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## Features
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+*   **React Components:** Modern, functional React components.
+*   **Vite Tooling:** Fast development and build process powered by Vite.
+*   **TypeScript:** Enhanced code quality and maintainability.
+*   **Digdir Designsystemet Integration:** Uses foundational components and styles from the national design system.
+*   **Custom NRC Components:** Includes components built specifically for Norwegian Red Cross needs.
+*   **Storybook:** Provides interactive documentation, visual testing, and component showcasing.
+*   **Accessibility:** Built with accessibility (WCAG) considerations.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Prerequisites
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+*   [Node.js](https://nodejs.org/) (LTS version recommended, e.g., v18 or v20+)
+*   [npm](https://www.npmjs.com/) (comes with Node.js) or [yarn](https://yarnpkg.com/) or [pnpm](https://pnpm.io/)
+
+## Getting Started
+
+1.  **Clone the Repository:**
+    ```bash
+    git clone https://github.com/norwegianredcross/DesignSystem.git
+    cd DesignSystem
+    ```
+
+2.  **Switch to the correct branch:**
+    The component library source code lives on the `Storybook-Demo` branch.
+    ```bash
+    git switch Storybook-Demo
+    # Or git checkout Storybook-Demo
+    ```
+    *(Note: The root of this branch contains the component library project).*
+
+3.  **Install Dependencies:**
+    ```bash
+    npm install
+    # or: yarn install
+    # or: pnpm install
+    ```
+
+## Available Scripts
+
+In the project directory, you can run several commands:
+
+*   ### `npm run storybook` or `yarn storybook` or `pnpm storybook`
+
+    Runs the Storybook development server locally. Open [http://localhost:6006](http://localhost:6006) (or the specified port) to view the components interactively in your browser. This is the primary way to view and develop components.
+
+*   ### `npm run build-storybook` or `yarn build-storybook` or `pnpm build-storybook`
+
+    Builds the static Storybook site for deployment (outputs to the `storybook-static` directory). This is configured with the correct base path for deployment to GitHub Pages.
+
+*   ### `npm run build` or `yarn build` or `pnpm build`
+
+    Builds the component library itself for production (using `tsc` and `vite build`). The output is typically placed in the `dist` directory. This is used if you intend to publish the library as a package or consume its build artifacts directly.
+
+*   ### `npm run lint` or `yarn lint` or `pnpm lint`
+
+    Runs the ESLint checker to find potential issues in the code.
+
+*   ### `npm run dev` or `yarn dev` or `pnpm dev`
+
+    Runs the Vite development server. This might be configured for library development mode or a minimal test app within the library project.
+
+*   ### `npm run preview` or `yarn preview` or `pnpm preview`
+
+    Locally previews the production build of the *library* (from the `dist` directory), not Storybook.
+
+    ## Deployment
+
+The Storybook documentation site for this library is automatically built and deployed via manual triggers or potentially GitHub Actions (check `.github/workflows/`) to GitHub Pages.
+
