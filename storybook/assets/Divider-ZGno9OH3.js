@@ -1,0 +1,1 @@
+import{j as e}from"./jsx-runtime-D_zvdyIk.js";import{c as o}from"./lite-DaUVFjkg.js";import{r as t}from"./index-D4lIrffr.js";const c=t.forwardRef(function({className:r,...i},s){return e.jsx("hr",{"aria-hidden":"true",className:o("ds-divider",r),ref:s,...i})});export{c as D};
