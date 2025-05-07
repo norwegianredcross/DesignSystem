@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/src/app/components/ThemeManager/styles.module.css"],"sourcesContent":["/* src/components/ThemeManager/styles.module.css */\r\n.themeSwitcher {\r\n    background: none;\r\n    border: 1px solid var(--ds-color-neutral-border-subtle, #ccc);\r\n    color: var(--ds-color-neutral-text-default, #333);\r\n    padding: var(--ds-size-2, 8px);\r\n    border-radius: var(--ds-border-radius-md, 6px);\r\n    cursor: pointer;\r\n    font-size: 1.2rem;\r\n    line-height: 1;\r\n    transition:\r\n      background-color 0.2s ease,\r\n      border-color 0.2s ease;\r\n    position: fixed; \r\n    bottom: var(--ds-size-4, 16px);\r\n    right: var(--ds-size-4, 16px);\r\n    z-index: 1000;\r\n  }\r\n  \r\n  .themeSwitcher:hover {\r\n    background-color: var(--ds-color-neutral-background-hover, #eee);\r\n    border-color: var(--ds-color-neutral-border-default, #aaa);\r\n  }\r\n  "],"names":[],"mappings":"AACA;;;;;;;;;;;;;;;;AAkBE"}}]
-}

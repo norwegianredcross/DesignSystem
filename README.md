@@ -1,5 +1,7 @@
 # Design System Demo Application (Norwegian Red Cross)
 
+**Live Demo URL:** [https://norwegianredcross.github.io/DesignSystem](https://norwegianredcross.github.io/DesignSystem)
+
 
 ## Overview
 

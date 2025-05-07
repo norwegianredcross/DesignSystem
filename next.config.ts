@@ -1,7 +1,7 @@
 // next.config.js or next.config.ts
 import type { NextConfig } from "next";
 
-const repoName = 'RK-Demo'; // Correct Casing
+const repoName = 'DesignSystem'; // Correct Casing
 const isProd = process.env.NODE_ENV === 'production';
 
 const nextConfig: NextConfig = {

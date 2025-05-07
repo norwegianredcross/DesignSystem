@@ -1,30 +1,6 @@
 {
   "version": 4,
   "routes": {
-    "/conference": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "Next-Action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/conference",
-      "dataRoute": "/conference.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/": {
       "experimentalBypassFor": [
         {
@@ -48,13 +24,37 @@
         "x-next-revalidated-tags",
         "x-next-revalidate-tag-token"
       ]
+    },
+    "/conference": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "Next-Action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/conference",
+      "dataRoute": "/conference.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
     }
   },
   "dynamicRoutes": {},
   "notFoundRoutes": [],
   "preview": {
-    "previewModeId": "1b2ee4211abc02a15328700dfe30c2f7",
-    "previewModeSigningKey": "b749ed3b0aad9548c70a5811bba251483e6c4eb7938b320c254ebd0cbddb132d",
-    "previewModeEncryptionKey": "03c368d2b69139b571b68ca4f054a06a289f0987b13d4e54a463176bdd8a30dd"
+    "previewModeId": "a77726b77d0b31bf88a256e502353b44",
+    "previewModeSigningKey": "4bd8c83f27f4b86b14bbaf60edb204b552cbf0c58eb01387f087d5c879822243",
+    "previewModeEncryptionKey": "5bd7a94ad9be810a71cd74e9e80cd2a8210ab205e092ebd0d012749e0b7bb0c1"
   }
 }
