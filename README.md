@@ -1,5 +1,6 @@
 # Design System Component Library (Norwegian Red Cross)
 
+**Live Storybook URL:** [https://norwegianredcross.github.io/DesignSystem/storybook/](https://norwegianredcross.github.io/DesignSystem/storybook/)
 
 ## Overview
 
@@ -75,7 +76,18 @@ In the project directory, you can run several commands:
 
     Locally previews the production build of the *library* (from the `dist` directory), not Storybook.
 
-    ## Deployment
+The Storybook documentation site, showcasing all components and assets, is deployed to GitHub Pages.
 
-The Storybook documentation site for this library is automatically built and deployed via manual triggers or potentially GitHub Actions (check `.github/workflows/`) to GitHub Pages.
+*   **Source Branch for Storybook Code:** `Storybook-Demo`
+*   **Deployment Target:** `gh-pages` branch, under the `/storybook` subdirectory.
+
+
+Deployment is typically handled via manual `npx gh-pages` commands or could be automated with GitHub Actions (check `.github/workflows/` on the `main` branch for relevant workflows).
+
+## Consuming This Library
+
+*(Placeholder: This section needs to detail how other projects, like the Next.js demo app on the `main` branch, will consume this component library. Options include:*
+    *   *Publishing as an npm package (to npmjs.com or GitHub Packages).*
+    *   *Setting up monorepo workspaces (e.g., with npm, yarn, or pnpm) within the `DesignSystem` repository if both the library and consumer apps are to be developed in lockstep.*
+    *   *Using local path references (e.g., `file:...`) during development, with a more robust solution for production builds.)*
 
