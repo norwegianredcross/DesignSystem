@@ -1,5 +1,5 @@
 // src/components/Input/Input.stories.tsx
-import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
+import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import React, { useState } from 'react';
 import { Input, InputProps } from './index';
 import { Label, Paragraph } from '@digdir/designsystemet-react'; // Import Label

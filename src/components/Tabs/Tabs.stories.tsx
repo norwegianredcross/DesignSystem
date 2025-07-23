@@ -1,4 +1,4 @@
-import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
+import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import { useState } from 'react'; // Import useState for controlled example
 import { Tabs, TabsProps } from './index'; // Import the main Tabs component
 // Import components for context/examples

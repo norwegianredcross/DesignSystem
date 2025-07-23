@@ -1,5 +1,5 @@
 // src/components/Field/Field.stories.tsx
-import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
+import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import React from 'react';
 import { Field, FieldProps, FieldDescription, FieldCounter } from './index';
 import {

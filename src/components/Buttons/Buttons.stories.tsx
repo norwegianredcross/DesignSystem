@@ -1,5 +1,5 @@
 // src/components/Buttons/Buttons.stories.tsx
-import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
+import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import { Buttons, ButtonsProps } from './index';
 import {
   PencilWritingIcon,

@@ -1,5 +1,5 @@
 // src/components/Breadcrumbs/Breadcrumbs.stories.tsx
-import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
+import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import {
   Breadcrumbs,
   BreadcrumbsProps,

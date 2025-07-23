@@ -1,4 +1,4 @@
-import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
+import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import { useState } from 'react';
 import { Textarea, TextareaProps } from './index'; 
 // Import components for context/examples

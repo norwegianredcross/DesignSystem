@@ -1,5 +1,5 @@
 // src/components/Badge/Badge.stories.tsx
-import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
+import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import { Badge, BadgeProps, BadgePosition } from './index';
 import { Button } from '@digdir/designsystemet-react'; // Keep for icon button example if needed
 import {

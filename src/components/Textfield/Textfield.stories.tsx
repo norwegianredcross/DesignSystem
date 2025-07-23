@@ -1,5 +1,5 @@
 // src/components/Textfield/Textfield.stories.tsx
-import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
+import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import React, { useState } from 'react'; // Import useState for controlled example
 import { Textfield, TextfieldProps } from './index'; // Import the main Textfield component
 // Import components for context/examples

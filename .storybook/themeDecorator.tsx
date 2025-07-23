@@ -1,6 +1,6 @@
 // .storybook/themeDecorator.ts
 import React, { useEffect } from 'react';
-import type { Decorator } from '@storybook/react';
+import type { Decorator } from '@storybook/react-vite';
 
 export const themeDecorator: Decorator = (Story, context) => {
   const { brand, mode } = context.globals;

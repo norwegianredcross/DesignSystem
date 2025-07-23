@@ -1,4 +1,4 @@
-import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
+import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import { Tooltip, TooltipProps } from './index'; 
 // Import components for context/examples
 import { Button } from '@digdir/designsystemet-react';

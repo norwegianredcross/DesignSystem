@@ -1,5 +1,5 @@
 // src/design-system/Theme.stories.tsx
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import React from 'react';
 
 // Helper component for displaying a color swatch

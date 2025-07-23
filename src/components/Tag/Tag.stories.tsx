@@ -1,4 +1,4 @@
-import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
+import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import { Tag, TagProps } from './index'; 
 
 const meta: Meta<typeof Tag> = {

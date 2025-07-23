@@ -1,5 +1,5 @@
 // src/components/Table/Table.stories.tsx
-import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
+import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import { useState, useMemo } from 'react'; // Import useState and useMemo for sorting example
 import { Table, TableProps } from './index'; // Import the main Table component
 // Import components for context/examples

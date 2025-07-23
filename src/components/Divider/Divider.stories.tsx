@@ -1,4 +1,4 @@
-import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
+import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import { Divider, DividerProps } from './index'; 
 import { Paragraph, Heading } from '@digdir/designsystemet-react'; 
 

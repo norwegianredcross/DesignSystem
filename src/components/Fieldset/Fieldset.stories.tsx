@@ -1,5 +1,5 @@
 // src/components/Fieldset/Fieldset.stories.tsx
-import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
+import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import { Fieldset, FieldsetProps } from './index'; 
 import { Textfield, Textarea, Label } from '@digdir/designsystemet-react';
 import { Field } from '../Field'; 

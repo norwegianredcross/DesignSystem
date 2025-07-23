@@ -1,10 +1,10 @@
 // src/components/DatePicker/DatePicker.stories.tsx
-import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
+import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import React, { useState, useEffect } from 'react'; // Import useState and useEffect
 // --- CORRECTED IMPORT ---
 import { format, parse, isValid, subDays, isSameDay } from 'date-fns'; // Added isSameDay
 import { nb } from 'date-fns/locale';
-import { action } from '@storybook/addon-actions';
+import { action } from 'storybook/actions';
 
 import { DatePicker, DatePickerProps } from './index'; // Assuming index exports DatePicker
 import { DateInput } from '../DateInput';

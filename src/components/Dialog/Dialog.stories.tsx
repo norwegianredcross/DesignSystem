@@ -1,5 +1,5 @@
 // src/components/Dialog/Dialog.stories.tsx
-import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
+import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import { useRef } from 'react';
 import { Dialog, DialogProps } from './index';
 import { Buttons } from '../Buttons';

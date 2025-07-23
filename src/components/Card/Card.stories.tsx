@@ -1,5 +1,5 @@
 // src/components/Card/Card.stories.tsx
-import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
+import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import React from 'react';
 import { Card, CardProps, CardBlock } from './index';
 import { Buttons } from '../Buttons';

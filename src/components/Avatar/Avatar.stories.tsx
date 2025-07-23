@@ -1,5 +1,5 @@
 // src/components/Avatar/Avatar.stories.tsx
-import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
+import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import { Avatar, AvatarProps } from './index';
 import avatarPlaceholder from '../../assets/images/person.png'; 
 

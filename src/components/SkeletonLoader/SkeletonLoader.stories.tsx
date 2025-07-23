@@ -1,5 +1,5 @@
 // src/components/Skeleton/Skeleton.stories.tsx
-import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
+import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import { SkeletonLoader, SkeletonProps } from './index'; // Import the main Skeleton component
 // Import components for context/examples
 import { Heading, Paragraph, Button } from '@digdir/designsystemet-react';

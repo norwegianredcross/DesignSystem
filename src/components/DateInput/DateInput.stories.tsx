@@ -1,5 +1,5 @@
 // src/components/DateInput/DateInput.stories.tsx
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { DateInput } from './index';
 import { CalendarIcon } from '../../assets/images/CalendarIcon';
 

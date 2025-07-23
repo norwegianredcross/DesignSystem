@@ -1,5 +1,5 @@
 // src/components/Link/Link.stories.tsx
-import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
+import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import React from 'react'; // Import React for JSX
 import { Link, LinkProps } from './index';
 import { Paragraph } from '@digdir/designsystemet-react';

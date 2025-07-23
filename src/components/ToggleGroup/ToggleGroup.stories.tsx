@@ -1,5 +1,5 @@
 // src/components/ToggleGroup/ToggleGroup.stories.tsx
-import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
+import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import { useState } from 'react';
 import { ToggleGroup, ToggleGroupProps } from './index';
 import { Button, Divider, Paragraph } from '@digdir/designsystemet-react';

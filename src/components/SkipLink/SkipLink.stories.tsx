@@ -1,5 +1,5 @@
 // src/components/SkipLink/SkipLink.stories.tsx
-import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
+import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import { SkipLink, SkipLinkProps } from './index'; 
 
 const meta: Meta<typeof SkipLink> = {

@@ -1,5 +1,5 @@
 // src/components/Alert/Alert.stories.tsx
-import type { Meta, StoryObj, ArgTypes } from '@storybook/react';
+import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import { Alert, AlertProps } from './index';
 
 const meta: Meta<typeof Alert> = {
