@@ -1,0 +1,30 @@
+/* .storybook/style.css */
+* {
+  font-feature-settings: 'cv05' 1;
+}
+
+html {
+  font-family: 'Inter', sans-serif;
+  height: 100%;
+}
+
+body {
+  background-color: var(--ds-color-neutral-background-default);
+}
+
+.sbdocs-wrapper {
+  padding-bottom: 10rem !important;
+}
+
+.docs-story {
+  background-color: var(--ds-color-neutral-background-default);
+}
+
+.sbdocs-content code {
+  display: inline;
+  border: none;
+  border-radius: var(--ds-border-radius-sm);
+  background: var(--ds-color-neutral-background-tinted);
+  color: var(--ds-color-neutral-text-default);
+  font-size: 0.8em;
+}

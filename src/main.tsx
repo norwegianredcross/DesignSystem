@@ -39,10 +39,7 @@ const config: StorybookConfig = {
   // ====================================================================
   // == SECTION 3: DOCS CONFIGURATION (Optional but common) ==
   // ====================================================================
-  docs: {
-    autodocs: 'tag', // Or true, or undefined depending on your preference
-  },
-
+ 
   // ====================================================================
   // == SECTION 4: STATIC ASSETS (Optional) ==
   // ====================================================================

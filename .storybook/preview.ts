@@ -1,28 +1,32 @@
+import './style.css';
 import type { Preview } from '@storybook/react-vite';
 import { themeDecorator } from './themeDecorator'; // Ensure this path is correct
+import { customStylesDecorator } from '../src/story-utils/customStylesDecorator';
+import { transformSource } from '../src/story-utils/transformSource';
+
+// CSS imports
 import '@digdir/designsystemet-css/index.css'; // Digdir's base styles
 import '../design-tokens-build/brand-1.css';   // Correct path (relative to .storybook)
 import './storybook-font-override.css'; // Keep if needed
 
 const preview: Preview = {
-  parameters: {
-    // REMOVED: actions: { argTypesRegex: '^on[A-Z].*' },
-    // You should now explicitly define actions in your story files using `fn` from `@storybook/test`.
-    controls: {
-      matchers: {
-        color: /(background|color)$/i,
-        date: /Date$/,
+  globalTypes: {
+    // React/HTML code preview tabs
+    codePreview: {
+      description: '"Show code" will output the selected format',
+      toolbar: {
+        icon: 'markup',
+        items: [
+          { title: 'HTML', value: 'html' },
+          { title: 'React', value: 'react' },
+        ],
+        dynamicTitle: true,
       },
     },
-  },
-
-  decorators: [themeDecorator],
-
-  initialGlobals: {
+    // Your existing brand control
     brand: {
       name: 'Brand',
       description: 'Select brand color theme',
-      defaultValue: 'primary-brand',
       toolbar: {
         icon: 'circlehollow',
         items: [
@@ -32,10 +36,10 @@ const preview: Preview = {
         ],
       },
     },
+    // Your existing mode control
     mode: {
       name: 'Mode',
       description: 'Select color scheme (light/dark)',
-      defaultValue: 'light',
       toolbar: {
         icon: 'sun',
         items: [
@@ -45,7 +49,42 @@ const preview: Preview = {
         ],
       },
     },
-  }
+  },
+  initialGlobals: {
+    codePreview: 'react',
+    brand: 'primary-brand',
+    mode: 'light',
+  },
+  parameters: {
+    layout: 'centered',
+    viewMode: 'docs',
+    docs: {
+      codePanel: true,
+      source: {
+        transform: transformSource,
+        type: 'auto',
+      },
+    },
+    controls: {
+      matchers: {
+        color: /(background|color)$/i,
+        date: /Date$/,
+      },
+    },
+    options: {
+      storySort: {
+        method: 'alphabetical',
+        order: [
+          'Designsystem',
+          'Components',
+        ],
+      },
+    },
+  },
+  decorators: [
+    themeDecorator,        // Your existing theme decorator
+    customStylesDecorator, // New custom styles decorator
+  ],
 };
 
 export default preview;

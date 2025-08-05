@@ -88,13 +88,3 @@ export const Square: Story = {
   },
 };
 
-// --- Example Brand2 Large ---
-export const Brand2Large: Story = {
-  name: 'Example Brand2 Large',
-  args: {
-    'aria-label': 'Ola Nordmann',
-    'data-color': 'brand2',
-    'data-size': 'lg',
-    children: 'ON',
-  },
-};

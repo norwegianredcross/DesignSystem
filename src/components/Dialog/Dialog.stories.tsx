@@ -136,7 +136,7 @@ export const ProgrammaticRef: Story = {
   args: {
     modal: true,
     closeButton: 'Lukk dialogvindu',
-    'data-color': 'accent',
+    
   },
   name: 'Programmatic (Ref)',
 };

@@ -1,6 +1,6 @@
 // src/design-system/Typography.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import React from 'react';
+
 
 // Define a simple component to render the showcase
 const TypographyShowcase = () => {

@@ -127,7 +127,6 @@ export const CalendarStartingInPreviousMonth: CalendarStory = {
   },
 };
 
-
 // --- Story for Combined DateInput + DatePicker ---
 
 // This component wraps DateInput and DatePicker, managing their shared state
@@ -151,7 +150,7 @@ const DatePickerInputCombo: React.FC<DatePickerProps> = (args) => {
 
   // Handler for when the text input changes
   const handleInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    _event: React.ChangeEvent<HTMLInputElement>, // Prefixed with underscore to indicate intentionally unused
     formattedValue: string, // Use the formatted value from DateInput's onChange
   ) => {
     setInputValue(formattedValue); // Update the string state immediately

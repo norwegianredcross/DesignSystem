@@ -1,39 +1,86 @@
 {
-  "name": "componentlibrary",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "name": "rk-designsystem",
+  "version": "1.0.0",
+  "description": "A React component library built on top of Digdir Design System",
+  "author": "daniel@tunetek.no",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "components",
+    "ui",
+    "design-system",
+    "typescript",
+    "digdir",
+    "norwegian"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/norwegianredcross/DesignSystem.git"
+  },
   "homepage": "https://norwegianredcross.github.io/DesignSystem/storybook",
-  "scripts": {
+  "bugs": {
+    "url": "https://github.com/norwegianredcross/DesignSystem/issues"
+  },
+  "private": false,
+  "type": "module",
+  "main": "./dist/componentlibrary.umd.js",
+  "module": "./dist/componentlibrary.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/componentlibrary.es.js",
+      "require": "./dist/componentlibrary.umd.js"
+    },
+    "./dist/componentlibrary.css": "./dist/componentlibrary.css"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0",
+    "@digdir/designsystemet": "^1.0.3",
+    "@digdir/designsystemet-css": "^1.0.3",
+    "@digdir/designsystemet-react": "^1.0.3",
+    "@navikt/aksel-icons": "^7.20.0",
+    "date-fns": "^4.1.0"
+  },
+"scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
+    "clean": "if exist dist rmdir /s /q dist",
     "lint": "eslint .",
     "preview": "vite preview",
+    "prepublishOnly": "npm run clean && npm run build",
+    "release:patch": "npm version patch && npm publish",
+    "release:minor": "npm version minor && npm publish",
+    "release:major": "npm version major && npm publish",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build \"base:'/DesignSystem/Storybook-Demo/'\" -o storybook-static",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
-  "dependencies": {
+  "devDependencies": {
+    "@chromatic-com/storybook": "^4.0.1",
     "@digdir/designsystemet": "^1.0.3",
     "@digdir/designsystemet-css": "^1.0.3",
     "@digdir/designsystemet-react": "^1.0.3",
-    "@navikt/aksel-icons": "^7.20.0",
-    "date-fns": "^4.1.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
-  },
-  "devDependencies": {
-    "@chromatic-com/storybook": "^4.0.1",
     "@eslint/js": "^9.21.0",
+    "@navikt/aksel-icons": "^7.20.0",
+    "@storybook/addon-a11y": "^9.1.0",
+    "@storybook/addon-docs": "^9.1.0",
+    "@storybook/addon-links": "^9.1.0",
     "@storybook/addon-onboarding": "^9.0.18",
-    "@storybook/experimental-addon-test": "^8.6.12",
     "@storybook/react-vite": "^9.0.18",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
     "@vitest/browser": "^3.1.2",
     "@vitest/coverage-v8": "^3.1.2",
+    "date-fns": "^4.1.0",
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
@@ -41,12 +88,15 @@
     "gh-pages": "^6.3.0",
     "globals": "^15.15.0",
     "playwright": "^1.52.0",
+    "prettier": "^3.6.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "storybook": "^9.0.18",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.24.1",
     "vite": "^6.2.0",
-    "vitest": "^3.1.2",
-    "@storybook/addon-docs": "^9.0.18"
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^3.1.2"
   },
   "eslintConfig": {
     "extends": [
