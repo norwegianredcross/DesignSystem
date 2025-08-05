@@ -1,0 +1,1 @@
+import{r as e,j as x}from"./iframe-BgQDqsRD.js";import{c as m}from"./lite-DaUVFjkg.js";const c=e.forwardRef(function({type:a="text",className:f,onChange:r,onClick:p,...s},u){return x.jsx("input",{className:m("ds-input",f),ref:u,type:a,onChange:t=>s.readOnly||(r==null?void 0:r(t)),onClick:t=>{s.readOnly&&t.preventDefault(),p==null||p(t)},...s})});export{c as I};
