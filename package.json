@@ -1,6 +1,6 @@
 {
   "name": "rk-designsystem",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A React component library built on top of Digdir Design System",
   "author": "daniel@tunetek.no",
   "license": "MIT",
