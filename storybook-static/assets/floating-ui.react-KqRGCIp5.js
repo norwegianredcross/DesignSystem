@@ -1,0 +1,1 @@
+import{r as n}from"./iframe-BagKezlM.js";import"./index-CINeIW-J.js";function i(e){return n.useMemo(()=>e.every(r=>r==null)?null:r=>{e.forEach(t=>{typeof t=="function"?t(r):t!=null&&(t.current=r)})},e)}export{i as u};

@@ -48,7 +48,7 @@
     "@navikt/aksel-icons": "^7.20.0",
     "date-fns": "^4.1.0"
   },
-"scripts": {
+  "scripts": {
     "dev": "vite",
     "build": "vite build",
     "clean": "if exist dist rmdir /s /q dist",
@@ -59,9 +59,9 @@
     "release:minor": "npm version minor && npm publish",
     "release:major": "npm version major && npm publish",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build \"base:'/DesignSystem/Storybook-Demo/'\" -o storybook-static",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "build-storybook": "storybook build --output-dir storybook-build",
+    "predeploy:storybook": "npm run build-storybook",
+    "deploy:storybook": "gh-pages -d storybook-build -b gh-pages -r https://github.com/norwegianredcross/DesignSystem.git --dest storybook"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.0.1",
