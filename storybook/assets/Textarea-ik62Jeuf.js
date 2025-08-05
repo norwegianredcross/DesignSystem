@@ -1,1 +1,0 @@
-import{j as e}from"./jsx-runtime-D_zvdyIk.js";import{c as s}from"./lite-DaUVFjkg.js";import{r as o}from"./index-D4lIrffr.js";const c=o.forwardRef(function({className:r,...t},a){return e.jsx("textarea",{className:s("ds-input",r),ref:a,...t})});export{c as T};

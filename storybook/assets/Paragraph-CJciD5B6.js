@@ -1,1 +1,0 @@
-import{j as m}from"./jsx-runtime-D_zvdyIk.js";import{S as e}from"./index-Cb-ENzfG.js";import{c as f}from"./lite-DaUVFjkg.js";import{r as n}from"./index-D4lIrffr.js";const u=n.forwardRef(function({className:r,asChild:a,variant:o="default",...t},s){const p=a?e:"p";return m.jsx(p,{ref:s,className:f("ds-paragraph",r),"data-variant":o,...t})});export{u as P};
