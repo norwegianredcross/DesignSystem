@@ -36,16 +36,16 @@ pnpm add rk-designsystem @digdir/designsystemet-css
 
 For all components to display with the correct Røde Kors styling, you must include the global stylesheets in your application. The best place to do this is at the highest level of your application, for instance, in your `layout.tsx` (for Next.js App Router) or `_app.tsx` (for Next.js Pages Router).
 
-**Crucial Order:** It's vital that the base stylesheet (`@digdir/designsystemet-css/index.css`) is loaded *before* your own brand-specific design tokens (`../../design-tokens-build/brand-1.css`). This ensures your tokens can override default values as intended, and all components adopt the Røde Kors brand.
+**Crucial Order:** It's vital that the base stylesheet (`@digdir/designsystemet-css/index.css`) is loaded *before* the brand-specific design tokens (`../../design-tokens-build/brand-1.css`). This ensures your tokens can override default values as intended, and all components adopt the Røde Kors brand. link https://github.com/norwegianredcross/DesignSystem/tree/main/design-tokens-build/brand-1.css
 
-Røde Kors Design System does **NOT** require a separate CSS import, as it utilizes the shared styles defined by `@digdir/designsystemet-css` and your `brand-1.css` file.
+Røde Kors Design System does **NOT** require a separate CSS import, as it utilizes the shared styles defined by `@digdir/designsystemet-css` and the `brand-1.css` file.
 
 #### Example for Next.js (App Router - `src/app/layout.tsx`):
 
 ```tsx
 import './globals.css'; // Your own global styles (if any)
 import '@digdir/designsystemet-css/index.css'; // Base stylesheet for components
-import '../../design-tokens-build/brand-1.css'; // YOUR brand-specific design tokens (Important for overrides!)
+import '../../design-tokens-build/brand-1.css'; // RK brand-specific design tokens (Important for overrides!)
 
 export default function RootLayout({
   children,
