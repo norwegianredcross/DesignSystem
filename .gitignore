@@ -7,15 +7,20 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# Dependency directories
+node_modules/
+
+# Build outputs
+dist/
+dist-ssr/
+storybook-build/  
+storybook-static/  
 *.local
 
 # Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+.vscode/
+!.vscode/extensions.json 
+.idea/                   
 .DS_Store
 *.suo
 *.ntvs*
@@ -23,4 +28,7 @@ dist-ssr
 *.sln
 *.sw?
 
+# Storybook specific logs/caches
 *storybook.log
+.storybook-temp/         
+.storybook/cache/        

@@ -2,11 +2,11 @@
 
 ## Live Storybook URL
 
-https://norwegianredcross.github.io/DesignSystem/storybook/
+[https://norwegianredcross.github.io/DesignSystem/storybook/](https://norwegianredcross.github.io/DesignSystem/storybook/)
 
 ## Overview
 
-Welcome to the Røde Kors Design System! This repository contains a library of reusable UI components built with React, specifically tailored for Norwegian Red Cross digital projects.
+Welcome to the Røde Kors Design System! This repository containgits a library of reusable UI components built with React, specifically tailored for Norwegian Red Cross digital projects.
 
 It's developed leveraging the foundational components and styling principles from Digdir's Designsystemet. This approach ensures a unified and recognizable visual identity across all applications for the Norwegian Red Cross. The system provides flexibility to adapt the appearance with Red Cross's own brand via Digdir Designsystemet's theme builder.
 
@@ -23,10 +23,13 @@ To use the Røde Kors Design System in your Next.js (or any React) application:
 Install the necessary npm packages for your project:
 
 ```bash
+# npm
 npm install rk-designsystem @digdir/designsystemet-css
-# or
+
+# yarn
 yarn add rk-designsystem @digdir/designsystemet-css
-# or
+
+# pnpm
 pnpm add rk-designsystem @digdir/designsystemet-css
 ```
 
@@ -34,18 +37,60 @@ pnpm add rk-designsystem @digdir/designsystemet-css
 
 ### 2. Including Styles (CSS)
 
-For all components to display with the correct Røde Kors styling, you must include the global stylesheets in your application. The best place to do this is at the highest level of your application, for instance, in your `layout.tsx` (for Next.js App Router) or `_app.tsx` (for Next.js Pages Router).
+For the components to be styled correctly, you must first generate your own theme file using the Digdir CLI and then import it into your application.
 
-**Crucial Order:** It's vital that the base stylesheet (`@digdir/designsystemet-css/index.css`) is loaded *before* the brand-specific design tokens (`../../design-tokens-build/brand-1.css`). This ensures your tokens can override default values as intended, and all components adopt the Røde Kors brand. link https://github.com/norwegianredcross/DesignSystem/tree/main/design-tokens-build/brand-1.css
+#### 2.1 Generate Your Theme
 
-Røde Kors Design System does **NOT** require a separate CSS import, as it utilizes the shared styles defined by `@digdir/designsystemet-css` and the `brand-1.css` file.
+This component library is unstyled by default. You must create your own brand-specific CSS file using the official **Digdir Designsystemet Theme Builder CLI**.
+
+**Step 1: Configure Your Theme**
+
+Use the theme builder tool at **[https://theme.designsystemet.no/en/](https://theme.designsystemet.no/en/)** to generate a command-line snippet. This command creates the necessary design token configuration files in your project.
+
+Give your theme a name and customize the colors and properties to match your brand. Then, copy the generated command and run it in your project's root directory.
+
+*Example Command (for macOS/Linux):*
+```bash
+npx @digdir/designsystemet@latest tokens create \
+--main-colors "accent:#0062BA" \
+--neutral-color "#1E2B3C" \
+--support-colors "brand1:#F45F63" "brand2:#E5AA20" "brand3:#1E98F5" \
+--border-radius 4 \
+--theme "my-brand"
+```
+
+*Example Command (for Windows):*
+```bash
+npx @digdir/designsystemet@latest tokens create ^
+--main-colors "accent:#0062BA" ^
+--neutral-color "#1E2B3C" ^
+--support-colors "brand1:#F45F63" "brand2:#E5AA20" "brand3:#1E98F5" ^
+--border-radius 4 ^
+--theme "my-brand"
+```
+
+**Step 2: Build the CSS File**
+
+After running the `create` command, you will have a new `design-tokens` folder in your project. Now, run the `build` command to convert these tokens into a usable CSS file.
+
+```bash
+npx @digdir/designsystemet@latest tokens build
+```
+
+This will generate a CSS file, typically located at `design-tokens/css/my-brand.css`. This is the file you will import into your application.
+
+#### 2.2 Import Stylesheets into Your App
+
+Once you have your theme file, import the stylesheets at the highest level of your application, for instance, in your `layout.tsx` (for Next.js App Router) or `_app.tsx` (for Next.js Pages Router).
+
+**Crucial Order:** It's vital that the base stylesheet (`@digdir/designsystemet-css/index.css`) is loaded **before** your brand-specific theme file (`design-tokens/css/my-brand.css`). This ensures your theme's tokens can correctly override the default values.
 
 #### Example for Next.js (App Router - `src/app/layout.tsx`):
 
 ```tsx
 import './globals.css'; // Your own global styles (if any)
 import '@digdir/designsystemet-css/index.css'; // Base stylesheet for components
-import '../../design-tokens-build/brand-1.css'; // RK brand-specific design tokens (Important for overrides!)
+import '../../design-tokens/css/my-brand.css'; // Your generated brand theme
 
 export default function RootLayout({
   children,
@@ -65,7 +110,7 @@ export default function RootLayout({
 ```tsx
 import '../styles/globals.css'; // Your own global styles (if any)
 import '@digdir/designsystemet-css/index.css'; // Base stylesheet for components
-import '../../design-tokens-build/brand-1.css'; // YOUR brand-specific design tokens (Important for overrides!)
+import '../design-tokens/css/my-brand.css'; // Your generated brand theme
 import type { AppProps } from 'next/app';
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -105,7 +150,7 @@ Here's an example of how to use multiple Alert components from the Røde Kors De
 'use client'; // Remember 'use client' for interactive components in App Router
 
 import React from 'react';
-import { Alert } = 'rk-designsystem'; // Import the components you need
+import { Alert } from 'rk-designsystem'; // Import the components you need
 
 export default function Home() {
   return (
@@ -119,13 +164,13 @@ export default function Home() {
         {/* Røde Kors Design System Alerts */}
         <Alert variant="success">
           <p>
-            Welcome! This message is from the Red Cross Design System.
+            Welcome! This message is styled with your custom brand theme.
           </p>
         </Alert>
 
         <Alert variant="warning" className="mt-4">
           <p>
-            Important information using Red Cross Design System styles.
+            Important information using your custom brand theme.
           </p>
         </Alert>
       </section>
@@ -136,6 +181,4 @@ export default function Home() {
 }
 ```
 
-### 4. Theming and Customization
-
-The appearance of the Røde Kors Design System is fully controlled via design tokens. These tokens are defined and customized using Digdir Designsystemet's theme builder, which generates the `../../design-tokens-build/brand-1.css` file. Any changes made in the theme builder will be reflected across all Røde Kors Design System components, as they share the same styling foundation and variables defined in this file.
+The appearance of all components is fully controlled by the design tokens you generated. To make any visual changes to your application's theme (like changing the primary color), simply re-run the `tokens create` and `tokens build` commands with your updated values. Your changes will be reflected across all components throughout your application.
