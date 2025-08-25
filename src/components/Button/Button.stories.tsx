@@ -1,6 +1,6 @@
 // src/components/Buttons/Buttons.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
-import { Buttons, ButtonsProps } from './index';
+import { Button, ButtonsProps } from './index';
 import {
   PencilWritingIcon,
   TrashIcon,
@@ -13,9 +13,9 @@ import {
 } from '@navikt/aksel-icons';
 import { Tooltip } from '../Tooltip'; // Adjust path if necessary
 
-const meta: Meta<typeof Buttons> = {
+const meta: Meta<typeof Button> = {
   title: 'Components/Buttons',
-  component: Buttons,
+  component: Button,
   tags: ['autodocs'],
   argTypes: {
     children: {
@@ -78,7 +78,7 @@ const meta: Meta<typeof Buttons> = {
 
 export default meta;
 
-type Story = StoryObj<typeof Buttons>;
+type Story = StoryObj<typeof Button>;
 
 // --- Example Primary ---
 export const Primary: Story = {
@@ -134,11 +134,11 @@ export const LargeNeutral: Story = {
 // --- Example as Link ---
 export const AsLink: Story = {
   render: (args) => (
-    <Buttons asChild {...(args as any)}>
+    <Button asChild {...(args as any)}>
       <a href="https://designsystemet.no/" target="_blank" rel="noopener noreferrer">
         Gå til Designsystemet
       </a>
-    </Buttons>
+    </Button>
   ),
   args: {
     asChild: true,
@@ -166,18 +166,18 @@ export const DangerWithIcon: Story = {
   name: 'Example Danger with Icon',
   render: (args) => (
     <div style={{ display: 'flex', gap: '1rem' }}>
-      <Buttons {...args} variant="primary" data-color="danger">
+      <Button {...args} variant="primary" data-color="danger">
         <TrashIcon aria-hidden />
         Slett
-      </Buttons>
-      <Buttons {...args} variant="secondary" data-color="danger">
+      </Button>
+      <Button {...args} variant="secondary" data-color="danger">
         <TrashIcon aria-hidden />
         Slett
-      </Buttons>
-      <Buttons {...args} variant="tertiary" data-color="danger">
+      </Button>
+      <Button {...args} variant="tertiary" data-color="danger">
         <TrashIcon aria-hidden />
         Slett
-      </Buttons>
+      </Button>
     </div>
   ),
   args: {
@@ -194,12 +194,12 @@ export const DangerWithIcon: Story = {
 export const AsLinkWithIcon: Story = {
   name: 'Example As Link with Icon',
   render: (args) => (
-    <Buttons asChild {...(args as any)}>
+    <Button asChild {...(args as any)}>
       <a target="_blank" rel="noreferrer" href="https://www.designsystemet.no">
         Gå til Designsystemet
         <ExternalLinkIcon title="Ekstern lenke" style={{ marginLeft: 'var(--ds-spacing-1, 4px)', verticalAlign: 'middle' }}/>
       </a>
-    </Buttons>
+    </Button>
   ),
   args: {
     asChild: true,
@@ -212,14 +212,14 @@ export const WithIcons: Story = {
   name: 'Example With Icons',
   render: (args) => (
      <div style={{ display: 'flex', gap: '1rem' }}>
-        <Buttons {...args} variant='primary' data-color='neutral'>
+        <Button {...args} variant='primary' data-color='neutral'>
           Start utfylling
           <ArrowRightIcon aria-hidden style={{ marginLeft: 'var(--ds-spacing-1, 4px)' }}/>
-        </Buttons>
-        <Buttons {...args} variant='secondary' data-color='neutral'>
+        </Button>
+        <Button {...args} variant='secondary' data-color='neutral'>
           <ArrowUndoIcon aria-hidden style={{ marginRight: 'var(--ds-spacing-1, 4px)' }}/>
           Angre
-        </Buttons>
+        </Button>
      </div>
   ),
    args: {
@@ -238,19 +238,19 @@ export const IconOnlyWithTooltip: Story = {
   render: (args) => (
     <div style={{ display: 'flex', gap: '0.5rem' }}>
        <Tooltip content='Legg til ny'>
-        <Buttons {...args} icon aria-label='Legg til ny'>
+        <Button {...args} icon aria-label='Legg til ny'>
           <PlusCircleIcon aria-hidden />
-        </Buttons>
+        </Button>
       </Tooltip>
       <Tooltip content='Varslinger'>
-        <Buttons {...args} icon aria-label='Varslinger'>
+        <Button {...args} icon aria-label='Varslinger'>
           <BellIcon aria-hidden />
-        </Buttons>
+        </Button>
       </Tooltip>
       <Tooltip content='Instillinger'>
-        <Buttons {...args} icon aria-label='Innstillinger'>
+        <Button {...args} icon aria-label='Innstillinger'>
           <CogIcon aria-hidden />
-        </Buttons>
+        </Button>
       </Tooltip>
     </div>
   ),

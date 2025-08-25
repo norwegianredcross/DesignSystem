@@ -52,6 +52,7 @@
     "dev": "vite",
     "build": "vite build",
     "clean": "if exist dist rmdir /s /q dist",
+    "changeset": "changeset",
     "lint": "eslint .",
     "preview": "vite preview",
     "prepublishOnly": "npm run clean && npm run build",
@@ -64,6 +65,7 @@
     "deploy:storybook": "gh-pages -d storybook-build -b gh-pages -r https://github.com/norwegianredcross/DesignSystem.git --dest storybook"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.27.7",
     "@chromatic-com/storybook": "^4.0.1",
     "@digdir/designsystemet": "^1.0.3",
     "@digdir/designsystemet-css": "^1.0.3",

@@ -142,3 +142,110 @@ The appearance of all components is fully controlled by the `rk-design-tokens` p
 ```bash
 npm update rk-design-tokens
 ```
+
+---
+
+# Contributing to the Component Library
+
+First off, thank you for taking the time to contribute! ❤️
+
+This guide provides a set of standards and best practices for creating new components. Following these guidelines ensures that our component library remains consistent, accessible, and easy to maintain.
+
+## Getting Started (for Contributors)
+
+Follow these steps to get the local development environment running. All commands should be run from the root of the project.
+
+```bash
+# 1. Install dependencies
+pnpm i
+
+# 2. Build all packages
+pnpm build
+
+# 3. Start the local Storybook server
+pnpm storybook
+```
+
+## Core Principles
+
+Every component we build should adhere to these core principles:
+
+1.  **Accessibility (A11y):** Components must be usable by everyone, including people with disabilities. This means proper ARIA attributes, keyboard navigation, and semantic HTML.
+2.  **Reusability:** Components should be generic enough to be used in multiple contexts without modification.
+3.  **Consistency:** Components should follow our established design tokens (colors, spacing, typography) and have a consistent API and structure.
+4.  **Documentation:** Every component must be documented in Storybook to make it discoverable and easy for other developers to use.
+
+## When to Create a New Component
+
+Before you start coding, determine what kind of component you need. Most of our needs fall into one of three categories:
+
+1.  **Wrapped Component (Simple):**
+    *   **What it is:** A component that directly wraps and re-exports a component from `@digdir/designsystemet-react` with no modifications.
+    *   **When to use:** When the base Digdir component meets our needs perfectly, but we want to include it in our own library for a consistent import source.
+    *   **Example:** The `Buttons` component is a perfect example of this.
+
+2.  **Wrapped Component (with Style Overrides):**
+    *   **What it is:** A wrapped Digdir component where we apply custom CSS to tweak its appearance to better match Røde Kors's specific design language.
+    *   **When to use:** When a Digdir component is functionally correct but needs visual adjustments (e.g., different icons, border radius, padding).
+    *   **Example:** The `Alert` component, which uses `composes` in its CSS to inherit base styles and then applies its own overrides.
+
+3.  **Custom Component (from Scratch):**
+    *   **What it is:** A completely new component built when no existing Digdir component meets our requirements.
+    *   **When to use:** For unique UI patterns or functionality not covered by the base library.
+    *   **Example:** The `DateInput` component is a custom component with its own state, logic, and styling.
+
+## Component File Structure
+
+To maintain consistency, every new component should follow this file structure. Create a new folder under `src/components/` with the component's `PascalCase` name.
+
+```text
+src/
+└── components/
+    └── MyNewComponent/
+        ├── index.ts                 // Public API - exports the component and props
+        ├── MyNewComponent.tsx       // The React component logic and JSX
+        ├── MyNewComponent.stories.tsx // Storybook stories for documentation
+        ├── styles.module.css        // Scoped CSS (only for custom components)
+        └── MyNewComponent.test.tsx  // (Optional but Recommended) Unit tests
+```
+
+## Coding Guidelines
+
+### 1. Component Logic (`MyNewComponent.tsx`)
+
+*   **TypeScript First:** All components must be written in TypeScript. Define a `Props` interface for your component, extending from the base HTML element or Digdir component props if applicable.
+*   **Forward Refs:** Always use `React.forwardRef` to allow parent components to get a `ref` to the underlying DOM element.
+*   **Accessibility is Mandatory:**
+    *   Use semantic HTML (`<button>`, `<label>`, `<nav>`).
+    *   Ensure all interactive elements are keyboard-focusable and operable.
+    *   Provide `aria-label` for icon-only buttons or elements where the text label is not visible.
+    *   Use `aria-invalid`, `aria-describedby`, etc., to communicate state to assistive technologies.
+*   **Controlled vs. Uncontrolled:** If your component has state (like an input), it should support both controlled (`value` + `onChange`) and uncontrolled (`defaultValue`) patterns.
+*   **Props Naming:** Use `data-*` attributes for styling variants (e.g., `data-size`, `data-color`) to align with the patterns in our existing components.
+
+### 2. Styling (`styles.module.css`)
+
+*   **CSS Modules:** For **custom components**, all styles must be placed in a `styles.module.css` file. This scopes class names locally and prevents global style conflicts.
+*   **Design Tokens:** Always use our design system tokens (`var(--ds-...)`) for colors, spacing, fonts, etc. Do not use hardcoded values (e.g., `#FFF`, `16px`).
+*   **Overriding Wrapped Components:** For **wrapped components**, use a standard CSS file. Use the `@layer` and `composes` keywords to extend base Digdir styles without increasing CSS specificity unnecessarily.
+
+### 3. Documentation (`MyNewComponent.stories.tsx`)
+
+Your Storybook file is the official documentation. It must be clear and comprehensive.
+
+*   **`meta` Object:** Define the component's title, component reference, and `tags: ['autodocs']` to enable automatic documentation.
+*   **`argTypes`:** Document every single prop. Provide a `description`, `control` type (e.g., `select`, `boolean`, `text`), and `options` if applicable. This powers the interactive controls in Storybook.
+*   **Create Multiple Stories:** Create a separate story for each key state and variant of your component (e.g., `Default`, `Disabled`, `WithError`, `WithIcon`).
+
+## Contribution Process
+
+### 1. Create a Pull Request (PR)
+
+1.  **Create a Branch:** Pull the latest changes from the `main` branch and create a new feature branch: `git checkout -b feat/my-new-component`.
+
+2.  **Open a Draft PR:** As soon as you start, open a **draft** pull request on GitHub. This prevents duplicate work and allows others to see what you're working on.
+
+3.  **Commit Your Changes:** As you work, make small, logical commits.
+
+4.  **Ready for Review:** When development is complete and all automated checks are passing, mark the PR as "Ready for review" and request a review from the design system maintainers.
+
