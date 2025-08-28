@@ -1,0 +1,43 @@
+# .github/workflows/update-tokens.yml in norwegianredcross/DesignSystem
+
+name: Update Design Tokens and Redeploy
+
+on:
+  repository_dispatch:
+    types: [new-design-tokens-version] # Listens for the specific signal
+
+jobs:
+  update-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PAT }} # Use the PAT to allow pushing changes
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Update design tokens package
+        run: npm update rk-design-tokens
+
+      - name: Configure Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Commit and push if there are changes
+        run: |
+          if ! git diff-index --quiet HEAD; then
+            echo "Changes detected in package files. Committing and pushing."
+            git add package.json package-lock.json
+            git commit -m "chore(deps): update rk-design-tokens to latest"
+            git push
+          else
+            echo "No changes to package files."
+          fi
