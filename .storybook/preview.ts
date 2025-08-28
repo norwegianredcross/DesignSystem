@@ -1,7 +1,6 @@
 // .storybook/preview.ts
 import './style.css';
 import type { Preview } from '@storybook/react-vite';
-// import { themeDecorator } from './themeDecorator'; // <-- THIS IMPORT IS NOW COMMENTED OUT/REMOVED
 import { customStylesDecorator } from '../src/story-utils/customStylesDecorator';
 import { transformSource } from '../src/story-utils/transformSource';
 
