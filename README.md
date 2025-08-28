@@ -147,8 +147,6 @@ npm update rk-design-tokens
 
 # Contributing to the Component Library
 
-First off, thank you for taking the time to contribute! ❤️
-
 This guide provides a set of standards and best practices for creating new components. Following these guidelines ensures that our component library remains consistent, accessible, and easy to maintain.
 
 ## Getting Started (for Contributors)
