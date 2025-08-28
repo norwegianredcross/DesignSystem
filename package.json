@@ -40,13 +40,13 @@
     "LICENSE"
   ],
   "peerDependencies": {
-    "react": ">=16.8.0",
-    "react-dom": ">=16.8.0",
     "@digdir/designsystemet": "^1.0.3",
     "@digdir/designsystemet-css": "^1.0.3",
     "@digdir/designsystemet-react": "^1.0.3",
     "@navikt/aksel-icons": "^7.20.0",
-    "date-fns": "^4.1.0"
+    "date-fns": "^4.1.0",
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
   },
   "scripts": {
     "dev": "vite",
@@ -104,5 +104,8 @@
     "extends": [
       "plugin:storybook/recommended"
     ]
+  },
+  "dependencies": {
+    "rk-design-tokens": "^1.0.12"
   }
 }
