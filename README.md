@@ -66,7 +66,7 @@ export default function RootLayout({
 ```tsx
 import '../styles/globals.css'; // Your own global styles (if any)
 import '@digdir/designsystemet-css/index.css'; // Base stylesheet for components
-import 'rk-design-tokens/design-tokens-build/brand-1.css'; // Røde Kors theme
+import 'rk-design-tokens/design-tokens-build/theme.css'; // Røde Kors theme
 import type { AppProps } from 'next/app';
 
 function MyApp({ Component, pageProps }: AppProps) {
