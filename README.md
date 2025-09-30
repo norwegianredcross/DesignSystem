@@ -46,7 +46,7 @@ For the components to be styled correctly, you must import the stylesheets at th
 ```tsx
 import './globals.css'; // Your own global styles (if any)
 import '@digdir/designsystemet-css/index.css'; // Base stylesheet for components
-import 'rk-design-tokens/design-tokens-build/brand-1.css'; // Røde Kors theme
+import 'rk-design-tokens/design-tokens-build/theme.css'; // Røde Kors theme
 
 export default function RootLayout({
   children,
