@@ -1,0 +1,1860 @@
+[
+  {
+    "componentName": "Tooltip",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "children",
+        "type": "string | (ReactElement<unknown, string | JSXElementConstructor<any>> & RefAttributes<HTMLElement>)",
+        "description": "The element or string that triggers the tooltip.\n@note If it is a string, it will be wrapped in a span.\n@note If it is an element, it needs to be able to receive a ref.",
+        "defaultValue": null,
+        "required": true
+      },
+      {
+        "name": "content",
+        "type": "string",
+        "description": "Content of the tooltip",
+        "defaultValue": null,
+        "required": true
+      },
+      {
+        "name": "placement",
+        "type": "enum",
+        "description": "Placement of the tooltip on the trigger.",
+        "defaultValue": "'top'",
+        "required": false
+      },
+      {
+        "name": "autoPlacement",
+        "type": "boolean",
+        "description": "Whether to enable auto placement.",
+        "defaultValue": "true",
+        "required": false
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "description": "Whether the tooltip is open or not.\nThis overrides the internal state of the tooltip.",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "ToggleGroup",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-color",
+        "type": "Color",
+        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "description": "Controlled state for `ToggleGroup` component.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "defaultValue",
+        "type": "string",
+        "description": "Default value.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "onChange",
+        "type": "(value: string) => void",
+        "description": "Callback with selected `ToggleGroupItem` `value`",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "description": "Form element name",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Textfield",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "className",
+        "type": "string",
+        "description": "Classname on the wrapper element `Field`",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "style",
+        "type": "CSSProperties",
+        "description": "Style on the wrapper element `Field`",
+        "defaultValue": "undefined",
+        "required": false
+      },
+      {
+        "name": "label",
+        "type": "ReactNode",
+        "description": "Label",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "description",
+        "type": "ReactNode",
+        "description": "Description",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "prefix",
+        "type": "string",
+        "description": "Prefix",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "suffix",
+        "type": "string",
+        "description": "Suffix",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "error",
+        "type": "ReactNode",
+        "description": "Error message for field",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "counter",
+        "type": "number | FieldCounterProps",
+        "description": "Uses `Field.Counter` to display a character counter\nPass a number to set a limit, or an object to configure the counter",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "description": "Defines a string value that labels the current element.\n@see aria-labelledby.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "aria-labelledby",
+        "type": "string",
+        "description": "Identifies the element (or elements) that labels the current element.\n@see aria-describedby.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "any",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "multiline",
+        "type": "boolean",
+        "description": "Use to render a `Textarea` instead of `Input` for multiline support",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "type",
+        "type": "enum",
+        "description": "Supported `input` types",
+        "defaultValue": "'text'",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "number",
+        "description": "Defines the width of `Input` in count of characters.",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Textarea",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Tag",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "any",
+        "description": "Change the color scheme of the tag",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Tabs",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-color",
+        "type": "Color",
+        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "description": "Controlled state for `Tabs` component",
+        "defaultValue": "undefined",
+        "required": false
+      },
+      {
+        "name": "defaultValue",
+        "type": "string",
+        "description": "Default selected tab value",
+        "defaultValue": "undefined",
+        "required": false
+      },
+      {
+        "name": "onChange",
+        "type": "(value: string) => void",
+        "description": "Callback with selected `TabItem` `value`",
+        "defaultValue": "undefined",
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Table",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "zebra",
+        "type": "boolean",
+        "description": "Will give the table zebra striping",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "stickyHeader",
+        "type": "boolean",
+        "description": "Will make the table header sticky",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "border",
+        "type": "boolean",
+        "description": "Will give the table a rounded border",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "hover",
+        "type": "boolean",
+        "description": "Will give the table a hover effect on rows",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "Color",
+        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Switch",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-color",
+        "type": "Color",
+        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "description": "Optional aria-label",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "label",
+        "type": "ReactNode",
+        "description": "Radio label",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "description",
+        "type": "ReactNode",
+        "description": "Description for field",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "value",
+        "type": "string | number | readonly string[]",
+        "description": "Value of the `input` element",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "position",
+        "type": "enum",
+        "description": "Position of switch",
+        "defaultValue": "start",
+        "required": false
+      },
+      {
+        "name": "aria-labelledby",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Fieldset",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "Color",
+        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Spinner",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "aria-label",
+        "type": "string",
+        "description": "Accessibile label\nDefines a string value that labels the current element.\n@see aria-labelledby.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "enum",
+        "description": "Spinner size",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "SkipLink",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-color",
+        "type": "Color",
+        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "description": "The content to display inside the skiplink.",
+        "defaultValue": null,
+        "required": true
+      },
+      {
+        "name": "href",
+        "type": "string",
+        "description": "Href of an element in the DOM the skiplink should skip to. E.g #main-content",
+        "defaultValue": null,
+        "required": true
+      }
+    ]
+  },
+  {
+    "componentName": "SkeletonLoader",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "width",
+        "type": "string | number",
+        "description": "The width of the component",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "height",
+        "type": "string | number",
+        "description": "The height of the component",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "variant",
+        "type": "enum",
+        "description": "The shape variant",
+        "defaultValue": "'rectangle'",
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "characters",
+        "type": "number",
+        "description": "@deprecated This prop has no effect. Use `width` or supply text as children instead",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Select",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "readOnly",
+        "type": "boolean",
+        "description": "Defines if the select is readOnly",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "width",
+        "type": "enum",
+        "description": "Defines the width of Select, where \"auto\" matches the content width.",
+        "defaultValue": "full",
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Search",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "Color",
+        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Radio",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-color",
+        "type": "any",
+        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "any",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "description": "Disables element\n@note Avoid using if possible for accessibility purposes",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "readOnly",
+        "type": "boolean",
+        "description": "Toggle `readOnly`",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "description": "Optional aria-label",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "label",
+        "type": "ReactNode",
+        "description": "Radio label",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "description",
+        "type": "ReactNode",
+        "description": "Description for field",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "value",
+        "type": "string | number | readonly string[]",
+        "description": "Value of the `input` element",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "error",
+        "type": "ReactNode",
+        "description": "Error message for field",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "aria-labelledby",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Fieldset",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "Color",
+        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "useRadioGroup",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "description": "Set disabled state of all radios",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "error",
+        "type": "ReactNode",
+        "description": "Shared error message for all radios",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "description": "Name of all radios.",
+        "defaultValue": "string of auto-generated name",
+        "required": false
+      },
+      {
+        "name": "readOnly",
+        "type": "boolean",
+        "description": "Set read only state of all radios",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "required",
+        "type": "boolean",
+        "description": "Set required state of all radios",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "description": "Initial value of the group",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "onChange",
+        "type": "(nextValue: string, prevValue: string) => void",
+        "description": "Callback when selected radios changes",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Popover",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "description": "id to connect the trigger with the popover - required when not using Popover.Context.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "placement",
+        "type": "enum",
+        "description": "Placement of the popover on the trigger.",
+        "defaultValue": "'top'",
+        "required": false
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "description": "When a boolean is provided, the popover will be controlled.",
+        "defaultValue": "undefined",
+        "required": false
+      },
+      {
+        "name": "variant",
+        "type": "enum",
+        "description": "Change the background color of the popover.",
+        "defaultValue": "'default'",
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "any",
+        "description": "Change the color scheme of the popover",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "onOpen",
+        "type": "() => void",
+        "description": "Callback when the popover wants to open.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "onClose",
+        "type": "() => void",
+        "description": "Callback when the popover wants to close.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "autoPlacement",
+        "type": "boolean",
+        "description": "Whether to enable auto placement.",
+        "defaultValue": "true",
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Pagination",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-color",
+        "type": "Color",
+        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "description": "Sets the screen reader label for the Pagination area",
+        "defaultValue": "Sidenavigering",
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "usePagination",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "currentPage",
+        "type": "number",
+        "description": "The current page number",
+        "defaultValue": "1",
+        "required": true
+      },
+      {
+        "name": "totalPages",
+        "type": "number",
+        "description": "The total number of pages",
+        "defaultValue": "1",
+        "required": true
+      },
+      {
+        "name": "showPages",
+        "type": "number",
+        "description": "The maximum number of pages to show",
+        "defaultValue": "7",
+        "required": false
+      },
+      {
+        "name": "setCurrentPage",
+        "type": "(page: number) => void",
+        "description": "Callback to set the current page",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "onChange",
+        "type": "(event: MouseEvent<HTMLElement, MouseEvent>, page: number) => void",
+        "description": "Callback when the page changes",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Link",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-color",
+        "type": "Color",
+        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "description": "The content to display inside the link.",
+        "defaultValue": null,
+        "required": true
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Input",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-color",
+        "type": "Color",
+        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "type",
+        "type": "enum",
+        "description": "Supported `input` types",
+        "defaultValue": "'text'",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "number",
+        "description": "Defines the width of `Input` in count of characters.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "description": "Disables element\n@note Avoid using if possible for accessibility purposes",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "readOnly",
+        "type": "boolean",
+        "description": "Toggle `readOnly`",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "role",
+        "type": "AriaRole",
+        "description": "Set role, i.e. `switch` when `checkbox` or `radio`",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Fieldset",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "Color",
+        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Field",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "position",
+        "type": "enum",
+        "description": "Position of toggle inputs (radio, checkbox, switch) in field",
+        "defaultValue": "start",
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "Color",
+        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "FieldDescription",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": []
+  },
+  {
+    "componentName": "ErrorSummary",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "asChild",
+        "type": "ReactNode",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Dropdown",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-color",
+        "type": "any",
+        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.\nChange the color scheme of the popover",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "any",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "description": "When a boolean is provided, the popover will be controlled.",
+        "defaultValue": "undefined",
+        "required": false
+      },
+      {
+        "name": "autoPlacement",
+        "type": "boolean",
+        "description": "Whether to enable auto placement.",
+        "defaultValue": "true",
+        "required": false
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "description": "id to connect the trigger with the popover - required when not using Popover.Context.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "onClose",
+        "type": "() => void",
+        "description": "Callback when the popover wants to close.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "onOpen",
+        "type": "() => void",
+        "description": "Callback when the popover wants to open.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "placement",
+        "type": "enum",
+        "description": "The placement of the dropdown",
+        "defaultValue": "bottom-end",
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Divider",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": []
+  },
+  {
+    "componentName": "Dialog",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-color",
+        "type": "Color",
+        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "closeButton",
+        "type": "string | false",
+        "description": "Screen reader label of close button. Set false to hide the close button.",
+        "defaultValue": "'Lukk dialogvindu'",
+        "required": false
+      },
+      {
+        "name": "closedby",
+        "type": "enum",
+        "description": "Light dismiss behavior, allowing to close on backdrop click  by setting `closedby=\"any\"`.",
+        "defaultValue": "'closerequest'",
+        "required": false
+      },
+      {
+        "name": "modal",
+        "type": "boolean",
+        "description": "Toogle modal and non-modal dialog.\n@see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#creating_a_modal_dialog",
+        "defaultValue": "true",
+        "required": false
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "description": "@note Unlike standard html, where the open attribute always opens a non-modal dialog, Dialog's open prop uses the `modal` prop to determine whether the Dialog is modal or non-modal",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "onClose",
+        "type": "(event: Event) => void",
+        "description": "Callback that is called when the dialog is closed.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.\n@deprecated Will be removed in the next major version. Should always be a `<dialog>` element",
+        "defaultValue": "false",
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Details",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-color",
+        "type": "Color",
+        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "variant",
+        "type": "enum",
+        "description": "Change the background color of the details.",
+        "defaultValue": "'default'",
+        "required": false
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "description": "Controls open-state.\n\nUsing this removes automatic control of open-state",
+        "defaultValue": "undefined",
+        "required": false
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "description": "Defaults the details to open if not controlled",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "onToggle",
+        "type": "(((event: Event) => void) & ((event: Event) => void)) | (((event: Event) => void) & ((event: Event) => void))",
+        "description": "Callback function when Details toggles due to click on summary or find in page-search",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "description": "Content should be one `<Details.Summary>` and `<Details.Content>`",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "DatePicker",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "initialDate",
+        "type": "Date",
+        "description": "",
+        "defaultValue": "new Date()",
+        "required": false
+      },
+      {
+        "name": "selectedDate",
+        "type": "Date",
+        "description": "",
+        "defaultValue": "null",
+        "required": false
+      },
+      {
+        "name": "onDateSelect",
+        "type": "(date: Date) => void",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "DateInput",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "label",
+        "type": "ReactNode",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "suffixIcon",
+        "type": "ReactNode",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "onSuffixClick",
+        "type": "MouseEventHandler<HTMLButtonElement>",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "inputWrapperClassName",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "inputClassName",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "aria-labelledby",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "description",
+        "type": "ReactNode",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "error",
+        "type": "ReactNode",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "defaultValue",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "onChange",
+        "type": "(event: ChangeEvent<HTMLInputElement>, formattedValue: string) => void",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Button",
+    "importPath": "rk-designsystem",
+    "description": "Chip.Button used for interaction",
+    "props": [
+      {
+        "name": "data-color",
+        "type": "Color",
+        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Checkbox",
+    "importPath": "rk-designsystem",
+    "description": "Chip.Checkbox used for multiselection",
+    "props": [
+      {
+        "name": "data-color",
+        "type": "Color",
+        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Radio",
+    "importPath": "rk-designsystem",
+    "description": "Chip.Radio used for single selection",
+    "props": [
+      {
+        "name": "data-color",
+        "type": "Color",
+        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Checkbox",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-color",
+        "type": "any",
+        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "any",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "description": "Disables element\n@note Avoid using if possible for accessibility purposes",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "readOnly",
+        "type": "boolean",
+        "description": "Toggle `readOnly`",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "description": "Optional aria-label",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "label",
+        "type": "ReactNode",
+        "description": "Checkbox label",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "description",
+        "type": "ReactNode",
+        "description": "Description for field",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "value",
+        "type": "string | number | readonly string[]",
+        "description": "Value of the `input` element",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "error",
+        "type": "ReactNode",
+        "description": "Error message for field",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "aria-labelledby",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Fieldset",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "Color",
+        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Card",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-color",
+        "type": "Color",
+        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "variant",
+        "type": "enum",
+        "description": "Change the background color of the card.",
+        "defaultValue": "'default'",
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "description": "Instances of `Card.Block`, `Divider` or other React nodes",
+        "defaultValue": null,
+        "required": true
+      }
+    ]
+  },
+  {
+    "componentName": "Button",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "variant",
+        "type": "enum",
+        "description": "Specify which variant to use",
+        "defaultValue": "'primary'",
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "any",
+        "description": "Change the color scheme of the button",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "icon",
+        "type": "boolean",
+        "description": "Toggle icon only styling, pass icon as children",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "loading",
+        "type": "ReactNode",
+        "description": "Toggle loading state.\nPass an element if you want to display a custom loader.",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "type",
+        "type": "enum",
+        "description": "Specify the type of button. Unset when `asChild` is true",
+        "defaultValue": "'button'",
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Breadcrumbs",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-color",
+        "type": "Color",
+        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "description": "Sets the screen reader label for the Breadcrumbs area",
+        "defaultValue": "'Du er her'",
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "BreadcrumbsList",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": []
+  },
+  {
+    "componentName": "BreadcrumbsItem",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": []
+  },
+  {
+    "componentName": "BreadcrumbsLink",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-color",
+        "type": "Color",
+        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Badge",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "count",
+        "type": "number",
+        "description": "The number to display in the badge",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "maxCount",
+        "type": "number",
+        "description": "The maximum number to display in the badge, when the count exceeds this number, the badge will display `{max}+`",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "variant",
+        "type": "enum",
+        "description": "Change the background color of the badge.",
+        "defaultValue": "'base'",
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "any",
+        "description": "Change the color scheme of the badge",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "BadgePosition",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-color",
+        "type": "Color",
+        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "placement",
+        "type": "enum",
+        "description": "The placement of the badge",
+        "defaultValue": "top-right",
+        "required": false
+      },
+      {
+        "name": "overlap",
+        "type": "enum",
+        "description": "Use when badge is floating to change the position of the badge",
+        "defaultValue": "rectangle",
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Avatar",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-color",
+        "type": "Color",
+        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "description": "The name of the person the avatar represents.",
+        "defaultValue": null,
+        "required": true
+      },
+      {
+        "name": "data-size",
+        "type": "any",
+        "description": "The size of the avatar.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "variant",
+        "type": "enum",
+        "description": "The shape of the avatar.",
+        "defaultValue": "'circle'",
+        "required": false
+      },
+      {
+        "name": "initials",
+        "type": "string",
+        "description": "Initials to display inside the avatar.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "description": "Image, icon or initials to display inside the avatar.\n\nGets `aria-hidden=\"true\"`",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Alert",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "SeverityColors",
+        "description": "Sets color and icon.",
+        "defaultValue": "'info'",
+        "required": false
+      }
+    ]
+  }
+]

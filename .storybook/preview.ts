@@ -6,7 +6,7 @@ import { transformSource } from '../src/story-utils/transformSource';
 
 // CSS imports
 import '@digdir/designsystemet-css/index.css'; // Digdir's base styles
-import "rk-design-tokens/design-tokens-build/brand-1.css";
+import "rk-design-tokens/design-tokens-build/theme.css";
 import './storybook-font-override.css'; // Keep if needed
 
 const preview: Preview = {

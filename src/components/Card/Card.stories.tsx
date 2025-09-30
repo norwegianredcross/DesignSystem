@@ -1,7 +1,6 @@
 // src/components/Card/Card.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import { Card, CardProps, CardBlock } from './index';
-import { Buttons } from '../Buttons';
 import {
   Heading,
   Field,
@@ -160,9 +159,9 @@ export const ComposedContent: Story = {
         <h3>Composed Card</h3>
         <p>This card contains other components.</p>
         <div style={{ marginTop: 'var(--ds-spacing-4, 16px)' }}>
-          <Buttons variant="primary" data-size="sm">
+          <Button variant="primary" data-size="sm">
             Action
-          </Buttons>
+          </Button>
         </div>
       </CardBlock>
       <CardBlock>

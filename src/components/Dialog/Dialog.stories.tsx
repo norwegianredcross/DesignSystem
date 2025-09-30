@@ -2,7 +2,7 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import { useRef } from 'react';
 import { Dialog, DialogProps } from './index';
-import { Buttons } from '../Buttons';
+import { Button } from '../Button';
 import { Heading, Paragraph, Textfield } from '@digdir/designsystemet-react';
 
 const meta: Meta<typeof Dialog> = {
@@ -83,9 +83,9 @@ export const DefaultTrigger: Story = {
           <Paragraph>This is the main content of the dialog.</Paragraph>
         </Dialog.Block>
         <Dialog.Block>
-          <Buttons variant="secondary" type="button">
+          <Button variant="secondary" type="button">
             Close
-          </Buttons>
+          </Button>
         </Dialog.Block>
       </Dialog>
     </Dialog.TriggerContext>
@@ -105,9 +105,9 @@ export const ProgrammaticRef: Story = {
     const dialogRef = useRef<HTMLDialogElement>(null);
     return (
       <>
-        <Buttons onClick={() => dialogRef.current?.showModal()}>
+        <Button onClick={() => dialogRef.current?.showModal()}>
           Open Dialog with ref
-        </Buttons>
+        </Button>
         <Dialog ref={dialogRef} {...args}>
           <Dialog.Block>
             <Heading data-size="xs">Programmatic Dialog</Heading>
@@ -121,13 +121,13 @@ export const ProgrammaticRef: Story = {
             </Paragraph>
           </Dialog.Block>
           <Dialog.Block>
-            <Buttons
+            <Button
               variant="secondary"
               type="button"
               onClick={() => dialogRef.current?.close()}
             >
               Close Programmatically
-            </Buttons>
+            </Button>
           </Dialog.Block>
         </Dialog>
       </>
@@ -213,12 +213,12 @@ export const WithForm: Story = {
           </Dialog.Block>
           <Dialog.Block>
             <div style={{ display: 'flex', gap: 'var(--ds-spacing-3)' }}>
-              <Buttons variant="secondary" type="reset"> 
+              <Button variant="secondary" type="reset"> 
                 Cancel
-              </Buttons>
-              <Buttons variant="primary" type="submit">
+              </Button>
+              <Button variant="primary" type="submit">
                 Submit
-              </Buttons>
+              </Button>
             </div>
           </Dialog.Block>
         </form>

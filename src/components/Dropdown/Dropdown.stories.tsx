@@ -1,7 +1,7 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import { useState } from 'react'; 
 import { Dropdown, DropdownProps } from './index'; 
-import { Buttons } from '../Buttons'; 
+import { Button } from '../Button'; 
 import { Paragraph } from '@digdir/designsystemet-react'; 
 
 const meta: Meta<typeof Dropdown> = {
@@ -122,7 +122,7 @@ export const Default: Story = {
 export const WithoutContext: Story = {
   render: (args) => (
     <>
-      <Buttons popovertarget="my-dropdown-example">Open Dropdown (No Context)</Buttons>
+      <Button popovertarget="my-dropdown-example">Open Dropdown (No Context)</Button>
       <Dropdown {...args}>
         <Dropdown.Heading>Menu</Dropdown.Heading>
         <Dropdown.List>
@@ -171,9 +171,9 @@ export const Controlled: Story = {
     const [isOpen, setIsOpen] = useState(false);
     return (
       <>
-        <Buttons onClick={() => setIsOpen((o) => !o)}>
+        <Button onClick={() => setIsOpen((o) => !o)}>
           {isOpen ? 'Close Controlled' : 'Open Controlled'}
-        </Buttons>
+        </Button>
         <Dropdown
           {...args}
           open={isOpen}

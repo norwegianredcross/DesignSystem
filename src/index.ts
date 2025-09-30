@@ -22,8 +22,8 @@ export {
 export type { BreadcrumbsProps } from './components/Breadcrumbs';
 
 // Buttons
-export { Buttons } from './components/Buttons';
-export type { ButtonsProps } from './components/Buttons';
+export { Button } from './components/Button';
+export type { ButtonsProps } from './components/Button';
 
 // Card
 export { Card, CardBlock } from './components/Card';
