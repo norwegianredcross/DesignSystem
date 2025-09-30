@@ -1,10 +1,15 @@
 /* .storybook/style.css */
+
+/* Import the font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;700&display=swap');
+
 * {
   font-feature-settings: 'cv05' 1;
 }
 
 html {
-  font-family: 'Inter', sans-serif;
+  /* Apply the imported font as the base font */
+  font-family: 'Source Sans 3', sans-serif;
   height: 100%;
 }
 

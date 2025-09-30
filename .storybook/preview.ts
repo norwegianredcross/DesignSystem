@@ -3,15 +3,15 @@ import './style.css';
 import type { Preview } from '@storybook/react-vite';
 import { customStylesDecorator } from '../src/story-utils/customStylesDecorator';
 import { transformSource } from '../src/story-utils/transformSource';
+import { themeDecorator } from './themeDecorator'; // Import the decorator
 
 // CSS imports
-import '@digdir/designsystemet-css/index.css'; // Digdir's base styles
-import "rk-design-tokens/design-tokens-build/theme.css";
-import './storybook-font-override.css'; // Keep if needed
+import '@digdir/designsystemet-css/index.css';
+import 'rk-design-tokens/design-tokens-build/theme.css';
+import './storybook-font-override.css';
 
 const preview: Preview = {
   globalTypes: {
-    // React/HTML code preview tabs
     codePreview: {
       description: '"Show code" will output the selected format',
       toolbar: {
@@ -23,38 +23,38 @@ const preview: Preview = {
         dynamicTitle: true,
       },
     },
-    // Removed brand control
-    // brand: {
-    //   name: 'Brand',
-    //   description: 'Select brand color theme',
-    //   toolbar: {
-    //     icon: 'circlehollow',
-    //     items: [
-    //       { value: 'primary-brand', title: 'Primary Brand' },
-    //       { value: 'secondary-hav', title: 'Secondary Hav' },
-    //       { value: 'secondary-jungel', title: 'Secondary Jungel' },
-    //     ],
-    //   },
-    // },
-    // Removed mode control
-    // mode: {
-    //   name: 'Mode',
-    //   description: 'Select color scheme (light/dark)',
-    //   toolbar: {
-    //     icon: 'sun',
-    //     items: [
-    //       { value: 'light', title: 'Light', icon: 'sun' },
-    //       { value: 'dark', title: 'Dark', icon: 'moon' },
-    //       { value: 'auto', title: 'Auto', icon: 'browser' },
-    //     ],
-    //   },
-    // },
+    // Re-enabled brand control
+    brand: {
+      name: 'Brand',
+      description: 'Select brand color theme',
+      toolbar: {
+        icon: 'circlehollow',
+        items: [
+          { value: 'primary-brand', title: 'Primary Brand' },
+          { value: 'secondary-hav', title: 'Secondary Hav' },
+          { value: 'secondary-jungel', title: 'Secondary Jungel' },
+        ],
+      },
+    },
+    // Re-enabled mode control
+    mode: {
+      name: 'Mode',
+      description: 'Select color scheme (light/dark)',
+      toolbar: {
+        icon: 'sun',
+        items: [
+          { value: 'light', title: 'Light', icon: 'sun' },
+          { value: 'dark', title: 'Dark', icon: 'moon' },
+          { value: 'auto', title: 'Auto', icon: 'browser' },
+        ],
+      },
+    },
   },
   initialGlobals: {
     codePreview: 'react',
-    // Removed initial brand and mode settings
-    // brand: 'primary-brand',
-    // mode: 'light',
+    // Re-enabled initial theme settings
+    brand: 'primary-brand',
+    mode: 'light',
   },
   parameters: {
     layout: 'centered',
@@ -75,16 +75,13 @@ const preview: Preview = {
     options: {
       storySort: {
         method: 'alphabetical',
-        order: [
-          'Designsystem',
-          'Components',
-        ],
+        order: ['Designsystem', 'Components'],
       },
     },
   },
   decorators: [
-    // themeDecorator, // <-- THIS LINE MUST BE COMMENTED OUT or REMOVED
-    customStylesDecorator, // Keep this if it's unrelated to theme/mode
+    themeDecorator, // Re-enabled the theme decorator
+    customStylesDecorator,
   ],
 };
 
