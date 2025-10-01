@@ -1,6 +1,6 @@
 /* .storybook/style.css */
 
-/* Import the font from Google Fonts */
+/* 1. Import the "Source Sans 3" font */
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;700&display=swap');
 
 * {
@@ -8,8 +8,16 @@
 }
 
 html {
-  /* Apply the imported font as the base font */
-  font-family: 'Source Sans 3', sans-serif;
+  /* 2. Define a CSS variable for the font, just like next/font does */
+  --font-source-sans-3: 'Source Sans 3', sans-serif;
+
+  /* 3. Bridge: Force the design system to use our new font variable */
+  /* This is the key step to override the default 'Inter' font. */
+  --ds-font-family: var(--font-source-sans-3);
+
+  /* 4. Apply the font to the Storybook UI itself for consistency */
+  font-family: var(--ds-font-family);
+
   height: 100%;
 }
 

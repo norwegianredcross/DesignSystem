@@ -1,14 +1,13 @@
 // .storybook/preview.ts
-import './style.css';
+import './style.css'; // This now imports the corrected styles
 import type { Preview } from '@storybook/react-vite';
 import { customStylesDecorator } from '../src/story-utils/customStylesDecorator';
 import { transformSource } from '../src/story-utils/transformSource';
-import { themeDecorator } from './themeDecorator'; // Import the decorator
+import { themeDecorator } from './themeDecorator';
 
 // CSS imports
-import '@digdir/designsystemet-css/index.css';
 import 'rk-design-tokens/design-tokens-build/theme.css';
-import './storybook-font-override.css';
+import '@digdir/designsystemet-css/index.css'; // This file should be empty
 
 const preview: Preview = {
   globalTypes: {
@@ -23,7 +22,6 @@ const preview: Preview = {
         dynamicTitle: true,
       },
     },
-    // Re-enabled brand control
     brand: {
       name: 'Brand',
       description: 'Select brand color theme',
@@ -36,7 +34,6 @@ const preview: Preview = {
         ],
       },
     },
-    // Re-enabled mode control
     mode: {
       name: 'Mode',
       description: 'Select color scheme (light/dark)',
@@ -52,7 +49,6 @@ const preview: Preview = {
   },
   initialGlobals: {
     codePreview: 'react',
-    // Re-enabled initial theme settings
     brand: 'primary-brand',
     mode: 'light',
   },
@@ -80,7 +76,7 @@ const preview: Preview = {
     },
   },
   decorators: [
-    themeDecorator, // Re-enabled the theme decorator
+    themeDecorator,
     customStylesDecorator,
   ],
 };

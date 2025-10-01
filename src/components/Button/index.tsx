@@ -3,7 +3,7 @@ import {
   type ButtonProps as DigDirButtonProps,
 } from '@digdir/designsystemet-react';
 
-export type ButtonsProps = DigDirButtonProps;
+export type ButtonProps = DigDirButtonProps;
 export const Button = DigDirButton;
 
 Button.displayName = 'Button';

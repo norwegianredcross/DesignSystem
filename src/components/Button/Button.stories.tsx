@@ -1,6 +1,6 @@
 // src/components/Buttons/Buttons.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
-import { Button, ButtonsProps } from './index';
+import { Button, ButtonProps } from './index';
 import {
   PencilWritingIcon,
   TrashIcon,
@@ -14,7 +14,7 @@ import {
 import { Tooltip } from '../Tooltip'; // Adjust path if necessary
 
 const meta: Meta<typeof Button> = {
-  title: 'Components/Buttons',
+  title: 'Components/Button',
   component: Button,
   tags: ['autodocs'],
   argTypes: {
@@ -73,7 +73,7 @@ const meta: Meta<typeof Button> = {
       control: 'text',
       description: 'Aria label (especially if children is empty/icon)',
     },
-  } as ArgTypes<ButtonsProps>,
+  } as ArgTypes<ButtonProps>,
 };
 
 export default meta;
