@@ -1,23 +1,26 @@
-name: Update Design Tokens and Redeploy
+name: Build and Deploy Storybook
 
 on:
   push:
     branches:
-      - main # This makes it run on every push to the main branch
+      - main
 
 jobs:
-  update-and-deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.PAT }} # Use the PAT to allow pushing changes
+          # We need a Personal Access Token (PAT) to be able to push the commit
+          # back to the main branch.
+          token: ${{ secrets.PAT }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
@@ -25,24 +28,18 @@ jobs:
       - name: Update design tokens package
         run: npm update rk-design-tokens
 
-      - name: Configure Git
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-
-      - name: Commit and push if there are changes
-        run: |
-          if ! git diff-index --quiet HEAD; then
-            echo "Changes detected in package files. Committing and pushing."
-            git add package.json package-lock.json
-            git commit -m "chore(deps): update rk-design-tokens to latest"
-            git push
-          else
-            echo "No changes to package files."
-          fi
+      - name: Commit and Push Dependency Updates
+        # This action automatically detects file changes, commits them, and pushes them.
+        # It is designed to be safe for CI and will not cause an infinite loop.
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(deps): update rk-design-tokens to latest"
+          commit_user_name: "github-actions[bot]"
+          commit_user_email: "github-actions[bot]@users.noreply.github.com"
       
       - name: Build Storybook
         run: npm run predeploy:storybook
 
       - name: Deploy to GitHub Pages
         run: npm run deploy:storybook
+
