@@ -12,8 +12,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          # We need a Personal Access Token (PAT) to be able to push the commit
-          # back to the main branch.
           token: ${{ secrets.PAT }}
 
       - name: Setup Node.js
@@ -29,8 +27,6 @@ jobs:
         run: npm update rk-design-tokens
 
       - name: Commit and Push Dependency Updates
-        # This action automatically detects file changes, commits them, and pushes them.
-        # It is designed to be safe for CI and will not cause an infinite loop.
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore(deps): update rk-design-tokens to latest"
@@ -38,13 +34,18 @@ jobs:
           commit_user_email: "github-actions[bot]@users.noreply.github.com"
       
       - name: Build Storybook
-        # We run the build command directly here.
         run: npm run build-storybook
 
       - name: Copy Metadata
-        # We replace the broken 'copy' command with 'cp', which works on Linux.
         run: cp metadata.json storybook-build/metadata.json
 
       - name: Deploy to GitHub Pages
-        run: npm run deploy:storybook
+        # We call the gh-pages command directly to bypass the broken 'predeploy' npm script.
+        # This is the key fix.
+        run: |
+          npx gh-pages \
+            --user "github-actions[bot] <github-actions[bot]@users.noreply.github.com>" \
+            --repo https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }}.git \
+            --dest storybook \
+            -d storybook-build
 
