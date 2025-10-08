@@ -60,7 +60,7 @@
     "release:minor": "npm version minor && npm publish",
     "release:major": "npm version major && npm publish",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build --output-dir storybook-build --vite-config-file ./.storybook/vite.config.js",
+    "build-storybook": "storybook build --output-dir storybook-build",
     "predeploy:storybook": "npm run build-storybook && npm run copy-metadata",
     "copy-metadata": "copy metadata.json storybook-build\\metadata.json",
     "deploy:storybook": "gh-pages -d storybook-build -b gh-pages -r https://github.com/norwegianredcross/DesignSystem.git --dest storybook"
