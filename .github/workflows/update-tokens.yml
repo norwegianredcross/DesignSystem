@@ -1,8 +1,9 @@
 name: Update Design Tokens and Redeploy
 
 on:
-  repository_dispatch:
-    types: [new-design-tokens-version]
+  push:
+    branches:
+      - main # This makes it run on every push to the main branch
 
 jobs:
   update-and-deploy:
@@ -40,10 +41,8 @@ jobs:
             echo "No changes to package files."
           fi
       
-      # --- ADD THESE STEPS ---
       - name: Build Storybook
-        run: npm run predeploy:storybook # This also copies metadata
+        run: npm run predeploy:storybook
 
       - name: Deploy to GitHub Pages
         run: npm run deploy:storybook
-      # -----------------------
