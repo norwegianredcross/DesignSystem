@@ -40,11 +40,10 @@ jobs:
         run: cp metadata.json storybook-build/metadata.json
 
       - name: Deploy to GitHub Pages
-        # We call the gh-pages command directly to bypass the broken 'predeploy' npm script.
-        # This is the key fix.
+        # The redundant and problematic --user flag has been removed.
+        # gh-pages will automatically use the git config from the previous step.
         run: |
           npx gh-pages \
-            --user "github-actions[bot] <github-actions[bot]@users.noreply.github.com>" \
             --repo https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }}.git \
             --dest storybook \
             -d storybook-build
