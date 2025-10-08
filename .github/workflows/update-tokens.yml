@@ -20,6 +20,13 @@ jobs:
           node-version: "20"
           cache: 'npm'
 
+      - name: Configure Git
+        # This is the key fix. We set the git identity once for the entire job.
+        # This configuration will be used by all subsequent steps that run git commands.
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Install dependencies
         run: npm ci
 
@@ -27,11 +34,10 @@ jobs:
         run: npm update rk-design-tokens
 
       - name: Commit and Push Dependency Updates
+        # This action will now use the global git config we set above.
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore(deps): update rk-design-tokens to latest"
-          commit_user_name: "github-actions[bot]"
-          commit_user_email: "github-actions[bot]@users.noreply.github.com"
       
       - name: Build Storybook
         run: npm run build-storybook
@@ -40,8 +46,7 @@ jobs:
         run: cp metadata.json storybook-build/metadata.json
 
       - name: Deploy to GitHub Pages
-        # The redundant and problematic --user flag has been removed.
-        # gh-pages will automatically use the git config from the previous step.
+        # This command will also now use the global git config.
         run: |
           npx gh-pages \
             --repo https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }}.git \
