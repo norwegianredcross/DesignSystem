@@ -1,6 +1,4 @@
-// .storybook/RedCrossTheme.ts
-
-import { create } from '@storybook/theming/create';
+import { create } from 'storybook/theming';
 
 export default create({
   base: 'light',
@@ -12,18 +10,17 @@ export default create({
   // Brand Identity
   brandTitle: 'Røde Kors Designsystem',
   brandUrl: 'https://www.rodekors.no',
-  brandImage: '/logo-red-cross.svg', // We'll add this logo in the next step
+  brandImage: '/logo-red-cross.svg',
   brandTarget: '_self',
 
   // --- Colors ---
-  // Main colors for the UI
-  colorPrimary: '#242424', // A neutral dark color for active UI elements
-  colorSecondary: '#C8102E', // The iconic Red Cross red for emphasis
+  colorPrimary: '#242424',
+  colorSecondary: '#C8102E',
 
   // UI Backgrounds
-  appBg: '#F8F8F8', // A very light grey for the main background
-  appContentBg: '#FFFFFF', // Background for content areas
-  appPreviewBg: '#FFFFFF', // Background for the component preview canvas
+  appBg: '#F8F8F8',
+  appContentBg: '#FFFFFF',
+  appPreviewBg: '#FFFFFF',
   appBorderColor: '#D9D9D9',
   appBorderRadius: 4,
 
@@ -33,7 +30,7 @@ export default create({
 
   // Toolbar
   barTextColor: '#555555',
-  barSelectedColor: '#C8102E', // Red for the active toolbar item
+  barSelectedColor: '#C8102E',
   barBg: '#FFFFFF',
 
   // Form Controls

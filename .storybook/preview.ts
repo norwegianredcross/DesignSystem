@@ -4,8 +4,6 @@ import { customStylesDecorator } from '../src/story-utils/customStylesDecorator'
 import { transformSource } from '../src/story-utils/transformSource';
 import { themeDecorator } from './themeDecorator';
 
-// CSS imports
-// This line correctly imports the design tokens, making them available.
 import 'rk-design-tokens/design-tokens-build/theme.css';
 import '@digdir/designsystemet-css/index.css';
 
@@ -75,10 +73,7 @@ const preview: Preview = {
       },
     },
   },
-  decorators: [
-    themeDecorator,
-    customStylesDecorator,
-  ],
+  decorators: [themeDecorator, customStylesDecorator],
 };
 
 export default preview;
