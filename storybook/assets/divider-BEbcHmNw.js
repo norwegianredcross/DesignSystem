@@ -1,0 +1,1 @@
+import{r as i,j as t}from"./iframe-Cm-BopP0.js";import{c as a}from"./lite-DaUVFjkg.js";const f=i.forwardRef(function({className:r,...s},e){return t.jsx("hr",{"aria-hidden":"true",className:a("ds-divider",r),ref:e,...s})});export{f as D};
