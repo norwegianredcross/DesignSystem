@@ -19,10 +19,9 @@ jobs:
         with:
           node-version: "20"
           cache: 'npm'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Configure Git
-        # This is the key fix. We set the git identity once for the entire job.
-        # This configuration will be used by all subsequent steps that run git commands.
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
@@ -34,11 +33,18 @@ jobs:
         run: npm update rk-design-tokens
 
       - name: Commit and Push Dependency Updates
-        # This action will now use the global git config we set above.
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore(deps): update rk-design-tokens to latest"
       
+      - name: Build package
+        run: npm run build
+
+      - name: Publish to npm
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Build Storybook
         run: npm run build-storybook
 
@@ -46,10 +52,8 @@ jobs:
         run: cp metadata.json storybook-build/metadata.json
 
       - name: Deploy to GitHub Pages
-        # This command will also now use the global git config.
         run: |
           npx gh-pages \
             --repo https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }}.git \
             --dest storybook \
             -d storybook-build
-
