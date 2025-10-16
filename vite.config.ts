@@ -13,7 +13,11 @@ export default defineConfig({
       rollupTypes: true,
       bundledPackages: ['@digdir/designsystemet-react'],
       copyDtsFiles: false,
-      strictOutput: false, // Allow some type inference issues
+      strictOutput: false,
+      compilerOptions: {
+        skipLibCheck: true,
+        noEmit: true,
+      },
     }),
   ],
   build: {
@@ -25,13 +29,13 @@ export default defineConfig({
     },
     rollupOptions: {
       external: [
-        'react', 
+        'react',
         'react-dom',
         '@digdir/designsystemet',
         '@digdir/designsystemet-css',
         '@digdir/designsystemet-react',
         '@navikt/aksel-icons',
-        'date-fns'
+        'date-fns',
       ],
       output: {
         globals: {
