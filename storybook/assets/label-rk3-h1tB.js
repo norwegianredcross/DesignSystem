@@ -1,1 +1,0 @@
-import{r as m,j as l}from"./iframe-CDFAJ_Fh.js";import{S as n}from"./index-DYxErLs_.js";import{c}from"./lite-DaUVFjkg.js";const b=m.forwardRef(function({className:o,weight:r="medium",asChild:t,...a},s){const e=t?n:"label";return l.jsx(e,{ref:s,className:c("ds-label",o),"data-weight":r,...a})});export{b as L};
