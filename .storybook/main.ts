@@ -1,3 +1,5 @@
+// .storybook/main.ts
+
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { StorybookConfig } from '@storybook/react-vite';
@@ -43,17 +45,22 @@ const config: StorybookConfig = {
   addons: [
     '@storybook/addon-onboarding',
     '@storybook/addon-docs',
-    '@storybook/addon-a11y',
+    '@storybook/addon-a1y',
     '@storybook/addon-links',
     '@chromatic-com/storybook',
   ],
+  
+  staticDirs: ['../public'],
+
   framework: {
     name: '@storybook/react-vite',
     options: {
       strictMode: true,
     },
   },
+  
   docs: {},
 };
 
 export default config;
+
