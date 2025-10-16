@@ -6,6 +6,7 @@ import {
 
 export interface AlertProps extends DigDirAlertProps {
   children?: ReactNode;
+  title?: string;
 }
 
 export const Alert = forwardRef<HTMLDivElement, AlertProps>((props, ref) => {
