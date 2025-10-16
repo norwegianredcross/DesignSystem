@@ -23,7 +23,7 @@ export type { BreadcrumbsProps } from './components/Breadcrumbs';
 
 // Buttons
 export { Button } from './components/Button';
-export type { ButtonsProps } from './components/Button';
+export type { ButtonProps } from './components/Button';
 
 // Card
 export { Card, CardBlock } from './components/Card';
@@ -81,6 +81,10 @@ export type { FieldsetProps } from './components/Fieldset';
 // Input
 export { Input } from './components/Input';
 export type { InputProps } from './components/Input';
+
+// Label
+export { Label } from './components/Label';
+export type { LabelProps } from './components/Label';
 
 // Link
 export { Link } from './components/Link';
