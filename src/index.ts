@@ -13,11 +13,11 @@ export { Badge, BadgePosition } from './components/Badge';
 export type { BadgeProps, BadgePositionProps } from './components/Badge';
 
 // Breadcrumbs
-export { 
-  Breadcrumbs, 
-  BreadcrumbsList, 
-  BreadcrumbsItem, 
-  BreadcrumbsLink 
+export {
+  Breadcrumbs,
+  BreadcrumbsList,
+  BreadcrumbsItem,
+  BreadcrumbsLink,
 } from './components/Breadcrumbs';
 export type { BreadcrumbsProps } from './components/Breadcrumbs';
 
@@ -35,11 +35,11 @@ export type { CheckboxProps } from './components/Checkbox';
 
 // Chip
 export { Chip } from './components/Chip';
-export type { 
-  ChipRadioProps, 
-  ChipCheckboxProps, 
-  ChipRemovableProps, 
-  ChipButtonProps 
+export type {
+  ChipRadioProps,
+  ChipCheckboxProps,
+  ChipRemovableProps,
+  ChipButtonProps,
 } from './components/Chip';
 
 // DatePicker (Custom component)
@@ -78,6 +78,10 @@ export type { FieldProps, FieldDescriptionProps, FieldCounterProps } from './com
 export { Fieldset } from './components/Fieldset';
 export type { FieldsetProps } from './components/Fieldset';
 
+// Heading
+export { Heading } from './components/Heading';
+export type { HeadingProps } from './components/Heading';
+
 // Input
 export { Input } from './components/Input';
 export type { InputProps } from './components/Input';
@@ -96,6 +100,10 @@ export { List } from './components/List';
 // Pagination
 export { Pagination, usePagination } from './components/Pagination';
 export type { PaginationProps } from './components/Pagination';
+
+// Paragraph
+export { Paragraph } from './components/Paragraph';
+export type { ParagraphProps } from './components/Paragraph';
 
 // Popover
 export { Popover } from './components/Popover';
