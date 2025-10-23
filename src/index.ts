@@ -133,6 +133,17 @@ export type { SkipLinkProps } from './components/SkipLink';
 export { Spinner } from './components/SpinnerLoader';
 export type { SpinnerProps } from './components/SpinnerLoader';
 
+// Suggestion
+export { Suggestion } from './components/Suggestion';
+export type {
+  SuggestionProps,
+  SuggestionInputProps,
+  SuggestionListProps,
+  SuggestionOptionProps,
+  SuggestionEmptyProps,
+  SuggestionClearProps,
+} from './components/Suggestion';
+
 // Switch
 export { Switch } from './components/Switch';
 export type { SwitchProps } from './components/Switch';
