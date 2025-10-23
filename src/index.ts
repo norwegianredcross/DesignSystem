@@ -1,5 +1,3 @@
-// src/index.ts
-
 // Alert
 export { Alert } from './components/Alert';
 export type { AlertProps } from './components/Alert';
@@ -72,7 +70,11 @@ export type { ErrorSummaryProps } from './components/ErrorSummary';
 
 // Field
 export { Field, FieldDescription, FieldCounter } from './components/Field';
-export type { FieldProps, FieldDescriptionProps, FieldCounterProps } from './components/Field';
+export type {
+  FieldProps,
+  FieldDescriptionProps,
+  FieldCounterProps,
+} from './components/Field';
 
 // Fieldset
 export { Fieldset } from './components/Fieldset';
@@ -175,3 +177,7 @@ export type { ToggleGroupProps } from './components/ToggleGroup';
 // Tooltip
 export { Tooltip } from './components/Tooltip';
 export type { TooltipProps } from './components/Tooltip';
+
+// ValidationMessage
+export { ValidationMessage } from './components/ValidationMessage';
+export type { ValidationMessageProps } from './components/ValidationMessage';
