@@ -1,0 +1,1 @@
+import{r as m,j as e}from"./iframe-CIZAg-D5.js";import{S as n}from"./index-BoF7h9_D.js";import{c as i}from"./lite-DaUVFjkg.js";const p=m.forwardRef(({asChild:r,className:s,...o},t)=>{const a=r?n:"a";return e.jsx(a,{className:i("ds-link",s),ref:t,...o})});p.displayName="Link";export{p as L};
