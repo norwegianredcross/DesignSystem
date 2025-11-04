@@ -1,1 +1,0 @@
-import{r as e,j as s}from"./iframe-CIZAg-D5.js";import{c as o}from"./lite-DaUVFjkg.js";const m=e.forwardRef(function({className:r,...t},a){return s.jsx("textarea",{className:o("ds-input",r),ref:a,...t})});export{m as T};
