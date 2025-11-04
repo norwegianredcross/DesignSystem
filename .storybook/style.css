@@ -41,3 +41,13 @@ body {
   color: var(--ds-color-neutral-text-default);
   font-size: 0.8em;
 }
+
+/* --- ADDED: UI Polish --- */
+
+/* Ensures sidebar logo is crisp and centered */
+[data-testid='sidebar-header'] img {
+  max-width: 75%;
+  height: auto;
+  margin: 1.25rem auto;
+  display: block;
+}

@@ -10,7 +10,7 @@ export default create({
   // Brand Identity
   brandTitle: 'Røde Kors Designsystem',
   brandUrl: 'https://www.rodekors.no',
-  brandImage: '/logo-red-cross.svg',
+  brandImage: 'logo-red-cross.svg',
   brandTarget: '_self',
 
   // --- Colors ---
