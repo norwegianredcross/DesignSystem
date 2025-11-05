@@ -1,0 +1,100 @@
+import { Meta, Story, Canvas, ArgTypes } from '@storybook/blocks';
+import { Alert, AlertProps } from './index';
+
+{/* This 'meta' block replaces your old 'meta' export. */}
+<Meta
+  title="Components/Alert"
+  component={Alert}
+  argTypes={{
+    'data-color': {
+      control: 'select',
+      options: ['info', 'warning', 'success', 'danger'],
+      description: 'The visual style of the alert.',
+      table: { category: 'Appearance' },
+    },
+    'data-size': {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      description: 'The size of the alert.',
+      table: { category: 'Appearance' },
+    },
+    children: {
+      control: 'text',
+      description: 'The content of the alert.',
+    },
+    title: {
+      control: 'text',
+      description: 'The title of the alert.',
+    },
+  }}
+/>
+
+# Alert
+
+Vi bruker `Alert` til å gi brukeren informasjon som det er ekstra viktig at de ser og forstår. Komponenten er designet for å fange brukernes oppmerksomhet. Teksten i varselet skal være kort og tydelig.
+
+## Bruk (Usage)
+
+```tsx
+import { Alert } from '@norwegianredcross/designsystem'; // Assumed path
+
+<Alert title="Information">Dette er en viktig beskjed.</Alert>;
+Kodeeksempler (Code Examples)
+Alert kan brukes til fire ulike budskap: Informasjon, suksess, advarsler og feilmelding.
+
+Informasjon
+Bruk info når du vil gi brukeren nøytral og nyttig informasjon.
+
+<Canvas> <Story name="Info" args={{ 'data-color': 'info', title: 'Informasjon', children: 'Har du husket å bestille passtime? Det er lange køer for å bestille pass om dagen.', }}> {(args) => <Alert {...args} />} </Story> </Canvas>
+
+Suksess
+Bruk success når du vil bekrefte at brukeren har fullført en oppgave.
+
+<Canvas> <Story name="Suksess" args={{ 'data-color': 'success', title: 'Gratulerer!', children: 'Du kan nå starte selskapet ditt. Det ser ut til at regnestykket går i pluss.', }}> {(args) => <Alert {...args} />} </Story> </Canvas>
+
+Advarsel
+Bruk warning når du vil at brukeren skal foreta en bestemt handling eller advare dem om noe viktig.
+
+<Canvas> <Story name="Advarsel" args={{ 'data-color': 'warning', title: 'Vi har tekniske problemer', children: 'Det gjør at du kan bli avbrutt mens du fyller ut skjemaet. Vi jobber med å rette problemene.', }}> {(args) => <Alert {...args} />} </Story> </Canvas>
+
+Feilmelding (Danger)
+Bruk danger for å informere om noe som er kritisk eller som hindrer brukeren i å komme videre.
+
+<Canvas> <Story name="Feilmelding" args={{ 'data-color': 'danger', title: 'Det har skjedd en feil', children: 'Vi klarer ikke å hente informasjonen du ser etter akkurat nå. Prøv igjen litt senere.', }}> {(args) => <Alert {...args} />} </Story> </Canvas>
+
+Mønstre (Patterns)
+Uten standard tittel
+Hvis meldingen er kort (én setning), er det ofte bedre å ikke bruke title-prop.
+
+<Canvas> <Story name="Uten Tittel" args={{ 'data-color': 'info', children: 'Du har 7 dager igjen på å fullføre søknaden.', }}> {(args) => <Alert {...args} />} </Story> </Canvas>
+
+Med lenke
+Du kan ha en lenke i Alert hvis det hjelper brukeren med å løse oppgaven. This example uses a standard <a> tag.
+
+<Canvas> <Story name="Med Lenke" args={{ 'data-color': 'warning', title: 'Søknadsfristen går ut om 3 dager', }}> {(args) => ( <Alert {...args}> Fristen for å søke opptak til utdanning er 15. april.{' '} <a href="#">Søk nå</a> </Alert> )} </Story> </Canvas>
+
+Retningslinjer (Guidelines)
+Alert brukes for å vise viktige meldinger som krever oppmerksomhet, men ikke nødvendigvis handling.
+
+Bruk komponenten varsomt. Hvis vi bruker varsler for ofte, kan brukere overse dem.
+
+Vær konsis. Teksten i varselet skal være tydelig og lett å forstå.
+
+Ikke bruk til validering. For å validere individuelle skjemaelementer, bruk heller komponentens egen feilmelding.
+
+Tekst
+En god varseltekst bør:
+
+Fortelle hva som har skjedd: "Kunne ikke koble til konto."
+
+Fortelle hvorfor (hvis mulig): "...på grunn av tekniske problemer."
+
+Gi en løsning: "Vennligst prøv igjen."
+
+Tilgjengelighet (Accessibility)
+For varsler som oppstår dynamisk (f.eks. etter en brukers handling), må du selv definere en "live region". Dette gjøres ved å pakke Alert-komponenten i en wrapper som har role="alert" (for kritiske feil) eller role="status" (for mindre kritiske meldinger).
+
+Viktig: Live-regionen (wrapperen) må eksistere på siden før varselet dukker opp inni den for at skjermlesere skal fange det opp.
+
+Props (Egenskaper)
+{/* This block automatically generates the props table based on your 'argTypes' */} <ArgTypes />
