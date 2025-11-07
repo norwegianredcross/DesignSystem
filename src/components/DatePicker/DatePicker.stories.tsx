@@ -1,4 +1,3 @@
-// src/components/DatePicker/DatePicker.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import React, { useState, useEffect } from 'react'; // Import useState and useEffect
 // --- CORRECTED IMPORT ---
@@ -33,6 +32,20 @@ const meta: Meta<typeof DatePicker> = {
       action: 'dateSelected',
       description: 'Callback function when a date is selected in the calendar.',
     },
+    // --- ADDED ---
+    'data-size': {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      description: 'Component size',
+      defaultValue: 'md',
+    },
+    'data-color': {
+      control: 'select',
+      options: ['accent', 'brand1', 'brand2', 'brand3', 'neutral'],
+      description: 'Color scheme',
+      defaultValue: 'neutral',
+    },
+    // --- END ADDED ---
   } as ArgTypes<DatePickerProps>,
 };
 
@@ -127,6 +140,37 @@ export const CalendarStartingInPreviousMonth: CalendarStory = {
   },
 };
 
+// --- ADDED NEW STORY ---
+export const CalendarWithCustomSizeAndColor: CalendarStory = {
+  name: 'Calendar Only (Custom Size/Color)',
+  render: (args) => {
+    // Same render as DefaultCalendar
+    const [storySelectedDate, setStorySelectedDate] = useState<Date | null>(
+      args.selectedDate || new Date(), // Default to selecting today
+    );
+    const handleSelect = (date: Date) => {
+      setStorySelectedDate(date);
+      args.onDateSelect?.(date);
+    };
+    return (
+      <DatePicker
+        {...args}
+        selectedDate={storySelectedDate}
+        onDateSelect={handleSelect}
+      />
+    );
+  },
+  args: {
+    initialDate: new Date(),
+    selectedDate: new Date(),
+    'data-size': 'lg',
+    'data-color': 'brand2',
+    onDateSelect: action('dateSelected'),
+  },
+};
+// --- END ADDED NEW STORY ---
+
+
 // --- Story for Combined DateInput + DatePicker ---
 
 // This component wraps DateInput and DatePicker, managing their shared state
@@ -214,11 +258,14 @@ const DatePickerInputCombo: React.FC<DatePickerProps> = (args) => {
           placeholder="dd.mm.åååå"
           suffixIcon={<CalendarIcon />}
           // Optional: Add onSuffixClick to toggle calendar visibility if needed
+          // Pass down data-size and data-color to DateInput as well
+          data-size={args['data-size']}
+          data-color={args['data-color']}
         />
       </div>
       {/* The Date Picker (Calendar) Component */}
       <DatePicker
-        {...args} // Pass through story args like initialDate if needed
+        {...args} // Pass through story args like initialDate, data-size, data-color
         selectedDate={selectedDate} // Calendar highlighting controlled by selectedDate state
         onDateSelect={handleDateSelect} // Connect calendar clicks to the handler
         // Ensure calendar navigates to the selected date's month if input changes it
@@ -245,5 +292,14 @@ export const CombinedInputAndCalendar: StoryObj<typeof DatePickerInputCombo> = {
     // Disable controls for props managed internally by DatePickerInputCombo
     selectedDate: { table: { disable: true } }, // Managed by state
     onDateSelect: { table: { disable: true } }, // Handled internally
+    // Re-enable data-size and data-color controls for this story
+    'data-size': {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+    },
+    'data-color': {
+      control: 'select',
+      options: ['accent', 'brand1', 'brand2', 'brand3', 'neutral'],
+    },
   },
 };

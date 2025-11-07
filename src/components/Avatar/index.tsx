@@ -1,16 +1,14 @@
-import { forwardRef, ReactNode } from 'react';
+import { forwardRef } from 'react';
 import {
   Avatar as DigDirAvatar,
   type AvatarProps as DigDirAvatarProps,
 } from '@digdir/designsystemet-react';
 
-export interface AvatarProps extends DigDirAvatarProps {
-  children?: ReactNode;
-  initials?: string;
-  variant?: 'circle' | 'square';
-}
 
-export const Avatar = forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
+export type AvatarProps = DigDirAvatarProps;
+
+
+export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>((props, ref) => {
   return <DigDirAvatar ref={ref} {...props} />;
 });
 

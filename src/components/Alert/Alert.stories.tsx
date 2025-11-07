@@ -1,9 +1,12 @@
-import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
-import { Alert, AlertProps } from './index';
+import type { Meta, StoryObj } from '@storybook/react';
+import { Alert } from './index';
 
-const meta: Meta<typeof Alert> = {
+const meta = {
   title: 'Components/Alert',
   component: Alert,
+  parameters: {
+    layout: 'centered',
+  },
   tags: ['autodocs'],
   argTypes: {
     'data-color': {
@@ -30,53 +33,90 @@ const meta: Meta<typeof Alert> = {
       control: 'text',
       description: 'The title of the alert.',
     },
-  } as ArgTypes<AlertProps>,
-};
+  },
+} satisfies Meta<typeof Alert>;
 
 export default meta;
-
-type Story = StoryObj<typeof Alert>;
+type Story = StoryObj<typeof meta>;
 
 export const Info: Story = {
-  name: 'Example Info',
+  name: 'Informasjon',
   args: {
     'data-color': 'info',
-    children: 'This is an informational alert.',
-    title: 'Information',
+    title: 'Informasjon',
+    children:
+      'Har du husket å bestille passtime? Det er lange køer for å bestille pass om dagen.',
   },
 };
 
-export const Warning: Story = {
-  name: 'Example Warning',
-  args: {
-    'data-color': 'warning',
-    children: 'Proceed with caution.',
-    title: 'Warning',
-  },
-};
-
-export const Success: Story = {
-  name: 'Example Success',
+export const Suksess: Story = {
+  name: 'Suksess',
   args: {
     'data-color': 'success',
-    children: 'Operation completed successfully.',
-    title: 'Success',
+    title: 'Gratulerer!',
+    children:
+      'Du kan nå starte selskapet ditt. Det ser ut til at regnestykket går i pluss.',
   },
 };
 
-export const Danger: Story = {
-  name: 'Example Danger',
+export const Advarsel: Story = {
+  name: 'Advarsel',
+  args: {
+    'data-color': 'warning',
+    title: 'Vi har tekniske problemer',
+    children:
+      'Det gjør at du kan bli avbrutt mens du fyller ut skjemaet. Vi jobber med å rette problemene.',
+  },
+};
+
+export const Feilmelding: Story = {
+  name: 'Feilmelding',
   args: {
     'data-color': 'danger',
-    children: 'An error occurred.',
-    title: 'Error',
+    title: 'Det har skjedd en feil',
+    children:
+      'Vi klarer ikke å hente informasjonen du ser etter akkurat nå. Prøv igjen litt senere.',
   },
 };
 
-export const NoTitle: Story = {
-  name: 'Example No Title',
+export const UtenTittel: Story = {
+  name: 'Uten Tittel',
   args: {
     'data-color': 'info',
-    children: 'This alert has no title.',
+    children: 'Du har 7 dager igjen på å fullføre søknaden.',
+  },
+};
+
+export const MedLenke: Story = {
+  name: 'Med Lenke',
+  args: {
+    'data-color': 'warning',
+    title: 'Søknadsfristen går ut om 3 dager',
+  },
+  render: (args) => (
+    <Alert {...args}>
+      Fristen for å søke opptak til utdanning er 15. april.{' '}
+      <a href="#">Søk nå</a>
+    </Alert>
+  ),
+};
+
+export const SmallSize: Story = {
+  name: 'Liten størrelse',
+  args: {
+    'data-color': 'info',
+    'data-size': 'sm',
+    title: 'Liten alert',
+    children: 'Dette er en liten alert.',
+  },
+};
+
+export const LargeSize: Story = {
+  name: 'Stor størrelse',
+  args: {
+    'data-color': 'info',
+    'data-size': 'lg',
+    title: 'Stor alert',
+    children: 'Dette er en stor alert.',
   },
 };

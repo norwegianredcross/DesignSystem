@@ -1,69 +1,120 @@
-// src/components/DateInput/DateInput.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { DateInput } from './index';
-import { CalendarIcon } from '../../assets/images/CalendarIcon';
+import { DateInput, DateInputProps } from './index';
+import { CalendarIcon } from '@navikt/aksel-icons';
+import { useState } from 'react';
 
 const meta: Meta<typeof DateInput> = {
   title: 'Components/DateInput',
   component: DateInput,
   tags: ['autodocs'],
-  parameters: {},
   argTypes: {
     label: { control: 'text' },
-    placeholder: { control: 'text' },
-    value: { control: 'text' },
-    disabled: { control: 'boolean' },
-    error: { control: 'text' },
     description: { control: 'text' },
+    error: { control: 'text' },
+    disabled: { control: 'boolean' },
+    readOnly: { control: 'boolean' },
+    value: { control: 'text' },
+    'data-size': {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      description: 'Component size',
+      defaultValue: 'md',
+    },
+    'data-color': {
+      control: 'select',
+      options: ['accent', 'brand1', 'brand2', 'brand3', 'neutral'],
+      description: 'Color scheme',
+      defaultValue: 'accent',
+    },
+    suffixIcon: { control: false },
   },
 };
 
 export default meta;
+
 type Story = StoryObj<typeof DateInput>;
 
-// --- Default Example ---
 export const Default: Story = {
   args: {
-    label: 'Select a date',
-    placeholder: 'dd.mm.åååå',
-    suffixIcon: <CalendarIcon />,
+    label: 'Dato',
+    id: 'default-date',
   },
 };
 
-// --- Example with Value ---
-export const WithValue: Story = {
-  name: 'Example with Value',
+export const WithDescription: Story = {
   args: {
-    ...Default.args,
-    value: '24.12.2023',
+    label: 'Fødselsdato',
+    id: 'desc-date',
+    description: 'Vennligst oppgi fødselsdatoen din.',
   },
 };
 
-// --- Example with Error ---
 export const WithError: Story = {
-  name: 'Example with Error', 
   args: {
-    ...Default.args,
-    error: 'Invalid date format',
-    value: 'Invalid Date',
+    label: 'Frist',
+    id: 'error-date',
+    description: 'Datoen må være i fremtiden.',
+    error: 'Datoen du har valgt er ugyldig.',
+    defaultValue: '10.10.2000',
   },
 };
 
-// --- Example with Disabled State ---
+export const WithSuffix: Story = {
+  args: {
+    label: 'Velg dato',
+    id: 'suffix-date',
+    suffixIcon: <CalendarIcon aria-hidden />,
+    onSuffixClick: () => alert('Kalender-knapp klikket!'),
+  },
+};
+
 export const Disabled: Story = {
-  name: 'Example with Disabled State', 
   args: {
-    ...Default.args,
+    label: 'Startdato',
+    id: 'disabled-date',
     disabled: true,
-    value: '01.01.2024',
+    defaultValue: '24.12.2024',
+    suffixIcon: <CalendarIcon aria-hidden />,
   },
 };
 
-// --- Example without Suffix Icon ---
-export const NoSuffixIcon: Story = {
-  name: 'Example without Suffix Icon', 
+export const CustomSizeAndColor: Story = {
   args: {
-    label: 'Enter your birthday',
-    placeholder: 'dd.mm.åååå',
+    label: 'Stor Brand2 Dato',
+    id: 'custom-date',
+    'data-size': 'lg',
+    'data-color': 'brand2',
+    defaultValue: '01.01.2025',
+    suffixIcon: <CalendarIcon aria-hidden />,
+    onSuffixClick: () => alert('Kalender-knapp klikket!'),
+  },
+};
+
+export const Controlled: Story = {
+  render: (args) => {
+    const [value, setValue] = useState<string | null>('12.05.2023');
+    return (
+      <div>
+        <DateInput
+          {...args}
+          value={value}
+          onChange={(e, formattedValue) => setValue(formattedValue)}
+        />
+        <button
+          onClick={() => setValue('01.01.2030')}
+          style={{ marginTop: '10px' }}
+        >
+          Sett til 2030
+        </button>
+        <button onClick={() => setValue('')} style={{ marginLeft: '10px' }}>
+          Tøm
+        </button>
+        <p>Gjeldende verdi: {value}</p>
+      </div>
+    );
+  },
+  args: {
+    label: 'Kontrollert Dato',
+    id: 'controlled-date',
   },
 };

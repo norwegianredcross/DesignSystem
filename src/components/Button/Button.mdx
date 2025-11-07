@@ -1,0 +1,149 @@
+import { Meta, Canvas, Controls, Primary } from '@storybook/addon-docs/blocks';
+import * as ButtonStories from './Button.stories';
+
+<Meta of={ButtonStories} />
+
+# Button
+
+#### `Button` brukes for å la brukere utføre handlinger, som å sende inn et skjema, avbryte en prosess, eller bekrefte en handling.
+
+<Primary />
+
+<Controls />
+
+---
+
+## Bruk
+
+```tsx
+
+import { Button } from 'rk-designsystem';
+
+import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
+
+
+
+// Standard knapp
+
+<Button variant="primary">Lagre endringer</Button>
+
+
+
+// Sekundær knapp
+
+<Button variant="secondary">Avbryt</Button>
+
+
+
+// Knapp med ikon
+
+<Button variant="tertiary" data-color="danger">
+
+<TrashIcon aria-hidden />
+
+Slett
+
+</Button>
+
+
+
+// Ikon-knapp (krever aria-label)
+
+<Button icon aria-label="Legg til ny">
+
+<PlusCircleIcon aria-hidden />
+
+</Button>
+```
+
+#### Knappen er den mest grunnleggende interaktive komponenten. Den har flere varianter (`variant`), farger (`data-color`) og størrelser (`data-size`) for å passe ulike kontekster og hierarkier.
+
+---
+
+## Kodeeksempler
+
+### Varianter
+
+#### Bruk `variant` ('primary', 'secondary', 'tertiary') for å gi knappen riktig visuelt hierarki. `primary` er for den viktigste handlingen, mens `tertiary` er den mest nedtonede.
+
+<Canvas of={ButtonStories.Primary} />
+<Canvas of={ButtonStories.Secondary} />
+<Canvas of={ButtonStories.Tertiary} />
+
+### Farger
+
+#### Bruk `data-color` for å endre fargetema. `danger` er reservert for destruktive handlinger som brukeren bør tenke seg om to ganger før de utfører.
+
+<Canvas of={ButtonStories.Danger} />
+
+### Med ikoner
+
+#### Knapper kan inneholde ikoner for å gi visuell kontekst. Ikoner kan plasseres til venstre eller høyre for teksten.
+
+<Canvas of={ButtonStories.TertiaryWithIcon} />
+<Canvas of={ButtonStories.DangerWithIcon} />
+<Canvas of={ButtonStories.WithIcons} />
+
+### Kun ikon
+
+#### For kompakte grensesnitt, som i en verktøylinje, kan en knapp kun inneholde et ikon. Disse knappene **må** ha en `aria-label` som beskriver handlingen. Bruk gjerne `Tooltip` i tillegg.
+
+<Canvas of={ButtonStories.IconOnlyWithTooltip} />
+
+### Laster (Loading)
+
+#### `loading`-propen viser en spinner og deaktiverer knappen. Dette er nyttig for å gi tilbakemelding til brukeren når en handling tar tid.
+
+<Canvas of={ButtonStories.Loading} />
+
+### Som lenke (As Link)
+
+#### Ved å bruke `asChild`-propen kan knappen rendre som et barn-element, for eksempel en `<a>`-tag. Dette lar deg lage en lenke som ser ut som en knapp.
+
+<Canvas of={ButtonStories.AsLink} />
+<Canvas of={ButtonStories.AsLinkWithIcon} />
+
+### Størrelser
+
+#### Knapper støtter `data-size` ('sm', 'md', 'lg') for å tilpasse størrelsen til ulike flater og kontekster.
+
+<Canvas of={ButtonStories.LargeNeutral} />
+
+---
+
+## Retningslinjer
+
+#### Knapper har en viktig funksjon og er direkte knyttet til en handling.
+
+#### Gjør dette
+ * **Vær handlingsorientert:** Knappeteksten bør være kort og beskrive handlingen (f.eks. "Lagre", "Send inn", "Avbryt").
+ * **Prioriter:** Bruk `primary` kun for den viktigste handlingen på siden. Ha som regel kun én `primary`-knapp synlig om gangen.
+ * **Bruk `danger` med omhu:** Reserver `data-color="danger"` for destruktive handlinger som "Slett" eller "Avslutt".
+ * **Bruk `aria-label`:** Alle ikon-knapper **må** ha en `aria-label` som beskriver handlingen.
+
+#### Unngå dette
+* **Ikke for navigasjon:** Ikke bruk knapper for ren navigasjon til andre sider. Bruk en standard lenke (`<a>`) for dette (med mindre du bruker `asChild` for å bevisst style en lenke som en knapp).
+* **Deaktiverte knapper:** Unngå `disabled`-knapper hvis mulig. Det er ofte bedre å la knappen være aktiv og vise en feilmelding dersom brukeren prøver å utføre handlingen uten å ha fylt ut nødvendig informasjon.
+* **Lange tekster:** Ikke bruk lange setninger i knapper. Hold det til 1-3 ord.
+
+## Tilgjengelighet
+
+* **Tekst:** En knapp må alltid ha en tilgjengelig tekst. Hvis den kun inneholder et ikon, må `aria-label` brukes.
+* **Ikoner:** Ikoner som brukes *sammen med* synlig tekst (f.eks. `<TrashIcon /> Slett`) skal ha `aria-hidden="true"` for å unngå at skjermlesere leser "Søppel Slett".
+* **Loading:** `loading`-propen setter knappen i en `disabled`-tilstand. Dette er en av de få situasjonene hvor `disabled` er anbefalt, da handlingen midlertidig er utilgjengelig.
+* **`asChild`:** Når du bruker `asChild` med en `<a>`-tag, sørg for at den oppfører seg som en lenke (navigerer). Hvis den utfører en handling (som en `<button>`), bør den være en `<button>`.
+
+## CSS-variabler
+
+#### Her er tilgjengelige CSS-variabler for `Button`.
+
+* `--button-background-color`
+* `--button-background-color-hover`
+* `--button-text-color`
+* `--button-border-color`
+* `--button-border-color-hover`
+* `--button-border-radius`
+* `--button-padding-inline`
+* `--button-padding-block`
+* `--button-font-size`
+* `--button-icon-spacing`

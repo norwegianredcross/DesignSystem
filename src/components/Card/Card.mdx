@@ -1,0 +1,122 @@
+import { Meta, Canvas, Controls, Primary } from '@storybook/addon-docs/blocks';
+import * as CardStories from './Card.stories';
+
+<Meta of={CardStories} />
+
+# Card
+
+#### `Card` er en fleksibel overflate-komponent som grupperer relatert innhold og handlinger. Den brukes til å fremheve informasjon i en avgrenset boks.
+
+<Primary />
+
+<Controls />
+
+---
+
+## Bruk
+
+```tsx
+import { Card, CardBlock } from '@rk-designsystem';
+
+// Standard kort med inndelinger
+<Card>
+  <CardBlock>
+    <h3>Korttittel</h3>
+  </CardBlock>
+  <CardBlock>
+    <p>Dette er innholdet i kortet, plassert i en egen CardBlock.</p>
+  </CardBlock>
+  <CardBlock>
+    <small>Fotnote</small>
+  </CardBlock>
+</Card>
+
+// Interaktivt kort (som en lenke)
+<Card asChild>
+  <a href="/sti/til/side">
+    <CardBlock>
+      <h3>Klikkbar tittel</h3>
+      <p>Hele dette kortet er en lenke.</p>
+    </CardBlock>
+  </a>
+</Card>
+```
+
+#### `Card`-komponenten fungerer som en container. For å strukturere innhold internt, bruk `CardBlock`-komponenten. Dette sikrer riktig spacing og valgfrie skillelinjer mellom seksjoner.
+
+---
+
+## Kodeeksempler
+
+### Standardkort
+
+#### Standardkortet har en nøytral bakgrunn og er den vanligste varianten. Innholdet er delt inn med `CardBlock`.
+<Canvas of={CardStories.Default} />
+
+### Farget variant
+
+#### Ved å sette `variant="tinted"` får kortet en svak bakgrunnsfarge basert på `data-color`. Dette kan brukes for å gi kortet en myk visuell prioritet.
+<Canvas of={CardStories.Tinted} />
+
+### Med bilde
+
+#### `CardBlock` kan brukes til å vise et bilde som fyller hele bredden av kortet uten intern padding.
+<Canvas of={CardStories.WithImage} />
+
+### Med sammensatt innhold
+
+#### Kort er ment for komposisjon. Du kan enkelt plassere andre komponenter, som knapper og tekst, inni `CardBlock`.
+<Canvas of={CardStories.ComposedContent} />
+
+---
+
+## Ulike mønstre
+
+### Som lenke
+
+#### Ved å bruke `asChild`-propen kan hele kortet gjøres om til ett enkelt klikkbart element, som en `<a>`-tag. Dette er ideelt for "teaser"-kort som lenker til en annen side.
+<Canvas of={CardStories.AsLink} />
+
+### Som knapp
+
+#### `asChild` kan også brukes til å gjøre kortet om til en `<button>`. Dette er nyttig for å utløse en handling, som å åpne en modal eller legge til et nytt element.
+<Canvas of={CardStories.AsButton} />
+
+### Kompleks komposisjon
+
+#### Her er et eksempel på et kort som brukes i en applikasjon, og kombinerer skjemafelter, titler og knapper i et komplekst, men ryddig oppsett.
+<Canvas of={CardStories.ComplexComposition} />
+
+---
+
+## Retningslinjer
+
+#### Bruk `Card` for å gruppere innhold som hører logisk sammen, og skille det fra annet innhold på siden.
+
+#### Gjør dette
+ * **Grupper relatert innhold:** Bruk kort til å samle tekst, bilder og handlinger som omhandler ett enkelt emne.
+ * **Bruk `CardBlock`:** Bruk `CardBlock` for å dele opp innhold internt i kortet. Dette gir riktig spacing og skillelinjer.
+ * **Bruk `asChild` for interaktivitet:** Hvis *hele* kortet skal være klikkbart, bruk `asChild` for å gjøre det om til en lenke eller knapp.
+
+#### Unngå dette
+* **Ikke for alt:** Ikke plasser alt innhold på siden i kort. En side med bare kort kan virke rotete og tung.
+ * **Ikke glem `asChild`:** Ikke plasser en lenke inni et kort hvis du forventer at hele kortet skal være klikkbart. Bruk `asChild` for å sikre at hele flaten er én lenke.
+* **Ikke for varsler:** Ikke bruk `Card` for å vise viktige systemmeldinger eller feil. Bruk `Alert`-komponenten til det.
+
+## Tilgjengelighet
+
+Når et kort gjøres klikkbart med `asChild`, er det viktig å sikre at det er tilgjengelig.
+
+* **Kort som lenke:** Når kortet er en `<a>`-tag, vil skjermlesere lese opp alt innholdet i kortet som en del av lenketeksten. Sørg for at denne teksten er konsis og beskrivende.
+* **Kort som knapp:** Når kortet er en `<button>`, bør det ha en tydelig `aria-label` som beskriver handlingen, spesielt hvis innholdet er komplekst.
+* **Bilder:** Hvis et bilde i et klikkbart kort er rent dekorativt, bruk `alt=""`. Hvis det er en del av innholdet, gi det en meningsfylt `alt`-tekst.
+
+## CSS-variabler
+
+#### Her er tilgjengelige CSS-variabler for `Card`.
+
+* `--card-background-color`
+* `--card-border-color`
+* `--card-border-radius`
+* `--card-padding`
+* `--card-block-border-color`

@@ -1,23 +1,28 @@
-// src/components/DatePicker/DatePicker.tsx
-import React, { useState, useMemo, useCallback, useEffect } from 'react'; // Import useEffect
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { Button as DigDirButton } from '@digdir/designsystemet-react';
 import {
   format, startOfMonth, startOfWeek, eachDayOfInterval,
   addMonths, subMonths, isSameMonth, isSameDay, isToday, addDays,
-  isValid // Import isValid
+  isValid
 } from 'date-fns';
 import { nb } from 'date-fns/locale';
 import { ChevronLeftIcon } from '../../assets/images/ChevronLeftIcon';
 import { ChevronRightIcon } from '../../assets/images/ChevronRightIcon';
 
 import styles from './styles.module.css';
+// Import shared types
+import type { DefaultProps } from "../../types";
+import type { MergeRight } from "../../utilities";
 
-
-export interface DatePickerProps {
-  initialDate?: Date;
-  selectedDate?: Date | null;
-  onDateSelect?: (date: Date) => void;
-}
+// --- Interface Updated ---
+export type DatePickerProps = MergeRight<
+  DefaultProps, // <-- Added
+  {
+    initialDate?: Date;
+    selectedDate?: Date | null;
+    onDateSelect?: (date: Date) => void;
+  }
+>;
 
 // Utility functions (generateCalendarDays, capitalizeFirstLetter) remain the same
 const generateCalendarDays = (date: Date): Date[] => {
@@ -37,10 +42,11 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   initialDate = new Date(),
   selectedDate = null, // Prop for selected date
   onDateSelect,
+  "data-color": dataColor, // <-- Destructured
+  "data-size": dataSize,   // <-- Destructured
 }) => {
   // Internal state for the currently displayed month
   const [currentMonthDate, setCurrentMonthDate] = useState(
-    // Initialize with selectedDate's month if valid, otherwise initialDate's month
     startOfMonth(selectedDate && isValid(selectedDate) ? selectedDate : initialDate),
   );
 
@@ -62,7 +68,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 
   const startOfRealCurrentMonth = useMemo(() => startOfMonth(new Date()), []);
   const isPrevMonthDisabled = useMemo(() => {
-     return false; // Simplified: Allow going back
+      return false; // Simplified: Allow going back
   }, [currentMonthDate, startOfRealCurrentMonth]);
 
   const calendarDays = useMemo(
@@ -112,7 +118,11 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   const monthYearHeader = `${capitalizeFirstLetter(monthName)} ${year}`;
 
   return (
-    <div className={styles.calendarContainer}>
+    <div
+      className={styles.calendarContainer}
+      data-color={dataColor} // <-- Applied
+      data-size={dataSize}   // <-- Applied
+    >
       <div className={styles.calendarHeader}>
         <span className={styles.monthYear}>{monthYearHeader}</span>
         <div className={styles.navigationButtons}>

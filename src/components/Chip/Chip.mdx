@@ -1,0 +1,121 @@
+import { Meta, Canvas, Controls, Primary } from '@storybook/addon-docs/blocks';
+import * as ChipStories from './Chip.stories';
+
+<Meta of={ChipStories} />
+
+# Chip
+
+#### `Chip` er en liten, interaktiv komponent som brukes for valg, filtrering eller fjerning av elementer. Den kommer i flere varianter for ulike handlinger.
+
+<Primary />
+
+<Controls />
+
+---
+
+## Bruk
+
+```tsx
+
+import { Chip } from '@rk-designsystem';
+
+// Som radiovalg (enkeltvalg)
+<Chip.Radio name="my-radio" value="1" defaultChecked>
+  Valg 1
+</Chip.Radio>
+<Chip.Radio name="my-radio" value="2">
+  Valg 2
+</Chip.Radio>
+
+// Som avkrysningsboks (flervalg)
+<Chip.Checkbox name="my-checkbox" value="a" defaultChecked>
+  Filter A
+</Chip.Checkbox>
+<Chip.Checkbox name="my-checkbox" value="b">
+  Filter B
+</Chip.Checkbox>
+
+// Som fjernbar
+<Chip.Removable aria-label="Fjern Nynorsk" onClick={() => {}}>
+  Nynorsk
+</Chip.Removable>
+
+// Som knapp
+<Chip.Button onClick={() => {}}>
+  Tøm filtre
+</Chip.Button>
+
+```
+
+#### Komponenten er bygget som et sammensatt (compound) komponent. Du importerer `Chip` og bruker den varianten du trenger: `Chip.Radio`, `Chip.Checkbox`, `Chip.Removable`, eller `Chip.Button`.
+
+---
+
+## Kodeeksempler
+
+### Radiovalg
+
+#### `Chip.Radio` fungerer som en `Radio`-knapp. Bruk denne når brukeren kun skal kunne velge ett alternativ fra en gruppe. Alle i gruppen må dele samme `name`.
+
+<Canvas of={ChipStories.Radio} />
+
+### Avkrysningsboks
+
+#### `Chip.Checkbox` fungerer som en `Checkbox`. Bruk denne når brukeren skal kunne velge null, ett eller flere alternativer.
+
+<Canvas of={ChipStories.Checkbox} />
+
+### Fjernbar (Removable)
+
+#### `Chip.Removable` brukes for å vise et aktivt filter eller valg som brukeren kan fjerne. Den har en innebygd lukkeknapp.
+
+<Canvas of={ChipStories.Removable} />
+
+### Knapp
+
+#### `Chip.Button` fungerer som en standard knapp, men med `Chip`-utseendet. Bruk denne for handlinger, som å utløse et søk eller tømme filtre.
+
+<Canvas of={ChipStories.Button} />
+
+---
+
+## Retningslinjer
+
+#### Bruk `Chip` for å la brukere filtrere innhold eller gjøre valg på en kompakt måte.
+
+#### Gjør dette
+ * **Filtrering:** Bruk for å filtrere lister eller tabeller (f.eks. `Chip.Checkbox`).
+ * **Enkeltvalg:** Bruk for å bytte mellom visninger (f.eks. `Chip.Radio`).
+ * **Aktive filtre:** Bruk `Chip.Removable` for å vise aktive filtre som kan fjernes.
+ * **Plassering:** Plasser chips horisontalt. De kan brytes over flere linjer hvis det er mange.
+
+#### Unngå dette
+* **Ikke for status:** Ikke bruk for status eller antall. Bruk `Badge` i stedet.
+* **Ikke for statisk info:** Ikke bruk for ikke-interaktive merkelapper. Bruk `Tag` i stedet.
+* **Ikke for navigasjon:** Ikke bruk for menyer eller sidet navigasjon.
+* **Ikke vertikalt:** Ikke stable chips vertikalt. Bruk `Checkbox` eller `Radio` i stedet.
+
+### Tekst
+
+#### Teksten i en `Chip` bør være så kort som mulig, helst bare ett eller to ord (f.eks. "Nynorsk", "Slett filter").
+
+## Tilgjengelighet
+
+* **`Chip.Radio` / `Chip.Checkbox`:** Disse fungerer som standard skjemafelt og bør grupperes i et `Fieldset` (som `Checkbox` og `Radio`) hvis konteksten ikke er åpenbar.
+* **`Chip.Removable`:** Denne knappen **må** ha et godt `aria-label`. For eksempel, en chip med teksten "Norge" bør ha `aria-label="Fjern Norge"`.
+* **`Chip.Button`:** Må ha en tydelig tekst som beskriver handlingen.
+
+## CSS-variabler
+
+#### Her er tilgjengelige CSS-variabler for `Chip`.
+
+* `--chip-background-color`
+* `--chip-background-color-hover`
+* `--chip-background-color-active`
+* `--chip-text-color`
+* `--chip-border-color`
+* `--chip-border-radius`
+* `--chip-padding-inline`
+* `--chip-padding-block`
+* `--chip-font-size`
+* `--chip-icon-spacing`

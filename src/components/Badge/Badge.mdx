@@ -1,0 +1,152 @@
+import { Meta, Canvas, Controls, Primary } from '@storybook/addon-docs/blocks';
+import * as BadgeStories from './Badge.stories';
+
+<Meta of={BadgeStories} />
+
+# Badge
+
+#### `Badge` er en ikke-interaktiv komponent som brukes for å vise status eller antall (f.eks. uleste varsler). Den er designet for å trekke oppmerksomhet til et element uten å være forstyrrende.
+
+<Primary />
+
+<Controls />
+
+---
+
+## Bruk
+
+```tsx
+
+import { Badge, BadgePosition } from from 'rk-designsystem';
+
+
+
+// Standard badge med tall
+
+<Badge count={5} />
+
+
+
+// Badge brukt som status-prikk
+
+<Badge data-color="success" />
+
+
+
+// Flytende over et annet element
+
+<BadgePosition placement="top-right">
+
+<Badge count={3} data-color="danger" />
+
+<InboxIcon />
+
+</BadgePosition>
+```
+
+#### `Badge` brukes til å kommunisere status eller antall. `BadgePosition` er en hjelpekomponent som brukes for å plassere en `Badge` flytende over et annet element, typisk et ikon eller en knapp.
+
+---
+
+## Kodeeksempler
+
+### Med tall
+
+#### Bruk `count` propen for å vise et tall. Dette er vanlig for å vise antall uleste meldinger, varsler eller oppgaver.
+
+<Canvas of={BadgeStories.WithCount} />
+
+### Med maks antall
+
+#### Bruk `maxCount` for å sette et tak på tallet som vises. Tall over dette vil vises som `maxCount+`.
+
+<Canvas of={BadgeStories.WithMaxCount} />
+
+### Kun status
+
+#### Uten `count` propen vil komponenten vises som en liten prikk. Dette er nyttig for å indikere status, som "online" (suksess) eller "feil" (danger).
+
+<Canvas of={BadgeStories.StatusOnly} />
+
+### Farger og varianter
+
+#### `Badge` støtter `data-color` for å endre farge og `variant` ('base' eller 'tinted') for å endre bakgrunnsstil.
+
+<Canvas of={BadgeStories.LargeDangerTinted} />
+
+---
+
+## Ulike mønstre
+
+### Flytende over element
+
+#### Ved å wrappe `Badge` og elementet den skal festes til i en `BadgePosition`, kan du plassere den i et hjørne.
+
+<Canvas of={BadgeStories.FloatingOverElement} />
+
+### På ikoner
+
+#### Et svært vanlig bruksområde er å plassere en badge på en ikon-knapp for å vise varsler.
+
+<Canvas of={BadgeStories.OnIconButtons} />
+
+### Plasseringer
+
+#### `BadgePosition` lar deg kontrollere plasseringen med `placement` propen. Du kan velge `top-right`, `top-left`, `bottom-right`, eller `bottom-left`.
+
+<Canvas of={BadgeStories.Placements} />
+
+---
+
+## Størrelser
+
+#### Badge kommer i forskjellige størrelser (`sm`, `md`, `lg`) som styres med `data-size`. Standardstørrelsen er `md`.
+
+### Stor størrelse
+
+#### Her er et eksempel på `data-size="lg"`.
+
+<Canvas of={BadgeStories.LargeDangerTinted} />
+
+---
+
+## Retningslinjer
+
+#### Bruk `Badge` for å trekke oppmerksomhet mot status, varsler eller tall.
+
+#### Gjør dette
+
+ * Bruk for tall som viser antall nye meldinger, varsler eller oppgaver.
+ * Bruk som små statusindikatorer (uten tall) for å vise status (f.eks. aktiv, borte, feil).
+ * Hold det enkelt. `Badge` skal være en rask, visuell indikator.
+
+#### Unngå dette
+
+* Bruk for tekster. Bruk `Tag` i stedet.
+* Bruk for interaktive handlinger. Bruk `Chip` eller `Button` i stedet.
+* Overdreven bruk. For mange badges på én side kan virke rotete og miste sin effekt.
+
+### Tekst
+
+#### Denne komponenten er ikke ment for tekst. Hvis du trenger å vise ord eller korte fraser, bør du bruke `Tag`-komponenten i stedet.
+
+## Tilgjengelighet
+
+Når en badge brukes til å kommunisere informasjon, må den informasjonen også være tilgjengelig for skjermlesere.
+
+* **Når den viser antall:** Elementet badgen er festet til bør inkludere antallet i sin tilgjengelige tekst.
+    * *Eksempel:* En knapp med en badge som viser "3" bør ha `aria-label="Innboks (3 nye meldinger)"`.
+* **Når den viser status:** Badgen bør ha en skjult tekst eller `aria-label` som beskriver statusen.
+    * *Eksempel:* En status-prikk bør ha en `span` inni seg med `className="sr-only"` (screenreader-only) som sier "Status: Aktiv".
+
+## CSS-variabler
+
+#### Her er tilgjengelige CSS-variabler for `Badge`, slik at du kan tilpasse utseendet ved behov.
+
+* `--badge-background-color`
+* `--badge-text-color`
+* `--badge-font-size`
+* `--badge-size`
+* `--badge-padding-inline`
+* `--badge-border-radius`
+* `--badge-position-translate`

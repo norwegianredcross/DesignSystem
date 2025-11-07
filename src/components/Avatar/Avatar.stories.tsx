@@ -1,7 +1,7 @@
 // src/components/Avatar/Avatar.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import { Avatar, AvatarProps } from './index';
-import avatarPlaceholder from '../../assets/images/person.png'; 
+import avatarPlaceholder from '../../assets/images/person2.jpg'; 
 
 const meta: Meta<typeof Avatar> = {
   title: 'Components/Avatar',

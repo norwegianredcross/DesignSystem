@@ -1,0 +1,126 @@
+import { Meta, Canvas, Controls, Primary } from '@storybook/addon-docs/blocks';
+import * as AlertStories from './Alert.stories';
+
+<Meta of={AlertStories} />
+
+# Alert
+
+#### `Alert` brukes for å vise viktig informasjon som du ønsker at brukeren skal legge ekstra merke til. Komponenten er visuelt tydelig og designet for å trekke oppmerksomhet uten å være forstyrrende. Teksten i varselet bør være kort, konsis og tydelig.
+
+<Primary />
+
+<Controls />
+
+---
+
+## Bruk
+
+```tsx
+import { Alert } from 'rk-designsystem';
+
+<Alert data-color="info">
+  Dette er et varsel som vises for å gi brukeren viktig informasjon.
+</Alert>;
+```
+
+#### `Alert` brukes til å kommunisere status, advarsler eller viktige hendelser i grensesnittet, uten at brukeren nødvendigvis må gjøre noe. Forskjellen på variantene ligger primært i fargen og det visuelle uttrykket.
+
+## Kodeeksempler
+
+### Informasjon
+
+#### Bruk info når du ønsker å formidle nøytral og nyttig informasjon.
+
+<Canvas of={AlertStories.Info} />
+### Suksess
+
+#### Bruk success for å bekrefte at brukeren har fullført en oppgave eller at noe gikk som forventet.
+
+<Canvas of={AlertStories.Suksess} />
+### Advarsel
+
+#### Bruk warning for å varsle brukeren om et potensielt problem eller behov for handling.
+
+<Canvas of={AlertStories.Advarsel} />
+### Feilmelding
+
+#### Bruk danger for å informere brukeren om en alvorlig feil eller hindring.
+
+<Canvas of={AlertStories.Feilmelding} />
+
+---
+
+## Ulike mønstre
+
+### Uten tittel
+
+#### Hvis meldingen er kort og kun består av én setning, er det ofte bedre å ikke inkludere `title`‑prop.
+
+<Canvas of={AlertStories.UtenTittel} />
+
+### Med lenke
+
+#### Varsler kan også inneholde lenker dersom det hjelper brukeren med å løse en oppgave. Unngå lenker som tar brukeren ut av konteksten med mindre det er nødvendig.
+
+<Canvas of={AlertStories.MedLenke} />
+
+---
+
+## Størrelser
+
+#### Alert kommer i forskjellige størrelser tilpasset ulike flater.
+
+### Liten størrelse
+
+<Canvas of={AlertStories.SmallSize} />
+
+### Stor størrelse
+
+<Canvas of={AlertStories.LargeSize} />
+
+---
+
+## Retningslinjer
+
+#### Bruk Alert med omtanke – for mange varsler kan føre til at brukeren slutter å merke seg dem. Et varsel bør alltid ha en klar hensikt og et tydelig språk.
+
+#### Gjør dette
+
+ * Formidl kun viktig informasjon.
+ * Bruk korte, forståelige setninger.
+ * Sørg for god kontrast mellom tekst og bakgrunn.
+
+#### Unngå dette
+
+*  Flere varsler etter hverandre.
+*  Varsler som erstatter vanlig sideinnhold.
+*  Varsler for skjemavalidering – bruk komponentens feilmeldingsfelt isteden.
+
+### Tekst
+
+#### En god alert‑tekst bør:
+
+* Fortelle hva som skjedde. - “Kunne ikke koble til konto.”
+* Forklare hvorfor det skjedde. - “På grunn av tekniske problemer.”
+* Foreslå løsning. - “Prøv igjen senere.”
+
+##### Vær tydelig og bevisst på tone og språk. Unngå tekniske detaljer brukeren ikke trenger.
+
+## Tilgjengelighet
+
+Varsler som oppstår dynamisk må håndteres riktig slik at skjermlesere kan fange dem opp. Dette gjøres ved å bruke live regions med `role="alert"` eller `role="status"`.
+
+For statiske varsler trengs ingen ARIA‑attributter.
+
+For dynamiske varsler skal `role="alert"` ligge på containere som omslutter Alert, ikke på selve komponenten.
+
+## CSS‑variabler
+
+#### Her er tilgjengelige CSS‑variabler for Alert, slik at du kan tilpasse farger og spacing ved behov.
+
+*  `--alert-background-color`
+*  `--alert-border-color`
+*  `--alert-text-color`
+*  `--alert-spacing`
+*  `--alert-border-radius`
+

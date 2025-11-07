@@ -1,17 +1,14 @@
-/* src/components/DatePicker/styles.module.css */
-
 .calendarContainer {
   display: inline-flex;
   padding: var(--ds-size-8, 32px);
   flex-direction: column;
   align-items: flex-start;
   gap: var(--ds-size-3, 12px);
-  border: 1px solid var(--ds-color-neutral-border-subtle, #ccc);
+  border: 1px solid var(--ds-color-border-subtle, #ccc);
   border-radius: var(--ds-border-radius-md, 4px);
-  background-color: var(--ds-color-neutral-background-default, #fff);
-  /* Apply base font from variable here */
+  background-color: var(--ds-color-background-default, #fff);
   font-family: var(--ds-font-family, sans-serif);
-  color: var(--ds-color-neutral-text-default);
+  color: var(--ds-color-text-default, #2b2b2b);
 }
 
 .calendarHeader {
@@ -22,8 +19,7 @@
 }
 
 .monthYear {
-  color: var(--ds-color-neutral-text-default, #2b2b2b);
-  /* Use the variable defined by the theme */
+  color: var(--ds-color-text-default, #2b2b2b);
   font-family: var(--ds-font-family, 'Myriad VF', sans-serif);
   font-size: var(--ds-heading-sm-font-size, 1.5rem);
   font-style: normal;
@@ -47,18 +43,16 @@
   grid-template-columns: repeat(7, 1fr);
   width: 100%;
   text-align: center;
-  /* No gap */
 }
 
 .dayNameCell {
   display: flex;
-  padding: var(--ds-size-2, 8px); /* Padding for day names */
+  padding: var(--ds-size-2, 8px);
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: var(--ds-color-neutral-text-default, #2b2b2b);
+  color: var(--ds-color-text-default, #2b2b2b);
   text-align: center;
-  /* Use the variable defined by the theme */
   font-family: var(--ds-font-family, 'Myriad VF', sans-serif);
   font-size: var(--ds-body-xs-font-size, 14px);
   font-style: normal;
@@ -68,112 +62,80 @@
   box-sizing: border-box;
 }
 
-/* --- Outer Date Cell --- */
 .dateCell {
-  /* Layout & Box Model */
   display: flex;
-  padding: var(--ds-size-5, 22px); /* Specified padding */
+  padding: var(--ds-size-5, 22px);
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: var(--ds-border-width-default, 1px) solid
-    var(--ds-color-neutral-border-subtle, #bcbcbc);
+  border: var(--ds-border-width-default, 1px) solid var(--ds-color-border-subtle, #bcbcbc);
   box-sizing: border-box;
-  margin: -0.5px; /* Overlap borders */
-
-  /* Base Typography (inherited by inner span) */
+  margin: -0.5px;
   font-family: var(--ds-font-family, 'Myriad VF', sans-serif);
-  color: var(--ds-color-neutral-text-default, #2b2b2b);
+  color: var(--ds-color-text-default, #2b2b2b);
   text-align: center;
   font-size: var(--ds-body-xs-font-size, 14px);
   font-style: normal;
   font-weight: var(--ds-body-xs-font-weight, 400);
   line-height: var(--ds-body-short-xs-line-height, 1.3);
   letter-spacing: var(--ds-body-xs-letter-spacing, 0.021px);
-  font-feature-settings: 'tnum' 1; /* Use tabular nums */
+  font-feature-settings: 'tnum' 1;
   -webkit-font-feature-settings: 'tnum' 1;
   -moz-font-feature-settings: 'tnum' 1;
-
-  /* Interaction */
   cursor: pointer;
-  /* Apply transition to the outer cell for background/border */
   transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
   user-select: none;
 }
-/* --- End Outer Date Cell --- */
 
-
-/* --- Inner Date Number Container --- */
 .dateNumberContainer {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 24px; /* Fixed width */
-  height: 24px; /* Fixed height */
-  border-radius: 50%; /* Make it circular */
-  /* Transition only color/font-weight here */
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
   transition: color 0.15s ease-in-out, font-weight 0.15s ease-in-out;
-  /* Inherit font styles from .dateCell */
-  line-height: 1; /* Ensure number is centered vertically */
-  box-sizing: border-box; /* Include box-sizing */
-  background-color: transparent; /* Ensure no background by default */
+  line-height: 1;
+  box-sizing: border-box;
+  background-color: transparent;
 }
-/* --- End Inner Date Number Container --- */
 
-
-/* --- Apply Hover to Outer Container --- */
 .dateCell:hover:not(.otherMonth):not(.disabled) {
-  background-color: var(--ds-color-neutral-surface-hover, #eee);
-  position: relative; /* Keep for z-index */
+  background-color: var(--ds-color-surface-hover, #eee); /* Use global token */
+  position: relative;
   z-index: 1;
 }
-/* Remove hover effect from inner span */
 .dateCell:hover:not(.otherMonth):not(.disabled) .dateNumberContainer {
-  background-color: transparent; /* Ensure inner remains transparent on hover */
+  background-color: transparent;
 }
-
 
 .otherMonth {
-  /* Style for days outside the current month */
-  color: var(--ds-color-neutral-text-subtle, #aaa);
+  color: var(--ds-color-text-subtle, #aaa); /* Use global token */
   cursor: default;
   pointer-events: none;
-  background-color: var(--ds-color-neutral-surface-tinted, #e8e8e8);
-
-  /* Ensure border and margin match .dateCell */
-  border: var(--ds-border-width-default, 1px) solid
-    var(--ds-color-neutral-border-subtle, #bcbcbc);
-  margin: -0.5px; /* Keep negative margin */
+  background-color: var(--ds-color-surface-tinted, #e8e8e8); /* Use global token */
+  border: var(--ds-border-width-default, 1px) solid var(--ds-color-border-subtle, #bcbcbc); /* Use global token */
+  margin: -0.5px;
 }
-/* Ensure inner span in otherMonth is also dimmed */
 .otherMonth .dateNumberContainer {
-  color: var(--ds-color-neutral-text-subtle, #aaa);
+  color: var(--ds-color-text-subtle, #aaa); /* Use global token */
   background-color: transparent;
   box-shadow: none;
 }
 
-
-/* --- Apply Selected Styles to Outer and Inner --- */
+/* The "selected" state should use the "base" color for the active/selected state,
+  which is what the global token file provides.
+*/
 .selectedDate {
-  /* Apply ACTIVE background and border to the outer cell */
-  background-color: var(--ds-color-primary-brand-base-active, #8e1d14);
-  border-color: var(--ds-color-primary-brand-base-active, #8e1d14);
-  /* Set outer cell text color for contrast */
-  color: var(--ds-color-primary-brand-base-contrast-default, #fff);
+  background-color: var(--ds-color-base-default, #C30000);
+  border-color: var(--ds-color-base-default, #C30000);
+  color: var(--ds-color-base-contrast-default, #fff); /* Text on top of base */
   position: relative;
   z-index: 1;
 }
 .selectedDate .dateNumberContainer {
-  /* Apply text color and font weight to the inner span */
-  color: var(--ds-color-primary-brand-base-contrast-default, #fff);
+  color: var(--ds-color-base-contrast-default, #fff); /* Text on top of base */
   font-weight: var(--ds-font-weight-semibold, 600);
-  /* Ensure inner span background is transparent */
   background-color: transparent;
-  /* Explicitly remove box-shadow when selected */
   box-shadow: none;
 }
-/* --- End Selected Styles --- */
-
-/* --- NO Today Styles --- */
-/* .todayDate rules are removed */
-

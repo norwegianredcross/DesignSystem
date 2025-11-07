@@ -1,0 +1,107 @@
+import { Meta, Canvas, Controls, Primary } from '@storybook/addon-docs/blocks';
+import * as DatePickerStories from './DatePicker.stories';
+
+<Meta of={DatePickerStories} />
+
+# DatePicker (Calendar)
+
+#### `DatePicker` er den visuelle kalenderkomponenten som lar en bruker velge en dato. Den er designet for å brukes alene eller i kombinasjon med `DateInput`.
+
+<Primary />
+
+<Controls of={DatePickerStories.DefaultCalendar} />
+
+---
+
+## Bruk
+
+```tsx
+import { DatePicker } from '@rk-designsystem';
+import { useState } from 'react';
+
+// For å bruke kalenderen, må du håndtere state selv.
+const MyCalendar = () => {
+  const [selected, setSelected] = useState<Date | null>(new Date());
+
+  return (
+    <DatePicker
+      selectedDate={selected}
+      onDateSelect={setSelected}
+      initialDate={new Date()}
+    />
+  );
+}
+```
+
+#### Komponenten er en kontrollert kalendervisning. Du må tilby en `selectedDate` (den valgte datoen) og en `onDateSelect`-funksjon for å fange opp når brukeren velger en ny dato.
+
+---
+
+## Kodeeksempler
+
+### Standardkalender
+
+#### En interaktiv kalender. `initialDate` bestemmer hvilken måned som vises først, og `selectedDate` bestemmer hvilken dag som er markert.
+
+<Canvas of={DatePickerStories.DefaultCalendar} />
+
+### Med en valgt dato
+
+#### Her er kalenderen rendret med en `selectedDate`-prop som er forhåndsinnstilt.
+
+<Canvas of={DatePickerStories.CalendarWithSelectedDate} />
+
+### Farge og størrelse
+
+#### Siden komponenten nå aksepterer `data-color` og `data-size`, kan den styles for å passe inn i ulike layouter.
+
+<Canvas of={DatePickerStories.CalendarWithCustomSizeAndColor} />
+
+---
+
+## Mønstre
+
+### Kombinert med `DateInput`
+
+#### Dette er det vanligste bruksmønsteret. `DatePicker` vises under eller ved siden av en `DateInput`, og de to komponentene synkroniserer sin state.
+
+<Canvas of={DatePickerStories.CombinedInputAndCalendar} />
+
+---
+
+## Retningslinjer
+
+#### Bruk `DatePicker` når brukere trenger en visuell måte å velge en dato på, i stedet for å skrive den manuelt.
+
+#### Gjør dette
+ * **Synkroniser state:** Sørg for at `DateInput`-verdien og `DatePicker`-valget er synkronisert.
+ * **Bruk `initialDate`:** Sett `initialDate` til den valgte datoen (hvis den finnes) slik at kalenderen åpnes på riktig måned.
+
+#### Unngå dette
+* **Ikke for tid:** Denne komponenten er kun for å velge dato (dag, måned, år).
+* **Ikke uten `onDateSelect`:** Komponenten er ubrukelig med mindre du lytter til `onDateSelect`-hendelsen for å lagre brukerens valg.
+
+## Tilgjengelighet
+
+* **Knapp-roller:** Hver dato i kalenderen er en `<div>` med `role="button"` og `tabIndex={0}` for å være tastatur-navigerbar.
+* **Aria-attributter:** `aria-pressed` brukes for den valgte datoen, og `aria-label` gir en fullstendig, lesbar dato (f.eks. "5. november 2025").
+* **Navigasjon:** Månedsvelgerne er knapper med `aria-label` (f.eks. "Forrige måned").
+
+## CSS-variabler (fra styles.module.css)
+
+#### Denne komponenten er stylet med CSS-moduler og henter verdier fra design-tokenene.
+
+* `--ds-size-1`, `--ds-size-2`, `--ds-size-3`, `--ds-size-5`, `--ds-size-8`
+* `--ds-color-neutral-border-subtle`
+* `--ds-border-radius-md`
+* `--ds-color-neutral-background-default`
+* `--ds-font-family`
+* `--ds-color-neutral-text-default`
+* `--ds-heading-sm-font-size`, `--ds-heading-sm-font-weight`, etc.
+* `--ds-opacity-disabled`
+* `--ds-body-xs-font-size`, `--ds-body-xs-font-weight`, etc.
+* `--ds-color-neutral-text-subtle`
+* `--ds-color-neutral-surface-tinted`
+* `--ds-color-neutral-surface-hover`
+* `--ds-color-primary-brand-base-active`
+* `--ds-color-primary-brand-base-contrast-default`

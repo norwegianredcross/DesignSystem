@@ -1,0 +1,111 @@
+import { Meta, Canvas, Controls, Primary } from '@storybook/addon-docs/blocks';
+import * as AvatarStories from './Avatar.stories';
+
+<Meta of={AvatarStories} />
+
+# Avatar
+
+#### `Avatar` brukes for å representere en bruker eller en enhet. Den kan vise et bilde, initialer, eller et standard-ikon som en fallback.
+
+<Primary />
+
+<Controls />
+
+---
+
+## Bruk
+
+```tsx
+
+import { Avatar } from 'rk-designsystem';
+
+
+
+// Med bilde
+
+<Avatar aria-label="Kari Nordmann">
+
+<img src="/sti/til/bilde.png" alt="" />
+
+</Avatar>
+
+
+
+// Med initialer
+
+<Avatar aria-label="Ola Nordmann">ON</Avatar>
+
+
+
+// Standard (fallback)
+
+<Avatar aria-label="Ukjent Bruker" />
+```
+
+#### Komponenten er designet for å være fleksibel. Den prioriterer `children` (bilde eller initialer) og faller tilbake til et standard person-ikon hvis ingenting er oppgitt.
+
+---
+
+## Innholdstyper
+
+#### `Avatar` kan fylles på tre måter, avhengig av hvilken informasjon som er tilgjengelig.
+
+### Med bilde
+
+#### Dette er den foretrukne varianten. Et `<img>`-element sendes inn som `children` for å vise brukerens bilde.
+<Canvas of={AvatarStories.WithImage} />
+
+### Med initialer
+
+#### Hvis et bilde ikke er tilgjengelig, kan initialer sendes som tekst-`children`. Dette er en god fallback for å fortsatt identifisere brukeren.
+<Canvas of={AvatarStories.WithInitials} />
+
+### Standard (Fallback)
+
+#### Hvis verken bilde eller initialer er oppgitt, vil komponenten vise et standard person-ikon.
+<Canvas of={AvatarStories.Default} />
+
+---
+
+## Varianter
+
+### Form
+
+#### Komponenten er sirkulær som standard. Den kan også gjøres firkantet ved å sette `variant="square"`.
+<Canvas of={AvatarStories.Square} />
+
+### Størrelser og farger
+
+#### `Avatar` kommer i flere størrelser (`xs` til `lg`) og farger. Disse styres av `data-size` og `data-color` props. Prøv dem i Controls-panelet over.
+
+---
+
+## Retningslinjer
+
+#### Bruk `Avatar` for å bygge gjenkjennelse og personliggjøre et grensesnitt.
+
+#### Gjør dette
+ * **Bruk `aria-label`:** Sørg for at alle avatarer har et `aria-label` som identifiserer personen (f.eks. "Ola Nordmann").
+ * **Bruk tom `alt`:** Når du bruker et `<img>` inni Avataren, skal det ha `alt=""`. Skjermleseren får navnet fra `aria-label` på selve Avataren.
+ * **Bruk initialer:** Bruk initialer som en god, identifiserbar fallback når bilder mangler.
+
+#### Unngå dette
+* **Ikke bruk for ikoner:** Ikke bruk `Avatar` for å vise generelle ikoner som ikke representerer en person eller enhet.
+* **Ikke bruk interaktive elementer:** En `Avatar` skal ikke være klikkbar i seg selv. Hvis den skal trigge en handling (som å åpne en profil), plasser den inni en `Button` eller en lenke.
+
+## Tilgjengelighet
+
+Tilgjengelighet er kritisk for `Avatar` siden den representerer informasjon visuelt.
+
+* **Alltid `aria-label`:** En `Avatar` må *alltid* ha et `aria-label` som beskriver hvem den representerer (f.eks. `aria-label="Kari Nordmann"`).
+* **Tom `alt`-attributt:** Når et `<img>`-element brukes som `children`, **må** det ha en tom `alt=""`. Dette forhindrer at skjermlesere leser innholdet to ganger (én gang fra `alt`-teksten og én gang fra `aria-label`).
+
+## CSS-variabler
+
+#### Her er tilgjengelige CSS-variabler for `Avatar`, slik at du kan tilpasse farger og størrelser ved behov.
+
+* `--avatar-background-color`
+* `--avatar-text-color`
+* `--avatar-size`
+* `--avatar-font-size`
+* `--avatar-border-radius`

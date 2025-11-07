@@ -1,0 +1,126 @@
+import { Meta, Canvas, Controls, Primary } from '@storybook/addon-docs/blocks';
+import * as BreadcrumbsStories from './Breadcrumbs.stories';
+
+<Meta of={BreadcrumbsStories} />
+
+# Breadcrumbs
+
+#### `Breadcrumbs` er en navigasjonskomponent som viser brukerens posisjon i et nettstedshierarki. Den hjelper brukeren å forstå hvor de er og å navigere tilbake til foreldresider.
+
+<Primary />
+
+<Controls />
+
+---
+
+## Bruk
+
+```tsx
+import {
+  Breadcrumbs,
+  BreadcrumbsList,
+  BreadcrumbsItem,
+  BreadcrumbsLink,
+} from '@rk-designsystem';
+
+// Kun sti
+<Breadcrumbs aria-label="Du er her:">
+  <BreadcrumbsList>
+    <BreadcrumbsItem>
+      <BreadcrumbsLink href="#">Nivå 1</BreadcrumbsLink>
+    </BreadcrumbsItem>
+    <BreadcrumbsItem>
+      <BreadcrumbsLink href="#">Nivå 2</BreadcrumbsLink>
+    </BreadcrumbsItem>
+    <BreadcrumbsItem>
+      <BreadcrumbsLink href="#">Nivå 3</BreadcrumbsLink>
+    </BreadcrumbsItem>
+  </BreadcrumbsList>
+</Breadcrumbs>
+
+// Kun tilbake-knapp
+<Breadcrumbs>
+  <BreadcrumbsLink aria-label="Tilbake til nivå 2" href="/niva-2">
+    Nivå 2
+  </BreadcrumbsLink>
+</Breadcrumbs>
+
+// Responsiv (begge deler)
+<Breadcrumbs aria-label="Du er her:">
+  <BreadcrumbsLink aria-label="Tilbake til nivå 2" href="/niva-2">
+    Nivå 2
+  </BreadcrumbsLink>
+  <BreadcrumbsList>
+    <BreadcrumbsItem>
+      <BreadcrumbsLink href="#">Nivå 1</BreadcrumbsLink>
+    </BreadcrumbsItem>
+    <BreadcrumbsItem>
+      <BreadcrumbsLink href="#">Nivå 2</BreadcrumbsLink>
+    </BreadcrumbsItem>
+    <BreadcrumbsItem>
+      <BreadcrumbsLink href="#">Nivå 3</BreadcrumbsLink>
+    </BreadcrumbsItem>
+  </BreadcrumbsList>
+</Breadcrumbs>
+```
+
+#### Komponenten består av en `Breadcrumbs`-container som kan holde en `BreadcrumbsList` (for en full sti) eller en enkel `BreadcrumbsLink` (for en "tilbake"-knapp). Den kan også håndtere begge deler for responsiv oppførsel, hvor "tilbake"-knappen vises på mobil og den fulle stien på større skjermer.
+
+---
+
+## Kodeeksempler
+
+### Kun sti
+
+#### Viser en fullstendig hierarkisk sti. Dette er standardmønsteret for desktop.
+<Canvas of={BreadcrumbsStories.OnlyPath} />
+
+### Kun tilbake-knapp
+
+#### Viser en enkel "tilbake"-lenke. Dette mønsteret kan brukes alene i enkle flyter eller som mobil-fallback.
+<Canvas of={BreadcrumbsStories.OnlyBackButton} />
+
+### Sti og tilbake-knapp (Responsiv)
+
+#### Denne varianten kombinerer de to. `Breadcrumbs`-komponenten vil typisk håndtere logikken for å vise "tilbake"-knappen på smale skjermer og stien på brede skjermer.
+<Canvas of={BreadcrumbsStories.BackAndPath} />
+
+---
+
+## Størrelser og Farger
+
+#### Komponenten støtter `data-size` og `data-color` props for å justere utseendet og tilpasse den til omgivende innhold.
+<Canvas of={BreadcrumbsStories.LargeBrand2} />
+
+---
+
+## Retningslinjer
+
+#### `Breadcrumbs` bør brukes når det er tre eller flere nivåer i et hierarki for å hjelpe brukeren med å orientere seg.
+
+#### Gjør dette
+ * **Plassering:** Plasser komponenten øverst på siden, under hovednavigasjonen, men over sidetittelen.
+ * **Korte titler:** Bruk korte og tydelige titler som samsvarer med sidenavnene eller meny-titlene.
+ * **Gjeldende side:** Sørg for at den siste lenken representerer den nåværende siden. Denne er vanligvis ikke klikkbar.
+
+#### Unngå dette
+* **Ikke for lineære flyter:** Ikke bruk `Breadcrumbs` for lineær navigasjon (f.eks. en "stepper" i et flertrinnsskjema).
+* **Ikke på toppnivå:** Ikke bruk den på sider som er på toppnivå (f.eks. forsiden).
+
+## Tilgjengelighet
+
+En `Breadcrumbs`-komponent er wrappet i et `<nav>`-element og må ha et `aria-label` (f.eks. "Du er her") for å identifisere den som en navigasjons-region for skjermlesere.
+
+* **Gjeldende side:** Det siste elementet i stien representerer den nåværende siden. Hvis det er en lenke (som i våre eksempler), er det god praksis å legge til `aria-current="page"` for å tydelig indikere dette for hjelpeteknologi.
+* **Tastaturnavigasjon:** Alle klikkbare lenker i stien må være fullt navigerbare og klikkbare med tastatur.
+
+## CSS-variabler
+
+#### Her er tilgjengelige CSS-variabler for `Breadcrumbs`.
+
+* `--breadcrumbs-spacing`
+* `--breadcrumbs-separator-color`
+* `--breadcrumbs-link-color`
+* `--breadcrumbs-link-text-decoration`
+* `--breadcrumbs-link-color-hover`
+* `--breadcrumbs-current-page-color`

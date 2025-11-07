@@ -1,18 +1,21 @@
-// src/components/DateInput/DateInput.tsx
 import React, {
   forwardRef,
   InputHTMLAttributes,
   useState,
-  useEffect, // Re-added useEffect
+  useEffect,
   useCallback,
   useRef,
 } from "react";
-// Use the styles provided (assuming this path is correct and contains the CSS from the prompt)
-import styles from "../DateInput/styles.module.css";
+// Use the styles provided
+import styles from "./styles.module.css";
+// Import the DefaultProps to get data-color and data-size
+import type { DefaultProps } from "../../types";
+import type { MergeRight } from "../../utilities";
 
-// --- Interface remains the same ---
-export interface DateInputProps
-  extends Omit<
+// --- Interface Updated ---
+export type DateInputProps = MergeRight<
+  DefaultProps, // <-- Add this
+  Omit<
     InputHTMLAttributes<HTMLInputElement>,
     | "prefix"
     | "suffix"
@@ -26,24 +29,25 @@ export interface DateInputProps
     | "value"
     | "defaultValue"
     | "onChange"
-  > {
-  label?: React.ReactNode;
-  suffixIcon?: React.ReactNode;
-  onSuffixClick?: React.MouseEventHandler<HTMLButtonElement>;
-  className?: string; // Class for the outer fieldset div
-  inputWrapperClassName?: string; // Class specifically for the input wrapper div
-  inputClassName?: string; // Class specifically for the input element
-  "aria-label"?: string;
-  "aria-labelledby"?: string;
-  description?: React.ReactNode;
-  error?: React.ReactNode; // Used for styling and aria-invalid
-  value?: string | null;
-  defaultValue?: string | null;
-  onChange?: (
-    event: React.ChangeEvent<HTMLInputElement>,
-    formattedValue: string,
-  ) => void;
-}
+  > & {
+    label?: React.ReactNode;
+    suffixIcon?: React.ReactNode;
+    onSuffixClick?: React.MouseEventHandler<HTMLButtonElement>;
+    className?: string; // Class for the outer fieldset div
+    inputWrapperClassName?: string; // Class specifically for the input wrapper div
+    inputClassName?: string; // Class specifically for the input element
+    "aria-label"?: string;
+    "aria-labelledby"?: string;
+    description?: React.ReactNode;
+    error?: React.ReactNode; // Used for styling and aria-invalid
+    value?: string | null;
+    defaultValue?: string | null;
+    onChange?: (
+      event: React.ChangeEvent<HTMLInputElement>,
+      formattedValue: string,
+    ) => void;
+  }
+>;
 
 // --- Helper functions (format, getDigits, validate) remain the same ---
 const formatNorwegianDate = (digits: string): string => {
@@ -99,17 +103,18 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
       "aria-labelledby": ariaLabelledby,
       description,
       error, // Use error prop for styling
+      "data-color": dataColor, // <-- Destructure
+      "data-size": dataSize,   // <-- Destructure
       ...rest
     } = props;
 
-    const isControlled = controlledValue !== undefined; // Re-added
+    const isControlled = controlledValue !== undefined;
     const internalInputRef = useRef<HTMLInputElement>(null);
     React.useImperativeHandle(
       ref,
       () => internalInputRef.current as HTMLInputElement,
     );
 
-    // Helper to get formatted value, used in state init and effect
     const getFormattedValue = useCallback(
       (val: string | null | undefined) => {
         const digits = getDigits(val);
@@ -119,19 +124,15 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
       [],
     );
 
-    // Initialize state based on prop/default once
     const [displayValue, setDisplayValue] = useState(() =>
       getFormattedValue(controlledValue ?? defaultValue),
     );
 
-    // --- useEffect for controlled prop sync RE-ADDED ---
     useEffect(() => {
       if (isControlled) {
         const formattedPropValue = getFormattedValue(controlledValue);
-        // Update only if the formatted prop value differs from the current display state
         if (formattedPropValue !== displayValue) {
           setDisplayValue(formattedPropValue);
-          // If the input element's value somehow diverged, sync it too
           if (
             internalInputRef.current &&
             internalInputRef.current.value !== formattedPropValue
@@ -140,8 +141,6 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
           }
         }
       }
-      // Rerun ONLY when the external controlledValue changes or control status changes.
-      // Include displayValue to ensure comparison is up-to-date
     }, [controlledValue, isControlled, displayValue, getFormattedValue]);
 
 
@@ -179,37 +178,27 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
           }
         });
       },
-      [displayValue, isControlled, onChangeProp, getFormattedValue], // Added isControlled and getFormattedValue
+      [displayValue, isControlled, onChangeProp, getFormattedValue],
     );
 
-    // --- Class Name Logic using InputField styles ---
     const fieldsetClasses = [styles.fieldset, className].filter(Boolean).join(' ');
-
-    // Wrapper class - applies error state styling from InputField CSS
+    
     const wrapperClasses = [
-      styles.inputWrapper, // Base style from InputField CSS
-      inputWrapperClassName, // Allow external override/extension
-      error ? styles.inputWrapperError : '', // Apply error class based on prop
-      // Add disabled class if your CSS defines one for the wrapper
-      // disabled ? styles.inputWrapperDisabled : '',
+      styles.inputWrapper, 
+      inputWrapperClassName, 
+      error ? styles.inputWrapperError : '', 
     ].filter(Boolean).join(' ');
 
-    // Input element class (may not be strictly needed if CSS targets .inputWrapper input)
     const inputClasses = [
-        // styles.input, // This class might not exist in InputField/styles.module.css
-        inputClassName // Allow external override/extension
+        inputClassName
     ].filter(Boolean).join(' ');
 
-    // Suffix button class using InputField styles
     const suffixButtonClasses = [
-        styles.suffixButton, // Base style from InputField CSS
-        onSuffixClick ? styles.suffixButtonInteractive : '', // Add interactive class if clickable
-        // Add disabled class if your CSS defines one for the button
-        // disabled ? styles.suffixButtonDisabled : '',
+        styles.suffixButton, 
+        onSuffixClick ? styles.suffixButtonInteractive : '', 
     ].filter(Boolean).join(' ');
 
 
-    // --- ARIA attribute setup ---
     if (!label && !ariaLabel && !ariaLabelledby) {
       console.warn('Warning: DateInput component should have a label, aria-label, or aria-labelledby for accessibility.');
     }
@@ -219,23 +208,26 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
     const describedByIds = [descriptionId, errorId].filter(Boolean).join(' ') || undefined;
 
     return (
-      // Use the fieldset structure and classes from InputField CSS
-      <div className={fieldsetClasses}>
+      // --- Apply data-color and data-size to the outer wrapper ---
+      <div 
+        className={fieldsetClasses}
+        data-color={dataColor} // <-- Apply
+        data-size={dataSize}   // <-- Apply
+      >
         {label && typeof label === 'string' ? (
           <label id={labelId} htmlFor={id}>
             {label}
           </label>
         ) : (
-          label // Render custom label node directly
+          label
         )}
 
         {description && (
-          <p id={descriptionId} className={styles.description}> {/* Use description class */}
+          <p id={descriptionId} className={styles.description}>
             {description}
           </p>
         )}
 
-        {/* This wrapper gets the border, focus, error styles from InputField CSS */}
         <div className={wrapperClasses}>
           <input
             ref={internalInputRef}
@@ -243,33 +235,33 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
             inputMode="numeric"
             pattern="\d{2}\.\d{2}\.\d{4}"
             maxLength={10}
-            value={displayValue} // Driven by state
+            value={displayValue}
             readOnly={readOnly}
             placeholder={placeholder}
             id={id}
             name={name}
             required={required}
-            disabled={disabled} // Input disabled state is handled by CSS selector input:disabled
+            disabled={disabled}
             onClick={onClick}
             onChange={handleInputChange}
-            onFocus={onFocus} // Pass through external handler
-            onBlur={onBlur}   // Pass through external handler
+            onFocus={onFocus}
+            onBlur={onBlur}
             autoComplete={autoComplete}
             aria-label={ariaLabel}
-            aria-labelledby={labelId} // Use calculated labelId
-            aria-describedby={describedByIds} // Use combined describedby IDs
-            aria-invalid={!!error} // Set aria-invalid based on error prop
-            className={inputClasses} // Apply specific input class if needed
+            aria-labelledby={labelId}
+            aria-describedby={describedByIds}
+            aria-invalid={!!error}
+            className={inputClasses}
             {...rest}
           />
           {suffixIcon && (
             <button
               type="button"
-              className={suffixButtonClasses} // Use suffixButton classes
-              onClick={!disabled ? onSuffixClick : undefined} // Disable click handler too
+              className={suffixButtonClasses}
+              onClick={!disabled ? onSuffixClick : undefined}
               tabIndex={onSuffixClick && !disabled ? 0 : -1}
               aria-hidden={!onSuffixClick}
-              disabled={disabled} // Apply disabled attribute
+              disabled={disabled}
               aria-label={onSuffixClick ? "Åpne datovelger" : undefined}
             >
               {suffixIcon}
@@ -277,7 +269,6 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
           )}
         </div>
 
-        {/* Error message - use error class from InputField CSS */}
         {error && (
           <p id={errorId} className={styles.error} role="alert">
             {error}

@@ -1,26 +1,26 @@
-/* src/components/InputField/styles.module.css */
-
 /* Optional: Fieldset-like wrapper for better form structure */
 .fieldset {
-  margin-bottom: var(--ds-spacing-4, 16px); /* Adjust spacing as needed */
+  margin-bottom: var(--ds-spacing-4, 16px);
 }
 
+/* Use global semantic tokens directly */
 .fieldset label {
   display: block;
   margin-bottom: var(--ds-spacing-1, 4px);
   font-weight: var(--ds-font-weight-medium, 500);
-  color: var(--ds-color-neutral-text-default, #2b2b2b);
+  color: var(--ds-color-text-default, #2b2b2b);
 }
 
 .description {
   font-size: var(--ds-font-size-sm, 14px);
-  color: var(--ds-color-neutral-text-subtle, #5d5d5d);
+  color: var(--ds-color-text-subtle, #5d5d5d);
   margin-top: var(--ds-spacing-1, 4px);
   margin-bottom: var(--ds-spacing-2, 8px);
 }
 
 .error {
   font-size: var(--ds-font-size-sm, 14px);
+  /* Error colors are already semantic */
   color: var(--ds-color-danger-text-default, #c30000);
   margin-top: var(--ds-spacing-1, 4px);
 }
@@ -31,63 +31,43 @@
   display: flex;
   align-items: stretch;
   width: 100%;
-  position: relative; /* Needed for outline offset positioning */
-  border: var(--ds-border-width-default, 1px) solid var(--ds-color-neutral-border-default, #797979);
+  position: relative;
+  /* Use global semantic token */
+  border: var(--ds-border-width-default, 1px) solid var(--ds-color-border-default, #797979);
   border-radius: var(--ds-border-radius-md, 4px);
-  overflow: hidden; /* Still useful for inner elements */
-  /* Add outline transition */
+  overflow: hidden;
   transition: border-color 0.1s ease-out, outline 0.1s ease-out;
 }
 
 .inputWrapperError {
+  /* Use global danger token */
   border-color: var(--ds-color-danger-border-default, #c30000);
 }
 
-/* --- NEW: Wrapper Focus State using :focus-within and outline --- */
 .inputWrapper:focus-within {
-  /* Apply the outline OUTSIDE the border */
+  /* Use global focus token */
   outline: var(--ds-border-width-focus, 3px) solid var(--ds-color-focus-outer, #2B2B2B);
-  /* Adjust offset to create a gap between border and outline */
-  outline-offset: var(--ds-focus-outline-offset, 2px); /* Adjust as needed, e.g., 1px or 2px */
-  /* Optional: Change border color on focus as well if desired */
-  /* border-color: var(--ds-color-focus-outer, #2B2B2B); */
+  outline-offset: var(--ds-focus-outline-offset, 2px);
 }
-/* --- End Wrapper Focus State --- */
 
-
-/* Target the actual input element */
 .inputWrapper input {
   box-sizing: border-box;
   flex-grow: 1;
   width: auto;
   min-width: 0;
-  background-color: var(--ds-color-neutral-background-default, #fff);
-  color: var(--ds-color-neutral-text-default, #2b2b2b);
-  border: none; /* No border on the input itself */
-  border-radius: 0; /* No radius on the input itself */
-  outline: none; /* CRITICAL: Remove default input outline */
+  background-color: var(--ds-color-background-default, #fff); /* Use global token */
+  color: var(--ds-color-text-default, #2b2b2b); /* Use global token */
+  border: none;
+  border-radius: 0;
+  outline: none;
   padding: var(--ds-size-2, 8px) var(--ds-size-3, 12px);
   font-family: inherit;
   font-size: inherit;
   appearance: none;
   -webkit-appearance: none;
-  /* Remove box-shadow transition from input */
-  /* transition: box-shadow 0.1s ease-out; */
 }
 
-/* --- REMOVED Input Focus State --- */
-/*
-.inputWrapper input:focus-visible {
-  outline: none;
-  box-shadow: inset 0 0 0 calc(var(--ds-border-width-focus, 3px) - var(--ds-border-width-default, 1px)) var(--ds-color-focus-outer, #2B2B2B);
-  position: relative;
-  z-index: 1;
-  border-color: var(--ds-color-focus-outer, #2B2B2B);
-}
-*/
-/* --- End REMOVED Input Focus State --- */
-
-/* Handle disabled state for input */
+/* Disabled state is always neutral, so this is fine */
 .inputWrapper input:disabled {
     opacity: var(--ds-opacity-disabled, 0.5);
     cursor: not-allowed;
@@ -96,7 +76,7 @@
 }
 
 
-/* --- Suffix Button Styles (Unchanged) --- */
+/* --- Suffix Button Styles --- */
 .suffixButton {
   display: inline-flex;
   align-items: center;
@@ -106,9 +86,9 @@
   margin: 0;
   border: none;
   border-radius: 0;
-  border-left: var(--ds-border-width-default, 1px) solid var(--ds-color-neutral-border-default, #797979);
-  background-color: var(--ds-color-neutral-surface-tinted, #e8e8e8);
-  color: var(--ds-color-neutral-text-subtle, #5d5d5d);
+  border-left: var(--ds-border-width-default, 1px) solid var(--ds-color-border-default, #797979); /* Use global token */
+  background-color: var(--ds-color-surface-tinted, #e8e8e8); /* Use global token */
+  color: var(--ds-color-text-subtle, #5d5d5d); /* Use global token */
   font-size: 1.25rem;
   box-sizing: border-box;
   cursor: default;
@@ -122,14 +102,14 @@
 }
 
 .suffixButtonInteractive:hover:not(:disabled) {
- color: var(--ds-color-neutral-text-default, #2b2b2b);
- background-color: var(--ds-color-neutral-surface-hover, #dadada);
+  color: var(--ds-color-text-default, #2b2b2b); /* Use global token */
+  background-color: var(--ds-color-surface-hover, #dadada); /* Use global token */
 }
 
+/* Disabled state is hard-coded to neutral, which is correct */
 .suffixButton:disabled {
   opacity: var(--ds-opacity-disabled, 0.3);
   cursor: not-allowed;
   background-color: var(--ds-color-neutral-surface-tinted, #e8e8e8);
   border-left-color: var(--ds-color-neutral-border-default, #797979);
 }
-/* --- End Suffix Button Styles --- */

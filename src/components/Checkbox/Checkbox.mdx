@@ -1,0 +1,101 @@
+import { Meta, Canvas, Controls, Primary } from '@storybook/addon-docs/blocks';
+import * as CheckboxStories from './Checkbox.stories';
+
+<Meta of={CheckboxStories} />
+
+# Checkbox
+
+#### `Checkbox` brukes for å la brukere velge ett eller flere uavhengige alternativer fra en liste. For å gruppere relaterte sjekkbokser, bruk `Fieldset`.
+
+<Primary />
+
+<Controls />
+
+---
+
+## Bruk
+
+```tsx
+import { Checkbox, Fieldset } from '@rk-designsystem';
+
+// Enkel sjekkboks
+<Checkbox label="Jeg godtar vilkårene" value="terms" />
+
+// Gruppe med sjekkbokser
+<Fieldset>
+  <Fieldset.Legend>Velg dine interesser</Fieldset.Legend>
+  <Checkbox label="Sport" value="sport" />
+  <Checkbox label="Musikk" value="music" />
+  <Checkbox label="Teknologi" value="tech" />
+</Fieldset>
+```
+
+#### En `Checkbox` kan stå alene (for eksempel for å godta vilkår) eller grupperes i et `Fieldset`. `useCheckboxGroup` (se "Example Group") er en hook som hjelper med å håndtere state og tilgjengelighet for en gruppe.
+
+---
+
+## Kodeeksempler
+
+### Med beskrivelse
+
+#### En sjekkboks kan ha en tilhørende `description` for å gi mer kontekst til valget.
+
+<Canvas of={CheckboxStories.WithDescription} />
+
+### Sjekkboksgruppe
+
+#### For å gruppere relaterte sjekkbokser, bruk `Fieldset` med `Fieldset.Legend`. Dette er kritisk for tilgjengelighet. Denne storyen bruker `useCheckboxGroup`-hooken.
+
+> **Tips:** Prøv `error`-kontrollen i panelet under for å se feilmeldingstilstanden for gruppen.
+
+<Canvas of={CheckboxStories.CheckboxGroup} />
+
+### "Velg alle" (Indeterminate)
+
+#### En `Checkbox` kan ha en `indeterminate` (ubestemt) tilstand. Dette er vanlig i "Velg alle"-sjekkbokser som styrer en liste, hvor bare noen av elementene i listen er valgt.
+
+<Canvas of={CheckboxStories.Indeterminate} />
+
+### Deaktiverte stater
+
+#### En sjekkboks kan være `disabled` (kan ikke interageres med) eller `readOnly` (kan ikke endres, men kan leses og sendes med skjema).
+
+<Canvas of={CheckboxStories.Disabled} />
+<Canvas of={CheckboxStories.ReadOnly} />
+
+---
+
+## Retningslinjer
+
+#### Bruk sjekkbokser når brukere kan velge null, ett, eller flere alternativer.
+
+#### Gjør dette
+ * **Bruk `Fieldset` og `Legend`:** Alltid grupper relaterte sjekkbokser i et `<Fieldset>` med en `<Fieldset.Legend>`. Dette knytter spørsmålet til svaralternativene.
+ * **Vær tydelig:** `label` for hver sjekkboks skal være kort og tydelig.
+ * **Vertikal plassering:** Plasser sjekkbokser vertikalt under hverandre for enklest skanning og lesbarhet.
+
+#### Unngå dette
+* **Ikke for enkeltvalg:** Hvis brukeren *kun* kan velge ett alternativ, bruk `Radio`-knapper i stedet.
+* **Ikke for av/på:** Hvis valget er å slå en innstilling av eller på, bruk `Switch`-komponenten i stedet.
+* **Ikke bruk `disabled`:** Unngå `disabled` sjekkbokser hvis mulig. Det er bedre å ikke vise valget i det hele tatt, eller å forklare hvorfor det ikke er tilgjengelig.
+
+## Tilgjengelighet
+
+* **`Fieldset` og `Legend`:** For at en gruppe sjekkbokser skal være tilgjengelig, **må** den være omsluttet av `<Fieldset>`, og `<Fieldset.Legend>` må beskrive spørsmålet eller kategorien.
+* **`label`:** Hver `Checkbox` må ha en tilknyttet `label`.
+* **Tastaturnavigasjon:**
+    * Bruk <kbd>Tab</kbd> for å flytte fokus til en sjekkboks.
+    * Bruk <kbd>Space</kbd> for å velge eller fjerne valget.
+
+## CSS-variabler
+
+#### Her er tilgjengelige CSS-variabler for `Checkbox`.
+
+* `--checkbox-size`
+* `--checkbox-background`
+* `--checkbox-border-color`
+* `--checkbox-border-radius`
+* `--checkbox-checkmark-color`
+* `--checkbox-label-color`
+* `--checkbox-description-color`
+* `--checkbox-focus-ring-color`
