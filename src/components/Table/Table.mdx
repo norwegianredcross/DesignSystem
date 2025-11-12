@@ -1,0 +1,129 @@
+import { Meta, Primary, Controls, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as TableStories from './Table.stories';
+import { Table } from './';
+
+<Meta of={TableStories} />
+
+# Table
+
+#### `Table` viser strukturert informasjon i rader og kolonner, og gjør det enklere å skanne og sammenligne data.
+
+<Primary />
+<Controls />
+
+---
+
+## Bruk
+
+```tsx
+import { Table } from 'rk-designsystem';
+
+<Table>
+  <caption>Table caption</caption>
+  <Table.Head>
+    <Table.Row>
+      <Table.HeaderCell>Header 1</Table.HeaderCell>
+    </Table.Row>
+  </Table.Head>
+  <Table.Body>
+    <Table.Row>
+      <Table.Cell>Cell 1</Table.Cell>
+    </Table.Row>
+  </Table.Body>
+  <Table.Foot>
+    <Table.Row>
+      <Table.HeaderCell>Footer 1</Table.HeaderCell>
+    </Table.Row>
+  </Table.Foot>
+</Table>
+```
+
+### Tabelltittel
+Bruk `caption` til å beskrive tabellen kort. Dette hjelper brukere å finne og forstå innholdet.
+
+```tsx
+<Table>
+  <caption>Her er tittelen på tabellen</caption>
+  …
+</Table>
+```
+
+### Celle‑overskrifter
+Bruk `Table.HeaderCell` for rad/kolonneoverskrifter. Sett `scope="col"` eller `scope="row"` for bedre skjermleserstøtte.
+
+```tsx
+<Table>
+  <Table.Head>
+    <Table.Row>
+      <Table.HeaderCell scope="col">Header 1</Table.HeaderCell>
+    </Table.Row>
+  </Table.Head>
+  <Table.Body>
+    <Table.Row>
+      <Table.Cell>Cell 1</Table.Cell>
+    </Table.Row>
+  </Table.Body>
+</Table>
+```
+
+---
+
+## Eksempler
+
+### Med skjemaelementer
+<Canvas of={TableStories.WithFormElements} />
+
+### Sticky header
+<Canvas of={TableStories.StickyHeader} />
+
+### Sortering
+<Canvas of={TableStories.Sortable} />
+
+### Zebra‑striper
+<Canvas of={TableStories.ZebraStriped} />
+
+---
+
+### Fast kolonnebredde
+Bruk `table-layout: fixed` for stabile kolonnebredder ved dynamiske oppdateringer.
+<Canvas of={TableStories.Default} />
+
+### Med border
+Gi tabellen en tydelig kant ved behov.
+<Canvas of={TableStories.Default} />
+
+### Tall i tabell
+Høyrejuster tall for enklere sammenligning.
+<Canvas of={TableStories.Default} />
+
+---
+
+## Retningslinjer
+
+Bruk `Table` for strukturert data som skal sammenlignes raskt.
+
+**Gjør dette**
+- Venstrejuster tekst; høyrejuster tall.
+- Bruk `Table.HeaderCell` i overskriftceller.
+- Vurder meny for sekundære radhandlinger.
+
+**Unngå dette**
+- Vise store datamengder på mobil uten tilpasning.
+- Bruke tabell til layout.
+
+---
+
+## Tekst 
+
+Hold celleinnhold kort og konsist. På smale flater bør innhold som hovedregel være toppjustert.
+
+---
+
+## Tilgjengelighet
+
+- Bruk `Table.HeaderCell` med korrekt `scope`.
+- Legg alltid til `caption`.
+- Unngå sammenslåtte celler og flere interaktive elementer i samme celle.
+- Test tastaturnavigasjon for sortering og fokus.
+
+

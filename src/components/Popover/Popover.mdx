@@ -1,0 +1,86 @@
+import { Meta, Canvas, Controls, Primary } from '@storybook/addon-docs/blocks';
+import * as PopoverStories from './Popover.stories';
+import { Popover } from './';
+
+<Meta of={PopoverStories} />
+
+# Popover
+
+#### `Popover` vises over annet innhold og er forankret til et utløser‑element. Bruk den til tilleggsinformasjon eller enkle interaksjoner uten å forlate siden. Når [`Tooltip`](/docs/komponenter-tooltip--docs) ikke er tilstrekkelig, kan `Popover` være et godt alternativ.
+
+<Primary />
+<Controls />
+
+---
+
+## Bruk
+
+```tsx
+import { Popover } from 'rk-designsystem';
+
+// med context
+<Popover.TriggerContext>
+  <Popover.Trigger>Trigger</Popover.Trigger>
+  <Popover>Content</Popover>
+</Popover.TriggerContext>
+
+// uten context med egen trigger
+<Button popovertarget="my-popover">Trigger</Button>
+<Popover id="my-popover">Content</Popover>
+```
+
+### React og `popovertarget`
+Uten `Popover.TriggerContext` må du koble trigger og `Popover` selv. Bruk `popovertarget` i små bokstaver for kompatibilitet i alle React‑versjoner.
+
+### Polyfill
+`Popover` benytter Popover‑attributtet fra HTML. Funksjonen er bredt støttet i moderne nettlesere, men vurder en polyfill dersom du må støtte eldre versjoner.
+
+---
+
+## Kodeeksempler
+
+### Interaktive elementer
+Popover kan inneholde knapper og andre interaktive elementer.
+<Canvas of={PopoverStories.InteractiveContent} />
+
+### Uten context
+Koble egen trigger via `popovertarget` og `id`.
+<Canvas of={PopoverStories.WithoutContext} />
+
+### Farger og varianter
+Endre uttrykk med `data-color` og `variant`.
+<Canvas of={PopoverStories.DangerTinted} />
+
+### Kontrollert
+Styr åpen/lukket tilstand via `open` og `onClose`.
+<Canvas of={PopoverStories.Controlled} />
+
+---
+
+## Retningslinjer
+
+Bruk `Popover` for kontekstuell hjelp eller korte handlinger som ikke krever sideskifte. Innholdet bør være kort og relevant.
+
+**Passer til**
+- utdypende forklaringer som trenger mer plass enn en `Tooltip`
+- kontekstspesifikk hjelp som åpnes/lukkes ved behov
+
+**Passer ikke til**
+- rene beskrivelser av symboler eller snarveier (bruk `Tooltip`)
+- navigasjon/valg av alternativer (vurder [`Dropdown`](/docs/komponenter-dropdown--docs))
+- innhold som skal vises på `hover`
+
+### Plassering
+Juster `placement` etter behov. Automatisk begrensning innenfor viewport kan slås av med `autoPlacement={false}`.
+
+---
+
+## Tilgjengelighet
+
+Popover‑API følger åpen/lukket‑tilstand og standard tastaturnavigasjon.
+
+### Tastaturnavigasjon
+* <kbd>Enter</kbd> / <kbd>Space</kbd> åpner/lukker
+* <kbd>Esc</kbd> lukker
+
+

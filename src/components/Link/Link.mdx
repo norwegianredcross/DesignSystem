@@ -1,0 +1,70 @@
+import { Meta, Canvas, Controls, Primary } from '@storybook/addon-docs/blocks';
+import * as LinkStories from './Link.stories';
+
+<Meta of={LinkStories} />
+
+# Link
+
+#### `Link` er klikkbar tekst eller grafikk for navigasjon, basert på `<a>`. Bruk den for å sende brukeren til dokumenter, sider eller seksjoner – internt eller eksternt.
+
+<Primary />
+<Controls />
+
+---
+
+## Bruk
+
+```tsx
+import { Link } from 'rk-designsystem';
+
+<Link href="https://designsystemet.no/">Gå til designsystemet</Link>
+```
+
+---
+
+## Kodeeksempler
+
+### I tekst
+Lenker brukes ofte som en del av brødtekst.
+<Canvas of={LinkStories.InText} />
+
+### Med ikon
+Plasser ikon foran teksten. Skjul ikonet for skjermleser med `aria-hidden`, og legg teksten i `<span>` om du ønsker kontrollert avstand uten understrek.
+<Canvas of={LinkStories.WithIcon} />
+
+### Nøytral farge
+<Canvas of={LinkStories.LargeNeutral} />
+
+### Ekstern lenke
+<Canvas of={LinkStories.External} />
+
+---
+
+## Retningslinjer
+
+Unngå overbruk av lenker – det kan gjøre navigasjon uoversiktlig.
+
+**Passer til**
+- å navigere til en annen side eller et annet sted i applikasjonen
+- å peke til eksternt innhold
+- å laste ned en fil
+
+**Passer ikke til**
+- å utføre handlinger som ikke er navigasjon (bruk [`Button`](/docs/komponenter-button--docs) i stedet)
+
+### Åpne i ny fane
+Som hovedregel bør lenker åpnes i samme fane/vindu for forutsigbarhet. Se retningslinjene om merking av lenker for unntak.
+
+---
+
+## Tekst
+
+Skriv beskrivende lenketekster som tydelig forteller hva brukeren kan forvente når de klikker.
+
+---
+
+## Tilgjengelighet
+
+`Link` fungerer som en semantisk `<a>`. Fokusmarkering vises rundt lenken, og besøkte lenker kan ha egen farge. Sørg for meningsfulle `href`‑attributter og tekst som gir kontekst også uten omkringliggende innhold.
+
+

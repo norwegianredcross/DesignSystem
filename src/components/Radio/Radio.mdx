@@ -1,0 +1,61 @@
+import { Meta, Canvas, Controls, Primary } from '@storybook/addon-docs/blocks';
+import * as RadioStories from './Radio.stories';
+
+<Meta of={RadioStories} />
+
+# Radio
+
+#### `Radio` lar brukeren velge ett av flere alternativer. Bruk én `Radio` per valg, og grupper dem med samme `name`.
+
+<Primary />
+<Controls />
+
+---
+
+## Bruk
+
+Bruk [`Fieldset`](/docs/komponenter-fieldset--docs) for å gruppere relaterte alternativer, og vurder [`useRadioGroup`](/docs/utilities-useradiogroup--docs) for å håndtere verdi og hendelser.
+
+```tsx
+import { Radio, Fieldset } from 'rk-designsystem';
+
+<Fieldset>
+  <Fieldset.Legend>Er du over 18 år?</Fieldset.Legend>
+  <Radio value="ja" label="Ja" name="alternativ" />
+  <Radio value="nei" label="Nei" name="alternativ" />
+</Fieldset>
+```
+
+---
+
+## Kodeeksempler
+
+### Grunnleggende
+<Canvas of={RadioStories.Default} />
+
+---
+
+## Retningslinjer
+
+Bruk `Radio` når brukeren skal velge kun ett alternativ. Trenger de å velge flere, bruk [`Checkbox`](/docs/komponenter-checkbox--docs). Unngå flere enn ~7 alternativer i samme gruppe; vurder [`Suggestion`](/docs/komponenter-suggestion--docs) eller [`Select`](/docs/komponenter-select--docs) ved mange valg.
+
+### Sortering og plassering
+- Sorter som hovedregel alfabetisk for å gjøre det lett å finne riktig alternativ.
+- Plasser vanligvis alternativene vertikalt for bedre lesbarhet. Vurder horisontal plassering kun for to korte valg (for eksempel «Ja»/«Nei») eller skalaer der det er naturlig.
+
+---
+
+## Tekst
+
+En gruppe bør ha en tydelig `legend` og eventuell hjelpetekst (`description`). Hvert alternativ skal ha en kort og konsis `label`. Du kan også legge til en `description` under et enkelt alternativ ved behov.
+
+---
+
+## Tilgjengelighet
+
+Sørg for god avstand mellom alternativene slik at de er enkle å treffe på berøringsskjermer. Unngå unødvendig horisontal plassering. Tastaturnavigasjon følger standard radios:
+- Piltaster flytter mellom valg
+- <kbd>Space</kbd> velger markert alternativ
+- <kbd>Tab</kbd> flytter fokus til/fra gruppen
+
+

@@ -1,0 +1,79 @@
+import { Meta, Canvas, Controls, Primary } from '@storybook/addon-docs/blocks';
+import * as ToggleGroupStories from './ToggleGroup.stories';
+
+<Meta of={ToggleGroupStories} />
+
+# ToggleGroup
+
+#### `ToggleGroup` samler relaterte valg i en gruppe knapper der kun ett valg kan være aktivt om gangen.
+
+<Primary />
+<Controls />
+
+---
+
+## Bruk
+
+Plasser helst innholdet som styres rett etter `ToggleGroup` i DOM-en. Hvis ikke, knytt gruppen til innholdet med `aria-controls` på `ToggleGroup`.
+
+```tsx
+import { ToggleGroup } from 'rk-designsystem';
+
+<ToggleGroup defaultValue="value1">
+  <ToggleGroup.Item value="value1">Option 1</ToggleGroup.Item>
+  <ToggleGroup.Item value="value2">Option 2</ToggleGroup.Item>
+  <ToggleGroup.Item value="value3">Option 3</ToggleGroup.Item>
+</ToggleGroup>
+```
+
+---
+
+## Kodeeksempler
+
+### Kun ikoner
+Bruk kun ikoner når de er lett forståelige. Forklar gjerne med [`Tooltip`](/docs/komponenter-tooltip--docs).
+<Canvas of={ToggleGroupStories.IconOnlyWithTooltip} />
+
+### Kontrollert
+Styr valgt verdi via `value`/`onChange` på `ToggleGroup`.
+<Canvas of={ToggleGroupStories.ControlledWithIcons} />
+
+### Standard og størrelser
+<Canvas of={ToggleGroupStories.Default} />
+<Canvas of={ToggleGroupStories.LargeSize} />
+
+---
+
+## Retningslinjer
+
+Bruk `ToggleGroup` når valget har direkte og synlig effekt i grensesnittet (filter, visningsmodus, hvilke felt som vises). Sørg for at alle valg får plass på én linje også på mobil.
+
+**Passer til**
+- filtrering i lister/tabeller
+- bytte mellom visninger (f.eks. tabell/graf)
+- innstillinger som påvirker visningen umiddelbart
+
+**Passer ikke**
+- når det er for mange valg til at de får plass i bredden
+- når valgene har lange tekster (vurder `Tabs` eller `Radio`)
+
+---
+
+## Tekst
+
+Gi gruppen en forklarende ledetekst. Skriv korte, tydelige tekster for hvert valg og vær konsistent i språk og form. Ved ikon‑kun, bruk `Tooltip` for forklaring.
+
+---
+
+## Tilgjengelighet
+
+`ToggleGroup` har tydelig fokusindikator og bruker roving tabindex for fokusflyt.
+
+### Tastaturinteraksjon
+- <kbd>Tab</kbd> flytter fokus til aktiv knapp
+- <kbd>Shift</kbd>+<kbd>Tab</kbd> går ut av gruppen
+- <kbd>Space</kbd>/<kbd>Enter</kbd> aktiverer valgt knapp
+- <kbd>←</kbd>/<kbd>↑</kbd> forrige knapp
+- <kbd>→</kbd>/<kbd>↓</kbd> neste knapp
+
+

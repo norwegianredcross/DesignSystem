@@ -1,0 +1,184 @@
+import { Meta, Canvas, Controls, Primary } from '@storybook/addon-docs/blocks';
+import * as DateInputStories from './DateInput.stories';
+
+<Meta of={DateInputStories} />
+
+# DateInput
+
+#### `DateInput` er et tekstfelt for datoer, med norsk formatering (`dd.mm.åååå`). Den kan brukes alene eller sammen med `DatePicker` for å gi en komplett datovelger-opplevelse.
+
+<Primary />
+
+<Controls of={DateInputStories.Default} />
+
+---
+
+## Bruk
+
+```tsx
+
+import { DateInput } from '@rk-designsystem';
+
+import { useState } from 'react';
+
+
+
+const MyDateField = () => {
+
+  const [value, setValue] = useState('12.05.2023');
+
+
+
+  return (
+
+    <DateInput
+
+      label="Startdato"
+
+      value={value}
+
+      onChange={(e, formattedValue) => setValue(formattedValue)}
+
+      suffixIcon={<CalendarIcon />}
+
+      onSuffixClick={() => console.log('Åpne kalender')}
+
+    />
+
+  );
+
+}; ```
+
+DateInput håndterer formatering, validering og tilbakesetting av datoer i sanntid. Komponenten støtter både kontrollerte og ukontrollerte verdier.
+
+---
+
+Kodeeksempler
+
+Standard bruk
+<Canvas of={DateInputStories.Default} />
+Med beskrivelse
+<Canvas of={DateInputStories.WithDescription} />
+Med feilmelding
+<Canvas of={DateInputStories.WithError} />
+Med suffiksikon (for eksempel kalenderknapp)
+<Canvas of={DateInputStories.WithSuffix} />
+Deaktivert felt
+<Canvas of={DateInputStories.Disabled} />
+Egendefinert størrelse / farge
+<Canvas of={DateInputStories.CustomSizeAndColor} />
+Kontrollert komponent
+<Canvas of={DateInputStories.Controlled} />
+---
+
+Props
+
+De viktigste prop-ene inkluderer:
+
+Prop	Type	Beskrivelse
+label	React.ReactNode	Etiketten for feltet. Påkrevd for tilgjengelighet (eller bruk aria-label).
+description	React.ReactNode	Valgfri hjelpetekst som vises under etiketten.
+error	React.ReactNode	Viser feilmelding og setter aria-invalid.
+value	string | null	Kontrollert verdi (dd.mm.yyyy).
+defaultValue	string | null	Ukontrollert startverdi.
+onChange	(event, formattedValue) => void	Kalles ved endring. Tilbyr formatert verdi.
+suffixIcon	React.ReactNode	Et ikon (ofte en kalender).
+onSuffixClick	() => void	Klikkfunksjon for suffix-knapp.
+data-size	'sm' | 'md' | 'lg'	Visuell størrelse.
+data-color	'accent' | 'brand1' | 'brand2' | 'brand3' | 'neutral'	Fargetema.
+
+---
+
+## Mønstre
+
+Kombinert med DatePicker
+
+Når DateInput brukes sammen med DatePicker, håndteres verdien i state slik at tekstfeltet og kalenderen alltid gjenspeiler samme dato.
+
+```tsx
+	const DateInputCombo = () => {
+	  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+	  const [inputValue, setInputValue] = useState('');
+	
+	  const handleInputChange = (_e, formatted) => {
+	    setInputValue(formatted);
+	    const parsed = parse(formatted, 'dd.MM.yyyy', new Date());
+	    if (isValid(parsed)) setSelectedDate(parsed);
+	  };
+	
+	  return (
+	    <>
+	      <DateInput
+	        label="Velg dato"
+	        value={inputValue}
+	        onChange={handleInputChange}
+	        suffixIcon={<CalendarIcon />}
+	      />
+	      <DatePicker
+	        selectedDate={selectedDate}
+	        onDateSelect={setSelectedDate}
+	      />
+	    </>
+	  );
+	};
+```
+
+Dette mønsteret er brukt i historien “Example Combined Input + Calendar” i DatePicker-dokumentasjonen.
+
+---
+
+## Tilgjengelighet
+
+- En label, aria-label eller aria-labelledby er nødvendig for å unngå advarsler.
+
+- aria-invalid settes når error-prop er aktiv.
+
+- aria-describedby kobler hjelpetekst (description) og feilmelding til input-elementet.
+
+- role="alert" brukes på feilmelding for skjermlesere.
+
+
+---
+
+## CSS / Design Tokens
+
+DateInput bruker CSS-moduler (styles.module.css) som refererer til tokens fra designsystemet.
+
+- --ds-color-text-default
+
+- --ds-color-border-default
+
+- --ds-color-danger-border-default
+
+- --ds-color-background-default
+
+- --ds-color-surface-hover
+
+- --ds-opacity-disabled
+
+- --ds-border-radius-md
+
+- --ds-font-size-sm
+
+- --ds-font-weight-medium, osv.
+
+Dette sikrer visuell konsistens med andre felter i designsystemet.
+
+
+---
+
+## Retningslinjer
+
+Gjør dette
+
+- Bruk DateInput når brukeren skal skrive datoer direkte.
+
+- Bruk placeholder="dd.mm.åååå" som et hjelpetips.
+
+- Gi alltid en label eller aria-label.
+
+Unngå dette
+
+- Ikke bruk DateInput alene i situasjoner der en bruker forventer en visuell kalender – kombiner med DatePicker.
+
+- Ikke la komponenten være uten onChange i kontrollerte scenarier.

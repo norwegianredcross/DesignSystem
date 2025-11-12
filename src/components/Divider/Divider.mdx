@@ -1,0 +1,76 @@
+import { Meta, Controls, Primary, Canvas } from '@storybook/addon-docs/blocks';
+import css from '@digdir/designsystemet-css/divider.css?inline';
+import * as DividerStories from './Divider.stories';
+
+<Meta of={DividerStories} />
+
+# Divider
+
+#### `Divider` brukes for å skape et visuelt skille mellom innhold. Det er en enkel, horisontal linje som hjelper til med å strukturere og tydeliggjøre oppsettet på en side.
+
+<Primary />
+<Controls />
+
+---
+
+## Bruk
+
+#### `Divider` kan brukes mellom seksjoner for å skape et klart visuelt skille.  
+Bruk den når whitespace alene ikke er nok til å oppnå ønsket avstand eller struktur.
+
+---
+
+## Kodeeksempler
+
+### Standard
+
+#### Den vanligste varianten har nøytral farge og strekker seg over hele bredden.
+<Canvas of={DividerStories.Default} />
+
+### Farget variant
+
+#### `Divider` kan arve farge fra temaet ditt eller settes med data-attributtene `data-color` og `data-size`.
+<Canvas of={DividerStories.Colored} />
+
+---
+
+## Retningslinjer
+
+#### Bruk `Divider` til å dele opp og strukturere innhold på en logisk måte.
+
+**Passer når**
+* du vil ha tydelig visuell oppdeling mellom seksjoner  
+* innholdet trenger struktur og rytme for bedre lesbarhet  
+* whitespace alene ikke skaper nok skille
+
+**Passer ikke når**
+* naturlig spacing eller tydelige hoder allerede gir nok visuell separasjon  
+* du har mange `Divider`-elementer på en side — det kan skape et rotete uttrykk  
+* du vil bruke linjen kun som pynt uten semantisk betydning
+
+---
+
+## Tilgjengelighet
+
+#### `Divider` er et dekorativt element som ikke leses opp av skjermlesere.
+
+Bruk den til å indikere en virkelig tematisk inndeling i innholdet — ikke bare for designmessig pynt.  
+Kombiner den gjerne med semantiske elementer som:
+
+* [`Heading`](/docs/komponenter-heading--docs)  
+* [`List`](/docs/komponenter-list--docs)  
+* [`<section>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/section)  
+* [`role="group"`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/group_role)
+
+Dette sikrer at også brukere med skjermleser oppfatter strukturen i innholdet.
+
+---
+
+## CSS-variabler
+
+#### Her er tilgjengelige CSS-variabler for `Divider`.
+
+* `--divider-color`
+* `--divider-thickness`
+* `--divider-width`
+* `--divider-margin-block`

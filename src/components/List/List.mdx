@@ -1,0 +1,95 @@
+import { Meta, Primary, Controls, Canvas } from '@storybook/addon-docs/blocks';
+import * as ListStories from './List.stories';
+
+<Meta of={ListStories} />
+
+# List
+
+#### `List` brukes for å strukturere innhold som punktlister eller nummererte steg, slik at informasjon blir enkel å skumme og forstå.
+
+<Primary />
+<Controls />
+
+---
+
+## Bruk
+
+Listen kan være usortert eller sortert. Bruk `List.Unordered` for kulepunkter og `List.Ordered` når rekkefølge betyr noe.
+
+```tsx
+import { List } from 'rk-designsystem';
+
+<List.Unordered>
+  <List.Item>Første punkt</List.Item>
+  <List.Item>Andre punkt</List.Item>
+</List.Unordered>
+```
+
+---
+
+## Kodeeksempler
+
+### Usortert liste
+<Canvas of={ListStories.Unordered} />
+
+### Sortert liste
+<Canvas of={ListStories.Ordered} />
+
+### Med overskrift
+En `Heading` over en liste kan hjelpe brukeren å forstå hva listen oppsummerer.
+<Canvas of={ListStories.WithHeading} />
+
+### Lister i lister
+Bruk underlister for tilleggsinformasjon som hører til et punkt. Vurder om underpunkter heller bør være egne hovedpunkter før du nøster.
+<Canvas of={ListStories.Nested} />
+
+### Liste med lenker
+Du kan lage navigasjonslister ved å bruke `Link` i `List.Item`. I eksemplet er standard listestil fjernet.
+<Canvas of={ListStories.ListOfLinks} />
+
+---
+
+## Retningslinjer
+
+Bruk sortert liste når rekkefølge eller prioritet er viktig (for eksempel prosess-steg). Bruk usortert liste når du vil oppsummere punkter uten rangering. Unngå svært lange lister – del heller opp for bedre lesbarhet.
+
+**Passer til**
+- å gi rask oversikt i lengre tekster
+- å liste kriterier
+- å vise steg i en prosess
+
+**Passer ikke til**
+- å presentere lange avsnitt
+- å sammenligne flere datasett (bruk tabell)
+
+### Liste eller tabell?
+Lister presenterer relaterte punkter. Tabeller lar brukeren sammenligne grupper av informasjon. Velg riktig komponent for tydeligere kommunikasjon.
+
+---
+
+## Tilgjengelighet
+
+### Lister som navigasjon
+Hvis listen brukes til navigasjon (for eksempel i bunn eller sidemeny), pakk den inn i et `<nav aria-label="...">` i stedet for å sette `aria-label` direkte på `<ul>`/`<ol>`.
+
+```tsx
+<nav aria-label="Snarveier">
+  <List.Unordered>
+    <List.Item>…</List.Item>
+  </List.Unordered>
+</nav>
+```
+
+### `<menu>` i stedet for `<ul>`
+`<menu>` er et semantisk alternativ til `<ul>` for lister av interaktive elementer.
+
+```tsx
+<List.Unordered asChild>
+  <menu>
+    <List.Item>…</List.Item>
+    <List.Item>…</List.Item>
+  </menu>
+</List.Unordered>
+```
+
+

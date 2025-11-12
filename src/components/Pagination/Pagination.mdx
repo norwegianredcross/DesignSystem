@@ -1,0 +1,78 @@
+import { Meta, Controls, Primary, Canvas } from '@storybook/addon-docs/blocks';
+import * as PaginationStories from './Pagination.stories';
+import { Pagination } from './';
+
+<Meta of={PaginationStories} />
+
+# Pagination
+
+#### `Pagination` er en liste med kontroller som lar brukeren navigere mellom flere sider med innhold, for eksempel søkeresultater eller tabeller.
+
+<Primary />
+<Controls />
+
+---
+
+## Bruk
+
+`Pagination` er kontrollert. Det betyr at aktiv side styres utenfra.
+For logikk, bruk `usePagination` sammen med delkomponentene.
+
+```tsx
+import { Pagination } from 'rk-designsystem';
+
+<Pagination aria-label="Sidenavigering">
+  <Pagination.List>
+    <Pagination.Item>
+      <Pagination.Button aria-label="Forrige side">Forrige</Pagination.Button>
+    </Pagination.Item>
+
+    <Pagination.Item>
+      <Pagination.Button aria-label="Side 1">1</Pagination.Button>
+    </Pagination.Item>
+
+    <Pagination.Item /> {/* ellipse */}
+
+    <Pagination.Item>
+      <Pagination.Button aria-label="Side 10">10</Pagination.Button>
+    </Pagination.Item>
+
+    <Pagination.Item>
+      <Pagination.Button aria-label="Neste side">Neste</Pagination.Button>
+    </Pagination.Item>
+  </Pagination.List>
+  </Pagination>
+```
+
+---
+
+## Eksempler
+
+### Kontrollert
+<Canvas of={PaginationStories.Default} />
+
+### Som lenker
+Knappene er `<button>` som standard. Skal du navigere til ny URL, bruk `asChild` og rendre `<a>` inni `Pagination.Button`.
+<Canvas of={PaginationStories.WithLinks} />
+
+---
+
+## Retningslinjer
+
+Bruk `Pagination` når innhold må deles opp i sider og brukeren trenger å flytte seg mellom resultatsett. Del kun opp når det gir bedre ytelse eller forståelse.
+
+**Passer til**
+- å navigere mellom relaterte innholdssider
+- å dele store datamengder i håndterbare sider (for eksempel tabeller)
+
+**Passer ikke til**
+- stegvis utfylling av skjema (bruk stegindikator)
+- å vise fremdrift
+
+---
+
+## Tekst
+
+Bruk de faste ordene «Forrige» og «Neste». Unngå varianter som «Gå tilbake» eller «Videre».
+
+

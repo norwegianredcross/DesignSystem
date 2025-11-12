@@ -162,3 +162,82 @@ export const WithLinks: Story = {
   },
   name: 'With Links (asChild)',
 };
+
+// --- Mobile (Truncated) Example ---
+export const Mobile: Story = {
+  render: (args) => {
+    const [currentPage, setCurrentPage] = useState(6);
+    const totalPages = 12;
+    const { pages, prevButtonProps, nextButtonProps } = usePagination({
+      currentPage,
+      totalPages,
+      onChange: (_e, page) => setCurrentPage(page),
+    });
+
+    // Show only current and ±1, keep ellipsis at ends
+    const visibleSet = new Set([currentPage - 1, currentPage, currentPage + 1]);
+
+    return (
+      <div style={{ maxWidth: 320 }}>
+        <Pagination {...args} aria-label="Sidenavigering (mobil)">
+          <Pagination.List>
+            <Pagination.Item>
+              <Pagination.Button {...prevButtonProps} aria-label="Forrige side">
+                Forrige
+              </Pagination.Button>
+            </Pagination.Item>
+
+            {pages.map(({ page, itemKey, buttonProps }, idx) => {
+              if (typeof page === 'number') {
+                if (!visibleSet.has(page)) {
+                  // Show first and last pages as anchors
+                  if (page === 1 || page === totalPages) {
+                    return (
+                      <Pagination.Item key={itemKey}>
+                        <Pagination.Button {...buttonProps} aria-label={`Side ${page}`}>
+                          {page}
+                        </Pagination.Button>
+                      </Pagination.Item>
+                    );
+                  }
+                  // Replace hidden ranges by sparse ellipsis
+                  if (
+                    (page < currentPage - 1 && idx === 1) ||
+                    (page > currentPage + 1 && idx > pages.length - 3)
+                  ) {
+                    return (
+                      <Pagination.Item key={itemKey}>
+                        <span>…</span>
+                      </Pagination.Item>
+                    );
+                  }
+                  return null;
+                }
+                return (
+                  <Pagination.Item key={itemKey}>
+                    <Pagination.Button {...buttonProps} aria-label={`Side ${page}`}>
+                      {page}
+                    </Pagination.Button>
+                  </Pagination.Item>
+                );
+              }
+              // Condense generic ellipsis in mobile
+              return null;
+            })}
+
+            <Pagination.Item>
+              <Pagination.Button {...nextButtonProps} aria-label="Neste side">
+                Neste
+              </Pagination.Button>
+            </Pagination.Item>
+          </Pagination.List>
+        </Pagination>
+      </div>
+    );
+  },
+  args: {
+    'data-size': 'md',
+    'data-color': 'neutral',
+  },
+  name: 'Mobile (Truncated)',
+};

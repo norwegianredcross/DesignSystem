@@ -1,0 +1,73 @@
+import { Meta, Canvas, Controls, Primary } from '@storybook/addon-docs/blocks';
+import * as TextfieldStories from './Textfield.stories';
+
+<Meta of={TextfieldStories} />
+
+# Textfield
+
+#### `Textfield` gir brukere muligheten til å skrive fritekst eller tall.
+
+<Primary />
+<Controls />
+
+---
+
+## Bruk
+
+`Textfield` er bygd på [`Field`](/docs/komponenter-field--docs) og kan rendre som `Input` eller `Textarea` via `multiline`. Ikke pakk `Textfield` inn i `Field` – det er allerede inkludert.
+
+```tsx
+import { Textfield } from 'rk-designsystem';
+
+<Textfield label="Navn" />
+```
+
+---
+
+## Eksempler
+
+### Multiline
+Bruk `multiline` for å bytte til tekstområde.
+<Canvas of={TextfieldStories.Multiline} />
+
+### Prefix/Suffix
+Vis enheter eller ekstra informasjon. Ikke bruk uten label – skjermlesere leser dem ikke.
+<Canvas of={TextfieldStories.WithAffixes} />
+
+### Antall tegn
+Bruk `counter` for å vise og begrense tegn.
+<Canvas of={TextfieldStories.WithCounter} />
+
+### Beskrivelse og feil
+<Canvas of={TextfieldStories.WithDescription} />
+<Canvas of={TextfieldStories.WithError} />
+
+### Tilstander
+<Canvas of={TextfieldStories.Disabled} />
+<Canvas of={TextfieldStories.ReadOnly} />
+
+### Kontrollert
+<Canvas of={TextfieldStories.Controlled} />
+
+---
+
+## Retningslinjer
+
+Bruk `Input` for korte svar og `Textarea` for lengre fritekst. Unngå `placeholder` som instruks – den forsvinner ved skriving og må møte kontrastkrav. Tilpass bredde etter forventet innhold. Tillat kopier/lim inn.
+
+### Inndata
+Velg passende `type` og bruk `autocomplete` der formål finnes i WCAG‑listen. For rene tallfelt, foretrekk `type="text"` med `inputmode="numeric"` over `type="number"` for bedre robusthet.
+
+---
+
+## Tekst
+
+Alltid label. Hold den kort (helst én linje), og unngå kolon.
+
+---
+
+## Tilgjengelighet
+
+Unngå deaktivert (`disabled`) der det er mulig; vis heller tekst eller bruk `readOnly`. Prefiks/suffiks er dekorative og må suppleres av en beskrivende label.
+
+

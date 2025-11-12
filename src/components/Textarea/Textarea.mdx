@@ -1,0 +1,61 @@
+import { Meta, Canvas, Controls, Primary } from '@storybook/addon-docs/blocks';
+import * as TextareaStories from './Textarea.stories';
+
+<Meta of={TextareaStories} />
+
+# Textarea
+
+#### `Textarea` brukes når brukeren skal kunne skrive inn tekst over flere linjer.
+
+<Primary />
+<Controls />
+
+---
+
+## Bruk
+
+`Textarea` er en native komponent som ofte kombineres med [`Field`](/docs/komponenter-field--docs) for beskrivelse, validering eller prefiks/suffiks. [`Textfield`](/docs/komponenter-textfield--docs) med `multiline` er som regel å foretrekke hvis du ikke trenger skreddersøm.
+
+```tsx
+import { Textarea, Label } from 'rk-designsystem';
+
+<Label htmlFor="my-textarea">Label</Label>
+<Textarea id="my-textarea" rows={5} />
+```
+
+---
+
+## Eksempler
+
+### Kontrollert
+<Canvas of={TextareaStories.Controlled} />
+
+### Disabled og ReadOnly
+<Canvas of={TextareaStories.Disabled} />
+<Canvas of={TextareaStories.ReadOnly} />
+
+### Med maks lengde
+<Canvas of={TextareaStories.WithMaxLength} />
+
+---
+
+## Retningslinjer
+
+Bruk `Textarea` når det forventes lengre fritekst (åpne spørsmål, tilbakemeldinger). Vurder om det er bedre å dele opp spørsmålet i flere, enklere spørsmål dersom fritekst er vanskelig for brukerne.
+
+**Passer til**
+- fritekstsvar med flere linjer
+- åpne felt uten forhåndsdefinerte alternativer
+
+**Passer ikke til**
+- korte svar (navn, e‑post, telefon) – bruk [`Input`](/docs/komponenter-input--docs)
+- strengt strukturerte data (f.eks. fødselsnummer, dato)
+
+### Størrelse og tilpasning
+- Sett `rows` etter forventet tekstmengde.
+- La feltet kunne utvide seg når brukeren skriver, så hele innholdet er synlig.
+- Begrens bredde til 50–75 tegn for god lesbarhet.
+
+Følg ellers generelle retningslinjer for [`Textfield`](/docs/komponenter-textfield--docs) og [`Input`](/docs/komponenter-input--docs).
+
+

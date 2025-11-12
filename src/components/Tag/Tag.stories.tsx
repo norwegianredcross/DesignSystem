@@ -92,3 +92,22 @@ export const Colors: Story = {
     children: { control: false }, 
   },
 };
+
+// --- With Icon ---
+export const WithIcon: Story = {
+  render: (args) => (
+    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+      <Tag data-size={args['data-size']} data-color={args['data-color']}>
+        <span style={{ display: 'inline-flex', alignItems: 'center' }}>
+          <span aria-hidden style={{ width: 6, height: 6, borderRadius: '50%', background: 'currentColor', marginRight: 6 }} />
+          <span>Med ikon</span>
+        </span>
+      </Tag>
+    </div>
+  ),
+  args: {
+    'data-size': 'md',
+    'data-color': 'accent',
+  },
+  name: 'With Icon',
+};

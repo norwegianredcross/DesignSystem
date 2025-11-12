@@ -1,0 +1,44 @@
+import { Meta, Canvas, Controls, Primary } from '@storybook/addon-docs/blocks';
+import * as InputStories from './Input.stories';
+
+<Meta of={InputStories} />
+
+# Input
+
+#### `Input` er et grunnleggende skjemafelt for innsamling av brukerdata. Bruk den når du trenger enkel, fleksibel kontroll over oppsett og validering – for eksempel når du bygger spesialtilpassede felt.
+
+#### Se også [`Textfield`](/docs/komponenter-textfield--docs), som kombinerer `Label`, beskrivelse og validering for deg.
+
+<Primary />
+<Controls />
+
+---
+
+## Eksempler
+
+### Standard
+<Canvas of={InputStories.Default} />
+
+### Kontrollert
+Viser hvordan du styrer verdien via state og `onChange`.
+<Canvas of={InputStories.Controlled} />
+
+### HTML `size`
+Bruk `size` for å angi synlig bredde i tegn.
+<Canvas of={InputStories.HtmlSize} />
+
+---
+
+## Retningslinjer
+
+Se retningslinjer for [`Textfield`](/docs/komponenter-textfield--docs) for anbefalt plassering av ledetekst og beskrivelse. Ledeteksten bør stå over feltet for best lesbarhet – spesielt på små skjermer og når feilmeldinger vises.
+
+Når ledetekst skjules visuelt (for eksempel i tabeller), må den fortsatt være tilgjengelig for skjermlesere via `aria-label` eller `aria-labelledby`.
+
+---
+
+## Tilgjengelighet
+
+Koble alltid feltet med en `Label` ved hjelp av `htmlFor`/`id` eller `aria-labelledby`. Ved feiltilstand, sett `aria-invalid` og koble feilmeldingen via `aria-describedby` om mulig.
+
+

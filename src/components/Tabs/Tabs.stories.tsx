@@ -5,6 +5,7 @@ import { Tabs, TabsProps } from './index'; // Import the main Tabs component
 import { Button } from '@digdir/designsystemet-react';
 // Import icons (assuming they are exported from the main package)
 
+import { AirplaneIcon, NewspaperIcon, DogIcon } from '@navikt/aksel-icons';
 
 const meta: Meta<typeof Tabs> = {
   title: 'Components/Tabs',
@@ -81,13 +82,13 @@ export const IconsOnly: Story = {
     <Tabs {...args}>
       <Tabs.List>
         <Tabs.Tab value="value1">
-          
+          <AirplaneIcon aria-hidden />
         </Tabs.Tab>
         <Tabs.Tab value="value2">
-          
+          <NewspaperIcon aria-hidden />
         </Tabs.Tab>
         <Tabs.Tab value="value3">
-          
+          <DogIcon aria-hidden />
         </Tabs.Tab>
       </Tabs.List>
       <Tabs.Panel value="value1">Content for Airplane</Tabs.Panel>
@@ -162,4 +163,35 @@ export const LargeSize: Story = {
     'data-color': 'neutral',
   },
   name: 'Large Size',
+};
+
+// --- Icons with Text ---
+export const IconsWithText: Story = {
+  render: (args) => (
+    <Tabs {...args}>
+      <Tabs.List>
+        <Tabs.Tab value="value1">
+          <AirplaneIcon aria-hidden style={{ marginRight: 6 }} />
+          Fly
+        </Tabs.Tab>
+        <Tabs.Tab value="value2">
+          <NewspaperIcon aria-hidden style={{ marginRight: 6 }} />
+          Nyheter
+        </Tabs.Tab>
+        <Tabs.Tab value="value3">
+          <DogIcon aria-hidden style={{ marginRight: 6 }} />
+          Hund
+        </Tabs.Tab>
+      </Tabs.List>
+      <Tabs.Panel value="value1">Content for Fly</Tabs.Panel>
+      <Tabs.Panel value="value2">Content for Nyheter</Tabs.Panel>
+      <Tabs.Panel value="value3">Content for Hund</Tabs.Panel>
+    </Tabs>
+  ),
+  args: {
+    defaultValue: 'value1',
+    'data-size': 'md',
+    'data-color': 'neutral',
+  },
+  name: 'Icons with Text',
 };

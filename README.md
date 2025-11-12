@@ -247,3 +247,60 @@ Your Storybook file is the official documentation. It must be clear and comprehe
 
 4.  **Ready for Review:** When development is complete and all automated checks are passing, mark the PR as "Ready for review" and request a review from the design system maintainers.
 
+
+## Using NAV/Aksel Icons
+
+This library is designed to work seamlessly with the official icon set from NAV/Aksel.
+
+### Install
+
+```bash
+# npm
+npm install @navikt/aksel-icons
+
+# yarn
+yarn add @navikt/aksel-icons
+
+# pnpm
+pnpm add @navikt/aksel-icons
+```
+
+### Import and usage
+
+Icons are exported as named React components. Import only the icons you need (tree‑shakable):
+
+```tsx
+import { AirplaneIcon, NewspaperIcon } from '@navikt/aksel-icons';
+import { Button, Tag } from 'rk-designsystem';
+
+export function IconsExample() {
+  return (
+    <div style={{ display: 'flex', gap: 12 }}>
+      {/* Icon + text: hide icon from AT */}
+      <Button>
+        <AirplaneIcon aria-hidden style={{ marginRight: 'var(--ds-spacing-1, 4px)' }} />
+        Fly
+      </Button>
+
+      {/* Icon inside Tag */}
+      <Tag data-color="info">
+        <span style={{ display: 'inline-flex', alignItems: 'center' }}>
+          <NewspaperIcon aria-hidden style={{ marginRight: 'var(--ds-spacing-1, 4px)' }} />
+          Ny
+        </span>
+      </Tag>
+    </div>
+  );
+}
+```
+
+### Accessibility guidance
+
+- Icon + visible text: set `aria-hidden` on the icon so screen readers don’t announce it twice.
+- Icon‑only triggers (e.g., a button): add a descriptive `aria-label` to the trigger, keep the icon `aria-hidden`.
+- Color: icons inherit `currentColor`; use the component’s variant/color to control it (e.g., button variants, tag colors).
+- Size: set `fontSize` (e.g., `fontSize="1.25rem"`) or inline style (e.g., `style={{ fontSize: '1.25rem' }}`).
+
+### Performance
+
+Use named imports from `@navikt/aksel-icons` to keep bundles small—unused icons are tree‑shaken by modern bundlers.

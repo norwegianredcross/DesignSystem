@@ -1,0 +1,87 @@
+import { Meta, Canvas, Controls, Primary } from '@storybook/addon-docs/blocks';
+import * as SearchStories from './Search.stories';
+
+<Meta of={SearchStories} />
+
+# Search
+#### `Search` lar brukere finne innhold raskt gjennom et søkefelt – med eller uten knapp.
+
+<Primary />
+<Controls />
+
+---
+
+## Bruk
+
+Bruk `Search.Clear` og `Search.Button` etter behov. Vi anbefaler å vise `Search.Clear` slik at brukeren enkelt kan tømme feltet.
+Hvis du ikke bruker `Search.Button`, vises et søkeikon i inputen.
+
+Husk `aria-label` eller `aria-labelledby` dersom du ikke kobler `Search.Input` til en `Label`.
+
+```tsx
+import { Search } from 'rk-designsystem';
+
+<Search>
+  <Search.Input aria-label="Søk" />
+  <Search.Clear />
+  <Search.Button />
+</Search>
+```
+
+---
+
+## Kodeeksempler
+
+### Kontrollert
+<Canvas of={SearchStories.Controlled} />
+
+### Varianter
+Endre `variant` på `Search.Button`, eller fjern knappen helt for kun ikon i input.
+<Canvas of={SearchStories.Default} />
+<Canvas of={SearchStories.WithoutButton} />
+
+### Med Label
+Koble `Label` til `Search.Input` (gjerne via `Field`).
+<Canvas of={SearchStories.WithLabel} />
+
+### I skjema
+`Search.Button` har `type="submit"` og sender inn skjemaet.
+<Canvas of={SearchStories.WithinForm} />
+
+---
+
+## Retningslinjer 
+
+Velg bredde på søkefeltet ut fra typiske søk. Et hovedsøkefelt kan gjerne være bredt, mens felter for korte verdier (som personnummer) bør matche forventet lengde. Unngå søkefelt som er så smale at innhold må scrolles horisontalt.
+
+**Passer til:**
+
+* Å hjelpe brukere å finne relevant informasjon raskt.
+* Når brukerne skriver nøkkelord eller setninger.
+
+**Passer ikke til:**
+
+* Når innholdet er lett å navigere uten søk.
+* Som erstatning for god navigasjon – søk er et supplement.
+
+---
+
+## Tekst
+
+Bruk placeholder med varsomhet. Den forsvinner ved input, må oppfylle kontrastkrav, og håndteres ulikt av skjermlesere. Gi heller beskrivelse via `Label` eller hjelpetekst.
+
+---
+
+## Tilgjengelighet
+
+### Tastaturinteraksjon
+
+* <kbd>Esc</kbd> tømmer feltet (for enhetlig opplevelse).
+* <kbd>Tab</kbd> navigerer mellom input, clear og knapp.
+* <kbd>Enter</kbd> sender inn når fokus er i input.
+
+### Skjermleserstøtte
+
+Ikke bruk placeholder som eneste beskrivelse. Bruk `Label` eller beskrivende attributter.
+
+

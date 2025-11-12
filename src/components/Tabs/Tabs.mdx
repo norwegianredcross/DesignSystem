@@ -1,0 +1,94 @@
+import { Meta, Canvas, Controls, Primary, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as TabsStories from './Tabs.stories';
+import { Tabs } from './';
+
+<Meta of={TabsStories} />
+
+# Tabs
+
+#### `Tabs` lar brukeren navigere mellom relaterte deler av innhold der én del vises om gangen. Dette hjelper å organisere informasjon på samme side uten sideskift.
+
+<Primary />
+<Controls />
+
+---
+
+## Bruk
+
+```tsx
+import { Tabs } from 'rk-designsystem';
+
+<Tabs defaultValue="value1">
+  <Tabs.List>
+    <Tabs.Tab value="value1">Tab 1</Tabs.Tab>
+    <Tabs.Tab value="value2">Tab 2</Tabs.Tab>
+    <Tabs.Tab value="value3">Tab 3</Tabs.Tab>
+  </Tabs.List>
+  <Tabs.Panel value="value1">content 1</Tabs.Panel>
+  <Tabs.Panel value="value2">content 2</Tabs.Panel>
+  <Tabs.Panel value="value3">content 3</Tabs.Panel>
+</Tabs>
+```
+
+Hvis du ikke bruker React, kan du benytte den tilsvarende web‑komponenten (`u-tabs`) og legge til klassen `ds-tabs`.
+
+---
+
+## Eksempler
+
+### Kun ikoner
+Bruk bare ikoner for et kompakt uttrykk. Sørg for at ikonene er dekorative (`aria-hidden`) eller at tittelen beskriver innholdet.
+<Canvas of={TabsStories.IconsOnly} />
+
+### Kontrollert
+Styr valgt tab programmatisk via `value`/`onChange`.
+<Canvas of={TabsStories.Controlled} />
+
+### Størrelser
+Endre størrelse med `data-size`.
+<Canvas of={TabsStories.LargeSize} />
+
+---
+
+## Props
+
+### `Tabs`
+<ArgTypes of={Tabs} />
+
+---
+
+## Retningslinjer
+
+Bruk `Tabs` for å strukturere relatert innhold i tydelige seksjoner uten nytt sideskift.
+
+**Passer til å**
+* strukturere innhold på samme side
+* gjøre navigasjonen enklere når ikke alt må vises samtidig
+
+**Passer ikke til å**
+* gi umiddelbar oversikt (tabs skjuler innhold)
+* sammenligne informasjon på tvers av seksjoner
+* steg‑for‑steg‑prosesser eller hovednavigasjon
+
+### Beste praksis
+* Begrens antall tabs.
+* Bruk korte, presise navn.
+* Plasser det viktigste først.
+* Unngå deaktiverte tabs.
+* Hold tabs på én linje for god skannbarhet.
+
+---
+
+## Tilgjengelighet
+
+`Tabs` støtter tastaturnavigasjon. Hver tab skal ha en unik tittel. Dersom et panel ikke har fokuserbare elementer, får selve panelet fokus.
+
+### Tastaturnavigasjon
+* <kbd>Tab</kbd> flytter fokus til neste interaktive element
+* <kbd>→</kbd> neste tab
+* <kbd>←</kbd> forrige tab
+* <kbd>Home</kbd> første tab
+* <kbd>End</kbd> siste tab
+* <kbd>Enter</kbd> eller <kbd>Space</kbd> aktiverer valgt tab
+
+

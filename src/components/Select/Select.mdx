@@ -1,0 +1,86 @@
+import { Meta, Canvas, Controls, Primary } from '@storybook/addon-docs/blocks';
+import * as SelectStories from './Select.stories';
+
+<Meta of={SelectStories} />
+
+# Select
+
+#### `Select` er en nedtrekksliste for å velge ett alternativ fra en statisk liste. Den bygger på HTML `<select>` og følger nettleserens innebygde mønstre, som gir god tilgjengelighet og forutsigbarhet – men begrenser styling av innholdet.
+
+## Props
+
+<Primary />
+<Controls />
+
+---
+
+## Bruk
+
+```tsx
+import { Select, Field, Label } from 'rk-designsystem';
+
+<Field>
+  <Label>Ta et valg</Label>
+  <Select>
+    <Select.Option value="1">Alternativ 1</Select.Option>
+    <Select.Option value="2">Alternativ 2</Select.Option>
+    <Select.Option value="3">Alternativ 3</Select.Option>
+  </Select>
+</Field>
+```
+
+---
+
+## Eksempler
+
+### Med feil
+Vis feilmelding og merk feltet som ugyldig når påkrevd valg mangler.
+<Canvas of={SelectStories.WithError} />
+
+### Med gruppering
+Bruk `Select.Optgroup` for å samle alternativer i kategorier.
+<Canvas of={SelectStories.WithGrouping} />
+
+### ReadOnly
+Vis en verdi uten at brukeren kan endre den.
+<Canvas of={SelectStories.ReadOnly} />
+
+### Disabled
+Vis en utilgjengelig select når valget ikke kan endres.
+<Canvas of={SelectStories.Disabled} />
+
+---
+
+## Retningslinjer
+
+Bruk `select` når det er mange (omtrent 7 eller flere) alternativer. Ved færre valg er `Radio` ofte enklere for brukeren. `Select` fungerer godt på mobil og følger plattformens mønstre. Hvis det trengs flervalg eller filtrering, vurder `Suggestion`.
+
+**Passer til**
+* å velge ett alternativ
+
+**Passer ikke til**
+* navigasjon mellom sider eller seksjoner
+* å velge flere alternativer – HTML `multiple` er lite brukervennlig, vurder `Checkbox` eller `Suggestion`
+
+> Noen retningslinjer, som hos GOV.UK, anbefaler å unngå `select` i offentlige tjenester når det finnes bedre alternativer (færre og mer målrettede spørsmål eller `Radio`).
+
+---
+
+## Tekst
+
+`Select` skal alltid ha en tydelig ledetekst. Plasser ledetekst og beskrivelse over feltet. Hvis `select` ligger i en tabell og får ledetekst fra tabelloverskrift, kan ledeteksten skjules visuelt – men den må fortsatt være meningsfull for skjermlesere.
+
+---
+
+## Tilgjengelighet
+
+Det finnes kjente begrensninger, som VoiceOver i Chrome på Mac.
+
+### Tastaturnavigasjon
+* <kbd>Space</kbd> åpner listen (og kan velge på Mac)
+* <kbd>Enter</kbd> velger (og åpner på Windows)
+* <kbd>↓</kbd>/<kbd>↑</kbd> markerer neste/forrige
+* <kbd>Home</kbd>/<kbd>End</kbd> første/siste
+* Bokstaver/tegn hopper til første matchende alternativ
+
+

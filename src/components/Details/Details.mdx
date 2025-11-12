@@ -1,0 +1,101 @@
+import { Meta, Canvas, Controls, Primary } from '@storybook/addon-docs/blocks';
+import * as DetailsStories from './Details.stories';
+
+<Meta of={DetailsStories} />
+
+# Details
+
+#### `Details` lar brukeren utvide og skjule innhold i en oversiktlig rad. Den er nyttig for å samle informasjon som ikke trenger å vises hele tiden, og hjelper med å holde grensesnittet ryddig.
+
+<Primary />
+<Controls />
+
+---
+
+## Bruk
+
+```tsx
+
+import { Details } from '@digdir/designsystemet-react';
+
+// Grunnleggende bruk
+
+
+<Details>
+  <Details.Summary>Tittel for seksjonen</Details.Summary>
+  <Details.Content>Dette er innholdet som kan utvides.</Details.Content>
+</Details>
+
+// Med ramme (i et kort)
+
+import { Details, Card } from '@digdir/designsystemet-react';
+
+<Card>
+  <Details>
+    <Details.Summary>Detaljer med ramme</Details.Summary>
+    <Details.Content>Innholdet vises her når du åpner detaljer.</Details.Content>
+  </Details>
+</Card>
+```
+
+#### `Details` fungerer som et sammenleggbart område. Du kan bruke den alene eller inni andre komponenter som `Card` for å organisere innhold visuelt.
+
+---
+
+## Kodeeksempler
+
+### Standard
+
+#### Dette er grunnvarianten av `Details`, der brukeren kan klikke på overskriften for å vise innholdet.
+<Canvas of={DetailsStories.DefaultClosed} />
+
+### Åpen som standard
+
+#### Du kan starte `Details` i åpen tilstand ved å sette `open: true`.
+<Canvas of={DetailsStories.DefaultOpen} />
+
+### Med størrelse og farge
+
+#### Bruk `data-size` og `data-color` for å tilpasse stil etter temaet ditt.
+<Canvas of={DetailsStories.LargeBrand1} />
+
+---
+
+## Retningslinjer
+
+#### Bruk `Details` til å skjule valgfrie eller utfyllende opplysninger.
+
+**Gjør dette**
+* **Bruk `Details` for sekundært innhold:** Ideelt for informasjon som er nyttig, men ikke kritisk.  
+* **Hold overskriften tydelig:** Den skal beskrive hva som skjules bak.  
+* **Bruk i kontekst:** Legg gjerne inn `Details` i komponenter som `Card` når du vil gruppere flere seksjoner.
+
+**Unngå dette**
+* **Skjul aldri hovedinnhold:** Viktige meldinger eller primærinformasjon bør være synlig.  
+* **Ingen nøsting:** Ikke legg en `Details` inni en annen. Det kan skape forvirring for tastaturnavigasjon og skjermlesere.  
+* **Unngå vage titler:** «Les mer» eller «Vis mer» gir lite mening uten kontekst.
+
+---
+
+## Tilgjengelighet
+
+#### `Details` er bygd med fokus på tilgjengelighet og følger HTML `<details>`- og `<summary>`-mønsteret.
+
+* **Tastaturnavigasjon:** Bruk <kbd>Space</kbd> eller <kbd>Enter</kbd> for å åpne og lukke komponenten.  
+* **Visuell indikator:** Chevron-ikonet står til venstre for å være lettere å se for brukere med begrenset synsfelt.  
+* **Interaktivitet:** Ikke legg andre interaktive elementer i `Details.Summary`. Hele raden skal være klikkbar.
+
+Safari og Firefox støtter per i dag ikke animert åpning/lukking.  
+Se [interpolate-size](https://developer.mozilla.org/en-US/docs/Web/CSS/interpolate-size) for mer informasjon.
+
+---
+
+## CSS-variabler
+
+#### Følgende variabler kan brukes for å justere stil på komponenten:
+
+* `--details-background-color`
+* `--details-border-color`
+* `--details-border-radius`
+* `--details-padding`
+* `--details-summary-color`

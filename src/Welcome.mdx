@@ -1,0 +1,89 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Welcome" />
+
+# Røde Kors Design System
+
+#### Gjenbrukbare React‑komponenter basert på Digdirs Designsystemet, forhåndskonfigurert med Røde Kors sitt tema. Målet er enhetlig uttrykk, høy tilgjengelighet og effektiv utvikling.
+
+---
+
+## Kom i gang
+
+### Installasjon
+
+```bash
+# npm
+npm install rk-designsystem @digdir/designsystemet-css rk-design-tokens
+
+# yarn
+yarn add rk-designsystem @digdir/designsystemet-css rk-design-tokens
+
+# pnpm
+pnpm add rk-designsystem @digdir/designsystemet-css rk-design-tokens
+```
+
+### Inkluder stilark (riktig rekkefølge)
+
+```tsx
+// Next.js App Router (src/app/layout.tsx)
+import '@digdir/designsystemet-css/index.css';            // 1) Base
+import 'rk-design-tokens/design-tokens-build/theme.css';  // 2) Røde Kors tema
+```
+
+### Bruke komponenter
+
+```tsx
+import { Alert } from 'rk-designsystem';
+
+export function Example() {
+  return (
+    <Alert variant="info">
+      Dette er et varsel fra Røde Kors Design System.
+    </Alert>
+  );
+}
+```
+
+---
+
+## Prinsipper
+
+#### Tilgjengelighet, gjenbruk og konsistens. Komponentene følger semantisk HTML, tastaturnavigasjon og design tokens fra temaet.
+
+---
+
+## Tips
+
+- Inkluder alltid base‑CSS før tema‑fila.
+- Bruk `data-size` og `data-color` for visuelle varianter.
+- Foretrekk kontrollerte mønstre når du trenger programmatisk styring (`value`/`onChange`).
+
+---
+
+## Ikoner (NAV/Aksel)
+
+### Installasjon
+
+```bash
+npm install @navikt/aksel-icons
+```
+
+### Bruk
+
+```tsx
+import { AirplaneIcon } from '@navikt/aksel-icons';
+import { Button } from 'rk-designsystem';
+
+<Button>
+  <AirplaneIcon aria-hidden style={{ marginRight: 'var(--ds-spacing-1, 4px)' }} />
+  Fly
+</Button>
+```
+
+#### Tilgjengelighet
+- Ikon + tekst: sett `aria-hidden` på ikonet
+- Kun ikon: legg `aria-label` på triggeren (knappen), og behold ikonet `aria-hidden`
+- Størrelse: bruk `fontSize` eller `style={{ fontSize: '1.25rem' }}`
+
+

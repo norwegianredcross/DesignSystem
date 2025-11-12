@@ -1,0 +1,49 @@
+import { Meta, Primary, Controls, Canvas } from '@storybook/addon-docs/blocks';
+import * as SpinnerStories from './SpinnerLoader.stories';
+import { Spinner } from './';
+
+<Meta of={SpinnerStories} />
+
+# Spinner
+
+#### `Spinner` brukes for å indikere at noe lastes eller at en handling pågår, og at brukeren må vente før de kan fortsette.
+
+<Primary />
+<Controls />
+
+---
+
+## Kodeeksempler
+
+### Størrelser
+Tilpass størrelsen etter kontekst (for eksempel mindre i knapper, større ved skjemafelter).
+<Canvas of={SpinnerStories.Sizes} />
+
+---
+
+## Retningslinjer
+
+Formålet med `Spinner` er å bekrefte at systemet jobber videre, og redusere usikkerhet for brukeren. Bruk den lokalt der handlingen skjer (knapp, felt, seksjon).
+
+**Passer til**
+- å indikere at systemet jobber og brukeren må vente
+- lokale handlinger (skjemainnsending, oppdatering av tabell)
+- tilfeller der ventetid kan være > 1 sekund
+
+**Passer ikke**
+- å indikere lasting av strukturen på en side – bruk [`Skeleton`](/docs/komponenter-loaders-skeleton--docs) i stedet
+- svært korte ventetider (< 1 sekund)
+
+---
+
+## Tekst 
+
+Vurder å vise forklarende tekst sammen med `Spinner` (eller sett `aria-label`) for å forklare hva brukeren venter på. Hvis du viser tekst, sett `aria-hidden="true"` på selve `Spinner` for å unngå dobbelt opplesning.
+
+---
+
+## Tilgjengelighet
+
+Når brukeren har `prefers-reduced-motion: reduce`, bør animasjonen reduseres i hastighet i stedet for å slås av, siden den formidler status. Sørg for at skjermlesere får beskjed via tekst eller `aria-label`.
+
+

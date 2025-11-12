@@ -1,0 +1,89 @@
+import { Meta, Controls, Primary, ArgTypes, Canvas } from '@storybook/addon-docs/blocks';
+import * as ErrorSummaryStories from './ErrorSummary.stories';
+import { ErrorSummary } from './';
+
+<Meta of={ErrorSummaryStories} />
+
+# ErrorSummary
+
+#### `ErrorSummary` gir en kort, samlet oversikt over feil som må rettes før brukeren kan gå videre.
+#### Den hjelper brukeren å forstå hva som mangler og hvor det kan rettes.
+
+<Primary />
+<Controls />
+
+---
+
+## Bruk
+
+`ErrorSummary` settes vanligvis under hovedinnholdet og nær handlingsknapper (f.eks. “Send inn”).
+Den består av følgende deler:
+
+- `ErrorSummary.Heading` for overskrift
+- `ErrorSummary.List` som inneholder `ErrorSummary.Item`
+- Hver `ErrorSummary.Item` inneholder en `ErrorSummary.Link` med `href` som peker til et felt-id
+
+```tsx
+import { ErrorSummary } from 'rk-designsystem';
+
+<ErrorSummary>
+  <ErrorSummary.Heading>
+    For å gå videre må du rette opp følgende feil:
+  </ErrorSummary.Heading>
+  <ErrorSummary.List>
+    <ErrorSummary.Item>
+      <ErrorSummary.Link href="#some-field-id">Feilmelding</ErrorSummary.Link>
+    </ErrorSummary.Item>
+  </ErrorSummary.List>
+</ErrorSummary>
+```
+
+---
+
+## Eksempler
+
+### Standard
+<Canvas of={ErrorSummaryStories.Default} />
+
+### Bruk sammen med skjemafelt
+Vis lenker som peker direkte til relevante felt-id-er.
+<Canvas of={ErrorSummaryStories.WithTextFields} />
+
+---
+
+## Retningslinjer
+
+Bruk `ErrorSummary` når du vil presentere en oversikt over feil som hindrer innsending.
+
+**Passer til**
+- å gi en tydelig liste over feil som må rettes før innsending
+- skjema med mange felt der det er lett å miste oversikten
+
+**Passer ikke til**
+- systemvarsler – bruk [`Alert`](/docs/komponenter-alert--docs)
+- informasjonsmeldinger som ikke blokkerer innsending
+
+### Plassering
+Vi anbefaler å vise `ErrorSummary` like over Neste/Send inn-knappen, slik at sammenhengen mellom feil og handling blir tydelig. I noen tilfeller kan det være bedre å plassere den i toppen.
+
+### Synlighet
+Oppsummeringen bør først vises etter at brukeren har forsøkt å sende inn, eller når det ellers er klart at feilene må rettes for å komme videre. Når den dukker opp, bør fokus flyttes til `ErrorSummary`.
+
+---
+
+## Tilgjengelighet
+
+Når `ErrorSummary` blir synlig anbefales det å flytte fokus til oppsummeringen, slik at skjermlesere leser den og brukeren kan navigere videre til hvert feilfelt via lenkene. Unngå å bruke live region for hele oppsummeringen da dette ofte blir for omfattende å høre på og vanskelig å navigere i.
+
+---
+
+## `ErrorSummary.Item`
+<ArgTypes of={ErrorSummary.Item} />
+
+---
+
+## CSS-variabler
+
+Ingen dedikerte CSS-variabler er dokumentert for `ErrorSummary` i denne demoen.
+
+

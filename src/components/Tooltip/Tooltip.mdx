@@ -1,0 +1,74 @@
+import { Meta, Canvas, Controls, Primary } from '@storybook/addon-docs/blocks';
+import * as TooltipStories from './Tooltip.stories';
+
+<Meta of={TooltipStories} />
+
+# Tooltip
+
+#### `Tooltip` viser kort informasjon ved hover eller fokus, typisk for å forklare et symbol eller gi sekundære detaljer.
+
+<Primary />
+<Controls />
+
+---
+
+## Bruk
+
+Du kan sende inn en streng eller et element som trigger. Når du sender inn en streng, blir den wrappet i en `<span>`. `Tooltip` rendrer en `<span>` som standard, og kan ikke brukes direkte inni `<svg>`.
+
+```tsx
+import { Tooltip } from 'rk-designsystem';
+
+// streng – rendrer <span>
+<Tooltip content="Vises i tooltip">
+  Trigger
+</Tooltip>
+
+// element – rendrer ditt element
+<Tooltip content="Vises i tooltip">
+  <Button>Trigger</Button>
+</Tooltip>
+```
+
+### Polyfill
+`Tooltip` benytter Popover‑attributtet. For eldre nettlesere kan du vurdere en polyfill dersom støtte kreves.
+
+---
+
+## Kodeeksempler
+
+### Med string
+<Canvas of={TooltipStories.DefaultStringTrigger} />
+
+### Med knapp
+<Canvas of={TooltipStories.ButtonTrigger} />
+
+### Plassering
+<Canvas of={TooltipStories.Placements} />
+
+---
+
+## Retningslinjer
+
+Bruk `Tooltip` til kort, ikke‑kritisk informasjon. Viktig innhold bør stå i brødtekst eller hjelpetekst på siden. Ikke bruk som erstatning for `alt`/`title` eller for interaktive elementer.
+
+**Passer til**
+* å forklare symboler
+* å beskrive en knapphandling
+* å vise tastatursnarveier
+
+**Passer ikke til**
+* lange forklaringer eller skjult innhold
+* meldinger/advarsler
+* lenker eller interaktive elementer
+* tekst som allerede er synlig
+
+Hvis du trenger rikere innhold (lengre tekster, bilder, knapper), vurder [`Popover`](/docs/komponenter-popover--docs).
+
+---
+
+## Tilgjengelighet
+
+Tooltip vises ved hover og ved fokus med tastatur. På berøringsenheter kan `Tooltip` være mindre egnet; vises ofte kun ved trykk og forsvinner ved trykk utenfor.
+
+

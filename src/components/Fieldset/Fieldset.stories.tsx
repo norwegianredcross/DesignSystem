@@ -76,3 +76,54 @@ export const WithTextfields: Story = {
   },
   name: 'With Textfields',
 };
+
+// --- Example with Checkboxes ---
+export const WithCheckbox: Story = {
+  render: (args) => (
+    <form>
+      <Fieldset {...args}>
+        <Fieldset.Legend>Hvilke nyhetsbrev ønsker du?</Fieldset.Legend>
+        <Fieldset.Description>Velg ett eller flere alternativer</Fieldset.Description>
+        <label style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+          <input type="checkbox" /> Produktnyheter
+        </label>
+        <label style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+          <input type="checkbox" /> Blogginnlegg
+        </label>
+        <label style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+          <input type="checkbox" /> Invitasjoner til webinar
+        </label>
+      </Fieldset>
+    </form>
+  ),
+  args: {
+    'data-size': 'md',
+    'data-color': 'neutral',
+  },
+  name: 'With Checkbox',
+};
+
+// --- Legend as Heading Example ---
+export const LegendAsHeading: Story = {
+  render: (args) => (
+    <form>
+      <Fieldset {...args}>
+        <Fieldset.Legend asChild>
+          <h3 style={{ margin: 0 }}>Hvor bor du nå?</h3>
+        </Fieldset.Legend>
+        <Field>
+          <Label id="address-line1-label" htmlFor="address-line1">Adresse</Label>
+          <Textfield id="address-line1" aria-labelledby="address-line1-label" />
+        </Field>
+        <Field>
+          <Label id="zip-label" htmlFor="zip">Postnummer</Label>
+          <Textfield id="zip" aria-labelledby="zip-label" size={6} />
+        </Field>
+      </Fieldset>
+    </form>
+  ),
+  args: {
+    'data-size': 'md',
+  },
+  name: 'Legend as Heading',
+};

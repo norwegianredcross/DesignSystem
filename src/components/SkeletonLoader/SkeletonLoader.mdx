@@ -1,0 +1,67 @@
+import { Meta, Primary, Controls, Canvas } from '@storybook/addon-docs/blocks';
+import * as SkeletonStories from './SkeletonLoader.stories';
+import { SkeletonLoader } from './';
+
+<Meta of={SkeletonStories} />
+
+# Skeleton
+
+#### `Skeleton` brukes for å indikere at innhold er i ferd med å lastes inn. I stedet for en ren spinner gir skeleton et visuelt hint om hvordan det ferdige innholdet vil se ut.
+
+<Primary />
+<Controls />
+
+---
+
+## Bruk
+
+`Skeleton` har tre varianter: `rectangle`, `circle` og `text`.
+
+<Canvas of={SkeletonStories.Variants} />
+
+Du kan bygge opp komponenter og seksjoner ved å kombinere flere skeletons slik at layouten etterligner innholdet som lastes.
+
+<Canvas of={SkeletonStories.ComposedLayout} />
+
+---
+
+## Kodeeksempler
+
+### Skalering
+Alle varianter støtter `width` og `height`. Verdier kan være tall eller CSS‑enheter som `px`, `%`, `em` osv.
+<Canvas of={SkeletonStories.BasicRectangle} />
+
+### Størrelse fra children
+Skeleton kan også skaleres etter innholdet du legger som `children`.
+<Canvas of={SkeletonStories.SizedByChildren} />
+
+### `variant="text"`
+Tekstvarianten skalerer etter lokal fontstørrelse. Bruk gjerne flere linjer og sett `width`/`characters` for å etterligne forventet tekstmengde.
+<Canvas of={SkeletonStories.MimickingText} />
+<Canvas of={SkeletonStories.TextWithCharacters} />
+
+### Som wrapper med `asChild`
+Bruk `asChild` når du vil at skeleton skal overta størrelsen til et spesifikt element.
+<Canvas of={SkeletonStories.AsChildHeading} />
+
+---
+
+## Retningslinjer
+
+Bruk `Skeleton` når du vil forberede brukeren på hvordan innholdet kommer til å se ut, og når ventetiden er merkbar. Velg variant basert på typen innhold (bilde, tekst, avatar osv.), og forsøk å speile den faktiske strukturen for en sømløs overgang når innholdet er lastet.
+
+**Passer til**
+- å indikere at innhold lastes
+- å vise formen på kommende innhold
+- opplevelser der ventetid er > 1 sekund
+
+**Passer ikke**
+- når brukeren venter på en blokkende handling – bruk da [`Spinner`](/docs/komponenter-loaders-spinner--docs)
+
+---
+
+## Tilgjengelighet
+
+Når brukeren har `prefers-reduced-motion: reduce` reduseres animasjonen, men den skrus ikke helt av siden den kommuniserer lastestatus.
+
+

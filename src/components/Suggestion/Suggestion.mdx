@@ -1,0 +1,65 @@
+import { Meta, Primary, Controls, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as SuggestionStories from './Suggestion.stories';
+import { Suggestion } from './';
+import { Suggestion as SuggestionListSource } from './index'; // for ArgTypes of List via compound component
+
+<Meta of={SuggestionStories} />
+
+# Suggestion
+
+#### Søkbar “select” med støtte for enkeltvalg og flervalg. Bruk når `Select` ikke strekker til.
+
+<Primary />
+<Controls />
+
+---
+
+## Bruk
+
+```tsx
+import { Suggestion } from 'rk-designsystem';
+
+<Suggestion>
+  <Suggestion.Input />
+  <Suggestion.Clear />
+  <Suggestion.List>
+    <Suggestion.Empty>Tomt</Suggestion.Empty>
+    <Suggestion.Option label="Sogndal" value="sogndal">Sogndal</Suggestion.Option>
+    <Suggestion.Option label="Oslo" value="oslo">Oslo</Suggestion.Option>
+  </Suggestion.List>
+</Suggestion>
+```
+
+---
+
+## Eksempler
+
+### Flervalg
+Bruk `multiple` for å tillate flere valg. Du kan tilpasse visningen av valgte elementer med `renderSelected`.
+<Canvas of={SuggestionStories.MultiSelect} />
+
+### Filter
+Filter er på som standard og matcher på input‑tekst. Send en funksjon til `filter` for egendefinert filtrering, eller sett `filter={false}` for å vise alle.
+<Canvas of={SuggestionStories.NoFilter} />
+
+### Asynkrone data
+Håndter lasting selv ved å vise tilstand i `Suggestion.Empty` (for eksempel en spinner) mens du henter eksterne alternativer.
+<Canvas of={SuggestionStories.AsyncLoading} />
+
+### Creatable
+Tillat at brukeren oppretter nye valg når de ikke finnes i listen.
+<Canvas of={SuggestionStories.Creatable} />
+
+---
+
+## `Suggestion.List`
+
+<ArgTypes of={SuggestionListSource.List} />
+
+---
+
+## Tilleggsinformasjon
+
+`Suggestion` bygger på u‑elements sin `u-combobox`, og er inspirert av Open UI sitt combobox‑mønster.
+
+

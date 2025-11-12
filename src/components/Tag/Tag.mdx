@@ -1,0 +1,65 @@
+import { Meta, Canvas, Controls, Primary } from '@storybook/addon-docs/blocks';
+import * as TagStories from './Tag.stories';
+
+<Meta of={TagStories} />
+
+# Tag
+
+#### `Tag` er en statisk merkelapp som kan brukes for å kategorisere innhold eller formidle status/prosess. Den er ikke klikkbar.
+
+<Primary />
+<Controls />
+
+---
+
+## Bruk
+
+```tsx
+import { Tag } from 'rk-designsystem';
+
+<Tag>Beta</Tag>
+```
+
+---
+
+## Kodeeksempler
+
+### Størrelser
+<Canvas of={TagStories.Sizes} />
+
+### Farger
+<Canvas of={TagStories.Colors} />
+
+---
+
+## Retningslinjer
+
+Bruk korte, lett forståelige etiketter for rask skanning. `Tag` egner seg til å vise metadata som kategori eller status (f.eks. «Beta», «Pågående», «Fullført»). Unngå `Tag` dersom informasjonen allerede er tydelig i konteksten.
+
+**Passer til**
+- å kategorisere innhold
+- å vise status eller tilstand
+
+**Passer ikke til**
+- lenker (bruk [`Link`](/docs/komponenter-link--docs))
+- handlinger (bruk [`Button`](/docs/komponenter-button--docs))
+- filtrering (bruk [`Chip`](/docs/komponenter-chip--docs))
+
+### Plassering
+Plasser `Tag` typisk etter tittel/navn på elementet. Unngå å blande `Tag` inn blant knapper.
+
+---
+
+## Tekst
+
+- Hold teksten kort; helst ett ord, maks to ved behov.
+- Bruk gjenkjennelige ord og begreper.
+- Vis flere tags som liste (`<ul><li><Tag /></li>…</ul>`) for bedre skjermleseropplevelse.
+
+---
+
+## Tilgjengelighet
+
+Når flere tags vises sammen, bruk en semantisk liste slik at de leses opp som flere elementer i stedet for én sammenhengende setning.
+
+

@@ -1,0 +1,73 @@
+import { Meta, Controls, Primary, Canvas } from '@storybook/addon-docs/blocks';
+import * as FieldsetStories from './Fieldset.stories';
+import { Fieldset } from './';
+
+<Meta of={FieldsetStories} />
+
+# Fieldset
+
+#### `Fieldset` brukes til å gruppere og navngi felt som naturlig hører sammen, som for eksempel datofelt eller adressefelter. Dette gjør skjemaer mer oversiktlige og forbedrer tilgjengeligheten.
+
+<Primary />
+<Controls />
+
+---
+
+## Bruk
+
+`Fieldset` er et semantisk HTML-`<fieldset>` med praktiske hjelpekomponenter for å strukturere relaterte inndata.
+
+```tsx
+import { Fieldset, Field, Label, Textfield, Textarea } from 'rk-designsystem';
+
+<form>
+  <Fieldset>
+    <Fieldset.Legend>Kontaktinformasjon</Fieldset.Legend>
+    <Fieldset.Description>Fyll ut feltene under</Fieldset.Description>
+
+    <Field>
+      <Label htmlFor="email">E‑post</Label>
+      <Textfield id="email" />
+    </Field>
+
+    <Field>
+      <Label htmlFor="message">Melding</Label>
+      <Textarea id="message" rows={3} />
+    </Field>
+  </Fieldset>
+</form>
+```
+
+---
+
+## Eksempler
+
+### Med skjemafelter
+<Canvas of={FieldsetStories.WithTextfields} />
+
+---
+
+## Retningslinjer
+
+Når du bruker `Fieldset`, start med en tydelig `Fieldset.Legend` som beskriver hva gruppen inneholder (f.eks. et spørsmål eller en seksjonstittel). Legg gjerne til `Fieldset.Description` for kort hjelpetekst.
+
+**Passer til**
+- å gruppere flere relaterte `Radio`- eller `Checkbox`‑valg
+- å dele skjema i meningsfulle seksjoner
+
+**Passer ikke til**
+- å samle elementer som ikke er del av et skjema
+
+---
+
+## Tekst
+
+Unngå å duplisere samme ordlyd i både `label` og `legend`. Bruk `Fieldset.Description` ved behov for å gjøre utfyllingen enklere. Hold teksten kort og konsis.
+
+---
+
+## Tilgjengelighet
+
+Bruk alltid en `legend` for å gi skjermlesere nødvendig kontekst. Hvis `legend` kun skal være for skjermleser, kan du skjule den visuelt med en egnet hjelpeklasse (for eksempel `ds-sr-only`), slik at layout ikke påvirkes unødig.
+
+

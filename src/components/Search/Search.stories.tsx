@@ -216,3 +216,30 @@ export const WithinForm: Story = {
   },
   name: 'Within Form',
 };
+
+// --- Variants (Primary / Secondary / Tertiary) ---
+export const Variants: Story = {
+  render: (args) => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', width: 320 }}>
+      <Search data-size={args['data-size']} data-color={args['data-color']}>
+        <Search.Input aria-label="Søk" placeholder="Primær knapp" />
+        <Search.Clear />
+        <Search.Button variant="primary" />
+      </Search>
+      <Search data-size={args['data-size']} data-color={args['data-color']}>
+        <Search.Input aria-label="Søk" placeholder="Sekundær knapp" />
+        <Search.Clear />
+        <Search.Button variant="secondary" />
+      </Search>
+      <Search data-size={args['data-size']} data-color={args['data-color']}>
+        <Search.Input aria-label="Søk" placeholder="Tertiær knapp" />
+        <Search.Clear />
+        <Search.Button variant="tertiary" />
+      </Search>
+    </div>
+  ),
+  args: {
+    'data-size': 'md',
+    'data-color': 'neutral',
+  },
+};

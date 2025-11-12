@@ -294,3 +294,95 @@ export const Sortable: Story = {
     hover: true,
   },
 };
+
+// --- Fixed Layout Example ---
+export const FixedTable: Story = {
+  render: (args) => (
+    <div style={{ overflowX: 'auto' }}>
+      <Table {...args} style={{ tableLayout: 'fixed', width: 600 }}>
+        <caption>Fixed Layout Table</caption>
+        <Table.Head>
+          <Table.Row>
+            <Table.HeaderCell scope="col">Header 1</Table.HeaderCell>
+            <Table.HeaderCell scope="col">Header 2</Table.HeaderCell>
+            <Table.HeaderCell scope="col">Header 3</Table.HeaderCell>
+          </Table.Row>
+        </Table.Head>
+        <Table.Body>
+          {simpleData.map((row) => (
+            <Table.Row key={row.id}>
+              <Table.Cell>{row.col1}</Table.Cell>
+              <Table.Cell>{row.col2}</Table.Cell>
+              <Table.Cell>{row.col3}</Table.Cell>
+            </Table.Row>
+          ))}
+        </Table.Body>
+      </Table>
+    </div>
+  ),
+  args: {
+    'data-size': 'md',
+  },
+  name: 'Fixed Layout',
+};
+
+// --- With Border Example ---
+export const WithBorder: Story = {
+  render: (args) => (
+    <Table {...args}>
+      <caption>Table with Border</caption>
+      <Table.Head>
+        <Table.Row>
+          <Table.HeaderCell scope="col">Header 1</Table.HeaderCell>
+          <Table.HeaderCell scope="col">Header 2</Table.HeaderCell>
+          <Table.HeaderCell scope="col">Header 3</Table.HeaderCell>
+        </Table.Row>
+      </Table.Head>
+      <Table.Body>
+        {simpleData.map((row) => (
+          <Table.Row key={row.id}>
+            <Table.Cell>{row.col1}</Table.Cell>
+            <Table.Cell>{row.col2}</Table.Cell>
+            <Table.Cell>{row.col3}</Table.Cell>
+          </Table.Row>
+        ))}
+      </Table.Body>
+    </Table>
+  ),
+  args: {
+    border: true,
+    'data-size': 'md',
+  },
+  name: 'With Border',
+};
+
+// --- Numbers Right-Aligned Example ---
+export const Numbers: Story = {
+  render: (args) => (
+    <Table {...args}>
+      <caption>Numeric Alignment</caption>
+      <Table.Head>
+        <Table.Row>
+          <Table.HeaderCell scope="col">Produkt</Table.HeaderCell>
+          <Table.HeaderCell scope="col" style={{ textAlign: 'right' }}>Antall</Table.HeaderCell>
+          <Table.HeaderCell scope="col" style={{ textAlign: 'right' }}>Sum</Table.HeaderCell>
+        </Table.Row>
+      </Table.Head>
+      <Table.Body>
+        <Table.Row>
+          <Table.Cell>Epler</Table.Cell>
+          <Table.Cell style={{ textAlign: 'right' }}>12</Table.Cell>
+          <Table.Cell style={{ textAlign: 'right' }}>120,00</Table.Cell>
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>Bananer</Table.Cell>
+          <Table.Cell style={{ textAlign: 'right' }}>3</Table.Cell>
+          <Table.Cell style={{ textAlign: 'right' }}>42,00</Table.Cell>
+        </Table.Row>
+      </Table.Body>
+    </Table>
+  ),
+  args: {
+    'data-size': 'md',
+  },
+};

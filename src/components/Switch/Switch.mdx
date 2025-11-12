@@ -1,0 +1,72 @@
+import { Meta, Canvas, Controls, Primary } from '@storybook/addon-docs/blocks';
+import * as SwitchStories from './Switch.stories';
+
+<Meta of={SwitchStories} />
+
+# Switch
+
+`Switch` lar brukeren slå en innstilling av/på. Den skal alltid ha en fornuftig starttilstand.
+
+<Primary />
+<Controls />
+
+---
+
+## Bruk
+
+```tsx
+import { Switch } from 'rk-designsystem';
+
+<Switch label="Mørk modus" value="dark" />
+```
+
+---
+
+## Kodeeksempler
+
+### Gruppering
+Bruk [`Fieldset`](/docs/komponenter-fieldset--docs) for å samle flere brytere.
+<Canvas of={SwitchStories.Grouped} />
+
+### Høyrejustert
+Bruk `position="end"` for å plassere bryteren til høyre for labelen.
+<Canvas of={SwitchStories.RightPositioned} />
+
+### Tilstander
+<Canvas of={SwitchStories.Disabled} />
+<Canvas of={SwitchStories.ReadOnly} />
+
+### Kontrollert
+<Canvas of={SwitchStories.Controlled} />
+
+---
+
+## Retningslinjer
+
+`Switch` brukes for umiddelbare innstillinger (ikke i skjema som må sendes inn). Den representerer kun to tilstander.
+
+**Passer til**
+- å aktivere/deaktivere funksjoner/tilstander direkte
+- slå varsler av/på
+
+**Passer ikke til**
+- valg i skjema (bruk `Checkbox`/`Radio`)
+- situasjoner som krever lagring før endring trer i kraft
+- å bytte mellom innholdskategorier – vurder [`ToggleGroup`](/docs/komponenter-togglegroup--docs)
+
+---
+
+## Tekst
+
+Hold label kort og beskriv funksjonen (ikke tilstanden). Vær konsekvent på tvers av flere `Switch` i samme visning. Plasser label som regel til høyre, med unntak der bryteren er fast høyrejustert i layouten.
+
+---
+
+## Tilgjengelighet
+
+Komponenten bruker `role="switch"` via underliggende input. Skjermlesere forstår av/på‑tilstand uten eksplisitt `aria-checked` når input er av type `checkbox`.
+
+### Tastaturnavigasjon
+* <kbd>Space</kbd> slår av/på
+
+

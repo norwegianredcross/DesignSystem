@@ -1,0 +1,72 @@
+import { Meta, Controls, Primary, Canvas } from '@storybook/addon-docs/blocks';
+import * as FieldStories from './Field.stories';
+
+<Meta of={FieldStories} />
+
+# Field
+
+#### `Field` hjelper deg å strukturere skjemainnhold ved å koble sammen ledetekst, beskrivelse, feil og teller på en konsistent og tilgjengelig måte. Bruk `Field` sammen med `Input`, `Textarea` eller `Select`. Merk at `Textfield` allerede inkluderer tilsvarende struktur, og skal ikke ligge inni `Field`.
+
+<Primary />
+<Controls />
+
+---
+
+## Bruk
+
+```tsx
+import { Field, Label, Input, ValidationMessage } from 'rk-designsystem';
+
+<Field>
+  <Label>Kort beskrivelse</Label>
+  <Field.Description>Beskrivende hjelptekst</Field.Description>
+  <Input />
+  <ValidationMessage>Feilmelding</ValidationMessage>
+</Field>
+```
+
+---
+
+## Eksempler
+
+### Grunnleggende
+<Canvas of={FieldStories.DefaultTextfield} />
+
+### Prefix/Suffix (Affixes)
+Prefiks og suffiks er nyttig for enheter, valuta og lignende. Ikke stol på disse alene – samme informasjon bør også fremgå i `Label`.
+<Canvas of={FieldStories.AffixExamples} />
+
+### Antall tegn
+Bruk `Field.Counter` for å vise tilgjengelige/brukte tegn.
+<Canvas of={FieldStories.WithCounter} />
+
+---
+
+## Retningslinjer
+
+`Field` kobler automatisk sammen `Label`, `Field.Description`, `ValidationMessage` og `Field.Counter` med feltet via riktige ARIA-attributter.
+
+**Passer til**
+- å sikre at beskrivelse, feilmelding og teller er riktig koblet til et felt
+
+**Passer ikke til**
+- å gruppere flere felt semantisk – bruk heller [`Fieldset`](/docs/komponenter-fieldset--docs)
+
+### Plassering
+For innstillinger og brytere kan du bruke `position="end"` slik at handlingen plasseres visuelt til høyre for `Label`.
+
+### Påkrevde og valgfrie felt
+Marker felt som påkrevde/valgfrie i henhold til retningslinjene. Hvis du plasserer en `Tag` inne i `<label>`, bruk gjerne `margin-inline-start: var(--ds-size-2)` for mellomrom.
+
+---
+
+## Kjente mangler
+VoiceOver kan i enkelte tilfeller lese `Field.Counter` to ganger når komponenten rendres i en iframe. Se relatert diskusjon hos Apple support.
+
+---
+
+## CSS-variabler
+
+Ingen dedikerte CSS-variabler er dokumentert for `Field` i denne demoen.
+
+

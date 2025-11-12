@@ -1,0 +1,51 @@
+import { Meta, Controls, Primary } from '@storybook/addon-docs/blocks';
+import * as SkipLinkStories from './SkipLink.stories';
+
+<Meta of={SkipLinkStories} />
+
+# SkipLink
+
+#### `SkipLink` hjelper tastaturbrukere å hoppe direkte til hovedinnholdet og forbi repeterende elementer.
+
+<Primary />
+<Controls />
+
+---
+
+## Bruk
+
+`SkipLink` bør være blant de første tabbable elementene på siden.
+
+```tsx
+import { SkipLink } from 'rk-designsystem';
+
+<SkipLink href="#main-content">Hopp til hovedinnhold</SkipLink>
+
+<main id="main-content" tabIndex={-1}>
+  Region som kan motta fokus fra skiplink.
+  {/* Sett fokus hit når linken følges */}
+  {/* Sørg for outline/fokusstil ved fokus */}
+</main>
+```
+
+---
+
+## Retningslinjer
+
+Når man navigerer med tastatur, skal det være mulig å hoppe forbi navigasjon og toppinnhold. Plasser `SkipLink` som første fokuserbare element (etter eventuelle cookie-varsler). Den bør skille seg visuelt ut når den er i fokus.
+
+Unngå `SkipLink` hvis det kun er få tab-stopp til hovedinnholdet – da kan det skape mer støy enn nytte.
+
+---
+
+## Tekst
+
+Bruk en tydelig og enkel tekst, som «Hopp til hovedinnhold».
+
+---
+
+## Tilgjengelighet
+
+`SkipLink` er vanligvis skjult frem til den får fokus via Tab. Noen automatiske a11y-tester kan feilaktig varsle om at `SkipLink` mangler landemerke; dette er normalt for denne komponenten.
+
+
