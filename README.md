@@ -2,7 +2,7 @@
 
 ## Live Storybook URL
 
-[https://norwegianredcross.github.io/DesignSystem/storybook/](https://norwegianredcross.github.io/DesignSystem/storybook/)
+[https://norwegianredcross.github.io/DesignSystem/storybook/?path=/docs/welcome--docs](https://norwegianredcross.github.io/DesignSystem/storybook/?path=/docs/welcome--docs)
 
 ## Overview
 
