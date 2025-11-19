@@ -111,6 +111,7 @@
   },
   "dependencies": {
     "@digdir/designsystemet-theme": "^1.6.0",
+    "embla-carousel-react": "^8.6.0",
     "rk-design-tokens": "^1.0.12"
   }
 }

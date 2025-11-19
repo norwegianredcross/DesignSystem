@@ -1,0 +1,44 @@
+import { Meta, Canvas, Controls, Primary } from '@storybook/addon-docs/blocks';
+import * as CarouselStories from './Carousel.stories';
+
+<Meta of={CarouselStories} />
+
+# Carousel
+
+#### Et fleksibelt bildegalleri. Du sender inn bildene via `images`‑propen. Piler og prikker er innebygd. Layout og farger følger design tokens.
+
+<Primary />
+
+<Controls />
+
+---
+
+## Bruk
+
+```tsx
+import { Carousel } from 'rk-designsystem';
+
+const images = [
+  { src: 'https://.../image-1.jpg', alt: 'Beskrivende alt-tekst 1' },
+  { src: 'https://.../image-2.jpg', alt: 'Beskrivende alt-tekst 2' },
+  { src: 'https://.../image-3.jpg', alt: 'Beskrivende alt-tekst 3' },
+];
+
+// Minimal
+<div style={{ width: 900, height: 520 }}>
+  <Carousel images={images} />
+</div>
+
+// Autoplay
+<div style={{ width: 900, height: 520 }}>
+  <Carousel images={images} autoPlay autoDelay={4} />
+</div>
+```
+
+#### Tips
+- Sett eksplisitt bredde/høyde på containeren for å styre aspekt og layout.
+- For piltaster brukes `Button icon`-stil og NAV-ikoner i tråd med øvrige komponenter.
+- Tokens for farger, mellomrom og radii brukes i CSS‑modulen.
+- Vil du lese bilder fra Supabase? Se historien “WithSupabase” – den henter bilder og sender dem inn via `images`.
+
+

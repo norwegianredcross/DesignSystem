@@ -48,6 +48,10 @@ export type { DatePickerProps } from './components/DatePicker';
 export { DateInput } from './components/DateInput';
 export type { DateInputProps } from './components/DateInput';
 
+// Carousel (Custom component)
+export { Carousel } from './components/Carousel';
+export type { CarouselProps } from './components/Carousel';
+
 // Details
 export { Details } from './components/Details';
 export type { DetailsProps } from './components/Details';
