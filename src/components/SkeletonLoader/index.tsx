@@ -4,6 +4,9 @@ import {
 } from '@digdir/designsystemet-react';
 
 
+/**
+ * SkeletonLoader-komponent for å vise laste-tilstand.
+ */
 export type SkeletonProps = DigDirSkeletonProps;
 export const SkeletonLoader = DigDirSkeleton;
 

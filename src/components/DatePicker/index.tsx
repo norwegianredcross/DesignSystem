@@ -14,9 +14,9 @@ import styles from './styles.module.css';
 import type { DefaultProps } from "../../types";
 import type { MergeRight } from "../../utilities";
 
-// --- Interface Updated ---
+// --- Grensesnitt Oppdatert ---
 export type DatePickerProps = MergeRight<
-  DefaultProps, // <-- Added
+  DefaultProps, // <-- Lagt til
   {
     initialDate?: Date;
     selectedDate?: Date | null;
@@ -24,7 +24,7 @@ export type DatePickerProps = MergeRight<
   }
 >;
 
-// Utility functions (generateCalendarDays, capitalizeFirstLetter) remain the same
+// Hjelpefunksjoner (generateCalendarDays, capitalizeFirstLetter) forblir de samme
 const generateCalendarDays = (date: Date): Date[] => {
   const monthStart = startOfMonth(date);
   const startDate = startOfWeek(monthStart, { locale: nb });
@@ -38,37 +38,40 @@ const capitalizeFirstLetter = (string: string): string => {
 };
 
 
+/**
+ * DatePicker-komponent for å velge en dato fra en kalender.
+ */
 export const DatePicker: React.FC<DatePickerProps> = ({
   initialDate = new Date(),
-  selectedDate = null, // Prop for selected date
+  selectedDate = null, // Prop for valgt dato
   onDateSelect,
-  "data-color": dataColor, // <-- Destructured
-  "data-size": dataSize,   // <-- Destructured
+  "data-color": dataColor, // <-- Destrukturert
+  "data-size": dataSize,   // <-- Destrukturert
 }) => {
-  // Internal state for the currently displayed month
+  // Intern tilstand for måneden som vises
   const [currentMonthDate, setCurrentMonthDate] = useState(
     startOfMonth(selectedDate && isValid(selectedDate) ? selectedDate : initialDate),
   );
 
-  // --- NEW useEffect to sync calendar view with selectedDate prop ---
+  // --- NY useEffect for å synkronisere kalendervisning med selectedDate prop ---
   useEffect(() => {
-    // If the selectedDate prop changes and is a valid date...
+    // Hvis selectedDate prop endres og er en gyldig dato...
     if (selectedDate && isValid(selectedDate)) {
       const selectedMonthStart = startOfMonth(selectedDate);
-      // ...and it's different from the currently displayed month...
+      // ...og den er forskjellig fra måneden som vises...
       if (!isSameMonth(selectedMonthStart, currentMonthDate)) {
-        // ...update the internal state to navigate the calendar.
+        // ...oppdater intern tilstand for å navigere kalenderen.
         setCurrentMonthDate(selectedMonthStart);
       }
     }
-    // Re-run this effect if the selectedDate prop changes
-  }, [selectedDate]); // Removed currentMonthDate from deps to avoid potential loops
+    // Kjør denne effekten på nytt hvis selectedDate prop endres
+  }, [selectedDate]); // Fjernet currentMonthDate fra avhengigheter for å unngå potensielle løkker
 
-  // --- Rest of the DatePicker component logic remains the same ---
+  // --- Resten av DatePicker komponent-logikken forblir den samme ---
 
   const startOfRealCurrentMonth = useMemo(() => startOfMonth(new Date()), []);
   const isPrevMonthDisabled = useMemo(() => {
-      return false; // Simplified: Allow going back
+      return false; // Forenklet: Tillat å gå tilbake
   }, [currentMonthDate, startOfRealCurrentMonth]);
 
   const calendarDays = useMemo(
@@ -79,7 +82,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   const dayNames = useMemo(() => {
     const firstDayOfWeek = startOfWeek(new Date(), { locale: nb });
     return Array.from({ length: 7 }).map((_, i) => {
-      const dayName = format(addDays(firstDayOfWeek, i), 'EEEEEE', { locale: nb });
+    const dayName = format(addDays(firstDayOfWeek, i), 'EEEEEE', { locale: nb });
       return capitalizeFirstLetter(dayName);
     });
   }, []);
@@ -97,7 +100,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   const handleDateClick = useCallback(
     (day: Date) => {
       if (onDateSelect) {
-        onDateSelect(day); // This updates the state in the parent (story)
+        onDateSelect(day); // Dette oppdaterer tilstanden i forelderen (story)
       }
     },
     [onDateSelect],
@@ -120,8 +123,8 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   return (
     <div
       className={styles.calendarContainer}
-      data-color={dataColor} // <-- Applied
-      data-size={dataSize}   // <-- Applied
+      data-color={dataColor} // <-- Brukt
+      data-size={dataSize}   // <-- Brukt
     >
       <div className={styles.calendarHeader}>
         <span className={styles.monthYear}>{monthYearHeader}</span>
@@ -157,14 +160,14 @@ export const DatePicker: React.FC<DatePickerProps> = ({
       <div className={styles.grid}>
         {calendarDays.map((day) => {
           const isCurrentMonth = isSameMonth(day, currentMonthDate);
-          // Highlighting logic uses the selectedDate prop directly
+          // Uthevingslogikk bruker selectedDate prop direkte
           const isSelectedDay = selectedDate && isValid(selectedDate) && isSameDay(day, selectedDate);
           const isTodayDate = isToday(day);
 
           const cellClasses = [
             styles.dateCell,
             !isCurrentMonth ? styles.otherMonth : '',
-            isSelectedDay ? styles.selectedDate : '', // Highlighting based on prop
+            isSelectedDay ? styles.selectedDate : '', // Utheving basert på prop
             isTodayDate && !isSelectedDay ? styles.todayDate : '',
           ]
             .filter(Boolean)

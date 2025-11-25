@@ -5,6 +5,10 @@ import {
 } from '@digdir/designsystemet-react';
 
 
+/**
+ * Avatar-komponent for å vise profilbilde eller initialer.
+ * Wrapper rundt DigDir sin Avatar.
+ */
 export type AvatarProps = DigDirAvatarProps;
 
 

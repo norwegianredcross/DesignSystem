@@ -6,18 +6,22 @@ import type { MergeRight } from '../../utilities';
 import { ChevronLeftIcon, ChevronRightIcon } from '@navikt/aksel-icons';
 import { Button as DigDirButton } from '@digdir/designsystemet-react';
 
-// --- Types ---
+// --- Typer ---
 export type CarouselProps = MergeRight<
   DefaultProps,
   {
     images: { src: string; alt: string }[];
     autoPlay?: boolean;
-    autoDelay?: number; // seconds
+    autoDelay?: number; // sekunder
     showArrows?: boolean;
     showDots?: boolean;
   }
 >;
 
+/**
+ * Carousel-komponent for å vise en bildeserie.
+ * Bruker embla-carousel-react for funksjonalitet.
+ */
 export const Carousel: React.FC<CarouselProps> = ({
   images,
   autoPlay = false,
@@ -27,21 +31,26 @@ export const Carousel: React.FC<CarouselProps> = ({
   'data-color': dataColor,
   'data-size': dataSize,
 }) => {
+  // Initialiserer Embla Carousel med loop aktivert
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
 
+  // Konverterer forsinkelse fra sekunder til millisekunder
   const autoDelayMs = useMemo(() => autoDelay * 1000, [autoDelay]);
 
+  // Håndterer oppdatering av valgt indeks når karusellen scroller
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
     setSelectedIndex(emblaApi.selectedScrollSnap());
   }, [emblaApi]);
 
+  // Hjelpefunksjoner for navigering
   const scrollTo = useCallback((index: number) => emblaApi && emblaApi.scrollTo(index), [emblaApi]);
   const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
 
+  // Setter opp lyttere for carousel-hendelser
   useEffect(() => {
     if (!emblaApi) return;
     emblaApi.on('select', onSelect);
@@ -53,6 +62,7 @@ export const Carousel: React.FC<CarouselProps> = ({
     };
   }, [emblaApi, onSelect]);
 
+  // Re-initialiserer karusellen hvis bilder endres
   useEffect(() => {
     if (emblaApi && images.length > 0) {
       emblaApi.reInit();
@@ -60,6 +70,7 @@ export const Carousel: React.FC<CarouselProps> = ({
     }
   }, [emblaApi, images]);
 
+  // Håndterer automatisk avspilling
   useEffect(() => {
     if (!autoPlay || !emblaApi || images.length === 0) return;
     const timer = window.setInterval(() => {

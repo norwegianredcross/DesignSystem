@@ -4,15 +4,18 @@ import {
   type HeadingProps as DigDirHeadingProps,
 } from '@digdir/designsystemet-react';
 
+/**
+ * Heading-komponent for overskrifter.
+ */
 export interface HeadingProps extends DigDirHeadingProps {
   children?: ReactNode;
 }
 
-// Rename the component and change the ref type
+// Omdøper komponenten og endrer ref-typen
 export const Heading = forwardRef<HTMLHeadingElement, HeadingProps>((props, ref) => {
-  // The ref type HTMLHeadingElement now matches the DigDirHeading
+  // Ref-typen HTMLHeadingElement matcher nå DigDirHeading
   return <DigDirHeading ref={ref} {...props} />;
 });
 
-// This line is now correct
+// Denne linjen er nå korrekt
 Heading.displayName = 'Heading';

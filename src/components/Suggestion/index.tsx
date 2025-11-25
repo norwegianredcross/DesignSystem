@@ -6,20 +6,23 @@ import {
 
 // --- Prop Types ---
 
-// Export the root component props
+// Eksporter props for rot-komponenten
 export type SuggestionProps = DigDirSuggestionProps;
 
-// Export props for all sub-components
+// Eksporter props for alle underkomponenter
 export type SuggestionInputProps = ComponentProps<typeof DigDirSuggestion.Input>;
 export type SuggestionListProps = ComponentProps<typeof DigDirSuggestion.List>;
 export type SuggestionOptionProps = ComponentProps<typeof DigDirSuggestion.Option>;
 export type SuggestionEmptyProps = ComponentProps<typeof DigDirSuggestion.Empty>;
 export type SuggestionClearProps = ComponentProps<typeof DigDirSuggestion.Clear>;
 
-// --- Component Export ---
+// --- Komponent Eksport ---
 
-// Export the entire compound component (root + sub-components)
+/**
+ * Suggestion-komponent for autofullfør/søkeforslag.
+ * Merk: Dette er en eksperimentell komponent fra DigDir.
+ */
 export const Suggestion = DigDirSuggestion;
 
-// Set the display name for the root component
+// Sett display name for rot-komponenten
 Suggestion.displayName = 'Suggestion';

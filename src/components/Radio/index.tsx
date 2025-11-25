@@ -8,6 +8,10 @@ import {
 } from '@digdir/designsystemet-react';
 
 
+/**
+ * Radio-komponent og tilhørende Fieldset/useRadioGroup fra DigDir.
+ * Brukes for radioknapper.
+ */
 export type RadioProps = DigDirRadioProps;
 export type FieldsetProps = DigDirFieldsetProps; 
 

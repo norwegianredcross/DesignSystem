@@ -4,6 +4,9 @@ import {
   type ValidationMessageProps as DigDirHelpTextProps,
 } from '@digdir/designsystemet-react';
 
+/**
+ * ValidationMessage-komponent for å vise valideringsfeil eller hjelpetekst.
+ */
 export interface ValidationMessageProps extends DigDirHelpTextProps {
   children?: ReactNode;
 }

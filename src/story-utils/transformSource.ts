@@ -7,8 +7,8 @@ import { format as prettierFormat } from 'prettier/standalone';
 import { extractRenderedHtml } from './extractRenderedHtml.ts';
 
 /**
- * Use this as parameters.docs.source.transform as needed to better format React code.
- * Not enabled by default to avoid unnecessary performance hit.
+ * Bruk dette som parameters.docs.source.transform ved behov for bedre formatering av React-kode.
+ * Ikke aktivert som standard for å unngå unødvendig ytelsesbelastning.
  */
 export const formatReactSource = async (src: string, ctx: StoryContext) => {
   if (ctx.globals.codePreview === 'react') {

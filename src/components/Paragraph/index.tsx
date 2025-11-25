@@ -4,6 +4,9 @@ import {
   type ParagraphProps as DigDirParagraphProps,
 } from '@digdir/designsystemet-react';
 
+/**
+ * Paragraph-komponent for avsnittstekst.
+ */
 export interface ParagraphProps extends DigDirParagraphProps {
   children?: ReactNode;
 }

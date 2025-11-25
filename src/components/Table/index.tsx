@@ -5,6 +5,10 @@ import {
 } from '@digdir/designsystemet-react';
 
 
+/**
+ * Table-komponent for å vise data i rader og kolonner.
+ * Underkomponenter er tilgjengelige via Table.*
+ */
 export type TableProps = DigDirTableProps;
 export const Table = DigDirTable;
 

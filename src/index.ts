@@ -1,3 +1,8 @@
+/**
+ * Hovedinngangspunkt for komponentbiblioteket.
+ * Eksporterer alle komponenter og typer.
+ */
+
 // Alert
 export { Alert } from './components/Alert';
 export type { AlertProps } from './components/Alert';

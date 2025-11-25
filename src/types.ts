@@ -4,28 +4,28 @@ import type {
 } from '@digdir/designsystemet/types';
 import type { ReactNode } from 'react';
 
-// Re-exporting these so they are available from one place if needed
+// Re-eksporterer disse slik at de er tilgjengelige fra ett sted om nødvendig
 export type { Size, Color };
 
 /**
- * Defines the shared data-color and data-size props that custom
- * components can accept for styling.
+ * Definerer delte data-color og data-size props som egendefinerte
+ * komponenter kan akseptere for styling.
  */
 export type DefaultProps = {
   /**
-   * Changes size for descendant Designsystemet components. Select from predefined sizes.
+   * Endrer størrelse for underliggende Designsystemet-komponenter. Velg fra forhåndsdefinerte størrelser.
    */
   'data-size'?: Size;
   /**
-   * Changes color for descendant Designsystemet components.
-   * Select from predefined colors and colors defined using theme.designsystemet.no.
+   * Endrer farge for underliggende Designsystemet-komponenter.
+   * Velg fra forhåndsdefinerte farger og farger definert med theme.designsystemet.no.
    */
   'data-color'?: Color;
 };
 
 /**
- * Utility type to enforce accessibility labels.
- * Ensures that one of 'label', 'aria-label', or 'aria-labelledby' is provided.
+ * Hjelpetype for å håndheve tilgjengelighetsmerker (labels).
+ * Sikrer at en av 'label', 'aria-label' eller 'aria-labelledby' er oppgitt.
  */
 export type LabelRequired =
   | { 'aria-label': string; 'aria-labelledby'?: never; label?: never }

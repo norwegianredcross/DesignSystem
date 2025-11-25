@@ -3,11 +3,10 @@ import {
   type TextfieldProps as DigDirTextfieldProps,
 } from '@digdir/designsystemet-react';
 
-// Directly export the type from Digdir
+/**
+ * Textfield-komponent for tekstinntasting.
+ */
 export type TextfieldProps = DigDirTextfieldProps;
 
-// Directly export the component from Digdir
+// Direkte eksport av komponenten fra Digdir
 export const Textfield = DigDirTextfield;
-
-// Optional: If you still want a consistent display name
-// Textfield.displayName = 'Textfield'; // Usually not needed

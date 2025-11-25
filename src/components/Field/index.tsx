@@ -7,6 +7,10 @@ import {
   type FieldCounterProps as DigDirFieldCounterProps,
 } from '@digdir/designsystemet-react';
 
+/**
+ * Field-komponent for å omslutte skjemafelter.
+ * Inkluderer støtte for beskrivelse og tegn-teller.
+ */
 export const Field = DigDirField;
 export const FieldDescription = DigDirFieldDescription;
 export const FieldCounter = DigDirFieldCounter;

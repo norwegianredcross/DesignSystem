@@ -8,6 +8,9 @@ import {
 } from '@digdir/designsystemet-react';
 
 
+/**
+ * Chip-komponent for filtrering, valg eller handlinger.
+ */
 export const Chip = DigDirChip;
 export type ChipRadioProps = DigDirChipRadioProps;
 export type ChipCheckboxProps = DigDirChipCheckboxProps;

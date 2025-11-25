@@ -3,11 +3,11 @@ import {
   type TextareaProps as DigDirTextareaProps,
 } from '@digdir/designsystemet-react';
 
-// Directly export the type from Digdir
+/**
+ * Textarea-komponent for flerlinjers tekstfelt.
+ */
 export type TextareaProps = DigDirTextareaProps;
 
-// Directly export the component from Digdir
+// Direkte eksport av komponenten fra Digdir
 export const Textarea = DigDirTextarea;
 
-// Optional: If you still want a consistent display name
-// Textarea.displayName = 'Textarea'; // Usually not needed

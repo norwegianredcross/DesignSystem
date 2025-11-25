@@ -3,66 +3,66 @@
 import type { StorybookConfig } from '@storybook/react-vite';
 import type { InlineConfig } from 'vite';
 
-// Define the expected shape of the options object passed to viteFinal,
-// specifically the configType property.
+// Definer den forventede formen på options-objektet som sendes til viteFinal,
+// spesifikt configType-egenskapen.
 interface ViteFinalOptions {
   configType?: 'DEVELOPMENT' | 'PRODUCTION';
 }
 
 const config: StorybookConfig = {
   // ====================================================================
-  // == SECTION 1: YOUR PROJECT'S STORYBOOK CONFIGURATION ==
-  // == YOU MUST UPDATE THESE TO MATCH YOUR PROJECT STRUCTURE AND NEEDS ==
+  // == SEKSJON 1: DIN PROSJEKTS STORYBOOK-KONFIGURASJON ==
+  // == DU MÅ OPPDATERE DISSE FOR Å MATCHE DIN PROSJEKTSTRUKTUR OG BEHOV ==
   // ====================================================================
   stories: [
-    '../src/components/**/*.stories.@(js|jsx|mjs|ts|tsx)', // Example: if your stories are in src
-    '../src/components/**/*.mdx', // Example
+    '../src/components/**/*.stories.@(js|jsx|mjs|ts|tsx)', // Eksempel: hvis historiene dine er i src
+    '../src/components/**/*.mdx', // Eksempel
   ],
   addons: [
-    '@storybook/addon-onboarding', // From your package.json
-    '@storybook/addon-essentials', // Includes many common addons
-    '@storybook/addon-links',      // For linking between stories
-    '@storybook/addon-interactions', // For play functions
-    // Add other addons you use from your package.json devDependencies, for example:
+    '@storybook/addon-onboarding', // Fra din package.json
+    '@storybook/addon-essentials', // Inkluderer mange vanlige addons
+    '@storybook/addon-links',      // For lenking mellom historier
+    '@storybook/addon-interactions', // For play-funksjoner
+    // Legg til andre addons du bruker fra din package.json devDependencies, for eksempel:
     // '@chromatic-com/storybook',
     // '@storybook/experimental-addon-test',
   ],
 
   // ====================================================================
-  // == SECTION 2: FRAMEWORK CONFIGURATION ==
+  // == SEKSJON 2: RAMMEVERK-KONFIGURASJON ==
   // ====================================================================
   framework: {
-    name: '@storybook/react-vite', // This matches your package.json
+    name: '@storybook/react-vite', // Dette matcher din package.json
     options: {},
   },
 
   // ====================================================================
-  // == SECTION 3: DOCS CONFIGURATION (Optional but common) ==
+  // == SEKSJON 3: DOKUMENTASJONS-KONFIGURASJON (Valgfri men vanlig) ==
   // ====================================================================
  
   // ====================================================================
-  // == SECTION 4: STATIC ASSETS (Optional) ==
+  // == SEKSJON 4: STATISKE RESSURSER (Valgfritt) ==
   // ====================================================================
-  // staticDirs: ['../public'], // Example: if you have static assets for Storybook
+  // staticDirs: ['../public'], // Eksempel: hvis du har statiske ressurser for Storybook
 
   // ====================================================================
-  // == SECTION 5: VITE CONFIGURATION OVERRIDE FOR PRODUCTION BASE PATH ==
+  // == SEKSJON 5: VITE-KONFIGURASJON OVERSTYRING FOR PRODUKSJON BASE PATH ==
   // ====================================================================
   async viteFinal(
-    viteInlineConfig: InlineConfig, // Renamed for clarity
-    options: ViteFinalOptions // Use the interface defined above
+    viteInlineConfig: InlineConfig, // Omdøpt for klarhet
+    options: ViteFinalOptions // Bruk grensesnittet definert ovenfor
   ): Promise<InlineConfig> {
     if (options.configType === 'PRODUCTION') {
-      // This is the public path where Storybook will live on GitHub Pages
-      const publicDeployPath = '/DesignSystem/storybook/'; // Corrected deployment path
+      // Dette er den offentlige stien hvor Storybook vil leve på GitHub Pages
+      const publicDeployPath = '/DesignSystem/storybook/'; // Korrigert deployment-sti
       console.log(
-        `Applying PRODUCTION base path for Storybook Vite build: ${publicDeployPath}`
+        `Anvender PRODUKSJON base path for Storybook Vite build: ${publicDeployPath}`
       );
-      if (viteInlineConfig) { // Ensure viteInlineConfig object exists
+      if (viteInlineConfig) { // Sikre at viteInlineConfig-objektet eksisterer
         viteInlineConfig.base = publicDeployPath;
       }
     }
-    // Return the modified Vite configuration.
+    // Returner den modifiserte Vite-konfigurasjonen.
     return viteInlineConfig;
   },
 };

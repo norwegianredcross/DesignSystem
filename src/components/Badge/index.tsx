@@ -6,6 +6,9 @@ import {
   type BadgePositionProps as DigDirBadgePositionProps,
 } from '@digdir/designsystemet-react';
 
+/**
+ * Badge-komponent for å vise status eller antall.
+ */
 export interface BadgeProps extends DigDirBadgeProps {}
 export interface BadgePositionProps extends DigDirBadgePositionProps {}
 

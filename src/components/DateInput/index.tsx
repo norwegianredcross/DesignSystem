@@ -6,15 +6,15 @@ import React, {
   useCallback,
   useRef,
 } from "react";
-// Use the styles provided
+// Bruk de angitte stilene
 import styles from "./styles.module.css";
-// Import the DefaultProps to get data-color and data-size
+// Importer DefaultProps for å få data-color og data-size
 import type { DefaultProps } from "../../types";
 import type { MergeRight } from "../../utilities";
 
-// --- Interface Updated ---
+// --- Oppdatert grensesnitt ---
 export type DateInputProps = MergeRight<
-  DefaultProps, // <-- Add this
+  DefaultProps, // <-- Legg til dette
   Omit<
     InputHTMLAttributes<HTMLInputElement>,
     | "prefix"
@@ -33,13 +33,13 @@ export type DateInputProps = MergeRight<
     label?: React.ReactNode;
     suffixIcon?: React.ReactNode;
     onSuffixClick?: React.MouseEventHandler<HTMLButtonElement>;
-    className?: string; // Class for the outer fieldset div
-    inputWrapperClassName?: string; // Class specifically for the input wrapper div
-    inputClassName?: string; // Class specifically for the input element
+    className?: string; // Klasse for det ytre fieldset-div
+    inputWrapperClassName?: string; // Klasse spesifikt for input-wrapper div
+    inputClassName?: string; // Klasse spesifikt for input-elementet
     "aria-label"?: string;
     "aria-labelledby"?: string;
     description?: React.ReactNode;
-    error?: React.ReactNode; // Used for styling and aria-invalid
+    error?: React.ReactNode; // Brukes for styling og aria-invalid
     value?: string | null;
     defaultValue?: string | null;
     onChange?: (
@@ -49,7 +49,7 @@ export type DateInputProps = MergeRight<
   }
 >;
 
-// --- Helper functions (format, getDigits, validate) remain the same ---
+// --- Hjelpefunksjoner (format, getDigits, validate) ---
 const formatNorwegianDate = (digits: string): string => {
   const d = digits.slice(0, 2);
   const m = digits.slice(2, 4);
@@ -77,15 +77,19 @@ const validateDigits = (digits: string): string => {
   return validated.slice(0, 8);
 };
 
+/**
+ * DateInput-komponent for inntasting av datoer i norsk format (dd.mm.åååå).
+ * Håndterer automatisk formatering og validering av datoer.
+ */
 export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
   (props, ref) => {
     const {
       label,
       suffixIcon,
       onSuffixClick,
-      className, // For outer fieldset
+      className, // For ytre fieldset
       inputWrapperClassName, // For input wrapper div
-      inputClassName, // For the actual input element
+      inputClassName, // For selve input-elementet
       value: controlledValue,
       defaultValue,
       onChange: onChangeProp,
@@ -96,15 +100,15 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
       required,
       disabled,
       onClick,
-      onFocus, // Pass external onFocus
-      onBlur,  // Pass external onBlur
+      onFocus, // Send ekstern onFocus videre
+      onBlur,  // Send ekstern onBlur videre
       autoComplete = "off",
       "aria-label": ariaLabel,
       "aria-labelledby": ariaLabelledby,
       description,
-      error, // Use error prop for styling
-      "data-color": dataColor, // <-- Destructure
-      "data-size": dataSize,   // <-- Destructure
+      error, // Bruk error-prop for styling
+      "data-color": dataColor, // <-- Destrukturering
+      "data-size": dataSize,   // <-- Destrukturering
       ...rest
     } = props;
 
@@ -128,6 +132,7 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
       getFormattedValue(controlledValue ?? defaultValue),
     );
 
+    // Oppdater visningsverdien når kontrollert verdi endres
     useEffect(() => {
       if (isControlled) {
         const formattedPropValue = getFormattedValue(controlledValue);
@@ -144,6 +149,7 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
     }, [controlledValue, isControlled, displayValue, getFormattedValue]);
 
 
+    // Håndterer endringer i input-feltet
     const handleInputChange = useCallback(
       (event: React.ChangeEvent<HTMLInputElement>) => {
         const input = event.target;
@@ -167,7 +173,7 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
           internalInputRef.current.value = formatted;
           internalInputRef.current.setSelectionRange(cursorPos, cursorPos);
 
-          if (formatted !== previousFormattedValue || isControlled) { // Notify if controlled
+          if (formatted !== previousFormattedValue || isControlled) { // Varsle hvis kontrollert
             if (onChangeProp) {
               const syntheticEvent = {
                 ...event,
@@ -200,7 +206,7 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
 
 
     if (!label && !ariaLabel && !ariaLabelledby) {
-      console.warn('Warning: DateInput component should have a label, aria-label, or aria-labelledby for accessibility.');
+      console.warn('Advarsel: DateInput-komponenten bør ha label, aria-label, eller aria-labelledby for tilgjengelighet.');
     }
     const labelId = label && typeof label === 'string' ? (ariaLabelledby || `${id}-label`) : undefined;
     const descriptionId = description ? `${id}-desc` : undefined;
@@ -208,11 +214,11 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
     const describedByIds = [descriptionId, errorId].filter(Boolean).join(' ') || undefined;
 
     return (
-      // --- Apply data-color and data-size to the outer wrapper ---
+      // --- Bruk data-color og data-size på den ytre wrapperen ---
       <div 
         className={fieldsetClasses}
-        data-color={dataColor} // <-- Apply
-        data-size={dataSize}   // <-- Apply
+        data-color={dataColor} // <-- Bruk
+        data-size={dataSize}   // <-- Bruk
       >
         {label && typeof label === 'string' ? (
           <label id={labelId} htmlFor={id}>
