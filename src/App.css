@@ -1,45 +1,90 @@
-
-
-
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  font-family: var(--ds-font-family, 'Nunito Sans', sans-serif);
+  background-color: var(--ds-color-neutral-background-default);
+  color: var(--ds-color-neutral-text-default);
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* --- Layout Helpers --- */
+.main-content {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--ds-size-6);
+  padding-right: var(--ds-size-6);
+  box-sizing: border-box;
 }
 
-.card {
-  padding: 2em;
+.article-max-width {
+  max-width: 800px;
+  width: 100%;
+  /* Center the article content column */
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.read-the-docs {
-  color: #888;
+.article-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--ds-border-radius-md);
+  border: 1px solid var(--ds-color-neutral-border-subtle);
+}
+
+/* --- Animations --- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Header Menu Navigation Styles */
+.header-menu-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-6);
+  margin-top: var(--ds-size-4);
+}
+
+.header-menu-link {
+  font-size: var(--ds-font-size-6); 
+  font-weight: var(--ds-font-weight-medium);
+  color: var(--ds-color-neutral-text-default);
+  text-decoration: none;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  transition: color 0.2s ease;
+  font-family: inherit;
+}
+
+.header-menu-link:hover {
+  color: var(--ds-color-primary-color-red-text-default);
+}
+
+.header-menu-link-active {
+  color: var(--ds-color-primary-color-red-text-default);
+  font-weight: var(--ds-font-weight-bold);
 }

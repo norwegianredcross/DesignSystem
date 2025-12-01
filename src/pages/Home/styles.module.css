@@ -1,0 +1,409 @@
+/* Main Layout */
+.main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    background-color: var(--ds-color-neutral-background-default);
+  }
+  
+  /* --- HERO SECTION --- */
+  .heroSection {
+    position: relative;
+    /* Using tokens for vertical padding */
+    padding: var(--ds-size-12) 0 var(--ds-size-22);
+    background-color: var(--ds-color-neutral-background-default);
+    background-image: radial-gradient(var(--ds-color-neutral-border-subtle) 1px, transparent 1px);
+    background-size: var(--ds-size-8) var(--ds-size-8); /* 32px token equivalent approx */
+  }
+  
+  .heroSection::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: var(--ds-size-26);
+    background: linear-gradient(to bottom, transparent, var(--ds-color-neutral-background-default));
+    pointer-events: none;
+  }
+  
+  .splitLayout {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ds-size-12);
+  }
+  
+  /* Content Side */
+  .splitContent {
+    position: relative;
+    z-index: 10;
+    max-width: 100%;
+  }
+  
+  .heroBadge {
+    display: inline-block;
+    padding: var(--ds-size-1) var(--ds-size-3);
+    background-color: var(--ds-color-primary-color-red-surface-tinted);
+    color: var(--ds-color-primary-color-red-text-default);
+    font-size: var(--ds-font-size-2);
+    font-weight: var(--ds-font-weight-bold);
+    border-radius: var(--ds-border-radius-full);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--ds-size-6);
+    border: var(--ds-border-width-default) solid var(--ds-color-primary-color-red-border-subtle);
+  }
+  
+  .heroTitle {
+    margin-bottom: var(--ds-size-6);
+    color: var(--ds-color-neutral-text-default);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    font-size: var(--ds-font-size-9); /* Using large token */
+    line-height: 1.1;
+  }
+  
+  .textHighlight {
+    color: var(--ds-color-primary-color-red-base-default);
+    position: relative;
+    display: inline-block;
+  }
+  
+  .heroLead {
+    color: var(--ds-color-neutral-text-subtle);
+    max-width: 50ch;
+    margin-bottom: var(--ds-size-10);
+    /* Lead text usually slightly larger than body */
+    font-size: var(--ds-font-size-4); 
+    line-height: 1.6;
+  }
+  
+  .heroActions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ds-size-4);
+    margin-bottom: var(--ds-size-4);
+  }
+  
+  /* --- VISUAL WALL (Right Side) --- */
+  .heroVisual {
+    position: relative;
+    /* Using size tokens for height constraints */
+    height: calc(var(--ds-size-30) * 1.5);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 2000px; 
+    mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+  }
+  
+  .floatingGrid {
+    display: flex;
+    gap: var(--ds-size-6);
+    transform: rotateX(12deg) rotateY(-12deg) rotateZ(6deg) translateX(var(--ds-size-5));
+    transform-style: preserve-3d;
+  }
+  
+  .gridColumn {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ds-size-5);
+    width: calc(var(--ds-size-30) * 0.75); /* Approximately 200-240px based on token math */
+    animation: floatColumn 14s ease-in-out infinite alternate;
+  }
+  
+  .columnOffset {
+    margin-top: calc(var(--ds-size-22) * -1);
+  }
+  
+  @keyframes floatColumn {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(calc(var(--ds-size-8) * -1)); }
+  }
+  
+  .visualCard, .visualElement {
+    background: var(--ds-color-neutral-background-default);
+    /* Mimic glassmorphism with tokens if possible, otherwise keep solid */
+    opacity: 0.95;
+    border: var(--ds-border-width-default) solid var(--ds-color-neutral-border-subtle);
+    border-radius: var(--ds-border-radius-lg);
+    box-shadow: var(--ds-shadow-lg);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .visualElement {
+    padding: var(--ds-size-3);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--ds-size-2);
+  }
+  
+  .cardRow { display: flex; gap: var(--ds-size-3); margin-top: var(--ds-size-3); align-items: center; }
+  .cardTextBold { font-weight: var(--ds-font-weight-bold); font-size: var(--ds-font-size-2); }
+  .cardTextSubtle { font-size: var(--ds-font-size-1); color: var(--ds-color-neutral-text-subtle); }
+  .spaceBetween { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--ds-size-2); }
+  .statusDot { width: var(--ds-size-2); height: var(--ds-size-2); border-radius: 50%; background-color: var(--ds-color-success-base-default); }
+  .progressBarBg { height: var(--ds-size-1); background-color: var(--ds-color-neutral-surface-active); border-radius: var(--ds-border-radius-full); width: 100%; overflow: hidden;}
+  .progressBarFill { height: 100%; width: 75%; background-color: var(--ds-color-primary-color-red-base-default); border-radius: var(--ds-border-radius-full); }
+  
+  .gradientOverlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 60% 50%, transparent 0%, var(--ds-color-neutral-background-default) 80%);
+    pointer-events: none;
+    z-index: 5;
+  }
+  
+  /* --- BENTO NAVIGATION --- */
+  .section {
+    padding: var(--ds-size-22) 0;
+  }
+  
+  .sectionTitle {
+    margin-bottom: var(--ds-size-12);
+    text-align: center;
+  }
+  
+  /* Bento Wrapper: The flex/grid container */
+  .bentoWrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--ds-size-6);
+  }
+  
+  /* Shared Bento Item Styles */
+  .bentoItem {
+    background-color: var(--ds-color-neutral-background-default);
+    border: var(--ds-border-width-default) solid var(--ds-color-neutral-border-subtle);
+    border-radius: var(--ds-border-radius-xl);
+    padding: var(--ds-size-8);
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .bentoItem:hover {
+    transform: translateY(calc(var(--ds-size-1) * -1));
+    box-shadow: var(--ds-shadow-xl);
+    border-color: var(--ds-color-primary-color-red-border-subtle);
+  }
+  
+  /* PRIMARY ITEM (Components) */
+  .bentoPrimary {
+    background: linear-gradient(135deg, var(--ds-color-neutral-background-default) 0%, var(--ds-color-neutral-surface-tinted) 100%);
+    min-height: var(--ds-size-30); /* Ensures height on mobile */
+  }
+  
+  /* SIDE STACK (Design & Code) */
+  .bentoSideStack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ds-size-6);
+  }
+  
+  .bentoSecondary {
+    flex: 1; /* Each takes half height of the stack */
+    min-height: var(--ds-size-22);
+  }
+  
+  /* Bento Content */
+  .bentoContent {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .bentoHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--ds-size-6);
+  }
+  
+  .bentoIconBg {
+    width: var(--ds-size-12);
+    height: var(--ds-size-12);
+    background-color: var(--ds-color-neutral-surface-tinted);
+    border-radius: var(--ds-border-radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ds-color-neutral-text-default);
+  }
+  
+  .iconLarge { font-size: var(--ds-font-size-6); }
+  .iconXLarge { font-size: var(--ds-font-size-8); }
+  
+  .bentoDesc {
+    color: var(--ds-color-neutral-text-subtle);
+    margin-top: var(--ds-size-2);
+  }
+  
+  .arrowIcon {
+    font-size: var(--ds-font-size-5);
+    color: var(--ds-color-neutral-text-subtle);
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+  
+  .bentoItem:hover .arrowIcon {
+    color: var(--ds-color-primary-color-red-text-default);
+    transform: translate(var(--ds-size-1), calc(var(--ds-size-1) * -1));
+  }
+  
+  /* Bento Preview (Abstract UI in Component card) */
+  .bentoPreview {
+    position: absolute;
+    bottom: calc(var(--ds-size-6) * -1);
+    right: calc(var(--ds-size-6) * -1);
+    width: 50%;
+    padding: var(--ds-size-5);
+    background: var(--ds-color-neutral-background-default);
+    border-radius: var(--ds-border-radius-lg);
+    box-shadow: var(--ds-shadow-md);
+    border: var(--ds-border-width-default) solid var(--ds-color-neutral-border-subtle);
+    transform: rotate(-6deg);
+    transition: transform 0.5s ease;
+    display: none; /* Hidden on mobile */
+  }
+  
+  .bentoPrimary:hover .bentoPreview {
+    transform: rotate(0deg) scale(1.05) translate(calc(var(--ds-size-2) * -1), calc(var(--ds-size-2) * -1));
+  }
+  
+  .previewLine { height: var(--ds-size-2); width: 60%; background: var(--ds-color-neutral-surface-active); margin-bottom: var(--ds-size-3); border-radius: var(--ds-border-radius-sm); }
+  .previewRow { display: flex; gap: var(--ds-size-2); margin-bottom: var(--ds-size-3); }
+  .previewBtn { height: var(--ds-size-8); flex: 1; background: var(--ds-color-primary-color-red-surface-tinted); border-radius: var(--ds-border-radius-md); } 
+  .previewCard { height: var(--ds-size-14); background: var(--ds-color-neutral-surface-tinted); border-radius: var(--ds-border-radius-md); }
+  
+  /* --- VALUES SECTION --- */
+  .sectionValues {
+    /* Using semantic tokens for dark background */
+    background-color: var(--ds-color-neutral-base-default); 
+    color: var(--ds-color-neutral-base-contrast-default);
+    padding: var(--ds-size-26) 0;
+    margin-top: var(--ds-size-12);
+    /* Use radius token */
+    border-radius: var(--ds-border-radius-xl) var(--ds-border-radius-xl) 0 0;
+  }
+  
+  .valuesGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--ds-size-12);
+  }
+  
+  .valueItem {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--ds-size-6);
+    border-radius: var(--ds-border-radius-lg);
+    transition: background-color 0.2s ease;
+  }
+  
+  .valueItem:hover {
+    background-color: var(--ds-color-neutral-base-hover);
+  }
+  
+  .valueIcon {
+    width: var(--ds-size-15);
+    height: var(--ds-size-15);
+    background-color: var(--ds-color-neutral-base-active); /* Slightly lighter than base */
+    border-radius: var(--ds-border-radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--ds-size-6);
+  }
+  
+  .valueTitle {
+    color: var(--ds-color-neutral-base-contrast-default);
+    margin-bottom: var(--ds-size-3);
+    font-weight: var(--ds-font-weight-semibold);
+  }
+  
+  .valueText {
+    color: var(--ds-color-neutral-base-contrast-subtle);
+    margin-bottom: var(--ds-size-6);
+    line-height: 1.6;
+  }
+  
+  .valueLink {
+    color: var(--ds-color-neutral-base-contrast-default);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    font-weight: var(--ds-font-weight-medium);
+  }
+  
+  .valueLink:hover {
+    color: var(--ds-color-primary-color-red-surface-active);
+  }
+  
+  /* --- RESPONSIVE MEDIA QUERIES --- */
+  
+  /* Tablet & Up */
+  @media (min-width: 768px) {
+    .bentoWrapper {
+      /* 2 columns */
+      grid-template-columns: repeat(2, 1fr);
+    }
+  
+    /* Make Primary block take up left column */
+    .bentoPrimary {
+      grid-row: span 1; 
+      /* Force height to match the stack on the right */
+      height: 100%; 
+    }
+  
+    .bentoPreview {
+      display: block; 
+    }
+    
+    .heroTitle {
+      font-size: var(--ds-font-size-10);
+    }
+  }
+  
+  /* Desktop & Up */
+  @media (min-width: 1024px) {
+    .splitLayout {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .splitContent {
+      flex: 0 0 45%;
+    }
+    
+    .heroVisual {
+      flex: 1;
+      /* Use tokens for height */
+      height: calc(var(--ds-size-30) * 2);
+      justify-content: flex-end;
+      perspective-origin: center right;
+    }
+    
+    .gradientOverlay {
+      background: linear-gradient(to right, var(--ds-color-neutral-background-default) 0%, transparent 20%);
+    }
+    
+    /* The "Balanced" Look: 2/3 + 1/3 layout */
+    .bentoWrapper {
+      grid-template-columns: 2fr 1fr; /* Primary takes 2 parts, Stack takes 1 part */
+      gap: var(--ds-size-8);
+    }
+    
+    .valuesGrid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }

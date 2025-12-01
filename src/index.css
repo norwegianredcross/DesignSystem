@@ -51,5 +51,15 @@
 /* Remove conflicting body font-family from index.css if still present */
 body {
   margin: 0;
+  padding: 0;
+  background-color: var(--ds-color-neutral-background-default);
   /* font-family: should be controlled by theme variables */
+}
+
+* {
+  font-feature-settings: 'cv05' 1;
+}
+
+:root {
+  --ds-font-family: 'Source Sans 3', sans-serif;
 }

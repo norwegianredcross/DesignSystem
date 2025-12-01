@@ -32,6 +32,25 @@ const meta: Meta<typeof Carousel> = {
       defaultValue: true,
     },
     images: { table: { disable: true } },
+    variant: {
+      control: 'text',
+      description: 'Variant of the carousel (optional)',
+    },
+    slidesPerView: {
+      control: { type: 'number', min: 1, max: 5, step: 0.1 },
+      description: 'Number of slides to show at once',
+      defaultValue: 1,
+    },
+    slideSpacing: {
+      control: 'number',
+      description: 'Spacing between slides in px',
+      defaultValue: 16,
+    },
+    cornerRadius: {
+      control: 'number',
+      description: 'Corner radius for images in px',
+      defaultValue: 0,
+    },
     'data-size': {
       control: 'select',
       options: ['sm', 'md', 'lg'],
@@ -68,9 +87,39 @@ export const Default: Story = {
     autoDelay: 5,
     showArrows: true,
     showDots: true,
+    slidesPerView: 1,
+    slideSpacing: 16,
+    cornerRadius: 0,
   },
   render: (args) => (
-    <div style={{ width: '900px', height: '520px' }}>
+    <div style={{ 
+      width: '900px', 
+      height: '520px', 
+      margin: '0 auto', // Center horizontally
+      display: 'flex',
+      justifyContent: 'center'
+    }}>
+      <Carousel {...args} />
+    </div>
+  ),
+};
+
+export const MultipleSlides: Story = {
+  args: {
+    ...Default.args,
+    slidesPerView: 2.5,
+    slideSpacing: 20,
+    cornerRadius: 12,
+  },
+  render: (args) => (
+    <div style={{ 
+      width: '1000px', 
+      height: '400px', 
+      padding: '20px',
+      margin: '0 auto', // Center horizontally
+      display: 'flex',
+      justifyContent: 'center'
+    }}>
       <Carousel {...args} />
     </div>
   ),
@@ -208,17 +257,21 @@ function SupabaseExample(args: Omit<CarouselProps, 'images'>) {
   }, [base, page]);
 
   return (
-    <div style={{ width: '900px', height: '520px' }}>
+    <div style={{ 
+      width: '900px', 
+      height: '520px', 
+      margin: '0 auto', // Center horizontally
+      display: 'flex',
+      justifyContent: 'center'
+    }}>
       {images === null ? (
         <div style={{ display: 'flex', gap: 8, alignItems: 'center', justifyContent: 'center', height: '100%' }}>
           <Spinner aria-label="Laster bilder" aria-hidden={true} data-size="sm" />
           Laster bilder…
         </div>
       ) : (
-        <Carousel {...(args as CarouselProps)} images={images} />
+        <Carousel {...(args as CarouselProps)} images={images} slidesPerView={1} />
       )}
     </div>
   );
 }
-
-

@@ -1,0 +1,85 @@
+.footer {
+    /* CHANGED: --ds-size-16 does not exist. content used 15 or 18. Using 18 for spacing. */
+    padding: var(--ds-size-18) 0;
+    
+    /* CHANGED: --ds-color-neutral-surface-subtle does not exist. Using tinted. */
+    background-color: var(--ds-color-neutral-background-tinted); 
+    border-top: 1px solid var(--ds-color-neutral-border-subtle);
+    margin-top: auto;
+  }
+  
+  .content {
+    max-width: 1200px;
+    margin: 0 auto;
+    /* CHANGED: --ds-size-6 exists */
+    padding: 0 var(--ds-size-6);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    /* CHANGED: --ds-size-12 exists */
+    gap: var(--ds-size-12);
+    text-align: left;
+  }
+  
+  .logoSection {
+    flex: 0 0 auto;
+  }
+  
+  .logo {
+    height: var(--ds-size-12);
+    width: auto;
+    display: block;
+  }
+  
+  .linksSection {
+    display: flex;
+    flex-wrap: wrap;
+    /* CHANGED: --ds-size-24 does not exist. Closest is 22 or 26. Using 26. */
+    gap: var(--ds-size-26);
+  }
+  
+  .column {
+    display: flex;
+    flex-direction: column;
+    /* CHANGED: --ds-size-4 exists */
+    gap: var(--ds-size-4);
+  }
+  
+  .columnTitle {
+    /* CHANGED: --ds-font-size-sm does not exist. Using semantic token. */
+    font-size: var(--ds-body-sm-font-size);
+    
+    /* CHANGED: --ds-font-weight-bold does not exist. Using semibold from tokens. */
+    font-weight: var(--ds-font-weight-semibold);
+    
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ds-color-neutral-text-subtle);
+    margin: 0;
+  }
+  
+  .linkList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    /* CHANGED: --ds-size-3 exists */
+    gap: var(--ds-size-3);
+  }
+  
+  .copyright {
+    /* CHANGED: --ds-size-16 invalid -> used 15 */
+    margin-top: var(--ds-size-15);
+    border-top: 1px solid var(--ds-color-neutral-border-subtle);
+    /* CHANGED: --ds-size-8 exists */
+    padding-top: var(--ds-size-8);
+    text-align: center;
+  }
+  
+  .text {
+    color: var(--ds-color-neutral-text-subtle);
+    /* CHANGED: --ds-font-size-sm -> ds-body-sm-font-size */
+    font-size: var(--ds-body-sm-font-size);
+    margin: 0;
+  }

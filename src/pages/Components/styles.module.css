@@ -1,0 +1,174 @@
+/* Using mapped design tokens from provided CSS 
+*/
+
+.pageWrapper {
+    /* Using ds-size-* for vertical rhythm */
+    padding: var(--ds-size-18) 0 var(--ds-size-26);
+    width: 100%;
+    background-color: var(--ds-color-neutral-background-default);
+    min-height: 100vh;
+  }
+  
+  .container {
+    /* Responsive container logic using max-width */
+    width: 100%;
+    max-width: 1200px; 
+    margin: 0 auto;
+    padding-left: var(--ds-size-6);
+    padding-right: var(--ds-size-6);
+  }
+  
+  /* Header Styling */
+  .header {
+    margin-bottom: var(--ds-size-12);
+    display: flex;
+    flex-direction: column;
+    gap: var(--ds-size-4);
+    text-align: center;
+    align-items: center;
+  }
+  
+  .title {
+    color: var(--ds-color-neutral-text-default);
+    /* Typography token application if Heading component doesn't handle it automatically */
+    font-size: var(--ds-heading-xl-font-size);
+    font-weight: var(--ds-heading-xl-font-weight);
+    letter-spacing: var(--ds-heading-xl-letter-spacing);
+  }
+  
+  .introText {
+    color: var(--ds-color-neutral-text-subtle);
+    max-width: 65ch;
+    font-size: var(--ds-body-lg-font-size);
+    line-height: var(--ds-body-lg-line-height);
+  }
+  
+  /* Search Input Styling */
+  .searchWrapper {
+    width: 100%;
+    max-width: 480px;
+    margin-top: var(--ds-size-6);
+  }
+  
+  .searchInput {
+    width: 100%;
+    padding: var(--ds-size-3) var(--ds-size-4);
+    border: var(--ds-border-width-default) solid var(--ds-color-neutral-border-default);
+    border-radius: var(--ds-border-radius-lg); /* Rounded search bar */
+    background-color: var(--ds-color-neutral-background-default);
+    color: var(--ds-color-neutral-text-default);
+    font-size: var(--ds-body-md-font-size);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .searchInput:focus {
+    outline: none;
+    border-color: var(--ds-color-neutral-base-default);
+    box-shadow: 0 0 0 var(--ds-border-width-focus) var(--ds-color-focus-outer);
+  }
+  
+  .searchInput::placeholder {
+    color: var(--ds-color-neutral-text-subtle);
+  }
+  
+  /* Grid Layout */
+  .cardsGrid {
+    display: grid;
+    /* Optimized grid for responsiveness */
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: var(--ds-size-6);
+  }
+  
+  @media (min-width: 768px) {
+    .cardsGrid {
+      gap: var(--ds-size-8);
+    }
+  }
+  
+  /* Link Wrapper */
+  .cardLink {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    height: 100%;
+    border-radius: var(--ds-border-radius-md);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .cardLink:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 var(--ds-border-width-focus) var(--ds-color-focus-outer);
+  }
+  
+  /* Card Overrides & Interaction */
+  /* We target the Card component via class to apply hover effects on the parent link */
+  .cardOverride {
+    height: 100%;
+    border: var(--ds-border-width-default) solid var(--ds-color-neutral-border-subtle);
+    background-color: var(--ds-color-neutral-surface-default);
+    border-radius: var(--ds-border-radius-md);
+    box-shadow: var(--ds-shadow-sm);
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .cardLink:hover .cardOverride {
+    transform: translateY(-4px); /* Slightly more lift */
+    background-color: var(--ds-color-neutral-surface-hover);
+    border-color: var(--ds-color-neutral-border-default);
+    box-shadow: var(--ds-shadow-md);
+  }
+  
+  .cardLink:active .cardOverride {
+    transform: translateY(-1px);
+    background-color: var(--ds-color-neutral-surface-active);
+  }
+  
+  /* Card Internals */
+  .cardContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--ds-size-4) 0;
+    text-align: center;
+  }
+  
+  .cardIconWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: var(--ds-size-4);
+    /* Use token size for container height to ensure alignment */
+    height: var(--ds-size-14); 
+    width: 100%;
+  }
+  
+  .cardIcon {
+    /* Dynamic sizing based on tokens approx 3rem */
+    width: var(--ds-size-12);
+    height: var(--ds-size-12);
+    object-fit: contain;
+    /* Optional: filter to align icon color with text if SVGs are monochromatic */
+    opacity: 0.9;
+  }
+  
+  .iconPlaceholder {
+    width: var(--ds-size-12);
+    height: var(--ds-size-12);
+    background-color: var(--ds-color-neutral-surface-tinted);
+    border-radius: var(--ds-border-radius-full);
+  }
+  
+  .cardTitle {
+    font-size: var(--ds-heading-sm-font-size);
+    font-weight: var(--ds-heading-sm-font-weight);
+    color: var(--ds-color-neutral-text-default);
+    margin: 0;
+  }
+  
+  /* Empty State */
+  .emptyState {
+    text-align: center;
+    padding: var(--ds-size-12);
+    color: var(--ds-color-neutral-text-subtle);
+  }

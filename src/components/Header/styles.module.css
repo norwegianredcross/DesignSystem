@@ -1,0 +1,92 @@
+.header {
+  width: 100%;
+  background-color: var(--ds-color-neutral-background-default);
+  border-bottom: 1px solid var(--ds-color-neutral-border-subtle);
+  position: relative; /* For menu overlay positioning */
+  z-index: 1000;
+}
+
+.headerInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--ds-size-18);
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--ds-size-6);
+  box-sizing: border-box;
+}
+
+.logo {
+  display: block;
+  height: var(--ds-size-10);
+  width: auto;
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.2s ease;
+}
+
+.logo:hover {
+  opacity: 0.8;
+}
+
+.logo img {
+  height: 100%;
+  width: auto;
+  display: block;
+}
+
+.menuButton {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-size-2);
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--ds-color-neutral-text-default);
+  cursor: pointer;
+  padding: var(--ds-size-2) var(--ds-size-4);
+  border-radius: var(--ds-border-radius-md);
+  font-family: inherit;
+  transition: background-color 0.2s ease;
+}
+
+.menuButton:hover {
+  background-color: var(--ds-color-neutral-surface-hover);
+}
+
+.menuButton:focus-visible {
+  outline: 2px solid var(--ds-color-focus-outer);
+  outline-offset: 2px;
+  background-color: var(--ds-color-neutral-surface-hover);
+}
+
+.menuText {
+  font-weight: var(--ds-font-weight-medium);
+  font-size: var(--ds-font-size-md);
+  /* Hidden on small screens if desired, but desktop version requested */
+}
+
+.menuOverlay {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: var(--ds-color-neutral-background-default);
+  border-bottom: 1px solid var(--ds-color-neutral-border-subtle);
+  box-shadow: var(--ds-shadow-lg);
+  padding: var(--ds-size-10) 0;
+  z-index: 999;
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.menuContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--ds-size-6);
+}
