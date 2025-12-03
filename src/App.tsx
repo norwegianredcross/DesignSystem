@@ -12,7 +12,7 @@ function App() {
 
   return (
     <div className="app-container">
-      <Header activePage={page} setPage={setPage} showBadge={false} showLogin={false}>
+      <Header activePage={page} setPage={setPage} showUser={false} showBadge={false} showLogin={false}>
         <nav className="header-menu-nav" aria-label="Hovedmeny">
           <button 
             type="button"

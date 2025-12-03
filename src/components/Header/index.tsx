@@ -11,6 +11,7 @@ interface HeaderProps {
   activePage?: string;
   setPage?: (pageName: string) => void;
   children?: React.ReactNode;
+  showUser?: boolean;
   showBadge?: boolean;
   showSearch?: boolean;
   showLogin?: boolean;
@@ -20,6 +21,7 @@ export const Header = ({
   activePage, 
   setPage, 
   children,
+  showUser = true,
   showBadge = true,
   showSearch = true,
   showLogin = true
@@ -50,12 +52,14 @@ export const Header = ({
         {/* Actions Section */}
         <div className={styles.actions}>
           {/* User Info - Desktop shows Name + Avatar, Mobile shows Avatar */}
-          <div className={styles.userInfo}>
-            <Paragraph data-size="md" className={styles.userName}>Frodo Baggins</Paragraph>
-            <Avatar aria-label="Frodo Baggins" data-color="main" variant="circle" initials="FB">
-              {showBadge && <Badge count={19} data-color="danger" variant="base" />}
-            </Avatar>
-          </div>
+          {showUser && (
+            <div className={styles.userInfo}>
+              <Paragraph data-size="md" className={styles.userName}>Frodo Baggins</Paragraph>
+              <Avatar aria-label="Frodo Baggins" data-color="main" variant="circle" initials="FB">
+                {showBadge && <Badge count={19} data-color="danger" variant="base" />}
+              </Avatar>
+            </div>
+          )}
 
           {/* Login Link */}
           {showLogin && (
