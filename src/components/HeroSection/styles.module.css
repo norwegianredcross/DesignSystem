@@ -1,1 +1,198 @@
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--ds-size-30) var(--ds-size-15); /* 120px 60px */
+  gap: var(--ds-size-12); /* 48px */
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  background-color: var(--ds-color-main-background-default, #ffffff);
+}
 
+.containerSideBySide {
+  flex-direction: row;
+  justify-content: space-between;
+  gap: var(--ds-size-10);
+  text-align: left;
+}
+
+.containerCards {
+  padding: 0 !important; /* Hero 7 Section has p-0 */
+  gap: 0 !important; /* Hero 7 Section has gap-0 */
+  max-width: 100%; /* Full width container? Or keep 1280px? Figma has 1280px frame width usually */
+  /* But if section has p-0, we might want to let content handle width */
+}
+
+.backgroundImageWrapper {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.backgroundImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.2;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--ds-size-8); /* 32px */
+  width: 100%;
+  max-width: 960px;
+  text-align: center;
+}
+
+.contentSideBySide {
+  align-items: flex-start;
+  text-align: left;
+  max-width: 50%;
+}
+
+.contentWrapperCards {
+  padding: var(--ds-size-30) var(--ds-size-15) var(--ds-size-18) var(--ds-size-15); /* pt-120 pb-72 px-60 */
+  max-width: 1280px; /* Ensure content stays within bounds */
+  width: 100%;
+  margin: 0 auto;
+  gap: var(--ds-size-8); /* 32px gap between text and buttons */
+  box-sizing: border-box;
+}
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-6); /* 24px */
+  width: 100%;
+  align-items: center;
+}
+
+.textContainerSideBySide {
+  align-items: flex-start;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ds-size-4); /* 16px */
+  justify-content: center;
+}
+
+.buttonContainerSideBySide {
+  justify-content: flex-start;
+}
+
+.bottomImage {
+  width: 100%;
+  max-width: 922px;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: var(--ds-border-radius-default);
+  z-index: 1;
+}
+
+.sideImage {
+  width: 100%;
+  max-width: 50%;
+  height: auto;
+  object-fit: cover;
+  border-radius: var(--ds-border-radius-default);
+  z-index: 1;
+}
+
+/* Hero 7 / Cards Specifics */
+.cardGrid {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: var(--ds-size-6); /* 24px */
+  width: 100%;
+  max-width: 1280px; /* Align with content max width */
+  margin: 0 auto;
+  padding: 0 var(--ds-size-15) var(--ds-size-30) var(--ds-size-15); /* px-60 pb-120 */
+  z-index: 1;
+  justify-content: center;
+  overflow-x: auto;
+  box-sizing: border-box;
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+}
+
+.cardGrid::-webkit-scrollbar {
+  display: none;
+}
+
+.cardImage {
+  width: 100%;
+  max-width: 278px; /* 1280 - 120 = 1160. 1160 - (24*3) = 1088. 1088 / 4 = 272px. */
+  height: 400px; /* Aspect ratio from visual */
+  object-fit: cover;
+  border-radius: var(--ds-border-radius-lg);
+  flex-shrink: 0;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding: var(--ds-size-10) var(--ds-size-5);
+    gap: var(--ds-size-10);
+  }
+
+  .containerCards {
+    padding: 0 !important;
+    gap: 0 !important;
+  }
+
+  .contentWrapperCards {
+    padding: var(--ds-size-10) var(--ds-size-5);
+  }
+
+  .cardGrid {
+    padding: var(--ds-size-10) var(--ds-size-5);
+  }
+
+  .containerSideBySide {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .contentSideBySide {
+    align-items: center;
+    text-align: center;
+    max-width: 100%;
+  }
+
+  .textContainerSideBySide {
+    align-items: center;
+  }
+
+  .buttonContainerSideBySide {
+    justify-content: center;
+  }
+
+  .sideImage {
+    max-width: 100%;
+  }
+
+  .cardGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--ds-size-4);
+  }
+  
+  .cardImage {
+    max-width: 100%;
+    height: 300px;
+  }
+}
