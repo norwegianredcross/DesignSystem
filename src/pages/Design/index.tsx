@@ -38,14 +38,6 @@ const DesignTokensIFigmaContent = () => (
     </Paragraph>
     
     <ArticleImage src="/ThemesExample.png" alt="Themes example" caption="Videoen over viser at når settet for &quot;Tilsynet&quot; slås på, overstyres både fargene som er i bruk i filen og stilene som er tilgjengelig i høyremargen byttes ut." />
-
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Design tokens for utviklere</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
-      Installer NPM-pakken
-    </Paragraph>
-    <div style={{ background: 'var(--ds-color-neutral-background-subtle)', padding: 'var(--ds-size-4)', borderRadius: 'var(--ds-border-radius-md)', fontFamily: 'monospace', marginBottom: 'var(--ds-size-4)' }}>
-      npm install rk-design-tokens
-    </div>
   </ArticleLayout>
 );
 
@@ -734,13 +726,6 @@ export const DesignPage = () => {
 
   // Menu Data Structure
   const menuItems: { title: string; items: MenuItem[] }[] = [
-    {
-      title: 'For Dev',
-      items: [
-        { label: 'Get started', id: 'dev-start' },
-        { label: 'Design Tokens', id: 'dev-tokens' },
-      ]
-    },
     {
       title: 'For Designere',
       items: [

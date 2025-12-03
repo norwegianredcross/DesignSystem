@@ -12,7 +12,7 @@ export const Footer = () => {
         {/* Logo Section */}
         <div className={styles.logoSection}>
           <img 
-            src="/logo-red-cross.svg" 
+            src={`${import.meta.env.BASE_URL}logo-red-cross.svg`}
             alt="Røde Kors Logo" 
             className={styles.logo} 
             loading="lazy"
@@ -38,7 +38,7 @@ export const Footer = () => {
             <ul className={styles.linkList}>
               <li><Link href="https://zeroheight.com/">Designsystem (Zeroheight)</Link></li>
               <li><Link href="https://github.com/norwegianredcross/DesignSystem">GitHub</Link></li>
-              <li><Link href="/storybook">Storybook</Link></li>
+              <li><Link href={`${import.meta.env.BASE_URL}storybook/`}>Storybook</Link></li>
             </ul>
           </nav>
         </div>

@@ -13,6 +13,7 @@
   top: var(--ds-size-24);
   max-height: calc(100vh - var(--ds-size-32));
   overflow-y: auto;
+  overflow-x: hidden;
   padding-right: var(--ds-size-4);
 }
 

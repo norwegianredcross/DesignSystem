@@ -8,6 +8,14 @@ import { Avatar } from '../../components/Avatar';
 import { Badge } from '../../components/Badge';
 import { Link } from '../../components/Link';
 import { Chip } from '../../components/Chip';
+import { 
+  WheelchairIcon, 
+  PaletteIcon, 
+  LightningIcon,
+  ComponentIcon,
+  CodeIcon,
+  ArrowRightIcon
+} from '@navikt/aksel-icons';
 import styles from './styles.module.css';
 
 interface HomePageProps {
@@ -23,20 +31,19 @@ export const HomePage = ({ setPage }: HomePageProps) => {
           
           {/* Content Side */}
           <div className={styles.splitContent}>
-            <div className={styles.heroBadge}>Beta v1.0</div>
+            <div className={styles.heroBadge}>v1.1.37</div>
             
             <Heading level={1} className={styles.heroTitle}>
-              Bygg bedre løsninger. <br />
-              <span className={styles.textHighlight}>Raskere.</span>
+              Røde Kors Designsystem
             </Heading>
             
             <Paragraph className={styles.heroLead} data-size="lg">
-              Røde Kors Designsystem er den komplette verktøykassen for å skape helhetlige, universelt utformede og effektive digitale produkter.
+              Felles komponentbibliotek og retningslinjer for design og utvikling av digitale løsninger i Røde Kors.
             </Paragraph>
             
             <div className={styles.heroActions}>
-              <Button onClick={() => setPage('design')} data-size="lg">
-                Kom i gang
+              <Button onClick={() => setPage('components')} data-size="lg">
+                Søk i komponenter
               </Button>
               <Button 
                 variant="secondary" 
@@ -125,76 +132,65 @@ export const HomePage = ({ setPage }: HomePageProps) => {
           <Heading level={2} className={styles.sectionTitle} data-size="xl">Utforsk systemet</Heading>
           
           <div className={styles.bentoWrapper}>
-            {/* Primary Block (Components) - Spans full height on desktop */}
+            {/* Components Card */}
             <a 
               href="#" 
               onClick={(e) => { e.preventDefault(); setPage('components'); }} 
-              className={`${styles.bentoItem} ${styles.bentoPrimary}`}
+              className={styles.bentoItem}
             >
               <div className={styles.bentoContent}>
                 <div className={styles.bentoHeader}>
                   <div className={styles.bentoIconBg}>
-                    <span className={styles.iconLarge}>❖</span>
+                    <ComponentIcon className={styles.iconLarge} aria-hidden />
                   </div>
-                  <span className={styles.arrowIcon}>→</span>
+                  <ArrowRightIcon className={styles.arrowIcon} aria-hidden />
                 </div>
                 <div className={styles.bentoText}>
                   <Heading level={3} data-size="md">Komponenter</Heading>
                   <Paragraph className={styles.bentoDesc}>Bibliotek med ferdige React-komponenter.</Paragraph>
                 </div>
               </div>
-              
-              <div className={styles.bentoPreview}>
-                 <div className={styles.previewLine}></div>
-                 <div className={styles.previewRow}>
-                   <div className={styles.previewBtn}></div>
-                   <div className={styles.previewBtn}></div>
-                 </div>
-                 <div className={styles.previewCard}></div>
+            </a>
+
+            {/* Design Card */}
+            <a 
+              href="#" 
+              onClick={(e) => { e.preventDefault(); setPage('design'); }} 
+              className={styles.bentoItem}
+            >
+              <div className={styles.bentoContent}>
+                <div className={styles.bentoHeader}>
+                  <div className={styles.bentoIconBg}>
+                    <PaletteIcon className={styles.iconLarge} aria-hidden />
+                  </div>
+                  <ArrowRightIcon className={styles.arrowIcon} aria-hidden />
+                </div>
+                <div className={styles.bentoText}>
+                  <Heading level={3} data-size="md">Design</Heading>
+                  <Paragraph className={styles.bentoDesc}>Farger, typografi og prinsipper.</Paragraph>
+                </div>
               </div>
             </a>
 
-            {/* Side Stack (Design & Code) */}
-            <div className={styles.bentoSideStack}>
-              <a 
-                href="#" 
-                onClick={(e) => { e.preventDefault(); setPage('design'); }} 
-                className={`${styles.bentoItem} ${styles.bentoSecondary}`}
-              >
+            {/* Code Card */}
+            <a 
+              href="#" 
+              onClick={(e) => { e.preventDefault(); setPage('code'); }} 
+              className={styles.bentoItem}
+            >
                 <div className={styles.bentoContent}>
-                  <div className={styles.bentoHeader}>
-                    <div className={styles.bentoIconBg}>
-                      <span className={styles.iconLarge}>🎨</span>
-                    </div>
-                    <span className={styles.arrowIcon}>→</span>
+                <div className={styles.bentoHeader}>
+                  <div className={styles.bentoIconBg}>
+                    <CodeIcon className={styles.iconLarge} aria-hidden />
                   </div>
-                  <div className={styles.bentoText}>
-                    <Heading level={3} data-size="md">Design</Heading>
-                    <Paragraph className={styles.bentoDesc}>Farger, typografi og prinsipper.</Paragraph>
-                  </div>
+                  <ArrowRightIcon className={styles.arrowIcon} aria-hidden />
                 </div>
-              </a>
-
-              <a 
-                href="https://github.com/norwegianredcross/DesignSystem" 
-                target="_blank" 
-                rel="noreferrer" 
-                className={`${styles.bentoItem} ${styles.bentoSecondary}`}
-              >
-                 <div className={styles.bentoContent}>
-                  <div className={styles.bentoHeader}>
-                    <div className={styles.bentoIconBg}>
-                      <span className={styles.iconLarge}>code</span>
-                    </div>
-                    <span className={styles.arrowIcon}>↗</span>
-                  </div>
-                  <div className={styles.bentoText}>
-                    <Heading level={3} data-size="md">Kode</Heading>
-                    <Paragraph className={styles.bentoDesc}>GitHub, oppsett og bidrag.</Paragraph>
-                  </div>
+                <div className={styles.bentoText}>
+                  <Heading level={3} data-size="md">Kode</Heading>
+                  <Paragraph className={styles.bentoDesc}>Dokumentasjon, arbeidsflyt og MCP.</Paragraph>
                 </div>
-              </a>
-            </div>
+              </div>
+            </a>
           </div>
         </div>
       </section>
@@ -205,7 +201,7 @@ export const HomePage = ({ setPage }: HomePageProps) => {
           <div className={styles.valuesGrid}>
             <div className={styles.valueItem}>
               <div className={styles.valueIcon}>
-                 <span className={styles.iconXLarge}>♿️</span>
+                 <WheelchairIcon className={styles.iconXLarge} aria-hidden />
               </div>
               <Heading level={3} data-size="sm" className={styles.valueTitle}>Universell utforming</Heading>
               <Paragraph data-size="sm" className={styles.valueText}>
@@ -216,7 +212,7 @@ export const HomePage = ({ setPage }: HomePageProps) => {
             
             <div className={styles.valueItem}>
               <div className={styles.valueIcon}>
-                 <span className={styles.iconXLarge}>🔴</span>
+                 <PaletteIcon className={styles.iconXLarge} aria-hidden />
               </div>
               <Heading level={3} data-size="sm" className={styles.valueTitle}>Konsistent merkevare</Heading>
               <Paragraph data-size="sm" className={styles.valueText}>
@@ -227,7 +223,7 @@ export const HomePage = ({ setPage }: HomePageProps) => {
             
             <div className={styles.valueItem}>
               <div className={styles.valueIcon}>
-                 <span className={styles.iconXLarge}>⚡️</span>
+                 <LightningIcon className={styles.iconXLarge} aria-hidden />
               </div>
               <Heading level={3} data-size="sm" className={styles.valueTitle}>Effektiv utvikling</Heading>
               <Paragraph data-size="sm" className={styles.valueText}>

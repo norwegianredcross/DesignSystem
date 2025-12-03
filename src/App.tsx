@@ -4,6 +4,7 @@ import { Footer } from './components/Footer';
 import { HomePage } from './pages/Home';
 import { ComponentsPage } from './pages/Components';
 import { DesignPage } from './pages/Design';
+import { CodePage } from './pages/Code';
 import './App.css';
 
 function App() {
@@ -11,7 +12,7 @@ function App() {
 
   return (
     <div className="app-container">
-      <Header activePage={page} setPage={setPage}>
+      <Header activePage={page} setPage={setPage} showBadge={false} showLogin={false}>
         <nav className="header-menu-nav" aria-label="Hovedmeny">
           <button 
             type="button"
@@ -27,14 +28,13 @@ function App() {
           >
             Komponenter
           </button>
-          <a 
-            href="https://github.com/norwegianredcross/DesignSystem" 
-            target="_blank" 
-            rel="noreferrer" 
-            className="header-menu-link"
+          <button 
+            type="button"
+            className={`header-menu-link ${page === 'code' ? 'header-menu-link-active' : ''}`}
+            onClick={() => setPage('code')}
           >
             Kode
-          </a>
+          </button>
         </nav>
       </Header>
       
@@ -43,6 +43,8 @@ function App() {
           <HomePage setPage={setPage} />
         ) : page === 'components' ? (
           <ComponentsPage />
+        ) : page === 'code' ? (
+          <CodePage setPage={setPage} />
         ) : (
           <DesignPage />
         )}

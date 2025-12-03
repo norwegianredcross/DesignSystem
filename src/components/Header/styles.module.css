@@ -2,7 +2,7 @@
   width: 100%;
   background-color: var(--ds-color-neutral-background-default);
   border-bottom: 1px solid var(--ds-color-neutral-border-subtle);
-  position: relative; /* For menu overlay positioning */
+  position: relative;
   z-index: 1000;
 }
 
@@ -10,25 +10,23 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: var(--ds-size-18);
+  height: auto;
+  min-height: 80px;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1364px;
   margin: 0 auto;
-  padding: 0 var(--ds-size-6);
+  padding: var(--ds-size-4) var(--ds-size-6);
   box-sizing: border-box;
+  gap: var(--ds-size-6);
 }
 
 .logo {
   display: block;
-  height: var(--ds-size-10);
+  height: 74px;
   width: auto;
   text-decoration: none;
   color: inherit;
-  transition: opacity 0.2s ease;
-}
-
-.logo:hover {
-  opacity: 0.8;
+  flex-shrink: 0;
 }
 
 .logo img {
@@ -37,34 +35,60 @@
   display: block;
 }
 
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-size-6);
+  flex-shrink: 0;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-size-3);
+}
+
+.userName {
+  display: block;
+  font-family: var(--ds-font-family);
+  font-size: var(--ds-font-size-md);
+  color: var(--ds-color-neutral-text-default);
+}
+
+.loginLink {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: var(--ds-color-main-text-subtle);
+  gap: 2px;
+}
+
+.loginText {
+  font-family: var(--ds-font-family);
+  font-size: var(--ds-font-size-md);
+  font-weight: var(--ds-font-weight-regular);
+  line-height: 1.5;
+}
+
+.underline {
+  width: 100%;
+  height: 1px;
+  background-color: var(--ds-color-main-border-strong);
+}
+
+.searchButtonWrapper {
+  display: flex;
+}
+
+.buttonText {
+  display: inline-block;
+  margin-left: var(--ds-size-2);
+}
+
 .menuButton {
   display: flex;
   align-items: center;
-  gap: var(--ds-size-2);
-  background: transparent;
-  border: 1px solid transparent;
-  color: var(--ds-color-neutral-text-default);
-  cursor: pointer;
-  padding: var(--ds-size-2) var(--ds-size-4);
-  border-radius: var(--ds-border-radius-md);
-  font-family: inherit;
-  transition: background-color 0.2s ease;
-}
-
-.menuButton:hover {
-  background-color: var(--ds-color-neutral-surface-hover);
-}
-
-.menuButton:focus-visible {
-  outline: 2px solid var(--ds-color-focus-outer);
-  outline-offset: 2px;
-  background-color: var(--ds-color-neutral-surface-hover);
-}
-
-.menuText {
-  font-weight: var(--ds-font-weight-medium);
-  font-size: var(--ds-font-size-md);
-  /* Hidden on small screens if desired, but desktop version requested */
 }
 
 .menuOverlay {
@@ -89,4 +113,37 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 var(--ds-size-6);
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+  .headerInner {
+    padding: var(--ds-size-4) var(--ds-size-6);
+  }
+}
+
+@media (max-width: 767px) {
+  .headerInner {
+    padding: var(--ds-size-5) var(--ds-size-6);
+    min-height: auto;
+  }
+  
+  .logo {
+    height: 40px;
+  }
+
+  .actions {
+    gap: var(--ds-size-4);
+  }
+  
+  .userName {
+    display: none;
+  }
+
+  /* Hide "Meny" / "Lukk" text on mobile for menu button */
+  .menuButton .buttonText {
+    display: none;
+  }
+  
+  /* "Søk" button text stays visible as per mobile design */
 }

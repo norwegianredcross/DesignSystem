@@ -149,7 +149,7 @@ export const Carousel: React.FC<CarouselProps> = ({
                 <div className={styles.slideInner} style={{ borderRadius: `${cornerRadius}px`, overflow: 'hidden', position: 'relative', width: '100%', height: '100%' }}>
                    {!loadedFlags[index] && (
                     <div className={styles.loaderOverlay}>
-                      <Spinner title="Laster bilde" />
+                      <Spinner aria-label="Laster bilde" />
                     </div>
                   )}
                   <img

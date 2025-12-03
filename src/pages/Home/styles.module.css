@@ -13,10 +13,9 @@
     /* Using tokens for vertical padding */
     padding: var(--ds-size-12) 0 var(--ds-size-22);
     background-color: var(--ds-color-neutral-background-default);
-    background-image: radial-gradient(var(--ds-color-neutral-border-subtle) 1px, transparent 1px);
-    background-size: var(--ds-size-8) var(--ds-size-8); /* 32px token equivalent approx */
+    overflow: hidden; /* Ensure the large floating grid doesn't cause scrollbars */
   }
-  
+
   .heroSection::after {
     content: '';
     position: absolute;
@@ -54,7 +53,7 @@
     margin-bottom: var(--ds-size-6);
     border: var(--ds-border-width-default) solid var(--ds-color-primary-color-red-border-subtle);
   }
-  
+
   .heroTitle {
     margin-bottom: var(--ds-size-6);
     color: var(--ds-color-neutral-text-default);
@@ -63,7 +62,7 @@
     font-size: var(--ds-font-size-9); /* Using large token */
     line-height: 1.1;
   }
-  
+
   .textHighlight {
     color: var(--ds-color-primary-color-red-base-default);
     position: relative;
@@ -90,7 +89,7 @@
   .heroVisual {
     position: relative;
     /* Using size tokens for height constraints */
-    height: calc(var(--ds-size-30) * 1.5);
+    height: calc(var(--ds-size-30) * 3);
     width: 100%;
     display: flex;
     justify-content: center;
@@ -98,10 +97,10 @@
     perspective: 2000px; 
     mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
   }
-  
+
   .floatingGrid {
     display: flex;
-    gap: var(--ds-size-6);
+    gap: var(--ds-size-10);
     transform: rotateX(12deg) rotateY(-12deg) rotateZ(6deg) translateX(var(--ds-size-5));
     transform-style: preserve-3d;
   }
@@ -110,8 +109,8 @@
     display: flex;
     flex-direction: column;
     gap: var(--ds-size-5);
-    width: calc(var(--ds-size-30) * 0.75); /* Approximately 200-240px based on token math */
-    animation: floatColumn 14s ease-in-out infinite alternate;
+    width: 220px; /* Fixed width for stability */
+    /* animation: floatColumn 14s ease-in-out infinite alternate; */
   }
   
   .columnOffset {
@@ -198,21 +197,10 @@
   /* PRIMARY ITEM (Components) */
   .bentoPrimary {
     background: linear-gradient(135deg, var(--ds-color-neutral-background-default) 0%, var(--ds-color-neutral-surface-tinted) 100%);
-    min-height: var(--ds-size-30); /* Ensures height on mobile */
   }
   
-  /* SIDE STACK (Design & Code) */
-  .bentoSideStack {
-    display: flex;
-    flex-direction: column;
-    gap: var(--ds-size-6);
-  }
-  
-  .bentoSecondary {
-    flex: 1; /* Each takes half height of the stack */
-    min-height: var(--ds-size-22);
-  }
-  
+  /* SIDE STACK REMOVED - Layout flattened */
+
   /* Bento Content */
   .bentoContent {
     position: relative;
@@ -353,15 +341,13 @@
   /* Tablet & Up */
   @media (min-width: 768px) {
     .bentoWrapper {
-      /* 2 columns */
-      grid-template-columns: repeat(2, 1fr);
+      /* 3 columns on tablet and up for equal sizing */
+      grid-template-columns: repeat(3, 1fr);
     }
   
-    /* Make Primary block take up left column */
-    .bentoPrimary {
-      grid-row: span 1; 
-      /* Force height to match the stack on the right */
-      height: 100%; 
+    .bentoItem {
+      height: 100%;
+      min-height: var(--ds-size-30);
     }
   
     .bentoPreview {
@@ -388,22 +374,36 @@
     .heroVisual {
       flex: 1;
       /* Use tokens for height */
-      height: calc(var(--ds-size-30) * 2);
-      justify-content: flex-end;
+      height: calc(var(--ds-size-30) * 3);
+      justify-content: center;
       perspective-origin: center right;
+      width:200%;
     }
     
     .gradientOverlay {
       background: linear-gradient(to right, var(--ds-color-neutral-background-default) 0%, transparent 20%);
     }
     
-    /* The "Balanced" Look: 2/3 + 1/3 layout */
     .bentoWrapper {
-      grid-template-columns: 2fr 1fr; /* Primary takes 2 parts, Stack takes 1 part */
       gap: var(--ds-size-8);
     }
     
     .valuesGrid {
       grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* Large Desktop & Up - Better balance for Hero */
+  @media (min-width: 1200px) {
+    .splitLayout {
+      gap: var(--ds-size-16);
+    }
+
+    .splitContent {
+      flex: 0 0 40%;
+    }
+    
+    .heroVisual {
+      flex: 1 / 2;
     }
   }
