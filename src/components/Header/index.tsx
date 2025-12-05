@@ -66,8 +66,7 @@ export const Header = ({
     if (!searchQuery.trim()) return [];
     const lowerQuery = searchQuery.toLowerCase();
     return searchIndex.filter(item => 
-      item.title.toLowerCase().includes(lowerQuery) || 
-      item.description?.toLowerCase().includes(lowerQuery)
+      item.title.toLowerCase().includes(lowerQuery)
     );
   }, [searchQuery]);
 
@@ -171,14 +170,14 @@ export const Header = ({
       {/* Search Overlay */}
       {isSearchOpen && (
         <div className={styles.searchOverlay}>
-          <div className={styles.searchContent}>
-            <Search>
-              <Search.Input 
-                aria-label="Søk" 
-                placeholder="Søk etter innhold..." 
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
+            <div className={styles.searchContent}>
+              <Search>
+                <Search.Input 
+                  aria-label="Søk" 
+                  placeholder="Søk etter innhold..." 
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
               <Search.Button aria-label="Søk" />
               <Search.ClearButton onClick={() => setSearchQuery('')} aria-label="Tøm søk" />
             </Search>
@@ -186,22 +185,59 @@ export const Header = ({
             {searchQuery && (
               <div className={styles.searchResults}>
                 {filteredResults.length > 0 ? (
-                  <ul className={styles.resultList}>
-                    {filteredResults.map((result) => (
-                      <li key={result.id} className={styles.resultItem}>
-                        <button 
-                          className={styles.resultLink}
-                          onClick={() => handleSearchResultClick(result.path)}
-                        >
-                          <span className={styles.resultTitle}>{result.title}</span>
-                          <span className={styles.resultCategory}>{result.category}</span>
-                          {result.description && (
-                            <span className={styles.resultDescription}>{result.description}</span>
-                          )}
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
+                  <div className={styles.suggestionsSection}>
+                    <h3 className={styles.suggestionsTitle}>Forslag til søk</h3>
+                    <ul className={styles.resultList}>
+                      {filteredResults.slice(0, 5).map((result) => (
+                        <li key={result.id} className={styles.resultItem}>
+                          <button 
+                            className={styles.resultLink}
+                            onClick={() => handleSearchResultClick(result.path)}
+                          >
+                            <span className={styles.suggestionIcon}>
+                              <MagnifyingGlassIcon aria-hidden />
+                            </span>
+                            <span className={styles.suggestionText}>
+                              {/* Simple highlighting: Split by query and color match */}
+                              {(() => {
+                                const matchIndex = result.title.toLowerCase().indexOf(searchQuery.toLowerCase());
+                                if (matchIndex === -1) return <span className={styles.remainingText}>{result.title}</span>;
+                                
+                                const before = result.title.slice(0, matchIndex);
+                                const match = result.title.slice(matchIndex, matchIndex + searchQuery.length);
+                                const after = result.title.slice(matchIndex + searchQuery.length);
+                                
+                                return (
+                                  <>
+                                    <span className={styles.remainingText}>{before}</span>
+                                    <span className={styles.highlightedText}>{match}</span>
+                                    <span className={styles.remainingText}>{after}</span>
+                                  </>
+                                );
+                              })()}
+                            </span>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                    {filteredResults.length > 5 && (
+                      <Link 
+                        href="#" 
+                        data-color="neutral"
+                        className={styles.viewAllLink} 
+                        onClick={(e) => { 
+                          e.preventDefault(); 
+                          if (setPage) {
+                            setPage(`search/${searchQuery}`);
+                          }
+                          setIsSearchOpen(false);
+                          setSearchQuery('');
+                        }}
+                      >
+                        Vis alle resultater ({filteredResults.length})
+                      </Link>
+                    )}
+                  </div>
                 ) : (
                   <div className={styles.noResults}>
                     <Paragraph>Ingen treff funnet for "{searchQuery}"</Paragraph>

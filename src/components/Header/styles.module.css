@@ -109,7 +109,20 @@
   align-items: center;
 }
 
-.menuOverlay, .searchOverlay {
+.menuOverlay {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: var(--ds-color-neutral-background-default);
+  border-bottom: 1px solid var(--ds-color-neutral-border-subtle);
+  box-shadow: var(--ds-shadow-lg);
+  padding: var(--ds-size-10) 0;
+  z-index: 999;
+  animation: slideDown 0.2s ease-out;
+}
+
+.searchOverlay {
   position: absolute;
   top: 100%;
   left: 0;
@@ -128,15 +141,38 @@
 }
 
 .menuContent, .searchContent {
-  max-width: 1200px;
+  max-width: 1364px;
   margin: 0 auto;
-  padding: 0 var(--ds-size-6);
+  padding: 0 var(--ds-size-6) 0 300px; /* Left padding to clear logo area */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  box-sizing: border-box;
+}
+
+/* Allow content to fill remaining width */
+.menuContent > *, .searchContent > * {
+  width: 100%;
+  max-width: none;
 }
 
 .searchContent {
+  gap: var(--ds-size-4);
+}
+
+.suggestionsSection {
   display: flex;
   flex-direction: column;
   gap: var(--ds-size-4);
+}
+
+.suggestionsTitle {
+  font-family: var(--ds-font-family);
+  font-size: var(--ds-font-size-md);
+  color: var(--ds-color-neutral-text-subtle);
+  font-weight: var(--ds-font-weight-regular);
+  margin: 0;
+  letter-spacing: 0.09px; /* Matches Figma */
 }
 
 .searchResults {
@@ -152,7 +188,7 @@
 }
 
 .resultItem {
-  border-bottom: 1px solid var(--ds-color-neutral-border-subtle);
+  border-bottom: none;
 }
 
 .resultItem:last-child {
@@ -161,19 +197,69 @@
 
 .resultLink {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
   width: 100%;
-  padding: var(--ds-size-3);
+  padding: var(--ds-size-2) 0;
   background: none;
   border: none;
   text-align: left;
   cursor: pointer;
-  transition: background-color 0.2s;
+  gap: var(--ds-size-4);
+  text-decoration: none;
+}
+
+.resultLink .suggestionIcon {
+  order: -1; /* Ensure icon is first (left) */
+}
+
+.suggestionIcon {
+  font-size: 20px;
+  color: var(--ds-color-neutral-text-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0; /* Prevent icon shrinking */
+}
+
+.suggestionText {
+  font-family: var(--ds-font-family);
+  font-size: var(--ds-font-size-md);
+  color: var(--ds-color-neutral-text-default);
+  line-height: 1.5;
+}
+
+.highlightedText {
+  color: var(--ds-color-primary-color-red-text-default); /* User requested: color/primary-color-red/text-default */
+  font-weight: var(--ds-font-weight-medium);
+}
+
+.remainingText {
+  color: var(--ds-color-neutral-border-subtle); /* User requested: color/neutral/border-subtle */
+}
+
+.resultLink:hover .suggestionText {
+  text-decoration: underline;
 }
 
 .resultLink:hover, .resultLink:focus {
-  background-color: var(--ds-color-neutral-background-hover);
+  background: none; /* No background on hover, just text underline */
   outline: none;
+}
+
+.viewAllLink {
+  display: block;
+  padding: var(--ds-size-3);
+  text-align: left;
+  font-size: var(--ds-font-size-sm);
+  font-weight: var(--ds-font-weight-medium);
+  color: var(--ds-color-neutral-text-default);
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.viewAllLink:hover {
+  background-color: var(--ds-color-neutral-background-hover);
 }
 
 .resultTitle {
@@ -245,4 +331,21 @@
   }
   
   /* "Søk" button text stays visible as per mobile design */
+  
+  .menuOverlay, .searchOverlay {
+    width: 100%;
+    right: 0;
+    left: 0;
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid var(--ds-color-neutral-border-subtle);
+  }
+
+  .menuContent, .searchContent {
+    padding: 0 var(--ds-size-6); /* Reset padding on mobile */
+  }
+
+  .menuContent > *, .searchContent > * {
+    max-width: 100%;
+  }
 }
