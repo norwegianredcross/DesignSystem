@@ -129,7 +129,7 @@
 /* To fix "cut off" on right side, we usually need the container to be wider or overflow properly. */
 /* If the container is max-width 1280px, and cards overflow, they will be cut off if overflow is hidden or constrained. */
 
-@media (min-width: 1300px) {
+@media (min-width: 1360px) {
     .cardGrid {
         justify-content: center; /* Center if they fit */
         overflow-x: visible; /* No scroll needed if they fit */
