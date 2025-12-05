@@ -290,7 +290,6 @@ export const CodePage = ({ setPage, section }: CodePageProps) => {
                        <details open className={styles.details}>
                          <summary className={`${styles.link} ${activeCodePage === item.id ? styles.linkActive : ''}`}>
                            {item.label}
-                           <span style={{ fontSize: '0.7em', marginLeft: 'auto' }}>▼</span>
                          </summary>
                          <ul className={styles.nestedList}>
                            {item.children.map((subItem, subIndex) => (

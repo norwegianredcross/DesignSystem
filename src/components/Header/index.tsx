@@ -90,7 +90,7 @@ export const Header = ({
           
           {/* Added Design System Logo */}
           <div className={styles.divider} />
-          <img src={`${import.meta.env.BASE_URL}designsystemlogobold.svg`} alt="Designsystem Logo" className={styles.secondaryLogo} />
+          <img src={`${import.meta.env.BASE_URL}designsystemlogofinal.svg`} alt="Designsystem Logo" className={styles.secondaryLogo} />
 
           {secondaryLogo && secondaryLogoSrc && (
             <>

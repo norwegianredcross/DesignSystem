@@ -89,7 +89,16 @@
   font-weight: var(--ds-font-weight-medium);
 }
 
+.details > summary {
+  list-style: none;
+}
+
+.details > summary::-webkit-details-marker {
+  display: none;
+}
+
 .nestedList {
+  list-style: none;
   display: flex;
   flex-direction: column;
   gap: 1px;
