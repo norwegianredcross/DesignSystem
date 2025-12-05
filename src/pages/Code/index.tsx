@@ -237,10 +237,16 @@ type MenuItem = {
 
 interface CodePageProps {
   setPage?: (page: string) => void;
+  section?: string;
 }
 
-export const CodePage = ({ setPage }: CodePageProps) => {
-  const [activeCodePage, setActiveCodePage] = useState('intro');
+export const CodePage = ({ setPage, section }: CodePageProps) => {
+  const [activeCodePage, setActiveCodePage] = useState(section || 'intro');
+
+  // Update active page if section prop changes
+  if (section && section !== activeCodePage) {
+     setActiveCodePage(section);
+  }
 
   // Menu Data Structure
   const menuItems: { title: string; items: MenuItem[] }[] = [

@@ -9,28 +9,30 @@ import './App.css';
 
 function App() {
   const [page, setPage] = useState('home');
+  
+  const [mainPage, subPage] = page.split('/');
 
   return (
     <div className="app-container">
-      <Header activePage={page} setPage={setPage} showUser={false} showBadge={false} showLogin={false}>
+      <Header activePage={mainPage} setPage={setPage} showUser={false} showLogin={false}>
         <nav className="header-menu-nav" aria-label="Hovedmeny">
           <button 
             type="button"
-            className={`header-menu-link ${page === 'design' ? 'header-menu-link-active' : ''}`}
+            className={`header-menu-link ${mainPage === 'design' ? 'header-menu-link-active' : ''}`}
             onClick={() => setPage('design')}
           >
             Design
           </button>
           <button 
             type="button"
-            className={`header-menu-link ${page === 'components' ? 'header-menu-link-active' : ''}`}
+            className={`header-menu-link ${mainPage === 'components' ? 'header-menu-link-active' : ''}`}
             onClick={() => setPage('components')}
           >
             Komponenter
           </button>
           <button 
             type="button"
-            className={`header-menu-link ${page === 'code' ? 'header-menu-link-active' : ''}`}
+            className={`header-menu-link ${mainPage === 'code' ? 'header-menu-link-active' : ''}`}
             onClick={() => setPage('code')}
           >
             Kode
@@ -39,14 +41,14 @@ function App() {
       </Header>
       
       <div className="main-content">
-        {page === 'home' ? (
+        {mainPage === 'home' ? (
           <HomePage setPage={setPage} />
-        ) : page === 'components' ? (
+        ) : mainPage === 'components' ? (
           <ComponentsPage />
-        ) : page === 'code' ? (
-          <CodePage setPage={setPage} />
+        ) : mainPage === 'code' ? (
+          <CodePage setPage={setPage} section={subPage} />
         ) : (
-          <DesignPage />
+          <DesignPage section={subPage} />
         )}
       </div>
 

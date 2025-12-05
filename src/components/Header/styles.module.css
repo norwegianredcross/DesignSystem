@@ -20,6 +20,12 @@
   gap: var(--ds-size-6);
 }
 
+.logoWrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-size-4);
+}
+
 .logo {
   display: block;
   height: 74px;
@@ -27,6 +33,18 @@
   text-decoration: none;
   color: inherit;
   flex-shrink: 0;
+}
+
+.divider {
+  width: 1px;
+  height: 40px;
+  background-color: var(--ds-color-neutral-border-subtle);
+}
+
+.secondaryLogo {
+  height: 24px;
+  width: auto;
+  display: block;
 }
 
 .logo img {
@@ -91,7 +109,7 @@
   align-items: center;
 }
 
-.menuOverlay {
+.menuOverlay, .searchOverlay {
   position: absolute;
   top: 100%;
   left: 0;
@@ -109,10 +127,79 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-.menuContent {
+.menuContent, .searchContent {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 var(--ds-size-6);
+}
+
+.searchContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-4);
+}
+
+.searchResults {
+  margin-top: var(--ds-size-4);
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.resultList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.resultItem {
+  border-bottom: 1px solid var(--ds-color-neutral-border-subtle);
+}
+
+.resultItem:last-child {
+  border-bottom: none;
+}
+
+.resultLink {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: var(--ds-size-3);
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.resultLink:hover, .resultLink:focus {
+  background-color: var(--ds-color-neutral-background-hover);
+  outline: none;
+}
+
+.resultTitle {
+  font-weight: var(--ds-font-weight-medium);
+  font-size: var(--ds-font-size-md);
+  color: var(--ds-color-neutral-text-default);
+}
+
+.resultCategory {
+  font-size: var(--ds-font-size-sm);
+  color: var(--ds-color-neutral-text-subtle);
+  margin-bottom: var(--ds-size-1);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.resultDescription {
+  font-size: var(--ds-font-size-sm);
+  color: var(--ds-color-neutral-text-subtle);
+  margin-top: var(--ds-size-1);
+}
+
+.noResults {
+  padding: var(--ds-size-4);
+  text-align: center;
+  color: var(--ds-color-neutral-text-subtle);
 }
 
 /* Responsive adjustments */
@@ -128,8 +215,20 @@
     min-height: auto;
   }
   
+  .logoWrapper {
+    gap: var(--ds-size-2);
+  }
+
   .logo {
     height: 40px;
+  }
+
+  .divider {
+    height: 24px;
+  }
+
+  .secondaryLogo {
+    height: 28px;
   }
 
   .actions {

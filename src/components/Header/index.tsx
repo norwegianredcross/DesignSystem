@@ -1,20 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from '../Link';
 import { Button } from '../Button';
 import { Avatar } from '../Avatar';
-import { Badge } from '../Badge';
 import { Paragraph } from '../Paragraph';
+import { Search } from '../Search';
 import styles from './styles.module.css';
 import { MenuHamburgerIcon, XMarkIcon, MagnifyingGlassIcon } from '@navikt/aksel-icons';
+import { searchIndex } from '../../utils/search-index';
 
 interface HeaderProps {
   activePage?: string;
   setPage?: (pageName: string) => void;
   children?: React.ReactNode;
   showUser?: boolean;
-  showBadge?: boolean;
   showSearch?: boolean;
   showLogin?: boolean;
+  secondaryLogo?: boolean;
+  secondaryLogoSrc?: string;
+  secondaryLogoAlt?: string;
 }
 
 export const Header = ({ 
@@ -22,15 +25,21 @@ export const Header = ({
   setPage, 
   children,
   showUser = true,
-  showBadge = true,
   showSearch = true,
-  showLogin = true
+  showLogin = true,
+  secondaryLogo = false,
+  secondaryLogoSrc,
+  secondaryLogoAlt = "Secondary Logo"
 }: HeaderProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Close menu when active page changes
   useEffect(() => {
     setIsOpen(false);
+    setIsSearchOpen(false);
+    setSearchQuery('');
   }, [activePage]);
 
   const handleLogoClick = (e: React.MouseEvent) => {
@@ -39,15 +48,57 @@ export const Header = ({
       setPage('home');
     }
     setIsOpen(false);
+    setIsSearchOpen(false);
+  };
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+    if (isSearchOpen) setIsSearchOpen(false);
+  };
+
+  const toggleSearch = () => {
+    setIsSearchOpen(!isSearchOpen);
+    if (isOpen) setIsOpen(false);
+    // Focus input logic could go here if we had a ref
+  };
+
+  const filteredResults = useMemo(() => {
+    if (!searchQuery.trim()) return [];
+    const lowerQuery = searchQuery.toLowerCase();
+    return searchIndex.filter(item => 
+      item.title.toLowerCase().includes(lowerQuery) || 
+      item.description?.toLowerCase().includes(lowerQuery)
+    );
+  }, [searchQuery]);
+
+  const handleSearchResultClick = (path: string) => {
+    if (setPage) {
+      setPage(path);
+    }
+    setIsSearchOpen(false);
+    setSearchQuery('');
   };
 
   return (
     <header className={styles.header}>
       <div className={styles.headerInner}>
         {/* Logo Section */}
-        <Link href="/" className={styles.logo} aria-label="Norges Røde Kors Hjem" onClick={handleLogoClick}>
-          <img src={`${import.meta.env.BASE_URL}logo-red-cross.svg`} alt="" /> 
-        </Link>
+        <div className={styles.logoWrapper}>
+          <Link href="/" className={styles.logo} aria-label="Norges Røde Kors Hjem" onClick={handleLogoClick}>
+            <img src={`${import.meta.env.BASE_URL}logo-red-cross.svg`} alt="" /> 
+          </Link>
+          
+          {/* Added Design System Logo */}
+          <div className={styles.divider} />
+          <img src={`${import.meta.env.BASE_URL}designsystemlogobold.svg`} alt="Designsystem Logo" className={styles.secondaryLogo} />
+
+          {secondaryLogo && secondaryLogoSrc && (
+            <>
+              <div className={styles.divider} />
+              <img src={secondaryLogoSrc} alt={secondaryLogoAlt} className={styles.secondaryLogo} />
+            </>
+          )}
+        </div>
 
         {/* Actions Section */}
         <div className={styles.actions}>
@@ -55,9 +106,7 @@ export const Header = ({
           {showUser && (
             <div className={styles.userInfo}>
               <Paragraph data-size="md" className={styles.userName}>Frodo Baggins</Paragraph>
-              <Avatar aria-label="Frodo Baggins" data-color="main" variant="circle" initials="FB">
-                {showBadge && <Badge count={19} data-color="danger" variant="base" />}
-              </Avatar>
+              <Avatar aria-label="Frodo Baggins" data-color="main" variant="circle" initials="FB" />
             </div>
           )}
 
@@ -76,10 +125,16 @@ export const Header = ({
                 variant="secondary" 
                 data-color="main"
                 data-size="md"
-                aria-label="Søk"
+                onClick={toggleSearch}
+                aria-expanded={isSearchOpen}
+                aria-label={isSearchOpen ? "Lukk søk" : "Åpne søk"}
               >
-                <MagnifyingGlassIcon aria-hidden />
-                <span className={styles.buttonText}>Søk</span>
+                {isSearchOpen ? (
+                  <XMarkIcon aria-hidden />
+                ) : (
+                  <MagnifyingGlassIcon aria-hidden />
+                )}
+                <span className={styles.buttonText}>{isSearchOpen ? 'Lukk' : 'Søk'}</span>
               </Button>
             </div>
           )}
@@ -89,7 +144,7 @@ export const Header = ({
             variant="primary" 
             data-color="main"
             data-size="md"
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={toggleMenu}
             aria-expanded={isOpen}
             aria-label={isOpen ? "Lukk meny" : "Åpne meny"}
             className={styles.menuButton}
@@ -109,6 +164,51 @@ export const Header = ({
         <div className={styles.menuOverlay}>
           <div className={styles.menuContent}>
             {children}
+          </div>
+        </div>
+      )}
+
+      {/* Search Overlay */}
+      {isSearchOpen && (
+        <div className={styles.searchOverlay}>
+          <div className={styles.searchContent}>
+            <Search>
+              <Search.Input 
+                aria-label="Søk" 
+                placeholder="Søk etter innhold..." 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <Search.Button aria-label="Søk" />
+              <Search.ClearButton onClick={() => setSearchQuery('')} aria-label="Tøm søk" />
+            </Search>
+
+            {searchQuery && (
+              <div className={styles.searchResults}>
+                {filteredResults.length > 0 ? (
+                  <ul className={styles.resultList}>
+                    {filteredResults.map((result) => (
+                      <li key={result.id} className={styles.resultItem}>
+                        <button 
+                          className={styles.resultLink}
+                          onClick={() => handleSearchResultClick(result.path)}
+                        >
+                          <span className={styles.resultTitle}>{result.title}</span>
+                          <span className={styles.resultCategory}>{result.category}</span>
+                          {result.description && (
+                            <span className={styles.resultDescription}>{result.description}</span>
+                          )}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className={styles.noResults}>
+                    <Paragraph>Ingen treff funnet for "{searchQuery}"</Paragraph>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       )}

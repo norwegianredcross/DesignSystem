@@ -4,7 +4,9 @@ import type { Preview } from '@storybook/react-vite';
 import { customStylesDecorator } from '../src/story-utils/customStylesDecorator';
 import { transformSource } from '../src/story-utils/transformSource';
 import { themeDecorator } from './themeDecorator';
+import { paddingDecorator } from './paddingDecorator';
 
+import '../src/index.css';
 import 'rk-design-tokens/design-tokens-build/theme.css';
 import '@digdir/designsystemet-css/index.css';
 
@@ -52,7 +54,7 @@ const preview: Preview = {
     mode: 'light',
   },
   parameters: {
-    layout: 'centered',
+    layout: 'padded', // Changed from 'centered' to allow padding control
     viewMode: 'docs',
     docs: {
       codePanel: true,
@@ -87,7 +89,7 @@ const preview: Preview = {
     },
   },
   tags: ['autodocs'],
-  decorators: [themeDecorator, customStylesDecorator],
+  decorators: [themeDecorator, customStylesDecorator, paddingDecorator],
 };
 
 export default preview;

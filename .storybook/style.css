@@ -1,53 +1,14 @@
-/* .storybook/style.css */
-
-/* 1. Import the "Source Sans 3" font */
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;700&display=swap');
-
-* {
-  font-feature-settings: 'cv05' 1;
+/* Global padding for the Storybook Preview (Canvas) area */
+.sb-show-main {
+    /* Push content down so it isn't covered by the fixed header */
+    padding-top: 20px !important; 
+    /* Add side padding so it doesn't touch the edges */
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    box-sizing: border-box;
 }
 
-html {
-  /* 2. Define a CSS variable for the font, just like next/font does */
-  --font-source-sans-3: 'Source Sans 3', sans-serif;
-
-  /* 3. Bridge: Force the design system to use our new font variable */
-  /* This is the key step to override the default 'Inter' font. */
-  --ds-font-family: var(--font-source-sans-3);
-
-  /* 4. Apply the font to the Storybook UI itself for consistency */
-  font-family: var(--ds-font-family);
-
-  height: 100%;
-}
-
-body {
-  background-color: var(--ds-color-neutral-background-default);
-}
-
-.sbdocs-wrapper {
-  padding-bottom: 10rem !important;
-}
-
-.docs-story {
-  background-color: var(--ds-color-neutral-background-default);
-}
-
-.sbdocs-content code {
-  display: inline;
-  border: none;
-  border-radius: var(--ds-border-radius-sm);
-  background: var(--ds-color-neutral-background-tinted);
-  color: var(--ds-color-neutral-text-default);
-  font-size: 0.8em;
-}
-
-/* --- ADDED: UI Polish --- */
-
-/* Ensures sidebar logo is crisp and centered */
-[data-testid='sidebar-header'] img {
-  max-width: 75%;
-  height: auto;
-  margin: 1.25rem auto;
-  display: block;
+/* Ensure the Docs view also respects this */
+.sbdocs-content {
+    padding-top: 20px !important;
 }

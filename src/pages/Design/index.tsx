@@ -721,8 +721,17 @@ type MenuItem = {
   children?: MenuItem[];
 };
 
-export const DesignPage = () => {
-  const [activeDesignPage, setActiveDesignPage] = useState('intro');
+interface DesignPageProps {
+  section?: string;
+}
+
+export const DesignPage = ({ section }: DesignPageProps) => {
+  const [activeDesignPage, setActiveDesignPage] = useState(section || 'intro');
+
+  // Update active page if section prop changes
+  if (section && section !== activeDesignPage) {
+     setActiveDesignPage(section);
+  }
 
   // Menu Data Structure
   const menuItems: { title: string; items: MenuItem[] }[] = [

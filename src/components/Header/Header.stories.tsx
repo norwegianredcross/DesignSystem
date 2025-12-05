@@ -6,19 +6,62 @@ const meta: Meta<typeof Header> = {
   component: Header,
   parameters: {
     layout: 'fullscreen',
+    viewport: {
+      defaultViewport: 'desktop',
+      viewports: {
+        desktop: {
+          name: 'Desktop 1366px',
+          styles: {
+            width: '1366px',
+            height: '900px',
+          },
+        },
+        mobile: {
+          name: 'Mobile',
+          styles: {
+            width: '375px',
+            height: '667px',
+          },
+        },
+      },
+    },
+    docs: {
+      // Use the MDX file for documentation
+      page: null, 
+    },
   },
   argTypes: {
-    showBadge: {
+    showUser: {
       control: 'boolean',
-      description: 'Toggle the notification badge on the avatar',
+      description: 'Show user profile information (avatar/name)',
+      defaultValue: true,
     },
     showSearch: {
       control: 'boolean',
-      description: 'Toggle the search button visibility',
+      description: 'Show search toggle button',
+      defaultValue: true,
     },
     showLogin: {
       control: 'boolean',
-      description: 'Toggle the login link visibility',
+      description: 'Show login link',
+      defaultValue: true,
+    },
+    children: {
+      control: 'text',
+      description: 'Content to display in the expandable menu',
+    },
+    secondaryLogo: {
+      control: 'boolean',
+      description: 'Show a secondary logo next to the main logo',
+      defaultValue: false,
+    },
+    secondaryLogoSrc: {
+      control: 'text',
+      description: 'Source URL for the secondary logo',
+    },
+    secondaryLogoAlt: {
+      control: 'text',
+      description: 'Alt text for the secondary logo',
     },
   },
 };
@@ -28,39 +71,77 @@ type Story = StoryObj<typeof Header>;
 
 export const Default: Story = {
   args: {
-    showBadge: true,
+    showUser: true,
     showSearch: true,
-    showLogin: true,
+    showLogin: false,
   },
 };
 
-export const NoBadge: Story = {
+export const Guest: Story = {
   args: {
-    showBadge: false,
+    showUser: false,
     showSearch: true,
     showLogin: true,
   },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Configuration for a non-authenticated user (Guest). Shows login link instead of user profile.',
+      },
+    },
+  },
 };
 
-export const Minimal: Story = {
+export const NoSearch: Story = {
   args: {
-    showBadge: false,
+    showUser: true,
     showSearch: false,
     showLogin: false,
   },
 };
 
+export const Mobile: Story = {
+  args: {
+    showUser: true, // On mobile, name is hidden via CSS, only avatar shown
+    showSearch: true,
+    showLogin: false,
+  },
+  parameters: {
+    viewport: {
+      defaultViewport: 'mobile',
+    },
+  },
+};
+
+export const WithSecondaryLogo: Story = {
+  args: {
+    showUser: true,
+    showSearch: true,
+    showLogin: false,
+    secondaryLogo: true,
+    secondaryLogoSrc: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Figma-1-logo.png/640px-Figma-1-logo.png',
+    secondaryLogoAlt: 'Figma Logo',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Header with a secondary logo displayed next to the main logo, separated by a divider.',
+      },
+    },
+  },
+};
+
 export const WithMenuContent: Story = {
   args: {
-    showBadge: true,
+    showUser: true,
     showSearch: true,
-    showLogin: true,
+    showLogin: false,
     children: (
-      <div style={{ padding: '2rem', background: 'var(--ds-color-neutral-background-subtle)' }}>
-        <h2>Menu Content Area</h2>
-        <p>This is where navigation links or other menu items would go.</p>
+      <div style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <a href="#" style={{ textDecoration: 'none', color: 'var(--ds-color-text-default)' }}>Design</a>
+        <a href="#" style={{ textDecoration: 'none', color: 'var(--ds-color-text-default)' }}>Komponenter</a>
+        <a href="#" style={{ textDecoration: 'none', color: 'var(--ds-color-text-default)' }}>Kode</a>
       </div>
     ),
   },
 };
-

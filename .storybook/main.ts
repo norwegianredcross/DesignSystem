@@ -18,7 +18,6 @@ const config: StorybookConfig = {
     '@storybook/addon-onboarding',
     '@storybook/addon-links',
     '@storybook/addon-a11y',
-    // ✅ plain addon-docs — no MDX3 providerImportSource
     '@storybook/addon-docs',
     '@chromatic-com/storybook',
   ],
@@ -57,7 +56,270 @@ const config: StorybookConfig = {
     },
   },
 
-  docs: {}, // leave empty for v10.0.4
+  docs: {},
+
+  managerHead: (head) => `
+    ${head}
+    <!-- Preconnect to font providers -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Load Source Sans 3 -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Load Typekit (optional backup/additional weights) -->
+    <link rel="stylesheet" href="https://use.typekit.net/vmx5jgv.css"> 
+
+    <style>
+      /* RESET */
+      body {
+        background-color: #f4f4f4; 
+        overflow-x: hidden;
+        /* Force vertical scrollbar to match main app behavior and prevent layout shifts */
+        overflow-y: scroll; 
+        margin: 0 !important;
+        padding: 0 !important;
+        font-family: "Source Sans 3", sans-serif;
+        font-feature-settings: "cv05" 1;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* TOKENS */
+      :root {
+        --ds-color-base-default: #D52B1E;
+        --ds-color-base-hover: #b12419;
+        --ds-color-base-active: #8e1d14;
+        --ds-color-base-contrast-default: #ffffff;
+        
+        --ds-border-width-default: 1px;
+        --ds-border-radius-default: 4px;
+        --ds-border-width-focus: 3px;
+        --ds-color-focus-inner: #ffffff;
+        --ds-color-focus-outer: #0067c5;
+        
+        --ds-size-2: 8px;
+        --ds-size-4: 16px;
+        --ds-size-6: 24px;
+        --ds-size-12: 48px;
+        
+        --ds-font-weight-medium: 500;
+        --ds-line-height-sm: 1.5;
+        --ds-opacity-disabled: 0.3;
+        
+        --ds-font-size-6: 24px; /* Approx 1.5rem */
+        --ds-color-neutral-text-default: #2b2b2b;
+        --ds-color-neutral-border-subtle: #e0e0e0; /* Define divider color */
+        
+        /* Shadow vars needed for button focus */
+        --dsc-focus-boxShadow: 0 0 0 var(--ds-border-width-focus) var(--ds-color-focus-inner);
+        --dsc-focus-outline: var(--ds-color-focus-outer) solid var(--ds-border-width-focus);
+      }
+
+      /* BUTTON COMPONENT CSS */
+      .ds-button{--dsc-button-background--active:var(--ds-color-base-active);--dsc-button-background--hover:var(--ds-color-base-hover);--dsc-button-background:var(--ds-color-base-default);--dsc-button-color:var(--ds-color-base-contrast-default);--dsc-button-color--hover:var(--ds-color-base-contrast-default);--dsc-button-border-width:var(--ds-border-width-default);--dsc-button-border-style:solid;--dsc-button-border-color:transparent;--dsc-button-gap:var(--ds-size-2);--dsc-button-padding:var(--ds-size-2) var(--ds-size-4);--dsc-button-size:var(--ds-size-12);align-items:center;background:var(--dsc-button-background);border-color:var(--dsc-button-border-color);border-radius:var(--ds-border-radius-default);border-style:var(--dsc-button-border-style);border-width:var(--dsc-button-border-width);box-sizing:border-box;color:var(--dsc-button-color);cursor:pointer;font-family:inherit;font-weight:var(--ds-font-weight-medium);gap:var(--dsc-button-gap);height:-moz-fit-content;height:fit-content;justify-content:center;line-height:var(--ds-line-height-sm);min-height:var(--dsc-button-size);min-width:var(--dsc-button-size);outline:none;padding:var(--dsc-button-padding);-webkit-print-color-adjust:exact;print-color-adjust:exact;text-align:inherit;text-decoration:none}.ds-button:focus-visible{box-shadow:var(--_ds--focus,var(--dsc-focus-boxShadow));outline:var(--_ds--focus,var(--dsc-focus-outline));outline-offset:var(--_ds--focus,var(--ds-border-width-focus))}.ds-button:focus-visible *{--_ds--focus: }.ds-button:not([data-size]){font-size:inherit}.ds-button :where(img,svg){flex-shrink:0;font-size:24px}.ds-button:focus-visible{position:relative}.ds-button:where(:not([hidden])){display:flex}
+      @media (hover:hover) and (pointer:fine){.ds-button:where(:not(:disabled,[aria-disabled=true],[aria-busy=true])):hover{background:var(--dsc-button-background--hover);color:var(--dsc-button-color--hover)}.ds-button:where(:not(:disabled,[aria-disabled=true],[aria-busy=true])):active{background:var(--dsc-button-background--active)}}
+
+      /* MENU CUSTOM CLASSES */
+      ._menuButton_1jp6u_107 {
+          display: flex;
+          align-items: center;
+      }
+      ._buttonText_1jp6u_102 {
+          display: inline-block;
+          margin-left: var(--ds-size-2);
+      }
+      
+      /* Icon wrapper fixes to prevent shifting */
+      .menu-icon-wrapper {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          line-height: 0; /* Eliminate text height influence */
+      }
+      
+      .header-menu-nav {
+        display: flex;
+        flex-direction: column;
+        gap: var(--ds-size-6);
+        margin-top: var(--ds-size-4);
+      }
+      
+      .header-menu-link {
+        font-size: var(--ds-font-size-6);
+        font-weight: var(--ds-font-weight-medium);
+        color: var(--ds-color-neutral-text-default);
+        text-decoration: none;
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        text-align: left;
+        transition: color .2s ease;
+        font-family: inherit;
+      }
+      
+      .header-menu-link:hover {
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+      }
+
+      /* Secondary Logo & Divider Styles */
+      .sb-header-logo-wrapper {
+        display: flex;
+        align-items: center;
+        gap: var(--ds-size-4);
+      }
+      
+      .sb-header-divider {
+        width: 1px;
+        height: 40px;
+        background-color: var(--ds-color-neutral-border-subtle);
+      }
+      
+      .sb-secondary-logo {
+        height: 24px;
+        width: auto;
+        display: block;
+      }
+
+      /* LAYOUT OVERRIDES */
+      .css-17kqctq {
+        width: 100% !important;
+        max-width: 1364px !important; /* Updated to match HeaderInner max-width */
+        margin: 0 auto !important;
+        position: relative !important;
+        top: 100px !important; /* Increased spacing from 80px to 100px */
+        height: calc(100vh - 100px) !important;
+        background-color: white;
+        box-shadow: none !important;
+        border: none !important;
+        display: grid !important;
+        grid-template-columns: 240px 1fr !important;
+        grid-template-rows: 1fr !important;
+      }
+      .sidebar-header { display: none !important; }
+      .css-v51glt { position: relative !important; height: 100% !important; border-right: 1px solid #eee; }
+      .css-g9eqoe { position: relative !important; height: 100% !important; }
+    </style>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const header = document.createElement('div');
+        header.id = 'custom-header-wrapper';
+        header.style.cssText = "position: fixed; top: 0; left: -17px; width: calc(100% + 17px); height: auto; min-height: 80px; z-index: 1000; background-color: #ffffff; border-bottom: 1px solid #e0e0e0; display: block; unicode-bidi: isolate;";
+        
+        header.innerHTML = \`
+            <div style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                height: auto;
+                min-height: 80px;
+                width: 100%;
+                max-width: 1364px;
+                margin: 0 auto;
+                padding: 16px 24px;
+                box-sizing: border-box;
+                gap: 24px;
+            ">
+                <!-- Logo Section with Secondary Logo -->
+                <div class="sb-header-logo-wrapper">
+                    <a href="/" aria-label="Norges Røde Kors Hjem" style="
+                        display: block;
+                        height: 74px;
+                        width: auto;
+                        text-decoration: none;
+                        color: inherit;
+                        flex-shrink: 0;
+                        cursor: pointer;
+                    ">
+                        <img src="./logo-red-cross.svg" alt="" style="height: 100%; width: auto; display: block;" />
+                    </a>
+                    
+                    <div class="sb-header-divider"></div>
+                    <svg class="sb-secondary-logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="75.21 893.65 1794.5 237.2"><path fill="#DC4F44" d="M75.7285 1106.4L1869.57 1106.51C1869.83 1113.84 1869.65 1122.44 1869.68 1129.89C1861.24 1131.21 1830.51 1130.5 1820.11 1130.48L1718.18 1130.56L1321.89 1130.85L75.5287 1130.74C75.3748 1123.78 74.7958 1112.99 75.7285 1106.4Z"/><path fill="#DC4F44" d="M78.7346 1111.23C105.181 1109.89 145.9 1111.54 173.767 1111.54L373.995 1111.3L908.657 1111.34L1505.22 1111.46L1728.74 1111.31C1773.15 1111.26 1820.82 1110.15 1864.81 1111.55C1864.74 1115.77 1864.99 1120.47 1863.18 1124.14C1856.43 1126.03 1832.63 1125.49 1824.5 1125.51L635.61 1124.68L226 1124.53C177.576 1124.47 126.967 1126.88 78.6424 1125.44C78.1755 1119.48 78.3142 1117.08 78.7346 1111.23Z"/><path fill="#020302" d="M82.5558 898.491C126.079 899.136 175.574 890.678 210.712 920.731C238.132 944.183 242.479 981.675 233.568 1014.95C229.197 1031.27 223.236 1039.47 212.457 1052.2C182.025 1081.8 122.55 1075.95 81.8268 1076.02C81.8184 1056.93 79.9366 905.84 82.5558 898.491ZM112.304 1047.58C142.528 1047.89 167.357 1053.23 190.98 1030.65C213.081 1004.21 211.409 958.555 183.888 936.414C165.189 921.371 135.124 925.491 111.952 925.761C112.059 965.2 111.363 1008.41 112.304 1047.58Z"/><path fill="#020302" d="M1821.11 899.319C1834.36 898.75 1849.69 899.032 1863.1 898.967L1863.38 1075.9C1853.08 1075.97 1842.78 1075.96 1832.48 1075.89C1830.93 1047.23 1833.07 1013.68 1832.12 984.594C1831.79 974.561 1832.83 957.182 1831.36 948.076L1830.11 947.466C1822.53 953.875 1772.5 1057.62 1763.25 1075.59C1758.91 1076.03 1753.58 1076.1 1749.14 1076.27C1744.15 1069.03 1733.33 1046.79 1728.68 1037.77C1714.24 1010.01 1700.02 982.129 1686.03 954.138C1683.51 949.5 1680.61 944.988 1677.83 940.494C1676.97 984.915 1677.52 1030.94 1677.51 1075.49L1647.48 1075.68C1646.28 1018.14 1647.11 957.458 1647.06 899.617C1661.45 899.562 1675.65 899.42 1690.03 899.993C1695.26 910.759 1753.21 1020.07 1755.16 1021.36L1756.88 1020.64C1761.81 1009.65 1768.92 997.887 1774.44 986.974C1789.3 957.572 1806.13 928.509 1821.11 899.319Z"/><path fill="#020302" d="M807.112 899.384C817.145 899.553 828.304 899.954 838.199 898.953C847.528 908.608 862.097 932.082 870.186 943.665C888.337 969.653 905.739 998.713 926.036 1022.91C926.908 982.506 926.091 939.716 925.98 899.139L956.175 899.337L956.097 1016.37C956.094 1030.6 957.187 1062.17 955.774 1075.06L954.017 1075.9L925.83 1075.86C897.089 1032.88 865.424 991.719 836.278 947.606C835.64 960.736 836.35 979.274 836.388 992.74L836.305 1075.75L807.2 1075.74C807.16 1055.64 804.902 904.767 807.112 899.384Z"/><path fill="#020302" d="M694.872 895.635C724.469 890.103 758.753 905.719 775.161 930.666C766.497 938.116 758.925 942.857 748.72 947.984C739.357 935.55 726.021 921.647 709.596 921.806C632.135 922.557 630.08 1045.09 706.452 1050.24C716.548 1050.92 728.193 1046.83 735.598 1039.96C742.614 1033.45 752.256 1018.39 752.331 1008.74C747.532 1000.12 726.004 1009.63 712.432 1004.39C709.936 1001.52 710.758 1002.06 710.492 997.25L710.489 979.432C731.088 978.565 761.463 979.137 782.301 979.76C782.262 1005.41 781.779 1025.86 766.72 1047.94C742.468 1083.51 689.043 1086.39 655.543 1062.57C613.523 1032.69 608.421 966.54 638.609 926.551C652.596 908.024 672.158 898.868 694.872 895.635Z"/><path fill="#020302" d="M382.708 898.517C385.881 898.32 388.374 897.764 391.132 899.16C395.471 904.732 393.393 916.997 393.34 925.404C360.23 925.124 327.118 925.137 294.009 925.442L293.984 971.584C321.531 972.275 351.287 971.795 379.018 971.883L379.104 998.558C355.232 999.944 318.897 998.785 294.03 998.846L294.098 1047.49C316.136 1048.09 340.994 1047.53 363.25 1047.53C374.304 1047.51 385.357 1047.58 396.41 1047.73C396.725 1056.62 396.522 1066.61 396.54 1075.58L263.48 1076.03C262.87 1057.48 263.394 1035.96 263.338 1017.21L262.838 898.688L382.708 898.517Z"/><path fill="#020302" d="M1470.06 899.094C1513.16 898.474 1557.34 898.839 1600.51 898.725L1600.44 925.117L1500.39 925.316C1500.3 940.848 1500.3 956.381 1500.38 971.913L1585.87 971.746L1585.86 998.731C1560.35 999.693 1529.68 998.943 1503.75 998.999L1501.54 999.195C1497.91 1003.1 1499.52 1040 1499.58 1047.39C1533.47 1047.32 1569.82 1046.58 1603.52 1047.45C1603.7 1056.65 1603.54 1066.26 1603.52 1075.49C1559.53 1076.2 1514.08 1075.73 1469.97 1075.85C1469.92 1017.38 1469.16 957.412 1470.06 899.094Z"/><path fill="#020302" d="M1197.43 895.376C1232.23 889.274 1252.13 906.44 1271.1 932.783C1263.45 935.958 1250.12 943.149 1242.75 943.321C1238.8 941.673 1234.94 934.873 1231.29 931.333C1223.87 924.03 1215.78 920.869 1205.41 920.584C1192.08 920.217 1173.76 928.545 1174.62 944.222C1175.76 964.837 1207.02 968.287 1222.11 973.697C1234.7 978.209 1247.63 982.281 1257.76 991.51C1278.64 1009.44 1274.54 1042.42 1256.36 1060.68C1244.28 1072.82 1228.33 1077.74 1211.25 1078C1178.47 1078.45 1151.18 1067.62 1135.77 1037.25C1144.57 1032.76 1153.72 1028.77 1162.75 1024.71C1170.36 1034.2 1177.56 1044.32 1189.27 1049.04C1209.05 1057.02 1242.82 1049.66 1238.93 1022.44C1237.3 1010.97 1221.88 1004.73 1212.13 1001.94C1187.42 994.718 1149.53 987.472 1144 957.011C1142.79 950.144 1143.96 939.553 1145.08 932.683C1145.91 927.577 1150.58 921.848 1153.47 917.635C1165.33 902.281 1178.54 897.717 1197.43 895.376Z"/><path fill="#020302" d="M463.432 894.416C472.457 892.542 488.457 894.355 497.285 897.137C519.424 904.114 529.7 913.292 540.352 932.96C530.383 936.972 521.078 941.147 510.788 945.154C500.017 924.965 491.115 919.064 468.486 921.047C453.308 922.377 439.955 931.905 444.365 947.787C448.067 962.498 471.636 969.12 486.323 971.623C527.851 978.7 556.504 1013.15 531.521 1053.98C522.176 1069.26 500.646 1074.91 482.872 1077.71C471.266 1078.35 459.632 1077.18 448.385 1074.24C432.642 1070.07 420.189 1061.48 411.943 1047.31C409.761 1043.56 406.601 1038.76 407.703 1034.64C412.86 1031.24 426.184 1027.99 432.596 1026.12C447.524 1046.59 478.759 1067.57 505.012 1038.96C513.501 1029.7 506.98 1009.81 492.84 1005.27C452.273 992.257 391.04 981.24 418.285 921.896C425.959 905.325 446.061 898.534 463.432 894.416Z"/><path fill="#020302" d="M1099.12 899.115C1110.56 899.162 1121.51 899.133 1132.94 899.846C1126.95 910.487 1118.13 922.771 1111.47 934.288C1097.37 958.692 1085.34 980.976 1068.34 1003.64C1069.19 1010.88 1068.6 1023.64 1068.7 1031.3C1068.89 1046.15 1069.04 1061.14 1068.97 1076L1039.16 1076.01C1038.62 1053.96 1039.61 1031.16 1038.3 1009.12C1037.87 1001.92 1031.61 994.38 1028.12 987.531C1014.69 963.227 997.974 937.407 983.291 913.588C980.223 908.611 977.192 904.874 974.48 899.504C986.609 899.461 998.738 899.589 1010.86 899.889C1018.96 914.136 1044.54 959.157 1054.68 970.639C1063.3 961.415 1075.08 936.734 1083 924.871C1086.36 919.847 1096.8 903.771 1099.12 899.115Z"/><path fill="#020302" d="M1282.83 899.413L1435.01 899.362L1435.03 925.074L1373.46 925.279C1372.99 955.203 1373.5 986.467 1373.53 1016.5L1373.55 1076.48L1342.8 1076.51C1341.79 1026.81 1342.36 974.745 1342.26 924.851L1281.87 925.086C1281.82 919.49 1281.11 903.527 1282.83 899.413Z"/><path fill="#020302" d="M563.836 898.875C573.829 898.563 584.943 898.699 595.016 898.621C593.067 955.412 594.588 1018.53 595.095 1075.57C588.318 1076.49 571.97 1076.03 564.464 1076.02C563 1018.16 564.464 957.243 563.836 898.875Z"/></svg>
+                </div>
+                
+                <div style="
+                    display: flex;
+                    align-items: center;
+                    gap: 24px;
+                    flex-shrink: 0;
+                ">
+                    <button class="ds-button _menuButton_1jp6u_107" data-variant="primary" type="button" data-color="main" data-size="md" aria-expanded="false" aria-label="Åpne meny" id="sb-custom-menu-btn">
+                        <!-- Icon Wrapper -->
+                        <span id="sb-menu-icon-open" class="menu-icon-wrapper">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 24 24" focusable="false" role="img" aria-hidden="true">
+                                <path fill="currentColor" fill-rule="evenodd" d="M2.75 6a.75.75 0 0 1 .75-.75h17a.75.75 0 0 1 0 1.5h-17A.75.75 0 0 1 2.75 6m0 6a.75.75 0 0 1 .75-.75h17a.75.75 0 0 1 0 1.5h-17a.75.75 0 0 1-.75-.75m.75 5.25a.75.75 0 0 0 0 1.5h17a.75.75 0 0 0 0-1.5z" clip-rule="evenodd"></path>
+                            </svg>
+                        </span>
+                        <span id="sb-menu-icon-close" class="menu-icon-wrapper" style="display: none;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 24 24" focusable="false" role="img" aria-hidden="true">
+                                <path fill="currentColor" fill-rule="evenodd" d="M5.72 5.72a.75.75 0 0 1 1.06 0L12 10.94l5.22-5.22a.75.75 0 1 1 1.06 1.06L13.06 12l5.22 5.22a.75.75 0 1 1-1.06 1.06L12 13.06l-5.22 5.22a.75.75 0 0 1-1.06-1.06L10.94 12 5.72 6.78a.75.75 0 0 1 0-1.06z" clip-rule="evenodd"></path>
+                            </svg>
+                        </span>
+                        <span class="_buttonText_1jp6u_102" id="sb-menu-text">Meny</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Menu Dropdown -->
+            <div id="sb-custom-menu-dropdown" style="
+                display: none; 
+                position: absolute; 
+                top: 100%; 
+                left: 0; 
+                width: 100%; 
+                background-color: #ffffff; 
+                border-bottom: 1px solid #e0e0e0; 
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); 
+                padding: 40px 0; 
+                z-index: 999;
+            ">
+                <div style="
+                    max-width: 1200px; 
+                    margin: 0 auto; 
+                    padding: 0 24px; 
+                ">
+                     <nav class="header-menu-nav" aria-label="Hovedmeny">
+                        <a href="../" class="header-menu-link">Design</a>
+                        <a href="./" class="header-menu-link">Komponenter</a>
+                        <a href="../code" class="header-menu-link">Kode</a>
+                     </nav>
+                </div>
+            </div>
+        \`;
+        
+        document.body.insertBefore(header, document.body.firstChild);
+
+        // Toggle Logic
+        const btn = document.getElementById('sb-custom-menu-btn');
+        const dropdown = document.getElementById('sb-custom-menu-dropdown');
+        const iconOpen = document.getElementById('sb-menu-icon-open');
+        const iconClose = document.getElementById('sb-menu-icon-close');
+        const text = document.getElementById('sb-menu-text');
+
+        if(btn && dropdown) {
+            btn.addEventListener('click', () => {
+                const isOpen = dropdown.style.display === 'block';
+                
+                if(isOpen) {
+                    dropdown.style.display = 'none';
+                    iconOpen.style.display = 'flex'; // Use flex for icon wrapper
+                    iconClose.style.display = 'none';
+                    text.textContent = 'Meny';
+                    btn.setAttribute('aria-expanded', 'false');
+                    btn.setAttribute('aria-label', 'Åpne meny');
+                } else {
+                    dropdown.style.display = 'block';
+                    iconOpen.style.display = 'none';
+                    iconClose.style.display = 'flex'; // Use flex for icon wrapper
+                    text.textContent = 'Lukk';
+                    btn.setAttribute('aria-expanded', 'true');
+                    btn.setAttribute('aria-label', 'Lukk meny');
+                }
+            });
+        }
+      });
+    </script>
+  `,
 };
 
 export default config;

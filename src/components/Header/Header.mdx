@@ -1,0 +1,98 @@
+import { Meta, Canvas, Controls, Primary } from '@storybook/addon-docs/blocks';
+import * as HeaderStories from './Header.stories';
+
+<Meta of={HeaderStories} />
+
+# Header
+
+#### Den globale toppteksten for applikasjonen. Header håndterer navigasjon, brukersesjon, søk og menyer.
+
+<Primary />
+
+<Controls />
+
+---
+
+## Bruk
+
+Header-komponenten er ment å ligge øverst i applikasjonen og være vedvarende på tvers av sider. Den tilpasser seg automatisk mobil og desktop.
+
+### Grunnleggende oppsett
+
+```tsx
+import { Header } from 'rk-designsystem';
+
+const MyApp = () => {
+  const [page, setPage] = useState('home');
+
+  return (
+    <div>
+      <Header 
+        activePage={page} 
+        setPage={setPage} 
+        showUser={true} 
+        showSearch={true} 
+        showLogin={false}
+      >
+        {/* Innholdet i den utvidbare menyen */}
+        <nav>
+          <a href="#" onClick={() => setPage('home')}>Hjem</a>
+          <a href="#" onClick={() => setPage('about')}>Om oss</a>
+        </nav>
+      </Header>
+      
+      <main>
+        {/* Sideinnhold */}
+      </main>
+    </div>
+  );
+};
+```
+
+### Varianter
+
+#### Gjest (Ikke innlogget)
+Viser "Logg inn" i stedet for brukerprofil.
+
+```tsx
+<Header showUser={false} showLogin={true} />
+```
+
+#### Uten søk
+Skjuler søkeknappen hvis applikasjonen ikke har globalt søk.
+
+```tsx
+<Header showSearch={false} />
+```
+
+#### Sekundær logo
+Viser en ekstra logo ved siden av hovedlogoen (f.eks. for samarbeidspartnere eller underavdelinger).
+
+```tsx
+<Header 
+  secondaryLogo={true}
+  secondaryLogoSrc="https://..."
+  secondaryLogoAlt="Partner Logo"
+/>
+```
+
+### Meny-innhold (Slots)
+Headeren har en `children`-prop som rendres inne i den utvidbare menyen (burgermenyen). Du står fritt til å legge inn navigasjonslenker, lister eller annen informasjon her.
+
+```tsx
+<Header>
+  <div style={{ padding: '2rem' }}>
+    <h2>Min Meny</h2>
+    <ul>
+      <li>Lenke 1</li>
+      <li>Lenke 2</li>
+    </ul>
+  </div>
+</Header>
+```
+
+## Tilgjengelighet (A11y)
+- **ARIA-labels:** Alle knapper har beskrivende `aria-label` attributter.
+- **Tastaturnavigasjon:** Menyer og søk kan åpnes og lukkes med tastatur.
+- **Fokus-styring:** Fokus holdes innenfor menyen når den er åpen (krever ekstern implementasjon for full "focus trap", men komponentet støtter naturlig tab-rekkefølge).
+
