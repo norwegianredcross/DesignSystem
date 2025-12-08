@@ -15,7 +15,14 @@ function App() {
 
   return (
     <div className="app-container">
-      <Header activePage={mainPage} setPage={setPage} showUser={false} showLogin={false}>
+      <Header 
+        activePage={mainPage} 
+        setPage={setPage} 
+        showUser={false} 
+        showLogin={false} 
+        showThemeToggle={true}
+        showCta={false}
+      >
         <nav className="header-menu-nav" aria-label="Hovedmeny">
           <button 
             type="button"

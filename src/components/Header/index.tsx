@@ -4,8 +4,9 @@ import { Button } from '../Button';
 import { Avatar } from '../Avatar';
 import { Paragraph } from '../Paragraph';
 import { Search } from '../Search';
+import { Switch } from '../Switch';
 import styles from './styles.module.css';
-import { MenuHamburgerIcon, XMarkIcon, MagnifyingGlassIcon } from '@navikt/aksel-icons';
+import { MenuHamburgerIcon, XMarkIcon, MagnifyingGlassIcon, HeartIcon } from '@navikt/aksel-icons';
 import { searchIndex } from '../../utils/search-index';
 
 interface HeaderProps {
@@ -15,9 +16,16 @@ interface HeaderProps {
   showUser?: boolean;
   showSearch?: boolean;
   showLogin?: boolean;
+  showCta?: boolean;
+  ctaLabel?: string;
+  ctaIcon?: React.ReactNode;
+  onCtaClick?: () => void;
+  showThemeToggle?: boolean;
   secondaryLogo?: boolean;
   secondaryLogoSrc?: string;
   secondaryLogoAlt?: string;
+  navItems?: { label: string; href: string }[];
+  showMenuButton?: boolean;
 }
 
 export const Header = ({ 
@@ -27,13 +35,21 @@ export const Header = ({
   showUser = true,
   showSearch = true,
   showLogin = true,
+  showCta = false,
+  ctaLabel = "Støtt oss",
+  ctaIcon = <HeartIcon aria-hidden />,
+  onCtaClick,
+  showThemeToggle = false,
   secondaryLogo = false,
   secondaryLogoSrc,
-  secondaryLogoAlt = "Secondary Logo"
+  secondaryLogoAlt = "Secondary Logo",
+  navItems,
+  showMenuButton = true
 }: HeaderProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
   // Close menu when active page changes
   useEffect(() => {
@@ -41,6 +57,12 @@ export const Header = ({
     setIsSearchOpen(false);
     setSearchQuery('');
   }, [activePage]);
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    document.documentElement.setAttribute('data-color-scheme', newTheme);
+  };
 
   const handleLogoClick = (e: React.MouseEvent) => {
     if (setPage) {
@@ -66,7 +88,7 @@ export const Header = ({
     if (!searchQuery.trim()) return [];
     const lowerQuery = searchQuery.toLowerCase();
     return searchIndex.filter(item => 
-      item.title.toLowerCase().includes(lowerQuery)
+      item.title.toLowerCase().startsWith(lowerQuery)
     );
   }, [searchQuery]);
 
@@ -83,13 +105,16 @@ export const Header = ({
       <div className={styles.headerInner}>
         {/* Logo Section */}
         <div className={styles.logoWrapper}>
-          <Link href="/" className={styles.logo} aria-label="Norges Røde Kors Hjem" onClick={handleLogoClick}>
-            <img src={`${import.meta.env.BASE_URL}logo-red-cross.svg`} alt="" /> 
-          </Link>
+        <Link href="/" className={styles.logo} aria-label="Norges Røde Kors Hjem" onClick={handleLogoClick}>
+          <img src={`${import.meta.env.BASE_URL}logo-red-cross.svg`} alt="" /> 
+        </Link>
           
           {/* Added Design System Logo */}
-          <div className={styles.divider} />
-          <img src={`${import.meta.env.BASE_URL}designsystemlogofinal.svg`} alt="Designsystem Logo" className={styles.secondaryLogo} />
+          <img 
+            src={`${import.meta.env.BASE_URL}${theme === 'dark' ? 'designsystemlogofinaldark.svg' : 'designsystemlogofinallight.svg'}`} 
+            alt="Designsystem Logo" 
+            className={styles.secondaryLogo} 
+          />
 
           {secondaryLogo && secondaryLogoSrc && (
             <>
@@ -99,8 +124,43 @@ export const Header = ({
           )}
         </div>
 
+        {navItems && navItems.length > 0 && (
+          <nav className={styles.navItems}>
+            {navItems.map((item, index) => (
+              <Link 
+                key={index} 
+                href={item.href} 
+                className={styles.navLink}
+                onClick={(e) => {
+                  if (setPage) {
+                    e.preventDefault();
+                    setPage(item.href);
+                  }
+                }}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+        )}
+
         {/* Actions Section */}
         <div className={styles.actions}>
+          {/* CTA Button */}
+          {showCta && (
+            <Button 
+              variant="primary" 
+              data-color="main" 
+              data-size="md"
+              className={styles.ctaButton}
+              onClick={onCtaClick}
+            >
+              {ctaIcon}
+              <span className={styles.buttonText}>{ctaLabel}</span>
+            </Button>
+          )}
+
+          {/* Theme Toggle - Moved to Menu */}
           {/* User Info - Desktop shows Name + Avatar, Mobile shows Avatar */}
           {showUser && (
             <div className={styles.userInfo}>
@@ -138,23 +198,25 @@ export const Header = ({
             </div>
           )}
 
-          {/* Menu Button */}
-          <Button 
-            variant="primary" 
-            data-color="main"
-            data-size="md"
-            onClick={toggleMenu}
-            aria-expanded={isOpen}
-            aria-label={isOpen ? "Lukk meny" : "Åpne meny"}
-            className={styles.menuButton}
-          >
-            {isOpen ? (
-              <XMarkIcon aria-hidden />
-            ) : (
-              <MenuHamburgerIcon aria-hidden />
-            )}
-            <span className={styles.buttonText}>{isOpen ? 'Lukk' : 'Meny'}</span>
-          </Button>
+        {/* Menu Button */}
+          {showMenuButton && (
+            <Button 
+              variant="primary" 
+              data-color="main"
+              data-size="md"
+              onClick={toggleMenu}
+              aria-expanded={isOpen}
+              aria-label={isOpen ? "Lukk meny" : "Åpne meny"}
+              className={styles.menuButton}
+            >
+              {isOpen ? (
+                <XMarkIcon aria-hidden />
+              ) : (
+                <MenuHamburgerIcon aria-hidden />
+              )}
+              <span className={styles.buttonText}>{isOpen ? 'Lukk' : 'Meny'}</span>
+            </Button>
+          )}
         </div>
       </div>
 
@@ -162,7 +224,23 @@ export const Header = ({
       {isOpen && (
         <div className={styles.menuOverlay}>
           <div className={styles.menuContent}>
-            {children}
+            <div className={styles.menuLeftColumn} aria-hidden="true" />
+            <div className={styles.menuRightColumn}>
+              {showThemeToggle && (
+                <div className={styles.menuThemeToggleWrapper}>
+                  <Switch
+                    position="end"
+                    checked={theme === 'dark'}
+                    onChange={toggleTheme}
+                    label="Nattmodus"
+                    data-size="sm"
+                  />
+                </div>
+              )}
+              <div className={styles.slotContent}>
+                {children}
+              </div>
+            </div>
           </div>
         </div>
       )}

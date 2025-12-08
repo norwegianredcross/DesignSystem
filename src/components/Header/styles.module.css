@@ -33,6 +33,7 @@
   text-decoration: none;
   color: inherit;
   flex-shrink: 0;
+  background-color: white; /* Always white regardless of theme */
 }
 
 .divider {
@@ -53,11 +54,43 @@
   display: block;
 }
 
+.navItems {
+  display: flex;
+  gap: 40px; /* Matches Figma design */
+  align-items: center;
+  margin-left: 24px; /* Space from logo */
+  flex-grow: 1; /* Pushes actions to the right */
+}
+
+.navLink {
+  color: var(--ds-color-primary-color-red-text-default);
+  font-family: var(--ds-font-family);
+  font-size: var(--ds-font-size-md);
+  text-decoration: none;
+  font-weight: var(--ds-font-weight-regular);
+  letter-spacing: 0.09px;
+}
+
+.navLink:hover {
+  text-decoration: underline;
+}
+
 .actions {
   display: flex;
   align-items: center;
   gap: var(--ds-size-6);
   flex-shrink: 0;
+  margin-left: auto; /* Ensures actions stay to the right */
+}
+
+.ctaButton {
+  display: flex;
+  align-items: center;
+}
+
+.themeToggle {
+  display: flex;
+  align-items: center;
 }
 
 .userInfo {
@@ -140,7 +173,7 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-.menuContent, .searchContent {
+.searchContent {
   max-width: 1364px;
   margin: 0 auto;
   padding: 0 var(--ds-size-6) 0 300px; /* Left padding to clear logo area */
@@ -150,14 +183,42 @@
   box-sizing: border-box;
 }
 
-/* Allow content to fill remaining width */
-.menuContent > *, .searchContent > * {
-  width: 100%;
-  max-width: none;
+.menuContent {
+  max-width: 1364px;
+  margin: 0 auto;
+  padding: 48px var(--ds-size-6) 80px var(--ds-size-6);
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  box-sizing: border-box;
 }
 
-.searchContent {
-  gap: var(--ds-size-4);
+.menuLeftColumn {
+  width: 217px; /* Matches Figma design */
+  flex-shrink: 0;
+}
+
+.menuRightColumn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 24px;
+  gap: 24px;
+}
+
+.menuThemeToggleWrapper {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.slotContent {
+  width: 100%;
+  padding: var(--ds-size-10) 0;
+  text-align: center;
+  color: var(--ds-color-neutral-text-subtle);
+  font-size: var(--ds-font-size-md);
+  border-radius: var(--ds-border-radius-md);
 }
 
 .suggestionsSection {
@@ -288,6 +349,7 @@
   color: var(--ds-color-neutral-text-subtle);
 }
 
+
 /* Responsive adjustments */
 @media (min-width: 768px) {
   .headerInner {
@@ -299,6 +361,10 @@
   .headerInner {
     padding: var(--ds-size-5) var(--ds-size-6);
     min-height: auto;
+  }
+  
+  .navItems {
+    display: none; /* Hide nav items on mobile */
   }
   
   .logoWrapper {
@@ -330,6 +396,11 @@
     display: none;
   }
   
+  /* Hide CTA text on mobile to save space */
+  .ctaButton .buttonText {
+    display: none;
+  }
+
   /* "Søk" button text stays visible as per mobile design */
   
   .menuOverlay, .searchOverlay {
@@ -341,11 +412,25 @@
     border-bottom: 1px solid var(--ds-color-neutral-border-subtle);
   }
 
-  .menuContent, .searchContent {
-    padding: 0 var(--ds-size-6); /* Reset padding on mobile */
+  .searchContent {
+    padding: 0 var(--ds-size-6);
   }
 
-  .menuContent > *, .searchContent > * {
+  .menuContent {
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .menuLeftColumn {
+    display: none;
+  }
+
+  .menuRightColumn {
+    padding: var(--ds-size-6);
+    gap: var(--ds-size-4);
+  }
+
+  .searchContent > * {
     max-width: 100%;
   }
 }
