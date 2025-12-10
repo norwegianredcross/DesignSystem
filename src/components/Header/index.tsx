@@ -111,7 +111,7 @@ export const Header = ({
           
           {/* Added Design System Logo */}
           <img 
-            src={`${import.meta.env.BASE_URL}${theme === 'dark' ? 'designsystemlogofinaldark.svg' : 'designsystemlogofinallight.svg'}`} 
+            src={`${import.meta.env.BASE_URL}designsystemlogofinallight.svg`} 
             alt="Designsystem Logo" 
             className={styles.secondaryLogo} 
           />
