@@ -150,7 +150,6 @@
   background-color: var(--ds-color-neutral-background-default);
   border-bottom: 1px solid var(--ds-color-neutral-border-subtle);
   box-shadow: var(--ds-shadow-lg);
-  padding: var(--ds-size-10) 0;
   z-index: 999;
   animation: slideDown 0.2s ease-out;
 }
@@ -186,7 +185,6 @@
 .menuContent {
   max-width: 1364px;
   margin: 0 auto;
-  padding: 48px var(--ds-size-6) 80px var(--ds-size-6);
   display: flex;
   flex-direction: row;
   align-items: stretch;
@@ -194,7 +192,7 @@
 }
 
 .menuLeftColumn {
-  width: 217px; /* Matches Figma design */
+  width: 265px; /* Matches Figma design */
   flex-shrink: 0;
 }
 
@@ -202,7 +200,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 0 24px;
+  padding: 48px 24px 80px 24px;
   gap: 24px;
 }
 

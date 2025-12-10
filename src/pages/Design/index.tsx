@@ -542,16 +542,281 @@ const PraktiskeEksemplerContent = () => (
   <ArticleLayout title="Praktiske eksempler" category="Kom i gang">
     <Heading level={2} data-size="md">Eksempel 1: Påmeldingsskjema</Heading>
     <List.Ordered style={{ marginBottom: 'var(--ds-size-6)' }}>
-      <List.Item>Trinn 1: Start med en ny frame</List.Item>
-      <List.Item>Trinn 2: Legg til overskrift</List.Item>
-      <List.Item>Trinn 3: Legg til tekstfelt</List.Item>
-      <List.Item>Trinn 4: Legg til dropdown</List.Item>
-      <List.Item>Trinn 5: Legg til send-knapp</List.Item>
+      <List.Item>Trinn 1: Start med en ny frame
+        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+          Opprett en ny frame i Figma med ønsket størrelse. Bruk design tokens for å sette framefargen hvis nødvendig (f.eks. background-default).
+        </Paragraph>
+      </List.Item>
+      <List.Item>Trinn 2: Legg til overskrift
+        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+          Bruk komponenten Heading for å legge til en overskrift, som "Meld deg på vårt arrangement". Juster størrelsen med size-modusen, om nødvendig.
+        </Paragraph>
+        <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '100%', marginBottom: 'var(--ds-size-4)' }}>
+          <iframe 
+            title="vimeo-player" 
+            src="https://player.vimeo.com/video/1108973051?h=3ebb924832&byline=0&portrait=0&title=0" 
+            width="640" 
+            height="360" 
+            frameBorder="0" 
+            referrerPolicy="strict-origin-when-cross-origin" 
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+            allowFullScreen 
+            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+          />
+        </div>
+      </List.Item>
+      <List.Item>Trinn 3: Legg til tekstfelt for navn og e-post
+        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+          Sett inn to Text Input-komponenter. Den første for "Fullt navn" og den andre for "E-postadresse". Sørg for å bruke placeholder-modusen for instruksjoner i tekstfeltene.
+        </Paragraph>
+        <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '100%', marginBottom: 'var(--ds-size-4)' }}>
+          <iframe 
+            title="vimeo-player" 
+            src="https://player.vimeo.com/video/1108973063?h=c12d3bac52&byline=0&portrait=0&title=0" 
+            width="640" 
+            height="360" 
+            frameBorder="0" 
+            referrerPolicy="strict-origin-when-cross-origin" 
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+            allowFullScreen 
+            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+          />
+        </div>
+      </List.Item>
+      <List.Item>Trinn 4: Legg til en dropdown for valg av arrangement
+        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+          Bruk komponenten Multisuggestion for å la brukeren velge mellom forskjellige arrangementer. Legg til nødvendige alternativer i dropdown-menyen.
+        </Paragraph>
+        <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '100%', marginBottom: 'var(--ds-size-4)' }}>
+          <iframe 
+            title="vimeo-player" 
+            src="https://player.vimeo.com/video/1108973085?h=3e90ad812a&byline=0&portrait=0&title=0" 
+            width="640" 
+            height="360" 
+            frameBorder="0" 
+            referrerPolicy="strict-origin-when-cross-origin" 
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+            allowFullScreen 
+            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+          />
+        </div>
+      </List.Item>
+      <List.Item>Trinn 5: Legg til en send-knapp
+        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+          Sett inn en Button-komponent og tilpass fargen ved å bruke color-modusen hvis knappen skal skille seg ut. Legg til ikon hvis ønskelig.
+        </Paragraph>
+        <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '100%', marginBottom: 'var(--ds-size-4)' }}>
+          <iframe 
+            title="vimeo-player" 
+            src="https://player.vimeo.com/video/1108973099?h=a417e2a4c2&byline=0&portrait=0&title=0" 
+            width="640" 
+            height="360" 
+            frameBorder="0" 
+            referrerPolicy="strict-origin-when-cross-origin" 
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+            allowFullScreen 
+            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+          />
+        </div>
+      </List.Item>
     </List.Ordered>
+
+    <Heading level={3} data-size="sm">Obs!</Heading>
+    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+       Bruk color og sizetokens i framems rundt komponentene for å sikre at alle moduser fungerer som de skal.
+    </Paragraph>
+    <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '100%', marginBottom: 'var(--ds-size-8)' }}>
+      <iframe 
+        title="vimeo-player" 
+        src="https://player.vimeo.com/video/1108973121?h=f9c897493e&byline=0&portrait=0&title=0" 
+        width="640" 
+        height="360" 
+        frameBorder="0" 
+        referrerPolicy="strict-origin-when-cross-origin" 
+        allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+        allowFullScreen 
+        style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+      />
+    </div>
+
     <Heading level={2} data-size="md">Eksempel 2: Artikkelside</Heading>
-    <Paragraph>Følg trinnene for å sette opp grid, ingress og bilder.</Paragraph>
-    <Heading level={2} data-size="md">Eksempel 3: Planleggingsverktøy</Heading>
-    <Paragraph>Oppsett av kalender, kort og tabeller.</Paragraph>
+    <List.Ordered style={{ marginBottom: 'var(--ds-size-6)' }}>
+      <List.Item>Trinn 1: Opprett en ny frame
+        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+          Start med å lage en ny vertikal frame i Figma med ønsket bredde (f.eks. 8- eller 12-kolonne grid). Sett bakgrunnsfarge ved hjelp av design tokens (f.eks. background-color: var(--color-background-light)).
+        </Paragraph>
+        <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '100%', marginBottom: 'var(--ds-size-4)' }}>
+          <iframe 
+            title="vimeo-player" 
+            src="https://player.vimeo.com/video/1108973134?h=1a1181d76c&byline=0&portrait=0&title=0" 
+            width="640" 
+            height="360" 
+            frameBorder="0" 
+            referrerPolicy="strict-origin-when-cross-origin" 
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+            allowFullScreen 
+            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+          />
+        </div>
+      </List.Item>
+      <List.Item>Trinn 2: Legg til en hovedoverskrift
+        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+          Bruk Heading-komponenten for å legge til tittelen på artikkelen. Juster størrelsen med size-modus (f.eks. heading-xleller heading-lg).
+        </Paragraph>
+        <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '100%', marginBottom: 'var(--ds-size-4)' }}>
+          <iframe 
+            title="vimeo-player" 
+            src="https://player.vimeo.com/video/1108973149?h=fda6753ccb&byline=0&portrait=0&title=0" 
+            width="640" 
+            height="360" 
+            frameBorder="0" 
+            referrerPolicy="strict-origin-when-cross-origin" 
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+            allowFullScreen 
+            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+          />
+        </div>
+      </List.Item>
+      <List.Item>Trinn 3: Legg til ingress
+        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+          Bruk Text-komponenten i body-large-stil for å skrive en kort ingress som oppsummerer artikkelen. Plasser denne rett under overskriften, med tilstrekkelig spacing.
+        </Paragraph>
+        <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '100%', marginBottom: 'var(--ds-size-4)' }}>
+          <iframe 
+            title="vimeo-player" 
+            src="https://player.vimeo.com/video/1108973161?h=48162c787c&byline=0&portrait=0&title=0" 
+            width="640" 
+            height="360" 
+            frameBorder="0" 
+            referrerPolicy="strict-origin-when-cross-origin" 
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+            allowFullScreen 
+            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+          />
+        </div>
+      </List.Item>
+      <List.Item>Trinn 4: Sett inn hovedinnhold med tekstblokker
+        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+          Bruk Text-komponenter i body-default eller body-large for å bygge ut brødteksten. Del opp teksten i tydelige avsnitt og legg inn mellomtitler med Heading-komponenten i mindre størrelse (heading-md eller heading-sm).
+        </Paragraph>
+        <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '100%', marginBottom: 'var(--ds-size-4)' }}>
+          <iframe 
+            title="vimeo-player" 
+            src="https://player.vimeo.com/video/1108973182?h=61d59181ae&byline=0&portrait=0&title=0" 
+            width="640" 
+            height="360" 
+            frameBorder="0" 
+            referrerPolicy="strict-origin-when-cross-origin" 
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+            allowFullScreen 
+            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+          />
+        </div>
+      </List.Item>
+      <List.Item>Trinn 5: Legg til et bilde i artikkelen
+        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+          Bruk Image-komponenten for å plassere et illustrasjons- eller artikkelbilde midtstilt i teksten. Bruk size-modusen hvis du trenger å endre størrelse (f.eks. medium eller full-width).
+        </Paragraph>
+        <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+          Foreløpig har vi ingen Image -komponent så vi bruker derfor en frame i steden
+        </Paragraph>
+        <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '100%', marginBottom: 'var(--ds-size-4)' }}>
+          <iframe 
+            title="vimeo-player" 
+            src="https://player.vimeo.com/video/1108973193?h=9ae87e1d69&byline=0&portrait=0&title=0" 
+            width="640" 
+            height="360" 
+            frameBorder="0" 
+            referrerPolicy="strict-origin-when-cross-origin" 
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+            allowFullScreen 
+            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+          />
+        </div>
+      </List.Item>
+      <List.Item>Trinn 6: Legg til lenker i teksten
+        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+          Bruk Link-komponenten der det er behov for hyperkoblinger til relaterte artikler, dokumenter eller eksterne kilder.
+        </Paragraph>
+        <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '100%', marginBottom: 'var(--ds-size-4)' }}>
+          <iframe 
+            title="vimeo-player" 
+            src="https://player.vimeo.com/video/1108973211?h=dd1010562a&byline=0&portrait=0&title=0" 
+            width="640" 
+            height="360" 
+            frameBorder="0" 
+            referrerPolicy="strict-origin-when-cross-origin" 
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+            allowFullScreen 
+            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+          />
+        </div>
+      </List.Item>
+      <List.Item>Trinn 7: Avslutt med relaterte artikler eller deling
+        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+          Bruk Card-komponenter i et grid-layout for å vise relaterte artikler. Hver kort bør inneholde bilde, tittel og en "Les mer"-lenke. Alternativt kan du legge til Share-komponenter for sosiale medier nederst.
+        </Paragraph>
+      </List.Item>
+    </List.Ordered>
+
+    <Heading level={2} data-size="md">Eksempel 3: Planleggings verktøy</Heading>
+    <List.Ordered style={{ marginBottom: 'var(--ds-size-6)' }}>
+      <List.Item>Trinn 1: Opprett en frame
+        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+          Start med å lage en ny vertikal frame i Figma, med den ønskede bredden som passer til layouten for aktivitetskalenderen din (f.eks. 12-kolonne grid). Sett bakgrunnsfargen ved hjelp av design tokens (f.eks. background-color: var(--color-background-light)).
+        </Paragraph>
+      </List.Item>
+      <List.Item>Trinn 2: Legg til en hovedoverskrift
+        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+          Bruk Heading-komponenten for å legge til tittelen "Aktivitetskalender". Juster størrelsen med size-modus som passer (f.eks. heading-xl eller heading-lg).
+        </Paragraph>
+      </List.Item>
+      <List.Item>Trinn 3: Legg til en kort beskrivelse
+        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+          Bruk Text-komponenten i body-large-stil for å skrive en kort beskrivelse som forklarer formålet med kalenderen. Plasser denne rett under hovedoverskriften, med tilstrekkelig spacing for å sikre lesbarhet.
+        </Paragraph>
+      </List.Item>
+      <List.Item>Trinn 4: Sett inn kalenderoversikt
+        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+          Bruk en Table-komponent for å lage en oversikt over månedens aktiviteter. Sørg for at hver rad representerer en dag og inkluderer kolonner for dato, aktivitet, tid og sted. Juster størrelsen på tabellen etter behov.
+        </Paragraph>
+      </List.Item>
+      <List.Item>Trinn 5: Legg til detaljerte aktivitetskort
+        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+          Bruk Card-komponenter for å vise detaljerte beskrivelser av hver aktivitet. Hvert kort bør inneholde aktivitetens navn, beskrivelse, tid, sted og en "Mer info"-knapp som kan føre til en detaljert side om aktiviteten.
+        </Paragraph>
+      </List.Item>
+      <List.Item>Trinn 6: Sett inn bilder for hver aktivitet
+        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+          Bruk Image-komponenten innenfor hvert aktivitetskort for å inkludere relevante bilder. Bruk size-modusen for å tilpasse bildene til kortene (f.eks. medium eller full-width).
+        </Paragraph>
+      </List.Item>
+      <List.Item>Trinn 7: Legg til et filter eller søkefunksjon
+        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+          Bruk Search-komponenten for å legge til en søkefunksjon øverst på siden, slik at brukere enkelt kan finne aktiviteter basert på navn, dato eller kategori.
+        </Paragraph>
+      </List.Item>
+      <List.Item>Trinn 8: Inkluder en "Legg til i kalender" funksjon
+        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+          Bruk Button-komponenter for å tilby en funksjon der brukere kan legge aktiviteter til sin personlige kalender. Plasser denne knappen i nærheten av aktivitetsdetaljene.
+        </Paragraph>
+      </List.Item>
+      <List.Item>Trinn 9: Legg til lenker og navigasjon
+        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+          Bruk Link-komponenter for å legge til hyperkoblinger til relaterte aktiviteter eller eksterne ressurser, som for eksempel billetter eller mer informasjon. Sørg for tydelig kontrast og understreking i henhold til designreglene.
+        </Paragraph>
+      </List.Item>
+      <List.Item>Trinn 10: Avslutt med sosiale delingsmuligheter
+        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+          Bruk Share-komponenter for sosiale medier nederst på siden, slik at brukere kan dele interessante aktiviteter med venner og familie.
+        </Paragraph>
+      </List.Item>
+      <List.Item>Trinn 11: Tilpass for mobilvisning
+        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+          Sørg for at layouten er responsiv. Bruk layout grid og auto layout for å sikre at tekst, bilder og kort flyter riktig på små skjermer. Test designet på forskjellige skjermstørrelser for å sikre optimal brukeropplevelse.
+        </Paragraph>
+      </List.Item>
+    </List.Ordered>
   </ArticleLayout>
 );
 
@@ -727,6 +992,7 @@ interface DesignPageProps {
 
 export const DesignPage = ({ section }: DesignPageProps) => {
   const [activeDesignPage, setActiveDesignPage] = useState(section || 'intro');
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
 
   // Update active page if section prop changes
   if (section && section !== activeDesignPage) {
@@ -840,8 +1106,18 @@ export const DesignPage = ({ section }: DesignPageProps) => {
                    <li key={itemIndex} className={styles.listItem}>
                      {item.children ? (
                        // Has children - Sub-menu
-                       <details open className={styles.details}>
-                         <summary className={`${styles.link} ${activeDesignPage === item.id ? styles.linkActive : ''}`}>
+                       <details 
+                         open={openSections[`${index}-${itemIndex}`] || false} 
+                         className={styles.details}
+                       >
+                         <summary 
+                           className={`${styles.link} ${activeDesignPage === item.id ? styles.linkActive : ''}`}
+                           onClick={(e) => {
+                             e.preventDefault();
+                             const key = `${index}-${itemIndex}`;
+                             setOpenSections(prev => ({ ...prev, [key]: !prev[key] }));
+                           }}
+                         >
                            {item.label}
                          </summary>
                          <ul className={styles.nestedList}>
@@ -850,7 +1126,12 @@ export const DesignPage = ({ section }: DesignPageProps) => {
                                <button 
                                  type="button"
                                  className={`${styles.link} ${styles.nestedLink} ${activeDesignPage === subItem.id ? styles.nestedLinkActive : ''}`}
-                                 onClick={() => subItem.id && setActiveDesignPage(subItem.id)}
+                                 onClick={() => {
+                                   if (subItem.id) {
+                                     setActiveDesignPage(subItem.id);
+                                     // setOpenSections({}); // Keep menus open
+                                   }
+                                 }}
                                >
                                  {subItem.label}
                                </button>

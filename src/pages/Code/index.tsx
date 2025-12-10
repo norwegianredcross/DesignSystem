@@ -32,7 +32,7 @@ const OverviewContent = ({ setActivePage }: { setActivePage: (page: string) => v
         <CardBlock>
           <Heading level={3} data-size="sm">Kom i gang</Heading>
           <Paragraph data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>Installasjon, oppsett og retningslinjer for utviklere.</Paragraph>
-          <Link href="#" onClick={(e) => {e.preventDefault(); setActivePage('kom-i-gang')}}>Kom i gang</Link>
+          <Link href="https://github.com/norwegianredcross/DesignSystem" target="_blank" rel="noopener noreferrer">Kom i gang</Link>
         </CardBlock>
       </Card>
       <Card variant="tinted" data-color="neutral">
@@ -63,6 +63,7 @@ const GettingStartedContent = () => (
     <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
       Installer de nødvendige npm-pakkene for prosjektet ditt. Du trenger tre pakker: selve komponentbiblioteket (rk-designsystem), grunnstilene fra Digdir, og Røde Kors-temapakken (rk-design-tokens).
     </Paragraph>
+    <Link href="https://github.com/norwegianredcross/DesignSystem" target="_blank" rel="noopener noreferrer" style={{ marginBottom: 'var(--ds-size-4)', display: 'inline-block' }}>Gå til GitHub Repository</Link>
     <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>npm</Heading>
     <CodeBlock>npm install rk-designsystem @digdir/designsystemet-css rk-design-tokens</CodeBlock>
     <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>yarn</Heading>
