@@ -58,16 +58,23 @@ export const Header = ({
   showModeToggle = false,
   showLanguageSwitch = false
 }: HeaderProps) => {
-  // Ensure header styles are present even if consumer forgets to import the CSS bundle
-  useEffect(() => {
-    import('rk-designsystem/dist/rk-designsystem.css').catch(() => {});
-  }, []);
-
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const { language, setLanguage, t } = useLanguage();
+
+  // Fallback: inject minimal header styles if consumer did not import the CSS bundle.
+  useEffect(() => {
+    const styleId = 'rk-header-inline-styles';
+    if (typeof document === 'undefined') return;
+    if (document.getElementById(styleId)) return;
+    const css = buildInlineCss(styles);
+    const tag = document.createElement('style');
+    tag.id = styleId;
+    tag.textContent = css;
+    document.head.appendChild(tag);
+  }, []);
 
   const RedCrossLogo = () => (
     <svg
@@ -429,3 +436,116 @@ export const Header = ({
     </header>
   );
 };
+
+// Build a minimal CSS fallback using the hashed class names from the CSS module.
+// This is not a full replacement for the emitted CSS bundle, but it ensures sane
+// layout and spacing if the consumer forgets to import the library CSS.
+function buildInlineCss(styles: Record<string, string>): string {
+  const s = styles;
+  return `
+.${s.header} {
+  width: 100%;
+  background-color: var(--ds-color-neutral-background-default);
+  border-bottom: 1px solid var(--ds-color-neutral-border-subtle);
+  position: relative;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+.${s.headerExtension} {
+  background-color: var(--ds-color-primary-color-red-base-default, #D52B1E);
+  width: 100%;
+  height: 44px;
+  padding: 0 var(--ds-size-6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  color: white;
+}
+.${s.extensionContentWrapper} {
+  width: 100%;
+  max-width: 1364px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--ds-size-4);
+}
+.${s.extensionDivider} { width: 1px; height: 18px; background-color: rgba(247,233,232,1); }
+.${s.languageSwitch} { display: flex; align-items: center; gap: var(--ds-size-2); }
+.${s.languageLabel} { font-family: var(--ds-font-family); font-size: var(--ds-font-size-md); color: #ECECEC; }
+.${s.languageLink} { color: white; text-decoration: none; display: flex; align-items: center; gap: 4px; }
+.${s.headerInner} {
+  display: flex; align-items: center; justify-content: space-between;
+  min-height: 119px; width: 100%; max-width: 1364px;
+  margin: 0 auto; padding: 0 var(--ds-size-6); box-sizing: border-box; gap: var(--ds-size-6);
+}
+.${s.logoWrapper} { display: flex; align-items: center; height: 119px; flex-shrink: 0; background-color: white; }
+.${s.logo} { display: flex; align-items: center; justify-content: center; width: 217px; height: 100%; text-decoration: none; color: inherit; flex-shrink: 0; }
+.${s.redCrossLogo} { width: 169px; height: auto; display: block; }
+.${s.secondaryLogoWrapper} { display: flex; align-items: center; justify-content: center; height: 100%; padding: 0 var(--ds-size-6); background: var(--ds-color-neutral-background-default); }
+.${s.secondaryLogo} { height: 24px; width: auto; display: block; }
+.${s.navItems} { display: flex; gap: 40px; align-items: center; margin-left: 24px; flex-grow: 1; justify-content: center; }
+.${s.navLink} { color: var(--ds-color-primary-color-red-text-default); font-family: var(--ds-font-family); font-size: var(--ds-font-size-md); text-decoration: none; font-weight: var(--ds-font-weight-regular); letter-spacing: 0.09px; }
+.${s.navLink}:hover { text-decoration: underline; }
+.${s.actions} { display: flex; align-items: center; gap: var(--ds-size-6); flex-shrink: 0; margin-left: auto; }
+.${s.ctaButton} { display: flex; align-items: center; }
+.${s.themeToggle} { display: flex; align-items: center; }
+.${s.userInfo} { display: flex; align-items: center; gap: var(--ds-size-3); }
+.${s.userName} { display: block; font-family: var(--ds-font-family); font-size: var(--ds-font-size-md); color: var(--ds-color-neutral-text-default); }
+.${s.loginLink} { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--ds-color-main-text-subtle); gap: 2px; }
+.${s.loginText} { font-family: var(--ds-font-family); font-size: var(--ds-font-size-md); font-weight: var(--ds-font-weight-regular); line-height: 1.5; }
+.${s.underline} { width: 100%; height: 1px; background-color: var(--ds-color-main-border-strong); }
+.${s.searchButtonWrapper} { display: flex; }
+.${s.buttonText} { display: inline-block; margin-left: var(--ds-size-2); }
+.${s.menuButton} { display: flex; align-items: center; }
+.${s.menuOverlay}, .${s.searchOverlay} {
+  position: absolute; top: 100%; left: 0; width: 100%;
+  background-color: var(--ds-color-neutral-background-default);
+  border-bottom: 1px solid var(--ds-color-neutral-border-subtle);
+  box-shadow: var(--ds-shadow-lg); z-index: 999;
+}
+.${s.searchOverlay} { padding: var(--ds-size-10) 0; }
+.${s.searchContent} {
+  max-width: 1364px; margin: 0 auto;
+  padding: 0 var(--ds-size-6) 0 calc(217px + var(--ds-size-6));
+  display: flex; flex-direction: column; align-items: stretch; box-sizing: border-box;
+}
+.${s.menuContent} { max-width: 1364px; margin: 0 auto; display: flex; flex-direction: row; align-items: stretch; box-sizing: border-box; }
+.${s.menuLeftColumn} { width: calc(217px + var(--ds-size-6)); flex-shrink: 0; }
+.${s.menuRightColumn} { flex: 1; display: flex; flex-direction: column; padding: 48px 24px 80px 24px; gap: 24px; }
+.${s.slotContent} { width: 100%; padding: var(--ds-size-10) 0; text-align: center; color: var(--ds-color-neutral-text-subtle); font-size: var(--ds-font-size-md); border-radius: var(--ds-border-radius-md); }
+.${s.suggestionsSection} { display: flex; flex-direction: column; gap: var(--ds-size-4); }
+.${s.suggestionsTitle} { font-family: var(--ds-font-family); font-size: var(--ds-font-size-md); color: var(--ds-color-neutral-text-subtle); font-weight: var(--ds-font-weight-regular); margin: 0; letter-spacing: 0.09px; }
+.${s.searchResults} { margin-top: var(--ds-size-4); max-height: 400px; overflow-y: auto; }
+.${s.resultList} { list-style: none; padding: 0; margin: 0; }
+.${s.resultItem} { border-bottom: none; }
+.${s.resultLink} {
+  display: flex; flex-direction: row; align-items: center; width: 100%;
+  padding: var(--ds-size-2) 0; background: none; border: none;
+  text-align: left; cursor: pointer; gap: var(--ds-size-4); text-decoration: none;
+}
+.${s.suggestionIcon} { font-size: 20px; color: var(--ds-color-neutral-text-subtle); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.${s.suggestionText} { font-family: var(--ds-font-family); font-size: var(--ds-font-size-md); color: var(--ds-color-neutral-text-default); line-height: 1.5; }
+.${s.highlightedText} { color: var(--ds-color-primary-color-red-text-default); font-weight: var(--ds-font-weight-medium); }
+.${s.remainingText} { color: var(--ds-color-neutral-border-subtle); }
+.${s.viewAllLink} { display: block; padding: var(--ds-size-3); text-align: left; font-size: var(--ds-font-size-sm); font-weight: var(--ds-font-weight-medium); color: var(--ds-color-neutral-text-default); text-decoration: none; }
+.${s.noResults} { padding: var(--ds-size-4); text-align: center; color: var(--ds-color-neutral-text-subtle); }
+@media (max-width: 767px) {
+  .${s.headerInner} { padding: var(--ds-size-5) var(--ds-size-6); min-height: auto; }
+  .${s.navItems} { display: none; }
+  .${s.logoWrapper} { gap: var(--ds-size-2); }
+  .${s.logo} { height: 40px; }
+  .${s.secondaryLogo} { height: 28px; }
+  .${s.actions} { gap: var(--ds-size-4); }
+  .${s.userName} { display: none; }
+  .${s.menuButton} .${s.buttonText} { display: none; }
+  .${s.searchButtonWrapper} .${s.buttonText} { display: inline; }
+  .${s.menuOverlay}, .${s.searchOverlay} { width: 100%; right: 0; left: 0; border-radius: 0; border: none; border-bottom: 1px solid var(--ds-color-neutral-border-subtle); }
+  .${s.searchContent} { padding: 0 var(--ds-size-6); }
+  .${s.menuContent} { flex-direction: column; padding: 0; }
+  .${s.menuLeftColumn} { display: none; }
+  .${s.menuRightColumn} { padding: var(--ds-size-6); gap: var(--ds-size-4); }
+}
+`;
+}
