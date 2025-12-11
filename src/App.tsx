@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useLanguage } from './context/LanguageContext';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { HomePage } from './pages/Home';
@@ -10,6 +11,7 @@ import './App.css';
 
 function App() {
   const [page, setPage] = useState('home');
+  const { t } = useLanguage();
   
   const [mainPage, subPage] = page.split('/');
 
@@ -20,33 +22,23 @@ function App() {
         setPage={setPage} 
         showUser={false} 
         showLogin={false} 
-        showThemeToggle={true}
+        showThemeToggle={false}
+        showHeaderExtension={true}
+        showModeToggle={true}
+        showLanguageSwitch={true}
         showCta={false}
-      >
-        <nav className="header-menu-nav" aria-label="Hovedmeny">
-          <button 
-            type="button"
-            className={`header-menu-link ${mainPage === 'design' ? 'header-menu-link-active' : ''}`}
-            onClick={() => setPage('design')}
-          >
-            Design
-          </button>
-          <button 
-            type="button"
-            className={`header-menu-link ${mainPage === 'components' ? 'header-menu-link-active' : ''}`}
-            onClick={() => setPage('components')}
-          >
-            Komponenter
-          </button>
-          <button 
-            type="button"
-            className={`header-menu-link ${mainPage === 'code' ? 'header-menu-link-active' : ''}`}
-            onClick={() => setPage('code')}
-          >
-            Kode
-          </button>
-        </nav>
-      </Header>
+        secondaryLogo={true}
+        secondaryLogoSrc={`${import.meta.env.BASE_URL}designsystemlogofinallight.svg`}
+        secondaryLogoSrcDark={`${import.meta.env.BASE_URL}designsystemlogofinaldark.svg`}
+        secondaryLogoAlt="Designsystem Logo"
+        showMenuButton={false}
+        showNavItems={true}
+        navItems={[
+          { label: t('header.nav.design'), href: "design" },
+          { label: t('header.nav.components'), href: "components" },
+          { label: t('header.nav.code'), href: "code" }
+        ]}
+      />
       
       <div className="main-content">
         {mainPage === 'home' ? (

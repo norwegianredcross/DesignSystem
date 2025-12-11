@@ -11,7 +11,7 @@
   .heroSection {
     position: relative;
     /* Using tokens for vertical padding */
-    padding: var(--ds-size-12) 0 var(--ds-size-22);
+    padding: var(--ds-size-30) 0 var(--ds-size-22);
     background-color: var(--ds-color-neutral-background-default);
     overflow: hidden; /* Ensure the large floating grid doesn't cause scrollbars */
   }
@@ -84,7 +84,7 @@
     gap: var(--ds-size-4);
     margin-bottom: var(--ds-size-4);
   }
-  
+
   /* --- VISUAL WALL (Right Side) --- */
   .heroVisual {
     position: relative;

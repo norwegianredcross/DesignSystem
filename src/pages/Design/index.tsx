@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useLanguage } from '../../context/LanguageContext';
 import { Heading } from '../../components/Heading';
 import { Paragraph } from '../../components/Paragraph';
 import { List } from '../../components/List';
@@ -9,548 +10,592 @@ import styles from './styles.module.css';
 
 // --- CONTENT COMPONENTS ---
 
-const HvaErDesignTokensContent = () => (
-  <ArticleLayout title="Hva er design tokens" category="Design Tokens">
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      "Design Tokens" styrer hvordan komponentene skal se ut i forhold til farger, typografi, størrelser, avstander, former osv. Design tokens sørger vi for at både designere og utviklere arbeider etter de samme reglene og retningslinjene.
-    </Paragraph>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      Noen av variablene er lagt opp til å være tema-baserte, det vil si at de tar utgangspunkt i din merkevare med de fargene og preferansene du selv velger. Vi jobber med en tema-bygger som skal gjøre det enklere for deg å tilpasse stilene.
-    </Paragraph>
-    <Paragraph>
-      Design Tokens er fleksible variabler som kan benyttes uavhengig av teknologi eller designverktøy.
-    </Paragraph>
-  </ArticleLayout>
-);
+const HvaErDesignTokensContent = () => {
+  const { t } = useLanguage();
+  return (
+    <ArticleLayout title={t('design.tokens.whatIsTitle')} category={t('design.sidebar.designTokens')}>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.tokens.whatIsText1')}
+      </Paragraph>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.tokens.whatIsText2')}
+      </Paragraph>
+      <Paragraph>
+        {t('design.tokens.whatIsText3')}
+      </Paragraph>
+    </ArticleLayout>
+  );
+};
 
-const DesignTokensIFigmaContent = () => (
-  <ArticleLayout title="Design tokens i Figma" category="Design Tokens">
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      Vi bruker Figma-pluginen "Tokens Studio", da denne lar oss administrere flere stiler og egenskaper enn Figma i seg selv kan.
-    </Paragraph>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      Pluginen har som mål å være W3C-kompatibel og retter seg etter standarden som etableres av W3C Design Tokens Community Group. Tokens-verdiene er dermed ikke låst til et verktøy - JSON-filen kan flyttes til andre verktøy dersom det skulle bli aktuelt.
-    </Paragraph>
+const DesignTokensIFigmaContent = () => {
+  const { t } = useLanguage();
+  return (
+    <ArticleLayout title={t('design.tokens.figmaTitle')} category={t('design.sidebar.designTokens')}>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.tokens.figmaText1')}
+      </Paragraph>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.tokens.figmaText2')}
+      </Paragraph>
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Flere sett og themes</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      Bruk av variabler og tokens gjør det mulig å ha ett designsystem med ulike identiteter. Vi kan lage en komponent i Figma kun èn gang og style den mange ganger - Med et klikk kan vi slå på et annet theme som for eksempel aktiverer en annen fargepalett eller et annet sett med størrelser. Ved å dele tokens inn i både sets og themes, kan vi tilby avanserte former for gjenbruk.
-    </Paragraph>
-    
-    <ArticleImage src="/ThemesExample.png" alt="Themes example" caption="Videoen over viser at når settet for &quot;Tilsynet&quot; slås på, overstyres både fargene som er i bruk i filen og stilene som er tilgjengelig i høyremargen byttes ut." />
-  </ArticleLayout>
-);
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.tokens.themesTitle')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.tokens.themesText')}
+      </Paragraph>
+      
+      <ArticleImage src="/ThemesExample.png" alt="Themes example" caption={t('design.tokens.themesCaption')} />
+    </ArticleLayout>
+  );
+};
 
-const FargerNavnestrukturContent = () => (
-  <ArticleLayout title="Navnestruktur" category="Farger">
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      Fargesystemet består av globale farger som refererer til hva fargen er (eks. red-1) og et semantisk nivå som beskriver hva fargen skal brukes til (eks. Text.Danger).
-    </Paragraph>
+const FargerNavnestrukturContent = () => {
+  const { t } = useLanguage();
+  return (
+    <ArticleLayout title={t('design.colorStructure.title')} category={t('design.sidebar.colors')}>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.colorStructure.intro')}
+      </Paragraph>
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Navnestruktur</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      Fargene i Designsystemet er strukturert med en semantisk betydning. Dette betyr at de er definert etter funksjon og bruk, ikke bare etter hvordan de ser ut. Det gjør det lettere å velge riktig farge fordi du slipper å vurdere selve fargetonen og kan fokusere på hva fargen skal formidle i stedet.
-    </Paragraph>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      Fargenavnene i Designsystemet er delt opp i 3 ledd: Navn på fargeskala, gruppe (bruksområde) og variant. Disse leddene beskriver hvordan fargene er bygget opp og hvordan de skal brukes.
-    </Paragraph>
-    
-    <ArticleImage src="/ColorNameStructure.png" alt="Fargenavn struktur" caption="Viser oppdelingen av fargenavn i 3 ledd" />
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.colorStructure.structureTitle')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.colorStructure.structureText1')}
+      </Paragraph>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.colorStructure.structureText2')}
+      </Paragraph>
+      
+      <ArticleImage src="/ColorNameStructure.png" alt="Fargenavn struktur" caption={t('design.colorStructure.structureCaption')} />
 
-    <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
-      <List.Item><strong>Navn:</strong> Det første leddet og navnet på fargeskalaen. Som standard kommer Designsystemet med fargeskalaene Success, Danger, Warning, Info og Neutral. Flere skalaer kan legges til ved hjelp av Temabyggeren.</List.Item>
-      <List.Item><strong>Gruppe:</strong> Hver fargeskala er delt inn i gruppene Background, Surface, Border, Text og Base. Disse gruppene beskriver bruksområdene til fargene. Text-gruppen skal for eksempel brukes på tekst og ikoner.</List.Item>
-    </List.Unordered>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
+        <List.Item><strong>{t('design.colorStructure.nameLabel')}</strong> {t('design.colorStructure.nameText')}</List.Item>
+        <List.Item><strong>{t('design.colorStructure.groupLabel')}</strong> {t('design.colorStructure.groupText')}</List.Item>
+      </List.Unordered>
 
-    <ArticleImage src="/ColorScaleGroups.png" alt="Fargeskala grupper" caption="Viser en fargeskala og de 5 gruppene som fargene er delt inn i." />
+      <ArticleImage src="/ColorScaleGroups.png" alt="Fargeskala grupper" caption={t('design.colorStructure.groupsCaption')} />
 
-    <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
-      <List.Item><strong>Variant:</strong> Inne i hver gruppe finnes det varianter som beskriver hvordan fargene ser ut eller skal brukes. Tinted betyr for eksempel at fargen har et hint av farge i seg, mens Hover betyr at fargen er tenkt brukt for en interaktiv tilstand.</List.Item>
-    </List.Unordered>
-  </ArticleLayout>
-);
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
+        <List.Item><strong>{t('design.colorStructure.variantLabel')}</strong> {t('design.colorStructure.variantText')}</List.Item>
+      </List.Unordered>
+    </ArticleLayout>
+  );
+};
 
-const FargerOversiktContent = () => (
-  <ArticleLayout title="Oversikt og forklaring av farger" category="Farger">
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      Hver fargeskala består av totalt 16 farger, utformet for å dekke ulike behov i designet. Nedenfor finner du en oversikt over de forskjellige fargene og deres tiltenkte bruksområder.
-    </Paragraph>
-    
-    <ArticleImage src="/SemanticColorUsage.png" alt="Semantiske farger eksempel" caption="Viser hvordan de semantiske fargene kan brukes i designet. Eksempelet bruker fire forskjellige fargeskalaer: Danger, Neutral og to blåskalaer" />
+const FargerOversiktContent = () => {
+  const { t } = useLanguage();
+  return (
+    <ArticleLayout title={t('design.colorOverview.title')} category={t('design.sidebar.colors')}>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.colorOverview.intro')}
+      </Paragraph>
+      
+      <ArticleImage src="/SemanticColorUsage.png" alt="Semantiske farger eksempel" caption={t('design.colorOverview.semanticCaption')} />
 
-    <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: 'var(--ds-size-8)' }}>
-      <thead>
-        <tr style={{ borderBottom: '2px solid var(--ds-color-neutral-border-default)', textAlign: 'left' }}>
-          <th style={{ padding: 'var(--ds-size-2)', fontWeight: 'bold' }}>Navn</th>
-          <th style={{ padding: 'var(--ds-size-2)', fontWeight: 'bold' }}>Bruksområde</th>
-        </tr>
-      </thead>
-      <tbody>
-        {[
-          ['background-default', 'Standard bakgrunnsfarge'],
-          ['background-tinted', 'Bakgrunn med et hint av farge i seg'],
-          ['surface-default', 'Standardfarge for overflater / komponenter'],
-          ['surface-tinted', 'Overflater / komponenter med et hint av farge i seg'],
-          ['surface-hover', 'Hover-farge til overflater / komponenter'],
-          ['surface-active', 'Active-farge til overflater / komponenter'],
-          ['border-subtle', 'Border-farge med lav kontrast til dekorativ bruk (skillelinjer)'],
-          ['border-default', 'Standard border-farge til skjemakomponenter og meningsbærende elementer'],
-          ['border-strong', 'Border-farge med høy kontrast for ekstra synlighet'],
-          ['text-subtle', 'Tekst- og ikonfarge med lavere kontrast'],
-          ['text-default', 'Tekst- og ikonfarge med høy kontrast og god synlighet'],
-          ['base-default', 'Standardfarge for solide bakgrunner'],
-          ['base-hover', 'Hover-farge for solide bakgrunner'],
-          ['base-active', 'Active-farge for solide bakgrunner'],
-          ['base-contrast-subtle', 'Farge med god kontrast mot Base-default'],
-          ['base-contrast-default', 'Farge med god kontrast mot Base-default og Base-hover'],
-        ].map(([name, desc]) => (
-          <tr key={name} style={{ borderBottom: '1px solid var(--ds-color-neutral-border-subtle)' }}>
-            <td style={{ padding: 'var(--ds-size-2)', fontFamily: 'monospace' }}>{name}</td>
-            <td style={{ padding: 'var(--ds-size-2)' }}>{desc}</td>
+      <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: 'var(--ds-size-8)' }}>
+        <thead>
+          <tr style={{ borderBottom: '2px solid var(--ds-color-neutral-border-default)', textAlign: 'left' }}>
+            <th style={{ padding: 'var(--ds-size-2)', fontWeight: 'bold' }}>{t('design.colorOverview.tableName')}</th>
+            <th style={{ padding: 'var(--ds-size-2)', fontWeight: 'bold' }}>{t('design.colorOverview.tableUsage')}</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {[
+            ['background-default', t('design.colorOverview.backgroundDefault')],
+            ['background-tinted', t('design.colorOverview.backgroundTinted')],
+            ['surface-default', t('design.colorOverview.surfaceDefault')],
+            ['surface-tinted', t('design.colorOverview.surfaceTinted')],
+            ['surface-hover', t('design.colorOverview.surfaceHover')],
+            ['surface-active', t('design.colorOverview.surfaceActive')],
+            ['border-subtle', t('design.colorOverview.borderSubtle')],
+            ['border-default', t('design.colorOverview.borderDefault')],
+            ['border-strong', t('design.colorOverview.borderStrong')],
+            ['text-subtle', t('design.colorOverview.textSubtle')],
+            ['text-default', t('design.colorOverview.textDefault')],
+            ['base-default', t('design.colorOverview.baseDefault')],
+            ['base-hover', t('design.colorOverview.baseHover')],
+            ['base-active', t('design.colorOverview.baseActive')],
+            ['base-contrast-subtle', t('design.colorOverview.baseContrastSubtle')],
+            ['base-contrast-default', t('design.colorOverview.baseContrastDefault')],
+          ].map(([name, desc]) => (
+            <tr key={name} style={{ borderBottom: '1px solid var(--ds-color-neutral-border-subtle)' }}>
+              <td style={{ padding: 'var(--ds-size-2)', fontFamily: 'monospace' }}>{name}</td>
+              <td style={{ padding: 'var(--ds-size-2)' }}>{desc}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Background</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
-      Background-fargene brukes for å fargelegge store flater og er ofte det bakerste laget på en nettside. Det er vanlig å bruke disse fargene på body-elementet.
-    </Paragraph>
-    <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
-      <List.Item><strong>Background-default</strong> er den lyseste og mest nøytrale bakgrunnsfargen</List.Item>
-      <List.Item><strong>Background-tinted</strong> får et hint av farge i seg og kan brukes for å skape variasjon i bakgrunnslaget</List.Item>
-    </List.Unordered>
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.colorOverview.backgroundTitle')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
+        {t('design.colorOverview.backgroundText')}
+      </Paragraph>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
+        <List.Item><strong>Background-default</strong> {t('design.colorOverview.backgroundDefaultDesc')}</List.Item>
+        <List.Item><strong>Background-tinted</strong> {t('design.colorOverview.backgroundTintedDesc')}</List.Item>
+      </List.Unordered>
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Surface</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
-      Surface-fargene brukes til å fargelegge elementer som ligger over background-fargene, som for eksempel paneler eller kort (cards). Disse fargene fungerer som forgrunnsfarger og bidrar til å skape dybde i designet ved å skille elementer fra bakgrunnen. I mørk modus blir disse fire fargene gradvis lysere, med Surface-active som den lyseste.
-    </Paragraph>
-    <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
-      <List.Item><strong>Surface-default</strong> er helt hvit i lys modus og brukes som standard bakgrunnsfarge på elementer.</List.Item>
-      <List.Item><strong>Surface-tinted</strong> får et hint av farge i seg og kan brukes for å skille elementer fra bakgrunnen.</List.Item>
-      <List.Item><strong>Surface-hover</strong> kan brukes til hover-tilstander for elementer eller til å skape visuelle hierarkier i Surface-laget når den kombineres med Surface-tinted og Surface-active.</List.Item>
-      <List.Item><strong>Surface-active</strong> kan brukes til active-tilstander for elementer eller til å forsterke hierarkiet i Surface-laget sammen med Surface-tinted og Surface-hover.</List.Item>
-    </List.Unordered>
-    
-    <ArticleImage src="/SurfaceTintedExample.png" alt="Surface-tinted eksempel" caption="Viser hvordan Surface-tinted ser ut for 7 fargeskalaer generert med Temabyggeren." />
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.colorOverview.surfaceTitle')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
+        {t('design.colorOverview.surfaceText')}
+      </Paragraph>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
+        <List.Item><strong>Surface-default</strong> {t('design.colorOverview.surfaceDefaultDesc')}</List.Item>
+        <List.Item><strong>Surface-tinted</strong> {t('design.colorOverview.surfaceTintedDesc')}</List.Item>
+        <List.Item><strong>Surface-hover</strong> {t('design.colorOverview.surfaceHoverDesc')}</List.Item>
+        <List.Item><strong>Surface-active</strong> {t('design.colorOverview.surfaceActiveDesc')}</List.Item>
+      </List.Unordered>
+      
+      <ArticleImage src="/SurfaceTintedExample.png" alt="Surface-tinted eksempel" caption={t('design.colorOverview.surfaceTintedCaption')} />
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Border</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
-      Border-fargene brukes for å fargelegge rammer (strokes) til elementer.
-    </Paragraph>
-    <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
-      <List.Item><strong>Border-subtle</strong> har lav kontrast mot background- og surface-fargene og bør kun brukes til dekorative formål. Vanlige bruksområder er skillelinjer og dekorative rammer. Fargen bør ikke være den eneste visuelle indikatoren på at et element er interaktivt.</List.Item>
-      <List.Item><strong>Border-default</strong> brukes på skjemakomponenter eller på andre meningsbærende rammer. Fargen har god kontrast (over 3:1) mot alle background-fargene, Surface-default og Surface-tinted.</List.Item>
-      <List.Item><strong>Border-strong</strong> har god kontrast (over 3:1) mot alle background- og surface-fargene og kan brukes på rammer for å gjøre elementer ekstra synlige.</List.Item>
-    </List.Unordered>
-    
-    <ArticleImage src="/BordersColorsExample.png" alt="Border colors example" caption="Første rad viser farger med Border-subtle, mens den andre raden viser Border-default." />
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.colorOverview.borderTitle')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
+        {t('design.colorOverview.borderText')}
+      </Paragraph>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
+        <List.Item><strong>Border-subtle</strong> {t('design.colorOverview.borderSubtleDesc')}</List.Item>
+        <List.Item><strong>Border-default</strong> {t('design.colorOverview.borderDefaultDesc')}</List.Item>
+        <List.Item><strong>Border-strong</strong> {t('design.colorOverview.borderStrongDesc')}</List.Item>
+      </List.Unordered>
+      
+      <ArticleImage src="/BordersColorsExample.png" alt="Border colors example" caption={t('design.colorOverview.bordersCaption')} />
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Text</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
-      Text-fargene brukes på tekst og ikoner.
-    </Paragraph>
-    <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
-      <List.Item><strong>Text-subtle</strong> er en lys tekstfarge som kan brukes for å skape variasjon i typografien eller for å indikere hierarkiske nivåer av viktighet. Den forsøker også å bevare mest mulig av fargemetningen fra den opprinnelige fargen valgt i Temabyggeren. Fargen har god kontrast (4.5:1) mot alle background-fargene, Surface-default og Surface-tinted.</List.Item>
-      <List.Item><strong>Text-default</strong> er en tekstfarge med høy kontrast, optimal for lesbarhet. Den bør brukes på hovedinnholdet og den primære teksten på en side. Denne fargen i Neutral varianten kan være en fin farge å bruke på mesteparten av teksten. Fargen har god kontrast (4.5:1) mot alle background- og surface-fargene.</List.Item>
-    </List.Unordered>
-    
-    <ArticleImage src="/TextColorsExample.png" alt="Text colors example" caption="Viser hvordan Text-default og Text-subtle ser ut for 8 forskjellige fargeskalaer generert med Temabyggeren." />
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.colorOverview.textTitle')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
+        {t('design.colorOverview.textText')}
+      </Paragraph>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
+        <List.Item><strong>Text-subtle</strong> {t('design.colorOverview.textSubtleDesc')}</List.Item>
+        <List.Item><strong>Text-default</strong> {t('design.colorOverview.textDefaultDesc')}</List.Item>
+      </List.Unordered>
+      
+      <ArticleImage src="/TextColorsExample.png" alt="Text colors example" caption={t('design.colorOverview.textColorsCaption')} />
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Base</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
-      Base-fargene brukes for å fargelegge solide bakgrunner, som for eksempel knapper og andre interaktive elementer. Fargene bidrar til å lede oppmerksomheten mot viktige designelementer og etablere et visuelt hierarki i forhold til mindre fremtredende elementer. Samtidig skaper de kontrast mot background- og surface-fargene, noe som forsterker lesbarhet og visuell tydelighet.
-    </Paragraph>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
-      Base-hover og Base-active fargene genereres ut fra lysheten eller mørkheten til Base-default fargen fra samme fargeskala for å skape jevne visuelle overganger mellom tilstandene. Kontrastfargene blir enten hvite eller svarte avhengig av lysstyrken til Base-default fargen for å sikre god kontrast og lesbarhet.
-    </Paragraph>
-    <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
-      <List.Item><strong>Base-default</strong> kan brukes for å fargelegge solide bakgrunner til elementer. Fargen (hex-koden) som blir valgt i temabyggeren blir plassert under Base-default.</List.Item>
-      <List.Item><strong>Base-hover</strong> kan brukes til hover-tilstander for solide elementer eller til å skape visuelle hierarkier i Base-laget når den kombineres med Base-default og Base-active.</List.Item>
-      <List.Item><strong>Base-active</strong> kan brukes til active-tilstander for solide elementer eller til å forsterke hierarkiet i Base-laget sammen med Base-default og Base-hover.</List.Item>
-      <List.Item><strong>Base-contrast-subtle</strong> har god kontrast (4.5:1) mot Base-default fargen fra samme fargeskala og kan trygt brukes som tekst-farge mot denne.</List.Item>
-      <List.Item><strong>Base-contrast-default</strong> har god kontrast (4.5:1) mot Base-default og Base-hover fargene fra samme fargeskala, og kan trygt brukes som en tekst-farge mot disse.</List.Item>
-    </List.Unordered>
-    
-    <ArticleImage src="/BaseColorsExample.png" alt="Base colors example" caption="Viser bokser med Base-default som bakgrunn og Base-contrast-default som tekstfarge." />
-  </ArticleLayout>
-);
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.colorOverview.baseTitle')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
+        {t('design.colorOverview.baseText1')}
+      </Paragraph>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
+        {t('design.colorOverview.baseText2')}
+      </Paragraph>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
+        <List.Item><strong>Base-default</strong> {t('design.colorOverview.baseDefaultDesc')}</List.Item>
+        <List.Item><strong>Base-hover</strong> {t('design.colorOverview.baseHoverDesc')}</List.Item>
+        <List.Item><strong>Base-active</strong> {t('design.colorOverview.baseActiveDesc')}</List.Item>
+        <List.Item><strong>Base-contrast-subtle</strong> {t('design.colorOverview.baseContrastSubtleDesc')}</List.Item>
+        <List.Item><strong>Base-contrast-default</strong> {t('design.colorOverview.baseContrastDefaultDesc')}</List.Item>
+      </List.Unordered>
+      
+      <ArticleImage src="/BaseColorsExample.png" alt="Base colors example" caption={t('design.colorOverview.baseColorsCaption')} />
+    </ArticleLayout>
+  );
+};
 
-const FargeTokensContent = () => (
-  <ArticleLayout title="Farge-tokens" category="Farger">
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      Fargene under er eksempler fra et tilfeldig tema. Bruk temabyggeren for å generere dine egne farger og navn.
-    </Paragraph>
-    
-    <ArticleImage src="/FargeTokensLight.png" alt="Farge tokens lys" caption="Et tilfeldig generert fargesystem fra Designsystemet.no" />
-    <ArticleImage src="/FargeTokensDark.png" alt="Farge tokens mørk" caption="Et tilfeldig generert fargesystem fra Designsystemet.no, mørkt modus" />
-  </ArticleLayout>
-);
+const FargeTokensContent = () => {
+  const { t } = useLanguage();
+  return (
+    <ArticleLayout title={t('design.colorTokens.title')} category={t('design.sidebar.colors')}>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.colorTokens.intro')}
+      </Paragraph>
+      
+      <ArticleImage src="/FargeTokensLight.png" alt="Farge tokens lys" caption={t('design.colorTokens.lightCaption')} />
+      <ArticleImage src="/FargeTokensDark.png" alt="Farge tokens mørk" caption={t('design.colorTokens.darkCaption')} />
+    </ArticleLayout>
+  );
+};
 
-const SkyggerBrukContent = () => (
-  <ArticleLayout title="Bruk av skygger i designet" category="Skygger">
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      Skygger bør brukes bevisst og konsistent da de uttrykker at noe ligger over noe annet i løsningen.
-    </Paragraph>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      Skygger kan hjelpe svaksynte til å identifisere komponenter. Bruk av skygger og konturer gjør det enklere og raskere å finne en komponent når du skanner sider. (Research: Material Design)
-    </Paragraph>
+const SkyggerBrukContent = () => {
+  const { t } = useLanguage();
+  return (
+    <ArticleLayout title={t('design.shadowUsage.title')} category={t('design.sidebar.shadows')}>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.shadowUsage.intro1')}
+      </Paragraph>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.shadowUsage.intro2')}
+      </Paragraph>
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Styrker</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      Vi har ulike styrker på skyggene, fra xsmall til xlarge. De ulike styrkene brukes for å antyde høyden til overflaten. Overflater i høyere høyder har større skygger, mens de på lavere høyder bør ha mindre skygger. Skygger skal skape et hierarki slik at det som ligger over eller under noe annet kommer tydeligere frem.
-    </Paragraph>
-    
-    <ArticleImage src="/ShadowExample.png" alt="Skygger eksempel" />
-  </ArticleLayout>
-);
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.shadowUsage.strengthsTitle')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.shadowUsage.strengthsText')}
+      </Paragraph>
+      
+      <ArticleImage src="/ShadowExample.png" alt="Skygger eksempel" />
+    </ArticleLayout>
+  );
+};
 
-const SkyggeTokensContent = () => (
-  <ArticleLayout title="Skygge-tokens" category="Skygger">
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Tokens</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      Pass på at du har lys modus aktivert for å se skyggene. Skygger er ikke ment for bruk i mørk modus, da de er basert på mørkere fargetoner. For å skape hierarki og kontrast i mørk modus er det bedre å benytte andre virkemidler som for eksempel lyse kanter.
-    </Paragraph>
+const SkyggeTokensContent = () => {
+  const { t } = useLanguage();
+  return (
+    <ArticleLayout title={t('design.shadowTokens.title')} category={t('design.sidebar.shadows')}>
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.shadowTokens.tokensTitle')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.shadowTokens.tokensText')}
+      </Paragraph>
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Eksempel</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      Popover er en komponent som legger seg over annet innhold. Dette tydeliggjøres ved bruk av en medium skygge.
-    </Paragraph>
-    
-    <ArticleImage src="/ShadowTokensExample.png" alt="Popover skygge eksempel" caption="Popover komponentet dekker over the andre innholdet." />
-  </ArticleLayout>
-);
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.shadowTokens.exampleTitle')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.shadowTokens.exampleText')}
+      </Paragraph>
+      
+      <ArticleImage src="/ShadowTokensExample.png" alt="Popover skygge eksempel" caption={t('design.shadowTokens.exampleCaption')} />
+    </ArticleLayout>
+  );
+};
 
-const KomponentStorrelserContent = () => (
-  <ArticleLayout title="Komponentstørrelser" category="Størrelse og avstander">
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      De fleste komponentene i designsystemet finnes i tre anbefalte størrelser: Small, Medium og Large (sm, md, lg). Disse er utviklet for å tilpasse seg ulike behov på tvers av skjermstørrelser og bruksområder.
-    </Paragraph>
-    
-    <ArticleImage src="/ComponentSizesExample.png" alt="Komponentstørrelser eksempel" caption="Størrelser for komponenter i Designsystemet." />
+const KomponentStorrelserContent = () => {
+  const { t } = useLanguage();
+  return (
+    <ArticleLayout title={t('design.componentSizes.title')} category={t('design.sidebar.sizes')}>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.componentSizes.intro')}
+      </Paragraph>
+      
+      <ArticleImage src="/ComponentSizesExample.png" alt="Komponentstørrelser eksempel" caption={t('design.componentSizes.sizesCaption')} />
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Small</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      Small er ideell for kompakte grensesnitt der plassutnyttelse er viktig, som på mobile enheter, ekspertverktøy eller administrasjonsgrensesnitt. Det er anbefalt å bruke denne størrelsen på nettsider med en basefont på 16px.
-    </Paragraph>
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.componentSizes.smallTitle')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.componentSizes.smallText')}
+      </Paragraph>
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Medium</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      Medium fungerer som standard for de fleste vanlige bruksområder, og er anbefalt å bruke sammen med en basefont på 18px. Størrelsen gir en god balanse mellom lesbarhet og plassutnyttelse og egner seg spesielt godt for desktop-grensesnitt og større visningsflater.
-    </Paragraph>
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.componentSizes.mediumTitle')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.componentSizes.mediumText')}
+      </Paragraph>
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Large</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      Large gir økt lesbarhet og tydelighet. Den kan brukes i desktop-grensesnitt eller når synlighet og tilgjengelighet er viktig. Den kan også brukes i en avgrenset kontekst på siden, for å fremheve sentrale elementer. Det er anbefalt å bruke størrelsen sammen med en basefont på 21px.
-    </Paragraph>
-    
-    <ArticleImage src="/MediumComponentSizeExample.png" alt="Medium komponentstørrelse eksempel" caption="Mange av medium-komponentene har en fast høyde på 48px." />
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.componentSizes.largeTitle')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.componentSizes.largeText')}
+      </Paragraph>
+      
+      <ArticleImage src="/MediumComponentSizeExample.png" alt="Medium komponentstørrelse eksempel" caption={t('design.componentSizes.mediumSizeCaption')} />
 
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      Komponenter innenfor en bestemt størrelse er designet for å fungere sammen. For eksempel har mange medium-komponenter en høyde på 48px og en basefont på 18px, noe som sikrer en harmonisk visuell balanse når de plasseres ved siden av hverandre.
-    </Paragraph>
-    
-    <ArticleImage src="/MediumLargeComponentsExample.png" alt="Medium og Large komponenter" caption="Eksempel der Medium og Large komponenter er brukt sammen." />
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.componentSizes.harmonyText')}
+      </Paragraph>
+      
+      <ArticleImage src="/MediumLargeComponentsExample.png" alt="Medium og Large komponenter" caption={t('design.componentSizes.combinedCaption')} />
 
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      For å opprettholde et helhetlig og oversiktlig design anbefales det å bruke faste størrelser innenfor en gitt nettside eller kontekst. Mange ulike kombinasjoner av størrelser kan føre til et rotete og uoversiktlig design.
-    </Paragraph>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      I enkelte tilfeller kan komponenter i ulike størrelser kombineres for å skape bedre visuelle hierarkier og brukervennlighet. I eksempelet ovenfor er søkefeltseksjonen større og mer fremtredende enn komponentene i headeren, fordi søkefunksjonen er en sentral del av siden. Den økte størrelsen gjør den mer synlig og lett tilgjengelig for brukeren.
-    </Paragraph>
-  </ArticleLayout>
-);
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.componentSizes.consistencyText')}
+      </Paragraph>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.componentSizes.combinationText')}
+      </Paragraph>
+    </ArticleLayout>
+  );
+};
 
-const StorrelseTokensContent = () => (
-  <ArticleLayout title="Størrelse-tokens" category="Størrelse og avstander">
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Tokens</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      Pass på at du har lys modus aktivert for å se skyggene. Skygger er ikke ment for bruk i mørk modus, da de er basert på mørkere fargetoner. For å skape hierarki og kontrast i mørk modus er det bedre å benytte andre virkemidler som for eksempel lyse kanter.
-    </Paragraph>
+const StorrelseTokensContent = () => {
+  const { t } = useLanguage();
+  return (
+    <ArticleLayout title={t('design.sizeTokens.title')} category={t('design.sidebar.sizes')}>
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.sizeTokens.tokensTitle')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.sizeTokens.tokensText')}
+      </Paragraph>
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Eksempel</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      Popover er en komponent som legger seg over annet innhold. Dette tydeliggjøres ved bruk av en medium skygge.
-    </Paragraph>
-  </ArticleLayout>
-);
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.sizeTokens.exampleTitle')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.sizeTokens.exampleText')}
+      </Paragraph>
+    </ArticleLayout>
+  );
+};
 
-const FontFamilyContent = () => (
-  <ArticleLayout title="Font-family" category="Typografi">
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      For å presentere tekst på korrekt måte er det laget stiler som har ulike kombinasjoner av størrelse, fontvekt og linjehøyde. Det er også laget et sett med typografi-komponenter som innkapsler disse stilene, slik at de enkelt kan brukes i ulike sammenhenger. Beskrivelse av hvordan typografi-komponenter brukes finner du i komponentartikkelen Typography.
-    </Paragraph>
-  </ArticleLayout>
-);
+const FontFamilyContent = () => {
+  const { t } = useLanguage();
+  return (
+    <ArticleLayout title={t('design.fontFamily.title')} category={t('design.sidebar.typography')}>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.fontFamily.intro')}
+      </Paragraph>
+    </ArticleLayout>
+  );
+};
 
-const TypografiTokensContent = () => (
-  <ArticleLayout title="Typografi-tokens" category="Typografi">
-     <Paragraph>Innhold kommer snart.</Paragraph>
-  </ArticleLayout>
-);
+const TypografiTokensContent = () => {
+  const { t } = useLanguage();
+  return (
+    <ArticleLayout title={t('design.typoTokens.title')} category={t('design.sidebar.typography')}>
+       <Paragraph>{t('design.typoTokens.comingSoon')}</Paragraph>
+    </ArticleLayout>
+  );
+};
 
-const FigmaOppkoblingContent = () => (
-  <ArticleLayout title="Kom i gang med designsystemet (Figma)" category="Kom i gang">
-    <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
-      Denne veiledningen hjelper deg med å komme i gang med å designe ved hjelp av det delte designsystemet i Figma. Du får en innføring i hvordan du bruker komponenter, tokens og stiler fra det sentrale biblioteket.
-    </Paragraph>
+const FigmaOppkoblingContent = () => {
+  const { t } = useLanguage();
+  return (
+    <ArticleLayout title={t('design.figmaConnect.title')} category={t('design.sidebar.getStarted')}>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
+        {t('design.figmaConnect.intro')}
+      </Paragraph>
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Forutsetninger</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>Før du starter trenger du:</Paragraph>
-    <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
-      <List.Item><strong>Figma</strong> - En aktiv Figma-konto (gratis eller betalt)</List.Item>
-      <List.Item><strong>Access</strong> - Tilgang til Røde Kors sitt Figma-bibliotek (kontakt teamansvarlig hvis du mangler tilgang)</List.Item>
-    </List.Unordered>
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.figmaConnect.prerequisites')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>{t('design.figmaConnect.prerequisitesIntro')}</Paragraph>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
+        <List.Item><strong>Figma</strong> - {t('design.figmaConnect.figmaAccount')}</List.Item>
+        <List.Item><strong>Access</strong> - {t('design.figmaConnect.access')}</List.Item>
+      </List.Unordered>
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Opprett eller åpne en arbeidsfil</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
-      Opprett en ny Figma-fil, eller åpne en eksisterende prosjektfil hvor du skal ta i bruk designsystemet.
-    </Paragraph>
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.figmaConnect.createFile')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
+        {t('design.figmaConnect.createFileText')}
+      </Paragraph>
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Aktiver designsystemets biblioteker</Heading>
-    <List.Ordered style={{ marginBottom: 'var(--ds-size-6)' }}>
-      <List.Item>Gå til Assets-panelet i Figma</List.Item>
-      <List.Item>Klikk på bok-ikonet (📚) øverst til høyre for å åpne Team Library</List.Item>
-      <List.Item>Slå på følgende biblioteker:
-        <List.Unordered style={{ marginTop: 'var(--ds-size-2)' }}>
-          <List.Item>Designsystem – komponenter</List.Item>
-          <List.Item>Aksel ikonbibliotek</List.Item>
-        </List.Unordered>
-      </List.Item>
-    </List.Ordered>
-    <ArticleImage src="/LibraryActivationScreenshot.png" alt="Library Activation" caption="Viser aktivering av biblioteker i Figma" />
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.figmaConnect.activateLibraries')}</Heading>
+      <List.Ordered style={{ marginBottom: 'var(--ds-size-6)' }}>
+        <List.Item>{t('design.figmaConnect.goToAssets')}</List.Item>
+        <List.Item>{t('design.figmaConnect.openLibrary')}</List.Item>
+        <List.Item>{t('design.figmaConnect.enableLibraries')}
+          <List.Unordered style={{ marginTop: 'var(--ds-size-2)' }}>
+            <List.Item>{t('design.figmaConnect.libraryComponent')}</List.Item>
+            <List.Item>{t('design.figmaConnect.libraryIcons')}</List.Item>
+          </List.Unordered>
+        </List.Item>
+      </List.Ordered>
+      <ArticleImage src="/LibraryActivationScreenshot.png" alt="Library Activation" caption={t('design.figmaConnect.libraryActivationCaption')} />
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Sett inn komponenter fra biblioteket</Heading>
-    <List.Ordered style={{ marginBottom: 'var(--ds-size-6)' }}>
-      <List.Item>Gå til Assets-panelet</List.Item>
-      <List.Item>Bruk søkefeltet for å finne komponenter raskt, f.eks.:
-        <List.Unordered style={{ marginTop: 'var(--ds-size-2)' }}>
-          <List.Item>Button</List.Item>
-          <List.Item>Card</List.Item>
-          <List.Item>Modal</List.Item>
-        </List.Unordered>
-      </List.Item>
-      <List.Item>Dra komponenten inn i artboardet</List.Item>
-      <List.Item>🔄 Tilpass komponentene ved å bruke props og varianter i høyrepanelet. Dette gir fleksibilitet uten å bryte koblingen til hovedkomponenten.</List.Item>
-    </List.Ordered>
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.figmaConnect.insertComponents')}</Heading>
+      <List.Ordered style={{ marginBottom: 'var(--ds-size-6)' }}>
+        <List.Item>{t('design.figmaConnect.goToAssetsPanel')}</List.Item>
+        <List.Item>{t('design.figmaConnect.useSearch')}
+          <List.Unordered style={{ marginTop: 'var(--ds-size-2)' }}>
+            <List.Item>Button</List.Item>
+            <List.Item>Card</List.Item>
+            <List.Item>Modal</List.Item>
+          </List.Unordered>
+        </List.Item>
+        <List.Item>{t('design.figmaConnect.dragComponent')}</List.Item>
+        <List.Item>{t('design.figmaConnect.customizeComponent')}</List.Item>
+      </List.Ordered>
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Tips og god praksis</Heading>
-    <Paragraph>
-      Unngå å “detache” komponenter. For å sikre gjenbruk og fremtidige oppdateringer, skal du ikke detach’e komponenter. Bruk heller varianter og egenskaper (props) for å tilpasse utseende og funksjon.
-    </Paragraph>
-  </ArticleLayout>
-);
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.figmaConnect.tips')}</Heading>
+      <Paragraph>
+        {t('design.figmaConnect.tipsText')}
+      </Paragraph>
+    </ArticleLayout>
+  );
+};
 
-const OppstartContent = () => (
-  <ArticleLayout title="Oppstart: Oppsett av arbeidsområde" category="Kom i gang">
-    
-    <Heading level={3} data-size="sm">Trinn 1: Start med en ny frame</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>Opprett en ny frame i Figma med ønsket størrelse.</Paragraph>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>I dette tilfellet bruker vi 1728px i bredde.</Paragraph>
-    <ArticleImage src="/OppstartStep1.png" alt="Trinn 1" />
+const OppstartContent = () => {
+  const { t } = useLanguage();
+  return (
+    <ArticleLayout title={t('design.startup.title')} category={t('design.sidebar.getStarted')}>
+      
+      <Heading level={3} data-size="sm">{t('design.startup.step1Title')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>{t('design.startup.step1Text1')}</Paragraph>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.startup.step1Text2')}</Paragraph>
+      <ArticleImage src="/OppstartStep1.png" alt={t('design.startup.step1Title')} />
 
-    <Heading level={3} data-size="sm">Trinn 2: Legg til autolayout</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>Legg til autolayout på framen.</Paragraph>
-    <ArticleImage src="/OppstartStep2.png" alt="Trinn 2" />
+      <Heading level={3} data-size="sm">{t('design.startup.step2Title')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.startup.step2Text')}</Paragraph>
+      <ArticleImage src="/OppstartStep2.png" alt={t('design.startup.step2Title')} />
 
-    <Heading level={3} data-size="sm">Trinn 3: Legg til tokens på framen</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>Legg til følgende tokens:</Paragraph>
-    <List.Unordered style={{ marginBottom: 'var(--ds-size-4)' }}>
-      <List.Item>Spacing: 0</List.Item>
-      <List.Item>Padding left right: 0</List.Item>
-      <List.Item>Padding top bottom: 0</List.Item>
-      <List.Item>Background color: color/main/background-default</List.Item>
-    </List.Unordered>
-    <ArticleImage src="/OppstartStep3.png" alt="Trinn 3" />
+      <Heading level={3} data-size="sm">{t('design.startup.step3Title')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>{t('design.startup.step3Text')}</Paragraph>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-4)' }}>
+        <List.Item>{t('design.startup.step3Token1')}</List.Item>
+        <List.Item>{t('design.startup.step3Token2')}</List.Item>
+        <List.Item>{t('design.startup.step3Token3')}</List.Item>
+        <List.Item>{t('design.startup.step3Token4')}</List.Item>
+      </List.Unordered>
+      <ArticleImage src="/OppstartStep3.png" alt={t('design.startup.step3Title')} />
 
-    <Heading level={3} data-size="sm">Trinn 4: Legg til heading og footer</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>Legg til header og footer fra komponenter biblioteket. Sørg for at Auto Layout retning er satt til vertikal.</Paragraph>
-    <ArticleImage src="/OppstartStep4.png" alt="Trinn 4" />
+      <Heading level={3} data-size="sm">{t('design.startup.step4Title')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.startup.step4Text')}</Paragraph>
+      <ArticleImage src="/OppstartStep4.png" alt={t('design.startup.step4Title')} />
 
-    <Heading level={3} data-size="sm">Trinn 5: Lage en seksjon</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>Lag en ny frame som du kaller "section".</Paragraph>
-    <ArticleImage src="/OppstartStep5.png" alt="Trinn 5" />
+      <Heading level={3} data-size="sm">{t('design.startup.step5Title')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.startup.step5Text')}</Paragraph>
+      <ArticleImage src="/OppstartStep5.png" alt={t('design.startup.step5Title')} />
 
-    <Heading level={3} data-size="sm">Trinn 6: Legge til autolayout</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>Legg til autolayout på den nye seksjonen.</Paragraph>
-    <ArticleImage src="/OppstartStep6.png" alt="Trinn 6" />
+      <Heading level={3} data-size="sm">{t('design.startup.step6Title')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.startup.step6Text')}</Paragraph>
+      <ArticleImage src="/OppstartStep6.png" alt={t('design.startup.step6Title')} />
 
-    <Heading level={3} data-size="sm">Trinn 7: Legge til seksjon i hovedframe</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>Legg til seksjonen i hovedframen og sørg for at seksjonen er satt til "fill container".</Paragraph>
-    <ArticleImage src="/OppstartStep7.png" alt="Trinn 7" />
+      <Heading level={3} data-size="sm">{t('design.startup.step7Title')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.startup.step7Text')}</Paragraph>
+      <ArticleImage src="/OppstartStep7.png" alt={t('design.startup.step7Title')} />
 
-    <Heading level={3} data-size="sm">Trinn 8: Legge til tokens (side-marginer og bakgrunnsfarge)</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>Velg seksjonen og legg til følgende tokens:</Paragraph>
-    <List.Unordered style={{ marginBottom: 'var(--ds-size-4)' }}>
-      <List.Item>Spacing: size/6</List.Item>
-      <List.Item>Padding left right: size/30</List.Item>
-      <List.Item>Padding top bottom: size/22</List.Item>
-      <List.Item>Background color: color/main/background-default</List.Item>
-    </List.Unordered>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>Dette sørger for at siden din er koblet mot tokensene i koden og gjør det lettere for utviklere å utvikle det du designer da disse er lenket via GitHub.</Paragraph>
-    <ArticleImage src="/OppstartStep8.png" alt="Trinn 8" />
+      <Heading level={3} data-size="sm">{t('design.startup.step8Title')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>{t('design.startup.step8Text')}</Paragraph>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-4)' }}>
+        <List.Item>{t('design.startup.step8Token1')}</List.Item>
+        <List.Item>{t('design.startup.step8Token2')}</List.Item>
+        <List.Item>{t('design.startup.step8Token3')}</List.Item>
+        <List.Item>{t('design.startup.step8Token4')}</List.Item>
+      </List.Unordered>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.startup.step8Note')}</Paragraph>
+      <ArticleImage src="/OppstartStep8.png" alt={t('design.startup.step8Title')} />
 
-    <Heading level={3} data-size="sm">Trinn 9: Test seksjonen</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>Legg til ett komponent fra biblioteket. I vårt tilfelle bruker vi card komponenten.</Paragraph>
-    <ArticleImage src="/OppstartStep9.png" alt="Trinn 9" />
+      <Heading level={3} data-size="sm">{t('design.startup.step9Title')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.startup.step9Text')}</Paragraph>
+      <ArticleImage src="/OppstartStep9.png" alt={t('design.startup.step9Title')} />
 
-    <Heading level={3} data-size="sm">Trinn 10: Lag en nested layout</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>Legg til flere kort og sett de sammen ved hjelp av en auto layout. For å gjøre dette enkelt velg alle kortene og trykk shift + a.</Paragraph>
-    <ArticleImage src="/OppstartStep10.png" alt="Trinn 10" />
+      <Heading level={3} data-size="sm">{t('design.startup.step10Title')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.startup.step10Text')}</Paragraph>
+      <ArticleImage src="/OppstartStep10.png" alt={t('design.startup.step10Title')} />
 
-    <Heading level={3} data-size="sm">Trinn 11: Set opp nested layout</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>Velg alle kortene i seksjonen og sørg for at disse er satt til fill container.</Paragraph>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>Dette gjør vi for at kortene skal ta like mye plass og holde seg innen for rammene til den nestede layouten.</Paragraph>
-    <ArticleImage src="/OppstartStep11.png" alt="Trinn 11" />
+      <Heading level={3} data-size="sm">{t('design.startup.step11Title')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>{t('design.startup.step11Text1')}</Paragraph>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.startup.step11Text2')}</Paragraph>
+      <ArticleImage src="/OppstartStep11.png" alt={t('design.startup.step11Title')} />
 
-    <Heading level={3} data-size="sm">Trinn 12: Legg til spacing tokens</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>Gå ett hakk ut og velg containeren til kortene. Sørg for at spacing er satt til size/6.</Paragraph>
-    <ArticleImage src="/OppstartStep12.png" alt="Trinn 12" />
+      <Heading level={3} data-size="sm">{t('design.startup.step12Title')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.startup.step12Text')}</Paragraph>
+      <ArticleImage src="/OppstartStep12.png" alt={t('design.startup.step12Title')} />
 
-    <Heading level={3} data-size="sm">Trinn 13: Legg til spacing i seksjon</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>Legg til spacing mellom kort containeren og headingen ved å velge seksjonen og tilføye en spacing på size/6.</Paragraph>
-    <ArticleImage src="/OppstartStep13.png" alt="Trinn 13" />
+      <Heading level={3} data-size="sm">{t('design.startup.step13Title')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.startup.step13Text')}</Paragraph>
+      <ArticleImage src="/OppstartStep13.png" alt={t('design.startup.step13Title')} />
 
-    <Heading level={3} data-size="sm">Trinn 14: gjenbruk</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>Dupliser seksjonen og gjør deg kjent med hvordan auto-layout og tokensene fungerer. Under ser du hvordan jeg enkelt laget en tabell ved å erstatte kortene med en tablecolumn komponent og satte spacing til size/0.</Paragraph>
-    <ArticleImage src="/OppstartStep14.png" alt="Trinn 14" />
-  </ArticleLayout>
-);
+      <Heading level={3} data-size="sm">{t('design.startup.step14Title')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.startup.step14Text')}</Paragraph>
+      <ArticleImage src="/OppstartStep14.png" alt={t('design.startup.step14Title')} />
+    </ArticleLayout>
+  );
+};
 
-const LageKomponenterContent = () => (
-  <ArticleLayout title="Lage nye komponenter" category="Kom i gang">
-    <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
-      Denne siden forklarer hvordan man bygger nye komponenter i design­systemet. Målet er å sikre at komponentene er konsistente, skalerbare, tilgjengelige og enkle å bruke både i design og utvikling.
-    </Paragraph>
+const LageKomponenterContent = () => {
+  const { t } = useLanguage();
+  return (
+    <ArticleLayout title={t('design.newComponent.title')} category={t('design.sidebar.getStarted')}>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
+        {t('design.newComponent.intro')}
+      </Paragraph>
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Tokens som grunnlag</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      Alle komponenter skal bygges med tokens. Tokens er de grunnleggende verdiene i systemet og gjør det mulig å oppdatere eller tilpasse design uten å endre hver enkelt komponent.
-    </Paragraph>
-    <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
-      <List.Item><strong>Autolayout:</strong> Bruk alltid Autolayout i Figma. Det gir produksjonsklare filer og speiler hvordan kode er strukturert.</List.Item>
-      <List.Item><strong>Størrelsestokens:</strong> Bruk tokens for spacing, padding og dimensjoner. Unngå manuelle verdier.</List.Item>
-      <List.Item><strong>Semantiske tokens:</strong> Benytt semantiske tokens for farger, typografi og spacing. Dette sikrer støtte for lys og mørk modus, ulike størrelser og temaer – og gjør komponentene direkte koblet til kode.</List.Item>
-    </List.Unordered>
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.newComponent.tokensTitle')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.newComponent.tokensText')}
+      </Paragraph>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
+        <List.Item>{t('design.newComponent.tokensAutolayout')}</List.Item>
+        <List.Item>{t('design.newComponent.tokensSize')}</List.Item>
+        <List.Item>{t('design.newComponent.tokensSemantic')}</List.Item>
+      </List.Unordered>
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Bygging med atomisk design</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      Komponenter settes sammen hierarkisk etter atomisk design:
-    </Paragraph>
-    <List.Unordered style={{ marginBottom: 'var(--ds-size-4)' }}>
-      <List.Item><strong>Atomer:</strong> de minste byggeklossene (f.eks. knapp, ikon, inputfelt).</List.Item>
-      <List.Item><strong>Molekyler:</strong> sammensatte atomer (f.eks. søkefelt = input + knapp).</List.Item>
-      <List.Item><strong>Organismer:</strong> større helheter laget av molekyler (f.eks. skjema eller navigasjon).</List.Item>
-    </List.Unordered>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
-      Dette prinsippet gjør komponentene modulære og gjenbrukbare.
-    </Paragraph>
-    <ArticleImage src="/LageKompSteg1.png" alt="Atomisk design" />
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.newComponent.atomicTitle')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.newComponent.atomicText')}
+      </Paragraph>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-4)' }}>
+        <List.Item>{t('design.newComponent.atomicAtoms')}</List.Item>
+        <List.Item>{t('design.newComponent.atomicMolecules')}</List.Item>
+        <List.Item>{t('design.newComponent.atomicOrganisms')}</List.Item>
+      </List.Unordered>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
+        {t('design.newComponent.atomicPrinciple')}
+      </Paragraph>
+      <ArticleImage src="/LageKompSteg1.png" alt={t('design.newComponent.atomicTitle')} />
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Eksempel Kalender Modul</Heading>
-    
-    <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>Trinn 1: Begynn på atomisk nivå</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
-      Se for deg atomene som trengs når du lager en kalender. Eksempelvis kan det være:
-    </Paragraph>
-    <List.Unordered style={{ marginBottom: 'var(--ds-size-4)' }}>
-      <List.Item><strong>Tekst:</strong> Måned/år (f.eks. "August 2025"), Ukedagsnavn (man, tir, ons …), Dato-nummer (1, 2, 3 …)</List.Item>
-      <List.Item><strong>Ikoner:</strong> Piltaster for navigasjon (forrige/neste måned), Eventuelt ikon for «dagens dato» eller «reset»</List.Item>
-      <List.Item><strong>Knapper:</strong> Navigasjonsknapper (forrige/neste måned), Dato-knapp (hver dato er en interaktiv knapp)</List.Item>
-    </List.Unordered>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
-      Vi vet at vi allerede har icon-button så den kan vi enkelt hente ut fra komponent bibiloteket.
-    </Paragraph>
-    <ArticleImage src="/LageKompSteg2.png" alt="Trinn 1" />
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.newComponent.calendarTitle')}</Heading>
+      
+      <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>{t('design.newComponent.calendarStep1Title')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
+        {t('design.newComponent.calendarStep1Text')}
+      </Paragraph>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-4)' }}>
+        <List.Item><strong>{t('design.newComponent.calendarStep1TextLabel')}</strong> {t('design.newComponent.calendarStep1TextItems')}</List.Item>
+        <List.Item><strong>{t('design.newComponent.calendarStep1IconLabel')}</strong> {t('design.newComponent.calendarStep1IconItems')}</List.Item>
+        <List.Item><strong>{t('design.newComponent.calendarStep1ButtonLabel')}</strong> {t('design.newComponent.calendarStep1ButtonItems')}</List.Item>
+      </List.Unordered>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
+        {t('design.newComponent.calendarStep1Note')}
+      </Paragraph>
+      <ArticleImage src="/LageKompSteg2.png" alt={t('design.newComponent.calendarStep1Title')} />
 
-    <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>Trinn 2: Start med å bygge ut atomene dine</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      I vårt tilfelle vil vi trenge ett celle komponent som viser ukedagene og dato-nummer i en mnd. Her kan vi bruke samme atom for ukedagsnavn og dato-nummer.
-    </Paragraph>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
-      Vi lager to elementer som vi kaller "cell" og legger til autolayout og appellerer token verdiene.
-    </Paragraph>
-    <ArticleImage src="/LageKompSteg3.png" alt="Trinn 2" />
+      <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>{t('design.newComponent.calendarStep2Title')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.newComponent.calendarStep2Text1')}
+      </Paragraph>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
+        {t('design.newComponent.calendarStep2Text2')}
+      </Paragraph>
+      <ArticleImage src="/LageKompSteg3.png" alt={t('design.newComponent.calendarStep2Title')} />
 
-    <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>Trinn 3: Lag variantene du trenger</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
-      I vårt tilfelle vil vi trenge ett celle komponent som viser ukedagene og dagene i en mnd.
-    </Paragraph>
-    <ArticleImage src="/LageKompSteg4.png" alt="Trinn 3" />
+      <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>{t('design.newComponent.calendarStep3Title')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
+        {t('design.newComponent.calendarStep3Text')}
+      </Paragraph>
+      <ArticleImage src="/LageKompSteg4.png" alt={t('design.newComponent.calendarStep3Title')} />
 
-    <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>Trinn 4: Sett sammen molekylet</Heading>
-    <ArticleImage src="/LageKompSteg5.png" alt="Trinn 4" />
+      <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>{t('design.newComponent.calendarStep4Title')}</Heading>
+      <ArticleImage src="/LageKompSteg5.png" alt={t('design.newComponent.calendarStep4Title')} />
 
-    <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>Trinn 5: Bygg ut organismen</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
-      Her legger vi sammen molekylene til en tabell.
-    </Paragraph>
-    <ArticleImage src="/LageKompSteg6.png" alt="Trinn 5" />
+      <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>{t('design.newComponent.calendarStep5Title')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
+        {t('design.newComponent.calendarStep5Text')}
+      </Paragraph>
+      <ArticleImage src="/LageKompSteg6.png" alt={t('design.newComponent.calendarStep5Title')} />
 
-    <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>Trinn 6: Legg til riktig states</Heading>
-    <ArticleImage src="/LageKompSteg7.png" alt="Trinn 6" />
+      <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>{t('design.newComponent.calendarStep6Title')}</Heading>
+      <ArticleImage src="/LageKompSteg7.png" alt={t('design.newComponent.calendarStep6Title')} />
 
-    <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>Trinn 7: Gjør ferdig organismen med eksisterende elementer</Heading>
-    <ArticleImage src="/LageKompSteg8.png" alt="Trinn 7" />
+      <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>{t('design.newComponent.calendarStep7Title')}</Heading>
+      <ArticleImage src="/LageKompSteg8.png" alt={t('design.newComponent.calendarStep7Title')} />
 
-    <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>Trinn 8: Bygg ut med flere varianter hvis det gir mening</Heading>
-    <ArticleImage src="/LageKompSteg9.png" alt="Trinn 8" />
+      <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>{t('design.newComponent.calendarStep8Title')}</Heading>
+      <ArticleImage src="/LageKompSteg9.png" alt={t('design.newComponent.calendarStep8Title')} />
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Varianter og tilstander</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
-      Alle komponenter skal ha definerte varianter og interaksjonstilstander:
-    </Paragraph>
-    <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
-      <List.Item>Bruk Figma Variants i stedet for duplisering.</List.Item>
-      <List.Item>Minimumstilstander: default, hover, pressed, disabled, focus. Litt ut fra kontekst.</List.Item>
-      <List.Item>Opprett en ny variant når det gjelder en tilpasning av samme komponent, og en ny komponent kun når funksjonen er unik.</List.Item>
-    </List.Unordered>
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.newComponent.variantsTitle')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
+        {t('design.newComponent.variantsText')}
+      </Paragraph>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
+        <List.Item>{t('design.newComponent.variantsFigma')}</List.Item>
+        <List.Item>{t('design.newComponent.variantsStates')}</List.Item>
+        <List.Item>{t('design.newComponent.variantsNew')}</List.Item>
+      </List.Unordered>
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Tilgjengelighet</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
-      Tilgjengelighet skal alltid ivaretas:
-    </Paragraph>
-    <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
-      <List.Item>Følg WCAG-kontrastkrav (minimum 4.5:1 for tekst).</List.Item>
-      <List.Item>Interaktive flater skal ha minst 44 × 44 px treffflate.</List.Item>
-      <List.Item>Fokus­tilstand skal alltid være synlig, også uten hover.</List.Item>
-    </List.Unordered>
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.newComponent.accessibilityTitle')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
+        {t('design.newComponent.accessibilityText')}
+      </Paragraph>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
+        <List.Item>{t('design.newComponent.accessibilityWCAG')}</List.Item>
+        <List.Item>{t('design.newComponent.accessibilityTouch')}</List.Item>
+        <List.Item>{t('design.newComponent.accessibilityFocus')}</List.Item>
+      </List.Unordered>
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Responsivitet</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
-      Komponenter skal fungere på tvers av skjermstørrelser og layouts:
-    </Paragraph>
-    <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
-      <List.Item>Bruk størrelsestokens for spacing og dimensjoner.</List.Item>
-      <List.Item>Støtt små, mellomstore og store layoutvarianter.</List.Item>
-      <List.Item>Sørg for at komponenter brytes eller stackes logisk i mindre formater.</List.Item>
-    </List.Unordered>
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.newComponent.responsiveTitle')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
+        {t('design.newComponent.responsiveText')}
+      </Paragraph>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
+        <List.Item>{t('design.newComponent.responsiveTokens')}</List.Item>
+        <List.Item>{t('design.newComponent.responsiveSizes')}</List.Item>
+        <List.Item>{t('design.newComponent.responsiveBreak')}</List.Item>
+      </List.Unordered>
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Gjenbruk i kontekst</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
-      En komponent skal alltid kunne brukes i ulike sammenhenger. Vis derfor eksempler i dokumentasjonen, som:
-    </Paragraph>
-    <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
-      <List.Item>knapp i et skjema</List.Item>
-      <List.Item>kort i et grid</List.Item>
-      <List.Item>inputfelt i en dialogboks</List.Item>
-    </List.Unordered>
-  </ArticleLayout>
-);
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.newComponent.reuseTitle')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
+        {t('design.newComponent.reuseText')}
+      </Paragraph>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
+        <List.Item>{t('design.newComponent.reuseExample1')}</List.Item>
+        <List.Item>{t('design.newComponent.reuseExample2')}</List.Item>
+        <List.Item>{t('design.newComponent.reuseExample3')}</List.Item>
+      </List.Unordered>
+    </ArticleLayout>
+  );
+};
 
-const PraktiskeEksemplerContent = () => (
-  <ArticleLayout title="Praktiske eksempler" category="Kom i gang">
-    <Heading level={2} data-size="md">Eksempel 1: Påmeldingsskjema</Heading>
-    <List.Ordered style={{ marginBottom: 'var(--ds-size-6)' }}>
-      <List.Item>Trinn 1: Start med en ny frame
-        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
-          Opprett en ny frame i Figma med ønsket størrelse. Bruk design tokens for å sette framefargen hvis nødvendig (f.eks. background-default).
-        </Paragraph>
-      </List.Item>
-      <List.Item>Trinn 2: Legg til overskrift
-        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
-          Bruk komponenten Heading for å legge til en overskrift, som "Meld deg på vårt arrangement". Juster størrelsen med size-modusen, om nødvendig.
-        </Paragraph>
+const PraktiskeEksemplerContent = () => {
+  const { t } = useLanguage();
+  return (
+    <ArticleLayout title={t('design.examples.title')} category={t('design.sidebar.getStarted')}>
+      <Heading level={2} data-size="md">{t('design.examples.example1Title')}</Heading>
+      <List.Ordered style={{ marginBottom: 'var(--ds-size-6)' }}>
+        <List.Item>{t('design.examples.example1Step1Title')}
+          <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+            {t('design.examples.example1Step1Text')}
+          </Paragraph>
+        </List.Item>
+        <List.Item>{t('design.examples.example1Step2Title')}
+          <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+            {t('design.examples.example1Step2Text')}
+          </Paragraph>
         <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '100%', marginBottom: 'var(--ds-size-4)' }}>
           <iframe 
             title="vimeo-player" 
@@ -565,10 +610,10 @@ const PraktiskeEksemplerContent = () => (
           />
         </div>
       </List.Item>
-      <List.Item>Trinn 3: Legg til tekstfelt for navn og e-post
-        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
-          Sett inn to Text Input-komponenter. Den første for "Fullt navn" og den andre for "E-postadresse". Sørg for å bruke placeholder-modusen for instruksjoner i tekstfeltene.
-        </Paragraph>
+        <List.Item>{t('design.examples.example1Step3Title')}
+          <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+            {t('design.examples.example1Step3Text')}
+          </Paragraph>
         <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '100%', marginBottom: 'var(--ds-size-4)' }}>
           <iframe 
             title="vimeo-player" 
@@ -583,10 +628,10 @@ const PraktiskeEksemplerContent = () => (
           />
         </div>
       </List.Item>
-      <List.Item>Trinn 4: Legg til en dropdown for valg av arrangement
-        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
-          Bruk komponenten Multisuggestion for å la brukeren velge mellom forskjellige arrangementer. Legg til nødvendige alternativer i dropdown-menyen.
-        </Paragraph>
+        <List.Item>{t('design.examples.example1Step4Title')}
+          <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+            {t('design.examples.example1Step4Text')}
+          </Paragraph>
         <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '100%', marginBottom: 'var(--ds-size-4)' }}>
           <iframe 
             title="vimeo-player" 
@@ -601,10 +646,10 @@ const PraktiskeEksemplerContent = () => (
           />
         </div>
       </List.Item>
-      <List.Item>Trinn 5: Legg til en send-knapp
-        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
-          Sett inn en Button-komponent og tilpass fargen ved å bruke color-modusen hvis knappen skal skille seg ut. Legg til ikon hvis ønskelig.
-        </Paragraph>
+        <List.Item>{t('design.examples.example1Step5Title')}
+          <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+            {t('design.examples.example1Step5Text')}
+          </Paragraph>
         <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '100%', marginBottom: 'var(--ds-size-4)' }}>
           <iframe 
             title="vimeo-player" 
@@ -621,10 +666,10 @@ const PraktiskeEksemplerContent = () => (
       </List.Item>
     </List.Ordered>
 
-    <Heading level={3} data-size="sm">Obs!</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-       Bruk color og sizetokens i framems rundt komponentene for å sikre at alle moduser fungerer som de skal.
-    </Paragraph>
+      <Heading level={3} data-size="sm">{t('design.examples.example1NoteTitle')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.examples.example1NoteText')}
+      </Paragraph>
     <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '100%', marginBottom: 'var(--ds-size-8)' }}>
       <iframe 
         title="vimeo-player" 
@@ -639,12 +684,12 @@ const PraktiskeEksemplerContent = () => (
       />
     </div>
 
-    <Heading level={2} data-size="md">Eksempel 2: Artikkelside</Heading>
-    <List.Ordered style={{ marginBottom: 'var(--ds-size-6)' }}>
-      <List.Item>Trinn 1: Opprett en ny frame
-        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
-          Start med å lage en ny vertikal frame i Figma med ønsket bredde (f.eks. 8- eller 12-kolonne grid). Sett bakgrunnsfarge ved hjelp av design tokens (f.eks. background-color: var(--color-background-light)).
-        </Paragraph>
+      <Heading level={2} data-size="md">{t('design.examples.example2Title')}</Heading>
+      <List.Ordered style={{ marginBottom: 'var(--ds-size-6)' }}>
+        <List.Item>{t('design.examples.example2Step1Title')}
+          <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+            {t('design.examples.example2Step1Text')}
+          </Paragraph>
         <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '100%', marginBottom: 'var(--ds-size-4)' }}>
           <iframe 
             title="vimeo-player" 
@@ -659,10 +704,10 @@ const PraktiskeEksemplerContent = () => (
           />
         </div>
       </List.Item>
-      <List.Item>Trinn 2: Legg til en hovedoverskrift
-        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
-          Bruk Heading-komponenten for å legge til tittelen på artikkelen. Juster størrelsen med size-modus (f.eks. heading-xleller heading-lg).
-        </Paragraph>
+        <List.Item>{t('design.examples.example2Step2Title')}
+          <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+            {t('design.examples.example2Step2Text')}
+          </Paragraph>
         <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '100%', marginBottom: 'var(--ds-size-4)' }}>
           <iframe 
             title="vimeo-player" 
@@ -677,10 +722,10 @@ const PraktiskeEksemplerContent = () => (
           />
         </div>
       </List.Item>
-      <List.Item>Trinn 3: Legg til ingress
-        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
-          Bruk Text-komponenten i body-large-stil for å skrive en kort ingress som oppsummerer artikkelen. Plasser denne rett under overskriften, med tilstrekkelig spacing.
-        </Paragraph>
+        <List.Item>{t('design.examples.example2Step3Title')}
+          <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+            {t('design.examples.example2Step3Text')}
+          </Paragraph>
         <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '100%', marginBottom: 'var(--ds-size-4)' }}>
           <iframe 
             title="vimeo-player" 
@@ -695,10 +740,10 @@ const PraktiskeEksemplerContent = () => (
           />
         </div>
       </List.Item>
-      <List.Item>Trinn 4: Sett inn hovedinnhold med tekstblokker
-        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
-          Bruk Text-komponenter i body-default eller body-large for å bygge ut brødteksten. Del opp teksten i tydelige avsnitt og legg inn mellomtitler med Heading-komponenten i mindre størrelse (heading-md eller heading-sm).
-        </Paragraph>
+        <List.Item>{t('design.examples.example2Step4Title')}
+          <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+            {t('design.examples.example2Step4Text')}
+          </Paragraph>
         <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '100%', marginBottom: 'var(--ds-size-4)' }}>
           <iframe 
             title="vimeo-player" 
@@ -713,13 +758,13 @@ const PraktiskeEksemplerContent = () => (
           />
         </div>
       </List.Item>
-      <List.Item>Trinn 5: Legg til et bilde i artikkelen
-        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
-          Bruk Image-komponenten for å plassere et illustrasjons- eller artikkelbilde midtstilt i teksten. Bruk size-modusen hvis du trenger å endre størrelse (f.eks. medium eller full-width).
-        </Paragraph>
-        <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-          Foreløpig har vi ingen Image -komponent så vi bruker derfor en frame i steden
-        </Paragraph>
+        <List.Item>{t('design.examples.example2Step5Title')}
+          <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+            {t('design.examples.example2Step5Text1')}
+          </Paragraph>
+          <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+            {t('design.examples.example2Step5Text2')}
+          </Paragraph>
         <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '100%', marginBottom: 'var(--ds-size-4)' }}>
           <iframe 
             title="vimeo-player" 
@@ -734,10 +779,10 @@ const PraktiskeEksemplerContent = () => (
           />
         </div>
       </List.Item>
-      <List.Item>Trinn 6: Legg til lenker i teksten
-        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
-          Bruk Link-komponenten der det er behov for hyperkoblinger til relaterte artikler, dokumenter eller eksterne kilder.
-        </Paragraph>
+        <List.Item>{t('design.examples.example2Step6Title')}
+          <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+            {t('design.examples.example2Step6Text')}
+          </Paragraph>
         <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '100%', marginBottom: 'var(--ds-size-4)' }}>
           <iframe 
             title="vimeo-player" 
@@ -752,230 +797,246 @@ const PraktiskeEksemplerContent = () => (
           />
         </div>
       </List.Item>
-      <List.Item>Trinn 7: Avslutt med relaterte artikler eller deling
-        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
-          Bruk Card-komponenter i et grid-layout for å vise relaterte artikler. Hver kort bør inneholde bilde, tittel og en "Les mer"-lenke. Alternativt kan du legge til Share-komponenter for sosiale medier nederst.
-        </Paragraph>
-      </List.Item>
-    </List.Ordered>
+        <List.Item>{t('design.examples.example2Step7Title')}
+          <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+            {t('design.examples.example2Step7Text')}
+          </Paragraph>
+        </List.Item>
+      </List.Ordered>
 
-    <Heading level={2} data-size="md">Eksempel 3: Planleggings verktøy</Heading>
-    <List.Ordered style={{ marginBottom: 'var(--ds-size-6)' }}>
-      <List.Item>Trinn 1: Opprett en frame
-        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
-          Start med å lage en ny vertikal frame i Figma, med den ønskede bredden som passer til layouten for aktivitetskalenderen din (f.eks. 12-kolonne grid). Sett bakgrunnsfargen ved hjelp av design tokens (f.eks. background-color: var(--color-background-light)).
-        </Paragraph>
-      </List.Item>
-      <List.Item>Trinn 2: Legg til en hovedoverskrift
-        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
-          Bruk Heading-komponenten for å legge til tittelen "Aktivitetskalender". Juster størrelsen med size-modus som passer (f.eks. heading-xl eller heading-lg).
-        </Paragraph>
-      </List.Item>
-      <List.Item>Trinn 3: Legg til en kort beskrivelse
-        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
-          Bruk Text-komponenten i body-large-stil for å skrive en kort beskrivelse som forklarer formålet med kalenderen. Plasser denne rett under hovedoverskriften, med tilstrekkelig spacing for å sikre lesbarhet.
-        </Paragraph>
-      </List.Item>
-      <List.Item>Trinn 4: Sett inn kalenderoversikt
-        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
-          Bruk en Table-komponent for å lage en oversikt over månedens aktiviteter. Sørg for at hver rad representerer en dag og inkluderer kolonner for dato, aktivitet, tid og sted. Juster størrelsen på tabellen etter behov.
-        </Paragraph>
-      </List.Item>
-      <List.Item>Trinn 5: Legg til detaljerte aktivitetskort
-        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
-          Bruk Card-komponenter for å vise detaljerte beskrivelser av hver aktivitet. Hvert kort bør inneholde aktivitetens navn, beskrivelse, tid, sted og en "Mer info"-knapp som kan føre til en detaljert side om aktiviteten.
-        </Paragraph>
-      </List.Item>
-      <List.Item>Trinn 6: Sett inn bilder for hver aktivitet
-        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
-          Bruk Image-komponenten innenfor hvert aktivitetskort for å inkludere relevante bilder. Bruk size-modusen for å tilpasse bildene til kortene (f.eks. medium eller full-width).
-        </Paragraph>
-      </List.Item>
-      <List.Item>Trinn 7: Legg til et filter eller søkefunksjon
-        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
-          Bruk Search-komponenten for å legge til en søkefunksjon øverst på siden, slik at brukere enkelt kan finne aktiviteter basert på navn, dato eller kategori.
-        </Paragraph>
-      </List.Item>
-      <List.Item>Trinn 8: Inkluder en "Legg til i kalender" funksjon
-        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
-          Bruk Button-komponenter for å tilby en funksjon der brukere kan legge aktiviteter til sin personlige kalender. Plasser denne knappen i nærheten av aktivitetsdetaljene.
-        </Paragraph>
-      </List.Item>
-      <List.Item>Trinn 9: Legg til lenker og navigasjon
-        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
-          Bruk Link-komponenter for å legge til hyperkoblinger til relaterte aktiviteter eller eksterne ressurser, som for eksempel billetter eller mer informasjon. Sørg for tydelig kontrast og understreking i henhold til designreglene.
-        </Paragraph>
-      </List.Item>
-      <List.Item>Trinn 10: Avslutt med sosiale delingsmuligheter
-        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
-          Bruk Share-komponenter for sosiale medier nederst på siden, slik at brukere kan dele interessante aktiviteter med venner og familie.
-        </Paragraph>
-      </List.Item>
-      <List.Item>Trinn 11: Tilpass for mobilvisning
-        <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
-          Sørg for at layouten er responsiv. Bruk layout grid og auto layout for å sikre at tekst, bilder og kort flyter riktig på små skjermer. Test designet på forskjellige skjermstørrelser for å sikre optimal brukeropplevelse.
-        </Paragraph>
-      </List.Item>
-    </List.Ordered>
-  </ArticleLayout>
-);
+      <Heading level={2} data-size="md">{t('design.examples.example3Title')}</Heading>
+      <List.Ordered style={{ marginBottom: 'var(--ds-size-6)' }}>
+        <List.Item>{t('design.examples.example3Step1Title')}
+          <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+            {t('design.examples.example3Step1Text')}
+          </Paragraph>
+        </List.Item>
+        <List.Item>{t('design.examples.example3Step2Title')}
+          <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+            {t('design.examples.example3Step2Text')}
+          </Paragraph>
+        </List.Item>
+        <List.Item>{t('design.examples.example3Step3Title')}
+          <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+            {t('design.examples.example3Step3Text')}
+          </Paragraph>
+        </List.Item>
+        <List.Item>{t('design.examples.example3Step4Title')}
+          <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+            {t('design.examples.example3Step4Text')}
+          </Paragraph>
+        </List.Item>
+        <List.Item>{t('design.examples.example3Step5Title')}
+          <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+            {t('design.examples.example3Step5Text')}
+          </Paragraph>
+        </List.Item>
+        <List.Item>{t('design.examples.example3Step6Title')}
+          <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+            {t('design.examples.example3Step6Text')}
+          </Paragraph>
+        </List.Item>
+        <List.Item>{t('design.examples.example3Step7Title')}
+          <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+            {t('design.examples.example3Step7Text')}
+          </Paragraph>
+        </List.Item>
+        <List.Item>{t('design.examples.example3Step8Title')}
+          <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+            {t('design.examples.example3Step8Text')}
+          </Paragraph>
+        </List.Item>
+        <List.Item>{t('design.examples.example3Step9Title')}
+          <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+            {t('design.examples.example3Step9Text')}
+          </Paragraph>
+        </List.Item>
+        <List.Item>{t('design.examples.example3Step10Title')}
+          <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+            {t('design.examples.example3Step10Text')}
+          </Paragraph>
+        </List.Item>
+        <List.Item>{t('design.examples.example3Step11Title')}
+          <Paragraph style={{ marginTop: 'var(--ds-size-2)', marginBottom: 'var(--ds-size-4)' }}>
+            {t('design.examples.example3Step11Text')}
+          </Paragraph>
+        </List.Item>
+      </List.Ordered>
+    </ArticleLayout>
+  );
+};
 
-const TokenStudioContent = () => (
-  <ArticleLayout title="Kom i gang med Token Studio og GitHub-synkronisering" category="Kom i gang">
-    <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
-      Denne veiledningen viser hvordan du kobler Token Studio i Figma til et GitHub-repositorium for å holde design tokens synkronisert på tvers av teamet.
-    </Paragraph>
+const TokenStudioContent = () => {
+  const { t } = useLanguage();
+  return (
+    <ArticleLayout title={t('design.tokenStudio.title')} category={t('design.sidebar.getStarted')}>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
+        {t('design.tokenStudio.intro')}
+      </Paragraph>
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Forutsetninger</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>Før du setter opp synkronisering trenger du:</Paragraph>
-    <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
-      <List.Item><strong>Figma</strong> - En Figma-konto med Professional-plan eller høyere</List.Item>
-      <List.Item><strong>Token Studio</strong> - En Token Studio-konto med Premium-abonnement</List.Item>
-    </List.Unordered>
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.tokenStudio.prerequisites')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>{t('design.tokenStudio.prerequisitesIntro')}</Paragraph>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
+        <List.Item><strong>Figma</strong> - {t('design.tokenStudio.figmaAccount')}</List.Item>
+        <List.Item><strong>Token Studio</strong> - {t('design.tokenStudio.tokenStudioAccount')}</List.Item>
+      </List.Unordered>
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Generer en GitHub Fine-grained access token</Heading>
-    <List.Ordered style={{ marginBottom: 'var(--ds-size-6)' }}>
-      <List.Item>Gå til: Github → Settings → Developer settings → Personal access tokens → Tokens (fine-grained)</List.Item>
-      <List.Item>Klikk på <strong>Generate new token</strong></List.Item>
-      <List.Item>Fyll ut følgende:
-        <List.Unordered style={{ marginTop: 'var(--ds-size-2)' }}>
-          <List.Item><strong>Navn:</strong> F.eks. Red Cross Token</List.Item>
-          <List.Item><strong>Utløpsdato:</strong> sett som ønsket</List.Item>
-        </List.Unordered>
-      </List.Item>
-      <List.Item>Klikk <strong>Generate token</strong> og kopier den trygt (lagres ikke av GitHub etterpå)</List.Item>
-    </List.Ordered>
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.tokenStudio.generateToken')}</Heading>
+      <List.Ordered style={{ marginBottom: 'var(--ds-size-6)' }}>
+        <List.Item>{t('design.tokenStudio.goToGithub')}</List.Item>
+        <List.Item>{t('design.tokenStudio.clickGenerate')}</List.Item>
+        <List.Item>{t('design.tokenStudio.fillOut')}
+          <List.Unordered style={{ marginTop: 'var(--ds-size-2)' }}>
+            <List.Item><strong>{t('design.tokenStudio.tokenName')}</strong> {t('design.tokenStudio.tokenNameExample')}</List.Item>
+            <List.Item><strong>{t('design.tokenStudio.expiration')}</strong> {t('design.tokenStudio.expirationText')}</List.Item>
+          </List.Unordered>
+        </List.Item>
+        <List.Item>{t('design.tokenStudio.generateAndCopy')}</List.Item>
+      </List.Ordered>
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Konfigurer GitHub-sync i Token Studio</Heading>
-    <List.Ordered style={{ marginBottom: 'var(--ds-size-6)' }}>
-      <List.Item>Åpne Token Studio-pluginen i Figma</List.Item>
-      <List.Item>Gå til: Settings → Sync providers → Add new → GitHub</List.Item>
-      <List.Item>Fyll inn følgende:
-        <List.Unordered style={{ marginTop: 'var(--ds-size-2)' }}>
-          <List.Item><strong>Name:</strong> f.eks. Red Cross Tokens</List.Item>
-          <List.Item><strong>Personal Access Token:</strong> lim inn tokenet fra GitHub</List.Item>
-          <List.Item><strong>Repository:</strong> norwegianredcross/DesignSystem</List.Item>
-          <List.Item><strong>Branch:</strong> main</List.Item>
-          <List.Item><strong>Token Storage Location:</strong> design-tokens</List.Item>
-        </List.Unordered>
-      </List.Item>
-      <List.Item>Repository access: velg All repositories eller spesifikt repo</List.Item>
-      <List.Item>Repository permissions → Contents: velg Read & Write</List.Item>
-    </List.Ordered>
-    <ArticleImage src="/TokenStudioSetup.png" alt="Konfigurer GitHub-sync" />
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.tokenStudio.configureSync')}</Heading>
+      <List.Ordered style={{ marginBottom: 'var(--ds-size-6)' }}>
+        <List.Item>{t('design.tokenStudio.openPlugin')}</List.Item>
+        <List.Item>{t('design.tokenStudio.goToSettings')}</List.Item>
+        <List.Item>{t('design.tokenStudio.fillIn')}
+          <List.Unordered style={{ marginTop: 'var(--ds-size-2)' }}>
+            <List.Item><strong>{t('design.tokenStudio.syncName')}</strong> {t('design.tokenStudio.syncNameExample')}</List.Item>
+            <List.Item><strong>{t('design.tokenStudio.personalToken')}</strong> {t('design.tokenStudio.personalTokenText')}</List.Item>
+            <List.Item><strong>{t('design.tokenStudio.repository')}</strong> {t('design.tokenStudio.repositoryText')}</List.Item>
+            <List.Item><strong>{t('design.tokenStudio.branch')}</strong> {t('design.tokenStudio.branchText')}</List.Item>
+            <List.Item><strong>{t('design.tokenStudio.storageLocation')}</strong> {t('design.tokenStudio.storageLocationText')}</List.Item>
+          </List.Unordered>
+        </List.Item>
+        <List.Item>{t('design.tokenStudio.repoAccess')}</List.Item>
+        <List.Item>{t('design.tokenStudio.repoPermissions')}</List.Item>
+      </List.Ordered>
+      <ArticleImage src="/TokenStudioSetup.png" alt="Konfigurer GitHub-sync" caption={t('design.tokenStudio.setupCaption')} />
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Utfør første synkronisering</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      Etter at du har lagret innstillingene, vil pluginen vise en modal:
-    </Paragraph>
-    <List.Unordered style={{ marginBottom: 'var(--ds-size-4)' }}>
-      <List.Item>Hvis repoet er tomt → velg <strong>Push</strong></List.Item>
-      <List.Item>Hvis tokens allerede finnes → velg <strong>Pull</strong></List.Item>
-    </List.Unordered>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
-      Velg handling basert på situasjonen.
-    </Paragraph>
-    <ArticleImage src="/TokenStudioSync.png" alt="Utfør første synkronisering" />
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.tokenStudio.performSync')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.tokenStudio.afterSave')}
+      </Paragraph>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-4)' }}>
+        <List.Item>{t('design.tokenStudio.ifEmpty')}</List.Item>
+        <List.Item>{t('design.tokenStudio.ifExists')}</List.Item>
+      </List.Unordered>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
+        {t('design.tokenStudio.chooseAction')}
+      </Paragraph>
+      <ArticleImage src="/TokenStudioSync.png" alt="Utfør første synkronisering" caption={t('design.tokenStudio.syncCaption')} />
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Løpende arbeidsflyt: Push og Pull</Heading>
-    <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
-      <List.Item><strong>Push</strong> når du gjør endringer i tokens i Figma → skriv inn commit-melding og gjennomgå endringer før du evt. åpner en Pull Request.</List.Item>
-      <List.Item><strong>Pull</strong> for å hente oppdateringer fra GitHub til Figma → du får mulighet til å gjennomgå og godkjenne før endringer tas inn.</List.Item>
-    </List.Unordered>
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.tokenStudio.workflow')}</Heading>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
+        <List.Item><strong>Push</strong> {t('design.tokenStudio.pushText')}</List.Item>
+        <List.Item><strong>Pull</strong> {t('design.tokenStudio.pullText')}</List.Item>
+      </List.Unordered>
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Tips og god praksis</Heading>
-    <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
-      <List.Item>Oppbevar tokenen sikkert – ikke lim den inn i offentlige dokumenter.</List.Item>
-      <List.Item>Dokumenter innstillingene dine (navn, branch, sti osv.) for enklere oppsett senere.</List.Item>
-      <List.Item>Synk ofte for å sikre konsistens mellom design og utvikling.</List.Item>
-    </List.Unordered>
-  </ArticleLayout>
-);
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.tokenStudio.tips')}</Heading>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
+        <List.Item>{t('design.tokenStudio.tip1')}</List.Item>
+        <List.Item>{t('design.tokenStudio.tip2')}</List.Item>
+        <List.Item>{t('design.tokenStudio.tip3')}</List.Item>
+      </List.Unordered>
+    </ArticleLayout>
+  );
+};
 
-const FargeSystemContent = () => (
-  <ArticleLayout title="Sette opp ditt eget fargesystem" category="Farger">
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      Med et gjennomtenkt fargesystem kan vi sikre at tekst alltid har god nok kontrast mot våre bakgrunnsfarger og at det finnes nok ulike farger for alle tilstander.
-    </Paragraph>
+const FargeSystemContent = () => {
+  const { t } = useLanguage();
+  return (
+    <ArticleLayout title={t('design.colorSystem.title')} category={t('design.sidebar.colors')}>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.colorSystem.intro1')}
+      </Paragraph>
 
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      En profilveileder inneholder ofte kun et sett med primærfarger og sekundærfarger i et par forskjellige fargetoner. Å lage et digitalt produkt kun med disse fargene alene er vanskelig. For å kunne sikre riktig kontrast og korrekte farger for ulike tilstander, er vi avhengig av å definere flere variasjoner av profilfargene. Bare button komponenten består av 6 ulike blåfarger:
-    </Paragraph>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.colorSystem.intro2')}
+      </Paragraph>
 
-    <ArticleImage src="/ButtonColors.png" alt="Button Colors" caption="Som du ser i eksemplet trenger vi 6 ulike fargevariasjoner bare for Button-komponentet" />
+      <ArticleImage src="/ButtonColors.png" alt="Button Colors" caption={t('design.colorSystem.buttonCaption')} />
 
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      Fargesystemet er strukturert for å støtte multibranding og ulike modes (darkmode, contrastmode, etc.), og samtidig ivareta kontrastkrav. Vi har latt oss inspirere av USWDS sine "magic numbers" for å sikre tilgjengelige fargekombinasjoner fra hvilken som helst fargepalett. Vi har også blitt inspirert av Radix sitt fargesystem med tydelige intensjoner for de ulike fargene. For å sikre at en organisasjon skal kunne bruke sin faktiske brandfarge, har vi valgt å kombinere to tilnærminger til et helt nytt system.
-    </Paragraph>
-  </ArticleLayout>
-);
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.colorSystem.systemText')}
+      </Paragraph>
+    </ArticleLayout>
+  );
+};
 
-const TemabyggerContent = () => (
-  <ArticleLayout title="Designsystemets temagenerator" category="Farger">
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      For å generere en skala som fungerer kan du bruke <Link href="https://theme.designsystemet.no/no" target="_blank" rel="noreferrer">Designsystemets temagenerator</Link>. Det eneste du trenger å gjøre er å lime inn hex-koden til merkevarens accent-farge og øvrige profil-farger.
-    </Paragraph>
-    
-    <ArticleImage src="/TemabyggerExample.png" alt="Temabygger" caption="Fargesystemet bruker brand-fargen til å generere flere fargevarianter, slik at vi kan sikre god kontrast mellom tekst og bakgrunnsfarger." />
+const TemabyggerContent = () => {
+  const { t } = useLanguage();
+  return (
+    <ArticleLayout title={t('design.themeBuilder.title')} category={t('design.sidebar.colors')}>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.themeBuilder.intro').replace('Designsystemets temagenerator', `<Link href="${t('design.themeBuilder.generatorLink')}" target="_blank" rel="noreferrer">Designsystemets temagenerator</Link>`)}
+      </Paragraph>
+      
+      <ArticleImage src="/TemabyggerExample.png" alt="Temabygger" caption={t('design.themeBuilder.caption')} />
 
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      Temageneratoren er basert på et fargesystem sørger for at både brand-farger ivaretas og kontrastkrav sikres gjennom de lineære fargene som genereres ut fra brand-fargen. Farger beregnet for tekst vil dermed alltid ha god nok kontrast mot bakgrunnsfarger.
-    </Paragraph>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.themeBuilder.systemText')}
+      </Paragraph>
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Eksempler</Heading>
-    <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
-      <List.Item><strong>Text-default</strong> har alltid god nok kontrast mot alle background og surface farger.</List.Item>
-      <List.Item><strong>Text-subtle</strong> har alltid god nok kontrast mot alle background-farger og surface-default.</List.Item>
-    </List.Unordered>
-    
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      Dette vil gjelde uansett hva du har valgt som base-farge.
-    </Paragraph>
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.themeBuilder.examplesTitle')}</Heading>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
+        <List.Item><strong>Text-default</strong> {t('design.themeBuilder.example1')}</List.Item>
+        <List.Item><strong>Text-subtle</strong> {t('design.themeBuilder.example2')}</List.Item>
+      </List.Unordered>
+      
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.themeBuilder.appliesText')}
+      </Paragraph>
 
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      Base-default-fargen vil alltid være den samme som fargen du har valgt. Dette er for å ivareta brandet ditt best mulig. Du må derfor selv passe på at fargen du velger oppfyller kontrastkravene i forhold til hvor den skal bli brukt. <Link href="https://theme.designsystemet.no/no" target="_blank" rel="noreferrer">Designsystemets temagenerator</Link> vil informere deg om eventuelle kontrastbrudd.
-    </Paragraph>
-  </ArticleLayout>
-);
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.themeBuilder.baseText').replace('Designsystemets temagenerator', `<Link href="${t('design.themeBuilder.generatorLink')}" target="_blank" rel="noreferrer">Designsystemets temagenerator</Link>`)}
+      </Paragraph>
+    </ArticleLayout>
+  );
+};
 
-const BrukFargerContent = () => (
-  <ArticleLayout title="Bruk fargene du har generert" category="Farger">
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      Når du har generert skalaene, kan du bruke de nye fargekodene i Designsystemet, slik at alle komponenter følger din profil.
-    </Paragraph>
-  </ArticleLayout>
-);
+const BrukFargerContent = () => {
+  const { t } = useLanguage();
+  return (
+    <ArticleLayout title={t('design.useColors.title')} category={t('design.sidebar.colors')}>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.useColors.intro')}
+      </Paragraph>
+    </ArticleLayout>
+  );
+};
 
-const ForeslaDesignContent = () => (
-  <ArticleLayout title="Foreslå nytt design eller forbedringer" category="Bidra med design">
-    <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
-      Vi setter pris på at du hjelper oss å forbedre komponenter og design i Figma. De beste løsningene kommer gjennom samarbeid.
-    </Paragraph>
+const ForeslaDesignContent = () => {
+  const { t } = useLanguage();
+  return (
+    <ArticleLayout title={t('design.proposeDesign.title')} category={t('design.sidebar.contribute')}>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
+        {t('design.proposeDesign.intro')}
+      </Paragraph>
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Ny Komponent</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      Ønsker du å foreslå en ny komponent setter vi pris på om den blir registrert i <Link href="https://github.com/norwegianredcross/DesignSystem" target="_blank" rel="noreferrer">Github</Link>.
-    </Paragraph>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      Når en ny komponent blir foreslått må vi vurdere om den er verdifull nok til å være en del av designsystemet. Vi ønsker ikke å ende opp med hundrevis av komponenter med små forskjeller, da vi kan risikere uønsket kompleksitet, vedlikehold, samt design- og teknologigjeld.
-    </Paragraph>
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.proposeDesign.newComponent')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.proposeDesign.newComponentText1').replace('Github', `<Link href="${t('design.proposeDesign.githubLink')}" target="_blank" rel="noreferrer">Github</Link>`)}
+      </Paragraph>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.proposeDesign.newComponentText2')}
+      </Paragraph>
 
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      For nye komponenter som tas inn må vi:
-    </Paragraph>
-    <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
-      <List.Item>Identifisere og utforske liknende behov hos andre produktteam og virksomheter. Hvor mange produkter/etater vil ha bruk for den?</List.Item>
-      <List.Item>Vurdere problemet komponenten skal løse og verdien dette gir.</List.Item>
-      <List.Item>Tenke på om den kan lages fleksibel og gjenbrukbar nok.</List.Item>
-      <List.Item>Tenke på om den er i tråd med designprinsippene og om den passer inn i helheten</List.Item>
-    </List.Unordered>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.proposeDesign.newComponentText3')}
+      </Paragraph>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
+        <List.Item>{t('design.proposeDesign.consider1')}</List.Item>
+        <List.Item>{t('design.proposeDesign.consider2')}</List.Item>
+        <List.Item>{t('design.proposeDesign.consider3')}</List.Item>
+        <List.Item>{t('design.proposeDesign.consider4')}</List.Item>
+      </List.Unordered>
 
-    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Registrere feil eller mangler på en komponent i Figma</Heading>
-    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-      Har du funnet en svakhet med noen av de eksisterende komponentene i Figma, setter vi pris på om du enten legger igjen en kommentar i Figma sammen med den aktuelle komponenten, eller at du oppretter en bug-report i <Link href="https://github.com/norwegianredcross/DesignSystem/issues" target="_blank" rel="noreferrer">Github</Link> som forklarer feilen, eventuelt en feature-request som forklarer ønsket tilleggsfunksjonalitet.
-    </Paragraph>
-  </ArticleLayout>
-);
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.proposeDesign.reportTitle')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('design.proposeDesign.reportText').replace('Github', `<Link href="${t('design.proposeDesign.githubIssuesLink')}" target="_blank" rel="noreferrer">Github</Link>`)}
+      </Paragraph>
+    </ArticleLayout>
+  );
+};
 
 // --- MAIN EXPORT ---
 
@@ -991,6 +1052,7 @@ interface DesignPageProps {
 }
 
 export const DesignPage = ({ section }: DesignPageProps) => {
+  const { t } = useLanguage();
   const [activeDesignPage, setActiveDesignPage] = useState(section || 'intro');
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
 
@@ -1002,71 +1064,71 @@ export const DesignPage = ({ section }: DesignPageProps) => {
   // Menu Data Structure
   const menuItems: { title: string; items: MenuItem[] }[] = [
     {
-      title: 'For Designere',
+      title: t('design.sidebar.forDesigners'),
       items: [
         {
-          label: 'Kom i gang',
+          label: t('design.sidebar.getStarted'),
           children: [
-            { label: 'Figma tilkobling', id: 'figma-oppkobling' },
-            { label: 'Oppstart', id: 'oppstart' },
-            { label: 'Lage ett nytt komponent', id: 'lage-komponenter' },
-            { label: 'Praktiske eksempler', id: 'praktiske-eksempler' },
-            { label: 'Token Studio', id: 'token-studio' },
+            { label: t('design.sidebar.figmaConnect'), id: 'figma-oppkobling' },
+            { label: t('design.sidebar.startup'), id: 'oppstart' },
+            { label: t('design.sidebar.newComponent'), id: 'lage-komponenter' },
+            { label: t('design.sidebar.examples'), id: 'praktiske-eksempler' },
+            { label: t('design.sidebar.tokenStudio'), id: 'token-studio' },
           ]
         },
         {
-          label: 'Farger',
+          label: t('design.sidebar.colors'),
           children: [
-            { label: 'Sette opp ditt eget fargesystem', id: 'fargesystem' },
-            { label: 'Designsystemets temagenerator', id: 'temabygger' },
-            { label: 'Bruk fargene du har generert', id: 'bruk-farger' },
+            { label: t('design.sidebar.colorSystem'), id: 'fargesystem' },
+            { label: t('design.sidebar.themeBuilder'), id: 'temabygger' },
+            { label: t('design.sidebar.useColors'), id: 'bruk-farger' },
           ]
         },
         {
-          label: 'Bidra med design',
+          label: t('design.sidebar.contribute'),
           children: [
-            { label: 'Foreslå nytt design eller forbedringer', id: 'foresla-design' },
+            { label: t('design.sidebar.proposeDesign'), id: 'foresla-design' },
           ]
         }
       ]
     },
     {
-      title: 'Designelementer',
+      title: t('design.sidebar.designElements'),
       items: [
         {
-          label: 'Design Tokens',
+          label: t('design.sidebar.designTokens'),
           children: [
-            { label: 'Hva er design tokens', id: 'hva-er-design-tokens' },
-            { label: 'Design tokens i Figma', id: 'design-tokens-i-figma' },
+            { label: t('design.sidebar.whatAreTokens'), id: 'hva-er-design-tokens' },
+            { label: t('design.sidebar.tokensInFigma'), id: 'design-tokens-i-figma' },
           ]
         },
         {
-          label: 'Farger',
+          label: t('design.sidebar.colors'),
           children: [
-            { label: 'Navnestruktur', id: 'farger-navnestruktur' },
-            { label: 'Oversikt og forklaringer av farger', id: 'farger-oversikt' },
-            { label: 'Farge-tokens', id: 'farge-tokens' },
+            { label: t('design.sidebar.colorStructure'), id: 'farger-navnestruktur' },
+            { label: t('design.sidebar.colorOverview'), id: 'farger-oversikt' },
+            { label: t('design.sidebar.colorTokens'), id: 'farge-tokens' },
           ]
         },
         {
-          label: 'Skygger',
+          label: t('design.sidebar.shadows'),
           children: [
-            { label: 'Bruk av skygger i designet', id: 'skygger-bruk' },
-            { label: 'Skygge-tokens', id: 'skygge-tokens' },
+            { label: t('design.sidebar.shadowUsage'), id: 'skygger-bruk' },
+            { label: t('design.sidebar.shadowTokens'), id: 'skygge-tokens' },
           ]
         },
         {
-          label: 'Størrelse og avstander',
+          label: t('design.sidebar.sizes'),
           children: [
-            { label: 'Komponentstørrelser', id: 'komponent-storrelser' },
-            { label: 'Størrelse-tokens', id: 'storrelse-tokens' },
+            { label: t('design.sidebar.componentSizes'), id: 'komponent-storrelser' },
+            { label: t('design.sidebar.sizeTokens'), id: 'storrelse-tokens' },
           ]
         },
         {
-          label: 'Typografi',
+          label: t('design.sidebar.typography'),
           children: [
-            { label: 'Font-family', id: 'font-family' },
-            { label: 'Typografi-tokens', id: 'typografi-tokens' },
+            { label: t('design.sidebar.fontFamily'), id: 'font-family' },
+            { label: t('design.sidebar.typoTokens'), id: 'typografi-tokens' },
           ]
         }
       ]
@@ -1074,18 +1136,18 @@ export const DesignPage = ({ section }: DesignPageProps) => {
   ];
 
   const DefaultDesignContent = () => (
-    <ArticleLayout title="Design i Røde Kors" intro="Velkommen til designdokumentasjonen." category="Intro">
+    <ArticleLayout title={t('design.intro.title')} intro={t('design.intro.welcome')} category="Intro">
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--ds-size-6)' }}>
         <Card variant="tinted" data-color="neutral">
           <CardBlock>
-            <Heading level={3} data-size="sm">Kom i gang</Heading>
-            <Link href="#" onClick={(e) => {e.preventDefault(); setActiveDesignPage('figma-oppkobling')}}>Gå til guide</Link>
+            <Heading level={3} data-size="sm">{t('design.intro.getStarted')}</Heading>
+            <Link href="#" onClick={(e) => {e.preventDefault(); setActiveDesignPage('figma-oppkobling')}}>{t('design.intro.goToGuide')}</Link>
           </CardBlock>
         </Card>
         <Card variant="tinted" data-color="neutral">
           <CardBlock>
-            <Heading level={3} data-size="sm">Farger</Heading>
-            <Link href="#" onClick={(e) => {e.preventDefault(); setActiveDesignPage('fargesystem')}}>Se farger</Link>
+            <Heading level={3} data-size="sm">{t('design.intro.colors')}</Heading>
+            <Link href="#" onClick={(e) => {e.preventDefault(); setActiveDesignPage('fargesystem')}}>{t('design.intro.seeColors')}</Link>
           </CardBlock>
         </Card>
       </div>

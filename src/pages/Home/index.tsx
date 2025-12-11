@@ -16,6 +16,7 @@ import {
   CodeIcon,
   ArrowRightIcon
 } from '@navikt/aksel-icons';
+import { useLanguage } from '../../context/LanguageContext';
 import styles from './styles.module.css';
 
 interface HomePageProps {
@@ -23,6 +24,8 @@ interface HomePageProps {
 }
 
 export const HomePage = ({ setPage }: HomePageProps) => {
+  const { t } = useLanguage();
+
   return (
     <main className={styles.main}>
       {/* --- HERO SECTION --- */}
@@ -31,19 +34,17 @@ export const HomePage = ({ setPage }: HomePageProps) => {
           
           {/* Content Side */}
           <div className={styles.splitContent}>
-            <div className={styles.heroBadge}>v1.1.37</div>
-            
             <Heading level={1} className={styles.heroTitle}>
-              Røde Kors Designsystem
+              {t('home.heroTitle')}
             </Heading>
             
             <Paragraph className={styles.heroLead} data-size="lg">
-              Felles komponentbibliotek og retningslinjer for design og utvikling av digitale løsninger i Røde Kors.
+              {t('home.heroLead')}
             </Paragraph>
             
             <div className={styles.heroActions}>
               <Button onClick={() => setPage('components')} data-size="lg">
-                Søk i komponenter
+                {t('home.searchComponents')}
               </Button>
               <Button 
                 variant="secondary" 
@@ -63,7 +64,7 @@ export const HomePage = ({ setPage }: HomePageProps) => {
               <div className={styles.gridColumn} style={{ animationDelay: '0s' }}>
                  <Card variant="tinted" data-color="neutral" className={styles.visualCard}>
                    <CardBlock>
-                     <Heading level={3} data-size="xs">Profil</Heading>
+                     <Heading level={3} data-size="xs">{t('home.profile')}</Heading>
                      <div className={styles.cardRow}>
                        <Avatar aria-label="Avatar">
                          <img 
@@ -73,36 +74,36 @@ export const HomePage = ({ setPage }: HomePageProps) => {
                          />
                        </Avatar>
                        <div>
-                         <div className={styles.cardTextBold}>Navn Navnesen</div>
-                         <div className={styles.cardTextSubtle}>Frivillig</div>
+                         <div className={styles.cardTextBold}>{t('home.name')}</div>
+                         <div className={styles.cardTextSubtle}>{t('home.volunteer')}</div>
                        </div>
                      </div>
                    </CardBlock>
                  </Card>
                  <div className={styles.visualElement}>
-                   <Button variant="primary" style={{ width: '100%' }}>Lagre</Button>
+                   <Button variant="primary" style={{ width: '100%' }}>{t('home.save')}</Button>
                  </div>
                  <div className={styles.visualElement}>
-                   <Tag data-color="success" data-size="sm">Godkjent</Tag>
-                   <Tag data-color="danger" data-size="sm">Avvist</Tag>
+                   <Tag data-color="success" data-size="sm">{t('home.approved')}</Tag>
+                   <Tag data-color="danger" data-size="sm">{t('home.rejected')}</Tag>
                  </div>
               </div>
 
               {/* Column 2 (Center Offset) */}
               <div className={`${styles.gridColumn} ${styles.columnOffset}`} style={{ animationDelay: '1.5s' }}>
                 <div className={styles.visualElement}>
-                   <Switch label="Mørk modus" position="start" data-size="sm" />
+                   <Switch label={t('home.darkModeLabel')} position="start" data-size="sm" />
                  </div>
                  <Card variant="default" className={styles.visualCard} style={{ borderLeft: 'var(--ds-size-1) solid var(--ds-color-primary-color-red-base-default)' }}>
                    <CardBlock>
-                     <Heading level={3} data-size="xs">Viktig melding</Heading>
-                     <Paragraph data-size="sm" style={{ marginTop: 'var(--ds-size-2)' }}>Husk å oppdatere retningslinjene...</Paragraph>
+                     <Heading level={3} data-size="xs">{t('home.importantMessage')}</Heading>
+                     <Paragraph data-size="sm" style={{ marginTop: 'var(--ds-size-2)' }}>{t('home.updateGuidelines')}</Paragraph>
                    </CardBlock>
                  </Card>
                  <div className={styles.visualElement}>
                    <div className={styles.cardRow} style={{gap: 'var(--ds-size-2)'}}>
-                     <Chip.Radio name="filter-demo" value="all" defaultChecked>Alle</Chip.Radio>
-                     <Chip.Radio name="filter-demo" value="active">Aktive</Chip.Radio>
+                     <Chip.Radio name="filter-demo" value="all" defaultChecked>{t('home.all')}</Chip.Radio>
+                     <Chip.Radio name="filter-demo" value="active">{t('home.active')}</Chip.Radio>
                    </div>
                  </div>
               </div>
@@ -111,12 +112,12 @@ export const HomePage = ({ setPage }: HomePageProps) => {
                <div className={styles.gridColumn} style={{ animationDelay: '0.8s' }}>
                  <div className={styles.visualElement}>
                    <Badge data-color="primary" count={5} maxCount={9} />
-                   <Button variant="tertiary">Varsler</Button>
+                   <Button variant="tertiary">{t('home.alerts')}</Button>
                  </div>
                  <Card variant="tinted" data-color="primary" className={styles.visualCard}>
                    <CardBlock>
                      <div className={styles.spaceBetween}>
-                       <Heading level={3} data-size="xs">Status</Heading>
+                       <Heading level={3} data-size="xs">{t('home.status')}</Heading>
                        <div className={styles.statusDot}></div>
                      </div>
                      <div className={styles.progressBarBg}>
@@ -135,7 +136,7 @@ export const HomePage = ({ setPage }: HomePageProps) => {
       {/* --- BENTO NAVIGATION --- */}
       <section className={styles.section}>
         <div className="container">
-          <Heading level={2} className={styles.sectionTitle} data-size="xl">Utforsk systemet</Heading>
+          <Heading level={2} className={styles.sectionTitle} data-size="xl">{t('home.exploreSystem')}</Heading>
           
           <div className={styles.bentoWrapper}>
             {/* Components Card */}
@@ -152,8 +153,8 @@ export const HomePage = ({ setPage }: HomePageProps) => {
                   <ArrowRightIcon className={styles.arrowIcon} aria-hidden />
                 </div>
                 <div className={styles.bentoText}>
-                  <Heading level={3} data-size="md">Komponenter</Heading>
-                  <Paragraph className={styles.bentoDesc}>Bibliotek med ferdige React-komponenter.</Paragraph>
+                  <Heading level={3} data-size="md">{t('header.nav.components')}</Heading>
+                  <Paragraph className={styles.bentoDesc}>{t('home.componentsDesc')}</Paragraph>
                 </div>
               </div>
             </a>
@@ -172,8 +173,8 @@ export const HomePage = ({ setPage }: HomePageProps) => {
                   <ArrowRightIcon className={styles.arrowIcon} aria-hidden />
                 </div>
                 <div className={styles.bentoText}>
-                  <Heading level={3} data-size="md">Design</Heading>
-                  <Paragraph className={styles.bentoDesc}>Farger, typografi og prinsipper.</Paragraph>
+                  <Heading level={3} data-size="md">{t('header.nav.design')}</Heading>
+                  <Paragraph className={styles.bentoDesc}>{t('home.designDesc')}</Paragraph>
                 </div>
               </div>
             </a>
@@ -192,8 +193,8 @@ export const HomePage = ({ setPage }: HomePageProps) => {
                   <ArrowRightIcon className={styles.arrowIcon} aria-hidden />
                 </div>
                 <div className={styles.bentoText}>
-                  <Heading level={3} data-size="md">Kode</Heading>
-                  <Paragraph className={styles.bentoDesc}>Dokumentasjon, arbeidsflyt og MCP.</Paragraph>
+                  <Heading level={3} data-size="md">{t('header.nav.code')}</Heading>
+                  <Paragraph className={styles.bentoDesc}>{t('home.codeDesc')}</Paragraph>
                 </div>
               </div>
             </a>
@@ -209,33 +210,33 @@ export const HomePage = ({ setPage }: HomePageProps) => {
               <div className={styles.valueIcon}>
                  <WheelchairIcon className={styles.iconXLarge} aria-hidden />
               </div>
-              <Heading level={3} data-size="sm" className={styles.valueTitle}>Universell utforming</Heading>
+              <Heading level={3} data-size="sm" className={styles.valueTitle}>{t('home.universalDesign')}</Heading>
               <Paragraph data-size="sm" className={styles.valueText}>
-                Innebygd tilgjengelighet som standard. Vi følger WCAG 2.1-kravene strengt.
+                {t('home.universalDesignText')}
               </Paragraph>
-               <Link href="#" onClick={(e) => { e.preventDefault(); setPage('design'); }} className={styles.valueLink}>Les retningslinjene</Link>
+               <Link href="#" onClick={(e) => { e.preventDefault(); setPage('design'); }} className={styles.valueLink}>{t('home.readGuidelines')}</Link>
             </div>
             
             <div className={styles.valueItem}>
               <div className={styles.valueIcon}>
                  <PaletteIcon className={styles.iconXLarge} aria-hidden />
               </div>
-              <Heading level={3} data-size="sm" className={styles.valueTitle}>Konsistent merkevare</Heading>
+              <Heading level={3} data-size="sm" className={styles.valueTitle}>{t('home.consistentBrand')}</Heading>
               <Paragraph data-size="sm" className={styles.valueText}>
-                Design tokens sikrer at Røde Kors sin visuelle profil ivaretas på alle flater.
+                {t('home.consistentBrandText')}
               </Paragraph>
-               <Link href="#" onClick={(e) => { e.preventDefault(); setPage('design'); }} className={styles.valueLink}>Se farger</Link>
+               <Link href="#" onClick={(e) => { e.preventDefault(); setPage('design'); }} className={styles.valueLink}>{t('home.seeColors')}</Link>
             </div>
             
             <div className={styles.valueItem}>
               <div className={styles.valueIcon}>
                  <LightningIcon className={styles.iconXLarge} aria-hidden />
               </div>
-              <Heading level={3} data-size="sm" className={styles.valueTitle}>Effektiv utvikling</Heading>
+              <Heading level={3} data-size="sm" className={styles.valueTitle}>{t('home.efficientDev')}</Heading>
               <Paragraph data-size="sm" className={styles.valueText}>
-                Spar tid med ferdige komponenter. Fokuser på funksjonalitet, ikke CSS.
+                {t('home.efficientDevText')}
               </Paragraph>
-              <Link href="#" onClick={(e) => { e.preventDefault(); setPage('components'); }} className={styles.valueLink}>Utforsk komponenter</Link>
+              <Link href="#" onClick={(e) => { e.preventDefault(); setPage('components'); }} className={styles.valueLink}>{t('home.exploreComponents')}</Link>
             </div>
           </div>
         </div>

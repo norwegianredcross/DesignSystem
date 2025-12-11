@@ -1,10 +1,12 @@
 import { useState, useMemo } from 'react';
+import { useLanguage } from '../../context/LanguageContext';
 import { Heading } from '../../components/Heading';
 import { Paragraph } from '../../components/Paragraph';
 import { Card, CardBlock } from '../../components/Card';
 import styles from './styles.module.css';
 
 export const ComponentsPage = () => {
+  const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
 
   const components = [
@@ -70,21 +72,21 @@ export const ComponentsPage = () => {
         {/* Header Section */}
         <div className={styles.header}>
           <Heading level={1} className={styles.title}>
-            Komponenter
+            {t('components.title')}
           </Heading>
           <Paragraph className={styles.introText}>
-            Designsystemet inneholder grunnleggende komponenter som kan settes sammen på mange ulike måter og i forskjellige mønstre.
+            {t('components.intro')}
           </Paragraph>
           
           {/* Search Input */}
           <div className={styles.searchWrapper}>
             <input 
               type="search" 
-              placeholder="Søk etter komponent..." 
+              placeholder={t('components.searchPlaceholder')} 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className={styles.searchInput}
-              aria-label="Søk i komponenter"
+              aria-label={t('components.searchAriaLabel')}
             />
           </div>
         </div>
@@ -125,7 +127,7 @@ export const ComponentsPage = () => {
         ) : (
           /* Empty State */
           <div className={styles.emptyState}>
-            <Paragraph>Ingen komponenter funnet for "{searchQuery}"</Paragraph>
+            <Paragraph>{t('components.noResults')} "{searchQuery}"</Paragraph>
           </div>
         )}
       </div>

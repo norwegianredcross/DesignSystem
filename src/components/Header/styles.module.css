@@ -4,6 +4,79 @@
   border-bottom: 1px solid var(--ds-color-neutral-border-subtle);
   position: relative;
   z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+.headerExtension {
+  background-color: var(--ds-color-primary-color-red-base-default, #D52B1E);
+  width: 100%;
+  height: 44px;
+  padding: 0 var(--ds-size-6);
+  display: flex;
+  justify-content: center; /* Center the content wrapper */
+  align-items: center;
+  box-sizing: border-box;
+  color: white;
+  position: relative;
+  overflow: visible;
+}
+
+.extensionContentWrapper {
+  width: 100%;
+  max-width: 1364px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--ds-size-4);
+}
+
+.extensionContent :global(.fds-switch__input:checked + .fds-switch__track) {
+  background-color: var(--ds-color-neutral-background-default) !important; /* Keep track light/white */
+  border-color: var(--ds-color-neutral-border-default) !important;
+}
+
+.extensionContent :global(.fds-switch__input:checked + .fds-switch__track::after) {
+  background-color: var(--ds-color-neutral-text-default) !important; /* Knob color */
+}
+
+/* Force label text to be white in the header extension */
+.extensionContent :global(.fds-switch__label) {
+  color: white !important;
+}
+
+.extensionDivider {
+  width: 1px;
+  height: 18px;
+  background-color: rgba(247, 233, 232, 1);
+}
+
+.languageSwitch {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-size-2);
+  position: relative;
+  z-index: 1;
+}
+
+.languageLabel {
+  font-family: var(--ds-font-family);
+  font-size: var(--ds-font-size-md);
+  color: #ECECEC;
+}
+
+.languageLink {
+  color: white !important; /* Force white color for link in header extension */
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+}
+
+/* Ensure dropdown is positioned correctly relative to trigger - remove default spacing */
+.languageSwitch :global([popover]) {
+  margin-top: -8px !important; /* Pull dropdown further up towards the top bar */
 }
 
 .headerInner {
@@ -11,11 +84,11 @@
   align-items: center;
   justify-content: space-between;
   height: auto;
-  min-height: 80px;
+  min-height: 119px; /* Matches Figma height */
   width: 100%;
   max-width: 1364px;
   margin: 0 auto;
-  padding: var(--ds-size-4) var(--ds-size-6);
+  padding: 0 var(--ds-size-6); /* Removed vertical padding to match Figma exact height */
   box-sizing: border-box;
   gap: var(--ds-size-6);
 }
@@ -23,23 +96,62 @@
 .logoWrapper {
   display: flex;
   align-items: center;
-  gap: var(--ds-size-4);
+  height: 119px; /* Fill full height */
+  flex-shrink: 0;
+  background-color: white; /* Ensure white background for logo area */
 }
 
 .logo {
-  display: block;
-  height: 74px;
-  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 217px; /* Røde Kors logo container width */
+  height: 100%;
   text-decoration: none;
   color: inherit;
   flex-shrink: 0;
-  background-color: white; /* Always white regardless of theme */
+}
+
+.secondaryLogoWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0 var(--ds-size-6); /* Add padding around the slot */
+  background-color: var(--ds-color-neutral-background-default); /* Match header background */
+}
+
+.slotComponent {
+  background-color: var(--ds-color-neutral-surface-default);
+  border: 2px dashed var(--ds-color-neutral-border-default);
+  border-radius: var(--ds-border-radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+}
+
+.slotContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.slotText {
+  font-family: var(--ds-font-family);
+  font-size: 18px;
+  color: var(--ds-color-neutral-text-default);
+  line-height: 1.3;
+  margin: 0;
 }
 
 .divider {
   width: 1px;
   height: 40px;
   background-color: var(--ds-color-neutral-border-subtle);
+  display: none; /* Hide divider for now as layout changed */
 }
 
 .secondaryLogo {
@@ -49,8 +161,14 @@
 }
 
 .logo img {
-  height: 100%;
-  width: auto;
+  width: 169px; /* Explicit width from Figma */
+  height: auto;
+  display: block;
+}
+
+.redCrossLogo {
+  width: 169px;
+  height: auto;
   display: block;
 }
 
@@ -60,6 +178,7 @@
   align-items: center;
   margin-left: 24px; /* Space from logo */
   flex-grow: 1; /* Pushes actions to the right */
+  justify-content: center; /* Center items in the flexible space */
 }
 
 .navLink {
@@ -175,7 +294,7 @@
 .searchContent {
   max-width: 1364px;
   margin: 0 auto;
-  padding: 0 var(--ds-size-6) 0 300px; /* Left padding to clear logo area */
+  padding: 0 var(--ds-size-6) 0 calc(217px + var(--ds-size-6)); /* Left padding = Logo width + Header Padding */
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -192,7 +311,7 @@
 }
 
 .menuLeftColumn {
-  width: 265px; /* Matches Figma design */
+  width: calc(217px + var(--ds-size-6)); /* Matches Search alignment */
   flex-shrink: 0;
 }
 
@@ -351,7 +470,7 @@
 /* Responsive adjustments */
 @media (min-width: 768px) {
   .headerInner {
-    padding: var(--ds-size-4) var(--ds-size-6);
+    padding: 0 var(--ds-size-6); /* Keep padding 0 vertical to match fixed height */
   }
 }
 
