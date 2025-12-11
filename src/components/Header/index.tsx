@@ -58,6 +58,11 @@ export const Header = ({
   showModeToggle = false,
   showLanguageSwitch = false
 }: HeaderProps) => {
+  // Ensure header styles are present even if consumer forgets to import the CSS bundle
+  useEffect(() => {
+    import('rk-designsystem/dist/rk-designsystem.css').catch(() => {});
+  }, []);
+
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');

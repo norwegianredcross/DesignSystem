@@ -32,8 +32,12 @@
       "import": "./dist/componentlibrary.es.js",
       "require": "./dist/componentlibrary.umd.js"
     },
-    "./dist/componentlibrary.css": "./dist/componentlibrary.css"
+    "./dist/componentlibrary.css": "./dist/componentlibrary.css",
+    "./dist/rk-designsystem.css": "./dist/rk-designsystem.css"
   },
+  "sideEffects": [
+    "*.css"
+  ],
   "files": [
     "dist",
     "README.md",
