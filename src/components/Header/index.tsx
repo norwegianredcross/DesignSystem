@@ -11,7 +11,7 @@ import styles from './styles.module.css';
 import { MenuHamburgerIcon, XMarkIcon, MagnifyingGlassIcon, HeartIcon, ChevronDownIcon } from '@navikt/aksel-icons';
 import { searchIndex } from '../../utils/search-index';
 
-interface HeaderProps {
+export interface HeaderProps {
   activePage?: string;
   setPage?: (pageName: string) => void;
   children?: React.ReactNode;

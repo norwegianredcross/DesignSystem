@@ -190,3 +190,7 @@ export type { TooltipProps } from './components/Tooltip';
 // ValidationMessage
 export { ValidationMessage } from './components/ValidationMessage';
 export type { ValidationMessageProps } from './components/ValidationMessage';
+
+// Header
+export { Header } from './components/Header';
+export type { HeaderProps } from './components/Header';
