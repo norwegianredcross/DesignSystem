@@ -745,6 +745,7 @@ function buildInlineCss(styles: Record<string, string>): string {
   .${s.searchContent} { padding: var(--ds-size-6); }
   .${s.menuContent} { flex-direction: column; padding: 0; min-height: 100%; }
   .${s.menuRightColumn} { padding: var(--ds-size-6); gap: var(--ds-size-4); flex: 1; display: flex; flex-direction: column; min-height: 0; }
+  .${s.slotContent} { padding: 0; }
   .${s.menuLeftColumn} { display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-end; padding: var(--ds-size-6); }
   .${s.menuBrand} { display: flex; justify-content: flex-start; margin-top: auto; padding: var(--ds-size-6); margin-left: calc(-1 * var(--ds-size-6)); margin-right: calc(-1 * var(--ds-size-6)); margin-bottom: calc(-1 * var(--ds-size-6)); background-color: white; }
   .${s.menuUtilities} .${s.languageSwitch} :global([popover]) { background-color: var(--ds-color-neutral-background-default) !important; margin-top: 0 !important; position: fixed !important; overflow: visible; z-index: 20000 !important; }

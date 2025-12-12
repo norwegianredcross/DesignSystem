@@ -666,6 +666,10 @@
     min-height: 0; /* Allow flex shrinking */
   }
 
+  .slotContent {
+    padding: 0;
+  }
+
   .searchContent > * {
     max-width: 100%;
   }
