@@ -658,7 +658,7 @@
   }
 
   .menuRightColumn {
-    padding: var(--ds-size-6);
+    padding: var(--ds-size-4) var(--ds-size-6) var(--ds-size-6) var(--ds-size-6);
     gap: var(--ds-size-4);
     flex: 1;
     display: flex;
