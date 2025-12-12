@@ -152,7 +152,17 @@ export const Header = ({
     
     // Update on resize
     window.addEventListener('resize', updateHeaderHeight);
-    return () => window.removeEventListener('resize', updateHeaderHeight);
+    
+    // Use ResizeObserver to detect header size changes (e.g., when content changes)
+    const resizeObserver = new ResizeObserver(() => {
+      updateHeaderHeight();
+    });
+    resizeObserver.observe(header);
+    
+    return () => {
+      window.removeEventListener('resize', updateHeaderHeight);
+      resizeObserver.disconnect();
+    };
   }, [isMobile]);
 
   // Measure logo width to drive left-side white background width (desktop overlays)
@@ -215,6 +225,17 @@ export const Header = ({
   const toggleMenu = () => {
     setIsOpen(!isOpen);
     if (isSearchOpen) setIsSearchOpen(false);
+    
+    // Force recalculation of header height when menu opens
+    if (!isOpen && typeof document !== 'undefined') {
+      requestAnimationFrame(() => {
+        const header = document.querySelector(`.${styles.header}`) as HTMLElement;
+        if (header) {
+          const height = header.offsetHeight;
+          document.documentElement.style.setProperty('--header-height-mobile', `${height}px`);
+        }
+      });
+    }
   };
 
   const toggleSearch = () => {
@@ -719,7 +740,7 @@ function buildInlineCss(styles: Record<string, string>): string {
   .${s.userName} { display: none; }
   .${s.menuButton} .${s.buttonText} { display: none; }
   .${s.searchButtonWrapper} .${s.buttonText} { display: inline; }
-  .${s.menuOverlay} { position: fixed; top: 70px; left: 0; right: 0; bottom: 0; width: 100vw; height: calc(100vh - 70px); z-index: 9999; border-radius: 0; border: none; overflow-y: auto; }
+  .${s.menuOverlay} { position: fixed; top: var(--header-height-mobile, 70px); left: 0; right: 0; bottom: 0; width: 100vw; height: calc(100vh - var(--header-height-mobile, 70px)); z-index: 9999; border-radius: 0; border: none; overflow-y: auto; }
   .${s.searchOverlay} { width: 100%; right: 0; left: 0; border-radius: 0; border: none; }
   .${s.searchContent} { padding: var(--ds-size-6); }
   .${s.menuContent} { flex-direction: column; padding: 0; min-height: 100%; }
