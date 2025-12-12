@@ -325,8 +325,8 @@
   left: 0;
   width: 100%;
   background-color: var(--ds-color-neutral-background-default);
-  border-bottom: 1px solid var(--ds-color-neutral-border-subtle);
-  box-shadow: var(--ds-shadow-lg);
+  border-bottom: none;
+  box-shadow: none;
   z-index: 999;
   animation: slideDown 0.2s ease-out;
 }
@@ -562,8 +562,7 @@
 @media (max-width: 850px) {
   .header {
     z-index: 10000; /* Ensure header stays above full-screen menu */
-    position: sticky; /* Keep header visible above menu */
-    top: 0;
+    position: relative; /* Create stacking context */
   }
 
   .headerExtension {
@@ -646,7 +645,6 @@
     left: 0;
     border-radius: 0;
     border: none;
-    border-bottom: 1px solid var(--ds-color-neutral-border-subtle);
   }
 
   .searchContent {

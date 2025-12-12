@@ -108,6 +108,23 @@ export const Header = ({
     setSearchQuery('');
   }, [activePage]);
 
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    
+    if (isOpen && isMobile) {
+      // Store original overflow value
+      const originalOverflow = document.body.style.overflow;
+      // Prevent scrolling
+      document.body.style.overflow = 'hidden';
+      
+      return () => {
+        // Restore original overflow when menu closes
+        document.body.style.overflow = originalOverflow;
+      };
+    }
+  }, [isOpen, isMobile]);
+
   // Track viewport to force menu button on mobile (<850px)
   useEffect(() => {
     if (typeof window === 'undefined' || typeof window.matchMedia === 'undefined') return;
@@ -597,7 +614,7 @@ function buildInlineCss(styles: Record<string, string>): string {
 .${s.header} {
   width: 100%;
   background-color: var(--ds-color-neutral-background-default);
-  border-bottom: 1px solid var(--ds-color-neutral-border-subtle);
+  border-bottom: none;
   position: relative;
   z-index: 1000;
   display: flex;
@@ -654,8 +671,8 @@ function buildInlineCss(styles: Record<string, string>): string {
 .${s.menuOverlay}, .${s.searchOverlay} {
   position: absolute; top: 100%; left: 0; width: 100%;
   background-color: var(--ds-color-neutral-background-default);
-  border-bottom: 1px solid var(--ds-color-neutral-border-subtle);
-  box-shadow: var(--ds-shadow-lg); z-index: 999;
+  border-bottom: none;
+  box-shadow: none; z-index: 999;
 }
 .${s.searchOverlay} { padding: var(--ds-size-10) 0; }
 .${s.searchOverlay}::before { display: none; }
@@ -668,6 +685,7 @@ function buildInlineCss(styles: Record<string, string>): string {
 .${s.menuLeftColumn} { width: calc(217px + var(--ds-size-6)); flex-shrink: 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; padding: var(--ds-size-6); }
 .${s.menuRightColumn} { flex: 1; display: flex; flex-direction: column; padding: 48px 24px 80px 24px; gap: 24px; }
 .${s.slotContent} { width: 100%; padding: var(--ds-size-10) 0; text-align: left; color: var(--ds-color-neutral-text-subtle); font-size: var(--ds-font-size-md); border-radius: var(--ds-border-radius-md); display: flex; flex-direction: column; gap: var(--ds-size-4); align-items: flex-start; }
+.${s.navList} { display: flex; flex-direction: column; gap: var(--ds-size-3); align-items: flex-start; }
 .${s.menuBrand} { display: none; }
 .${s.menuUtilities} { display: flex; justify-content: space-between; align-items: center; width: 100%; }
 .${s.suggestionsSection} { display: flex; flex-direction: column; gap: var(--ds-size-4); }
@@ -687,7 +705,7 @@ function buildInlineCss(styles: Record<string, string>): string {
 .${s.viewAllLink} { display: block; padding: var(--ds-size-3); text-align: left; font-size: var(--ds-font-size-sm); font-weight: var(--ds-font-weight-medium); color: var(--ds-color-neutral-text-default); text-decoration: none; }
 .${s.noResults} { padding: var(--ds-size-4); text-align: center; color: var(--ds-color-neutral-text-subtle); }
 @media (max-width: 850px) {
-  .${s.header} { z-index: 10000; }
+  .${s.header} { z-index: 10000; position: relative; }
   .${s.headerExtension} { display: none; }
   .${s.headerInner} { padding: var(--ds-size-5) var(--ds-size-6); min-height: auto; }
   .${s.navItems} { display: none; }
@@ -702,7 +720,7 @@ function buildInlineCss(styles: Record<string, string>): string {
   .${s.menuButton} .${s.buttonText} { display: none; }
   .${s.searchButtonWrapper} .${s.buttonText} { display: inline; }
   .${s.menuOverlay} { position: fixed; top: 70px; left: 0; right: 0; bottom: 0; width: 100vw; height: calc(100vh - 70px); z-index: 9999; border-radius: 0; border: none; overflow-y: auto; }
-  .${s.searchOverlay} { width: 100%; right: 0; left: 0; border-radius: 0; border: none; border-bottom: 1px solid var(--ds-color-neutral-border-subtle); }
+  .${s.searchOverlay} { width: 100%; right: 0; left: 0; border-radius: 0; border: none; }
   .${s.searchContent} { padding: var(--ds-size-6); }
   .${s.menuContent} { flex-direction: column; padding: 0; min-height: 100%; }
   .${s.menuRightColumn} { padding: var(--ds-size-6); gap: var(--ds-size-4); flex: 1; display: flex; flex-direction: column; min-height: 0; }
