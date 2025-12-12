@@ -63,6 +63,7 @@ export const Header = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const { language, setLanguage, t } = useLanguage();
+  const [isMobile, setIsMobile] = useState(false);
 
   // Fallback: inject minimal header styles if consumer did not import the CSS bundle.
   useEffect(() => {
@@ -107,6 +108,78 @@ export const Header = ({
     setSearchQuery('');
   }, [activePage]);
 
+  // Track viewport to force menu button on mobile (<850px)
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof window.matchMedia === 'undefined') return;
+    const mq = window.matchMedia('(max-width: 850px)');
+    const handler = (e: MediaQueryList | MediaQueryListEvent) => setIsMobile('matches' in e ? e.matches : mq.matches);
+    handler(mq);
+    mq.addEventListener ? mq.addEventListener('change', handler) : mq.addListener(handler);
+    return () => {
+      mq.removeEventListener ? mq.removeEventListener('change', handler) : mq.removeListener(handler);
+    };
+  }, []);
+
+  // Measure header height and set as CSS variable for menu positioning
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    const header = document.querySelector(`.${styles.header}`) as HTMLElement;
+    if (!header) return;
+    
+    const updateHeaderHeight = () => {
+      const height = header.offsetHeight;
+      document.documentElement.style.setProperty('--header-height-mobile', `${height}px`);
+    };
+    
+    updateHeaderHeight();
+    
+    // Update on resize
+    window.addEventListener('resize', updateHeaderHeight);
+    return () => window.removeEventListener('resize', updateHeaderHeight);
+  }, [isMobile]);
+
+  // Measure logo width to drive left-side white background width (desktop overlays)
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    const logoWrapper = document.querySelector(`.${styles.logoWrapper}`) as HTMLElement;
+    if (!logoWrapper) return;
+    const setLogoWidth = () => {
+      const width = logoWrapper.offsetWidth;
+      document.documentElement.style.setProperty('--rk-logo-width', `${width}px`);
+    };
+    setLogoWidth();
+    window.addEventListener('resize', setLogoWidth);
+    return () => window.removeEventListener('resize', setLogoWidth);
+  }, [isMobile]);
+
+  // Measure search overlay height when open to constrain white background height
+  useEffect(() => {
+    if (typeof document === 'undefined' || !isSearchOpen) {
+      document.documentElement.style.setProperty('--rk-search-overlay-height', '0px');
+      return;
+    }
+    const searchOverlay = document.querySelector(`.${styles.searchOverlay}`) as HTMLElement;
+    if (!searchOverlay) return;
+    
+    const updateSearchHeight = () => {
+      const height = searchOverlay.offsetHeight;
+      document.documentElement.style.setProperty('--rk-search-overlay-height', `${height}px`);
+    };
+    
+    // Use requestAnimationFrame to ensure layout is complete
+    requestAnimationFrame(updateSearchHeight);
+    
+    // Update on resize
+    window.addEventListener('resize', updateSearchHeight);
+    const resizeObserver = new ResizeObserver(updateSearchHeight);
+    resizeObserver.observe(searchOverlay);
+    
+    return () => {
+      window.removeEventListener('resize', updateSearchHeight);
+      resizeObserver.disconnect();
+    };
+  }, [isSearchOpen]);
+
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
@@ -150,7 +223,7 @@ export const Header = ({
   };
 
   return (
-    <header className={styles.header}>
+    <header className={styles.header} data-open={isOpen ? 'true' : 'false'}>
       {showHeaderExtension && (
         <div className={styles.headerExtension} data-color-scheme="light">
           <div className={styles.extensionContentWrapper}>
@@ -209,7 +282,12 @@ export const Header = ({
       <div className={styles.headerInner}>
         {/* Logo Section */}
         <div className={styles.logoWrapper}>
-          <Link href="/" className={styles.logo} aria-label={t('header.homeAriaLabel')} onClick={handleLogoClick}>
+          <Link
+            href="/"
+            className={`${styles.logo} ${styles.primaryLogo}`}
+            aria-label={t('header.homeAriaLabel')}
+            onClick={handleLogoClick}
+          >
             <RedCrossLogo />
           </Link>
           
@@ -231,12 +309,13 @@ export const Header = ({
           </div>
         </div>
 
-        {showNavItems && navItems && navItems.length > 0 && (
+        {/* Nav (desktop only) */}
+        {showNavItems && navItems && navItems.length > 0 && !isMobile && (
           <nav className={styles.navItems}>
             {navItems.map((item, index) => (
-              <Link 
-                key={index} 
-                href={item.href} 
+              <Link
+                key={index}
+                href={item.href}
                 className={styles.navLink}
                 onClick={(e) => {
                   if (setPage) {
@@ -316,7 +395,7 @@ export const Header = ({
           )}
 
         {/* Menu Button */}
-          {showMenuButton && (
+          {(showMenuButton || isMobile) && (
             <Button 
               variant="primary" 
               data-color="main"
@@ -341,12 +420,84 @@ export const Header = ({
       {isOpen && (
         <div className={styles.menuOverlay}>
           <div className={styles.menuContent}>
-            <div className={styles.menuLeftColumn} aria-hidden="true" />
+            <div className={styles.menuLeftColumn} />
             <div className={styles.menuRightColumn}>
+              {/* Language and Mode Toggle - Above slot component on mobile */}
+              {isMobile && (showLanguageSwitch || showModeToggle) && (
+                <div className={styles.menuUtilities}>
+                  {showLanguageSwitch && (
+                    <div className={styles.languageSwitch}>
+                      <span className={styles.languageLabel}>{t('header.language')}</span>
+                      <Dropdown.TriggerContext>
+                        <Dropdown.Trigger 
+                          className={styles.languageLink}
+                          aria-label={t('header.selectLanguage')}
+                          style={{ background: 'transparent', border: 'none', padding: 0, cursor: 'pointer', font: 'inherit' }}
+                        >
+                          {language} <ChevronDownIcon aria-hidden />
+                        </Dropdown.Trigger>
+                        <Dropdown 
+                          data-color-scheme={theme}
+                          placement="bottom-start"
+                        >
+                          <Dropdown.List>
+                            <Dropdown.Item>
+                              <Dropdown.Button onClick={() => setLanguage('NO')}>
+                                Norsk (NO)
+                              </Dropdown.Button>
+                            </Dropdown.Item>
+                            <Dropdown.Item>
+                              <Dropdown.Button onClick={() => setLanguage('EN')}>
+                                English (EN)
+                              </Dropdown.Button>
+                            </Dropdown.Item>
+                          </Dropdown.List>
+                        </Dropdown>
+                      </Dropdown.TriggerContext>
+                    </div>
+                  )}
+                  {showModeToggle && (
+                    <div className={styles.extensionContent}>
+                      <Switch 
+                        data-size="sm" 
+                        checked={theme === 'dark'} 
+                        onChange={toggleTheme}
+                        label={t('header.darkMode')}
+                        color="neutral"
+                        data-color-scheme="light"
+                      />
+                    </div>
+                  )}
+                </div>
+              )}
               {/* REMOVED THEME TOGGLE FROM HERE AS REQUESTED */}
               <div className={styles.slotContent}>
                 {children}
+                {isMobile && showNavItems && navItems && navItems.length > 0 && (
+                  <nav className={styles.navList}>
+                    {navItems.map((item, index) => (
+                      <Link 
+                        key={index} 
+                        href={item.href} 
+                        className={styles.navLink}
+                        onClick={(e) => {
+                          if (setPage) {
+                            e.preventDefault();
+                            setPage(item.href);
+                          }
+                        }}
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                  </nav>
+                )}
               </div>
+              {isMobile && (
+                <div className={styles.menuBrand}>
+                  <RedCrossLogo />
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -475,6 +626,7 @@ function buildInlineCss(styles: Record<string, string>): string {
 .${s.languageSwitch} { display: flex; align-items: center; gap: var(--ds-size-2); }
 .${s.languageLabel} { font-family: var(--ds-font-family); font-size: var(--ds-font-size-md); color: #ECECEC; }
 .${s.languageLink} { color: white; text-decoration: none; display: flex; align-items: center; gap: 4px; }
+.${s.languageSwitch} :global([popover]) { margin-top: 0 !important; background-color: var(--ds-color-neutral-background-default) !important; position: fixed !important; overflow: visible; z-index: 20000 !important; }
 .${s.headerInner} {
   display: flex; align-items: center; justify-content: space-between;
   min-height: 119px; width: 100%; max-width: 1364px;
@@ -485,7 +637,7 @@ function buildInlineCss(styles: Record<string, string>): string {
 .${s.redCrossLogo} { width: 169px; height: auto; display: block; }
 .${s.secondaryLogoWrapper} { display: flex; align-items: center; justify-content: center; height: 100%; padding: 0 var(--ds-size-6); background: var(--ds-color-neutral-background-default); }
 .${s.secondaryLogo} { height: 24px; width: auto; display: block; }
-.${s.navItems} { display: flex; gap: 40px; align-items: center; margin-left: 24px; flex-grow: 1; justify-content: center; }
+.${s.navItems} { display: flex; gap: 40px; align-items: center; margin-left: 24px; flex-grow: 1; justify-content: flex-end; }
 .${s.navLink} { color: var(--ds-color-primary-color-red-text-default); font-family: var(--ds-font-family); font-size: var(--ds-font-size-md); text-decoration: none; font-weight: var(--ds-font-weight-regular); letter-spacing: 0.09px; }
 .${s.navLink}:hover { text-decoration: underline; }
 .${s.actions} { display: flex; align-items: center; gap: var(--ds-size-6); flex-shrink: 0; margin-left: auto; }
@@ -506,15 +658,18 @@ function buildInlineCss(styles: Record<string, string>): string {
   box-shadow: var(--ds-shadow-lg); z-index: 999;
 }
 .${s.searchOverlay} { padding: var(--ds-size-10) 0; }
+.${s.searchOverlay}::before { display: none; }
 .${s.searchContent} {
   max-width: 1364px; margin: 0 auto;
-  padding: 0 var(--ds-size-6) 0 calc(217px + var(--ds-size-6));
+  padding: var(--ds-size-6) var(--ds-size-6) var(--ds-size-6) calc(217px + var(--ds-size-6) + var(--ds-size-4));
   display: flex; flex-direction: column; align-items: stretch; box-sizing: border-box;
 }
 .${s.menuContent} { max-width: 1364px; margin: 0 auto; display: flex; flex-direction: row; align-items: stretch; box-sizing: border-box; }
-.${s.menuLeftColumn} { width: calc(217px + var(--ds-size-6)); flex-shrink: 0; }
+.${s.menuLeftColumn} { width: calc(217px + var(--ds-size-6)); flex-shrink: 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; padding: var(--ds-size-6); }
 .${s.menuRightColumn} { flex: 1; display: flex; flex-direction: column; padding: 48px 24px 80px 24px; gap: 24px; }
-.${s.slotContent} { width: 100%; padding: var(--ds-size-10) 0; text-align: center; color: var(--ds-color-neutral-text-subtle); font-size: var(--ds-font-size-md); border-radius: var(--ds-border-radius-md); }
+.${s.slotContent} { width: 100%; padding: var(--ds-size-10) 0; text-align: left; color: var(--ds-color-neutral-text-subtle); font-size: var(--ds-font-size-md); border-radius: var(--ds-border-radius-md); display: flex; flex-direction: column; gap: var(--ds-size-4); align-items: flex-start; }
+.${s.menuBrand} { display: none; }
+.${s.menuUtilities} { display: flex; justify-content: space-between; align-items: center; width: 100%; }
 .${s.suggestionsSection} { display: flex; flex-direction: column; gap: var(--ds-size-4); }
 .${s.suggestionsTitle} { font-family: var(--ds-font-family); font-size: var(--ds-font-size-md); color: var(--ds-color-neutral-text-subtle); font-weight: var(--ds-font-weight-regular); margin: 0; letter-spacing: 0.09px; }
 .${s.searchResults} { margin-top: var(--ds-size-4); max-height: 400px; overflow-y: auto; }
@@ -531,21 +686,36 @@ function buildInlineCss(styles: Record<string, string>): string {
 .${s.remainingText} { color: var(--ds-color-neutral-border-subtle); }
 .${s.viewAllLink} { display: block; padding: var(--ds-size-3); text-align: left; font-size: var(--ds-font-size-sm); font-weight: var(--ds-font-weight-medium); color: var(--ds-color-neutral-text-default); text-decoration: none; }
 .${s.noResults} { padding: var(--ds-size-4); text-align: center; color: var(--ds-color-neutral-text-subtle); }
-@media (max-width: 767px) {
+@media (max-width: 850px) {
+  .${s.header} { z-index: 10000; }
+  .${s.headerExtension} { display: none; }
   .${s.headerInner} { padding: var(--ds-size-5) var(--ds-size-6); min-height: auto; }
   .${s.navItems} { display: none; }
   .${s.logoWrapper} { gap: var(--ds-size-2); }
   .${s.logo} { height: 40px; }
+  /* Mobile: always hide primary logo in header */
+  .${s.primaryLogo} { display: none; }
   .${s.secondaryLogo} { height: 28px; }
+  .${s.secondaryLogoWrapper} { padding: 0; }
   .${s.actions} { gap: var(--ds-size-4); }
   .${s.userName} { display: none; }
   .${s.menuButton} .${s.buttonText} { display: none; }
   .${s.searchButtonWrapper} .${s.buttonText} { display: inline; }
-  .${s.menuOverlay}, .${s.searchOverlay} { width: 100%; right: 0; left: 0; border-radius: 0; border: none; border-bottom: 1px solid var(--ds-color-neutral-border-subtle); }
-  .${s.searchContent} { padding: 0 var(--ds-size-6); }
-  .${s.menuContent} { flex-direction: column; padding: 0; }
-  .${s.menuLeftColumn} { display: none; }
-  .${s.menuRightColumn} { padding: var(--ds-size-6); gap: var(--ds-size-4); }
+  .${s.menuOverlay} { position: fixed; top: 70px; left: 0; right: 0; bottom: 0; width: 100vw; height: calc(100vh - 70px); z-index: 9999; border-radius: 0; border: none; overflow-y: auto; }
+  .${s.searchOverlay} { width: 100%; right: 0; left: 0; border-radius: 0; border: none; border-bottom: 1px solid var(--ds-color-neutral-border-subtle); }
+  .${s.searchContent} { padding: var(--ds-size-6); }
+  .${s.menuContent} { flex-direction: column; padding: 0; min-height: 100%; }
+  .${s.menuRightColumn} { padding: var(--ds-size-6); gap: var(--ds-size-4); flex: 1; display: flex; flex-direction: column; min-height: 0; }
+  .${s.menuLeftColumn} { display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-end; padding: var(--ds-size-6); }
+  .${s.menuBrand} { display: flex; justify-content: flex-start; margin-top: auto; padding: var(--ds-size-6); margin-left: calc(-1 * var(--ds-size-6)); margin-right: calc(-1 * var(--ds-size-6)); margin-bottom: calc(-1 * var(--ds-size-6)); background-color: white; }
+  .${s.menuUtilities} .${s.languageSwitch} :global([popover]) { background-color: var(--ds-color-neutral-background-default) !important; margin-top: 0 !important; position: fixed !important; overflow: visible; z-index: 20000 !important; }
+  @media (prefers-color-scheme: light) {
+    .${s.menuUtilities} .${s.languageLabel} { color: var(--color-neutral-text-default, #2B2B2B); }
+    .${s.menuUtilities} .${s.languageLink} { color: var(--color-neutral-text-default, #2B2B2B) !important; }
+  }
+  [data-color-scheme="light"] .${s.menuUtilities} .${s.languageLabel} { color: var(--color-neutral-text-default, #2B2B2B); }
+  [data-color-scheme="light"] .${s.menuUtilities} .${s.languageLink} { color: var(--color-neutral-text-default, #2B2B2B) !important; }
+  .${s.searchOverlay}::before { display: none; }
 }
 `;
 }

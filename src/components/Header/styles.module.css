@@ -1,11 +1,45 @@
 .header {
   width: 100%;
   background-color: var(--ds-color-neutral-background-default);
-  border-bottom: 1px solid var(--ds-color-neutral-border-subtle);
+  border-bottom: none; /* No border between header and content */
   position: relative;
   z-index: 1000;
   display: flex;
   flex-direction: column;
+}
+
+/* Ensure dropdown popover always sits above header content */
+:global(.ds-popover),
+:global(.ds-dropdown) {
+  z-index: 20000 !important; /* Lift above header without altering positioning */
+}
+
+/* White background section on the left side of header (from viewport left to end of logo + gutter) */
+.header::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 44px; /* Start below header extension on desktop */
+  width: max(241px, calc((100vw - 1364px) / 2 + 242px));
+  height: 119px; /* Match header inner height */
+  background-color: white;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Hide white background on mobile */
+@media (max-width: 850px) {
+  .header::before {
+    display: none; /* Remove white background on mobile */
+  }
+
+  .languageSwitch :global([popover])::before {
+    display: none; /* Remove white background extension in dropdown on mobile */
+  }
+
+  .searchOverlay::before {
+    display: none; /* Remove white background on mobile */
+  }
 }
 
 .headerExtension {
@@ -20,6 +54,8 @@
   color: white;
   position: relative;
   overflow: visible;
+  /* FIX: Higher index than headerInner ensures dropdowns float over the logo area */
+  z-index: 20; 
 }
 
 .extensionContentWrapper {
@@ -74,9 +110,20 @@
   position: relative;
 }
 
-/* Ensure dropdown is positioned correctly relative to trigger - remove default spacing */
+/* Ensure dropdown is positioned correctly relative to trigger */
 .languageSwitch :global([popover]) {
-  margin-top: -8px !important; /* Pull dropdown further up towards the top bar */
+  margin-top: 0 !important;
+  background-color: var(--ds-color-neutral-background-default) !important;
+  position: fixed !important; /* Use fixed positioning to escape parent stacking context */
+  overflow: visible;
+  z-index: 20000 !important; /* Force dropdown above header and overlays */
+}
+
+/* Ensure the rendered popover itself stacks above header content */
+.languageSwitch :global(.ds-popover) {
+  background-color: var(--ds-color-neutral-background-default) !important;
+  position: fixed !important; /* Use fixed positioning to escape parent stacking context */
+  z-index: 20000 !important;
 }
 
 .headerInner {
@@ -91,6 +138,9 @@
   padding: 0 var(--ds-size-6); /* Removed vertical padding to match Figma exact height */
   box-sizing: border-box;
   gap: var(--ds-size-6);
+  position: relative;
+  /* FIX: Lower index than headerExtension */
+  z-index: 10;
 }
 
 .logoWrapper {
@@ -99,7 +149,11 @@
   height: 119px; /* Fill full height */
   flex-shrink: 0;
   background-color: white; /* Ensure white background for logo area */
+  margin-left: calc(-1 * var(--ds-size-6)); /* Extend to left edge by counteracting headerInner padding */
+  padding-left: var(--ds-size-6); /* Restore padding for content */
+  position: relative;
 }
+
 
 .logo {
   display: flex;
@@ -172,13 +226,17 @@
   display: block;
 }
 
+.primaryLogo {
+  display: flex;
+}
+
 .navItems {
   display: flex;
   gap: 40px; /* Matches Figma design */
   align-items: center;
   margin-left: 24px; /* Space from logo */
   flex-grow: 1; /* Pushes actions to the right */
-  justify-content: center; /* Center items in the flexible space */
+  justify-content: flex-end; /* Align nav links to the right */
 }
 
 .navLink {
@@ -286,6 +344,10 @@
   animation: slideDown 0.2s ease-out;
 }
 
+/* White background section on the left side of search overlay - REMOVED */
+.searchOverlay::before {
+  display: none;
+}
 @keyframes slideDown {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
@@ -294,7 +356,7 @@
 .searchContent {
   max-width: 1364px;
   margin: 0 auto;
-  padding: 0 var(--ds-size-6) 0 calc(217px + var(--ds-size-6)); /* Left padding = Logo width + Header Padding */
+  padding: var(--ds-size-6) var(--ds-size-6) var(--ds-size-6) calc(217px + var(--ds-size-6) + var(--ds-size-4)); /* Added vertical padding, Left padding = Logo width + Header Padding + extra left padding */
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -313,6 +375,7 @@
 .menuLeftColumn {
   width: calc(217px + var(--ds-size-6)); /* Matches Search alignment */
   flex-shrink: 0;
+  display: flex;
 }
 
 .menuRightColumn {
@@ -332,10 +395,32 @@
 .slotContent {
   width: 100%;
   padding: var(--ds-size-10) 0;
-  text-align: center;
+  text-align: left;
   color: var(--ds-color-neutral-text-subtle);
   font-size: var(--ds-font-size-md);
   border-radius: var(--ds-border-radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-4);
+  align-items: flex-start;
+}
+
+.navList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-3);
+  align-items: flex-start;
+}
+
+.menuUtilities {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.menuBrand {
+  display: none;
 }
 
 .suggestionsSection {
@@ -474,10 +559,21 @@
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 850px) {
+  .header {
+    z-index: 10000; /* Ensure header stays above full-screen menu */
+    position: sticky; /* Keep header visible above menu */
+    top: 0;
+  }
+
+  .headerExtension {
+    display: none;
+  }
+
   .headerInner {
     padding: var(--ds-size-5) var(--ds-size-6);
     min-height: auto;
+    height: auto;
   }
   
   .navItems {
@@ -486,10 +582,16 @@
   
   .logoWrapper {
     gap: var(--ds-size-2);
+    background-color: transparent; /* Remove white background on mobile */
   }
 
   .logo {
     height: 40px;
+  }
+
+  /* Mobile: always hide primary logo in header; it will appear inside menu */
+  .primaryLogo {
+    display: none;
   }
 
   .divider {
@@ -498,6 +600,10 @@
 
   .secondaryLogo {
     height: 28px;
+  }
+
+  .secondaryLogoWrapper {
+    padding: 0; /* Remove padding on mobile */
   }
 
   .actions {
@@ -520,7 +626,21 @@
 
   /* "Søk" button text stays visible as per mobile design */
   
-  .menuOverlay, .searchOverlay {
+  .menuOverlay {
+    position: fixed;
+    top: var(--header-height-mobile, 70px); /* Start below header */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: calc(100vh - var(--header-height-mobile, 70px)); /* Fill remaining viewport */
+    z-index: 9999;
+    border-radius: 0;
+    border: none;
+    overflow-y: auto;
+  }
+
+  .searchOverlay {
     width: 100%;
     right: 0;
     left: 0;
@@ -530,24 +650,72 @@
   }
 
   .searchContent {
-    padding: 0 var(--ds-size-6);
+    padding: var(--ds-size-6);
   }
 
   .menuContent {
     flex-direction: column;
     padding: 0;
-  }
-
-  .menuLeftColumn {
-    display: none;
+    min-height: 100%; /* Fill the menu overlay */
   }
 
   .menuRightColumn {
     padding: var(--ds-size-6);
     gap: var(--ds-size-4);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0; /* Allow flex shrinking */
   }
 
   .searchContent > * {
     max-width: 100%;
+  }
+
+  .menuBrand {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: auto;
+    padding: var(--ds-size-6);
+    margin-left: calc(-1 * var(--ds-size-6));
+    margin-right: calc(-1 * var(--ds-size-6));
+    margin-bottom: calc(-1 * var(--ds-size-6));
+    background-color: white; /* Always white background for logo section */
+  }
+
+  /* Ensure dropdown matches white background */
+  .menuUtilities .languageSwitch :global([popover]) {
+    background-color: var(--ds-color-neutral-background-default) !important;
+    margin-top: 0 !important;
+    position: fixed !important; /* Use fixed positioning to escape parent stacking context */
+    overflow: visible;
+    z-index: 20000 !important; /* Keep dropdown above menu content on mobile */
+  }
+
+  /* Ensure the rendered popover itself stacks above mobile menu content */
+  .menuUtilities .languageSwitch :global(.ds-popover) {
+    background-color: var(--ds-color-neutral-background-default) !important;
+    position: fixed !important; /* Use fixed positioning to escape parent stacking context */
+    z-index: 20000 !important;
+  }
+
+  /* Override language selector colors in mobile menu for light mode only */
+  @media (prefers-color-scheme: light) {
+    .menuUtilities .languageLabel {
+      color: var(--color-neutral-text-default, #2B2B2B);
+    }
+
+    .menuUtilities .languageLink {
+      color: var(--color-neutral-text-default, #2B2B2B) !important;
+    }
+  }
+
+  /* Also check for data-color-scheme attribute on root */
+  :global([data-color-scheme="light"]) .menuUtilities .languageLabel {
+    color: var(--color-neutral-text-default, #2B2B2B);
+  }
+
+  :global([data-color-scheme="light"]) .menuUtilities .languageLink {
+    color: var(--color-neutral-text-default, #2B2B2B) !important;
   }
 }
