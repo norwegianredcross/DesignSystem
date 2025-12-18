@@ -7,6 +7,7 @@ import { ComponentsPage } from './pages/Components';
 import { DesignPage } from './pages/Design';
 import { CodePage } from './pages/Code';
 import { SearchResultsPage } from './pages/SearchResults';
+import { TokensPage } from './pages/Tokens';
 import './App.css';
 
 function App() {
@@ -49,6 +50,8 @@ function App() {
           <CodePage setPage={setPage} section={subPage} />
         ) : mainPage === 'search' ? (
           <SearchResultsPage query={subPage} setPage={setPage} />
+        ) : mainPage === 'tokens' ? (
+          <TokensPage />
         ) : (
           <DesignPage section={subPage} />
         )}

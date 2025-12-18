@@ -1,85 +1,318 @@
 .footer {
-    /* CHANGED: --ds-size-16 does not exist. content used 15 or 18. Using 18 for spacing. */
-    padding: var(--ds-size-18) 0;
-    
-    /* CHANGED: --ds-color-neutral-surface-subtle does not exist. Using tinted. */
-    background-color: var(--ds-color-neutral-background-tinted); 
-    border-top: 1px solid var(--ds-color-neutral-border-subtle);
-    margin-top: auto;
-  }
-  
-  .content {
-    max-width: 1200px;
-    margin: 0 auto;
-    /* CHANGED: --ds-size-6 exists */
-    padding: 0 var(--ds-size-6);
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    /* CHANGED: --ds-size-12 exists */
-    gap: var(--ds-size-12);
-    text-align: left;
-  }
-  
-  .logoSection {
-    flex: 0 0 auto;
-  }
-  
-  .logo {
-    height: var(--ds-size-12);
-    width: auto;
-    display: block;
-  }
-  
-  .linksSection {
-    display: flex;
-    flex-wrap: wrap;
-    /* CHANGED: --ds-size-24 does not exist. Closest is 22 or 26. Using 26. */
-    gap: var(--ds-size-26);
-  }
-  
-  .column {
-    display: flex;
+  margin-top: auto;
+  width: 100%;
+}
+
+/* Red Background Section - Updated to use ocean tinted background */
+.redSection {
+  background-color: var(--ds-color-additional-color-ocean-background-tinted, #f2f4f5);
+  width: 100%;
+}
+
+.redContainer {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: var(--ds-size-30, 120px) var(--ds-size-44, 175px);
+  box-sizing: border-box;
+}
+
+/* Shortcuts Section */
+.shortcutsSection {
+  display: flex;
+  gap: var(--ds-size-12, 48px);
+  align-items: flex-start;
+  padding: var(--ds-size-8, 32px) 0;
+  flex-wrap: wrap;
+}
+
+.shortcutsColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-6, 24px);
+  width: 257px;
+  flex-shrink: 0;
+}
+
+.shortcutsTitle {
+  font-size: var(--ds-font-size-7, 30px);
+  font-weight: var(--ds-font-weight-regular);
+  line-height: 1.3;
+  letter-spacing: -0.075px;
+  color: var(--ds-color-primary-color-red-text-default, #57110c);
+  margin: 0;
+}
+
+.shortcutsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-2, 8px);
+}
+
+.shortcutLink {
+  font-size: var(--ds-font-size-4, 18px);
+  font-weight: var(--ds-font-weight-regular);
+  line-height: 1.5;
+  letter-spacing: 0.09px;
+  color: var(--ds-color-neutral-text-default, #2b2b2b);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s ease;
+}
+
+.shortcutLink:hover {
+  color: var(--ds-color-neutral-text-default, #2b2b2b);
+  opacity: 0.8;
+}
+
+.shortcutLink:focus {
+  outline: 2px solid var(--ds-color-neutral-border-default, #797979);
+  outline-offset: 2px;
+  border-radius: var(--ds-border-radius-sm);
+}
+
+/* Slot Component */
+.slotComponent {
+  background-color: var(--ds-color-neutral-surface-default, #ffffff);
+  border: 2px dashed var(--ds-color-neutral-border-default, #797979);
+  border-radius: var(--ds-border-radius-lg, 8px);
+  padding: var(--ds-size-6, 24px) var(--ds-size-3, 12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 0 0;
+  min-width: 200px;
+}
+
+.slotContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-2, 8px);
+  align-items: center;
+  justify-content: center;
+}
+
+.slotText {
+  font-size: var(--ds-font-size-4, 18px);
+  font-weight: var(--ds-font-weight-regular);
+  line-height: 1.3;
+  letter-spacing: 0.027px;
+  color: var(--ds-color-neutral-text-default, #2b2b2b);
+  margin: 0;
+}
+
+.slotSubtext {
+  font-size: var(--ds-font-size-3, 16px);
+  font-weight: var(--ds-font-weight-regular);
+  line-height: 1.5;
+  letter-spacing: 0.04px;
+  color: var(--ds-color-neutral-text-subtle, #5d5d5d);
+  margin: 0;
+}
+
+/* Divider */
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: var(--ds-color-neutral-border-subtle, #bcbcbc);
+  margin: var(--ds-size-6, 24px) 0;
+}
+
+/* Contact Section */
+.contactSection {
+  display: flex;
+  gap: var(--ds-size-6, 24px);
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.contactColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-1, 4px);
+  flex: 1;
+  min-width: 200px;
+}
+
+.contactTitle {
+  font-size: var(--ds-font-size-3, 16px);
+  font-weight: var(--ds-font-weight-bold);
+  line-height: 1.5;
+  letter-spacing: 0.04px;
+  color: var(--ds-color-neutral-text-default, #2b2b2b);
+  margin: 0;
+}
+
+.contactContent {
+  font-size: var(--ds-font-size-3, 16px);
+  font-weight: var(--ds-font-weight-regular);
+  line-height: 1.5;
+  letter-spacing: 0.04px;
+  color: var(--ds-color-neutral-text-default, #2b2b2b);
+  margin: 0;
+}
+
+.contactContent p {
+  margin: 0;
+}
+
+/* Legal Section */
+.legalSection {
+  display: flex;
+  gap: var(--ds-size-10, 40px);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.copyrightText {
+  font-size: var(--ds-font-size-2, 14px);
+  font-weight: var(--ds-font-weight-regular);
+  line-height: 1.3;
+  letter-spacing: 0.021px;
+  color: var(--ds-color-primary-color-red-text-default, #57110c);
+  margin: 0;
+}
+
+.legalLinks {
+  display: flex;
+  gap: var(--ds-size-10, 40px);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.legalLink {
+  font-size: var(--ds-font-size-4, 18px);
+  font-weight: var(--ds-font-weight-regular);
+  line-height: 1.5;
+  letter-spacing: 0.09px;
+  color: var(--ds-color-neutral-text-default, #2b2b2b);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s ease;
+}
+
+.legalLink:hover {
+  color: var(--ds-color-neutral-text-default, #2b2b2b);
+  opacity: 0.8;
+}
+
+.legalLink:focus {
+  outline: 2px solid var(--ds-color-neutral-border-default, #797979);
+  outline-offset: 2px;
+  border-radius: var(--ds-border-radius-sm);
+}
+
+/* White Background Section */
+.whiteSection {
+  background-color: white;
+  width: 100%;
+}
+
+.whiteContainer {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: var(--ds-size-6, 24px) var(--ds-size-44, 175px);
+  box-sizing: border-box;
+}
+
+.whiteContainer > * {
+  max-width: 1090px;
+  margin: 0 auto;
+}
+
+.whiteContent {
+  display: flex;
+  gap: var(--ds-size-20, 80px);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Spacing between logo and design system logo - 40px as per Figma */
+.whiteContent > img:first-of-type + img {
+  margin-left: var(--ds-size-10, 40px);
+}
+
+.logo {
+  height: 43px;
+  width: auto;
+  display: block;
+  flex-shrink: 0;
+}
+
+.designSystemLogo {
+  height: 24px;
+  width: auto;
+  display: block;
+  flex-shrink: 0;
+}
+
+.slotSmall {
+  background-color: var(--ds-color-neutral-surface-default, #ffffff);
+  border: 2px dashed var(--ds-color-neutral-border-default, #797979);
+  border-radius: var(--ds-border-radius-lg, 8px);
+  padding: var(--ds-size-6, 24px) var(--ds-size-3, 12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.slotLarge {
+  background-color: var(--ds-color-neutral-surface-default, #ffffff);
+  border: 2px dashed var(--ds-color-neutral-border-default, #797979);
+  border-radius: var(--ds-border-radius-lg, 8px);
+  padding: var(--ds-size-6, 24px) var(--ds-size-3, 12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 0 0;
+  min-width: 200px;
+}
+
+.slotTextSmall {
+  font-size: var(--ds-font-size-4, 18px);
+  font-weight: var(--ds-font-weight-regular);
+  line-height: 1.3;
+  letter-spacing: 0.027px;
+  color: var(--ds-color-neutral-text-default, #2b2b2b);
+  margin: 0;
+}
+
+.slotSubtextSmall {
+  font-size: var(--ds-font-size-3, 16px);
+  font-weight: var(--ds-font-weight-regular);
+  line-height: 1.5;
+  letter-spacing: 0.04px;
+  color: var(--ds-color-neutral-text-subtle, #5d5d5d);
+  margin: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+
+  .shortcutsSection {
     flex-direction: column;
-    /* CHANGED: --ds-size-4 exists */
-    gap: var(--ds-size-4);
   }
-  
-  .columnTitle {
-    /* CHANGED: --ds-font-size-sm does not exist. Using semantic token. */
-    font-size: var(--ds-body-sm-font-size);
-    
-    /* CHANGED: --ds-font-weight-bold does not exist. Using semibold from tokens. */
-    font-weight: var(--ds-font-weight-semibold);
-    
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--ds-color-neutral-text-subtle);
-    margin: 0;
+
+  .shortcutsColumn {
+    width: 100%;
   }
-  
-  .linkList {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
+
+  .contactSection {
     flex-direction: column;
-    /* CHANGED: --ds-size-3 exists */
-    gap: var(--ds-size-3);
   }
-  
-  .copyright {
-    /* CHANGED: --ds-size-16 invalid -> used 15 */
-    margin-top: var(--ds-size-15);
-    border-top: 1px solid var(--ds-color-neutral-border-subtle);
-    /* CHANGED: --ds-size-8 exists */
-    padding-top: var(--ds-size-8);
-    text-align: center;
+
+  .legalSection {
+    flex-direction: column;
+    align-items: flex-start;
   }
-  
-  .text {
-    color: var(--ds-color-neutral-text-subtle);
-    /* CHANGED: --ds-font-size-sm -> ds-body-sm-font-size */
-    font-size: var(--ds-body-sm-font-size);
-    margin: 0;
+
+  .whiteContent {
+    flex-direction: column;
+    align-items: flex-start;
   }
+}

@@ -760,8 +760,30 @@ export const translations = {
         githubIssuesLink: "https://github.com/norwegianredcross/DesignSystem/issues"
       }
     },
-    // Footer (if needed later)
-    footer: {}
+    // Footer
+    footer: {
+      shortcuts: "Snarveier",
+      shortcutsLinks: {
+        services: "Tilbudene",
+        volunteer: "Bli frivillig",
+        ourWork: "Vårt arbeid",
+        about: "Om Røde Kors",
+        support: "Støtt arbeidet",
+        contact: "Kontakt oss"
+      },
+      contact: {
+        visitingAddress: "Besøks adresse",
+        organizationNumber: "Organisasjonsnummer",
+        email: "E-post"
+      },
+      copyright: "Rødekors",
+      legal: {
+        privacy: "Personvern",
+        press: "For presse",
+        procurement: "Regler for innkjøp",
+        whistleblowing: "Varsling/Misconduct"
+      }
+    }
   },
   EN: {
     // Header
@@ -1528,6 +1550,28 @@ export const translations = {
       }
     },
     // Footer
-    footer: {}
+    footer: {
+      shortcuts: "Shortcuts",
+      shortcutsLinks: {
+        services: "Services",
+        volunteer: "Become a volunteer",
+        ourWork: "Our Work",
+        about: "About Red Cross",
+        support: "Support the work",
+        contact: "Contact us"
+      },
+      contact: {
+        visitingAddress: "Visiting address",
+        organizationNumber: "Organization number",
+        email: "Email"
+      },
+      copyright: "Red Cross",
+      legal: {
+        privacy: "Privacy",
+        press: "For press",
+        procurement: "Procurement rules",
+        whistleblowing: "Whistleblowing/Misconduct"
+      }
+    }
   }
 };

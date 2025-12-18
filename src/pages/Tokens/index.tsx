@@ -372,95 +372,73 @@ export const TokensPage = () => {
   }, [sortedCategories]);
 
   return (
-    <main className={styles.main}>
-      <div className={`container ${styles.docLayout}`}>
-        {/* --- SIDEBAR --- */}
-        <aside className={styles.sidebar}>
-          <nav className={styles.nav}>
-            {menuItems.map((group, index) => (
-              <div key={index} className={styles.group}>
-                <div className={styles.groupTitle}>{group.title}</div>
-                <ul className={styles.list}>
-                  {group.items.map((item) => (
-                    <li key={item.id} className={styles.listItem}>
-                      <button
-                        type="button"
-                        className={`${styles.link} ${activeCategory === item.id ? styles.linkActive : ''}`}
-                        onClick={() => scrollToCategory(item.id)}
-                      >
-                        {item.label}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </nav>
-        </aside>
+    <main className={`container ${styles.docLayout}`}>
+      {/* --- SIDEBAR --- */}
+      <aside className={styles.sidebar}>
+        <nav className={styles.nav}>
+          {menuItems.map((group, index) => (
+            <div key={index} className={styles.group}>
+              <div className={styles.groupTitle}>{group.title}</div>
+              <ul className={styles.list}>
+                {group.items.map((item) => (
+                  <li key={item.id} className={styles.listItem}>
+                    <button
+                      type="button"
+                      className={`${styles.link} ${activeCategory === item.id ? styles.linkActive : ''}`}
+                      onClick={() => scrollToCategory(item.id)}
+                    >
+                      {item.label}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </nav>
+      </aside>
 
-        {/* --- MAIN CONTENT AREA --- */}
-        <div className={styles.docContent}>
-          <Heading level={1} className={styles.pageTitle}>Design Tokens</Heading>
-          <Paragraph className={styles.pageDescription}>
-            All design tokens available from theme.css. These CSS custom properties can be used throughout your application.
-          </Paragraph>
+      {/* --- MAIN CONTENT AREA --- */}
+      <div className={styles.docContent}>
+        <Heading level={1} className={styles.pageTitle}>Design Tokens</Heading>
+        <Paragraph className={styles.pageDescription}>
+          All design tokens available from theme.css. These CSS custom properties can be used throughout your application.
+        </Paragraph>
 
-          {sortedCategories.map(category => (
-            <section
-              key={category}
-              ref={(el) => {
-                categoryRefs.current[category] = el;
-              }}
-              data-category={category}
-              id={`category-${category}`}
-              className={styles.categorySection}
-            >
-              <Heading level={2} data-size="lg" className={styles.categoryTitle}>
-                {categoryLabels[category]}
-              </Heading>
-              
-              {sortGroups(category, Object.keys(structuredGroups[category])).map(groupKey => {
-                const group = structuredGroups[category][groupKey];
-                return (
-                  <div key={groupKey} className={styles.tokenGroup}>
-                    <Heading level={3} data-size="sm" className={styles.groupTitle}>
-                      {formatGroupName(group.name)}
-                    </Heading>
-                    
-                    <div className={styles.tokensGrid}>
-                      {group.tokens.map((token, index) => (
-                        <Card key={index} className={styles.tokenCard} data-color="neutral">
-                          <CardBlock>
-                            {category === 'colors' && (
-                              <div className={styles.colorSwatchContainer}>
-                                <span 
-                                  className={styles.colorSwatch}
-                                  style={{ backgroundColor: token.value }}
-                                  aria-label={`Color preview: ${token.value}`}
-                                />
-                                <button
-                                  className={styles.copyButton}
-                                  onClick={() => copyToClipboard(token.name)}
-                                  aria-label={`Copy ${token.name} to clipboard`}
-                                  title={`Copy ${token.name}`}
-                                >
-                                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M5.5 4.5V3.5C5.5 2.67157 6.17157 2 7 2H12.5C13.3284 2 14 2.67157 14 3.5V9C14 9.82843 13.3284 10.5 12.5 10.5H11.5M5.5 4.5H3.5C2.67157 4.5 2 5.17157 2 6V12.5C2 13.3284 2.67157 14 3.5 14H9C9.82843 14 10.5 13.3284 10.5 12.5V10.5M5.5 4.5C5.5 5.32843 6.17157 6 7 6H11.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                                  </svg>
-                                </button>
-                              </div>
-                            )}
-                            <div className={styles.tokenInfo}>
-                              <code className={styles.tokenName} title={token.name}>
-                                {token.name}
-                              </code>
-                              <code className={styles.tokenValue} title={token.value}>
-                                {token.value}
-                              </code>
-                            </div>
-                            {category !== 'colors' && (
+        {sortedCategories.map(category => (
+          <section
+            key={category}
+            ref={(el) => {
+              categoryRefs.current[category] = el;
+            }}
+            data-category={category}
+            id={`category-${category}`}
+            className={styles.categorySection}
+          >
+            <Heading level={2} data-size="lg" className={styles.categoryTitle}>
+              {categoryLabels[category]}
+            </Heading>
+            
+            {sortGroups(category, Object.keys(structuredGroups[category])).map(groupKey => {
+              const group = structuredGroups[category][groupKey];
+              return (
+                <div key={groupKey} className={styles.tokenGroup}>
+                  <Heading level={3} data-size="sm" className={styles.groupTitle}>
+                    {formatGroupName(group.name)}
+                  </Heading>
+                  
+                  <div className={styles.tokensGrid}>
+                    {group.tokens.map((token, index) => (
+                      <Card key={index} className={styles.tokenCard} data-color="neutral">
+                        <CardBlock>
+                          {category === 'colors' && (
+                            <div className={styles.colorSwatchContainer}>
+                              <span 
+                                className={styles.colorSwatch}
+                                style={{ backgroundColor: token.value }}
+                                aria-label={`Color preview: ${token.value}`}
+                              />
                               <button
-                                className={styles.copyButtonInline}
+                                className={styles.copyButton}
                                 onClick={() => copyToClipboard(token.name)}
                                 aria-label={`Copy ${token.name} to clipboard`}
                                 title={`Copy ${token.name}`}
@@ -469,17 +447,37 @@ export const TokensPage = () => {
                                   <path d="M5.5 4.5V3.5C5.5 2.67157 6.17157 2 7 2H12.5C13.3284 2 14 2.67157 14 3.5V9C14 9.82843 13.3284 10.5 12.5 10.5H11.5M5.5 4.5H3.5C2.67157 4.5 2 5.17157 2 6V12.5C2 13.3284 2.67157 14 3.5 14H9C9.82843 14 10.5 13.3284 10.5 12.5V10.5M5.5 4.5C5.5 5.32843 6.17157 6 7 6H11.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                                 </svg>
                               </button>
-                            )}
-                          </CardBlock>
-                        </Card>
-                      ))}
-                    </div>
+                            </div>
+                          )}
+                          <div className={styles.tokenInfo}>
+                            <code className={styles.tokenName} title={token.name}>
+                              {token.name}
+                            </code>
+                            <code className={styles.tokenValue} title={token.value}>
+                              {token.value}
+                            </code>
+                          </div>
+                          {category !== 'colors' && (
+                            <button
+                              className={styles.copyButtonInline}
+                              onClick={() => copyToClipboard(token.name)}
+                              aria-label={`Copy ${token.name} to clipboard`}
+                              title={`Copy ${token.name}`}
+                            >
+                              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5.5 4.5V3.5C5.5 2.67157 6.17157 2 7 2H12.5C13.3284 2 14 2.67157 14 3.5V9C14 9.82843 13.3284 10.5 12.5 10.5H11.5M5.5 4.5H3.5C2.67157 4.5 2 5.17157 2 6V12.5C2 13.3284 2.67157 14 3.5 14H9C9.82843 14 10.5 13.3284 10.5 12.5V10.5M5.5 4.5C5.5 5.32843 6.17157 6 7 6H11.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                              </svg>
+                            </button>
+                          )}
+                        </CardBlock>
+                      </Card>
+                    ))}
                   </div>
-                );
-              })}
-            </section>
-          ))}
-        </div>
+                </div>
+              );
+            })}
+          </section>
+        ))}
       </div>
     </main>
   );
