@@ -518,40 +518,141 @@ const FigmaMcpContent = () => {
   const { t } = useLanguage();
   return (
     <ArticleLayout title={t('code.figmaMcp.title')} category={t('code.sidebar.workflow')}>
-      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
         {t('code.figmaMcp.intro')}
       </Paragraph>
 
-      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('code.figmaMcp.processTitle')}</Heading>
-      <List.Ordered style={{ marginBottom: 'var(--ds-size-6)' }}>
-        <List.Item>
-          <strong>{t('code.figmaMcp.processItem1').split(':')[0]}:</strong> {t('code.figmaMcp.processItem1').split(':').slice(1).join(':').trim()}
-        </List.Item>
-        <List.Item>
-          <strong>{t('code.figmaMcp.processItem2').split(':')[0]}:</strong> {t('code.figmaMcp.processItem2').split(':').slice(1).join(':').trim()}
-          <ArticleImage src="/screenshot.png" alt={t('code.figmaMcp.processItem2')} caption={t('code.figmaMcp.processItem2Caption')} />
-        </List.Item>
-        <List.Item>
-          <strong>{t('code.figmaMcp.processItem3').split(':')[0]}:</strong> {t('code.figmaMcp.processItem3').split(':').slice(1).join(':').trim().split('theme.css')[0]}
-          <Link href="https://norwegianredcross.github.io/design-tokens/theme.css" target="_blank" rel="noreferrer">theme.css</Link>
-          {t('code.figmaMcp.processItem3').split(':').slice(1).join(':').trim().split('theme.css')[1].split('metadata.json')[0]}
-          <Link href="https://norwegianredcross.github.io/DesignSystem/storybook/metadata.json" target="_blank" rel="noreferrer">metadata.json</Link>
-          {t('code.figmaMcp.processItem3').split(':').slice(1).join(':').trim().split('metadata.json')[1]}
-          <ArticleImage src="/screenshot2.png" alt={t('code.figmaMcp.processItem3')} caption={t('code.figmaMcp.processItem3Caption')} />
-        </List.Item>
-        <List.Item>
-          <strong>{t('code.figmaMcp.processItem4').split(':')[0]}:</strong> {t('code.figmaMcp.processItem4').split(':').slice(1).join(':').trim()}
-        </List.Item>
-        <List.Item>
-          <strong>{t('code.figmaMcp.processItem5').split(':')[0]}:</strong> {t('code.figmaMcp.processItem5').split(':').slice(1).join(':').trim()}
-        </List.Item>
-      </List.Ordered>
+      {/* Part 1: Setup */}
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-2)' }}>{t('code.figmaMcp.part1Title')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
+        {t('code.figmaMcp.part1Intro')}
+      </Paragraph>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('code.figmaMcp.part1Description')}
+      </Paragraph>
 
-      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('code.figmaMcp.benefitsTitle')}</Heading>
+      <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-3)' }}>{t('code.figmaMcp.setupStep1Title')}</Heading>
       <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
-        <List.Item>{t('code.figmaMcp.benefit1')}</List.Item>
-        <List.Item>{t('code.figmaMcp.benefit2')}</List.Item>
-        <List.Item>{t('code.figmaMcp.benefit3')}</List.Item>
+        <List.Item>{t('code.figmaMcp.setupStep1Item1')}</List.Item>
+        <List.Item>{t('code.figmaMcp.setupStep1Item2')}</List.Item>
+        <List.Item>{t('code.figmaMcp.setupStep1Item3')}</List.Item>
+        <List.Item>{t('code.figmaMcp.setupStep1Item4')}</List.Item>
+        <List.Item>{t('code.figmaMcp.setupStep1Item5')}</List.Item>
+      </List.Unordered>
+
+      <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-3)' }}>{t('code.figmaMcp.setupStep2Title')}</Heading>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
+        <List.Item>{t('code.figmaMcp.setupStep2Item1')}</List.Item>
+        <List.Item>{t('code.figmaMcp.setupStep2Item2')}</List.Item>
+        <List.Item>{t('code.figmaMcp.setupStep2Item3')}</List.Item>
+        <List.Item>{t('code.figmaMcp.setupStep2Item4')}</List.Item>
+        <List.Unordered style={{ marginLeft: 'var(--ds-size-6)', marginTop: 'var(--ds-size-2)' }}>
+          <List.Item>{t('code.figmaMcp.setupStep2Item5')}</List.Item>
+          <List.Item>{t('code.figmaMcp.setupStep2Item6')}</List.Item>
+          <List.Item>{t('code.figmaMcp.setupStep2Item7')}</List.Item>
+        </List.Unordered>
+        <List.Item>{t('code.figmaMcp.setupStep2Item8')}</List.Item>
+        <List.Unordered style={{ marginLeft: 'var(--ds-size-6)', marginTop: 'var(--ds-size-2)' }}>
+          <List.Item>{t('code.figmaMcp.setupStep2Item9')}</List.Item>
+          <List.Item>{t('code.figmaMcp.setupStep2Item10')}</List.Item>
+        </List.Unordered>
+        <List.Item>{t('code.figmaMcp.setupStep2Item11')}</List.Item>
+      </List.Unordered>
+
+      {/* Part 2: Daily Workflow */}
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)', marginTop: 'var(--ds-size-10)' }}>{t('code.figmaMcp.part2Title')}</Heading>
+
+      <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>{t('code.figmaMcp.step0Title')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-3)' }}>
+        {t('code.figmaMcp.step0Description')}
+      </Paragraph>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('code.figmaMcp.step0Intro')}
+      </Paragraph>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-4)' }}>
+        <List.Item>{t('code.figmaMcp.step0Item1')}</List.Item>
+        <List.Item>{t('code.figmaMcp.step0Item2')}</List.Item>
+        <List.Item>{t('code.figmaMcp.step0Item3')}</List.Item>
+        <List.Item>{t('code.figmaMcp.step0Item4')}</List.Item>
+        <List.Item>{t('code.figmaMcp.step0Item5')}</List.Item>
+      </List.Unordered>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
+        <strong>{t('code.figmaMcp.step0WhatHappensTitle')}</strong>
+      </Paragraph>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-8)' }}>
+        {t('code.figmaMcp.step0WhatHappensText')}
+      </Paragraph>
+
+      <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)', marginTop: 'var(--ds-size-8)' }}>{t('code.figmaMcp.step1Title')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-3)' }}>
+        {t('code.figmaMcp.step1Description')}
+      </Paragraph>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-4)' }}>
+        <List.Item>{t('code.figmaMcp.step1Item1')}</List.Item>
+        <List.Item>{t('code.figmaMcp.step1Item2')}</List.Item>
+        <List.Item>{t('code.figmaMcp.step1Item3')}</List.Item>
+      </List.Unordered>
+      <ArticleImage src="/screenshot.png" alt={t('code.figmaMcp.step1Title')} caption={t('code.figmaMcp.step1ImageCaption')} />
+
+      <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)', marginTop: 'var(--ds-size-8)' }}>{t('code.figmaMcp.step2Title')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('code.figmaMcp.step2Description')}
+      </Paragraph>
+
+      <Heading level={4} data-size="xs" style={{ marginBottom: 'var(--ds-size-2)' }}>{t('code.figmaMcp.step2AltATitle')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-3)' }}>
+        {t('code.figmaMcp.step2AltADescription')}
+      </Paragraph>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-4)' }}>
+        <List.Item>
+          {t('code.figmaMcp.step2AltAItem1')}
+          <List.Unordered style={{ marginLeft: 'var(--ds-size-6)', marginTop: 'var(--ds-size-2)' }}>
+            <List.Item>{t('code.figmaMcp.step2AltAItem1Sub1')}</List.Item>
+            <List.Item>{t('code.figmaMcp.step2AltAItem1Sub2')}</List.Item>
+          </List.Unordered>
+        </List.Item>
+        <List.Item>{t('code.figmaMcp.step2AltAItem2')}</List.Item>
+      </List.Unordered>
+      <ArticleImage src="/screenshot2.png" alt={t('code.figmaMcp.step2AltATitle')} caption={t('code.figmaMcp.step2AltAImageCaption')} />
+
+      <Heading level={4} data-size="xs" style={{ marginBottom: 'var(--ds-size-2)', marginTop: 'var(--ds-size-8)' }}>{t('code.figmaMcp.step2AltBTitle')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-3)' }}>
+        {t('code.figmaMcp.step2AltBDescription')}
+      </Paragraph>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
+        <strong>{t('code.figmaMcp.step2AltBSetupTitle')}</strong> {t('code.figmaMcp.step2AltBSetupText')}
+      </Paragraph>
+      <CodeBlock>{t('code.figmaMcp.step2AltBCodeBlock')}</CodeBlock>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-6)', marginTop: 'var(--ds-size-4)' }}>
+        <strong>{t('code.figmaMcp.step2AltBUsageTitle')}</strong> {t('code.figmaMcp.step2AltBUsageText')}
+      </Paragraph>
+
+      <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)', marginTop: 'var(--ds-size-8)' }}>{t('code.figmaMcp.step3Title')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-3)' }}>
+        {t('code.figmaMcp.step3Description')}
+      </Paragraph>
+      <CodeBlock>{t('code.figmaMcp.step3Prompt')}</CodeBlock>
+
+      <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)', marginTop: 'var(--ds-size-8)' }}>{t('code.figmaMcp.step4Title')}</Heading>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-4)' }}>
+        <List.Item>{t('code.figmaMcp.step4Item1')}</List.Item>
+      </List.Unordered>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
+        <strong>{t('code.figmaMcp.step4ReviewTitle')}</strong>
+      </Paragraph>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-4)', marginLeft: 'var(--ds-size-6)' }}>
+        <List.Item>{t('code.figmaMcp.step4ReviewItem1')}</List.Item>
+        <List.Item>{t('code.figmaMcp.step4ReviewItem2')}</List.Item>
+        <List.Item>{t('code.figmaMcp.step4ReviewItem3')}</List.Item>
+      </List.Unordered>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
+        {t('code.figmaMcp.step4Apply')}
+      </Paragraph>
+
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)', marginTop: 'var(--ds-size-8)' }}>{t('code.figmaMcp.proTipsTitle')}</Heading>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
+        <List.Item>{t('code.figmaMcp.proTip1')}</List.Item>
+        <List.Item>{t('code.figmaMcp.proTip2')}</List.Item>
       </List.Unordered>
     </ArticleLayout>
   );

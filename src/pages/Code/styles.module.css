@@ -14,6 +14,7 @@
   align-self: start;
   max-height: calc(100vh - var(--ds-size-12));
   overflow-y: auto;
+  overflow-x: hidden;
   padding-right: var(--ds-size-4);
   padding-top: var(--ds-size-10);
 }
@@ -42,13 +43,13 @@
 }
 
 .groupTitle {
-  font-size: var(--ds-font-size-sm);
-  font-weight: var(--ds-font-weight-bold);
-  color: var(--ds-color-neutral-text-subtle);
+  font-size: var(--ds-font-size-sm, 14px);
+  font-weight: var(--ds-font-weight-bold, 700);
+  color: var(--ds-color-neutral-text-subtle, #5d5d5d);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: var(--ds-size-2);
-  padding-left: var(--ds-size-3);
+  margin-bottom: var(--ds-size-2, 8px);
+  padding-left: var(--ds-size-3, 12px);
 }
 
 .list {
@@ -135,7 +136,7 @@
   padding-left: var(--ds-size-10);
   border-left: 1px solid var(--ds-color-neutral-border-subtle);
   min-width: 0;
-  padding-top: var(--ds-size-10);
+  padding-top: var(--ds-size-18);
 }
 
 /* Utility to hide/show content */

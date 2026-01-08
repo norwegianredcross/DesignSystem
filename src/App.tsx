@@ -37,7 +37,8 @@ function App() {
         navItems={[
           { label: t('header.nav.design'), href: "design" },
           { label: t('header.nav.components'), href: "components" },
-          { label: t('header.nav.code'), href: "code" }
+          { label: t('header.nav.code'), href: "code" },
+          { label: t('header.nav.tokens'), href: "tokens" }
         ]}
       />
       

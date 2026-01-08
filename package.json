@@ -44,9 +44,9 @@
     "LICENSE"
   ],
   "peerDependencies": {
-    "@digdir/designsystemet": "^1.0.3",
-    "@digdir/designsystemet-css": "^1.0.3",
-    "@digdir/designsystemet-react": "^1.0.3",
+ "@digdir/designsystemet": "^1.9.0",        
+    "@digdir/designsystemet-css": "^1.9.0",     
+    "@digdir/designsystemet-react": "^1.9.0",
     "@navikt/aksel-icons": "^7.20.0",
     "date-fns": "^4.1.0",
     "react": ">=16.8.0",
