@@ -1,1 +1,0 @@
-import{r as e,j as m}from"./iframe-BbKEOxwE.js";import{S as n}from"./index-CL7yqpEN.js";import{c as f}from"./lite-DaUVFjkg.js";const l=e.forwardRef(function({className:a,asChild:r,variant:t="default",...o},s){const p=r?n:"p";return m.jsx(p,{ref:s,className:f("ds-paragraph",a),"data-variant":t,...o})});export{l as P};
