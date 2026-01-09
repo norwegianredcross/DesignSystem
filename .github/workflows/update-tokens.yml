@@ -59,6 +59,9 @@ jobs:
       - name: Copy Metadata
         run: cp metadata.json storybook-build/metadata.json
 
+      - name: Copy AI Design System Guide
+        run: cp AI_DESIGN_SYSTEM_GUIDE.md storybook-build/AI_DESIGN_SYSTEM_GUIDE.md
+
       - name: Deploy to GitHub Pages
         run: |
           npx gh-pages \
