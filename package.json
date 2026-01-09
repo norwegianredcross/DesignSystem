@@ -66,7 +66,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build --output-dir storybook-build",
     "predeploy:storybook": "npm run build-storybook && npm run copy-metadata",
-    "copy-metadata": "cp metadata.json storybook-build/metadata.json",
+    "copy-metadata": "node -e \"require('fs').copyFileSync('metadata.json', 'storybook-build/metadata.json')\"",
     "deploy:storybook": "gh-pages -d storybook-build -b gh-pages -r https://github.com/norwegianredcross/DesignSystem.git --dest storybook",
     "build:app": "vite build --config vite.app.config.ts",
     "deploy:app": "npm run build:app && gh-pages -d dist-app -b gh-pages -r https://github.com/norwegianredcross/DesignSystem.git --add"

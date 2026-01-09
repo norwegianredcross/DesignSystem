@@ -30,6 +30,7 @@ export default defineConfig({
     rollupOptions: {
       external: [
         'react',
+        'react/jsx-runtime',
         'react-dom',
         '@digdir/designsystemet',
         '@digdir/designsystemet-css',
@@ -40,8 +41,10 @@ export default defineConfig({
       output: {
         globals: {
           react: 'React',
+          'react/jsx-runtime': 'jsxRuntime',
           'react-dom': 'ReactDOM',
           '@digdir/designsystemet-react': 'designsystemetReact',
+          '@navikt/aksel-icons': 'akselIcons',
           'date-fns': 'dateFns',
         },
       },
