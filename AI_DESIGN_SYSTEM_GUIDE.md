@@ -1,14 +1,89 @@
 # AI Guide: Using Røde Kors Design System with Figma MCP
 
 ## Table of Contents
-1. [Overview](#overview)
-2. [Design System Architecture](#design-system-architecture)
-3. [Available Components](#available-components)
-4. [Design Tokens](#design-tokens)
-5. [Figma MCP Integration](#figma-mcp-integration)
-6. [Workflow: Figma to Code](#workflow-figma-to-code)
-7. [Best Practices](#best-practices)
-8. [Component Mapping Guide](#component-mapping-guide)
+1. [For AI Assistants: How to Use This Guide](#for-ai-assistants-how-to-use-this-guide)
+2. [Overview](#overview)
+3. [Design System Architecture](#design-system-architecture)
+4. [Available Components](#available-components)
+5. [Design Tokens](#design-tokens)
+6. [Figma MCP Integration](#figma-mcp-integration)
+7. [Workflow: Figma to Code](#workflow-figma-to-code)
+8. [Best Practices](#best-practices)
+9. [Component Mapping Guide](#component-mapping-guide)
+
+---
+
+## For AI Assistants: How to Use This Guide
+
+This guide is designed to be fetched and used by AI assistants (Claude Code, Cursor, etc.) when working with the Røde Kors Design System and Figma MCP. Here's how to access and use it:
+
+### Fetching the Guide
+
+**Using curl (Claude Code, Cursor, or any terminal):**
+```bash
+curl -o AI_DESIGN_SYSTEM_GUIDE.md https://norwegianredcross.github.io/DesignSystem/storybook/AI_DESIGN_SYSTEM_GUIDE.md
+```
+
+**Direct URL for reference:**
+```
+https://norwegianredcross.github.io/DesignSystem/storybook/AI_DESIGN_SYSTEM_GUIDE.md
+```
+
+### When to Use This Guide
+
+Use this guide when:
+1. **Converting Figma designs to code** - Reference component mappings and design tokens
+2. **Setting up Figma MCP** - Follow the integration steps
+3. **Implementing components** - Check available components and their props
+4. **Using design tokens** - Find the correct CSS custom properties
+5. **Following best practices** - Ensure code quality and accessibility
+
+### Quick Reference Commands
+
+**For Claude Code:**
+```bash
+# Fetch the guide
+curl -o AI_DESIGN_SYSTEM_GUIDE.md https://norwegianredcross.github.io/DesignSystem/storybook/AI_DESIGN_SYSTEM_GUIDE.md
+
+# Then reference it in your prompts:
+# "Using the AI_DESIGN_SYSTEM_GUIDE.md file, implement..."
+```
+
+**For Cursor:**
+```bash
+# Fetch the guide
+curl -o AI_DESIGN_SYSTEM_GUIDE.md https://norwegianredcross.github.io/DesignSystem/storybook/AI_DESIGN_SYSTEM_GUIDE.md
+
+# Or reference directly in chat:
+# "@AI_DESIGN_SYSTEM_GUIDE.md implement a component based on this Figma design..."
+```
+
+**For .cursorrules:**
+Add this to your `.cursorrules` file:
+```
+When working with Figma designs or the Røde Kors Design System:
+1. Fetch the AI guide: curl -o AI_DESIGN_SYSTEM_GUIDE.md https://norwegianredcross.github.io/DesignSystem/storybook/AI_DESIGN_SYSTEM_GUIDE.md
+2. Reference component metadata: https://norwegianredcross.github.io/DesignSystem/storybook/metadata.json
+3. Use design tokens from: https://norwegianredcross.github.io/design-tokens/theme.css
+4. Always use existing components from rk-designsystem when possible
+5. Never use hardcoded values - always use design tokens (var(--ds-*))
+```
+
+### Integration with Figma MCP Workflow
+
+When using Figma MCP with this guide:
+
+1. **Fetch the guide** at the start of your session
+2. **Reference component mappings** when converting Figma elements to React components
+3. **Use design tokens** from the guide instead of hardcoded values
+4. **Follow the workflow** outlined in the "Workflow: Figma to Code" section
+
+### Key Sections for AI Assistants
+
+- **Component Mapping Guide** - Maps Figma elements to React components
+- **Design Tokens** - Complete list of available CSS custom properties
+- **Available Components** - Full API reference with props and examples
+- **Best Practices** - Code quality and accessibility guidelines
 
 ---
 
@@ -1182,5 +1257,7 @@ property: var(--ds-{category}-{group}-{subgroup}-{property});
 
 ---
 
-**Last Updated**: Based on rk-designsystem v1.1.58
+**Last Updated**: Based on rk-designsystem v1.1.59
+
+**Guide URL**: https://norwegianredcross.github.io/DesignSystem/storybook/AI_DESIGN_SYSTEM_GUIDE.md
 
