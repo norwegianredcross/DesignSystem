@@ -1,0 +1,1 @@
+import{r as n,j as m}from"./iframe-iYGyT3PB.js";import{S as i}from"./index-B-JAA5U4.js";import{c}from"./lite-DaUVFjkg.js";const g=n.forwardRef(function({level:o=2,className:r,asChild:s,...t},a){const e=s?i:`h${o}`;return m.jsx(e,{className:c("ds-heading",r),ref:a,...t})});export{g as H};
