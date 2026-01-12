@@ -8,6 +8,8 @@ import {
  * Heading-komponent for overskrifter.
  */
 export interface HeadingProps extends DigDirHeadingProps {
+  /** Required: Semantic heading level (1-6) */
+  level: 1 | 2 | 3 | 4 | 5 | 6;
   children?: ReactNode;
 }
 
