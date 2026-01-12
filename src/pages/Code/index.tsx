@@ -514,17 +514,88 @@ pnpm storybook`}
   );
 };
 
-const FigmaMcpContent = () => {
+const FigmaMcpIntroContent = () => {
   const { t } = useLanguage();
   return (
-    <ArticleLayout title={t('code.figmaMcp.title')} category={t('code.sidebar.workflow')}>
+    <ArticleLayout title={t('code.figmaMcp.introTitle')} category={t('code.sidebar.workflow')}>
       <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
         {t('code.figmaMcp.intro')}
       </Paragraph>
 
-      {/* Cursor Workflow Section */}
-      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-2)', marginTop: 'var(--ds-size-8)' }}>{t('code.figmaMcp.cursorWorkflowTitle')}</Heading>
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)', marginTop: 'var(--ds-size-8)' }}>{t('code.figmaMcp.whatIsMcpTitle')}</Heading>
       <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('code.figmaMcp.whatIsMcpText1')}
+      </Paragraph>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('code.figmaMcp.whatIsMcpText2')}
+      </Paragraph>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
+        <List.Item>{t('code.figmaMcp.whatIsMcpItem1')}</List.Item>
+        <List.Item>{t('code.figmaMcp.whatIsMcpItem2')}</List.Item>
+        <List.Item>{t('code.figmaMcp.whatIsMcpItem3')}</List.Item>
+        <List.Item>{t('code.figmaMcp.whatIsMcpItem4')}</List.Item>
+      </List.Unordered>
+
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)', marginTop: 'var(--ds-size-8)' }}>{t('code.figmaMcp.whyUseMcpTitle')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('code.figmaMcp.whyUseMcpText1')}
+      </Paragraph>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
+        <List.Item><strong>{t('code.figmaMcp.whyUseMcpItem1Title')}</strong> {t('code.figmaMcp.whyUseMcpItem1Text')}</List.Item>
+        <List.Item><strong>{t('code.figmaMcp.whyUseMcpItem2Title')}</strong> {t('code.figmaMcp.whyUseMcpItem2Text')}</List.Item>
+        <List.Item><strong>{t('code.figmaMcp.whyUseMcpItem3Title')}</strong> {t('code.figmaMcp.whyUseMcpItem3Text')}</List.Item>
+        <List.Item><strong>{t('code.figmaMcp.whyUseMcpItem4Title')}</strong> {t('code.figmaMcp.whyUseMcpItem4Text')}</List.Item>
+      </List.Unordered>
+
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)', marginTop: 'var(--ds-size-8)' }}>{t('code.figmaMcp.howItWorksTitle')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('code.figmaMcp.howItWorksIntro')}
+      </Paragraph>
+
+      <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-3)', marginTop: 'var(--ds-size-6)' }}>{t('code.figmaMcp.stepByStepTitle')}</Heading>
+      
+      <Heading level={4} data-size="xs" style={{ marginBottom: 'var(--ds-size-2)', marginTop: 'var(--ds-size-4)' }}>{t('code.figmaMcp.stepByStep1Title')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-3)' }}>
+        {t('code.figmaMcp.stepByStep1Text')}
+      </Paragraph>
+
+      <Heading level={4} data-size="xs" style={{ marginBottom: 'var(--ds-size-2)', marginTop: 'var(--ds-size-4)' }}>{t('code.figmaMcp.stepByStep2Title')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-3)' }}>
+        {t('code.figmaMcp.stepByStep2Text')}
+      </Paragraph>
+
+      <Heading level={4} data-size="xs" style={{ marginBottom: 'var(--ds-size-2)', marginTop: 'var(--ds-size-4)' }}>{t('code.figmaMcp.stepByStep3Title')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-3)' }}>
+        {t('code.figmaMcp.stepByStep3Text')}
+      </Paragraph>
+
+      <Heading level={4} data-size="xs" style={{ marginBottom: 'var(--ds-size-2)', marginTop: 'var(--ds-size-4)' }}>{t('code.figmaMcp.stepByStep4Title')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-3)' }}>
+        {t('code.figmaMcp.stepByStep4Text')}
+      </Paragraph>
+
+      <Heading level={4} data-size="xs" style={{ marginBottom: 'var(--ds-size-2)', marginTop: 'var(--ds-size-4)' }}>{t('code.figmaMcp.stepByStep5Title')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
+        {t('code.figmaMcp.stepByStep5Text')}
+      </Paragraph>
+
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)', marginTop: 'var(--ds-size-8)' }}>{t('code.figmaMcp.nextStepsTitle')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('code.figmaMcp.nextStepsText')}
+      </Paragraph>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-6)' }}>
+        <List.Item>{t('code.figmaMcp.nextStepsItem1')}</List.Item>
+        <List.Item>{t('code.figmaMcp.nextStepsItem2')}</List.Item>
+      </List.Unordered>
+    </ArticleLayout>
+  );
+};
+
+const FigmaMcpCursorContent = () => {
+  const { t } = useLanguage();
+  return (
+    <ArticleLayout title={t('code.figmaMcp.cursorWorkflowTitle')} category={t('code.sidebar.workflow')}>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
         {t('code.figmaMcp.cursorWorkflowIntro')}
       </Paragraph>
 
@@ -567,28 +638,6 @@ const FigmaMcpContent = () => {
 
       {/* Cursor: Part 2: Daily Workflow */}
       <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)', marginTop: 'var(--ds-size-8)' }}>{t('code.figmaMcp.part2Title')} (Cursor)</Heading>
-
-      {/* Cursor: Step 0: Indexing Documentation */}
-      <Heading level={4} data-size="xs" style={{ marginBottom: 'var(--ds-size-2)', marginTop: 'var(--ds-size-6)' }}>{t('code.figmaMcp.step0Title')}</Heading>
-      <Paragraph style={{ marginBottom: 'var(--ds-size-3)' }}>
-        {t('code.figmaMcp.step0Description')}
-      </Paragraph>
-      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-        {t('code.figmaMcp.step0Intro')}
-      </Paragraph>
-      <List.Unordered style={{ marginBottom: 'var(--ds-size-4)' }}>
-        <List.Item>{t('code.figmaMcp.step0Item1')}</List.Item>
-        <List.Item>{t('code.figmaMcp.step0Item2')}</List.Item>
-        <List.Item>{t('code.figmaMcp.step0Item3')}</List.Item>
-        <List.Item>{t('code.figmaMcp.step0Item4')}</List.Item>
-        <List.Item>{t('code.figmaMcp.step0Item5')}</List.Item>
-      </List.Unordered>
-      <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
-        <strong>{t('code.figmaMcp.step0WhatHappensTitle')}</strong>
-      </Paragraph>
-      <Paragraph style={{ marginBottom: 'var(--ds-size-8)' }}>
-        {t('code.figmaMcp.step0WhatHappensText')}
-      </Paragraph>
 
       {/* Cursor: Step 0.5: Fetch AI Guide */}
       <Heading level={4} data-size="xs" style={{ marginBottom: 'var(--ds-size-2)', marginTop: 'var(--ds-size-6)' }}>{t('code.figmaMcp.step0_5Title')}</Heading>
@@ -751,10 +800,15 @@ const FigmaMcpContent = () => {
         <List.Item>{t('code.figmaMcp.proTip1')}</List.Item>
         <List.Item>{t('code.figmaMcp.proTip2')}</List.Item>
       </List.Unordered>
+    </ArticleLayout>
+  );
+};
 
-      {/* Claude Code Workflow Section */}
-      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-2)', marginTop: 'var(--ds-size-10)' }}>{t('code.figmaMcp.claudeWorkflowTitle')}</Heading>
-      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+const FigmaMcpClaudeContent = () => {
+  const { t } = useLanguage();
+  return (
+    <ArticleLayout title={t('code.figmaMcp.claudeWorkflowTitle')} category={t('code.sidebar.workflow')}>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
         {t('code.figmaMcp.claudeWorkflowIntro')}
       </Paragraph>
 
@@ -834,6 +888,27 @@ const FigmaMcpContent = () => {
       </Paragraph>
       <Paragraph data-size="sm" style={{ marginBottom: 'var(--ds-size-4)', fontStyle: 'italic' }}>
         {t('code.figmaMcp.step0_5ClaudeMethod2Note')}
+      </Paragraph>
+
+      <Heading level={5} data-size="xs" style={{ marginBottom: 'var(--ds-size-2)', marginTop: 'var(--ds-size-6)' }}>{t('code.figmaMcp.step0_5ClaudeSetupTitle')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+        {t('code.figmaMcp.step0_5ClaudeSetupIntro')}
+      </Paragraph>
+      <List.Unordered style={{ marginBottom: 'var(--ds-size-4)' }}>
+        <List.Item>{t('code.figmaMcp.step0_5ClaudeSetupStep1')}</List.Item>
+        <List.Item>{t('code.figmaMcp.step0_5ClaudeSetupStep2')}</List.Item>
+        <List.Item>{t('code.figmaMcp.step0_5ClaudeSetupStep3')}</List.Item>
+        <List.Item>{t('code.figmaMcp.step0_5ClaudeSetupStep4')}</List.Item>
+        <List.Item>{t('code.figmaMcp.step0_5ClaudeSetupStep5')}</List.Item>
+      </List.Unordered>
+      
+      <Heading level={6} data-size="xs" style={{ marginBottom: 'var(--ds-size-2)', marginTop: 'var(--ds-size-4)' }}>{t('code.figmaMcp.step0_5ClaudeSetupPromptTitle')}</Heading>
+      <CodeBlock style={{ marginBottom: 'var(--ds-size-4)', whiteSpace: 'pre-wrap' }}>
+        {t('code.figmaMcp.step0_5ClaudeSetupPrompt')}
+      </CodeBlock>
+      
+      <Paragraph data-size="sm" style={{ marginBottom: 'var(--ds-size-6)', fontStyle: 'italic' }}>
+        {t('code.figmaMcp.step0_5ClaudeSetupNote')}
       </Paragraph>
 
       <Heading level={5} data-size="xs" style={{ marginBottom: 'var(--ds-size-2)', marginTop: 'var(--ds-size-4)' }}>{t('code.figmaMcp.step0_5ClaudeUsageTitle')}</Heading>
@@ -1045,15 +1120,27 @@ export const CodePage = ({ setPage, section }: CodePageProps) => {
       items: [
         { label: t('code.sidebar.home'), id: 'intro' },
         { label: t('code.sidebar.getStarted'), id: 'kom-i-gang' },
-        { label: t('code.sidebar.designTokens'), id: 'design-tokens' },
-        { label: t('code.sidebar.fonts'), id: 'fonts' },
-        { label: t('code.sidebar.icons'), id: 'icons' },
+        {
+          label: t('code.sidebar.styling'),
+          children: [
+            { label: t('code.sidebar.designTokens'), id: 'design-tokens' },
+            { label: t('code.sidebar.fonts'), id: 'fonts' },
+            { label: t('code.sidebar.icons'), id: 'icons' },
+          ]
+        },
       ]
     },
     {
       title: t('code.sidebar.workflow'),
       items: [
-        { label: t('code.sidebar.figmaMcp'), id: 'figma-mcp' },
+        {
+          label: t('code.sidebar.figmaMcp'),
+          children: [
+            { label: t('code.sidebar.introduction'), id: 'figma-mcp-intro' },
+            { label: t('code.sidebar.cursor'), id: 'figma-mcp-cursor' },
+            { label: t('code.sidebar.claudeCode'), id: 'figma-mcp-claude' },
+          ]
+        },
         { label: t('code.sidebar.componentCreation'), id: 'komponent-kreasjon' },
       ]
     },
@@ -1131,7 +1218,9 @@ export const CodePage = ({ setPage, section }: CodePageProps) => {
          activeCodePage === 'fonts' ? <FontsContent /> :
          activeCodePage === 'icons' ? <IconsContent /> :
          activeCodePage === 'contributing' ? <ContributingContent /> :
-         activeCodePage === 'figma-mcp' ? <FigmaMcpContent /> :
+         activeCodePage === 'figma-mcp-intro' ? <FigmaMcpIntroContent /> :
+         activeCodePage === 'figma-mcp-cursor' ? <FigmaMcpCursorContent /> :
+         activeCodePage === 'figma-mcp-claude' ? <FigmaMcpClaudeContent /> :
          activeCodePage === 'komponent-kreasjon' ? <KomponentKreasjonContent /> :
          activeCodePage === 'metadata-files' ? <MetadataFilesContent /> :
          <OverviewContent setActivePage={setActiveCodePage} />
