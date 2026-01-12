@@ -111,6 +111,100 @@ import '@digdir/designsystemet-css/index.css';         // 1. Base styles
 import 'rk-design-tokens/design-tokens-build/theme.css'; // 2. Røde Kors theme
 ```
 
+### Font Setup (Next.js App Router)
+
+The design system uses **Source Sans 3** as the primary font family. For Next.js projects, use Next.js's built-in font optimization:
+
+**1. Install and configure the font in `app/layout.tsx`:**
+
+```tsx
+import type { Metadata } from "next";
+import { Source_Sans_3 } from "next/font/google";
+import "./globals.css";
+import "rk-design-tokens/design-tokens-build/theme.css";
+import "@digdir/designsystemet-css/index.css";
+
+const sourceSans3 = Source_Sans_3({
+  subsets: ["latin"],
+  weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
+  style: ["normal", "italic"],
+  variable: "--font-source-sans-3",
+  display: "swap",
+});
+
+export const metadata: Metadata = {
+  title: "Your App Title",
+  description: "Your app description",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="no" className={sourceSans3.variable} data-color-scheme="light">
+      <body data-color-scheme="light">
+        {children}
+      </body>
+    </html>
+  );
+}
+```
+
+**2. Configure the CSS variable in `globals.css`:**
+
+```css
+:root {
+  --ds-font-family: 'Source Sans 3', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: var(--ds-font-family);
+}
+```
+
+**Key Points:**
+- The `variable` prop creates a CSS variable (`--font-source-sans-3`) that Next.js injects
+- Apply the variable to the `<html>` element via `className={sourceSans3.variable}`
+- Set `--ds-font-family` in your CSS to use the font throughout the design system
+- The `display: "swap"` ensures text remains visible during font load
+- Include all weights and styles (normal, italic) for full design system support
+
+**For Next.js Pages Router:**
+
+If using the Pages Router, configure fonts in `pages/_app.tsx` or `pages/_document.tsx`:
+
+```tsx
+// pages/_app.tsx
+import { Source_Sans_3 } from "next/font/google";
+import "../styles/globals.css";
+import "@digdir/designsystemet-css/index.css";
+import "rk-design-tokens/design-tokens-build/theme.css";
+
+const sourceSans3 = Source_Sans_3({
+  subsets: ["latin"],
+  weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
+  style: ["normal", "italic"],
+  variable: "--font-source-sans-3",
+  display: "swap",
+});
+
+export default function App({ Component, pageProps }) {
+  return (
+    <div className={sourceSans3.variable}>
+      <Component {...pageProps} />
+    </div>
+  );
+}
+```
+
 ---
 
 ## Design System Architecture
@@ -602,12 +696,23 @@ import { Link } from 'rk-designsystem';
 import { Heading } from 'rk-designsystem';
 
 <Heading 
-  level={1 | 2 | 3 | 4 | 5 | 6}
-  data-size="xs" | "sm" | "md" | "lg" | "xl"
+  level={1 | 2 | 3 | 4 | 5 | 6}  // Required: Semantic heading level (1-6)
+  data-size="xs" | "sm" | "md" | "lg" | "xl"  // Optional: Visual size
 >
   Heading text
 </Heading>
 ```
+
+**Examples:**
+```tsx
+<Heading level={1} data-size="xl">Main Page Title</Heading>
+<Heading level={2} data-size="md">Section Heading</Heading>
+<Heading level={3} data-size="sm">Subsection Heading</Heading>
+```
+
+**Important:** The `level` prop is **required** and determines the semantic HTML heading level (`<h1>` through `<h6>`). Use `data-size` to control visual appearance independently of semantic level.
+
+**TypeScript Note:** If you encounter TypeScript errors about the `level` prop not existing, this is a known type definition issue. The component works correctly at runtime. You can use type assertion if needed: `<Heading {...({ level: 2 } as any)} data-size="md">` or ensure you're using the latest version of `rk-designsystem`.
 
 #### Paragraph
 ```tsx
@@ -814,6 +919,8 @@ Design tokens are CSS custom properties prefixed with `--ds-`. They follow this 
 - `--ds-font-family-base`
 - `--ds-font-family-heading`
 
+> **Note:** Before using font tokens, you must set up the Source Sans 3 font. See the [Font Setup](#font-setup-nextjs-app-router) section in the Installation guide for Next.js configuration.
+
 **Font Sizes:**
 - `--ds-body-font-size-*`
 - `--ds-heading-font-size-*`
@@ -897,6 +1004,8 @@ Design tokens are CSS custom properties prefixed with `--ds-`. They follow this 
    - Copy the token (you won't see it again)
 
 2. **MCP Server Setup** (One-time setup)
+
+   **For Cursor/Windsurf:**
    - In Cursor/Windsurf: Settings → Features → MCP
    - Add New MCP Server:
      - Type: `command`
@@ -905,6 +1014,34 @@ Design tokens are CSS custom properties prefixed with `--ds-`. They follow this 
      - Environment Variable:
        - Key: `FIGMA_ACCESS_TOKEN`
        - Value: `[your-token]`
+
+   **For Claude Code (Crucial Step!):**
+   
+   To enable Claude Code to read Figma designs directly, you must add the Figma MCP server using the command line:
+   
+   1. **Start the Figma MCP server locally:**
+      ```bash
+      # Set your Figma access token
+      export FIGMA_ACCESS_TOKEN=your_token_here
+      
+      # Start the MCP server
+      npx -y @modelcontextprotocol/server-figma
+      ```
+      The server will run on `http://127.0.0.1:3845/sse` by default.
+   
+   2. **Add the MCP server to Claude Code:**
+      ```bash
+      claude mcp add figma --transport sse --url http://127.0.0.1:3845/sse
+      ```
+   
+   3. **Using Figma MCP in Claude:**
+      Once configured, you can use Figma links directly in your prompts:
+      ```
+      "Using this Figma design [paste Figma link], create a React component 
+      following the design system guidelines from AI_DESIGN_SYSTEM_GUIDE.md"
+      ```
+   
+   **Important:** The MCP server must be running locally before Claude Code can access Figma designs. The MCP server allows Claude to automatically read Figma node properties, dimensions, and design tokens, making the conversion from design to code much more accurate.
 
 ### Documentation Indexing (One-time per project)
 
@@ -1138,7 +1275,7 @@ When converting Figma designs, map elements to components:
 | Badge | `<Badge>` | Use BadgePosition for overlays |
 | Tooltip | `<Tooltip>` | Wrap trigger element |
 | Link | `<Link>` | Use for navigation |
-| Heading | `<Heading>` | Set level (1-6) and data-size |
+| Heading | `<Heading>` | **Required:** Set level (1-6) for semantic HTML. Optional: data-size for visual appearance |
 | Paragraph | `<Paragraph>` | For body text |
 | List | `<List.Unordered>` or `<List.Ordered>` | Use List.Item for items |
 | Table | `<Table>` | Set zebra, border, hover props |
