@@ -898,72 +898,121 @@
   }
   ```
 
-  #### 2. Sizes & Spacing (`--ds-size-*`, `--ds-spacing-*`)
+  #### 2. Sizes & Spacing (`--ds-size-*`)
 
-  **Spacing Tokens:**
-  - `--ds-spacing-1` through `--ds-spacing-12`
-  - `--ds-size-1` through `--ds-size-12`
+  **Important:** The design system uses `--ds-size-*` tokens, NOT `--ds-spacing-*`. There are no `--ds-spacing-*` tokens available.
+
+  **Available Size Tokens:**
+  - `--ds-size-0` through `--ds-size-15`
+  - `--ds-size-18`, `--ds-size-22`, `--ds-size-26`, `--ds-size-30`
+  - These tokens are calculated based on `--ds-size-unit` which scales with the size mode (`sm`, `md`, `lg`)
+
+  **Size Mode Tokens:**
+  - `--ds-size-mode-font-size--sm`: 1
+  - `--ds-size-mode-font-size--md`: 1.125
+  - `--ds-size-mode-font-size--lg`: 1.3125
+  - Set size mode using `data-size="sm"`, `data-size="md"`, or `data-size="lg"` on elements
 
   **Usage:**
   ```css
   .my-component {
-    padding: var(--ds-spacing-4);
-    margin-bottom: var(--ds-spacing-6);
-    gap: var(--ds-spacing-2);
+    padding: var(--ds-size-4);
+    margin-bottom: var(--ds-size-6);
+    gap: var(--ds-size-2);
   }
   ```
+
+  **Note:** Size tokens scale automatically based on the `data-size` attribute. For example, `--ds-size-4` will be larger when `data-size="lg"` is set on a parent element.
 
   #### 3. Typography (`--ds-font-*`, `--ds-body-*`, `--ds-heading-*`)
 
   **Font Family:**
-  - `--ds-font-family-base`
-  - `--ds-font-family-heading`
+  - `--ds-font-family`: "Source Sans Pro" (or "Source Sans 3" when configured)
 
   > **Note:** Before using font tokens, you must set up the Source Sans 3 font. See the [Font Setup](#font-setup-nextjs-app-router) section in the Installation guide for Next.js configuration.
 
-  **Font Sizes:**
-  - `--ds-body-font-size-*`
-  - `--ds-heading-font-size-*`
+  **Base Font Sizes (Scale 1-10):**
+  - `--ds-font-size-1` through `--ds-font-size-10`
+  - These scale automatically based on size mode (`data-size` attribute)
+
+  **Heading Font Sizes:**
+  - `--ds-heading-2xl-font-size` (uses `--ds-font-size-10`)
+  - `--ds-heading-xl-font-size` (uses `--ds-font-size-9`)
+  - `--ds-heading-lg-font-size` (uses `--ds-font-size-8`)
+  - `--ds-heading-md-font-size` (uses `--ds-font-size-7`)
+  - `--ds-heading-sm-font-size` (uses `--ds-font-size-6`)
+  - `--ds-heading-xs-font-size` (uses `--ds-font-size-5`)
+  - `--ds-heading-2xs-font-size` (uses `--ds-font-size-4`)
+
+  **Body Font Sizes:**
+  - `--ds-body-xl-font-size` (uses `--ds-font-size-6`)
+  - `--ds-body-lg-font-size` (uses `--ds-font-size-5`)
+  - `--ds-body-md-font-size` (uses `--ds-font-size-4`)
+  - `--ds-body-sm-font-size` (uses `--ds-font-size-3`)
+  - `--ds-body-xs-font-size` (uses `--ds-font-size-2`)
+
+  **Body Short Font Sizes** (line-height: 1.3):
+  - `--ds-body-short-xl-font-size` through `--ds-body-short-xs-font-size`
+
+  **Body Long Font Sizes** (line-height: 1.7):
+  - `--ds-body-long-xl-font-size` through `--ds-body-long-xs-font-size`
 
   **Font Weights:**
-  - `--ds-body-font-weight-*`
-  - `--ds-heading-font-weight-*`
+  - `--ds-font-weight-regular`: 400
+  - `--ds-font-weight-medium`: 500
+  - `--ds-font-weight-semibold`: 700
+
+  **Line Heights:**
+  - `--ds-line-height-sm`: 1.3
+  - `--ds-line-height-md`: 1.5
+  - `--ds-line-height-lg`: 1.7
+
+  **Letter Spacing:**
+  - `--ds-letter-spacing-1` through `--ds-letter-spacing-9` (ranging from -0.01em to 0.015em)
+
+  **Typography Variants:**
+  - Use `data-typography="primary"` (default) or `data-typography="secondary"` to switch typography scales
 
   **Usage:**
   ```css
   .my-text {
-    font-family: var(--ds-font-family-base);
-    font-size: var(--ds-body-font-size-md);
-    font-weight: var(--ds-body-font-weight-regular);
+    font-family: var(--ds-font-family);
+    font-size: var(--ds-body-md-font-size);
+    font-weight: var(--ds-font-weight-regular);
+    line-height: var(--ds-line-height-md);
   }
   ```
 
   #### 4. Borders (`--ds-border-*`)
 
   **Border Radius:**
-  - `--ds-border-radius-sm`
-  - `--ds-border-radius-md`
-  - `--ds-border-radius-lg`
+  - `--ds-border-radius-sm`: min(0.125rem, 0.25rem)
+  - `--ds-border-radius-md`: min(0.25rem, 0.5rem)
+  - `--ds-border-radius-lg`: min(0.5rem, 1.25rem)
+  - `--ds-border-radius-xl`: min(0.75rem, 1.75rem)
+  - `--ds-border-radius-default`: 0.25rem
+  - `--ds-border-radius-full`: 624.9375rem
 
   **Border Width:**
-  - `--ds-border-width-sm`
-  - `--ds-border-width-md`
+  - `--ds-border-width-default`: 1px
+  - `--ds-border-width-focus`: 3px
 
   **Usage:**
   ```css
   .my-component {
     border-radius: var(--ds-border-radius-md);
-    border-width: var(--ds-border-width-sm);
+    border-width: var(--ds-border-width-default);
   }
   ```
 
   #### 5. Shadows (`--ds-shadow-*`)
 
   **Shadow Tokens:**
-  - `--ds-shadow-sm`
-  - `--ds-shadow-md`
-  - `--ds-shadow-lg`
-  - `--ds-shadow-xl`
+  - `--ds-shadow-xs`: 0 0 1px 0 rgba(0,0,0,0.16), 0 1px 2px 0 rgba(0,0,0,0.12)
+  - `--ds-shadow-sm`: 0 0 1px 0 rgba(0,0,0,0.15), 0 1px 2px 0 rgba(0,0,0,0.12), 0 2px 4px 0 rgba(0,0,0,0.1)
+  - `--ds-shadow-md`: 0 0 1px 0 rgba(0,0,0,0.14), 0 2px 4px 0 rgba(0,0,0,0.12), 0 4px 8px 0 rgba(0,0,0,0.12)
+  - `--ds-shadow-lg`: 0 0 1px 0 rgba(0,0,0,0.13), 0 3px 5px 0 rgba(0,0,0,0.13), 0 6px 12px 0 rgba(0,0,0,0.14)
+  - `--ds-shadow-xl`: 0 0 1px 0 rgba(0,0,0,0.12), 0 4px 8px 0 rgba(0,0,0,0.16), 0 12px 24px 0 rgba(0,0,0,0.16)
 
   **Usage:**
   ```css
@@ -975,8 +1024,7 @@
   #### 6. Effects (`--ds-opacity-*`)
 
   **Opacity Tokens:**
-  - `--ds-opacity-disabled`
-  - `--ds-opacity-hover`
+  - `--ds-opacity-disabled`: 30%
 
   **Usage:**
   ```css
@@ -985,12 +1033,215 @@
   }
   ```
 
+  ### Complete Token Reference
+
+  For a complete list of all available design tokens, refer to the theme CSS file:
+  - **URL**: https://norwegianredcross.github.io/design-tokens/theme.css
+  - **Local**: Import from `rk-design-tokens/design-tokens-build/theme.css`
+
+  **Key Token Categories Available:**
+
+  #### Color Tokens (Complete List)
+
+  All color tokens follow the pattern: `--ds-color-{color-name}-{variant}-{state}`
+
+  **Primary Colors (Red):**
+  - `--ds-color-primary-color-red-base-default`, `-hover`, `-active`
+  - `--ds-color-primary-color-red-background-default`, `-tinted`
+  - `--ds-color-primary-color-red-surface-default`, `-tinted`, `-hover`, `-active`
+  - `--ds-color-primary-color-red-border-subtle`, `-default`, `-strong`
+  - `--ds-color-primary-color-red-text-subtle`, `-default`
+  - `--ds-color-primary-color-red-base-contrast-subtle`, `-default`
+
+  **Secondary Colors:**
+  - Orange: `--ds-color-secondary-color-orange-*` (same variants as red)
+  - Rust: `--ds-color-secondary-color-rust-*` (same variants as red)
+  - Pink: `--ds-color-secondary-color-pink-*` (same variants as red)
+
+  **Additional Colors:**
+  - Ocean: `--ds-color-additional-color-ocean-*` (same variants as red)
+  - Jungle: `--ds-color-additional-color-jungle-*` (same variants as red)
+
+  **Semantic Colors:**
+  - Neutral: `--ds-color-neutral-*` (same variants as red)
+  - Info: `--ds-color-info-*` (same variants as red)
+  - Success: `--ds-color-success-*` (same variants as red)
+  - Warning: `--ds-color-warning-*` (same variants as red)
+  - Danger: `--ds-color-danger-*` (same variants as red)
+
+  **Special Colors:**
+  - `--ds-color-focus-inner`: Focus ring inner color
+  - `--ds-color-focus-outer`: Focus ring outer color
+  - `--ds-link-color-visited`: Visited link color
+
+  **Color Scheme:**
+  - Use `data-color-scheme="light"` (default), `"dark"`, or `"auto"` on root element
+  - All color tokens automatically adapt to the color scheme
+
+  **Color Variants:**
+  - Use `data-color="neutral"`, `"info"`, `"success"`, `"warning"`, `"danger"`, etc. on components
+  - This sets semantic color aliases: `--ds-color-background-default`, `--ds-color-text-default`, etc.
+
+  #### Size Tokens (Complete List)
+
+  **Base Size Tokens:**
+  - `--ds-size-0`, `--ds-size-1`, `--ds-size-2`, `--ds-size-3`, `--ds-size-4`, `--ds-size-5`
+  - `--ds-size-6`, `--ds-size-7`, `--ds-size-8`, `--ds-size-9`, `--ds-size-10`
+  - `--ds-size-11`, `--ds-size-12`, `--ds-size-13`, `--ds-size-14`, `--ds-size-15`
+  - `--ds-size-18`, `--ds-size-22`, `--ds-size-26`, `--ds-size-30`
+
+  **Size Configuration:**
+  - `--ds-size-base`: 18
+  - `--ds-size-step`: 4
+  - `--ds-size-unit`: Calculated unit based on size mode
+  - `--ds-size`: Current size mode value (set via `data-size` attribute)
+
+  **Size Mode:**
+  - `--ds-size-mode-font-size--sm`: 1
+  - `--ds-size-mode-font-size--md`: 1.125
+  - `--ds-size-mode-font-size--lg`: 1.3125
+  - Set via `data-size="sm"`, `data-size="md"`, or `data-size="lg"`
+
   ### Token Naming Conventions
 
   1. **Always use tokens** - Never hardcode values
   2. **Follow the structure** - `--ds-{category}-{group}-{subgroup}-{property}`
   3. **Use semantic names** - Prefer `--ds-color-neutral-text-default` over `--ds-color-gray-900`
-  4. **Check available tokens** - Visit the tokens page in Storybook or inspect `theme.css`
+  4. **Use `--ds-size-*` NOT `--ds-spacing-*`** - There are no spacing tokens, only size tokens
+  5. **Check available tokens** - Visit the tokens page in Storybook or inspect `theme.css`
+
+  ### Full CSS Reference
+
+  The complete design tokens CSS file is available at:
+  ```
+  https://norwegianredcross.github.io/design-tokens/theme.css
+  ```
+
+  You can view the full file to see all available tokens, including:
+  - Complete color palette for light and dark modes
+  - All size tokens (`--ds-size-*`, NOT `--ds-spacing-*`)
+  - Typography scale tokens
+  - Border radius and width tokens
+  - Shadow definitions
+  - Opacity values
+
+  **To include in your project:**
+  ```tsx
+  import "rk-design-tokens/design-tokens-build/theme.css";
+  ```
+
+  **Complete Theme CSS File:**
+
+  The full theme.css file contains all design tokens. The complete file is provided below for reference. Note: This is a large file - you can also view it online at the URL above.
+
+  <details>
+  <summary>Click to expand complete theme.css file</summary>
+
+  ```css
+  @charset "UTF-8";
+  /*
+  build: v1.9.0
+  design-tokens: v1.7.1
+  */
+
+  @layer ds.theme.size-mode {
+  :root /* small */ {
+    --ds-size-mode-font-size--sm: 1;
+  }
+  }
+
+  @layer ds.theme.size-mode {
+  :root /* medium */ {
+    --ds-size-mode-font-size--md: 1.125;
+  }
+  }
+
+  @layer ds.theme.size-mode {
+  :root /* large */ {
+    --ds-size-mode-font-size--lg: 1.3125;
+  }
+  }
+
+  @layer ds.theme.size-mode {
+  :root, [data-size] {
+    --ds-size: var(--ds-size--md);
+    --ds-size--sm: var(--ds-size,);
+    --ds-size--md: var(--ds-size,);
+    --ds-size--lg: var(--ds-size,);
+    --ds-size-mode-font-size:
+      var(--ds-size--sm, var(--ds-size-mode-font-size--sm))
+      var(--ds-size--md, var(--ds-size-mode-font-size--md))
+      var(--ds-size--lg, var(--ds-size-mode-font-size--lg));
+  }
+
+  [data-size='sm'] { --ds-size: var(--ds-size--sm); }
+  [data-size='md'] { --ds-size: var(--ds-size--md); }
+  [data-size='lg'] { --ds-size: var(--ds-size--lg); }
+  }
+
+  @layer ds.theme.type-scale {
+  :root, [data-size] {
+    --_ds-font-size-factor: calc(var(--ds-size-mode-font-size) / (var(--ds-size-base) / 16));
+    --ds-font-size-1: calc(0.75rem * var(--_ds-font-size-factor));
+    --ds-font-size-2: calc(0.875rem * var(--_ds-font-size-factor));
+    --ds-font-size-3: calc(1rem * var(--_ds-font-size-factor));
+    --ds-font-size-4: calc(1.125rem * var(--_ds-font-size-factor));
+    --ds-font-size-5: calc(1.3125rem * var(--_ds-font-size-factor));
+    --ds-font-size-6: calc(1.5rem * var(--_ds-font-size-factor));
+    --ds-font-size-7: calc(1.875rem * var(--_ds-font-size-factor));
+    --ds-font-size-8: calc(2.25rem * var(--_ds-font-size-factor));
+    --ds-font-size-9: calc(3rem * var(--_ds-font-size-factor));
+    --ds-font-size-10: calc(3.75rem * var(--_ds-font-size-factor));
+    --ds-heading-2xl-font-size: var(--ds-font-size-10);
+    --ds-heading-xl-font-size: var(--ds-font-size-9);
+    --ds-heading-lg-font-size: var(--ds-font-size-8);
+    --ds-heading-md-font-size: var(--ds-font-size-7);
+    --ds-heading-sm-font-size: var(--ds-font-size-6);
+    --ds-heading-xs-font-size: var(--ds-font-size-5);
+    --ds-heading-2xs-font-size: var(--ds-font-size-4);
+    --ds-body-xl-font-size: var(--ds-font-size-6);
+    --ds-body-lg-font-size: var(--ds-font-size-5);
+    --ds-body-md-font-size: var(--ds-font-size-4);
+    --ds-body-sm-font-size: var(--ds-font-size-3);
+    --ds-body-xs-font-size: var(--ds-font-size-2);
+    --ds-body-short-xl-font-size: var(--ds-font-size-6);
+    --ds-body-short-lg-font-size: var(--ds-font-size-5);
+    --ds-body-short-md-font-size: var(--ds-font-size-4);
+    --ds-body-short-sm-font-size: var(--ds-font-size-3);
+    --ds-body-short-xs-font-size: var(--ds-font-size-2);
+    --ds-body-long-xl-font-size: var(--ds-font-size-6);
+    --ds-body-long-lg-font-size: var(--ds-font-size-5);
+    --ds-body-long-md-font-size: var(--ds-font-size-4);
+    --ds-body-long-sm-font-size: var(--ds-font-size-3);
+    --ds-body-long-xs-font-size: var(--ds-font-size-2);
+
+    @supports (width: round(down, .1em, 1px)) {
+      --ds-font-size-1: round(calc(0.75rem * var(--_ds-font-size-factor)), 1px);
+      --ds-font-size-2: round(calc(0.875rem * var(--_ds-font-size-factor)), 1px);
+      --ds-font-size-3: round(calc(1rem * var(--_ds-font-size-factor)), 1px);
+      --ds-font-size-4: round(calc(1.125rem * var(--_ds-font-size-factor)), 1px);
+      --ds-font-size-5: round(calc(1.3125rem * var(--_ds-font-size-factor)), 1px);
+      --ds-font-size-6: round(calc(1.5rem * var(--_ds-font-size-factor)), 1px);
+      --ds-font-size-7: round(calc(1.875rem * var(--_ds-font-size-factor)), 1px);
+      --ds-font-size-8: round(calc(2.25rem * var(--_ds-font-size-factor)), 1px);
+      --ds-font-size-9: round(calc(3rem * var(--_ds-font-size-factor)), 1px);
+      --ds-font-size-10: round(calc(3.75rem * var(--_ds-font-size-factor)), 1px);
+    }
+  }
+  }
+  ```
+
+  > **Note:** The complete CSS file includes extensive color definitions for light and dark modes (hundreds of color tokens). The full file with all color definitions is available at: https://norwegianredcross.github.io/design-tokens/theme.css. The sections shown above demonstrate the size-mode and type-scale structure. All color tokens follow the patterns documented in the "Color Tokens" section above.
+
+  </details>
+
+  **Key Points:**
+  - All tokens are prefixed with `--ds-`
+  - Size tokens use `--ds-size-*` (NOT `--ds-spacing-*`)
+  - Color tokens adapt to `data-color-scheme` attribute (light/dark/auto)
+  - Size tokens scale with `data-size` attribute (sm/md/lg)
+  - Typography tokens scale with size mode
+  - Font sizes use calculated factors based on size mode
 
   ---
 
@@ -1065,7 +1316,7 @@
   ALWAYS follow these rules:
   1. **Documentation:** Refer to the indexed design system documentation (@RødeKors) for component usage, patterns, and guidelines.
   2. **Metadata:** Use component metadata from: https://norwegianredcross.github.io/DesignSystem/storybook/metadata.json
-  3. **Tokens:** Always use CSS variables/tokens defined in: https://norwegianredcross.github.io/design-tokens/theme.css (e.g., var(--ds-spacing-md)).
+  3. **Tokens:** Always use CSS variables/tokens defined in: https://norwegianredcross.github.io/design-tokens/theme.css (e.g., var(--ds-size-4)). Note: Use `--ds-size-*` tokens, NOT `--ds-spacing-*`.
   4. **Figma MCP:** When a Figma link is provided, use the `figma` tool to inspect node properties.
 
   Note: Make sure you have indexed the documentation (Step 0) before using these rules. Reference @RødeKors in chat when you need design system context.
@@ -1185,7 +1436,7 @@
   **✅ DO:**
   ```tsx
   <div style={{ 
-    padding: 'var(--ds-spacing-4)',
+    padding: 'var(--ds-size-4)',
     backgroundColor: 'var(--ds-color-neutral-background-default)',
     borderRadius: 'var(--ds-border-radius-md)'
   }}>
@@ -1240,7 +1491,7 @@
   import { AirplaneIcon } from '@navikt/aksel-icons';
 
   <Button>
-    <AirplaneIcon aria-hidden style={{ marginRight: 'var(--ds-spacing-1)' }} />
+    <AirplaneIcon aria-hidden style={{ marginRight: 'var(--ds-size-1)' }} />
     Fly
   </Button>
   ```
@@ -1264,14 +1515,14 @@
   /* styles.module.css */
   .container {
     display: flex;
-    gap: var(--ds-spacing-4);
-    padding: var(--ds-spacing-6);
+    gap: var(--ds-size-4);
+    padding: var(--ds-size-6);
   }
 
   .grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--ds-spacing-4);
+    gap: var(--ds-size-4);
   }
   ```
 
@@ -1349,7 +1600,7 @@
 
   **Card Grid:**
   ```tsx
-  <div style={{ display: 'grid', gap: 'var(--ds-spacing-4)' }}>
+  <div style={{ display: 'grid', gap: 'var(--ds-size-4)' }}>
     <Card><CardBlock>Card 1</CardBlock></Card>
     <Card><CardBlock>Card 2</CardBlock></Card>
   </div>
@@ -1357,7 +1608,7 @@
 
   **Button Group:**
   ```tsx
-  <div style={{ display: 'flex', gap: 'var(--ds-spacing-2)' }}>
+  <div style={{ display: 'flex', gap: 'var(--ds-size-2)' }}>
     <Button variant="primary">Primary</Button>
     <Button variant="secondary">Secondary</Button>
   </div>
@@ -1369,8 +1620,8 @@
 
   **Figma Variable → CSS Token:**
   - `color/main/base-default` → `var(--ds-color-primary-color-red-base-default)`
-  - `spacing/4` → `var(--ds-spacing-4)`
-  - `typography/body/medium` → Use `--ds-body-font-size-md` and `--ds-body-font-weight-regular`
+  - `spacing/4` → `var(--ds-size-4)` (Note: Use `--ds-size-*` tokens, NOT `--ds-spacing-*`)
+  - `typography/body/medium` → Use `--ds-body-md-font-size` and `--ds-font-weight-regular`
 
   **Process:**
   1. Extract variable name from Figma node
