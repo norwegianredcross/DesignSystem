@@ -17,6 +17,25 @@
 
   This guide is designed to be fetched and used by AI assistants (Claude Code, Cursor, etc.) when working with the Røde Kors Design System and Figma MCP. Here's how to access and use it:
 
+  ### Before Writing Any Code - Checklist
+
+  Before implementing ANY visual element, check:
+
+  1. ☐ **Is there a design system component for this?** (Check [Available Components](#available-components) section)
+  2. ☐ **Can I use `Card`, `Button`, `Heading`, `Link`, etc. instead of custom HTML?**
+  3. ☐ **Am I using CSS Modules ONLY for layout containers, not for styling design system components?**
+  4. ☐ **Am I using `--ds-size-*` tokens (NOT `--ds-spacing-*`)?**
+  5. ☐ **Am I configuring components via props (`data-size`, `data-color`, `variant`, `level`) instead of adding `className` or `style`?**
+  6. ☐ **Am I using design tokens (`var(--ds-*)`) instead of hardcoded values (`#FFF`, `16px`, etc.)?**
+  7. ☐ **Have I checked the [Component Mapping Guide](#component-mapping-guide) to map Figma elements correctly?**
+  8. ☐ **Am I following accessibility best practices (semantic HTML, ARIA labels, proper heading hierarchy)?**
+
+  > **Critical Rules:**
+  > - ❌ **NEVER** add `className` or `style` props to design system components
+  > - ❌ **NEVER** use `--ds-spacing-*` tokens (they don't exist - use `--ds-size-*`)
+  > - ✅ **ALWAYS** use existing components when possible
+  > - ✅ **ALWAYS** use design tokens instead of hardcoded values
+
   ### Fetching the Guide
 
   **Using curl (Claude Code, Cursor, or any terminal):**
