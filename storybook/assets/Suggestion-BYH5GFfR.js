@@ -1,0 +1,39 @@
+import{j as e}from"./iframe-DBDi7EGQ.js";import{useMDXComponents as i}from"./index-CyFlofHN.js";import{M as o,P as l,C as a,a as s,A as g}from"./WithTooltip-SK46ZJ2J-INTEolYQ.js";import{S as d,M as c,N as m,A as p,C as h,a as x}from"./Suggestion.stories-DhLnZvpm.js";import"./preload-helper-Dp1pzeXC.js";import"./index-C5kcBe1C.js";import"./lite-DaUVFjkg.js";import"./index-BO6ISlDB.js";import"./index-DiyHKdhE.js";import"./input-Biwvg9WU.js";import"./use-merge-refs-CVvyV1vw.js";import"./button-C9lTh2V9.js";import"./spinner-KSTwFB0B.js";import"./floating-ui.dom-BOb7AeKv.js";import"./index-Dwt6S-FP.js";import"./index-G1VDXBmN.js";import"./paragraph-CkRVzU97.js";import"./label-DA79-dwG.js";import"./index-DJ4zhJP-.js";function t(r){const n={code:"code",h1:"h1",h2:"h2",h3:"h3",h4:"h4",hr:"hr",p:"p",pre:"pre",...i(),...r.components};return e.jsxs(e.Fragment,{children:[e.jsx(o,{of:d}),`
+`,e.jsx(n.h1,{id:"suggestion",children:"Suggestion"}),`
+`,e.jsxs(n.h4,{id:"søkbar-select-med-støtte-for-enkeltvalg-og-flervalg-bruk-når-select-ikke-strekker-til",children:["Søkbar “select” med støtte for enkeltvalg og flervalg. Bruk når ",e.jsx(n.code,{children:"Select"})," ikke strekker til."]}),`
+`,e.jsx(l,{}),`
+`,e.jsx(a,{}),`
+`,e.jsx(n.hr,{}),`
+`,e.jsx(n.h2,{id:"bruk",children:"Bruk"}),`
+`,e.jsx(n.pre,{children:e.jsx(n.code,{className:"language-tsx",children:`import { Suggestion } from 'rk-designsystem';\r
+\r
+<Suggestion>\r
+  <Suggestion.Input />\r
+  <Suggestion.Clear />\r
+  <Suggestion.List>\r
+    <Suggestion.Empty>Tomt</Suggestion.Empty>\r
+    <Suggestion.Option label="Sogndal" value="sogndal">Sogndal</Suggestion.Option>\r
+    <Suggestion.Option label="Oslo" value="oslo">Oslo</Suggestion.Option>\r
+  </Suggestion.List>\r
+</Suggestion>
+`})}),`
+`,e.jsx(n.hr,{}),`
+`,e.jsx(n.h2,{id:"eksempler",children:"Eksempler"}),`
+`,e.jsx(n.h3,{id:"flervalg",children:"Flervalg"}),`
+`,e.jsxs(n.p,{children:["Bruk ",e.jsx(n.code,{children:"multiple"})," for å tillate flere valg. Du kan tilpasse visningen av valgte elementer med ",e.jsx(n.code,{children:"renderSelected"}),"."]}),`
+`,e.jsx(s,{of:c}),`
+`,e.jsx(n.h3,{id:"filter",children:"Filter"}),`
+`,e.jsxs(n.p,{children:["Filter er på som standard og matcher på input‑tekst. Send en funksjon til ",e.jsx(n.code,{children:"filter"})," for egendefinert filtrering, eller sett ",e.jsx(n.code,{children:"filter={false}"})," for å vise alle."]}),`
+`,e.jsx(s,{of:m}),`
+`,e.jsx(n.h3,{id:"asynkrone-data",children:"Asynkrone data"}),`
+`,e.jsxs(n.p,{children:["Håndter lasting selv ved å vise tilstand i ",e.jsx(n.code,{children:"Suggestion.Empty"})," (for eksempel en spinner) mens du henter eksterne alternativer."]}),`
+`,e.jsx(s,{of:p}),`
+`,e.jsx(n.h3,{id:"creatable",children:"Creatable"}),`
+`,e.jsx(n.p,{children:"Tillat at brukeren oppretter nye valg når de ikke finnes i listen."}),`
+`,e.jsx(s,{of:h}),`
+`,e.jsx(n.hr,{}),`
+`,e.jsx(n.h2,{id:"suggestionlist",children:e.jsx(n.code,{children:"Suggestion.List"})}),`
+`,e.jsx(g,{of:x.List}),`
+`,e.jsx(n.hr,{}),`
+`,e.jsx(n.h2,{id:"tilleggsinformasjon",children:"Tilleggsinformasjon"}),`
+`,e.jsxs(n.p,{children:[e.jsx(n.code,{children:"Suggestion"})," bygger på u‑elements sin ",e.jsx(n.code,{children:"u-combobox"}),", og er inspirert av Open UI sitt combobox‑mønster."]})]})}function X(r={}){const{wrapper:n}={...i(),...r.components};return n?e.jsx(n,{...r,children:e.jsx(t,{...r})}):t(r)}export{X as default};
