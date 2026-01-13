@@ -17,24 +17,87 @@
 
   This guide is designed to be fetched and used by AI assistants (Claude Code, Cursor, etc.) when working with the Røde Kors Design System and Figma MCP. Here's how to access and use it:
 
-  ### Before Writing Any Code - Checklist
+  ### CRITICAL: Before Writing Any Code - Checklist
 
-  Before implementing ANY visual element, check:
+  **STOP! Before implementing ANY visual element, you MUST check:**
 
-  1. ☐ **Is there a design system component for this?** (Check [Available Components](#available-components) section)
-  2. ☐ **Can I use `Card`, `Button`, `Heading`, `Link`, etc. instead of custom HTML?**
-  3. ☐ **Am I using CSS Modules ONLY for layout containers, not for styling design system components?**
-  4. ☐ **Am I using `--ds-size-*` tokens (NOT `--ds-spacing-*`)?**
-  5. ☐ **Am I configuring components via props (`data-size`, `data-color`, `variant`, `level`) instead of adding `className` or `style`?**
-  6. ☐ **Am I using design tokens (`var(--ds-*)`) instead of hardcoded values (`#FFF`, `16px`, etc.)?**
-  7. ☐ **Have I checked the [Component Mapping Guide](#component-mapping-guide) to map Figma elements correctly?**
-  8. ☐ **Am I following accessibility best practices (semantic HTML, ARIA labels, proper heading hierarchy)?**
+  1. ☐ **Is there a design system component for this?**
+     - Check the [Available Components](#available-components) section
+     - Common components: `Card`, `Button`, `Heading`, `Link`, `Alert`, `Tag`, `Badge`, `Textfield`, `Select`, `Checkbox`, `Radio`, `Switch`
+     - If you see something that looks like a card, button, heading, link, alert, tag, badge, form field, or list in Figma - there IS a component for it!
 
-  > **Critical Rules:**
-  > - ❌ **NEVER** add `className` or `style` props to design system components
-  > - ❌ **NEVER** use `--ds-spacing-*` tokens (they don't exist - use `--ds-size-*`)
-  > - ✅ **ALWAYS** use existing components when possible
-  > - ✅ **ALWAYS** use design tokens instead of hardcoded values
+  2. ☐ **Am I using design system components instead of custom HTML?**
+     - ✅ Use `<Card>` with `<CardBlock>` NOT `<div className="card">`
+     - ✅ Use `<Button variant="primary">` NOT `<button className="btn">`
+     - ✅ Use `<Heading level={1} data-size="xl">` NOT `<h1>` or `<h2>`
+     - ✅ Use `<Link>` NOT `<a className="link">`
+     - ✅ Use `<Alert data-color="info">` NOT `<div className="alert">`
+     - ✅ Use `<Tag>` NOT `<span className="tag">`
+     - ✅ Use `<Textfield>` NOT `<input>` with custom styling
+     - ✅ Use `<List.Unordered>` and `<List.Item>` NOT `<ul>` and `<li>` with custom styles
+
+  3. ☐ **Am I configuring components via props, NOT styling them?**
+     - ✅ Use `data-size="sm" | "md" | "lg"` prop
+     - ✅ Use `data-color="accent" | "neutral" | "danger" | etc.` prop
+     - ✅ Use `variant="primary" | "secondary" | "tertiary"` prop
+     - ✅ Use `level={1 | 2 | 3 | 4 | 5 | 6}` prop for Heading
+     - ❌ **NEVER** add `className` or `style` props to design system components
+     - ❌ **NEVER** wrap components in styled divs to change their appearance
+
+  4. ☐ **Am I using CSS Modules ONLY for layout containers?**
+     - ✅ Layout grids, flex wrappers, section containers
+     - ✅ Custom components you create yourself
+     - ✅ Composition/layout logic
+     - ❌ **NOT** for styling design system components
+     - ❌ **NOT** for overriding component styles
+
+  5. ☐ **Am I using `--ds-size-*` tokens (NOT `--ds-spacing-*`)?**
+     - There are **NO** `--ds-spacing-*` tokens - they don't exist!
+     - Always use `--ds-size-*` for spacing (e.g., `var(--ds-size-4)`)
+     - Available size tokens: `--ds-size-0` through `--ds-size-15`, plus `--ds-size-18`, `--ds-size-22`, `--ds-size-26`, `--ds-size-30`
+     - Check the [Design Tokens](#design-tokens) section for complete list
+
+  6. ☐ **Am I using design tokens instead of hardcoded values?**
+     - ✅ Use `var(--ds-color-neutral-background-default)` NOT `#ffffff` or `#FFF`
+     - ✅ Use `var(--ds-size-4)` NOT `16px` or `1rem`
+     - ✅ Use `var(--ds-border-radius-md)` NOT `8px` or `0.5rem`
+     - ✅ Use `var(--ds-shadow-md)` NOT custom shadow definitions
+     - Check the [Design Tokens](#design-tokens) section for all available tokens
+
+  7. ☐ **Have I checked the [Component Mapping Guide](#component-mapping-guide)?**
+     - Map Figma elements to the correct design system components
+     - Use the mapping table to find the right component
+     - Verify props match the Figma design specifications
+
+  8. ☐ **Am I following accessibility best practices?**
+     - Use semantic HTML (`<button>`, `<nav>`, `<main>`, etc.)
+     - Add ARIA labels for icon-only buttons
+     - Use proper heading hierarchy (`<Heading level={1}>` for main title, `level={2}>` for sections, etc.)
+     - Ensure keyboard navigation works
+     - Include focus indicators
+
+  ### Common AI Mistakes to Avoid
+
+  **These are frequent errors - double-check you're not making them:**
+
+  | ❌ Mistake | ✅ Correct Approach |
+  |-----------|---------------------|
+  | Creating custom card divs with CSS | Use `<Card>` and `<CardBlock>` components |
+  | Using `--ds-spacing-*` tokens | Use `--ds-size-*` tokens (spacing tokens don't exist) |
+  | Adding `className` or `style` to design system components | Use `data-size`, `data-color`, `variant`, `level` props |
+  | Hardcoding colors like `#FFF`, `#000`, `#D52B1E` | Use `var(--ds-color-neutral-background-default)`, `var(--ds-color-primary-color-red-base-default)`, etc. |
+  | Hardcoding sizes like `16px`, `1rem`, `24px` | Use `var(--ds-size-4)`, `var(--ds-size-6)`, etc. |
+  | Creating custom buttons with styling | Use `<Button variant="primary" data-size="md">` |
+  | Using `<h1>`, `<h2>` directly | Use `<Heading level={1}>`, `<Heading level={2}>` with optional `data-size` |
+  | Creating custom link styles | Use `<Link>` component with `data-size` and `data-color` props |
+  | Creating custom form inputs | Use `<Textfield>`, `<Select>`, `<Checkbox>`, `<Radio>`, `<Switch>` |
+  | Creating custom alert/banner divs | Use `<Alert data-color="info|success|warning|danger">` |
+  | Creating custom tag/badge spans | Use `<Tag>` or `<Badge>` components |
+  | Using CSS Modules to style components | Use CSS Modules ONLY for layout containers |
+  | Wrapping components in styled divs | Configure components via props, trust the design system |
+  | Not checking Available Components first | Always check [Available Components](#available-components) before creating custom code |
+
+  **Remember:** If you see something that looks like a card, button, heading, link, alert, tag, badge, form field, list, table, or any common UI element in the Figma design - there is almost certainly a design system component for it. Check the [Available Components](#available-components) section FIRST before writing any custom code!
 
   ### Fetching the Guide
 
