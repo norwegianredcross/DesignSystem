@@ -1172,7 +1172,7 @@ export const CodePage = ({ setPage, section }: CodePageProps) => {
                    <li key={itemIndex} className={styles.listItem}>
                      {item.children ? (
                        // Has children - Sub-menu
-                       <details open className={styles.details}>
+                       <details className={styles.details}>
                          <summary className={`${styles.link} ${activeCodePage === item.id ? styles.linkActive : ''}`}>
                            {item.label}
                          </summary>
