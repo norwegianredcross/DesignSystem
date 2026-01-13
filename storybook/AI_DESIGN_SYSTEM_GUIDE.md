@@ -1364,7 +1364,7 @@
     
     2. **Add the MCP server to Claude Code:**
         ```bash
-        claude mcp add figma --transport sse --url http://127.0.0.1:3845/sse
+        claude mcp add --transport sse figma http://127.0.0.1:3845/sse
         ```
     
     3. **Using Figma MCP in Claude:**
