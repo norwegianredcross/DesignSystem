@@ -62,9 +62,19 @@ jobs:
       - name: Copy AI Design System Guide
         run: cp AI_DESIGN_SYSTEM_GUIDE.md storybook-build/AI_DESIGN_SYSTEM_GUIDE.md
 
-      - name: Deploy to GitHub Pages
+      - name: Build Main Application
+        run: npm run build:app
+
+      - name: Deploy Storybook to GitHub Pages
         run: |
           npx gh-pages \
             --repo https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }}.git \
             --dest storybook \
             -d storybook-build
+
+      - name: Deploy Main Application to GitHub Pages
+        run: |
+          npx gh-pages \
+            --repo https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }}.git \
+            --add \
+            -d dist-app
