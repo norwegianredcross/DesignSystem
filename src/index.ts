@@ -191,13 +191,10 @@ export type { TooltipProps } from './components/Tooltip';
 export { ValidationMessage } from './components/ValidationMessage';
 export type { ValidationMessageProps } from './components/ValidationMessage';
 
-// Header
-export { Header } from './components/Header';
-export type { HeaderProps } from './components/Header';
-
 // Footer
 export { Footer } from './components/Footer';
 export type { FooterProps } from './components/Footer';
 
 // Language
 export { LanguageProvider, useLanguage } from './context/LanguageContext';
+export type { Language, LanguageContextType } from './context/LanguageContext';
