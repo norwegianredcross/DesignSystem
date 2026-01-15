@@ -254,8 +254,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 217px; /* Røde Kors logo container width - same as Header */
   height: 43px;
-  width: auto;
+  text-decoration: none;
+  color: inherit;
   flex-shrink: 0;
 }
 

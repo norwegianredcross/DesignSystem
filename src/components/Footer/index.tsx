@@ -463,8 +463,10 @@ function buildInlineCss(styles: Record<string, string>): string {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 217px;
   height: 43px;
-  width: auto;
+  text-decoration: none;
+  color: inherit;
   flex-shrink: 0;
 }
 .${s.redCrossLogo} {
