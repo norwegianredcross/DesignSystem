@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useLanguage } from '../../context/LanguageContext';
+import { useLanguageOptional } from '../../context/LanguageContext';
 import { Link } from '../Link';
 import { Button } from '../Button';
 import { Avatar } from '../Avatar';
@@ -65,7 +65,7 @@ export const Header = ({
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
-  const { language, setLanguage, t } = useLanguage();
+  const { language, setLanguage, t } = useLanguageOptional();
   const [isMobile, setIsMobile] = useState(false);
 
   // Fallback: inject minimal header styles if consumer did not import the CSS bundle.

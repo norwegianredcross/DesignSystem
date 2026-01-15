@@ -1161,6 +1161,160 @@
     ]
   },
   {
+    "componentName": "Header",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-color",
+        "type": "enum",
+        "description": "Background color for the header extension (top bar): 'primary' uses primary-color-red-base-default, 'neutral' uses neutral-base-default",
+        "defaultValue": "primary",
+        "required": false
+      },
+      {
+        "name": "activePage",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "setPage",
+        "type": "(pageName: string) => void",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "showUser",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": "true",
+        "required": false
+      },
+      {
+        "name": "showSearch",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": "true",
+        "required": false
+      },
+      {
+        "name": "showLogin",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": "true",
+        "required": false
+      },
+      {
+        "name": "showCta",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "ctaLabel",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "ctaIcon",
+        "type": "ReactNode",
+        "description": "",
+        "defaultValue": "<HeartIcon aria-hidden />",
+        "required": false
+      },
+      {
+        "name": "onCtaClick",
+        "type": "() => void",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "showThemeToggle",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "secondaryLogo",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "secondaryLogoSrc",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "secondaryLogoSrcDark",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "secondaryLogoAlt",
+        "type": "string",
+        "description": "",
+        "defaultValue": "Secondary Logo",
+        "required": false
+      },
+      {
+        "name": "navItems",
+        "type": "{ label: string; href: string; }[]",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "showNavItems",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": "true",
+        "required": false
+      },
+      {
+        "name": "showMenuButton",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": "true",
+        "required": false
+      },
+      {
+        "name": "showHeaderExtension",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "showModeToggle",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "showLanguageSwitch",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": "false",
+        "required": false
+      }
+    ]
+  },
+  {
     "componentName": "Footer",
     "importPath": "rk-designsystem",
     "description": "",

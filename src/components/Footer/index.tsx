@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './styles.module.css';
 import { Link } from '../Link';
-import { useLanguage } from '../../context/LanguageContext';
+import { useLanguageOptional } from '../../context/LanguageContext';
 
 export interface FooterLink {
   label: string;
@@ -44,7 +44,7 @@ export const Footer = ({
   shortcutsLinksRight
 }: FooterProps = {}) => {
   const currentYear = new Date().getFullYear();
-  const { t } = useLanguage();
+  const { t } = useLanguageOptional();
 
   // Detect color scheme for logo selection
   const [colorScheme, setColorScheme] = React.useState<'light' | 'dark'>('light');
