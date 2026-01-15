@@ -994,13 +994,16 @@ import { Footer } from 'rk-designsystem';
 
 <Footer
   data-color?={additional}
-  designSystemLogoAlt?={Designsystem Logo}
-  designSystemLogoSrc?={`${import.meta.env.BASE_URL}designsystemlogofinallight.svg`}
-  designSystemLogoSrcDark?={`${import.meta.env.BASE_URL}designsystemlogofinaldark.svg`}
+  primaryLogoAlt?={Røde Kors Logo}
+  primaryLogoSrc?={string}
   redSectionSlot?={ReactNode}
+  secondaryLogo?={true}
+  secondaryLogoAlt?={Designsystem Logo}
+  secondaryLogoSrc?={`${import.meta.env.BASE_URL}designsystemlogofinallight.svg`}
+  secondaryLogoSrcDark?={`${import.meta.env.BASE_URL}designsystemlogofinaldark.svg`}
   shortcutsLinksLeft?={FooterLink[]}
   shortcutsLinksRight?={FooterLink[]}
-  showDesignSystemLogo?={true}
+  showPrimaryLogo?={true}
   whiteSectionSlotLarge?={ReactNode}
   whiteSectionSlotSmall?={ReactNode}
  />

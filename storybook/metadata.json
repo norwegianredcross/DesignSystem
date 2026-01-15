@@ -1348,30 +1348,51 @@
         "required": false
       },
       {
-        "name": "showDesignSystemLogo",
+        "name": "showPrimaryLogo",
         "type": "boolean",
-        "description": "Show design system logo in white section",
+        "description": "Show primary (Red Cross) logo in white section",
         "defaultValue": "true",
         "required": false
       },
       {
-        "name": "designSystemLogoSrc",
+        "name": "primaryLogoSrc",
         "type": "string",
-        "description": "Design system logo source (light mode)",
+        "description": "Primary logo source (if custom logo is needed instead of default Red Cross SVG)",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "primaryLogoAlt",
+        "type": "string",
+        "description": "Primary logo alt text",
+        "defaultValue": "Røde Kors Logo",
+        "required": false
+      },
+      {
+        "name": "secondaryLogo",
+        "type": "boolean",
+        "description": "Show secondary (design system) logo in white section",
+        "defaultValue": "true",
+        "required": false
+      },
+      {
+        "name": "secondaryLogoSrc",
+        "type": "string",
+        "description": "Secondary logo source (light mode)",
         "defaultValue": "`${import.meta.env.BASE_URL}designsystemlogofinallight.svg`",
         "required": false
       },
       {
-        "name": "designSystemLogoSrcDark",
+        "name": "secondaryLogoSrcDark",
         "type": "string",
-        "description": "Design system logo source (dark mode)",
+        "description": "Secondary logo source (dark mode)",
         "defaultValue": "`${import.meta.env.BASE_URL}designsystemlogofinaldark.svg`",
         "required": false
       },
       {
-        "name": "designSystemLogoAlt",
+        "name": "secondaryLogoAlt",
         "type": "string",
-        "description": "Design system logo alt text",
+        "description": "Secondary logo alt text",
         "defaultValue": "Designsystem Logo",
         "required": false
       },
