@@ -9,6 +9,8 @@ export interface FooterLink {
 }
 
 export interface FooterProps {
+  /** Background color for the top section: 'primary' uses primary-color-red-background-tinted, 'additional' uses additional-color-ocean-background-tinted, 'neutral' uses neutral-background-tinted */
+  'data-color'?: 'primary' | 'additional' | 'neutral';
   /** Slot content for the red section (after Snarveier columns) */
   redSectionSlot?: React.ReactNode;
   /** Slot content for the small slot in white section (after logos) */
@@ -30,6 +32,7 @@ export interface FooterProps {
 }
 
 export const Footer = ({ 
+  'data-color': dataColor = 'additional',
   redSectionSlot,
   whiteSectionSlotSmall,
   whiteSectionSlotLarge,
@@ -42,6 +45,44 @@ export const Footer = ({
 }: FooterProps = {}) => {
   const currentYear = new Date().getFullYear();
   const { t } = useLanguage();
+
+  // Detect color scheme for logo selection
+  const [colorScheme, setColorScheme] = React.useState<'light' | 'dark'>('light');
+
+  React.useEffect(() => {
+    if (typeof document === 'undefined') return;
+    
+    // Check initial color scheme
+    const rootElement = document.documentElement;
+    const scheme = rootElement.getAttribute('data-color-scheme') || 
+                   (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    setColorScheme(scheme as 'light' | 'dark');
+
+    // Watch for changes
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = () => {
+      const scheme = rootElement.getAttribute('data-color-scheme') || 
+                     (mediaQuery.matches ? 'dark' : 'light');
+      setColorScheme(scheme as 'light' | 'dark');
+    };
+
+    // Watch for data-color-scheme attribute changes
+    const observer = new MutationObserver(handleChange);
+    observer.observe(rootElement, { attributes: true, attributeFilter: ['data-color-scheme'] });
+
+    // Watch for system preference changes
+    mediaQuery.addEventListener('change', handleChange);
+
+    return () => {
+      observer.disconnect();
+      mediaQuery.removeEventListener('change', handleChange);
+    };
+  }, []);
+
+  // Select logo based on color scheme
+  const logoSrc = colorScheme === 'dark' && designSystemLogoSrcDark 
+    ? designSystemLogoSrcDark 
+    : designSystemLogoSrc;
 
   // Default shortcut links if not provided
   const defaultShortcutLinks: FooterLink[] = [
@@ -57,7 +98,7 @@ export const Footer = ({
   const rightLinks = shortcutsLinksRight || defaultShortcutLinks;
 
   return (
-    <footer className={styles.footer}>
+    <footer className={styles.footer} data-color={dataColor}>
       {/* Red Background Section */}
       <div className={styles.redSection}>
         <div className={styles.redContainer}>
@@ -153,7 +194,7 @@ export const Footer = ({
             />
             {showDesignSystemLogo && (
               <img 
-                src={designSystemLogoSrc}
+                src={logoSrc}
                 alt={designSystemLogoAlt} 
                 className={styles.designSystemLogo} 
                 loading="lazy"

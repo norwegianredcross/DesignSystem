@@ -3,10 +3,24 @@
   width: 100%;
 }
 
-/* Red Background Section - Updated to use ocean tinted background */
+/* Red Background Section - Background color is set via data-color attribute */
 .redSection {
+  /* Default fallback */
   background-color: var(--ds-color-additional-color-ocean-background-tinted, #f2f4f5);
   width: 100%;
+}
+
+/* Background colors based on data-color attribute */
+.footer[data-color="primary"] .redSection {
+  background-color: var(--ds-color-primary-color-red-background-tinted);
+}
+
+.footer[data-color="additional"] .redSection {
+  background-color: var(--ds-color-additional-color-ocean-background-tinted);
+}
+
+.footer[data-color="neutral"] .redSection {
+  background-color: var(--ds-color-neutral-background-tinted);
 }
 
 .redContainer {

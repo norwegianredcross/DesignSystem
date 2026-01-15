@@ -993,6 +993,7 @@ import { Carousel } from 'rk-designsystem';
 import { Footer } from 'rk-designsystem';
 
 <Footer
+  data-color?={additional}
   designSystemLogoAlt?={Designsystem Logo}
   designSystemLogoSrc?={`${import.meta.env.BASE_URL}designsystemlogofinallight.svg`}
   designSystemLogoSrcDark?={`${import.meta.env.BASE_URL}designsystemlogofinaldark.svg`}
@@ -1013,6 +1014,7 @@ import { Header } from 'rk-designsystem';
   activePage?={string}
   ctaIcon?={<HeartIcon aria-hidden />}
   ctaLabel?={string}
+  data-color?={primary}
   navItems?={{ label: string; href: string; }[]}
   onCtaClick?={() => void}
   secondaryLogo?={false}

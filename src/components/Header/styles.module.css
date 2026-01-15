@@ -43,6 +43,7 @@
 }
 
 .headerExtension {
+  /* Default fallback */
   background-color: var(--ds-color-primary-color-red-base-default, #D52B1E);
   width: 100%;
   height: 44px;
@@ -56,6 +57,17 @@
   overflow: visible;
   /* FIX: Higher index than headerInner ensures dropdowns float over the logo area */
   z-index: 20; 
+}
+
+/* Background colors based on data-color attribute */
+.header[data-color="primary"] .headerExtension {
+  background-color: var(--ds-color-primary-color-red-base-default);
+  color: white;
+}
+
+.header[data-color="neutral"] .headerExtension {
+  background-color: var(--ds-color-neutral-base-default);
+  color: var(--ds-color-neutral-text-default);
 }
 
 .extensionContentWrapper {
@@ -76,15 +88,29 @@
   background-color: var(--ds-color-neutral-text-default) !important; /* Knob color */
 }
 
-/* Force label text to be white in the header extension */
-.extensionContent :global(.fds-switch__label) {
+/* Label text color based on data-color */
+.header[data-color="primary"] .extensionContent :global(.fds-switch__label) {
   color: white !important;
+}
+
+.header[data-color="neutral"] .extensionContent :global(.fds-switch__label) {
+  color: var(--ds-color-neutral-text-default) !important;
 }
 
 .extensionDivider {
   width: 1px;
   height: 18px;
+  /* Default for primary (red background) */
   background-color: rgba(247, 233, 232, 1);
+}
+
+/* Divider color based on data-color */
+.header[data-color="primary"] .extensionDivider {
+  background-color: rgba(247, 233, 232, 1);
+}
+
+.header[data-color="neutral"] .extensionDivider {
+  background-color: var(--ds-color-neutral-border-subtle);
 }
 
 .languageSwitch {
@@ -98,16 +124,36 @@
 .languageLabel {
   font-family: var(--ds-font-family);
   font-size: var(--ds-font-size-md);
+  /* Default for primary (red background) */
   color: #ECECEC;
 }
 
+/* Language label color based on data-color */
+.header[data-color="primary"] .languageLabel {
+  color: #ECECEC;
+}
+
+.header[data-color="neutral"] .languageLabel {
+  color: var(--ds-color-neutral-text-default);
+}
+
 .languageLink {
-  color: white !important; /* Force white color for link in header extension */
+  /* Default for primary (red background) */
+  color: white !important;
   text-decoration: none;
   display: flex;
   align-items: center;
   gap: 4px;
   position: relative;
+}
+
+/* Language link color based on data-color */
+.header[data-color="primary"] .languageLink {
+  color: white !important;
+}
+
+.header[data-color="neutral"] .languageLink {
+  color: var(--ds-color-neutral-text-default) !important;
 }
 
 /* Ensure dropdown is positioned correctly relative to trigger */

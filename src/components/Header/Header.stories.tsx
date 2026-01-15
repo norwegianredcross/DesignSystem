@@ -31,6 +31,12 @@ const meta: Meta<typeof Header> = {
     },
   },
   argTypes: {
+    'data-color': {
+      control: 'select',
+      options: ['primary', 'neutral'],
+      description: 'Background color for the header extension (top bar): primary uses primary-color-red-base-default, neutral uses neutral-base-default',
+      defaultValue: 'primary',
+    },
     showUser: {
       control: 'boolean',
       description: 'Show user profile information (avatar/name)',
@@ -143,5 +149,21 @@ export const WithMenuContent: Story = {
         <a href="#" style={{ textDecoration: 'none', color: 'var(--ds-color-text-default)' }}>Kode</a>
       </div>
     ),
+  },
+};
+
+export const NeutralColor: Story = {
+  args: {
+    'data-color': 'neutral',
+    showUser: true,
+    showSearch: true,
+    showLogin: false,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Header with neutral background color for the top bar (neutral-base-default).',
+      },
+    },
   },
 };

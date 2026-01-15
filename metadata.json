@@ -1166,6 +1166,13 @@
     "description": "",
     "props": [
       {
+        "name": "data-color",
+        "type": "enum",
+        "description": "Background color for the header extension (top bar): 'primary' uses primary-color-red-base-default, 'neutral' uses neutral-base-default",
+        "defaultValue": "primary",
+        "required": false
+      },
+      {
         "name": "activePage",
         "type": "string",
         "description": "",
@@ -1312,6 +1319,13 @@
     "importPath": "rk-designsystem",
     "description": "",
     "props": [
+      {
+        "name": "data-color",
+        "type": "enum",
+        "description": "Background color for the top section: 'primary' uses primary-color-red-background-tinted, 'additional' uses additional-color-ocean-background-tinted, 'neutral' uses neutral-background-tinted",
+        "defaultValue": "additional",
+        "required": false
+      },
       {
         "name": "redSectionSlot",
         "type": "ReactNode",

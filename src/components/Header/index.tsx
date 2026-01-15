@@ -12,6 +12,8 @@ import { MenuHamburgerIcon, XMarkIcon, MagnifyingGlassIcon, HeartIcon, ChevronDo
 import { searchIndex } from '../../utils/search-index';
 
 export interface HeaderProps {
+  /** Background color for the header extension (top bar): 'primary' uses primary-color-red-base-default, 'neutral' uses neutral-base-default */
+  'data-color'?: 'primary' | 'neutral';
   activePage?: string;
   setPage?: (pageName: string) => void;
   children?: React.ReactNode;
@@ -36,6 +38,7 @@ export interface HeaderProps {
 }
 
 export const Header = ({ 
+  'data-color': dataColor = 'primary',
   activePage, 
   setPage, 
   children,
@@ -261,7 +264,7 @@ export const Header = ({
   };
 
   return (
-    <header className={styles.header} data-open={isOpen ? 'true' : 'false'}>
+    <header className={styles.header} data-open={isOpen ? 'true' : 'false'} data-color={dataColor}>
       {showHeaderExtension && (
         <div className={styles.headerExtension} data-color-scheme="light">
           <div className={styles.extensionContentWrapper}>
@@ -652,6 +655,14 @@ function buildInlineCss(styles: Record<string, string>): string {
   box-sizing: border-box;
   color: white;
 }
+.${s.header}[data-color="primary"] .${s.headerExtension} {
+  background-color: var(--ds-color-primary-color-red-base-default);
+  color: white;
+}
+.${s.header}[data-color="neutral"] .${s.headerExtension} {
+  background-color: var(--ds-color-neutral-base-default);
+  color: var(--ds-color-neutral-text-default);
+}
 .${s.extensionContentWrapper} {
   width: 100%;
   max-width: 1364px;
@@ -664,6 +675,10 @@ function buildInlineCss(styles: Record<string, string>): string {
 .${s.languageSwitch} { display: flex; align-items: center; gap: var(--ds-size-2); }
 .${s.languageLabel} { font-family: var(--ds-font-family); font-size: var(--ds-font-size-md); color: #ECECEC; }
 .${s.languageLink} { color: white; text-decoration: none; display: flex; align-items: center; gap: 4px; }
+.${s.header}[data-color="primary"] .${s.languageLabel} { color: #ECECEC; }
+.${s.header}[data-color="neutral"] .${s.languageLabel} { color: var(--ds-color-neutral-text-default); }
+.${s.header}[data-color="primary"] .${s.languageLink} { color: white !important; }
+.${s.header}[data-color="neutral"] .${s.languageLink} { color: var(--ds-color-neutral-text-default) !important; }
 .${s.languageSwitch} :global([popover]) { margin-top: 0 !important; background-color: var(--ds-color-neutral-background-default) !important; position: fixed !important; overflow: visible; z-index: 20000 !important; }
 .${s.headerInner} {
   display: flex; align-items: center; justify-content: space-between;

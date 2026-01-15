@@ -58,7 +58,7 @@ function App() {
         )}
       </div>
 
-      <Footer />
+      <Footer data-color="primary" />
     </div>
   );
 }
