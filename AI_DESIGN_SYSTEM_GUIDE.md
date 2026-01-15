@@ -356,7 +356,8 @@ import { DateInput } from 'rk-designsystem';
 <DateInput
   aria-label?={string}
   aria-labelledby?={string}
-  className?={string}
+  data-color?="accent" | "neutral" | "danger" | etc.
+  data-size?="sm" | "md" | "lg"
   defaultValue?={string}
   description?={ReactNode}
   error?={ReactNode}
@@ -375,6 +376,8 @@ import { DateInput } from 'rk-designsystem';
 import { DatePicker } from 'rk-designsystem';
 
 <DatePicker
+  data-color?="accent" | "neutral" | "danger" | etc.
+  data-size?="sm" | "md" | "lg"
   initialDate?={new Date()}
   onDateSelect?={(date: Date) => void}
   selectedDate?={null}
@@ -575,6 +578,7 @@ import { Alert } from 'rk-designsystem';
 <Alert
   data-color?={"info"}
   data-size?="sm" | "md" | "lg"
+  title?={string}
  />
 ```
 
@@ -643,7 +647,7 @@ import { Tooltip } from 'rk-designsystem';
 import { Avatar } from 'rk-designsystem';
 
 <Avatar
-  aria-label={string}  // Required: The name of the person the avatar represents.
+  aria-label?={string}
   children?={ReactNode}
   data-color?="accent" | "neutral" | "danger" | etc.
   data-size?={any}
@@ -664,6 +668,17 @@ import { Badge } from 'rk-designsystem';
   variant?={"base"}
  />
 ```
+
+#### Chip
+```tsx
+import { Chip, Chip.Button, Chip.Checkbox, Chip.Radio } from 'rk-designsystem';
+
+<Chip>
+  {/* Content */}
+</Chip>
+```
+
+Use `<Chip.Button>`, `<Chip.Checkbox>`, or `<Chip.Radio>` for different variants.
 
 #### SkeletonLoader
 ```tsx
@@ -699,6 +714,17 @@ import { Tag } from 'rk-designsystem';
 ```
 
 ### Data Display Components
+
+#### List
+```tsx
+import { List, List.Unordered, List.Ordered, List.Item } from 'rk-designsystem';
+
+<List>
+  {/* Content */}
+</List>
+```
+
+Use `<List.Unordered>` or `<List.Ordered>` with `<List.Item>` for items.
 
 #### Table
 ```tsx
@@ -796,6 +822,31 @@ import { FieldDescription } from 'rk-designsystem';
 <FieldDescription />
 ```
 
+#### Heading
+```tsx
+import { Heading } from 'rk-designsystem';
+
+<Heading
+  level={}  // Required: Required: Semantic heading level (1-6)
+  asChild?={false}
+  data-size?={"md"}
+ />
+```
+
+**Important:** The `level` prop is **required** and determines the semantic HTML heading level (`<h1>` through `<h6>`). Use `data-size` to control visual appearance independently of semantic level.
+
+#### Label
+```tsx
+import { Label } from 'rk-designsystem';
+
+<Label
+  asChild?={false}
+  data-color?="accent" | "neutral" | "danger" | etc.
+  data-size?="sm" | "md" | "lg"
+  weight?={"medium"}
+ />
+```
+
 #### Link
 ```tsx
 import { Link } from 'rk-designsystem';
@@ -805,6 +856,17 @@ import { Link } from 'rk-designsystem';
   asChild?={false}
   data-color?="accent" | "neutral" | "danger" | etc.
   data-size?="sm" | "md" | "lg"
+ />
+```
+
+#### Paragraph
+```tsx
+import { Paragraph } from 'rk-designsystem';
+
+<Paragraph
+  asChild?={false}
+  data-size?={}
+  variant?={"default"}
  />
 ```
 
@@ -830,6 +892,27 @@ import { SkipLink } from 'rk-designsystem';
  />
 ```
 
+#### Suggestion
+```tsx
+import { Suggestion, Suggestion.Input, Suggestion.List, Suggestion.Option, Suggestion.Empty, Suggestion.Clear } from 'rk-designsystem';
+
+<Suggestion
+  creatable?={false}
+  defaultSelected?={string | SuggestionItem | (string | SuggestionItem)[]}
+  filter?={true}
+  multiple?={false}
+  name?={undefined}
+  onBeforeMatch?={(event: EventBeforeMatch) => void}
+  onSelectedChange?={((value: SuggestionItem) => void}
+  renderSelected?={({ label }) => label}
+  selected?={string | SuggestionItem | (string | SuggestionItem)[]}
+>
+  {/* Content */}
+</Suggestion>
+```
+
+Use `<Suggestion.Input>`, `<Suggestion.List>`, `<Suggestion.Option>`, `<Suggestion.Empty>`, and `<Suggestion.Clear>` for autocomplete structure.
+
 #### ToggleGroup
 ```tsx
 import { ToggleGroup } from 'rk-designsystem';
@@ -841,6 +924,7 @@ import { ToggleGroup } from 'rk-designsystem';
   name?={string}
   onChange?={(value: string) => void}
   value?={string}
+  variant?={"primary"}
  />
 ```
 
@@ -869,6 +953,83 @@ import { useRadioGroup } from 'rk-designsystem';
   readOnly?={boolean}
   required?={boolean}
   value?={string}
+ />
+```
+
+#### ValidationMessage
+```tsx
+import { ValidationMessage } from 'rk-designsystem';
+
+<ValidationMessage
+  asChild?={false}
+  data-color?={"danger"}
+  data-size?="sm" | "md" | "lg"
+ />
+```
+
+### Custom Components
+
+#### Carousel
+```tsx
+import { Carousel } from 'rk-designsystem';
+
+<Carousel
+  images={{ src: string; alt: string; }[]}
+  autoDelay?={5}
+  autoPlay?={false}
+  cornerRadius?={0}
+  data-color?="accent" | "neutral" | "danger" | etc.
+  data-size?="sm" | "md" | "lg"
+  showArrows?={true}
+  showDots?={true}
+  slideSpacing?={16}
+  slidesPerView?={1}
+  variant?={string}
+ />
+```
+
+#### Footer
+```tsx
+import { Footer } from 'rk-designsystem';
+
+<Footer
+  designSystemLogoAlt?={Designsystem Logo}
+  designSystemLogoSrc?={`${import.meta.env.BASE_URL}designsystemlogofinallight.svg`}
+  designSystemLogoSrcDark?={`${import.meta.env.BASE_URL}designsystemlogofinaldark.svg`}
+  redSectionSlot?={ReactNode}
+  shortcutsLinksLeft?={FooterLink[]}
+  shortcutsLinksRight?={FooterLink[]}
+  showDesignSystemLogo?={true}
+  whiteSectionSlotLarge?={ReactNode}
+  whiteSectionSlotSmall?={ReactNode}
+ />
+```
+
+#### Header
+```tsx
+import { Header } from 'rk-designsystem';
+
+<Header
+  activePage?={string}
+  ctaIcon?={<HeartIcon aria-hidden />}
+  ctaLabel?={string}
+  navItems?={{ label: string; href: string; }[]}
+  onCtaClick?={() => void}
+  secondaryLogo?={false}
+  secondaryLogoAlt?={Secondary Logo}
+  secondaryLogoSrc?={string}
+  secondaryLogoSrcDark?={string}
+  setPage?={(pageName: string) => void}
+  showCta?={false}
+  showHeaderExtension?={false}
+  showLanguageSwitch?={false}
+  showLogin?={true}
+  showMenuButton?={true}
+  showModeToggle?={false}
+  showNavItems?={true}
+  showSearch?={true}
+  showThemeToggle?={false}
+  showUser?={true}
  />
 ```
 

@@ -195,5 +195,9 @@ export type { ValidationMessageProps } from './components/ValidationMessage';
 export { Header } from './components/Header';
 export type { HeaderProps } from './components/Header';
 
+// Footer
+export { Footer } from './components/Footer';
+export type { FooterProps } from './components/Footer';
+
 // Language
 export { LanguageProvider, useLanguage } from './context/LanguageContext';

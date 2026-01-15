@@ -1,5 +1,33 @@
 [
   {
+    "componentName": "ValidationMessage",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "SeverityColors",
+        "description": "Sets color and icon.",
+        "defaultValue": "'danger'",
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      }
+    ]
+  },
+  {
     "componentName": "Tooltip",
     "importPath": "rk-designsystem",
     "description": "",
@@ -65,6 +93,13 @@
         "type": "Size",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "variant",
+        "type": "enum",
+        "description": "Specify which variant to use",
+        "defaultValue": "'primary'",
         "required": false
       },
       {
@@ -357,7 +392,7 @@
       {
         "name": "label",
         "type": "ReactNode",
-        "description": "Radio label",
+        "description": "Switch label",
         "defaultValue": null,
         "required": false
       },
@@ -407,6 +442,76 @@
         "name": "data-color",
         "type": "Color",
         "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Suggestion",
+    "importPath": "rk-designsystem",
+    "description": "Suggestion-komponent for autofullfør/søkeforslag.\nMerk: Dette er en eksperimentell komponent fra DigDir.",
+    "props": [
+      {
+        "name": "filter",
+        "type": "boolean | Filter",
+        "description": "Filter options; boolean or a custom callback.\n\nSee {@link Filter} for the callback signature.",
+        "defaultValue": "true",
+        "required": false
+      },
+      {
+        "name": "creatable",
+        "type": "boolean",
+        "description": "Allows the user to create new items",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "onBeforeMatch",
+        "type": "(event: EventBeforeMatch) => void",
+        "description": "Callback when matching input value against options",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "description": "The name of the associated form control",
+        "defaultValue": "undefined",
+        "required": false
+      },
+      {
+        "name": "renderSelected",
+        "type": "(args: { label: string; value: string; }) => ReactNode",
+        "description": "Change how the selected options are rendered inside the `Chip`.",
+        "defaultValue": "({ label }) => label",
+        "required": false
+      },
+      {
+        "name": "multiple",
+        "type": "boolean",
+        "description": "Allows the user to select multiple items",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "selected",
+        "type": "string | SuggestionItem | (string | SuggestionItem)[]",
+        "description": "The selected item of the Suggestion.\n\nIf `label` and `value` are the same, each item can be a `string`. Otherwise, each item must be a `SuggestionItem`.\n\nUsing this makes the component controlled and it must be used in combination with `onSelectedChange`.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "defaultSelected",
+        "type": "string | SuggestionItem | (string | SuggestionItem)[]",
+        "description": "Default selected item when uncontrolled",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "onSelectedChange",
+        "type": "((value: SuggestionItem) => void) | ((value: SuggestionItem[]) => void)",
+        "description": "Callback when selected items changes",
         "defaultValue": null,
         "required": false
       }
@@ -791,6 +896,34 @@
     ]
   },
   {
+    "componentName": "Paragraph",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-size",
+        "type": "enum",
+        "description": "Changes text sizing",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "variant",
+        "type": "enum",
+        "description": "Adjusts styling for paragraph length",
+        "defaultValue": "'default'",
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      }
+    ]
+  },
+  {
     "componentName": "Pagination",
     "importPath": "rk-designsystem",
     "description": "",
@@ -868,6 +1001,12 @@
     ]
   },
   {
+    "componentName": "List",
+    "importPath": "rk-designsystem",
+    "description": "List-komponent for punktlister (ul) og nummererte lister (ol).",
+    "props": []
+  },
+  {
     "componentName": "Link",
     "importPath": "rk-designsystem",
     "description": "",
@@ -898,6 +1037,41 @@
         "type": "boolean",
         "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
         "defaultValue": "false",
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Label",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "weight",
+        "type": "enum",
+        "description": "Adjusts font weight. Use this when you have a label hierarchy, such as checkboxes/radios in a fieldset",
+        "defaultValue": "'medium'",
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "Color",
+        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "defaultValue": null,
         "required": false
       }
     ]
@@ -959,6 +1133,251 @@
     ]
   },
   {
+    "componentName": "Heading",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "level",
+        "type": "enum",
+        "description": "Required: Semantic heading level (1-6)",
+        "defaultValue": null,
+        "required": true
+      },
+      {
+        "name": "data-size",
+        "type": "enum",
+        "description": "Changes text sizing",
+        "defaultValue": "'md'",
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Header",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "activePage",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "setPage",
+        "type": "(pageName: string) => void",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "showUser",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": "true",
+        "required": false
+      },
+      {
+        "name": "showSearch",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": "true",
+        "required": false
+      },
+      {
+        "name": "showLogin",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": "true",
+        "required": false
+      },
+      {
+        "name": "showCta",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "ctaLabel",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "ctaIcon",
+        "type": "ReactNode",
+        "description": "",
+        "defaultValue": "<HeartIcon aria-hidden />",
+        "required": false
+      },
+      {
+        "name": "onCtaClick",
+        "type": "() => void",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "showThemeToggle",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "secondaryLogo",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "secondaryLogoSrc",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "secondaryLogoSrcDark",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "secondaryLogoAlt",
+        "type": "string",
+        "description": "",
+        "defaultValue": "Secondary Logo",
+        "required": false
+      },
+      {
+        "name": "navItems",
+        "type": "{ label: string; href: string; }[]",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "showNavItems",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": "true",
+        "required": false
+      },
+      {
+        "name": "showMenuButton",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": "true",
+        "required": false
+      },
+      {
+        "name": "showHeaderExtension",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "showModeToggle",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "showLanguageSwitch",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": "false",
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "Footer",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "redSectionSlot",
+        "type": "ReactNode",
+        "description": "Slot content for the red section (after Snarveier columns)",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "whiteSectionSlotSmall",
+        "type": "ReactNode",
+        "description": "Slot content for the small slot in white section (after logos)",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "whiteSectionSlotLarge",
+        "type": "ReactNode",
+        "description": "Slot content for the large slot in white section (rightmost)",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "showDesignSystemLogo",
+        "type": "boolean",
+        "description": "Show design system logo in white section",
+        "defaultValue": "true",
+        "required": false
+      },
+      {
+        "name": "designSystemLogoSrc",
+        "type": "string",
+        "description": "Design system logo source (light mode)",
+        "defaultValue": "`${import.meta.env.BASE_URL}designsystemlogofinallight.svg`",
+        "required": false
+      },
+      {
+        "name": "designSystemLogoSrcDark",
+        "type": "string",
+        "description": "Design system logo source (dark mode)",
+        "defaultValue": "`${import.meta.env.BASE_URL}designsystemlogofinaldark.svg`",
+        "required": false
+      },
+      {
+        "name": "designSystemLogoAlt",
+        "type": "string",
+        "description": "Design system logo alt text",
+        "defaultValue": "Designsystem Logo",
+        "required": false
+      },
+      {
+        "name": "shortcutsLinksLeft",
+        "type": "FooterLink[]",
+        "description": "Shortcut links for the left column",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "shortcutsLinksRight",
+        "type": "FooterLink[]",
+        "description": "Shortcut links for the right column",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
     "componentName": "Fieldset",
     "importPath": "rk-designsystem",
     "description": "",
@@ -982,7 +1401,7 @@
   {
     "componentName": "Field",
     "importPath": "rk-designsystem",
-    "description": "",
+    "description": "Field-komponent for å omslutte skjemafelter.\nInkluderer støtte for beskrivelse og tegn-teller.",
     "props": [
       {
         "name": "position",
@@ -1061,20 +1480,6 @@
         "required": false
       },
       {
-        "name": "open",
-        "type": "boolean",
-        "description": "When a boolean is provided, the popover will be controlled.",
-        "defaultValue": "undefined",
-        "required": false
-      },
-      {
-        "name": "autoPlacement",
-        "type": "boolean",
-        "description": "Whether to enable auto placement.",
-        "defaultValue": "true",
-        "required": false
-      },
-      {
         "name": "id",
         "type": "string",
         "description": "id to connect the trigger with the popover - required when not using Popover.Context.",
@@ -1086,6 +1491,20 @@
         "type": "boolean",
         "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
         "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "description": "When a boolean is provided, the popover will be controlled.",
+        "defaultValue": "undefined",
+        "required": false
+      },
+      {
+        "name": "autoPlacement",
+        "type": "boolean",
+        "description": "Whether to enable auto placement.",
+        "defaultValue": "true",
         "required": false
       },
       {
@@ -1239,8 +1658,22 @@
   {
     "componentName": "DatePicker",
     "importPath": "rk-designsystem",
-    "description": "",
+    "description": "DatePicker-komponent for å velge en dato fra en kalender.",
     "props": [
+      {
+        "name": "data-color",
+        "type": "Color",
+        "description": "Endrer farge for underliggende Designsystemet-komponenter.\nVelg fra forhåndsdefinerte farger og farger definert med theme.designsystemet.no.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Endrer størrelse for underliggende Designsystemet-komponenter. Velg fra forhåndsdefinerte størrelser.",
+        "defaultValue": null,
+        "required": false
+      },
       {
         "name": "initialDate",
         "type": "Date",
@@ -1267,8 +1700,22 @@
   {
     "componentName": "DateInput",
     "importPath": "rk-designsystem",
-    "description": "",
+    "description": "DateInput-komponent for inntasting av datoer i norsk format (dd.mm.åååå).\nHåndterer automatisk formatering og validering av datoer.",
     "props": [
+      {
+        "name": "data-color",
+        "type": "Color",
+        "description": "Endrer farge for underliggende Designsystemet-komponenter.\nVelg fra forhåndsdefinerte farger og farger definert med theme.designsystemet.no.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Endrer størrelse for underliggende Designsystemet-komponenter. Velg fra forhåndsdefinerte størrelser.",
+        "defaultValue": null,
+        "required": false
+      },
       {
         "name": "label",
         "type": "ReactNode",
@@ -1286,13 +1733,6 @@
       {
         "name": "onSuffixClick",
         "type": "MouseEventHandler<HTMLButtonElement>",
-        "description": "",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "className",
-        "type": "string",
         "description": "",
         "defaultValue": null,
         "required": false
@@ -1361,6 +1801,12 @@
         "required": false
       }
     ]
+  },
+  {
+    "componentName": "Chip",
+    "importPath": "rk-designsystem",
+    "description": "Chip-komponent for filtrering, valg eller handlinger.",
+    "props": []
   },
   {
     "componentName": "Button",
@@ -1545,6 +1991,90 @@
     ]
   },
   {
+    "componentName": "Carousel",
+    "importPath": "rk-designsystem",
+    "description": "Carousel-komponent for å vise en bildeserie.\nBruker embla-carousel-react for funksjonalitet.",
+    "props": [
+      {
+        "name": "data-color",
+        "type": "Color",
+        "description": "Endrer farge for underliggende Designsystemet-komponenter.\nVelg fra forhåndsdefinerte farger og farger definert med theme.designsystemet.no.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Endrer størrelse for underliggende Designsystemet-komponenter. Velg fra forhåndsdefinerte størrelser.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "images",
+        "type": "{ src: string; alt: string; }[]",
+        "description": "",
+        "defaultValue": null,
+        "required": true
+      },
+      {
+        "name": "autoPlay",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "autoDelay",
+        "type": "number",
+        "description": "",
+        "defaultValue": "5",
+        "required": false
+      },
+      {
+        "name": "showArrows",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": "true",
+        "required": false
+      },
+      {
+        "name": "showDots",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": "true",
+        "required": false
+      },
+      {
+        "name": "variant",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "slidesPerView",
+        "type": "number",
+        "description": "",
+        "defaultValue": "1",
+        "required": false
+      },
+      {
+        "name": "slideSpacing",
+        "type": "number",
+        "description": "",
+        "defaultValue": "16",
+        "required": false
+      },
+      {
+        "name": "cornerRadius",
+        "type": "number",
+        "description": "",
+        "defaultValue": "0",
+        "required": false
+      }
+    ]
+  },
+  {
     "componentName": "Card",
     "importPath": "rk-designsystem",
     "description": "",
@@ -1615,7 +2145,7 @@
       {
         "name": "icon",
         "type": "boolean",
-        "description": "Toggle icon only styling, pass icon as children",
+        "description": "Toggle icon only styling, pass icon as children\nWhen combined with loading, the loading-icon will be shown instead of the icon.",
         "defaultValue": "false",
         "required": false
       },
@@ -1804,7 +2334,7 @@
         "type": "string",
         "description": "The name of the person the avatar represents.",
         "defaultValue": null,
-        "required": true
+        "required": false
       },
       {
         "name": "data-size",
@@ -1841,6 +2371,13 @@
     "importPath": "rk-designsystem",
     "description": "",
     "props": [
+      {
+        "name": "title",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
       {
         "name": "data-size",
         "type": "Size",
