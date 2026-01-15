@@ -1372,21 +1372,21 @@
         "name": "secondaryLogo",
         "type": "boolean",
         "description": "Show secondary (design system) logo in white section",
-        "defaultValue": "true",
+        "defaultValue": "false",
         "required": false
       },
       {
         "name": "secondaryLogoSrc",
         "type": "string",
         "description": "Secondary logo source (light mode)",
-        "defaultValue": "`${import.meta.env.BASE_URL}designsystemlogofinallight.svg`",
+        "defaultValue": null,
         "required": false
       },
       {
         "name": "secondaryLogoSrcDark",
         "type": "string",
         "description": "Secondary logo source (dark mode)",
-        "defaultValue": "`${import.meta.env.BASE_URL}designsystemlogofinaldark.svg`",
+        "defaultValue": null,
         "required": false
       },
       {

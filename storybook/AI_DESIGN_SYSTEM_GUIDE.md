@@ -997,10 +997,10 @@ import { Footer } from 'rk-designsystem';
   primaryLogoAlt?={Røde Kors Logo}
   primaryLogoSrc?={string}
   redSectionSlot?={ReactNode}
-  secondaryLogo?={true}
+  secondaryLogo?={false}
   secondaryLogoAlt?={Designsystem Logo}
-  secondaryLogoSrc?={`${import.meta.env.BASE_URL}designsystemlogofinallight.svg`}
-  secondaryLogoSrcDark?={`${import.meta.env.BASE_URL}designsystemlogofinaldark.svg`}
+  secondaryLogoSrc?={string}
+  secondaryLogoSrcDark?={string}
   shortcutsLinksLeft?={FooterLink[]}
   shortcutsLinksRight?={FooterLink[]}
   showPrimaryLogo?={true}
