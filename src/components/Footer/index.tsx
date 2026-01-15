@@ -121,11 +121,7 @@ export const Footer = ({
       <path d="M173.676 57.1727C173.676 55.2438 173.622 54.0031 173.568 52.8576H177.062L177.197 55.271H177.3C177.535 54.507 178 53.8353 178.63 53.3486C179.261 52.8619 180.026 52.5843 180.821 52.5542C181.105 52.5425 181.391 52.5607 181.672 52.6086V56.4392C181.303 56.3736 180.93 56.3387 180.555 56.335C179.06 56.335 178.048 57.1365 177.782 58.3997C177.726 58.6983 177.699 59.0015 177.701 59.3053V65.9659H173.649L173.676 57.1727Z" fill="#1E1E1E"/>
       <path d="M183.752 62.4023C184.824 62.9936 186.018 63.3283 187.241 63.3803C188.47 63.3803 188.974 62.9275 188.974 62.28C188.974 61.6325 188.573 61.2613 187.056 60.7768C184.355 59.8712 183.351 58.3951 183.351 56.8375C183.351 54.3969 185.404 52.5496 188.654 52.5496C189.92 52.5283 191.175 52.7848 192.332 53.3012L191.612 56.1357C190.741 55.6712 189.775 55.4155 188.789 55.3886C187.803 55.3886 187.241 55.787 187.241 56.4571C187.241 57.1273 187.749 57.4216 189.348 57.9604C191.828 58.8162 192.868 60.0795 192.891 62.0084C192.891 64.4444 190.973 66.2691 187.241 66.2691C185.784 66.2951 184.341 65.974 183.031 65.3318L183.752 62.4023Z" fill="#1E1E1E"/>
       <path d="M50.1985 39.8037H37.1426V79.1965H50.1985V39.8037Z" fill="#D52B1E"/>
-      <path d="M87.1426 12.8572H12.8572V87.1429H87.1426V12.8572Z" fill="#D52B1E"/>
-      <path d="M50 0L24 0C10.7452 0 0 10.7452 0 24L0 50L24 50C37.2548 50 50 37.2548 50 24L50 0Z" fill="#D52B1E"/>
-      <path d="M50 69L50 95C50 108.255 37.2548 120 24 120L0 120L0 95L0 69L24 69C37.2548 69 50 81.7452 50 95L50 69Z" fill="#D52B1E"/>
-      <path d="M100 50L100 24C100 10.7452 112.745 0 126 0L150 0L150 24L150 50L126 50C112.745 50 100 37.2548 100 24L100 50Z" fill="#D52B1E"/>
-      <path d="M100 95C100 108.255 112.745 120 126 120L150 120L150 95L150 69L126 69C112.745 69 100 81.7452 100 95Z" fill="#D52B1E"/>
+      <path d="M63.2545 52.9331H24.0869V66.0625H63.2545V52.9331Z" fill="#D52B1E"/>
     </svg>
   );
 
@@ -246,12 +242,14 @@ export const Footer = ({
               )
             )}
             {secondaryLogo && secondaryLogoSrc && (
-              <img 
-                src={colorScheme === 'dark' && secondaryLogoSrcDark ? secondaryLogoSrcDark : secondaryLogoSrc}
-                alt={secondaryLogoAlt} 
-                className={styles.designSystemLogo} 
-                loading="lazy"
-              />
+              <div className={styles.secondaryLogoWrapper}>
+                <img 
+                  src={colorScheme === 'dark' && secondaryLogoSrcDark ? secondaryLogoSrcDark : secondaryLogoSrc}
+                  alt={secondaryLogoAlt} 
+                  className={styles.designSystemLogo} 
+                  loading="lazy"
+                />
+              </div>
             )}
             {whiteSectionSlotSmall && (
               <div className={styles.slotSmall}>
@@ -469,10 +467,21 @@ function buildInlineCss(styles: Record<string, string>): string {
   color: inherit;
   flex-shrink: 0;
 }
+.${s.logo} img {
+  width: 169px;
+  height: auto;
+  display: block;
+}
 .${s.redCrossLogo} {
   width: 169px;
   height: auto;
   display: block;
+}
+.${s.secondaryLogoWrapper} {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--ds-size-6);
 }
 .${s.designSystemLogo} {
   height: 24px;

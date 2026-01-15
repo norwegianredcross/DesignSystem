@@ -245,11 +245,6 @@
   flex-wrap: wrap;
 }
 
-/* Spacing between logo and design system logo - 40px as per Figma */
-.whiteContent > img:first-of-type + img {
-  margin-left: var(--ds-size-10, 40px);
-}
-
 .logo {
   display: flex;
   align-items: center;
@@ -261,10 +256,23 @@
   flex-shrink: 0;
 }
 
+.logo img {
+  width: 169px; /* Explicit width from Figma - same as Header */
+  height: auto;
+  display: block;
+}
+
 .redCrossLogo {
   width: 169px;
   height: auto;
   display: block;
+}
+
+.secondaryLogoWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--ds-size-6); /* Same padding as Header for consistent spacing */
 }
 
 .designSystemLogo {
