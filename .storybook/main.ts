@@ -187,8 +187,8 @@ const config: StorybookConfig = {
         max-width: 1364px !important; /* Updated to match HeaderInner max-width */
         margin: 0 auto !important;
         position: relative !important;
-        top: 100px !important; /* Increased spacing from 80px to 100px */
-        height: calc(100vh - 100px) !important;
+        top: 163px !important; /* Header height: 44px extension + 119px inner = 163px */
+        height: calc(100vh - 163px) !important;
         background-color: white;
         box-shadow: none !important;
         border: none !important;
@@ -196,48 +196,181 @@ const config: StorybookConfig = {
         grid-template-columns: 240px 1fr !important;
         grid-template-rows: 1fr !important;
       }
+      
+      /* White background section on the left side of header (from viewport left to end of logo + gutter) */
+      #custom-header-wrapper::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 44px; /* Start below header extension */
+        width: max(241px, calc((100vw - 1364px) / 2 + 242px));
+        height: 119px; /* Match header inner height */
+        background-color: white;
+        z-index: 0;
+        pointer-events: none;
+      }
+      
+      /* Hide nav items on mobile */
+      @media (max-width: 850px) {
+        .sb-nav-items {
+          display: none !important;
+        }
+        
+        #custom-header-wrapper::before {
+          display: none;
+        }
+        
+        .sb-header-extension {
+          display: none !important;
+        }
+      }
       .sidebar-header { display: none !important; }
       .css-v51glt { position: relative !important; height: 100% !important; border-right: 1px solid #eee; }
       .css-g9eqoe { position: relative !important; height: 100% !important; }
     </style>
     <script>
       document.addEventListener('DOMContentLoaded', () => {
-        const header = document.createElement('div');
+        const header = document.createElement('header');
         header.id = 'custom-header-wrapper';
-        header.style.cssText = "position: fixed; top: 0; left: -17px; width: calc(100% + 17px); height: auto; min-height: 80px; z-index: 1000; background-color: #ffffff; border-bottom: 1px solid #e0e0e0; display: block; unicode-bidi: isolate;";
+        header.setAttribute('data-color', 'primary');
+        header.style.cssText = "position: fixed; top: 0; left: -17px; width: calc(100% + 17px); height: auto; z-index: 1000; background-color: var(--ds-color-neutral-background-default, #ffffff); display: flex; flex-direction: column; unicode-bidi: isolate;";
         
         header.innerHTML = \`
+            <!-- Header Extension (Red bar at top) -->
+            <div class="sb-header-extension" style="
+                background-color: var(--ds-color-primary-color-red-base-default, #D52B1E);
+                width: 100%;
+                height: 44px;
+                padding: 0 24px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                box-sizing: border-box;
+                color: white;
+            ">
+                <div style="
+                    width: 100%;
+                    max-width: 1364px;
+                    display: flex;
+                    justify-content: flex-end;
+                    align-items: center;
+                    gap: 16px;
+                ">
+                    <!-- Dark Mode Toggle (simplified) -->
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; color: white; font-size: 14px;">
+                        <input type="checkbox" id="sb-theme-toggle" style="cursor: pointer;" />
+                        <span>Mørk modus</span>
+                    </label>
+                    
+                    <!-- Divider -->
+                    <div style="width: 1px; height: 18px; background-color: rgba(247, 233, 232, 1);"></div>
+                    
+                    <!-- Language Switch (simplified) -->
+                    <div style="display: flex; align-items: center; gap: 8px; color: white; font-size: 14px;">
+                        <span>Språk:</span>
+                        <select id="sb-language-select" style="background: transparent; border: none; color: white; cursor: pointer; font-size: 14px; outline: none;">
+                            <option value="NO">Norsk (NO)</option>
+                            <option value="EN">English (EN)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Header Inner (Main header) -->
             <div style="
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
                 height: auto;
-                min-height: 80px;
+                min-height: 119px;
                 width: 100%;
                 max-width: 1364px;
                 margin: 0 auto;
-                padding: 16px 24px;
+                padding: 0 24px;
                 box-sizing: border-box;
                 gap: 24px;
+                position: relative;
             ">
                 <!-- Logo Section with Secondary Logo -->
-                <div class="sb-header-logo-wrapper">
+                <div class="sb-header-logo-wrapper" style="
+                    display: flex;
+                    align-items: center;
+                    height: 119px;
+                    flex-shrink: 0;
+                    background-color: white;
+                    margin-left: -24px;
+                    padding-left: 24px;
+                ">
                     <a href="/" aria-label="Norges Røde Kors Hjem" style="
-                        display: block;
-                        height: 74px;
-                        width: auto;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 217px;
+                        height: 100%;
                         text-decoration: none;
                         color: inherit;
                         flex-shrink: 0;
                         cursor: pointer;
                     ">
-                        <img src="./logo-red-cross.svg" alt="" style="height: 100%; width: auto; display: block;" />
+                        <img src="./logo-red-cross.svg" alt="" style="width: 169px; height: auto; display: block;" />
                     </a>
                     
-                    <div class="sb-header-divider"></div>
-                    <img src="./designsystemlogofinal.svg" alt="Designsystem Logo" class="sb-secondary-logo" />
+                    <div style="
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        height: 100%;
+                        padding: 0 24px;
+                        background-color: var(--ds-color-neutral-background-default, #ffffff);
+                    ">
+                        <img src="./designsystemlogofinal.svg" alt="Designsystem Logo" class="sb-secondary-logo" />
+                    </div>
                 </div>
                 
+                <!-- Nav Items (Desktop) -->
+                <nav class="sb-nav-items" style="
+                    display: flex;
+                    gap: 40px;
+                    align-items: center;
+                    margin-left: 24px;
+                    flex-grow: 1;
+                    justify-content: flex-end;
+                ">
+                    <a href="../" class="sb-nav-link" style="
+                        color: var(--ds-color-primary-color-red-text-default, #D52B1E);
+                        font-family: var(--ds-font-family, 'Source Sans 3', sans-serif);
+                        font-size: var(--ds-font-size-md, 16px);
+                        text-decoration: none;
+                        font-weight: var(--ds-font-weight-regular, 400);
+                        letter-spacing: 0.09px;
+                    ">Design</a>
+                    <a href="./" class="sb-nav-link" style="
+                        color: var(--ds-color-primary-color-red-text-default, #D52B1E);
+                        font-family: var(--ds-font-family, 'Source Sans 3', sans-serif);
+                        font-size: var(--ds-font-size-md, 16px);
+                        text-decoration: none;
+                        font-weight: var(--ds-font-weight-regular, 400);
+                        letter-spacing: 0.09px;
+                    ">Komponenter</a>
+                    <a href="../code" class="sb-nav-link" style="
+                        color: var(--ds-color-primary-color-red-text-default, #D52B1E);
+                        font-family: var(--ds-font-family, 'Source Sans 3', sans-serif);
+                        font-size: var(--ds-font-size-md, 16px);
+                        text-decoration: none;
+                        font-weight: var(--ds-font-weight-regular, 400);
+                        letter-spacing: 0.09px;
+                    ">Kode</a>
+                    <a href="../tokens" class="sb-nav-link" style="
+                        color: var(--ds-color-primary-color-red-text-default, #D52B1E);
+                        font-family: var(--ds-font-family, 'Source Sans 3', sans-serif);
+                        font-size: var(--ds-font-size-md, 16px);
+                        text-decoration: none;
+                        font-weight: var(--ds-font-weight-regular, 400);
+                        letter-spacing: 0.09px;
+                    ">Tokens</a>
+                </nav>
+                
+                <!-- Actions -->
                 <div style="
                     display: flex;
                     align-items: center;
@@ -289,6 +422,46 @@ const config: StorybookConfig = {
         \`;
         
         document.body.insertBefore(header, document.body.firstChild);
+
+        // Update top padding to account for header height (44px extension + 119px inner = 163px)
+        const existingTopPadding = document.querySelector('.css-17kqctq');
+        if (existingTopPadding) {
+          existingTopPadding.style.top = '163px !important';
+        }
+
+        // Theme Toggle Logic
+        const themeToggle = document.getElementById('sb-theme-toggle');
+        if (themeToggle) {
+          themeToggle.addEventListener('change', (e) => {
+            const isDark = e.target.checked;
+            document.documentElement.setAttribute('data-color-scheme', isDark ? 'dark' : 'light');
+            // Update logo if dark mode
+            const logoImg = header.querySelector('.sb-secondary-logo');
+            if (logoImg) {
+              logoImg.src = isDark ? './designsystemlogofinaldark.svg' : './designsystemlogofinal.svg';
+            }
+          });
+        }
+
+        // Language Select Logic
+        const languageSelect = document.getElementById('sb-language-select');
+        if (languageSelect) {
+          languageSelect.addEventListener('change', (e) => {
+            // Language change logic can be added here if needed
+            console.log('Language changed to:', e.target.value);
+          });
+        }
+
+        // Nav Link Hover Styles
+        const navLinks = header.querySelectorAll('.sb-nav-link');
+        navLinks.forEach(link => {
+          link.addEventListener('mouseenter', () => {
+            link.style.textDecoration = 'underline';
+          });
+          link.addEventListener('mouseleave', () => {
+            link.style.textDecoration = 'none';
+          });
+        });
 
         // Toggle Logic
         const btn = document.getElementById('sb-custom-menu-btn');
