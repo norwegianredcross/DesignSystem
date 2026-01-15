@@ -253,8 +253,15 @@
 .logo {
   height: 43px;
   width: auto;
-  display: block;
+  display: flex;
+  align-items: center;
   flex-shrink: 0;
+}
+
+.redCrossLogo {
+  width: 169px;
+  height: auto;
+  display: block;
 }
 
 .designSystemLogo {
