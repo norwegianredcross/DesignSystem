@@ -45,9 +45,9 @@ export const Footer = ({
   showPrimaryLogo = true,
   primaryLogoSrc,
   primaryLogoAlt = "Røde Kors Logo",
-  secondaryLogo = true,
-  secondaryLogoSrc = `${import.meta.env.BASE_URL}designsystemlogofinallight.svg`,
-  secondaryLogoSrcDark = `${import.meta.env.BASE_URL}designsystemlogofinaldark.svg`,
+  secondaryLogo = false,
+  secondaryLogoSrc,
+  secondaryLogoSrcDark,
   secondaryLogoAlt = "Designsystem Logo",
   shortcutsLinksLeft,
   shortcutsLinksRight
@@ -99,11 +99,6 @@ export const Footer = ({
       mediaQuery.removeEventListener('change', handleChange);
     };
   }, []);
-
-  // Select secondary logo based on color scheme
-  const secondaryLogoSrcFinal = colorScheme === 'dark' && secondaryLogoSrcDark 
-    ? secondaryLogoSrcDark 
-    : secondaryLogoSrc;
 
   // Red Cross Logo component (inline SVG - same as Header)
   const RedCrossLogo = () => (
@@ -250,9 +245,9 @@ export const Footer = ({
                 </div>
               )
             )}
-            {secondaryLogo && secondaryLogoSrcFinal && (
+            {secondaryLogo && secondaryLogoSrc && (
               <img 
-                src={secondaryLogoSrcFinal}
+                src={colorScheme === 'dark' && secondaryLogoSrcDark ? secondaryLogoSrcDark : secondaryLogoSrc}
                 alt={secondaryLogoAlt} 
                 className={styles.designSystemLogo} 
                 loading="lazy"
@@ -465,10 +460,11 @@ function buildInlineCss(styles: Record<string, string>): string {
   margin-left: var(--ds-size-10, 40px);
 }
 .${s.logo} {
-  height: 43px;
-  width: auto;
   display: flex;
   align-items: center;
+  justify-content: center;
+  height: 43px;
+  width: auto;
   flex-shrink: 0;
 }
 .${s.redCrossLogo} {

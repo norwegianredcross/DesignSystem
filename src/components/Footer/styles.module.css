@@ -251,10 +251,11 @@
 }
 
 .logo {
-  height: 43px;
-  width: auto;
   display: flex;
   align-items: center;
+  justify-content: center;
+  height: 43px;
+  width: auto;
   flex-shrink: 0;
 }
 
