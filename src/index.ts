@@ -107,7 +107,6 @@ export type { LinkProps } from './components/Link';
 
 // List
 export { List } from './components/List';
-export type { ListProps } from './components/List';
 
 // Pagination
 export { Pagination, usePagination } from './components/Pagination';
