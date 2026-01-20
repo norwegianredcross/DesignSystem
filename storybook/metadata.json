@@ -959,48 +959,6 @@
     ]
   },
   {
-    "componentName": "usePagination",
-    "importPath": "rk-designsystem",
-    "description": "",
-    "props": [
-      {
-        "name": "currentPage",
-        "type": "number",
-        "description": "The current page number",
-        "defaultValue": "1",
-        "required": true
-      },
-      {
-        "name": "totalPages",
-        "type": "number",
-        "description": "The total number of pages",
-        "defaultValue": "1",
-        "required": true
-      },
-      {
-        "name": "showPages",
-        "type": "number",
-        "description": "The maximum number of pages to show",
-        "defaultValue": "7",
-        "required": false
-      },
-      {
-        "name": "setCurrentPage",
-        "type": "(page: number) => void",
-        "description": "Callback to set the current page",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "onChange",
-        "type": "(event: MouseEvent<HTMLElement, MouseEvent>, page: number) => void",
-        "description": "Callback when the page changes",
-        "defaultValue": null,
-        "required": false
-      }
-    ]
-  },
-  {
     "componentName": "List",
     "importPath": "rk-designsystem",
     "description": "List-komponent for punktlister (ul) og nummererte lister (ol).",

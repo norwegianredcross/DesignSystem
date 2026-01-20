@@ -928,19 +928,6 @@ import { ToggleGroup } from 'rk-designsystem';
  />
 ```
 
-#### usePagination
-```tsx
-import { usePagination } from 'rk-designsystem';
-
-<usePagination
-  currentPage={1}  // Required: The current page number
-  totalPages={1}  // Required: The total number of pages
-  onChange?={(event: MouseEvent<HTMLElement, MouseEvent>, page: number) => void}
-  setCurrentPage?={(page: number) => void}
-  showPages?={7}
- />
-```
-
 #### useRadioGroup
 ```tsx
 import { useRadioGroup } from 'rk-designsystem';
