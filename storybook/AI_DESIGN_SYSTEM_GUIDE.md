@@ -859,6 +859,38 @@ import { Link } from 'rk-designsystem';
  />
 ```
 
+#### PaginationButton
+```tsx
+import { PaginationButton } from 'rk-designsystem';
+
+<PaginationButton
+  aria-current?={false}
+  asChild?={false}
+  data-color?={any}
+  data-size?="sm" | "md" | "lg"
+  type?={"button"}
+  variant?={"primary"}
+ />
+```
+
+#### PaginationItem
+```tsx
+import { PaginationItem } from 'rk-designsystem';
+
+<PaginationItem
+  asChild?={false}
+ />
+```
+
+#### PaginationList
+```tsx
+import { PaginationList } from 'rk-designsystem';
+
+<PaginationList
+  asChild?={false}
+ />
+```
+
 #### Paragraph
 ```tsx
 import { Paragraph } from 'rk-designsystem';

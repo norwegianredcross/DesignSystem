@@ -959,6 +959,83 @@
     ]
   },
   {
+    "componentName": "PaginationList",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "PaginationItem",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "PaginationButton",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "aria-current",
+        "type": "boolean | 'true' | 'false' | 'page' | 'step' | 'location' | 'date' | 'time'",
+        "description": "Toggle button as active\nIndicates the element that represents the current item within a container or set of related elements.",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "any",
+        "description": "Change the color scheme of the button",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "variant",
+        "type": "enum",
+        "description": "Specify which variant to use",
+        "defaultValue": "'primary'",
+        "required": false
+      },
+      {
+        "name": "type",
+        "type": "enum",
+        "description": "Specify the type of button. Unset when `asChild` is true",
+        "defaultValue": "'button'",
+        "required": false
+      }
+    ]
+  },
+  {
     "componentName": "List",
     "importPath": "rk-designsystem",
     "description": "List-komponent for punktlister (ul) og nummererte lister (ol).",
