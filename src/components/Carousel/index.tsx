@@ -6,6 +6,7 @@ import type { MergeRight } from '../../utilities';
 import { ChevronLeftIcon, ChevronRightIcon } from '@navikt/aksel-icons';
 import { Button } from '../Button';
 import { Spinner } from '../SpinnerLoader';
+import { useLanguageOptional } from '../../context/LanguageContext';
 
 // --- Typer ---
 export type CarouselProps = MergeRight<
@@ -40,6 +41,8 @@ export const Carousel: React.FC<CarouselProps> = ({
   'data-color': dataColor,
   'data-size': dataSize,
 }) => {
+  const { t } = useLanguageOptional();
+
   // Options for Embla
   const options = {
     loop: true,
@@ -149,7 +152,7 @@ export const Carousel: React.FC<CarouselProps> = ({
                 <div className={styles.slideInner} style={{ borderRadius: `${cornerRadius}px`, overflow: 'hidden', position: 'relative', width: '100%', height: '100%' }}>
                    {!loadedFlags[index] && (
                     <div className={styles.loaderOverlay}>
-                      <Spinner aria-label="Laster bilde" />
+                      <Spinner aria-label={t('carousel.loading')} />
                     </div>
                   )}
                   <img
@@ -184,7 +187,7 @@ export const Carousel: React.FC<CarouselProps> = ({
               <Button
                 variant="primary"
                 icon={true}
-                aria-label="Forrige bilde"
+                aria-label={t('carousel.previousImage')}
                 onClick={scrollPrev}
                 disabled={!images || images.length <= 1}
               >
@@ -193,7 +196,7 @@ export const Carousel: React.FC<CarouselProps> = ({
               <Button
                 variant="primary"
                 icon={true}
-                aria-label="Neste bilde"
+                aria-label={t('carousel.nextImage')}
                 onClick={scrollNext}
                 disabled={!images || images.length <= 1}
               >
@@ -203,7 +206,7 @@ export const Carousel: React.FC<CarouselProps> = ({
           )}
 
           {showDots && images && images.length > 1 && (
-            <div className={styles.dots} role="tablist" aria-label="Bildeposisjon">
+            <div className={styles.dots} role="tablist" aria-label={t('carousel.imagePosition')}>
               {scrollSnaps.map((_, index) => {
                 const isActive = index === selectedIndex;
                 return (
@@ -212,7 +215,7 @@ export const Carousel: React.FC<CarouselProps> = ({
                     type="button"
                     className={`${styles.dot} ${isActive ? styles.dotActive : ''}`}
                     onClick={() => scrollTo(index)}
-                    aria-label={`Gå til bilde ${index + 1}`}
+                    aria-label={`${t('carousel.goToImage')} ${index + 1}`}
                     aria-selected={isActive}
                     role="tab"
                   />

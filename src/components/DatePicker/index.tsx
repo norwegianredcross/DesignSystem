@@ -13,6 +13,7 @@ import styles from './styles.module.css';
 // Import shared types
 import type { DefaultProps } from "../../types";
 import type { MergeRight } from "../../utilities";
+import { useLanguageOptional } from '../../context/LanguageContext';
 
 // --- Grensesnitt Oppdatert ---
 export type DatePickerProps = MergeRight<
@@ -48,6 +49,8 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   "data-color": dataColor, // <-- Destrukturert
   "data-size": dataSize,   // <-- Destrukturert
 }) => {
+  const { t } = useLanguageOptional();
+
   // Intern tilstand for måneden som vises
   const [currentMonthDate, setCurrentMonthDate] = useState(
     startOfMonth(selectedDate && isValid(selectedDate) ? selectedDate : initialDate),
@@ -133,7 +136,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
             variant="tertiary"
             icon
             onClick={handlePrevMonth}
-            aria-label="Forrige måned"
+            aria-label={t('datePicker.previousMonth')}
             disabled={isPrevMonthDisabled}
           >
             <ChevronLeftIcon />
@@ -142,7 +145,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
             variant="tertiary"
             icon
             onClick={handleNextMonth}
-            aria-label="Neste måned"
+            aria-label={t('datePicker.nextMonth')}
           >
             <ChevronRightIcon />
           </DigDirButton>

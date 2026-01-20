@@ -99,6 +99,17 @@ export const useLanguageOptional = (): LanguageContextType => {
           'footer.legal.press': 'For presse',
           'footer.legal.procurement': 'Regler for innkjøp',
           'footer.legal.whistleblowing': 'Varsling/Misconduct',
+          // Carousel translations
+          'carousel.loading': 'Laster bilde',
+          'carousel.previousImage': 'Forrige bilde',
+          'carousel.nextImage': 'Neste bilde',
+          'carousel.imagePosition': 'Bildeposisjon',
+          'carousel.goToImage': 'Gå til bilde',
+          // DatePicker translations
+          'datePicker.previousMonth': 'Forrige måned',
+          'datePicker.nextMonth': 'Neste måned',
+          // DateInput translations
+          'dateInput.openDatePicker': 'Åpne datovelger',
         };
         return fallbacks[key] || key;
       },

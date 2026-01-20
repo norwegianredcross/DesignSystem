@@ -11,6 +11,7 @@ import styles from "./styles.module.css";
 // Importer DefaultProps for å få data-color og data-size
 import type { DefaultProps } from "../../types";
 import type { MergeRight } from "../../utilities";
+import { useLanguageOptional } from "../../context/LanguageContext";
 
 // --- Oppdatert grensesnitt ---
 export type DateInputProps = MergeRight<
@@ -83,6 +84,8 @@ const validateDigits = (digits: string): string => {
  */
 export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
   (props, ref) => {
+    const { t } = useLanguageOptional();
+
     const {
       label,
       suffixIcon,
@@ -268,7 +271,7 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
               tabIndex={onSuffixClick && !disabled ? 0 : -1}
               aria-hidden={!onSuffixClick}
               disabled={disabled}
-              aria-label={onSuffixClick ? "Åpne datovelger" : undefined}
+              aria-label={onSuffixClick ? t('dateInput.openDatePicker') : undefined}
             >
               {suffixIcon}
             </button>

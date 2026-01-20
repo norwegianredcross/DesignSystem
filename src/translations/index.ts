@@ -954,6 +954,23 @@ export const translations = {
         procurement: "Regler for innkjøp",
         whistleblowing: "Varsling/Misconduct"
       }
+    },
+    // Carousel
+    carousel: {
+      loading: "Laster bilde",
+      previousImage: "Forrige bilde",
+      nextImage: "Neste bilde",
+      imagePosition: "Bildeposisjon",
+      goToImage: "Gå til bilde"
+    },
+    // DatePicker
+    datePicker: {
+      previousMonth: "Forrige måned",
+      nextMonth: "Neste måned"
+    },
+    // DateInput
+    dateInput: {
+      openDatePicker: "Åpne datovelger"
     }
   },
   EN: {
@@ -1913,6 +1930,23 @@ export const translations = {
         procurement: "Procurement rules",
         whistleblowing: "Whistleblowing/Misconduct"
       }
+    },
+    // Carousel
+    carousel: {
+      loading: "Loading image",
+      previousImage: "Previous image",
+      nextImage: "Next image",
+      imagePosition: "Image position",
+      goToImage: "Go to image"
+    },
+    // DatePicker
+    datePicker: {
+      previousMonth: "Previous month",
+      nextMonth: "Next month"
+    },
+    // DateInput
+    dateInput: {
+      openDatePicker: "Open date picker"
     }
   }
 };
