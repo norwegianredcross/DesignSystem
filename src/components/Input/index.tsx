@@ -9,3 +9,4 @@ import {
 export type InputProps = DigDirInputProps;
 export const Input = DigDirInput;
 
+Input.displayName = 'Input';

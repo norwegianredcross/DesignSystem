@@ -11,3 +11,4 @@ export type PaginationProps = DigDirPaginationProps;
 export const Pagination = DigDirPagination;
 export const usePagination = useDigDirPagination;
 
+Pagination.displayName = 'Pagination';
