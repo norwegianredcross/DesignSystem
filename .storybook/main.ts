@@ -33,7 +33,7 @@ const config: StorybookConfig = {
     mergeConfig(
       cfg,
       defineConfig({
-        base: '/storybook/',
+        base: '/DesignSystem/storybook/',
         resolve: {
           alias: {
             '@story-utils': path.resolve(__dirname, '../src/story-utils'),
