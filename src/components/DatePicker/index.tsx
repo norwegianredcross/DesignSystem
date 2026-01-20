@@ -51,6 +51,18 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 }) => {
   const { t } = useLanguageOptional();
 
+  // Fallback: inject minimal DatePicker styles if consumer did not import the CSS bundle.
+  useEffect(() => {
+    const styleId = 'rk-datepicker-inline-styles';
+    if (typeof document === 'undefined') return;
+    if (document.getElementById(styleId)) return;
+    const css = buildDatePickerInlineCss(styles);
+    const tag = document.createElement('style');
+    tag.id = styleId;
+    tag.textContent = css;
+    document.head.appendChild(tag);
+  }, []);
+
   // Intern tilstand for måneden som vises
   const [currentMonthDate, setCurrentMonthDate] = useState(
     startOfMonth(selectedDate && isValid(selectedDate) ? selectedDate : initialDate),
@@ -199,3 +211,121 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 };
 
 DatePicker.displayName = 'DatePicker';
+
+// Build a minimal CSS fallback using the hashed class names from the CSS module.
+function buildDatePickerInlineCss(s: Record<string, string>): string {
+  return `
+.${s.calendarContainer} {
+  display: inline-flex;
+  padding: var(--ds-size-8, 32px);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--ds-size-3, 12px);
+  border: 1px solid var(--ds-color-border-subtle, #ccc);
+  border-radius: var(--ds-border-radius-md, 4px);
+  background-color: var(--ds-color-background-default, #fff);
+  font-family: var(--ds-font-family, sans-serif);
+  color: var(--ds-color-text-default, #2b2b2b);
+}
+.${s.calendarHeader} {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+}
+.${s.monthYear} {
+  color: var(--ds-color-text-default, #2b2b2b);
+  font-family: var(--ds-font-family, sans-serif);
+  font-size: var(--ds-heading-sm-font-size, 1.5rem);
+  font-weight: var(--ds-heading-sm-font-weight, 500);
+  line-height: var(--ds-heading-sm-line-height, 1.3);
+  margin: 0;
+}
+.${s.navigationButtons} {
+  display: flex;
+  gap: var(--ds-size-1, 4px);
+}
+.${s.navigationButtons} > button:disabled svg {
+  opacity: var(--ds-opacity-disabled, 0.3);
+}
+.${s.grid} {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  width: 100%;
+  text-align: center;
+}
+.${s.dayNameCell} {
+  display: flex;
+  padding: var(--ds-size-2, 8px);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--ds-color-text-default, #2b2b2b);
+  text-align: center;
+  font-family: var(--ds-font-family, sans-serif);
+  font-size: var(--ds-body-xs-font-size, 14px);
+  font-weight: var(--ds-font-weight-semibold, 600);
+  line-height: var(--ds-body-short-xs-line-height, 1.3);
+  box-sizing: border-box;
+}
+.${s.dateCell} {
+  display: flex;
+  padding: var(--ds-size-5, 22px);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: var(--ds-border-width-default, 1px) solid var(--ds-color-border-subtle, #bcbcbc);
+  box-sizing: border-box;
+  margin: -0.5px;
+  font-family: var(--ds-font-family, sans-serif);
+  color: var(--ds-color-text-default, #2b2b2b);
+  text-align: center;
+  font-size: var(--ds-body-xs-font-size, 14px);
+  font-weight: var(--ds-body-xs-font-weight, 400);
+  line-height: var(--ds-body-short-xs-line-height, 1.3);
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+  user-select: none;
+}
+.${s.dateNumberContainer} {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  transition: color 0.15s ease-in-out, font-weight 0.15s ease-in-out;
+  line-height: 1;
+  box-sizing: border-box;
+  background-color: transparent;
+}
+.${s.dateCell}:hover:not(.${s.otherMonth}):not(.${s.disabled}) {
+  background-color: var(--ds-color-surface-hover, #eee);
+  position: relative;
+  z-index: 1;
+}
+.${s.otherMonth} {
+  color: var(--ds-color-text-subtle, #aaa);
+  cursor: default;
+  pointer-events: none;
+  background-color: var(--ds-color-surface-tinted, #e8e8e8);
+  border: var(--ds-border-width-default, 1px) solid var(--ds-color-border-subtle, #bcbcbc);
+  margin: -0.5px;
+}
+.${s.selectedDate} {
+  background-color: var(--ds-color-base-default, #C30000);
+  border-color: var(--ds-color-base-default, #C30000);
+  color: var(--ds-color-base-contrast-default, #fff);
+  position: relative;
+  z-index: 1;
+}
+.${s.selectedDate} .${s.dateNumberContainer} {
+  color: var(--ds-color-base-contrast-default, #fff);
+  font-weight: var(--ds-font-weight-semibold, 600);
+  background-color: transparent;
+}
+.${s.todayDate} .${s.dateNumberContainer} {
+  font-weight: var(--ds-font-weight-semibold, 600);
+}
+`;
+}
