@@ -109,8 +109,8 @@ export type { LinkProps } from './components/Link';
 export { List } from './components/List';
 
 // Pagination
-export { Pagination, usePagination } from './components/Pagination';
-export type { PaginationProps } from './components/Pagination';
+export { Pagination, PaginationList, PaginationItem, PaginationButton, usePagination } from './components/Pagination';
+export type { PaginationProps, PaginationListProps, PaginationItemProps, PaginationButtonProps } from './components/Pagination';
 
 // Paragraph
 export { Paragraph } from './components/Paragraph';

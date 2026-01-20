@@ -546,15 +546,43 @@ Use `<BreadcrumbsList>`, `<BreadcrumbsItem>`, and `<BreadcrumbsLink>` for struct
 
 #### Pagination
 ```tsx
-import { Pagination } from 'rk-designsystem';
+import { Pagination, PaginationList, PaginationItem, PaginationButton, usePagination } from 'rk-designsystem';
 
-<Pagination
-  aria-label?={Sidenavigering}
-  asChild?={false}
-  data-color?="accent" | "neutral" | "danger" | etc.
-  data-size?="sm" | "md" | "lg"
- />
+// Use the usePagination hook for state management
+const { pages, prevButtonProps, nextButtonProps } = usePagination({
+  currentPage: 1,
+  setCurrentPage: (page) => console.log(page),
+  totalPages: 10,
+});
+
+<Pagination aria-label="Sidenavigering">
+  <PaginationList>
+    <PaginationItem>
+      <PaginationButton {...prevButtonProps} aria-label="Forrige side">
+        Forrige
+      </PaginationButton>
+    </PaginationItem>
+    {pages.map(({ page, itemKey, buttonProps }) => (
+      <PaginationItem key={itemKey}>
+        {buttonProps ? (
+          <PaginationButton {...buttonProps} aria-label={`Side ${page}`}>
+            {page}
+          </PaginationButton>
+        ) : (
+          '...'
+        )}
+      </PaginationItem>
+    ))}
+    <PaginationItem>
+      <PaginationButton {...nextButtonProps} aria-label="Neste side">
+        Neste
+      </PaginationButton>
+    </PaginationItem>
+  </PaginationList>
+</Pagination>
 ```
+
+Available sub-components: `PaginationList`, `PaginationItem`, `PaginationButton`
 
 #### Tabs
 ```tsx
@@ -928,19 +956,6 @@ import { ToggleGroup } from 'rk-designsystem';
  />
 ```
 
-#### usePagination
-```tsx
-import { usePagination } from 'rk-designsystem';
-
-<usePagination
-  currentPage={1}  // Required: The current page number
-  totalPages={1}  // Required: The total number of pages
-  onChange?={(event: MouseEvent<HTMLElement, MouseEvent>, page: number) => void}
-  setCurrentPage?={(page: number) => void}
-  showPages?={7}
- />
-```
-
 #### useRadioGroup
 ```tsx
 import { useRadioGroup } from 'rk-designsystem';
@@ -994,13 +1009,16 @@ import { Footer } from 'rk-designsystem';
 
 <Footer
   data-color?={additional}
-  designSystemLogoAlt?={Designsystem Logo}
-  designSystemLogoSrc?={`${import.meta.env.BASE_URL}designsystemlogofinallight.svg`}
-  designSystemLogoSrcDark?={`${import.meta.env.BASE_URL}designsystemlogofinaldark.svg`}
+  primaryLogoAlt?={Røde Kors Logo}
+  primaryLogoSrc?={string}
   redSectionSlot?={ReactNode}
+  secondaryLogo?={false}
+  secondaryLogoAlt?={Designsystem Logo}
+  secondaryLogoSrc?={string}
+  secondaryLogoSrcDark?={string}
   shortcutsLinksLeft?={FooterLink[]}
   shortcutsLinksRight?={FooterLink[]}
-  showDesignSystemLogo?={true}
+  showPrimaryLogo?={true}
   whiteSectionSlotLarge?={ReactNode}
   whiteSectionSlotSmall?={ReactNode}
  />
