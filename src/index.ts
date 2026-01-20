@@ -70,8 +70,8 @@ export { Divider } from './components/Divider';
 export type { DividerProps } from './components/Divider';
 
 // Dropdown
-export { Dropdown } from './components/Dropdown';
-export type { DropdownProps } from './components/Dropdown';
+export { Dropdown, DropdownTrigger, DropdownTriggerContext, DropdownHeading, DropdownList, DropdownItem, DropdownButton } from './components/Dropdown';
+export type { DropdownProps, DropdownTriggerContextProps, DropdownHeadingProps, DropdownListProps, DropdownItemProps, DropdownButtonProps } from './components/Dropdown';
 
 // ErrorSummary
 export { ErrorSummary } from './components/ErrorSummary';

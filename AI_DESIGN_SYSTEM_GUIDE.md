@@ -828,20 +828,36 @@ Use `<Details.Summary>` and `<Details.Content>` for accordion structure.
 
 #### Dropdown
 ```tsx
-import { Dropdown } from 'rk-designsystem';
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownTriggerContext,
+  DropdownHeading,
+  DropdownList,
+  DropdownItem,
+  DropdownButton
+} from 'rk-designsystem';
 
-<Dropdown
-  asChild?={false}
-  autoPlacement?={true}
-  data-color?={any}
-  data-size?={any}
-  id?={string}
-  onClose?={() => void}
-  onOpen?={() => void}
-  open?={undefined}
-  placement?={bottom-end}
- />
+// With external trigger button
+<DropdownTriggerContext>
+  <DropdownTrigger>Open Menu</DropdownTrigger>
+  <Dropdown>
+    <DropdownHeading>Actions</DropdownHeading>
+    <DropdownList>
+      <DropdownItem>
+        <DropdownButton onClick={() => console.log('Edit')}>Edit</DropdownButton>
+      </DropdownItem>
+      <DropdownItem>
+        <DropdownButton onClick={() => console.log('Delete')} data-color="danger">
+          Delete
+        </DropdownButton>
+      </DropdownItem>
+    </DropdownList>
+  </Dropdown>
+</DropdownTriggerContext>
 ```
+
+Available sub-components: `DropdownTrigger`, `DropdownTriggerContext`, `DropdownHeading`, `DropdownList`, `DropdownItem`, `DropdownButton`
 
 #### FieldDescription
 ```tsx
