@@ -1601,6 +1601,164 @@
     ]
   },
   {
+    "componentName": "DropdownTrigger",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "inline",
+        "type": "boolean",
+        "description": "Will render the trigger as inline text.",
+        "defaultValue": "false\nfalse",
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false\nfalse",
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "any",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "any",
+        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.\nChange the color scheme of the button",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "variant",
+        "type": "enum",
+        "description": "Specify which variant to use",
+        "defaultValue": "'primary'",
+        "required": false
+      },
+      {
+        "name": "icon",
+        "type": "boolean",
+        "description": "Toggle icon only styling, pass icon as children\nWhen combined with loading, the loading-icon will be shown instead of the icon.",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "loading",
+        "type": "ReactNode",
+        "description": "Toggle loading state.\nPass an element if you want to display a custom loader.",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "type",
+        "type": "enum",
+        "description": "Specify the type of button. Unset when `asChild` is true",
+        "defaultValue": "'button'",
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "DropdownTriggerContext",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": []
+  },
+  {
+    "componentName": "DropdownHeading",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "level",
+        "type": "enum",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "enum",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "DropdownList",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": []
+  },
+  {
+    "componentName": "DropdownItem",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": []
+  },
+  {
+    "componentName": "DropdownButton",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-color",
+        "type": "any",
+        "description": "Change the color scheme of the button",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "type",
+        "type": "enum",
+        "description": "Specify the type of button. Unset when `asChild` is true",
+        "defaultValue": "'button'",
+        "required": false
+      },
+      {
+        "name": "icon",
+        "type": "boolean",
+        "description": "Toggle icon only styling, pass icon as children\nWhen combined with loading, the loading-icon will be shown instead of the icon.",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "loading",
+        "type": "ReactNode",
+        "description": "Toggle loading state.\nPass an element if you want to display a custom loader.",
+        "defaultValue": "false",
+        "required": false
+      }
+    ]
+  },
+  {
     "componentName": "Divider",
     "importPath": "rk-designsystem",
     "description": "",
