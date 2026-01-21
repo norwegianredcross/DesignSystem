@@ -9,6 +9,8 @@
   background-color: var(--ds-color-background-default, #fff);
   font-family: var(--ds-font-family, sans-serif);
   color: var(--ds-color-text-default, #2b2b2b);
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .calendarHeader {
@@ -138,4 +140,46 @@
   font-weight: var(--ds-font-weight-semibold, 600);
   background-color: transparent;
   box-shadow: none;
+}
+
+/* --- Mobile responsiveness --- */
+@media (max-width: 480px) {
+  .calendarContainer {
+    padding: var(--ds-size-4, 16px);
+    gap: var(--ds-size-2, 8px);
+  }
+
+  .monthYear {
+    font-size: var(--ds-heading-xs-font-size, 1.125rem);
+  }
+
+  .dayNameCell {
+    padding: var(--ds-size-1, 4px);
+    font-size: var(--ds-body-2xs-font-size, 12px);
+  }
+
+  .dateCell {
+    padding: var(--ds-size-3, 12px);
+    font-size: var(--ds-body-2xs-font-size, 12px);
+  }
+
+  .dateNumberContainer {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media (max-width: 360px) {
+  .calendarContainer {
+    padding: var(--ds-size-3, 12px);
+  }
+
+  .dateCell {
+    padding: var(--ds-size-2, 8px);
+  }
+
+  .dateNumberContainer {
+    width: 18px;
+    height: 18px;
+  }
 }

@@ -226,6 +226,8 @@ function buildDatePickerInlineCss(s: Record<string, string>): string {
   background-color: var(--ds-color-background-default, #fff);
   font-family: var(--ds-font-family, sans-serif);
   color: var(--ds-color-text-default, #2b2b2b);
+  max-width: 100%;
+  box-sizing: border-box;
 }
 .${s.calendarHeader} {
   display: flex;
@@ -326,6 +328,39 @@ function buildDatePickerInlineCss(s: Record<string, string>): string {
 }
 .${s.todayDate} .${s.dateNumberContainer} {
   font-weight: var(--ds-font-weight-semibold, 600);
+}
+@media (max-width: 480px) {
+  .${s.calendarContainer} {
+    padding: var(--ds-size-4, 16px);
+    gap: var(--ds-size-2, 8px);
+  }
+  .${s.monthYear} {
+    font-size: var(--ds-heading-xs-font-size, 1.125rem);
+  }
+  .${s.dayNameCell} {
+    padding: var(--ds-size-1, 4px);
+    font-size: var(--ds-body-2xs-font-size, 12px);
+  }
+  .${s.dateCell} {
+    padding: var(--ds-size-3, 12px);
+    font-size: var(--ds-body-2xs-font-size, 12px);
+  }
+  .${s.dateNumberContainer} {
+    width: 20px;
+    height: 20px;
+  }
+}
+@media (max-width: 360px) {
+  .${s.calendarContainer} {
+    padding: var(--ds-size-3, 12px);
+  }
+  .${s.dateCell} {
+    padding: var(--ds-size-2, 8px);
+  }
+  .${s.dateNumberContainer} {
+    width: 18px;
+    height: 18px;
+  }
 }
 `;
 }
