@@ -2,6 +2,7 @@ import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import React from 'react';
 import { Carousel, type CarouselProps } from './index';
 import { Spinner } from '../SpinnerLoader';
+import { expect, within, userEvent, waitFor } from 'storybook/test';
 
 const meta: Meta<typeof Carousel> = {
   title: 'Components/Carousel',
@@ -257,9 +258,9 @@ function SupabaseExample(args: Omit<CarouselProps, 'images'>) {
   }, [base, page]);
 
   return (
-    <div style={{ 
-      width: '900px', 
-      height: '520px', 
+    <div style={{
+      width: '900px',
+      height: '520px',
       margin: '0 auto', // Center horizontally
       display: 'flex',
       justifyContent: 'center'
@@ -275,3 +276,319 @@ function SupabaseExample(args: Omit<CarouselProps, 'images'>) {
     </div>
   );
 }
+
+// --- INTERACTION TESTS ---
+
+// Test images that load reliably (using placeholder service)
+const testImages = [
+  { src: 'https://picsum.photos/seed/test1/800/600', alt: 'Test bilde 1' },
+  { src: 'https://picsum.photos/seed/test2/800/600', alt: 'Test bilde 2' },
+  { src: 'https://picsum.photos/seed/test3/800/600', alt: 'Test bilde 3' },
+];
+
+/**
+ * Tests that next/previous arrow buttons navigate between slides.
+ */
+export const TestArrowNavigation: Story = {
+  name: 'Test: Arrow Navigation',
+  args: {
+    images: testImages,
+    showArrows: true,
+    showDots: true,
+    autoPlay: false,
+  },
+  render: (args) => (
+    <div style={{ width: '600px', height: '400px', margin: '0 auto' }}>
+      <Carousel {...args} />
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Wait for carousel to initialize
+    await waitFor(() => {
+      expect(canvas.getByRole('button', { name: /neste/i })).toBeInTheDocument();
+    });
+
+    // Find the navigation buttons
+    const nextButton = canvas.getByRole('button', { name: /neste/i });
+    const prevButton = canvas.getByRole('button', { name: /forrige/i });
+
+    // Find all dot buttons to track position
+    const dots = canvas.getAllByRole('tab');
+    expect(dots.length).toBe(3);
+
+    // Initially, first dot should be selected
+    expect(dots[0]).toHaveAttribute('aria-selected', 'true');
+
+    // Click next button
+    await userEvent.click(nextButton);
+
+    // Wait for the carousel to update
+    await waitFor(() => {
+      expect(dots[1]).toHaveAttribute('aria-selected', 'true');
+    });
+
+    // Click next again
+    await userEvent.click(nextButton);
+
+    await waitFor(() => {
+      expect(dots[2]).toHaveAttribute('aria-selected', 'true');
+    });
+
+    // Click previous to go back
+    await userEvent.click(prevButton);
+
+    await waitFor(() => {
+      expect(dots[1]).toHaveAttribute('aria-selected', 'true');
+    });
+  },
+};
+
+/**
+ * Tests that clicking on dots navigates to the corresponding slide.
+ */
+export const TestDotNavigation: Story = {
+  name: 'Test: Dot Navigation',
+  args: {
+    images: testImages,
+    showArrows: true,
+    showDots: true,
+    autoPlay: false,
+  },
+  render: (args) => (
+    <div style={{ width: '600px', height: '400px', margin: '0 auto' }}>
+      <Carousel {...args} />
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Wait for carousel to initialize
+    await waitFor(() => {
+      expect(canvas.getAllByRole('tab').length).toBe(3);
+    });
+
+    const dots = canvas.getAllByRole('tab');
+
+    // Initially, first dot should be selected
+    expect(dots[0]).toHaveAttribute('aria-selected', 'true');
+
+    // Click on the third dot
+    await userEvent.click(dots[2]);
+
+    await waitFor(() => {
+      expect(dots[2]).toHaveAttribute('aria-selected', 'true');
+    });
+
+    // Click on the first dot to go back
+    await userEvent.click(dots[0]);
+
+    await waitFor(() => {
+      expect(dots[0]).toHaveAttribute('aria-selected', 'true');
+    });
+  },
+};
+
+/**
+ * Tests that arrows are disabled when there's only one image.
+ */
+export const TestSingleImageDisabledArrows: Story = {
+  name: 'Test: Single Image (Disabled Arrows)',
+  args: {
+    images: [testImages[0]],
+    showArrows: true,
+    showDots: true,
+    autoPlay: false,
+  },
+  render: (args) => (
+    <div style={{ width: '600px', height: '400px', margin: '0 auto' }}>
+      <Carousel {...args} />
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Wait for carousel to initialize
+    await waitFor(() => {
+      expect(canvas.getByRole('button', { name: /neste/i })).toBeInTheDocument();
+    });
+
+    // Find the navigation buttons
+    const nextButton = canvas.getByRole('button', { name: /neste/i });
+    const prevButton = canvas.getByRole('button', { name: /forrige/i });
+
+    // Arrows should be disabled with only one image
+    expect(nextButton).toBeDisabled();
+    expect(prevButton).toBeDisabled();
+
+    // Dots should not be shown with only one image
+    const dots = canvas.queryAllByRole('tab');
+    expect(dots.length).toBe(0);
+  },
+};
+
+/**
+ * Tests that arrows can be hidden via showArrows prop.
+ */
+export const TestHiddenArrows: Story = {
+  name: 'Test: Hidden Arrows',
+  args: {
+    images: testImages,
+    showArrows: false,
+    showDots: true,
+    autoPlay: false,
+  },
+  render: (args) => (
+    <div style={{ width: '600px', height: '400px', margin: '0 auto' }}>
+      <Carousel {...args} />
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Wait for dots to appear (indicates carousel is ready)
+    await waitFor(() => {
+      expect(canvas.getAllByRole('tab').length).toBe(3);
+    });
+
+    // Arrows should not be present
+    const nextButton = canvas.queryByRole('button', { name: /neste/i });
+    const prevButton = canvas.queryByRole('button', { name: /forrige/i });
+
+    expect(nextButton).not.toBeInTheDocument();
+    expect(prevButton).not.toBeInTheDocument();
+
+    // Dots should still work
+    const dots = canvas.getAllByRole('tab');
+    expect(dots.length).toBe(3);
+  },
+};
+
+/**
+ * Tests that dots can be hidden via showDots prop.
+ */
+export const TestHiddenDots: Story = {
+  name: 'Test: Hidden Dots',
+  args: {
+    images: testImages,
+    showArrows: true,
+    showDots: false,
+    autoPlay: false,
+  },
+  render: (args) => (
+    <div style={{ width: '600px', height: '400px', margin: '0 auto' }}>
+      <Carousel {...args} />
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Wait for arrows to appear
+    await waitFor(() => {
+      expect(canvas.getByRole('button', { name: /neste/i })).toBeInTheDocument();
+    });
+
+    // Dots should not be present
+    const dots = canvas.queryAllByRole('tab');
+    expect(dots.length).toBe(0);
+
+    // Arrows should still work
+    const nextButton = canvas.getByRole('button', { name: /neste/i });
+    expect(nextButton).toBeInTheDocument();
+  },
+};
+
+/**
+ * Tests that empty state is handled gracefully.
+ */
+export const TestEmptyState: Story = {
+  name: 'Test: Empty State',
+  args: {
+    images: [],
+    showArrows: true,
+    showDots: true,
+    autoPlay: false,
+  },
+  render: (args) => (
+    <div style={{ width: '600px', height: '400px', margin: '0 auto' }}>
+      <Carousel {...args} />
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    // Check that the empty message is displayed
+    expect(canvasElement.textContent).toContain('Ingen bilder');
+  },
+};
+
+/**
+ * Tests that images have proper alt text for accessibility.
+ */
+export const TestImageAltText: Story = {
+  name: 'Test: Image Alt Text',
+  args: {
+    images: testImages,
+    showArrows: true,
+    showDots: true,
+    autoPlay: false,
+  },
+  render: (args) => (
+    <div style={{ width: '600px', height: '400px', margin: '0 auto' }}>
+      <Carousel {...args} />
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Wait for images to be rendered
+    await waitFor(() => {
+      const images = canvas.getAllByRole('img');
+      expect(images.length).toBeGreaterThan(0);
+    });
+
+    // Check that images have alt text
+    const images = canvas.getAllByRole('img');
+    images.forEach((img, index) => {
+      expect(img).toHaveAttribute('alt');
+      expect(img.getAttribute('alt')).not.toBe('');
+    });
+  },
+};
+
+/**
+ * Tests dot navigation has proper ARIA attributes.
+ */
+export const TestDotsAccessibility: Story = {
+  name: 'Test: Dots Accessibility',
+  args: {
+    images: testImages,
+    showArrows: true,
+    showDots: true,
+    autoPlay: false,
+  },
+  render: (args) => (
+    <div style={{ width: '600px', height: '400px', margin: '0 auto' }}>
+      <Carousel {...args} />
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Wait for carousel to initialize
+    await waitFor(() => {
+      expect(canvas.getAllByRole('tab').length).toBe(3);
+    });
+
+    // Check that dots container has proper role
+    const tablist = canvas.getByRole('tablist');
+    expect(tablist).toBeInTheDocument();
+    expect(tablist).toHaveAttribute('aria-label');
+
+    // Check that each dot has proper attributes
+    const dots = canvas.getAllByRole('tab');
+    dots.forEach((dot, index) => {
+      expect(dot).toHaveAttribute('aria-label');
+      expect(dot).toHaveAttribute('aria-selected');
+    });
+  },
+};

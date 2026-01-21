@@ -1,9 +1,10 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import React, { useState, useEffect } from 'react'; // Import useState and useEffect
 // --- CORRECTED IMPORT ---
-import { format, parse, isValid, subDays, isSameDay } from 'date-fns'; // Added isSameDay
+import { format, parse, isValid, subDays, isSameDay, addMonths } from 'date-fns'; // Added isSameDay, addMonths
 import { nb } from 'date-fns/locale';
 import { action } from 'storybook/actions';
+import { expect, within, userEvent, fn } from 'storybook/test';
 
 import { DatePicker, DatePickerProps } from './index'; // Assuming index exports DatePicker
 import { DateInput } from '../DateInput';
@@ -301,5 +302,184 @@ export const CombinedInputAndCalendar: StoryObj<typeof DatePickerInputCombo> = {
       control: 'select',
       options: ['accent', 'brand1', 'brand2', 'brand3', 'neutral'],
     },
+  },
+};
+
+// --- INTERACTION TESTS ---
+
+/**
+ * Tests that clicking a date cell triggers the onDateSelect callback
+ * and visually marks the date as selected.
+ */
+export const TestDateSelection: CalendarStory = {
+  name: 'Test: Date Selection',
+  render: (args) => {
+    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+    const handleSelect = (date: Date) => {
+      setSelectedDate(date);
+      args.onDateSelect?.(date);
+    };
+    return (
+      <DatePicker
+        {...args}
+        selectedDate={selectedDate}
+        onDateSelect={handleSelect}
+      />
+    );
+  },
+  args: {
+    initialDate: new Date(2025, 0, 15), // January 2025
+    onDateSelect: fn(),
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+
+    // Find all date cells in the current month (not other month)
+    const dateCells = canvas.getAllByRole('button');
+    // Find a date cell that shows "15" (middle of month, always visible)
+    const day15Cell = dateCells.find(cell => cell.textContent === '15');
+
+    expect(day15Cell).toBeTruthy();
+
+    // Click on day 15
+    await userEvent.click(day15Cell!);
+
+    // Verify the callback was called
+    expect(args.onDateSelect).toHaveBeenCalled();
+
+    // Verify the cell is now marked as selected (has aria-pressed="true")
+    expect(day15Cell).toHaveAttribute('aria-pressed', 'true');
+  },
+};
+
+/**
+ * Tests month navigation using the previous/next buttons.
+ */
+export const TestMonthNavigation: CalendarStory = {
+  name: 'Test: Month Navigation',
+  render: (args) => {
+    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+    return (
+      <DatePicker
+        {...args}
+        selectedDate={selectedDate}
+        onDateSelect={setSelectedDate}
+      />
+    );
+  },
+  args: {
+    initialDate: new Date(2025, 5, 15), // June 2025
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Get the month/year header text
+    const getMonthYearText = () => {
+      // The month-year header contains the capitalized month name and year
+      const header = canvasElement.querySelector('[class*="monthYear"]');
+      return header?.textContent || '';
+    };
+
+    // Verify initial month is June 2025
+    expect(getMonthYearText()).toContain('2025');
+    expect(getMonthYearText().toLowerCase()).toContain('juni');
+
+    // Find and click the next month button
+    const nextButton = canvas.getByRole('button', { name: /neste/i });
+    await userEvent.click(nextButton);
+
+    // Verify we're now in July 2025
+    expect(getMonthYearText().toLowerCase()).toContain('juli');
+
+    // Find and click the previous month button twice to go back to May
+    const prevButton = canvas.getByRole('button', { name: /forrige/i });
+    await userEvent.click(prevButton);
+    await userEvent.click(prevButton);
+
+    // Verify we're now in May 2025
+    expect(getMonthYearText().toLowerCase()).toContain('mai');
+  },
+};
+
+/**
+ * Tests keyboard navigation - pressing Enter or Space selects a date.
+ */
+export const TestKeyboardNavigation: CalendarStory = {
+  name: 'Test: Keyboard Navigation',
+  render: (args) => {
+    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+    const handleSelect = (date: Date) => {
+      setSelectedDate(date);
+      args.onDateSelect?.(date);
+    };
+    return (
+      <DatePicker
+        {...args}
+        selectedDate={selectedDate}
+        onDateSelect={handleSelect}
+      />
+    );
+  },
+  args: {
+    initialDate: new Date(2025, 0, 15),
+    onDateSelect: fn(),
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+
+    // Find a date cell
+    const dateCells = canvas.getAllByRole('button');
+    const day10Cell = dateCells.find(cell => cell.textContent === '10');
+
+    expect(day10Cell).toBeTruthy();
+
+    // Focus the cell
+    day10Cell!.focus();
+
+    // Press Enter to select
+    await userEvent.keyboard('{Enter}');
+
+    // Verify the callback was called
+    expect(args.onDateSelect).toHaveBeenCalled();
+
+    // Verify the cell is selected
+    expect(day10Cell).toHaveAttribute('aria-pressed', 'true');
+  },
+};
+
+/**
+ * Tests that today's date is visually distinguished.
+ */
+export const TestTodayHighlight: CalendarStory = {
+  name: 'Test: Today Highlight',
+  render: (args) => {
+    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+    return (
+      <DatePicker
+        {...args}
+        selectedDate={selectedDate}
+        onDateSelect={setSelectedDate}
+      />
+    );
+  },
+  args: {
+    initialDate: new Date(), // Current month
+  },
+  play: async ({ canvasElement }) => {
+    const today = new Date();
+    const todayDate = today.getDate().toString();
+
+    // Find the cell for today's date
+    const dateCells = canvasElement.querySelectorAll('[class*="dateCell"]');
+    const todayCell = Array.from(dateCells).find(cell => {
+      const isCurrentMonth = !cell.className.includes('otherMonth');
+      const hasCorrectDate = cell.textContent === todayDate;
+      return isCurrentMonth && hasCorrectDate;
+    });
+
+    expect(todayCell).toBeTruthy();
+
+    // Verify today's cell has the today styling class
+    expect(todayCell!.className).toContain('todayDate');
   },
 };
