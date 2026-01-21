@@ -255,6 +255,7 @@ function buildDatePickerInlineCss(s: Record<string, string>): string {
   grid-template-columns: repeat(7, 1fr);
   width: 100%;
   text-align: center;
+  overflow: hidden;
 }
 .${s.dayNameCell} {
   display: flex;
@@ -269,6 +270,7 @@ function buildDatePickerInlineCss(s: Record<string, string>): string {
   font-weight: var(--ds-font-weight-semibold, 600);
   line-height: var(--ds-body-short-xs-line-height, 1.3);
   box-sizing: border-box;
+  min-width: 0;
 }
 .${s.dateCell} {
   display: flex;
@@ -288,6 +290,7 @@ function buildDatePickerInlineCss(s: Record<string, string>): string {
   cursor: pointer;
   transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
   user-select: none;
+  min-width: 0;
 }
 .${s.dateNumberContainer} {
   display: flex;
@@ -333,6 +336,7 @@ function buildDatePickerInlineCss(s: Record<string, string>): string {
   .${s.calendarContainer} {
     padding: var(--ds-size-4, 16px);
     gap: var(--ds-size-2, 8px);
+    width: 100%;
   }
   .${s.monthYear} {
     font-size: var(--ds-heading-xs-font-size, 1.125rem);
@@ -342,7 +346,7 @@ function buildDatePickerInlineCss(s: Record<string, string>): string {
     font-size: var(--ds-body-2xs-font-size, 12px);
   }
   .${s.dateCell} {
-    padding: var(--ds-size-3, 12px);
+    padding: var(--ds-size-2, 8px);
     font-size: var(--ds-body-2xs-font-size, 12px);
   }
   .${s.dateNumberContainer} {
@@ -352,14 +356,19 @@ function buildDatePickerInlineCss(s: Record<string, string>): string {
 }
 @media (max-width: 360px) {
   .${s.calendarContainer} {
-    padding: var(--ds-size-3, 12px);
-  }
-  .${s.dateCell} {
     padding: var(--ds-size-2, 8px);
   }
+  .${s.dayNameCell} {
+    padding: 2px;
+    font-size: 10px;
+  }
+  .${s.dateCell} {
+    padding: var(--ds-size-1, 4px);
+    font-size: 11px;
+  }
   .${s.dateNumberContainer} {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
   }
 }
 `;
