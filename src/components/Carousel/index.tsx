@@ -43,6 +43,18 @@ export const Carousel: React.FC<CarouselProps> = ({
 }) => {
   const { t } = useLanguageOptional();
 
+  // Fallback: inject minimal Carousel styles if consumer did not import the CSS bundle.
+  useEffect(() => {
+    const styleId = 'rk-carousel-inline-styles';
+    if (typeof document === 'undefined') return;
+    if (document.getElementById(styleId)) return;
+    const css = buildCarouselInlineCss(styles);
+    const tag = document.createElement('style');
+    tag.id = styleId;
+    tag.textContent = css;
+    document.head.appendChild(tag);
+  }, []);
+
   // Options for Embla
   const options = {
     loop: true,
@@ -230,3 +242,177 @@ export const Carousel: React.FC<CarouselProps> = ({
 };
 
 Carousel.displayName = 'Carousel';
+
+// Build a minimal CSS fallback using the hashed class names from the CSS module.
+function buildCarouselInlineCss(s: Record<string, string>): string {
+  return `
+.${s.carouselContainer} {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  background-color: var(--ds-color-background-default, #fff);
+  color: var(--ds-color-text-default, #2b2b2b);
+  border-radius: var(--ds-border-radius-md, 4px);
+  box-sizing: border-box;
+  max-width: 100%;
+}
+.${s.viewport} {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+.${s.slides} {
+  display: flex;
+  height: 100%;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+.${s.slide} {
+  position: relative;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+.${s.slideInner} {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: var(--ds-color-neutral-surface-subtle, #f5f5f5);
+  overflow: hidden;
+}
+.${s.loaderOverlay} {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.05);
+  z-index: 2;
+}
+.${s.image} {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  z-index: 1;
+}
+.${s.image}.${s.loaded} {
+  opacity: 1;
+}
+.${s.loading} {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-size-2, 8px);
+  color: var(--ds-color-text-subtle, #5d5d5d);
+  font-size: var(--ds-font-size-sm, 14px);
+}
+.${s.empty} {
+  color: var(--ds-color-text-subtle, #5d5d5d);
+  font-size: var(--ds-font-size-sm, 14px);
+  text-align: center;
+}
+.${s.controls} {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 10;
+}
+.${s.arrows} {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 var(--ds-size-4, 16px);
+  box-sizing: border-box;
+  pointer-events: auto;
+}
+.${s.dots} {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: var(--ds-size-3, 12px);
+  display: inline-flex;
+  gap: var(--ds-size-2, 8px);
+  pointer-events: auto;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  padding: var(--ds-size-1, 4px) var(--ds-size-2, 8px);
+  border-radius: 999px;
+}
+.${s.dot} {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  border: var(--ds-border-width-default, 1px) solid var(--ds-color-border-subtle, #d6d6d6);
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.${s.dotActive} {
+  background-color: var(--primary-color-red-10);
+  border-color: var(--primary-color-red-10);
+  transform: scale(1.1);
+}
+@media (max-width: 640px) {
+  .${s.carouselContainer} {
+    height: auto;
+    min-height: 150px;
+    aspect-ratio: 16 / 9;
+  }
+  .${s.viewport} {
+    aspect-ratio: 16 / 9;
+    height: auto;
+  }
+  .${s.slides} {
+    height: auto;
+    min-height: 150px;
+  }
+  .${s.slide} {
+    height: auto;
+    min-height: 150px;
+  }
+  .${s.slideInner} {
+    aspect-ratio: 16 / 9;
+    height: auto;
+  }
+  .${s.arrows} {
+    padding: 0 var(--ds-size-2, 8px);
+  }
+  .${s.dots} {
+    bottom: var(--ds-size-2, 8px);
+    gap: var(--ds-size-1, 4px);
+  }
+  .${s.dot} {
+    width: 10px;
+    height: 10px;
+  }
+}
+@media (max-width: 400px) {
+  .${s.carouselContainer} {
+    min-height: 120px;
+  }
+  .${s.arrows} {
+    padding: 0 var(--ds-size-1, 4px);
+  }
+  .${s.arrows} button {
+    transform: scale(0.85);
+  }
+}
+`;
+}
