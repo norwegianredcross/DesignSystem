@@ -76,6 +76,14 @@
      - Ensure keyboard navigation works
      - Include focus indicators
 
+  9. ☐ **Am I using the design system Header and Footer?**
+     - ✅ **ALWAYS** use `<Header>` from `rk-designsystem` for page headers
+     - ✅ **ALWAYS** use `<Footer>` from `rk-designsystem` for page footers
+     - ❌ **NEVER** create custom header or footer components
+     - ❌ **NEVER** recreate header/footer layouts from Figma manually
+     - The `<Header>` and `<Footer>` components are pre-built with all Røde Kors branding, responsive behavior, and accessibility features
+     - Configure them via props (see [Layout Components](#layout-components) section)
+
   ### Common AI Mistakes to Avoid
 
   **These are frequent errors - double-check you're not making them:**
@@ -1966,7 +1974,7 @@ import { Header } from 'rk-designsystem';
 
   ---
 
-  **Last Updated**: Based on rk-designsystem v1.1.59
+  **Last Updated**: Based on rk-designsystem v1.1.88
 
   **Guide URL**: https://norwegianredcross.github.io/DesignSystem/storybook/AI_DESIGN_SYSTEM_GUIDE.md
 
