@@ -546,43 +546,15 @@ Use `<BreadcrumbsList>`, `<BreadcrumbsItem>`, and `<BreadcrumbsLink>` for struct
 
 #### Pagination
 ```tsx
-import { Pagination, PaginationList, PaginationItem, PaginationButton, usePagination } from 'rk-designsystem';
+import { Pagination } from 'rk-designsystem';
 
-// Use the usePagination hook for state management
-const { pages, prevButtonProps, nextButtonProps } = usePagination({
-  currentPage: 1,
-  setCurrentPage: (page) => console.log(page),
-  totalPages: 10,
-});
-
-<Pagination aria-label="Sidenavigering">
-  <PaginationList>
-    <PaginationItem>
-      <PaginationButton {...prevButtonProps} aria-label="Forrige side">
-        Forrige
-      </PaginationButton>
-    </PaginationItem>
-    {pages.map(({ page, itemKey, buttonProps }) => (
-      <PaginationItem key={itemKey}>
-        {buttonProps ? (
-          <PaginationButton {...buttonProps} aria-label={`Side ${page}`}>
-            {page}
-          </PaginationButton>
-        ) : (
-          '...'
-        )}
-      </PaginationItem>
-    ))}
-    <PaginationItem>
-      <PaginationButton {...nextButtonProps} aria-label="Neste side">
-        Neste
-      </PaginationButton>
-    </PaginationItem>
-  </PaginationList>
-</Pagination>
+<Pagination
+  aria-label?={Sidenavigering}
+  asChild?={false}
+  data-color?="accent" | "neutral" | "danger" | etc.
+  data-size?="sm" | "md" | "lg"
+ />
 ```
-
-Available sub-components: `PaginationList`, `PaginationItem`, `PaginationButton`
 
 #### Tabs
 ```tsx
@@ -828,36 +800,84 @@ Use `<Details.Summary>` and `<Details.Content>` for accordion structure.
 
 #### Dropdown
 ```tsx
-import {
-  Dropdown,
-  DropdownTrigger,
-  DropdownTriggerContext,
-  DropdownHeading,
-  DropdownList,
-  DropdownItem,
-  DropdownButton
-} from 'rk-designsystem';
+import { Dropdown } from 'rk-designsystem';
 
-// With external trigger button
-<DropdownTriggerContext>
-  <DropdownTrigger>Open Menu</DropdownTrigger>
-  <Dropdown>
-    <DropdownHeading>Actions</DropdownHeading>
-    <DropdownList>
-      <DropdownItem>
-        <DropdownButton onClick={() => console.log('Edit')}>Edit</DropdownButton>
-      </DropdownItem>
-      <DropdownItem>
-        <DropdownButton onClick={() => console.log('Delete')} data-color="danger">
-          Delete
-        </DropdownButton>
-      </DropdownItem>
-    </DropdownList>
-  </Dropdown>
-</DropdownTriggerContext>
+<Dropdown
+  asChild?={false}
+  autoPlacement?={true}
+  data-color?={any}
+  data-size?={any}
+  id?={string}
+  onClose?={() => void}
+  onOpen?={() => void}
+  open?={undefined}
+  placement?={bottom-end}
+ />
 ```
 
-Available sub-components: `DropdownTrigger`, `DropdownTriggerContext`, `DropdownHeading`, `DropdownList`, `DropdownItem`, `DropdownButton`
+#### DropdownButton
+```tsx
+import { DropdownButton } from 'rk-designsystem';
+
+<DropdownButton
+  asChild?={false}
+  data-color?={any}
+  data-size?="sm" | "md" | "lg"
+  icon?={false}
+  loading?={false}
+  type?={"button"}
+ />
+```
+
+#### DropdownHeading
+```tsx
+import { DropdownHeading } from 'rk-designsystem';
+
+<DropdownHeading
+  asChild?={boolean}
+  data-size?={}
+  level?={}
+ />
+```
+
+#### DropdownItem
+```tsx
+import { DropdownItem } from 'rk-designsystem';
+
+<DropdownItem />
+```
+
+#### DropdownList
+```tsx
+import { DropdownList } from 'rk-designsystem';
+
+<DropdownList />
+```
+
+#### DropdownTrigger
+```tsx
+import { DropdownTrigger } from 'rk-designsystem';
+
+<DropdownTrigger
+  asChild?={false
+false}
+  data-color?={any}
+  data-size?={any}
+  icon?={false}
+  inline?={false
+false}
+  loading?={false}
+  type?={"button"}
+  variant?={"primary"}
+ />
+```
+
+#### DropdownTriggerContext
+```tsx
+import { DropdownTriggerContext } from 'rk-designsystem';
+
+<DropdownTriggerContext />
+```
 
 #### FieldDescription
 ```tsx
@@ -900,6 +920,38 @@ import { Link } from 'rk-designsystem';
   asChild?={false}
   data-color?="accent" | "neutral" | "danger" | etc.
   data-size?="sm" | "md" | "lg"
+ />
+```
+
+#### PaginationButton
+```tsx
+import { PaginationButton } from 'rk-designsystem';
+
+<PaginationButton
+  aria-current?={false}
+  asChild?={false}
+  data-color?={any}
+  data-size?="sm" | "md" | "lg"
+  type?={"button"}
+  variant?={"primary"}
+ />
+```
+
+#### PaginationItem
+```tsx
+import { PaginationItem } from 'rk-designsystem';
+
+<PaginationItem
+  asChild?={false}
+ />
+```
+
+#### PaginationList
+```tsx
+import { PaginationList } from 'rk-designsystem';
+
+<PaginationList
+  asChild?={false}
  />
 ```
 
