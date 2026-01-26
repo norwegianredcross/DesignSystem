@@ -13,8 +13,7 @@ import {
   LightningIcon,
   ComponentIcon,
   CodeIcon,
-  ArrowRightIcon,
-  TokenIcon
+  ArrowRightIcon
 } from '@navikt/aksel-icons';
 import { useLanguage } from '../../context/LanguageContext';
 import styles from './styles.module.css';
@@ -196,25 +195,6 @@ export const HomePage = ({ setPage }: HomePageProps) => {
               </div>
             </a>
 
-            {/* Tokens Card */}
-            <a
-              href="#"
-              onClick={(e) => { e.preventDefault(); setPage('tokens'); }}
-              className={styles.bentoItem}
-            >
-              <div className={styles.bentoContent}>
-                <div className={styles.bentoHeader}>
-                  <div className={styles.bentoIconBg}>
-                    <TokenIcon className={styles.iconLarge} aria-hidden />
-                  </div>
-                  <ArrowRightIcon className={styles.arrowIcon} aria-hidden />
-                </div>
-                <div className={styles.bentoText}>
-                  <Heading level={3} data-size="md">{t('header.nav.tokens')}</Heading>
-                  <Paragraph className={styles.bentoDesc}>{t('home.tokensDesc')}</Paragraph>
-                </div>
-              </div>
-            </a>
           </div>
         </div>
       </section>
@@ -233,7 +213,7 @@ export const HomePage = ({ setPage }: HomePageProps) => {
               </Paragraph>
               <Button
                 variant="tertiary"
-                data-color="inverted"
+                data-color="primary"
                 data-size="sm"
                 onClick={() => setPage('design')}
                 className={styles.valueButton}
@@ -253,7 +233,7 @@ export const HomePage = ({ setPage }: HomePageProps) => {
               </Paragraph>
               <Button
                 variant="tertiary"
-                data-color="inverted"
+                data-color="primary"
                 data-size="sm"
                 onClick={() => setPage('design')}
                 className={styles.valueButton}
@@ -273,7 +253,7 @@ export const HomePage = ({ setPage }: HomePageProps) => {
               </Paragraph>
               <Button
                 variant="tertiary"
-                data-color="inverted"
+                data-color="primary"
                 data-size="sm"
                 onClick={() => setPage('components')}
                 className={styles.valueButton}

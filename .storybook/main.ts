@@ -323,7 +323,7 @@ const config: StorybookConfig = {
                         padding: 0 24px;
                         background-color: var(--ds-color-neutral-background-default, #ffffff);
                     ">
-                        <img src="./designsystemlogofinal.svg" alt="Designsystem Logo" class="sb-secondary-logo" />
+                        <img src="./designsystemlogofinallight.svg" alt="Designsystem Logo" class="sb-secondary-logo" />
                     </div>
                 </div>
                 
@@ -336,7 +336,7 @@ const config: StorybookConfig = {
                     flex-grow: 1;
                     justify-content: flex-end;
                 ">
-                    <a href="../" class="sb-nav-link" style="
+                    <a href="/DesignSystem/#design" class="sb-nav-link" style="
                         color: var(--ds-color-primary-color-red-text-default, #D52B1E);
                         font-family: var(--ds-font-family, 'Source Sans 3', sans-serif);
                         font-size: var(--ds-font-size-md, 16px);
@@ -344,7 +344,7 @@ const config: StorybookConfig = {
                         font-weight: var(--ds-font-weight-regular, 400);
                         letter-spacing: 0.09px;
                     ">Design</a>
-                    <a href="./" class="sb-nav-link" style="
+                    <a href="/DesignSystem/storybook/" class="sb-nav-link" style="
                         color: var(--ds-color-primary-color-red-text-default, #D52B1E);
                         font-family: var(--ds-font-family, 'Source Sans 3', sans-serif);
                         font-size: var(--ds-font-size-md, 16px);
@@ -352,7 +352,7 @@ const config: StorybookConfig = {
                         font-weight: var(--ds-font-weight-regular, 400);
                         letter-spacing: 0.09px;
                     ">Komponenter</a>
-                    <a href="../code" class="sb-nav-link" style="
+                    <a href="/DesignSystem/#code" class="sb-nav-link" style="
                         color: var(--ds-color-primary-color-red-text-default, #D52B1E);
                         font-family: var(--ds-font-family, 'Source Sans 3', sans-serif);
                         font-size: var(--ds-font-size-md, 16px);
@@ -360,7 +360,7 @@ const config: StorybookConfig = {
                         font-weight: var(--ds-font-weight-regular, 400);
                         letter-spacing: 0.09px;
                     ">Kode</a>
-                    <a href="../tokens" class="sb-nav-link" style="
+                    <a href="/DesignSystem/#tokens" class="sb-nav-link" style="
                         color: var(--ds-color-primary-color-red-text-default, #D52B1E);
                         font-family: var(--ds-font-family, 'Source Sans 3', sans-serif);
                         font-size: var(--ds-font-size-md, 16px);
@@ -413,9 +413,10 @@ const config: StorybookConfig = {
                     padding: 0 24px; 
                 ">
                      <nav class="header-menu-nav" aria-label="Hovedmeny">
-                        <a href="../" class="header-menu-link">Design</a>
-                        <a href="./" class="header-menu-link">Komponenter</a>
-                        <a href="../code" class="header-menu-link">Kode</a>
+                        <a href="/DesignSystem/#design" class="header-menu-link">Design</a>
+                        <a href="/DesignSystem/storybook/" class="header-menu-link">Komponenter</a>
+                        <a href="/DesignSystem/#code" class="header-menu-link">Kode</a>
+                        <a href="/DesignSystem/#tokens" class="header-menu-link">Tokens</a>
                      </nav>
                 </div>
             </div>
@@ -438,7 +439,7 @@ const config: StorybookConfig = {
             // Update logo if dark mode
             const logoImg = header.querySelector('.sb-secondary-logo');
             if (logoImg) {
-              logoImg.src = isDark ? './designsystemlogofinaldark.svg' : './designsystemlogofinal.svg';
+              logoImg.src = isDark ? './designsystemlogofinaldark.svg' : './designsystemlogofinallight.svg';
             }
           });
         }

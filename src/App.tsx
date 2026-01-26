@@ -59,10 +59,20 @@ function App() {
       </div>
 
       <Footer
-        data-color="primary"
+        data-color="neutral"
         secondaryLogo={true}
         secondaryLogoSrc={`${import.meta.env.BASE_URL}designsystemlogofinallight.svg`}
         secondaryLogoAlt="Designsystem Logo"
+        shortcutsLinksLeft={[
+          { label: t('header.nav.components'), href: '#' },
+          { label: t('header.nav.design'), href: '#' },
+          { label: t('header.nav.code'), href: '#' },
+          { label: t('header.nav.tokens'), href: '#' }
+        ]}
+        shortcutsLinksRight={[
+          { label: 'GitHub', href: 'https://github.com/norwegianredcross/DesignSystem' },
+          { label: 'Storybook', href: 'https://norwegianredcross.github.io/DesignSystem/storybook' }
+        ]}
       />
     </div>
   );
