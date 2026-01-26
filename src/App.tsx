@@ -58,11 +58,10 @@ function App() {
         )}
       </div>
 
-      <Footer 
+      <Footer
         data-color="primary"
         secondaryLogo={true}
         secondaryLogoSrc={`${import.meta.env.BASE_URL}designsystemlogofinallight.svg`}
-        secondaryLogoSrcDark={`${import.meta.env.BASE_URL}designsystemlogofinaldark.svg`}
         secondaryLogoAlt="Designsystem Logo"
       />
     </div>

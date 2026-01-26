@@ -66,13 +66,7 @@ export const HomePage = ({ setPage }: HomePageProps) => {
                    <CardBlock>
                      <Heading level={3} data-size="xs">{t('home.profile')}</Heading>
                      <div className={styles.cardRow}>
-                       <Avatar aria-label="Avatar">
-                         <img 
-                           src={`${import.meta.env.BASE_URL}avatarexample.png`} 
-                           alt="" 
-                           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                         />
-                       </Avatar>
+                       <Avatar aria-label="Avatar" initials="MH" />
                        <div>
                          <div className={styles.cardTextBold}>{t('home.name')}</div>
                          <div className={styles.cardTextSubtle}>{t('home.volunteer')}</div>
