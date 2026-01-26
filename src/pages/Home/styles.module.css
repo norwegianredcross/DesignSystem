@@ -54,12 +54,16 @@
     border: var(--ds-border-width-default) solid var(--ds-color-primary-color-red-border-subtle);
   }
 
+  .versionBadge {
+    margin-bottom: var(--ds-size-4);
+  }
+
   .heroTitle {
     margin-bottom: var(--ds-size-6);
     color: var(--ds-color-neutral-text-default);
     font-weight: 800;
     letter-spacing: -0.02em;
-    font-size: var(--ds-font-size-9); /* Using large token */
+    font-size: var(--ds-font-size-9);
     line-height: 1.1;
   }
 
@@ -325,15 +329,9 @@
     line-height: 1.6;
   }
   
-  .valueLink {
-    color: var(--ds-color-neutral-base-contrast-default);
-    text-decoration: underline;
-    text-underline-offset: 4px;
-    font-weight: var(--ds-font-weight-medium);
-  }
-  
-  .valueLink:hover {
-    color: var(--ds-color-primary-color-red-surface-active);
+  .valueButton {
+    margin-top: auto;
+    align-self: flex-start;
   }
   
   /* --- RESPONSIVE MEDIA QUERIES --- */
@@ -341,8 +339,8 @@
   /* Tablet & Up */
   @media (min-width: 768px) {
     .bentoWrapper {
-      /* 3 columns on tablet and up for equal sizing */
-      grid-template-columns: repeat(3, 1fr);
+      /* 2x2 grid for 4 navigation cards */
+      grid-template-columns: repeat(2, 1fr);
     }
   
     .bentoItem {

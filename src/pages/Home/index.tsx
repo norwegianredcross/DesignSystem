@@ -6,15 +6,15 @@ import { Tag } from '../../components/Tag';
 import { Switch } from '../../components/Switch';
 import { Avatar } from '../../components/Avatar';
 import { Badge } from '../../components/Badge';
-import { Link } from '../../components/Link';
 import { Chip } from '../../components/Chip';
-import { 
-  WheelchairIcon, 
-  PaletteIcon, 
+import {
+  WheelchairIcon,
+  PaletteIcon,
   LightningIcon,
   ComponentIcon,
   CodeIcon,
-  ArrowRightIcon
+  ArrowRightIcon,
+  TokenIcon
 } from '@navikt/aksel-icons';
 import { useLanguage } from '../../context/LanguageContext';
 import styles from './styles.module.css';
@@ -34,6 +34,9 @@ export const HomePage = ({ setPage }: HomePageProps) => {
           
           {/* Content Side */}
           <div className={styles.splitContent}>
+            <Tag data-color="neutral" data-size="sm" className={styles.versionBadge}>
+              v1.1 · Open Source
+            </Tag>
             <Heading level={1} className={styles.heroTitle}>
               {t('home.heroTitle')}
             </Heading>
@@ -174,12 +177,12 @@ export const HomePage = ({ setPage }: HomePageProps) => {
             </a>
 
             {/* Code Card */}
-            <a 
-              href="#" 
-              onClick={(e) => { e.preventDefault(); setPage('code'); }} 
+            <a
+              href="#"
+              onClick={(e) => { e.preventDefault(); setPage('code'); }}
               className={styles.bentoItem}
             >
-                <div className={styles.bentoContent}>
+              <div className={styles.bentoContent}>
                 <div className={styles.bentoHeader}>
                   <div className={styles.bentoIconBg}>
                     <CodeIcon className={styles.iconLarge} aria-hidden />
@@ -189,6 +192,26 @@ export const HomePage = ({ setPage }: HomePageProps) => {
                 <div className={styles.bentoText}>
                   <Heading level={3} data-size="md">{t('header.nav.code')}</Heading>
                   <Paragraph className={styles.bentoDesc}>{t('home.codeDesc')}</Paragraph>
+                </div>
+              </div>
+            </a>
+
+            {/* Tokens Card */}
+            <a
+              href="#"
+              onClick={(e) => { e.preventDefault(); setPage('tokens'); }}
+              className={styles.bentoItem}
+            >
+              <div className={styles.bentoContent}>
+                <div className={styles.bentoHeader}>
+                  <div className={styles.bentoIconBg}>
+                    <TokenIcon className={styles.iconLarge} aria-hidden />
+                  </div>
+                  <ArrowRightIcon className={styles.arrowIcon} aria-hidden />
+                </div>
+                <div className={styles.bentoText}>
+                  <Heading level={3} data-size="md">{t('header.nav.tokens')}</Heading>
+                  <Paragraph className={styles.bentoDesc}>{t('home.tokensDesc')}</Paragraph>
                 </div>
               </div>
             </a>
@@ -202,35 +225,62 @@ export const HomePage = ({ setPage }: HomePageProps) => {
           <div className={styles.valuesGrid}>
             <div className={styles.valueItem}>
               <div className={styles.valueIcon}>
-                 <WheelchairIcon className={styles.iconXLarge} aria-hidden />
+                <WheelchairIcon className={styles.iconXLarge} aria-hidden />
               </div>
               <Heading level={3} data-size="sm" className={styles.valueTitle}>{t('home.universalDesign')}</Heading>
               <Paragraph data-size="sm" className={styles.valueText}>
                 {t('home.universalDesignText')}
               </Paragraph>
-               <Link href="#" onClick={(e) => { e.preventDefault(); setPage('design'); }} className={styles.valueLink}>{t('home.readGuidelines')}</Link>
+              <Button
+                variant="tertiary"
+                data-color="inverted"
+                data-size="sm"
+                onClick={() => setPage('design')}
+                className={styles.valueButton}
+              >
+                {t('home.readGuidelines')}
+                <ArrowRightIcon aria-hidden />
+              </Button>
             </div>
-            
+
             <div className={styles.valueItem}>
               <div className={styles.valueIcon}>
-                 <PaletteIcon className={styles.iconXLarge} aria-hidden />
+                <PaletteIcon className={styles.iconXLarge} aria-hidden />
               </div>
               <Heading level={3} data-size="sm" className={styles.valueTitle}>{t('home.consistentBrand')}</Heading>
               <Paragraph data-size="sm" className={styles.valueText}>
                 {t('home.consistentBrandText')}
               </Paragraph>
-               <Link href="#" onClick={(e) => { e.preventDefault(); setPage('design'); }} className={styles.valueLink}>{t('home.seeColors')}</Link>
+              <Button
+                variant="tertiary"
+                data-color="inverted"
+                data-size="sm"
+                onClick={() => setPage('design')}
+                className={styles.valueButton}
+              >
+                {t('home.seeColors')}
+                <ArrowRightIcon aria-hidden />
+              </Button>
             </div>
-            
+
             <div className={styles.valueItem}>
               <div className={styles.valueIcon}>
-                 <LightningIcon className={styles.iconXLarge} aria-hidden />
+                <LightningIcon className={styles.iconXLarge} aria-hidden />
               </div>
               <Heading level={3} data-size="sm" className={styles.valueTitle}>{t('home.efficientDev')}</Heading>
               <Paragraph data-size="sm" className={styles.valueText}>
                 {t('home.efficientDevText')}
               </Paragraph>
-              <Link href="#" onClick={(e) => { e.preventDefault(); setPage('components'); }} className={styles.valueLink}>{t('home.exploreComponents')}</Link>
+              <Button
+                variant="tertiary"
+                data-color="inverted"
+                data-size="sm"
+                onClick={() => setPage('components')}
+                className={styles.valueButton}
+              >
+                {t('home.exploreComponents')}
+                <ArrowRightIcon aria-hidden />
+              </Button>
             </div>
           </div>
         </div>
