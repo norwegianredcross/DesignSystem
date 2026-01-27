@@ -8,6 +8,6 @@ import {
  * Den støtter alle egenskaper fra DigDir sin Button.
  */
 export type ButtonProps = DigDirButtonProps;
-export const Button = DigDirButton;
+export const Button: typeof DigDirButton = DigDirButton;
 
 Button.displayName = 'Button';

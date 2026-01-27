@@ -10,8 +10,8 @@ import styles from './styles.module.css';
 
 // --- CONTENT COMPONENTS ---
 
-const CodeBlock = ({ children }: { children: React.ReactNode }) => (
-  <pre className={styles.codeBlock}>
+const CodeBlock = ({ children, style, className }: { children: React.ReactNode; style?: React.CSSProperties; className?: string }) => (
+  <pre className={`${styles.codeBlock}${className ? ` ${className}` : ''}`} style={style}>
     <code>{children}</code>
   </pre>
 );

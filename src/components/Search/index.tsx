@@ -8,7 +8,11 @@ import {
 
 export type SearchProps = DigDirSearchProps;
 
-export const Search = Object.assign(DigDirSearch, {
+export const Search: typeof DigDirSearch & {
+  Button: typeof SearchButton;
+  ClearButton: typeof SearchClear;
+  Input: typeof SearchInput;
+} = Object.assign(DigDirSearch, {
   Button: SearchButton,
   ClearButton: SearchClear,
   Input: SearchInput,

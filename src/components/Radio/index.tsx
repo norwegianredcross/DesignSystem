@@ -16,6 +16,6 @@ export type RadioProps = DigDirRadioProps;
 export type FieldsetProps = DigDirFieldsetProps; 
 
 
-export const Radio = DigDirRadio;
-export const Fieldset = DigDirFieldset; 
-export const useRadioGroup = useDigDirRadioGroup; 
+export const Radio: typeof DigDirRadio = DigDirRadio;
+export const Fieldset: typeof DigDirFieldset = DigDirFieldset;
+export const useRadioGroup: typeof useDigDirRadioGroup = useDigDirRadioGroup; 

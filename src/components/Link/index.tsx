@@ -7,5 +7,5 @@ import {
  * Link-komponent for hyperkoblinger.
  */
 export type LinkProps = DigDirLinkProps;
-export const Link = DigDirLink;
+export const Link: typeof DigDirLink = DigDirLink;
 

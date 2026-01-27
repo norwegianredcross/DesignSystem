@@ -19,10 +19,10 @@ export type PaginationListProps = DigDirPaginationListProps;
 export type PaginationItemProps = DigDirPaginationItemProps;
 export type PaginationButtonProps = DigDirPaginationButtonProps;
 
-export const Pagination = DigDirPagination;
-export const PaginationList = DigDirPaginationList;
-export const PaginationItem = DigDirPaginationItem;
-export const PaginationButton = DigDirPaginationButton;
-export const usePagination = useDigDirPagination;
+export const Pagination: typeof DigDirPagination = DigDirPagination;
+export const PaginationList: typeof DigDirPaginationList = DigDirPaginationList;
+export const PaginationItem: typeof DigDirPaginationItem = DigDirPaginationItem;
+export const PaginationButton: typeof DigDirPaginationButton = DigDirPaginationButton;
+export const usePagination: typeof useDigDirPagination = useDigDirPagination;
 
 Pagination.displayName = 'Pagination';

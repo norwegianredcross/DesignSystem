@@ -8,5 +8,5 @@ import {
  * Tooltip-komponent for å vise hjelpetekst ved hovring/fokus.
  */
 export type TooltipProps = DigDirTooltipProps;
-export const Tooltip = DigDirTooltip;
+export const Tooltip: typeof DigDirTooltip = DigDirTooltip;
 

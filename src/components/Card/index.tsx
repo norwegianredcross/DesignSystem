@@ -8,8 +8,8 @@ import {
  * Card-komponent for innholdskort.
  */
 export type CardProps = DigDirCardProps;
-export const Card = DigDirCard;
-export const CardBlock = DigDirCardBlock;
+export const Card: typeof DigDirCard = DigDirCard;
+export const CardBlock: typeof DigDirCardBlock = DigDirCardBlock;
 
 Card.displayName = 'Card';
 

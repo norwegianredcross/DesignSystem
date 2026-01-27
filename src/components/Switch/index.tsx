@@ -12,6 +12,6 @@ export type SwitchProps = DigDirSwitchProps;
 export type FieldsetProps = DigDirFieldsetProps; // Export Fieldset props too
 
 // Direkte eksport av komponenten fra Digdir
-export const Switch = DigDirSwitch;
-export const Fieldset = DigDirFieldset; // Export Fieldset too
+export const Switch: typeof DigDirSwitch = DigDirSwitch;
+export const Fieldset: typeof DigDirFieldset = DigDirFieldset;
 

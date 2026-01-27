@@ -9,4 +9,4 @@ import {
  * Underkomponenter er tilgjengelige via ToggleGroup.*
  */
 export type ToggleGroupProps = DigDirToggleGroupProps;
-export const ToggleGroup = DigDirToggleGroup;
+export const ToggleGroup: typeof DigDirToggleGroup = DigDirToggleGroup;

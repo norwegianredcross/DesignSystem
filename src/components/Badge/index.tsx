@@ -16,4 +16,4 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>((props, ref) => {
   return <DigDirBadge ref={ref} {...props} />;
 });
 Badge.displayName = 'Badge';
-export const BadgePosition = DigDirBadgePosition;
+export const BadgePosition: typeof DigDirBadgePosition = DigDirBadgePosition;

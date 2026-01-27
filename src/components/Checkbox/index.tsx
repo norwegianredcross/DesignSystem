@@ -13,8 +13,8 @@ import {
  */
 export type CheckboxProps = DigDirCheckboxProps;
 export type FieldsetProps = DigDirFieldsetProps; 
-export const Checkbox = DigDirCheckbox;
-export const Fieldset = DigDirFieldset; 
-export const useCheckboxGroup = useDigDirCheckboxGroup; 
+export const Checkbox: typeof DigDirCheckbox = DigDirCheckbox;
+export const Fieldset: typeof DigDirFieldset = DigDirFieldset;
+export const useCheckboxGroup: typeof useDigDirCheckboxGroup = useDigDirCheckboxGroup; 
 Checkbox.displayName = 'Checkbox';
 Fieldset.displayName = 'Fieldset';

@@ -7,5 +7,5 @@ import {
  * Popover-komponent for å vise innhold over annet innhold ved interaksjon.
  */
 export type PopoverProps = DigDirPopoverProps;
-export const Popover = DigDirPopover;
+export const Popover: typeof DigDirPopover = DigDirPopover;
 

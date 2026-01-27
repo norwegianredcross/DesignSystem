@@ -9,5 +9,5 @@ import {
 export type TextareaProps = DigDirTextareaProps;
 
 // Direkte eksport av komponenten fra Digdir
-export const Textarea = DigDirTextarea;
+export const Textarea: typeof DigDirTextarea = DigDirTextarea;
 

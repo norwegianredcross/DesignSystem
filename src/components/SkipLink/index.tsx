@@ -8,5 +8,5 @@ import {
  * Viktig for tilgjengelighet.
  */
 export type SkipLinkProps = DigDirSkipLinkProps;
-export const SkipLink = DigDirSkipLink;
+export const SkipLink: typeof DigDirSkipLink = DigDirSkipLink;
 

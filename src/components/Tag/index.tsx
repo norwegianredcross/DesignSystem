@@ -9,5 +9,5 @@ import {
 export type TagProps = DigDirTagProps;
 
 // Direkte eksport av komponenten fra Digdir
-export const Tag = DigDirTag;
+export const Tag: typeof DigDirTag = DigDirTag;
 

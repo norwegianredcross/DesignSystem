@@ -8,6 +8,6 @@ import {
  * Brukes for nedtrekkslister.
  */
 export type SelectProps = DigDirSelectProps;
-export const Select = DigDirSelect;
+export const Select: typeof DigDirSelect = DigDirSelect;
 
 

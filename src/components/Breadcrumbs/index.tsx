@@ -12,7 +12,7 @@ import {
  */
 export interface BreadcrumbsProps extends DigDirBreadcrumbsProps {}
 
-export const Breadcrumbs = DigDirBreadcrumbs;
-export const BreadcrumbsList = DigDirBreadcrumbsList;
-export const BreadcrumbsItem = DigDirBreadcrumbsItem;
-export const BreadcrumbsLink = DigDirBreadcrumbsLink;
+export const Breadcrumbs: typeof DigDirBreadcrumbs = DigDirBreadcrumbs;
+export const BreadcrumbsList: typeof DigDirBreadcrumbsList = DigDirBreadcrumbsList;
+export const BreadcrumbsItem: typeof DigDirBreadcrumbsItem = DigDirBreadcrumbsItem;
+export const BreadcrumbsLink: typeof DigDirBreadcrumbsLink = DigDirBreadcrumbsLink;

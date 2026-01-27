@@ -25,11 +25,11 @@ export type DropdownListProps = DigDirDropdownListProps;
 export type DropdownItemProps = DigDirDropdownItemProps;
 export type DropdownButtonProps = DigDirDropdownButtonProps;
 
-export const Dropdown = DigDirDropdown;
-export const DropdownTrigger = DigDirDropdownTrigger;
-export const DropdownTriggerContext = DigDirDropdownTriggerContext;
-export const DropdownHeading = DigDirDropdownHeading;
-export const DropdownList = DigDirDropdownList;
-export const DropdownItem = DigDirDropdownItem;
-export const DropdownButton = DigDirDropdownButton;
+export const Dropdown: typeof DigDirDropdown = DigDirDropdown;
+export const DropdownTrigger: typeof DigDirDropdownTrigger = DigDirDropdownTrigger;
+export const DropdownTriggerContext: typeof DigDirDropdownTriggerContext = DigDirDropdownTriggerContext;
+export const DropdownHeading: typeof DigDirDropdownHeading = DigDirDropdownHeading;
+export const DropdownList: typeof DigDirDropdownList = DigDirDropdownList;
+export const DropdownItem: typeof DigDirDropdownItem = DigDirDropdownItem;
+export const DropdownButton: typeof DigDirDropdownButton = DigDirDropdownButton;
 

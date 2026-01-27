@@ -10,5 +10,5 @@ import {
  * Underkomponenter er tilgjengelige via Tabs.*
  */
 export type TabsProps = DigDirTabsProps;
-export const Tabs = DigDirTabs;
+export const Tabs: typeof DigDirTabs = DigDirTabs;
 

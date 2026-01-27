@@ -11,9 +11,9 @@ import {
  * Field-komponent for å omslutte skjemafelter.
  * Inkluderer støtte for beskrivelse og tegn-teller.
  */
-export const Field = DigDirField;
-export const FieldDescription = DigDirFieldDescription;
-export const FieldCounter = DigDirFieldCounter;
+export const Field: typeof DigDirField = DigDirField;
+export const FieldDescription: typeof DigDirFieldDescription = DigDirFieldDescription;
+export const FieldCounter: typeof DigDirFieldCounter = DigDirFieldCounter;
 
 export type FieldDescriptionProps = DigDirFieldDescriptionProps;
 export type FieldCounterProps = DigDirFieldCounterProps;

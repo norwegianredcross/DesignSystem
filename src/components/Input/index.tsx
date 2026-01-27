@@ -7,6 +7,6 @@ import {
  * Input-komponent for tekstfelter.
  */
 export type InputProps = DigDirInputProps;
-export const Input = DigDirInput;
+export const Input: typeof DigDirInput = DigDirInput;
 
 Input.displayName = 'Input';

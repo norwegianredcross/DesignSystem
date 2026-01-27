@@ -7,4 +7,4 @@ import {
  * Dialog-komponent for modale vinduer.
  */
 export type DialogProps = DigDirDialogProps;
-export const Dialog = DigDirDialog;
+export const Dialog: typeof DigDirDialog = DigDirDialog;

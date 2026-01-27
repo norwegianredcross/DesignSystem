@@ -10,5 +10,5 @@ import {
  * Underkomponenter er tilgjengelige via Table.*
  */
 export type TableProps = DigDirTableProps;
-export const Table = DigDirTable;
+export const Table: typeof DigDirTable = DigDirTable;
 
