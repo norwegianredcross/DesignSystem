@@ -1,16 +1,33 @@
 <!doctype html>
-<html lang="en">
+<html lang="no">
   <head>
     <meta charset="UTF-8" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.typekit.net/vmx5jgv.css"> 
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" /> 
+    <link rel="stylesheet" href="https://use.typekit.net/vmx5jgv.css">
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      shop-bot {
+        display: block;
+        z-index: 2147483647;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script src="https://shopbot-core.vercel.app/shopbot.js" defer></script>
+    <shop-bot
+      store-id="rk-designsystem-docs"
+      lang="no"
+      accent-color="#D52B1E"
+      bg-color="#ffffff"
+      text-color="#1E333A"
+      header-bg-color="#D52B1E"
+      bot-name="Designsystem Assistent"
+      bot-subtitle="Spør meg om komponenter og tokens"
+    ></shop-bot>
   </body>
 </html>
