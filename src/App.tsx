@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useLanguage } from './context/LanguageContext';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
@@ -10,9 +10,30 @@ import { SearchResultsPage } from './pages/SearchResults';
 import { TokensPage } from './pages/Tokens';
 import './App.css';
 
+// Get initial page from URL hash
+function getPageFromHash(): string {
+  const hash = window.location.hash.slice(1); // Remove #
+  return hash || 'home';
+}
+
 function App() {
-  const [page, setPage] = useState('home');
+  const [page, setPageState] = useState(getPageFromHash);
   const { t } = useLanguage();
+
+  // Sync URL hash when page changes
+  const setPage = useCallback((newPage: string) => {
+    setPageState(newPage);
+    window.location.hash = newPage === 'home' ? '' : newPage;
+  }, []);
+
+  // Listen for browser back/forward navigation
+  useEffect(() => {
+    const handleHashChange = () => {
+      setPageState(getPageFromHash());
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
   
   const [mainPage, subPage] = page.split('/');
 
@@ -64,10 +85,10 @@ function App() {
         secondaryLogoSrc={`${import.meta.env.BASE_URL}designsystemlogofinallight.svg`}
         secondaryLogoAlt="Designsystem Logo"
         shortcutsLinksLeft={[
-          { label: t('header.nav.components'), href: '#' },
-          { label: t('header.nav.design'), href: '#' },
-          { label: t('header.nav.code'), href: '#' },
-          { label: t('header.nav.tokens'), href: '#' }
+          { label: t('header.nav.components'), href: '#components' },
+          { label: t('header.nav.design'), href: '#design' },
+          { label: t('header.nav.code'), href: '#code' },
+          { label: t('header.nav.tokens'), href: '#tokens' }
         ]}
         shortcutsLinksRight={[
           { label: 'GitHub', href: 'https://github.com/norwegianredcross/DesignSystem' },
