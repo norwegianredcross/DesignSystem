@@ -278,8 +278,8 @@
   
   /* --- VALUES SECTION --- */
   .sectionValues {
-    /* Using tinted background that adapts to color scheme */
-    background-color: var(--ds-color-primary-color-red-surface-tinted);
+    /* Dark red tinted background - forced dark mode via data-color-scheme="dark" on element */
+    background-color: var(--ds-color-primary-color-red-background-tinted);
     padding: var(--ds-size-26) 0;
     margin-top: var(--ds-size-12);
     border-radius: var(--ds-border-radius-xl) var(--ds-border-radius-xl) 0 0;

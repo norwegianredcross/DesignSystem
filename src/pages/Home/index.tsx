@@ -200,7 +200,7 @@ export const HomePage = ({ setPage }: HomePageProps) => {
       </section>
 
       {/* --- VALUES SECTION --- */}
-      <section className={styles.sectionValues}>
+      <section className={styles.sectionValues} data-color-scheme="dark">
         <div className="container">
           <div className={styles.valuesGrid}>
             <div className={styles.valueItem}>
