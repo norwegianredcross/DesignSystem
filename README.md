@@ -1,8 +1,8 @@
 # Røde Kors Design System Component Library (Norwegian Red Cross)
 
-## Live Storybook URL
+## Live Documentation URL
 
-[https://norwegianredcross.github.io/DesignSystem/storybook/?path=/docs/welcome--docs](https://norwegianredcross.github.io/DesignSystem/storybook/?path=/docs/welcome--docs)
+[https://norwegianredcross.github.io/DesignSystem/#](https://norwegianredcross.github.io/DesignSystem/#)
 
 ## Overview
 
@@ -12,7 +12,51 @@ It's developed leveraging the foundational components from Digdir's Designsystem
 
 The primary goal is to ensure brand consistency, improve development efficiency, and maintain high accessibility standards across all Røde Kors applications.
 
-Storybook serves as the interactive documentation and development environment for viewing and testing these components.
+## Available Components
+
+The design system includes the following components:
+
+| Component | Description |
+|-----------|-------------|
+| Alert | Display important messages and notifications |
+| Avatar | Represent users or entities with images/initials |
+| Badge | Show status indicators or counts |
+| Breadcrumbs | Navigation showing current location in hierarchy |
+| Button | Interactive buttons for actions |
+| Card | Container for grouping related content |
+| Carousel | Image gallery with navigation |
+| Checkbox | Multi-select form inputs |
+| Chip | Compact interactive elements for filtering |
+| DateInput | Text input for dates with Norwegian formatting |
+| DatePicker | Visual calendar for date selection |
+| Details | Expandable/collapsible content sections |
+| Dialog | Modal and non-modal dialog windows |
+| Divider | Visual separator between content |
+| Dropdown | Dropdown menus and action lists |
+| ErrorSummary | Summary of form validation errors |
+| Field | Form field wrapper with label and validation |
+| Fieldset | Group related form fields |
+| Header | Global application header |
+| Input | Basic text input field |
+| Link | Navigation links |
+| List | Ordered and unordered lists |
+| Pagination | Navigate between pages of content |
+| Popover | Contextual overlays |
+| Radio | Single-select form inputs |
+| Search | Search input with button |
+| Select | Dropdown selection |
+| Skeleton | Loading placeholder |
+| SkipLink | Accessibility skip navigation |
+| Spinner | Loading indicator |
+| Suggestion | Searchable select with autocomplete |
+| Switch | Toggle on/off settings |
+| Table | Structured data display |
+| Tabs | Tabbed content navigation |
+| Tag | Static labels for categorization |
+| Textarea | Multi-line text input |
+| Textfield | Text input with label and validation |
+| ToggleGroup | Grouped toggle buttons |
+| Tooltip | Hover/focus information overlays |
 
 ## Consuming This Library (For Application Developers)
 
@@ -76,11 +120,51 @@ function MyApp({ Component, pageProps }: AppProps) {
 export default MyApp;
 ```
 
-### 3. Using Components
+### 3. Adding the Font
+
+The design system uses **Source Sans 3** font. Add the following to your HTML `<head>` or root layout:
+
+```html
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+```
+
+#### For Next.js (App Router - `src/app/layout.tsx`):
+
+```tsx
+import './globals.css';
+import '@digdir/designsystemet-css/index.css';
+import 'rk-design-tokens/design-tokens-build/theme.css';
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body>{children}</body>
+    </html>
+  );
+}
+```
+
+The CSS variable `--ds-font-family` from `rk-design-tokens` will automatically use this font.
+
+### 4. Using Components
 
 Once the stylesheets are included, you can start importing and using components in your project. All components you need are available directly from the `rk-designsystem` package.
 
-#### 3.1 Import and Use Røde Kors Design System Components
+#### 4.1 Import and Use Røde Kors Design System Components
 
 Import components directly from the `rk-designsystem` package:
 
@@ -98,7 +182,7 @@ function MyComponent() {
 }
 ```
 
-#### 3.2 Example Usage in a Next.js Page
+#### 4.2 Example Usage in a Next.js Page
 
 Here's an example of how to use multiple Alert components from the Røde Kors Design System within a Next.js page/component:
 
@@ -142,6 +226,33 @@ The appearance of all components is fully controlled by the `rk-design-tokens` p
 ```bash
 npm update rk-design-tokens
 ```
+
+---
+
+## AI-Assisted Development
+
+For AI assistants (Claude Code, Cursor, etc.) working with this design system, an AI Design System Guide is available:
+
+**Direct URL:**
+```
+https://norwegianredcross.github.io/DesignSystem/storybook/AI_DESIGN_SYSTEM_GUIDE.md
+```
+
+### Fetching the Guide
+
+```bash
+# macOS/Linux/Git Bash
+curl -o AI_DESIGN_SYSTEM_GUIDE.md https://norwegianredcross.github.io/DesignSystem/storybook/AI_DESIGN_SYSTEM_GUIDE.md
+
+# Windows PowerShell
+Invoke-WebRequest -Uri "https://norwegianredcross.github.io/DesignSystem/storybook/AI_DESIGN_SYSTEM_GUIDE.md" -OutFile "AI_DESIGN_SYSTEM_GUIDE.md"
+```
+
+### Related Resources
+
+- **Component Metadata**: https://norwegianredcross.github.io/DesignSystem/storybook/metadata.json
+- **Design Tokens**: https://norwegianredcross.github.io/design-tokens/theme.css
+- **GitHub Repository**: https://github.com/norwegianredcross/DesignSystem
 
 ---
 
@@ -296,9 +407,9 @@ export function IconsExample() {
 
 ### Accessibility guidance
 
-- Icon + visible text: set `aria-hidden` on the icon so screen readers don’t announce it twice.
+- Icon + visible text: set `aria-hidden` on the icon so screen readers don't announce it twice.
 - Icon‑only triggers (e.g., a button): add a descriptive `aria-label` to the trigger, keep the icon `aria-hidden`.
-- Color: icons inherit `currentColor`; use the component’s variant/color to control it (e.g., button variants, tag colors).
+- Color: icons inherit `currentColor`; use the component's variant/color to control it (e.g., button variants, tag colors).
 - Size: set `fontSize` (e.g., `fontSize="1.25rem"`) or inline style (e.g., `style={{ fontSize: '1.25rem' }}`).
 
 ### Performance
