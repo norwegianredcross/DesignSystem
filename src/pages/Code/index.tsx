@@ -70,12 +70,7 @@ const GettingStartedContent = () => {
         {t('code.getStarted.installationText')}
       </Paragraph>
       <Link href="https://github.com/norwegianredcross/DesignSystem" target="_blank" rel="noopener noreferrer" style={{ marginBottom: 'var(--ds-size-4)', display: 'inline-block' }}>{t('code.getStarted.githubLink')}</Link>
-      <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>{t('code.getStarted.npmTitle')}</Heading>
-      <CodeBlock>npm install rk-designsystem @digdir/designsystemet-css rk-design-tokens</CodeBlock>
-      <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>{t('code.getStarted.yarnTitle')}</Heading>
-      <CodeBlock>yarn add rk-designsystem @digdir/designsystemet-css rk-design-tokens</CodeBlock>
-      <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>{t('code.getStarted.pnpmTitle')}</Heading>
-      <CodeBlock>pnpm add rk-designsystem @digdir/designsystemet-css rk-design-tokens</CodeBlock>
+      <CodeBlock>npm install rk-designsystem</CodeBlock>
       <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
         {t('code.getStarted.note')}
       </Paragraph>
@@ -91,8 +86,7 @@ const GettingStartedContent = () => {
       <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>{t('code.getStarted.appRouterExample')}</Heading>
     <CodeBlock>
 {`import './globals.css'; // Dine egne globale stiler (hvis noen)
-import '@digdir/designsystemet-css/index.css'; // Grunnstilark for komponenter
-import 'rk-design-tokens/design-tokens-build/theme.css'; // Røde Kors tema
+import 'rk-designsystem/styles'; // Inkluderer stiler, tema og font
 
 export default function RootLayout({
   children,
@@ -110,8 +104,7 @@ export default function RootLayout({
       <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>{t('code.getStarted.pagesRouterExample')}</Heading>
     <CodeBlock>
 {`import '../styles/globals.css'; // Dine egne globale stiler (hvis noen)
-import '@digdir/designsystemet-css/index.css'; // Grunnstilark for komponenter
-import 'rk-design-tokens/design-tokens-build/theme.css'; // Røde Kors tema
+import 'rk-designsystem/styles'; // Inkluderer stiler, tema og font
 import type { AppProps } from 'next/app';
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -194,16 +187,15 @@ const DesignTokensContent = () => {
       </Paragraph>
 
       <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>{t('code.designTokens.installTitle')}</Heading>
-      <CodeBlock>npm install rk-designsystem @digdir/designsystemet-css rk-design-tokens</CodeBlock>
-      
+      <CodeBlock>npm install rk-designsystem</CodeBlock>
+
       <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>{t('code.designTokens.importTitle')}</Heading>
       <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
         {t('code.designTokens.importText')}
       </Paragraph>
     <CodeBlock>
 {`// src/app/layout.tsx (eller tilsvarende)
-import '@digdir/designsystemet-css/index.css';         // 1. Grunnstiler
-import 'rk-design-tokens/design-tokens-build/brand-1.css'; // 2. Røde Kors tema
+import 'rk-designsystem/styles'; // Inkluderer stiler, tema og font
 
 export default function RootLayout({ children }) {
   return (
@@ -270,8 +262,7 @@ const FontsContent = () => {
       </Paragraph>
       <CodeBlock>
 {`// src/app/layout.tsx
-import '@digdir/designsystemet-css/index.css';
-import 'rk-design-tokens/design-tokens-build/theme.css';
+import 'rk-designsystem/styles'; // Fonten er automatisk inkludert!
 
 export default function RootLayout({
   children,
@@ -280,11 +271,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="no">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet" />
-      </head>
       <body>{children}</body>
     </html>
   );
@@ -295,31 +281,16 @@ export default function RootLayout({
         {t('code.fonts.nextjsPagesText')}
       </Paragraph>
       <CodeBlock>
-{`// pages/_app.tsx eller pages/_document.tsx
+{`// pages/_app.tsx
 import '../styles/globals.css';
-import '@digdir/designsystemet-css/index.css';
-import 'rk-design-tokens/design-tokens-build/theme.css';
+import 'rk-designsystem/styles'; // Fonten er automatisk inkludert!
+import type { AppProps } from 'next/app';
 
-// I _document.tsx:
-import Document, { Html, Head, Main, NextScript } from 'next/document';
+function MyApp({ Component, pageProps }: AppProps) {
+  return <Component {...pageProps} />;
+}
 
-export default class MyDocument extends Document {
-  render() {
-    return (
-      <Html lang="no">
-        <Head>
-          <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-          <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet" />
-        </Head>
-        <body>
-          <Main />
-          <NextScript />
-        </body>
-      </Html>
-    );
-  }
-}`}
+export default MyApp;`}
       </CodeBlock>
 
       <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('code.fonts.afterLoadTitle')}</Heading>

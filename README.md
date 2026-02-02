@@ -58,173 +58,62 @@ The design system includes the following components:
 | ToggleGroup | Grouped toggle buttons |
 | Tooltip | Hover/focus information overlays |
 
-## Consuming This Library (For Application Developers)
+## Quick Start (Recommended)
 
-To use the Røde Kors Design System in your Next.js (or any React) application:
+The simplest way to get started with the Røde Kors Design System:
 
-### 1. Installation
-
-Install the necessary npm packages for your project. You will need three packages: the component library itself (`rk-designsystem`), the base styles from Digdir, and the Røde Kors theme package (`rk-design-tokens`).
+### 1. Install
 
 ```bash
-# npm
-npm install rk-designsystem @digdir/designsystemet-css rk-design-tokens
-
-# yarn
-yarn add rk-designsystem @digdir/designsystemet-css rk-design-tokens
-
-# pnpm
-pnpm add rk-designsystem @digdir/designsystemet-css rk-design-tokens
+npm install rk-designsystem
 ```
 
-**Note:** You do not need to install `@digdir/designsystemet-react` separately, as all required components are included within the `rk-designsystem` package.
+### 2. Import Styles
 
-### 2. Including Styles (CSS)
+Add this import once at the top level of your app (e.g., `layout.tsx`, `_app.tsx`, or `main.tsx`):
 
-For the components to be styled correctly, you must import the stylesheets at the highest level of your application, for instance, in your `layout.tsx` (for Next.js App Router) or `_app.tsx` (for Next.js Pages Router).
+```typescript
+import 'rk-designsystem/styles';
+```
 
-**Crucial Order:** It's vital that the base stylesheet (`@digdir/designsystemet-css`) is loaded **before** the Røde Kors theme file (`rk-design-tokens`). This ensures our theme's tokens can correctly override the default values.
+This single import includes:
+- All component styles
+- Røde Kors theme (colors, spacing, etc.)
+- Source Sans 3 font
 
-#### Example for Next.js (App Router - `src/app/layout.tsx`):
+### 3. Use Components
 
 ```tsx
-import './globals.css'; // Your own global styles (if any)
-import '@digdir/designsystemet-css/index.css'; // Base stylesheet for components
-import 'rk-design-tokens/design-tokens-build/theme.css'; // Røde Kors theme
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
-  );
-}
-```
-
-#### Example for Next.js (Pages Router - `pages/_app.tsx`):
-
-```tsx
-import '../styles/globals.css'; // Your own global styles (if any)
-import '@digdir/designsystemet-css/index.css'; // Base stylesheet for components
-import 'rk-design-tokens/design-tokens-build/theme.css'; // Røde Kors theme
-import type { AppProps } from 'next/app';
-
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
-}
-
-export default MyApp;
-```
-
-### 3. Adding the Font
-
-The design system uses **Source Sans 3** font. Add the following to your HTML `<head>` or root layout:
-
-```html
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
-```
-
-#### For Next.js (App Router - `src/app/layout.tsx`):
-
-```tsx
-import './globals.css';
-import '@digdir/designsystemet-css/index.css';
-import 'rk-design-tokens/design-tokens-build/theme.css';
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body>{children}</body>
-    </html>
-  );
-}
-```
-
-The CSS variable `--ds-font-family` from `rk-design-tokens` will automatically use this font.
-
-### 4. Using Components
-
-Once the stylesheets are included, you can start importing and using components in your project. All components you need are available directly from the `rk-designsystem` package.
-
-#### 4.1 Import and Use Røde Kors Design System Components
-
-Import components directly from the `rk-designsystem` package:
-
-```tsx
-import { Alert } from 'rk-designsystem'; // Import necessary components
+import { Button, Alert } from 'rk-designsystem';
 
 function MyComponent() {
   return (
-    <>
-      <Alert variant="info" onClose={() => console.log('Alert closed!')}>
-        This is an informational message from the Red Cross Design System.
-      </Alert>
-    </>
+    <Alert variant="success">
+      Welcome to Røde Kors Design System!
+    </Alert>
   );
 }
 ```
 
-#### 4.2 Example Usage in a Next.js Page
+That's it! You're ready to go.
 
-Here's an example of how to use multiple Alert components from the Røde Kors Design System within a Next.js page/component:
+---
 
-```tsx
-'use client'; // Remember 'use client' for interactive components in App Router
+## Advanced Installation (Manual Control)
 
-import React from 'react';
-import { Alert } from 'rk-designsystem'; // Import the components you need
+If you need more control over the CSS or want to manage dependencies separately:
 
-export default function Home() {
-  return (
-    <div className="container mx-auto p-8">
-      <h1 className="text-3xl font-bold mb-8">
-        Røde Kors Design System Example
-      </h1>
-
-      <section>
-        <h2 className="text-2xl font-semibold mb-4">Alerts</h2>
-        {/* Røde Kors Design System Alerts */}
-        <Alert variant="success">
-          <p>
-            Welcome! This message is styled with the official Røde Kors theme.
-          </p>
-        </Alert>
-
-        <Alert variant="warning" className="mt-4">
-          <p>
-            Important information using the official Røde Kors theme.
-          </p>
-        </Alert>
-      </section>
-
-      {/* More Røde Kors components can be added here as needed */}
-    </div>
-  );
-}
-```
-
-The appearance of all components is fully controlled by the `rk-design-tokens` package. To receive any visual updates to the brand theme (like a new primary color), simply update the package to its latest version:
+### 1. Installation
 
 ```bash
-npm update rk-design-tokens
+npm install rk-designsystem @digdir/designsystemet-css rk-design-tokens
+```
+
+### 2. Import Styles (Order Matters!)
+
+```typescript
+import '@digdir/designsystemet-css/index.css';  // Base styles FIRST
+import 'rk-design-tokens/design-tokens-build/theme.css';  // Theme SECOND
 ```
 
 ---

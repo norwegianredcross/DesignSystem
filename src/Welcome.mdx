@@ -10,28 +10,22 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 ## Kom i gang
 
-### Installasjon
+### 1. Installasjon
 
 ```bash
-# npm
-npm install rk-designsystem @digdir/designsystemet-css rk-design-tokens
-
-# yarn
-yarn add rk-designsystem @digdir/designsystemet-css rk-design-tokens
-
-# pnpm
-pnpm add rk-designsystem @digdir/designsystemet-css rk-design-tokens
+npm install rk-designsystem
 ```
 
-### Inkluder stilark (riktig rekkefølge)
+### 2. Importer stiler (inkluderer font)
 
 ```tsx
-// Next.js App Router (src/app/layout.tsx)
-import '@digdir/designsystemet-css/index.css';            // 1) Base
-import 'rk-design-tokens/design-tokens-build/theme.css';  // 2) Røde Kors tema
+// I src/app/layout.tsx, _app.tsx, eller main.tsx
+import 'rk-designsystem/styles';
 ```
 
-### Bruke komponenter
+**Ferdig!** Fonten Source Sans 3 og alle nødvendige stiler er nå inkludert.
+
+### 3. Bruk komponenter
 
 ```tsx
 import { Alert } from 'rk-designsystem';

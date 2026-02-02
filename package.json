@@ -32,6 +32,8 @@
       "import": "./dist/componentlibrary.es.js",
       "require": "./dist/componentlibrary.umd.js"
     },
+    "./styles": "./dist/styles.css",
+    "./styles.css": "./dist/styles.css",
     "./dist/componentlibrary.css": "./dist/componentlibrary.css",
     "./dist/rk-designsystem.css": "./dist/rk-designsystem.css"
   },
@@ -44,17 +46,22 @@
     "LICENSE"
   ],
   "peerDependencies": {
-    "@digdir/designsystemet": "^1.9.0",
-    "@digdir/designsystemet-css": "^1.9.0",
-    "@digdir/designsystemet-react": "^1.9.0",
-    "@navikt/aksel-icons": "^7.20.0",
-    "date-fns": "^4.1.0",
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0"
   },
+  "peerDependenciesMeta": {
+    "@navikt/aksel-icons": {
+      "optional": true
+    }
+  },
+  "optionalDependencies": {
+    "@navikt/aksel-icons": "^7.20.0",
+    "date-fns": "^4.1.0"
+  },
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && npm run copy-styles",
+    "copy-styles": "node -e \"require('fs').copyFileSync('src/styles.css', 'dist/styles.css')\"",
     "clean": "rimraf dist",
     "changeset": "changeset",
     "lint": "eslint .",
@@ -119,6 +126,7 @@
     ]
   },
   "dependencies": {
+    "@digdir/designsystemet-css": "^1.9.0",
     "@digdir/designsystemet-theme": "^1.6.0",
     "@types/classnames": "^2.3.0",
     "classnames": "^2.5.1",
