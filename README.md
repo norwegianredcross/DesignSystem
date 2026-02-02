@@ -58,9 +58,64 @@ The design system includes the following components:
 | ToggleGroup | Grouped toggle buttons |
 | Tooltip | Hover/focus information overlays |
 
-## Quick Start (Recommended)
+## Quick Start for Next.js (Recommended)
 
-The simplest way to get started with the Røde Kors Design System:
+### 1. Install
+
+```bash
+npm install rk-designsystem
+```
+
+### 2. Setup Layout with Font
+
+For Next.js projects, use `next/font` for optimal font loading:
+
+```tsx
+// src/app/layout.tsx (App Router)
+import '@digdir/designsystemet-css/index.css';
+import 'rk-design-tokens/design-tokens-build/theme.css';
+import { Source_Sans_3 } from 'next/font/google';
+
+const sourceSans3 = Source_Sans_3({
+  subsets: ['latin'],
+  weight: ['200', '300', '400', '500', '600', '700', '800', '900'],
+  style: ['normal', 'italic'],
+});
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="no">
+      <body className={sourceSans3.className}>{children}</body>
+    </html>
+  );
+}
+```
+
+**Important:** Use `className`, NOT `variable`. The `variable` option only creates a CSS custom property without actually applying the font.
+
+### 3. Use Components
+
+```tsx
+import { Button, Alert } from 'rk-designsystem';
+
+export default function Page() {
+  return (
+    <Alert variant="success">
+      Welcome to Røde Kors Design System!
+    </Alert>
+  );
+}
+```
+
+---
+
+## Quick Start for Vite/CRA (Simple)
+
+For non-Next.js projects, use the combined styles import:
 
 ### 1. Install
 
@@ -70,23 +125,19 @@ npm install rk-designsystem
 
 ### 2. Import Styles
 
-Add this import once at the top level of your app (e.g., `layout.tsx`, `_app.tsx`, or `main.tsx`):
-
 ```typescript
+// main.tsx or index.tsx
 import 'rk-designsystem/styles';
 ```
 
-This single import includes:
-- All component styles
-- Røde Kors theme (colors, spacing, etc.)
-- Source Sans 3 font
+This single import includes base styles, theme, and loads the font via Google Fonts.
 
 ### 3. Use Components
 
 ```tsx
 import { Button, Alert } from 'rk-designsystem';
 
-function MyComponent() {
+function App() {
   return (
     <Alert variant="success">
       Welcome to Røde Kors Design System!
@@ -95,25 +146,30 @@ function MyComponent() {
 }
 ```
 
-That's it! You're ready to go.
-
 ---
 
-## Advanced Installation (Manual Control)
+## Next.js Pages Router
 
-If you need more control over the CSS or want to manage dependencies separately:
+```tsx
+// pages/_app.tsx
+import '@digdir/designsystemet-css/index.css';
+import 'rk-design-tokens/design-tokens-build/theme.css';
+import { Source_Sans_3 } from 'next/font/google';
+import type { AppProps } from 'next/app';
 
-### 1. Installation
+const sourceSans3 = Source_Sans_3({
+  subsets: ['latin'],
+  weight: ['200', '300', '400', '500', '600', '700', '800', '900'],
+  style: ['normal', 'italic'],
+});
 
-```bash
-npm install rk-designsystem @digdir/designsystemet-css rk-design-tokens
-```
-
-### 2. Import Styles (Order Matters!)
-
-```typescript
-import '@digdir/designsystemet-css/index.css';  // Base styles FIRST
-import 'rk-design-tokens/design-tokens-build/theme.css';  // Theme SECOND
+export default function App({ Component, pageProps }: AppProps) {
+  return (
+    <main className={sourceSans3.className}>
+      <Component {...pageProps} />
+    </main>
+  );
+}
 ```
 
 ---

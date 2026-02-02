@@ -85,8 +85,15 @@ const GettingStartedContent = () => {
       
       <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>{t('code.getStarted.appRouterExample')}</Heading>
     <CodeBlock>
-{`import './globals.css'; // Dine egne globale stiler (hvis noen)
-import 'rk-designsystem/styles'; // Inkluderer stiler, tema og font
+{`import '@digdir/designsystemet-css/index.css';
+import 'rk-design-tokens/design-tokens-build/theme.css';
+import { Source_Sans_3 } from 'next/font/google';
+
+const sourceSans3 = Source_Sans_3({
+  subsets: ['latin'],
+  weight: ['200', '300', '400', '500', '600', '700', '800', '900'],
+  style: ['normal', 'italic'],
+});
 
 export default function RootLayout({
   children,
@@ -95,7 +102,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="no">
-      <body>{children}</body>
+      <body className={sourceSans3.className}>{children}</body>
     </html>
   );
 }`}
@@ -103,15 +110,24 @@ export default function RootLayout({
 
       <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>{t('code.getStarted.pagesRouterExample')}</Heading>
     <CodeBlock>
-{`import '../styles/globals.css'; // Dine egne globale stiler (hvis noen)
-import 'rk-designsystem/styles'; // Inkluderer stiler, tema og font
+{`import '@digdir/designsystemet-css/index.css';
+import 'rk-design-tokens/design-tokens-build/theme.css';
+import { Source_Sans_3 } from 'next/font/google';
 import type { AppProps } from 'next/app';
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
-}
+const sourceSans3 = Source_Sans_3({
+  subsets: ['latin'],
+  weight: ['200', '300', '400', '500', '600', '700', '800', '900'],
+  style: ['normal', 'italic'],
+});
 
-export default MyApp;`}
+export default function App({ Component, pageProps }: AppProps) {
+  return (
+    <main className={sourceSans3.className}>
+      <Component {...pageProps} />
+    </main>
+  );
+}`}
     </CodeBlock>
 
       <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('code.getStarted.usageTitle')}</Heading>
@@ -194,13 +210,21 @@ const DesignTokensContent = () => {
         {t('code.designTokens.importText')}
       </Paragraph>
     <CodeBlock>
-{`// src/app/layout.tsx (eller tilsvarende)
-import 'rk-designsystem/styles'; // Inkluderer stiler, tema og font
+{`// src/app/layout.tsx
+import '@digdir/designsystemet-css/index.css';
+import 'rk-design-tokens/design-tokens-build/theme.css';
+import { Source_Sans_3 } from 'next/font/google';
+
+const sourceSans3 = Source_Sans_3({
+  subsets: ['latin'],
+  weight: ['200', '300', '400', '500', '600', '700', '800', '900'],
+  style: ['normal', 'italic'],
+});
 
 export default function RootLayout({ children }) {
   return (
     <html lang="no">
-      <body>{children}</body>
+      <body className={sourceSans3.className}>{children}</body>
     </html>
   );
 }`}
@@ -262,16 +286,20 @@ const FontsContent = () => {
       </Paragraph>
       <CodeBlock>
 {`// src/app/layout.tsx
-import 'rk-designsystem/styles'; // Fonten er automatisk inkludert!
+import '@digdir/designsystemet-css/index.css';
+import 'rk-design-tokens/design-tokens-build/theme.css';
+import { Source_Sans_3 } from 'next/font/google';
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+const sourceSans3 = Source_Sans_3({
+  subsets: ['latin'],
+  weight: ['200', '300', '400', '500', '600', '700', '800', '900'],
+  style: ['normal', 'italic'],
+});
+
+export default function RootLayout({ children }) {
   return (
     <html lang="no">
-      <body>{children}</body>
+      <body className={sourceSans3.className}>{children}</body>
     </html>
   );
 }`}
@@ -282,15 +310,24 @@ export default function RootLayout({
       </Paragraph>
       <CodeBlock>
 {`// pages/_app.tsx
-import '../styles/globals.css';
-import 'rk-designsystem/styles'; // Fonten er automatisk inkludert!
+import '@digdir/designsystemet-css/index.css';
+import 'rk-design-tokens/design-tokens-build/theme.css';
+import { Source_Sans_3 } from 'next/font/google';
 import type { AppProps } from 'next/app';
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
-}
+const sourceSans3 = Source_Sans_3({
+  subsets: ['latin'],
+  weight: ['200', '300', '400', '500', '600', '700', '800', '900'],
+  style: ['normal', 'italic'],
+});
 
-export default MyApp;`}
+export default function App({ Component, pageProps }: AppProps) {
+  return (
+    <main className={sourceSans3.className}>
+      <Component {...pageProps} />
+    </main>
+  );
+}`}
       </CodeBlock>
 
       <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('code.fonts.afterLoadTitle')}</Heading>

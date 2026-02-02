@@ -16,14 +16,30 @@ import { Meta } from '@storybook/addon-docs/blocks';
 npm install rk-designsystem
 ```
 
-### 2. Importer stiler (inkluderer font)
+### 2. Sett opp layout med font (Next.js)
 
 ```tsx
-// I src/app/layout.tsx, _app.tsx, eller main.tsx
-import 'rk-designsystem/styles';
+// src/app/layout.tsx
+import '@digdir/designsystemet-css/index.css';
+import 'rk-design-tokens/design-tokens-build/theme.css';
+import { Source_Sans_3 } from 'next/font/google';
+
+const sourceSans3 = Source_Sans_3({
+  subsets: ['latin'],
+  weight: ['200', '300', '400', '500', '600', '700', '800', '900'],
+  style: ['normal', 'italic'],
+});
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="no">
+      <body className={sourceSans3.className}>{children}</body>
+    </html>
+  );
+}
 ```
 
-**Ferdig!** Fonten Source Sans 3 og alle nødvendige stiler er nå inkludert.
+**Viktig:** Bruk `className`, IKKE `variable`. `variable` oppretter bare en CSS-variabel uten å faktisk bruke fonten.
 
 ### 3. Bruk komponenter
 
