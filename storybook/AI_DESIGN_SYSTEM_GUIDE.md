@@ -206,11 +206,21 @@
   - Røde Kors theme (colors, spacing, etc.)
   - Source Sans 3 font (loaded automatically via Google Fonts)
 
-  ### Complete Next.js Example (App Router)
+  ### Complete Next.js Example (App Router) - Recommended
+
+  For Next.js projects, use `next/font` for optimal performance (no layout shift, local hosting):
 
   ```tsx
   // src/app/layout.tsx
-  import 'rk-designsystem/styles';
+  import '@digdir/designsystemet-css/index.css';
+  import 'rk-design-tokens/design-tokens-build/theme.css';
+  import { Source_Sans_3 } from "next/font/google";
+
+  const sourceSans3 = Source_Sans_3({
+    subsets: ["latin"],
+    weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
+    style: ["normal", "italic"],
+  });
 
   export const metadata = {
     title: "Your App Title",
@@ -224,56 +234,48 @@
   }) {
     return (
       <html lang="no">
-        <body>{children}</body>
+        <body className={sourceSans3.className}>{children}</body>
       </html>
     );
   }
   ```
+
+  **Important:** Use `className`, NOT `variable`. The `variable` option only creates a CSS custom property without actually applying the font.
 
   ### Complete Next.js Example (Pages Router)
 
   ```tsx
   // pages/_app.tsx
-  import 'rk-designsystem/styles';
-  import type { AppProps } from 'next/app';
-
-  export default function App({ Component, pageProps }: AppProps) {
-    return <Component {...pageProps} />;
-  }
-  ```
-
-  ### Advanced: Using next/font (Optional)
-
-  If you prefer Next.js's built-in font optimization instead of the automatic Google Fonts import:
-
-  ```tsx
-  // src/app/layout.tsx
   import '@digdir/designsystemet-css/index.css';
   import 'rk-design-tokens/design-tokens-build/theme.css';
   import { Source_Sans_3 } from "next/font/google";
+  import type { AppProps } from 'next/app';
 
   const sourceSans3 = Source_Sans_3({
     subsets: ["latin"],
     weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
-    variable: "--font-source-sans-3",
-    display: "swap",
+    style: ["normal", "italic"],
   });
 
-  export default function RootLayout({ children }) {
+  export default function App({ Component, pageProps }: AppProps) {
     return (
-      <html lang="no" className={sourceSans3.variable}>
-        <body>{children}</body>
-      </html>
+      <main className={sourceSans3.className}>
+        <Component {...pageProps} />
+      </main>
     );
   }
   ```
 
-  Then in `globals.css`:
-  ```css
-  :root {
-    --ds-font-family: var(--font-source-sans-3), 'Source Sans 3', sans-serif;
-  }
+  ### Alternative: Simple Import (Non-Next.js or Quick Setup)
+
+  For Vite, Create React App, or quick prototyping, use the combined styles import:
+
+  ```tsx
+  // main.tsx or App.tsx
+  import 'rk-designsystem/styles'; // Includes font via Google Fonts CSS import
   ```
+
+  **Note:** This loads the font via CSS `@import` from Google Fonts. For Next.js projects, the `next/font` approach above is recommended for better performance.
 
   ---
 
