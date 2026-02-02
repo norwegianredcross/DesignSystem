@@ -186,112 +186,92 @@
   - **Design Tokens CSS**: https://norwegianredcross.github.io/design-tokens/theme.css
   - **Component Metadata**: https://norwegianredcross.github.io/DesignSystem/storybook/metadata.json
   - **Package Name**: `rk-designsystem`
-  - **Base Package**: `@digdir/designsystemet-css`
-  - **Theme Package**: `rk-design-tokens`
 
-  ### Installation
+  ### Installation (Simplified)
+
   ```bash
-  npm install rk-designsystem @digdir/designsystemet-css rk-design-tokens
+  npm install rk-designsystem
   ```
 
-  ### CSS Import Order (Critical!)
+  ### Import Styles (One Import - Includes Font!)
+
+  Add this single import to your entry file (`layout.tsx`, `_app.tsx`, or `main.tsx`):
+
   ```tsx
-  // Must be imported in this exact order:
-  import '@digdir/designsystemet-css/index.css';         // 1. Base styles
-  import 'rk-design-tokens/design-tokens-build/theme.css'; // 2. Røde Kors theme
+  import 'rk-designsystem/styles';
   ```
 
-  ### Font Setup (Next.js App Router)
+  **That's it!** This single import includes:
+  - Base component styles from Digdir
+  - Røde Kors theme (colors, spacing, etc.)
+  - Source Sans 3 font (loaded automatically via Google Fonts)
 
-  The design system uses **Source Sans 3** as the primary font family. For Next.js projects, use Next.js's built-in font optimization:
-
-  **1. Install and configure the font in `app/layout.tsx`:**
+  ### Complete Next.js Example (App Router)
 
   ```tsx
-  import type { Metadata } from "next";
-  import { Source_Sans_3 } from "next/font/google";
-  import "./globals.css";
-  import "rk-design-tokens/design-tokens-build/theme.css";
-  import "@digdir/designsystemet-css/index.css";
+  // src/app/layout.tsx
+  import 'rk-designsystem/styles';
 
-  const sourceSans3 = Source_Sans_3({
-    subsets: ["latin"],
-    weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
-    style: ["normal", "italic"],
-    variable: "--font-source-sans-3",
-    display: "swap",
-  });
-
-  export const metadata: Metadata = {
+  export const metadata = {
     title: "Your App Title",
     description: "Your app description",
   };
 
   export default function RootLayout({
     children,
-  }: Readonly<{
+  }: {
     children: React.ReactNode;
-  }>) {
+  }) {
     return (
-      <html lang="no" className={sourceSans3.variable} data-color-scheme="light">
-        <body data-color-scheme="light">
-          {children}
-        </body>
+      <html lang="no">
+        <body>{children}</body>
       </html>
     );
   }
   ```
 
-  **2. Configure the CSS variable in `globals.css`:**
-
-  ```css
-  :root {
-    --ds-font-family: 'Source Sans 3', sans-serif;
-  }
-
-  html {
-    scroll-behavior: smooth;
-  }
-
-  body {
-    padding: 0;
-    margin: 0;
-    font-family: var(--ds-font-family);
-  }
-  ```
-
-  **Key Points:**
-  - The `variable` prop creates a CSS variable (`--font-source-sans-3`) that Next.js injects
-  - Apply the variable to the `<html>` element via `className={sourceSans3.variable}`
-  - Set `--ds-font-family` in your CSS to use the font throughout the design system
-  - The `display: "swap"` ensures text remains visible during font load
-  - Include all weights and styles (normal, italic) for full design system support
-
-  **For Next.js Pages Router:**
-
-  If using the Pages Router, configure fonts in `pages/_app.tsx` or `pages/_document.tsx`:
+  ### Complete Next.js Example (Pages Router)
 
   ```tsx
   // pages/_app.tsx
+  import 'rk-designsystem/styles';
+  import type { AppProps } from 'next/app';
+
+  export default function App({ Component, pageProps }: AppProps) {
+    return <Component {...pageProps} />;
+  }
+  ```
+
+  ### Advanced: Using next/font (Optional)
+
+  If you prefer Next.js's built-in font optimization instead of the automatic Google Fonts import:
+
+  ```tsx
+  // src/app/layout.tsx
+  import '@digdir/designsystemet-css/index.css';
+  import 'rk-design-tokens/design-tokens-build/theme.css';
   import { Source_Sans_3 } from "next/font/google";
-  import "../styles/globals.css";
-  import "@digdir/designsystemet-css/index.css";
-  import "rk-design-tokens/design-tokens-build/theme.css";
 
   const sourceSans3 = Source_Sans_3({
     subsets: ["latin"],
     weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
-    style: ["normal", "italic"],
     variable: "--font-source-sans-3",
     display: "swap",
   });
 
-  export default function App({ Component, pageProps }) {
+  export default function RootLayout({ children }) {
     return (
-      <div className={sourceSans3.variable}>
-        <Component {...pageProps} />
-      </div>
+      <html lang="no" className={sourceSans3.variable}>
+        <body>{children}</body>
+      </html>
     );
+  }
+  ```
+
+  Then in `globals.css`:
+  ```css
+  :root {
+    --ds-font-family: var(--font-source-sans-3), 'Source Sans 3', sans-serif;
   }
   ```
 
@@ -1403,9 +1383,15 @@ import { Header } from 'rk-designsystem';
   - Shadow definitions
   - Opacity values
 
-  **To include in your project:**
+  **To include in your project (recommended):**
   ```tsx
-  import "rk-design-tokens/design-tokens-build/theme.css";
+  import 'rk-designsystem/styles'; // Includes base styles, theme, and font
+  ```
+
+  **Or manually (advanced):**
+  ```tsx
+  import '@digdir/designsystemet-css/index.css';
+  import 'rk-design-tokens/design-tokens-build/theme.css';
   ```
 
   **Complete Theme CSS File:**
