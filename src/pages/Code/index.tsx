@@ -284,6 +284,9 @@ const FontsContent = () => {
       <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
         {t('code.fonts.nextjsText')}
       </Paragraph>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)', fontWeight: 'bold', color: 'var(--ds-color-danger-base-default)' }}>
+        {t('code.fonts.classNameWarning')}
+      </Paragraph>
       <CodeBlock>
 {`// src/app/layout.tsx
 import '@digdir/designsystemet-css/index.css';
