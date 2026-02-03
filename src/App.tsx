@@ -81,7 +81,7 @@ function App() {
 
       <Footer
         data-color="neutral"
-        showCrossCorners={true}
+        showCrossCorners={false}
         hideNewsletter={true}
         shortcutsLinks={[
           { label: t('header.nav.components'), href: '#components' },
