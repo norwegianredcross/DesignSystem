@@ -1,0 +1,29 @@
+.crossCorner {
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.shape {
+  fill: var(--ds-color-base-default, #DA4236);
+}
+
+/* Color variants via data-color attribute */
+.crossCorner[data-color="accent"] .shape {
+  fill: var(--ds-color-accent-base-default, #DA4236);
+}
+
+.crossCorner[data-color="brand1"] .shape {
+  fill: var(--ds-color-brand1-base-default, #DA4236);
+}
+
+.crossCorner[data-color="brand2"] .shape {
+  fill: var(--ds-color-brand2-base-default, #1E2B3C);
+}
+
+.crossCorner[data-color="brand3"] .shape {
+  fill: var(--ds-color-brand3-base-default, #F5F5F5);
+}
+
+.crossCorner[data-color="neutral"] .shape {
+  fill: var(--ds-color-neutral-base-default, #5D5D5D);
+}

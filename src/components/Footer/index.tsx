@@ -1,6 +1,9 @@
 import React from 'react';
 import styles from './styles.module.css';
 import { Link } from '../Link';
+import { Button } from '../Button';
+import { Input } from '../Input';
+import { CrossCorner } from '../CrossCorner';
 import { useLanguageOptional } from '../../context/LanguageContext';
 
 export interface FooterLink {
@@ -9,51 +12,70 @@ export interface FooterLink {
 }
 
 export interface FooterProps {
-  /** Background color for the top section: 'primary' uses primary-color-red-background-tinted, 'additional' uses additional-color-ocean-background-tinted, 'neutral' uses neutral-background-tinted */
+  /** Background color for the main section */
   'data-color'?: 'primary' | 'additional' | 'neutral';
-  /** Slot content for the red section (after Snarveier columns) */
-  redSectionSlot?: React.ReactNode;
-  /** Slot content for the small slot in white section (after logos) */
-  whiteSectionSlotSmall?: React.ReactNode;
-  /** Slot content for the large slot in white section (rightmost) */
-  whiteSectionSlotLarge?: React.ReactNode;
+  /** Show CrossCorner decorative elements */
+  showCrossCorners?: boolean;
+  /** Newsletter section description text */
+  newsletterDescription?: string;
+  /** Newsletter input placeholder text */
+  newsletterPlaceholder?: string;
+  /** Newsletter button text */
+  newsletterButtonText?: string;
+  /** Newsletter consent text */
+  newsletterConsentText?: React.ReactNode;
+  /** Callback when newsletter form is submitted */
+  onNewsletterSubmit?: (email: string) => void;
+  /** Hide the newsletter section */
+  hideNewsletter?: boolean;
+  /** Shortcut links for the "Snarveier" column */
+  shortcutsLinks?: FooterLink[];
+  /** Links for the "Lenker" column */
+  linksLinks?: FooterLink[];
+  /** Title for shortcuts column */
+  shortcutsTitle?: string;
+  /** Title for links column */
+  linksTitle?: string;
+  /** Visiting address lines */
+  visitingAddress?: string[];
+  /** Organization number */
+  organizationNumber?: string;
+  /** Email address */
+  email?: string;
   /** Show primary (Red Cross) logo in white section */
   showPrimaryLogo?: boolean;
   /** Primary logo source (if custom logo is needed instead of default Red Cross SVG) */
   primaryLogoSrc?: string;
   /** Primary logo alt text */
   primaryLogoAlt?: string;
-  /** Show secondary (design system) logo in white section */
-  secondaryLogo?: boolean;
-  /** Secondary logo source (light mode) */
-  secondaryLogoSrc?: string;
-  /** Secondary logo source (dark mode) */
-  secondaryLogoSrcDark?: string;
-  /** Secondary logo alt text */
-  secondaryLogoAlt?: string;
-  /** Shortcut links for the left column */
-  shortcutsLinksLeft?: FooterLink[];
-  /** Shortcut links for the right column */
-  shortcutsLinksRight?: FooterLink[];
+  /** Slot content for the white section */
+  whiteSectionSlot?: React.ReactNode;
 }
 
-export const Footer = ({ 
-  'data-color': dataColor = 'additional',
-  redSectionSlot,
-  whiteSectionSlotSmall,
-  whiteSectionSlotLarge,
+export const Footer = ({
+  'data-color': dataColor = 'neutral',
+  showCrossCorners = false,
+  newsletterDescription = 'Tekst om rødekors som kan være rundt 2 linjebrudd i lengde.',
+  newsletterPlaceholder = 'Input tekst',
+  newsletterButtonText = 'Meld deg på',
+  newsletterConsentText,
+  onNewsletterSubmit,
+  hideNewsletter = false,
+  shortcutsLinks,
+  linksLinks,
+  shortcutsTitle,
+  linksTitle,
+  visitingAddress = ['Hausmannsgate 7 (Korsegården)', '0186 Oslo'],
+  organizationNumber = 'XXX XXX XXX',
+  email = 'post@redcross.no',
   showPrimaryLogo = true,
   primaryLogoSrc,
-  primaryLogoAlt = "Røde Kors Logo",
-  secondaryLogo = false,
-  secondaryLogoSrc,
-  secondaryLogoSrcDark,
-  secondaryLogoAlt = "Designsystem Logo",
-  shortcutsLinksLeft,
-  shortcutsLinksRight
+  primaryLogoAlt = 'Røde Kors Logo',
+  whiteSectionSlot,
 }: FooterProps = {}) => {
   const currentYear = new Date().getFullYear();
   const { t } = useLanguageOptional();
+  const [emailValue, setEmailValue] = React.useState('');
 
   // Fallback: inject minimal footer styles if consumer did not import the CSS bundle.
   React.useEffect(() => {
@@ -67,40 +89,12 @@ export const Footer = ({
     document.head.appendChild(tag);
   }, []);
 
-  // Detect color scheme for logo selection
-  const [colorScheme, setColorScheme] = React.useState<'light' | 'dark'>('light');
+  const handleNewsletterSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onNewsletterSubmit?.(emailValue);
+  };
 
-  React.useEffect(() => {
-    if (typeof document === 'undefined') return;
-    
-    // Check initial color scheme
-    const rootElement = document.documentElement;
-    const scheme = rootElement.getAttribute('data-color-scheme') || 
-                   (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    setColorScheme(scheme as 'light' | 'dark');
-
-    // Watch for changes
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleChange = () => {
-      const scheme = rootElement.getAttribute('data-color-scheme') || 
-                     (mediaQuery.matches ? 'dark' : 'light');
-      setColorScheme(scheme as 'light' | 'dark');
-    };
-
-    // Watch for data-color-scheme attribute changes
-    const observer = new MutationObserver(handleChange);
-    observer.observe(rootElement, { attributes: true, attributeFilter: ['data-color-scheme'] });
-
-    // Watch for system preference changes
-    mediaQuery.addEventListener('change', handleChange);
-
-    return () => {
-      observer.disconnect();
-      mediaQuery.removeEventListener('change', handleChange);
-    };
-  }, []);
-
-  // Red Cross Logo component (inline SVG - same as Header)
+  // Red Cross Logo component (inline SVG)
   const RedCrossLogo = () => (
     <svg
       width="170"
@@ -125,60 +119,103 @@ export const Footer = ({
     </svg>
   );
 
-  // Default shortcut links if not provided
-  const defaultShortcutLinks: FooterLink[] = [
-    { label: t('footer.shortcutsLinks.services'), href: '#' },
-    { label: t('footer.shortcutsLinks.volunteer'), href: '#' },
-    { label: t('footer.shortcutsLinks.ourWork'), href: '#' },
-    { label: t('footer.shortcutsLinks.about'), href: '#' },
-    { label: t('footer.shortcutsLinks.support'), href: '#' },
-    { label: t('footer.shortcutsLinks.contact'), href: '#' }
+  // Default shortcut links
+  const defaultShortcutsLinks: FooterLink[] = [
+    { label: t('footer.shortcutsLinks.services') || 'Tilbudene', href: '#' },
+    { label: t('footer.shortcutsLinks.volunteer') || 'Bli frivillig', href: '#' },
+    { label: t('footer.shortcutsLinks.ourWork') || 'Vårt arbeid', href: '#' },
+    { label: t('footer.shortcutsLinks.about') || 'Om Røde Kors', href: '#' },
+    { label: t('footer.shortcutsLinks.support') || 'Støtt arbeidet', href: '#' },
+    { label: t('footer.shortcutsLinks.contact') || 'Kontakt oss', href: '#' },
   ];
 
-  const leftLinks = shortcutsLinksLeft || defaultShortcutLinks;
-  const rightLinks = shortcutsLinksRight || defaultShortcutLinks;
+  // Default links for "Lenker" column
+  const defaultLinksLinks: FooterLink[] = [
+    { label: t('footer.legal.privacy') || 'Personvern', href: '#' },
+    { label: t('footer.legal.press') || 'For presse', href: '#' },
+    { label: t('footer.legal.procurement') || 'Regler for innkjøp', href: '#' },
+    { label: t('footer.legal.whistleblowing') || 'Varsling/Misconduct', href: '#' },
+  ];
+
+  const defaultConsentText = (
+    <>
+      Ved å trykke "{newsletterButtonText}" samtykker du til å motta nyhetsbrev.
+      <br />
+      Du kan når som helst <Link href="#">melde deg av</Link> nyhetsbrevet uten kostnad.
+    </>
+  );
+
+  const shortcuts = shortcutsLinks || defaultShortcutsLinks;
+  const links = linksLinks || defaultLinksLinks;
 
   return (
     <footer className={styles.footer} data-color={dataColor}>
-      {/* Red Background Section */}
-      <div className={styles.redSection}>
-        <div className={styles.redContainer}>
-          {/* Snarveier Links Section */}
-          <div className={styles.shortcutsSection}>
-            {/* Left Column */}
-            <nav className={styles.shortcutsColumn} aria-label={t('footer.shortcuts')}>
-              <h3 className={styles.shortcutsTitle}>{t('footer.shortcuts')}</h3>
-              <ul className={styles.shortcutsList}>
-                {leftLinks.map((link, index) => (
-                  <li key={index}>
-                    <Link href={link.href} className={styles.shortcutLink}>
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
+      {/* Main Section */}
+      <div className={styles.mainSection}>
+        <div className={styles.mainContainer}>
+          {/* Top-right CrossCorner */}
+          {showCrossCorners && (
+            <div className={styles.crossCornerTopRight}>
+              <CrossCorner position="top-right" size="md" aria-hidden />
+            </div>
+          )}
 
-            {/* Right Column */}
-            <nav className={styles.shortcutsColumn} aria-label={t('footer.shortcuts')}>
-              <h3 className={styles.shortcutsTitle}>{t('footer.shortcuts')}</h3>
-              <ul className={styles.shortcutsList}>
-                {rightLinks.map((link, index) => (
-                  <li key={index}>
-                    <Link href={link.href} className={styles.shortcutLink}>
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-
-            {/* Slot Component */}
-            {redSectionSlot && (
-              <div className={styles.slotComponent}>
-                {redSectionSlot}
+          {/* Content Row: Newsletter + Links */}
+          <div className={styles.contentRow}>
+            {/* Newsletter Section */}
+            {!hideNewsletter && (
+              <div className={styles.newsletterSection}>
+                <p className={styles.newsletterDescription}>{newsletterDescription}</p>
+                <form className={styles.newsletterForm} onSubmit={handleNewsletterSubmit}>
+                  <div className={styles.newsletterInputGroup}>
+                    <Input
+                      type="email"
+                      placeholder={newsletterPlaceholder}
+                      value={emailValue}
+                      onChange={(e) => setEmailValue(e.target.value)}
+                      className={styles.newsletterInput}
+                    />
+                    <Button type="submit" variant="primary" data-color="neutral">
+                      {newsletterButtonText}
+                    </Button>
+                  </div>
+                </form>
+                <p className={styles.consentText}>
+                  {newsletterConsentText || defaultConsentText}
+                </p>
               </div>
             )}
+
+            {/* Links Columns */}
+            <div className={styles.linksSection}>
+              {/* Snarveier Column */}
+              <nav className={styles.linksColumn} aria-label={shortcutsTitle || t('footer.shortcuts') || 'Snarveier'}>
+                <h3 className={styles.linksTitle}>{shortcutsTitle || t('footer.shortcuts') || 'Snarveier'}</h3>
+                <ul className={styles.linksList}>
+                  {shortcuts.map((link, index) => (
+                    <li key={index}>
+                      <Link href={link.href} className={styles.footerLink}>
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+
+              {/* Lenker Column */}
+              <nav className={styles.linksColumn} aria-label={linksTitle || t('footer.links') || 'Lenker'}>
+                <h3 className={styles.linksTitle}>{linksTitle || t('footer.links') || 'Lenker'}</h3>
+                <ul className={styles.linksList}>
+                  {links.map((link, index) => (
+                    <li key={index}>
+                      <Link href={link.href} className={styles.footerLink}>
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </div>
           </div>
 
           {/* Divider */}
@@ -187,39 +224,41 @@ export const Footer = ({
           {/* Contact Information Section */}
           <div className={styles.contactSection}>
             <div className={styles.contactColumn}>
-              <h4 className={styles.contactTitle}>{t('footer.contact.visitingAddress')}</h4>
+              <h4 className={styles.contactTitle}>{t('footer.contact.visitingAddress') || 'Besøks adresse'}</h4>
               <div className={styles.contactContent}>
-                <p>Hausmannsgate 7 (Korsegården)</p>
-                <p>0186 Oslo</p>
+                {visitingAddress.map((line, index) => (
+                  <p key={index}>{line}</p>
+                ))}
               </div>
             </div>
 
             <div className={styles.contactColumn}>
-              <h4 className={styles.contactTitle}>{t('footer.contact.organizationNumber')}</h4>
-              <p className={styles.contactContent}>XXX XXX XXX</p>
+              <h4 className={styles.contactTitle}>{t('footer.contact.organizationNumber') || 'Organisasjonsnummer'}</h4>
+              <p className={styles.contactContent}>{organizationNumber}</p>
             </div>
 
             <div className={styles.contactColumn}>
-              <h4 className={styles.contactTitle}>{t('footer.contact.email')}</h4>
-              <p className={styles.contactContent}>post@redcross.no</p>
+              <h4 className={styles.contactTitle}>{t('footer.contact.email') || 'E-post'}</h4>
+              <p className={styles.contactContent}>{email}</p>
             </div>
           </div>
 
           {/* Divider */}
           <div className={styles.divider} />
 
-          {/* Copyright and Legal Links */}
-          <div className={styles.legalSection}>
+          {/* Copyright */}
+          <div className={styles.copyrightSection}>
             <p className={styles.copyrightText}>
-              © {currentYear} {t('footer.copyright')}
+              © {currentYear} {t('footer.copyright') || 'Rødekors'}
             </p>
-            <div className={styles.legalLinks}>
-              <Link href="#" className={styles.legalLink}>{t('footer.legal.privacy')}</Link>
-              <Link href="#" className={styles.legalLink}>{t('footer.legal.press')}</Link>
-              <Link href="#" className={styles.legalLink}>{t('footer.legal.procurement')}</Link>
-              <Link href="#" className={styles.legalLink}>{t('footer.legal.whistleblowing')}</Link>
-            </div>
           </div>
+
+          {/* Bottom-left CrossCorner */}
+          {showCrossCorners && (
+            <div className={styles.crossCornerBottomLeft}>
+              <CrossCorner position="bottom-left" size="md" aria-hidden />
+            </div>
+          )}
         </div>
       </div>
 
@@ -229,10 +268,10 @@ export const Footer = ({
           <div className={styles.whiteContent}>
             {showPrimaryLogo && (
               primaryLogoSrc ? (
-                <img 
+                <img
                   src={primaryLogoSrc}
-                  alt={primaryLogoAlt} 
-                  className={styles.logo} 
+                  alt={primaryLogoAlt}
+                  className={styles.logo}
                   loading="lazy"
                 />
               ) : (
@@ -241,24 +280,9 @@ export const Footer = ({
                 </div>
               )
             )}
-            {secondaryLogo && secondaryLogoSrc && (
-              <div className={styles.secondaryLogoWrapper}>
-                <img 
-                  src={colorScheme === 'dark' && secondaryLogoSrcDark ? secondaryLogoSrcDark : secondaryLogoSrc}
-                  alt={secondaryLogoAlt} 
-                  className={styles.designSystemLogo} 
-                  loading="lazy"
-                />
-              </div>
-            )}
-            {whiteSectionSlotSmall && (
-              <div className={styles.slotSmall}>
-                {whiteSectionSlotSmall}
-              </div>
-            )}
-            {whiteSectionSlotLarge && (
+            {whiteSectionSlot && (
               <div className={styles.slotLarge}>
-                {whiteSectionSlotLarge}
+                {whiteSectionSlot}
               </div>
             )}
           </div>
@@ -268,7 +292,7 @@ export const Footer = ({
   );
 };
 
-// Fallback CSS injection function - ensures Footer styles work even if CSS Modules aren't loaded
+// Fallback CSS injection function
 function buildInlineCss(styles: Record<string, string>): string {
   const s = styles;
   return `
@@ -276,49 +300,105 @@ function buildInlineCss(styles: Record<string, string>): string {
   margin-top: auto;
   width: 100%;
 }
-.${s.redSection} {
-  background-color: var(--ds-color-additional-color-ocean-background-tinted, #f2f4f5);
+.${s.mainSection} {
+  background-color: var(--ds-color-neutral-background-default, #ffffff);
   width: 100%;
 }
-.${s.footer}[data-color="primary"] .${s.redSection} {
+.${s.footer}[data-color="primary"] .${s.mainSection} {
   background-color: var(--ds-color-primary-color-red-background-tinted);
 }
-.${s.footer}[data-color="additional"] .${s.redSection} {
+.${s.footer}[data-color="additional"] .${s.mainSection} {
   background-color: var(--ds-color-additional-color-ocean-background-tinted);
 }
-.${s.footer}[data-color="neutral"] .${s.redSection} {
-  background-color: var(--ds-color-neutral-background-tinted);
+.${s.footer}[data-color="neutral"] .${s.mainSection} {
+  background-color: var(--ds-color-neutral-background-default, #ffffff);
 }
-.${s.redContainer} {
+.${s.mainContainer} {
+  position: relative;
   width: 100%;
   max-width: 1440px;
   margin: 0 auto;
   padding: var(--ds-size-30, 120px) var(--ds-size-44, 175px);
   box-sizing: border-box;
 }
-.${s.shortcutsSection} {
+.${s.crossCornerTopRight} {
   display: flex;
-  gap: var(--ds-size-12, 48px);
+  justify-content: flex-end;
+  width: 100%;
+  margin-bottom: var(--ds-size-6, 24px);
+}
+.${s.crossCornerBottomLeft} {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  margin-top: var(--ds-size-6, 24px);
+}
+.${s.contentRow} {
+  display: flex;
+  justify-content: space-between;
   align-items: flex-start;
+  gap: var(--ds-size-12, 48px);
   padding: var(--ds-size-8, 32px) 0;
   flex-wrap: wrap;
 }
-.${s.shortcutsColumn} {
+.${s.newsletterSection} {
   display: flex;
   flex-direction: column;
   gap: var(--ds-size-6, 24px);
-  width: 257px;
-  flex-shrink: 0;
+  max-width: 440px;
 }
-.${s.shortcutsTitle} {
+.${s.newsletterDescription} {
+  font-size: var(--ds-font-size-5, 21px);
+  font-weight: var(--ds-font-weight-regular);
+  line-height: 1.5;
+  letter-spacing: 0.105px;
+  color: var(--ds-color-neutral-text-default, #2b2b2b);
+  margin: 0;
+}
+.${s.newsletterForm} {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-6, 24px);
+}
+.${s.newsletterInputGroup} {
+  display: flex;
+  gap: var(--ds-size-2, 8px);
+  align-items: flex-end;
+}
+.${s.newsletterInput} {
+  flex: 1;
+  min-width: 200px;
+}
+.${s.consentText} {
+  font-size: var(--ds-font-size-3, 16px);
+  font-weight: var(--ds-font-weight-regular);
+  line-height: 1.3;
+  letter-spacing: 0.04px;
+  color: var(--ds-color-neutral-text-default, #2b2b2b);
+  margin: 0;
+}
+.${s.linksSection} {
+  display: flex;
+  gap: var(--ds-size-12, 48px);
+  flex-wrap: wrap;
+}
+.${s.linksColumn} {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-2, 8px);
+  min-width: 150px;
+}
+.${s.linksTitle} {
   font-size: var(--ds-font-size-7, 30px);
   font-weight: var(--ds-font-weight-regular);
   line-height: 1.3;
   letter-spacing: -0.075px;
-  color: var(--ds-color-primary-color-red-text-default, #57110c);
+  color: var(--ds-color-primary-color-red-text-subtle, #b42419);
   margin: 0;
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
-.${s.shortcutsList} {
+.${s.linksList} {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -326,7 +406,7 @@ function buildInlineCss(styles: Record<string, string>): string {
   flex-direction: column;
   gap: var(--ds-size-2, 8px);
 }
-.${s.shortcutLink} {
+.${s.footerLink} {
   font-size: var(--ds-font-size-4, 18px);
   font-weight: var(--ds-font-weight-regular);
   line-height: 1.5;
@@ -334,27 +414,6 @@ function buildInlineCss(styles: Record<string, string>): string {
   color: var(--ds-color-neutral-text-default, #2b2b2b);
   text-decoration: underline;
   text-underline-offset: 2px;
-  transition: color 0.2s ease;
-}
-.${s.shortcutLink}:hover {
-  color: var(--ds-color-neutral-text-default, #2b2b2b);
-  opacity: 0.8;
-}
-.${s.shortcutLink}:focus {
-  outline: 2px solid var(--ds-color-neutral-border-default, #797979);
-  outline-offset: 2px;
-  border-radius: var(--ds-border-radius-sm);
-}
-.${s.slotComponent} {
-  background-color: var(--ds-color-neutral-surface-default, #ffffff);
-  border: 2px dashed var(--ds-color-neutral-border-default, #797979);
-  border-radius: var(--ds-border-radius-lg, 8px);
-  padding: var(--ds-size-6, 24px) var(--ds-size-3, 12px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 1 0 0;
-  min-width: 200px;
 }
 .${s.divider} {
   width: 100%;
@@ -394,44 +453,17 @@ function buildInlineCss(styles: Record<string, string>): string {
 .${s.contactContent} p {
   margin: 0;
 }
-.${s.legalSection} {
+.${s.copyrightSection} {
   display: flex;
-  gap: var(--ds-size-10, 40px);
   align-items: center;
-  flex-wrap: wrap;
 }
 .${s.copyrightText} {
   font-size: var(--ds-font-size-2, 14px);
   font-weight: var(--ds-font-weight-regular);
   line-height: 1.3;
   letter-spacing: 0.021px;
-  color: var(--ds-color-primary-color-red-text-default, #57110c);
+  color: var(--ds-color-neutral-text-subtle, #5d5d5d);
   margin: 0;
-}
-.${s.legalLinks} {
-  display: flex;
-  gap: var(--ds-size-10, 40px);
-  align-items: center;
-  flex-wrap: wrap;
-}
-.${s.legalLink} {
-  font-size: var(--ds-font-size-4, 18px);
-  font-weight: var(--ds-font-weight-regular);
-  line-height: 1.5;
-  letter-spacing: 0.09px;
-  color: var(--ds-color-neutral-text-default, #2b2b2b);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  transition: color 0.2s ease;
-}
-.${s.legalLink}:hover {
-  color: var(--ds-color-neutral-text-default, #2b2b2b);
-  opacity: 0.8;
-}
-.${s.legalLink}:focus {
-  outline: 2px solid var(--ds-color-neutral-border-default, #797979);
-  outline-offset: 2px;
-  border-radius: var(--ds-border-radius-sm);
 }
 .${s.whiteSection} {
   background-color: white;
@@ -444,60 +476,24 @@ function buildInlineCss(styles: Record<string, string>): string {
   padding: var(--ds-size-6, 24px) var(--ds-size-44, 175px);
   box-sizing: border-box;
 }
-.${s.whiteContainer} > * {
-  max-width: 1090px;
-  margin: 0 auto;
-}
 .${s.whiteContent} {
   display: flex;
-  gap: var(--ds-size-20, 80px);
+  justify-content: space-between;
   align-items: center;
+  gap: var(--ds-size-10, 40px);
   flex-wrap: wrap;
-}
-.${s.whiteContent} > img:first-of-type + img {
-  margin-left: var(--ds-size-10, 40px);
 }
 .${s.logo} {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 217px;
   height: 43px;
-  text-decoration: none;
-  color: inherit;
   flex-shrink: 0;
-}
-.${s.logo} img {
-  width: 169px;
-  height: auto;
-  display: block;
 }
 .${s.redCrossLogo} {
   width: 169px;
   height: auto;
   display: block;
-}
-.${s.secondaryLogoWrapper} {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 var(--ds-size-6);
-}
-.${s.designSystemLogo} {
-  height: 24px;
-  width: auto;
-  display: block;
-  flex-shrink: 0;
-}
-.${s.slotSmall} {
-  background-color: var(--ds-color-neutral-surface-default, #ffffff);
-  border: 2px dashed var(--ds-color-neutral-border-default, #797979);
-  border-radius: var(--ds-border-radius-lg, 8px);
-  padding: var(--ds-size-6, 24px) var(--ds-size-3, 12px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
 }
 .${s.slotLarge} {
   background-color: var(--ds-color-neutral-surface-default, #ffffff);
@@ -507,26 +503,38 @@ function buildInlineCss(styles: Record<string, string>): string {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 1 0 0;
+  flex: 1;
+  max-width: 596px;
   min-width: 200px;
 }
+@media (max-width: 1024px) {
+  .${s.mainContainer} {
+    padding: var(--ds-size-16, 64px) var(--ds-size-8, 32px);
+  }
+  .${s.whiteContainer} {
+    padding: var(--ds-size-6, 24px) var(--ds-size-8, 32px);
+  }
+}
 @media (max-width: 768px) {
-  .${s.shortcutsSection} {
+  .${s.contentRow} {
     flex-direction: column;
   }
-  .${s.shortcutsColumn} {
+  .${s.newsletterSection} {
+    max-width: 100%;
+  }
+  .${s.linksSection} {
     width: 100%;
   }
   .${s.contactSection} {
     flex-direction: column;
   }
-  .${s.legalSection} {
-    flex-direction: column;
-    align-items: flex-start;
-  }
   .${s.whiteContent} {
     flex-direction: column;
     align-items: flex-start;
+  }
+  .${s.slotLarge} {
+    width: 100%;
+    max-width: none;
   }
 }
 `;

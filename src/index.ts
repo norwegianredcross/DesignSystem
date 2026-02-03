@@ -57,6 +57,10 @@ export type { DateInputProps } from './components/DateInput';
 export { Carousel } from './components/Carousel';
 export type { CarouselProps } from './components/Carousel';
 
+// CrossCorner (Custom component)
+export { CrossCorner } from './components/CrossCorner';
+export type { CrossCornerProps, CrossCornerPosition, CrossCornerSize } from './components/CrossCorner';
+
 // Details
 export { Details } from './components/Details';
 export type { DetailsProps } from './components/Details';
