@@ -769,6 +769,21 @@ import { BreadcrumbsList } from 'rk-designsystem';
 <BreadcrumbsList />
 ```
 
+#### CrossCorner
+```tsx
+import { CrossCorner } from 'rk-designsystem';
+
+<CrossCorner
+  aria-hidden?={true}
+  aria-label?={string}
+  className?={string}
+  data-color?="accent" | "neutral" | "danger" | etc.
+  data-size?="sm" | "md" | "lg"
+  position?={top-left}
+  size?={md}
+ />
+```
+
 #### Details
 ```tsx
 import { Details, Details.Summary, Details.Content } from 'rk-designsystem';
@@ -1066,19 +1081,25 @@ import { Carousel } from 'rk-designsystem';
 import { Footer } from 'rk-designsystem';
 
 <Footer
-  data-color?={additional}
+  data-color?={neutral}
+  email?={post@redcross.no}
+  hideNewsletter?={false}
+  linksLinks?={FooterLink[]}
+  linksTitle?={string}
+  newsletterButtonText?={Meld deg på}
+  newsletterConsentText?={ReactNode}
+  newsletterDescription?={Tekst om rødekors som kan være rundt 2 linjebrudd i lengde.}
+  newsletterPlaceholder?={Input tekst}
+  onNewsletterSubmit?={(email: string) => void}
+  organizationNumber?={XXX XXX XXX}
   primaryLogoAlt?={Røde Kors Logo}
   primaryLogoSrc?={string}
-  redSectionSlot?={ReactNode}
-  secondaryLogo?={false}
-  secondaryLogoAlt?={Designsystem Logo}
-  secondaryLogoSrc?={string}
-  secondaryLogoSrcDark?={string}
-  shortcutsLinksLeft?={FooterLink[]}
-  shortcutsLinksRight?={FooterLink[]}
+  shortcutsLinks?={FooterLink[]}
+  shortcutsTitle?={string}
+  showCrossCorners?={false}
   showPrimaryLogo?={true}
-  whiteSectionSlotLarge?={ReactNode}
-  whiteSectionSlotSmall?={ReactNode}
+  visitingAddress?={["Hausmannsgate 7 (Korsegården)", "0186 Oslo"]}
+  whiteSectionSlot?={ReactNode}
  />
 ```
 

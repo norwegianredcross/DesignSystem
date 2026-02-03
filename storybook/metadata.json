@@ -1357,29 +1357,106 @@
       {
         "name": "data-color",
         "type": "enum",
-        "description": "Background color for the top section: 'primary' uses primary-color-red-background-tinted, 'additional' uses additional-color-ocean-background-tinted, 'neutral' uses neutral-background-tinted",
-        "defaultValue": "additional",
+        "description": "Background color for the main section",
+        "defaultValue": "neutral",
         "required": false
       },
       {
-        "name": "redSectionSlot",
+        "name": "showCrossCorners",
+        "type": "boolean",
+        "description": "Show CrossCorner decorative elements",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "newsletterDescription",
+        "type": "string",
+        "description": "Newsletter section description text",
+        "defaultValue": "Tekst om rødekors som kan være rundt 2 linjebrudd i lengde.",
+        "required": false
+      },
+      {
+        "name": "newsletterPlaceholder",
+        "type": "string",
+        "description": "Newsletter input placeholder text",
+        "defaultValue": "Input tekst",
+        "required": false
+      },
+      {
+        "name": "newsletterButtonText",
+        "type": "string",
+        "description": "Newsletter button text",
+        "defaultValue": "Meld deg på",
+        "required": false
+      },
+      {
+        "name": "newsletterConsentText",
         "type": "ReactNode",
-        "description": "Slot content for the red section (after Snarveier columns)",
+        "description": "Newsletter consent text",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "whiteSectionSlotSmall",
-        "type": "ReactNode",
-        "description": "Slot content for the small slot in white section (after logos)",
+        "name": "onNewsletterSubmit",
+        "type": "(email: string) => void",
+        "description": "Callback when newsletter form is submitted",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "whiteSectionSlotLarge",
-        "type": "ReactNode",
-        "description": "Slot content for the large slot in white section (rightmost)",
+        "name": "hideNewsletter",
+        "type": "boolean",
+        "description": "Hide the newsletter section",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "shortcutsLinks",
+        "type": "FooterLink[]",
+        "description": "Shortcut links for the \"Snarveier\" column",
         "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "linksLinks",
+        "type": "FooterLink[]",
+        "description": "Links for the \"Lenker\" column",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "shortcutsTitle",
+        "type": "string",
+        "description": "Title for shortcuts column",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "linksTitle",
+        "type": "string",
+        "description": "Title for links column",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "visitingAddress",
+        "type": "string[]",
+        "description": "Visiting address lines",
+        "defaultValue": "['Hausmannsgate 7 (Korsegården)', '0186 Oslo']",
+        "required": false
+      },
+      {
+        "name": "organizationNumber",
+        "type": "string",
+        "description": "Organization number",
+        "defaultValue": "XXX XXX XXX",
+        "required": false
+      },
+      {
+        "name": "email",
+        "type": "string",
+        "description": "Email address",
+        "defaultValue": "post@redcross.no",
         "required": false
       },
       {
@@ -1404,44 +1481,9 @@
         "required": false
       },
       {
-        "name": "secondaryLogo",
-        "type": "boolean",
-        "description": "Show secondary (design system) logo in white section",
-        "defaultValue": "false",
-        "required": false
-      },
-      {
-        "name": "secondaryLogoSrc",
-        "type": "string",
-        "description": "Secondary logo source (light mode)",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "secondaryLogoSrcDark",
-        "type": "string",
-        "description": "Secondary logo source (dark mode)",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "secondaryLogoAlt",
-        "type": "string",
-        "description": "Secondary logo alt text",
-        "defaultValue": "Designsystem Logo",
-        "required": false
-      },
-      {
-        "name": "shortcutsLinksLeft",
-        "type": "FooterLink[]",
-        "description": "Shortcut links for the left column",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "shortcutsLinksRight",
-        "type": "FooterLink[]",
-        "description": "Shortcut links for the right column",
+        "name": "whiteSectionSlot",
+        "type": "ReactNode",
+        "description": "Slot content for the white section",
         "defaultValue": null,
         "required": false
       }
@@ -2026,6 +2068,62 @@
         "type": "(event: ChangeEvent<HTMLInputElement>, formattedValue: string) => void",
         "description": "",
         "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "CrossCorner",
+    "importPath": "rk-designsystem",
+    "description": "CrossCorner - Decorative L-shaped brand graphic element.\n\nUsed as a visual accent across Røde Kors web projects.\nThe shape forms part of the cross pattern and can be positioned\nin any corner orientation.",
+    "props": [
+      {
+        "name": "data-color",
+        "type": "Color",
+        "description": "Endrer farge for underliggende Designsystemet-komponenter.\nVelg fra forhåndsdefinerte farger og farger definert med theme.designsystemet.no.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Endrer størrelse for underliggende Designsystemet-komponenter. Velg fra forhåndsdefinerte størrelser.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "position",
+        "type": "enum",
+        "description": "Which corner the graphic points to.",
+        "defaultValue": "top-left",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "enum",
+        "description": "Size of the graphic.\nsm: 48px, md: 68px, lg: 96px",
+        "defaultValue": "md",
+        "required": false
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "description": "Optional CSS class name.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "description": "Accessible label for the decorative graphic.\nSet to empty string if purely decorative.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "aria-hidden",
+        "type": "boolean",
+        "description": "Whether the graphic is hidden from assistive technologies.",
+        "defaultValue": "true",
         "required": false
       }
     ]
