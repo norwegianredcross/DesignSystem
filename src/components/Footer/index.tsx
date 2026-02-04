@@ -11,9 +11,40 @@ export interface FooterLink {
   href: string;
 }
 
+export interface SocialLink {
+  /** Icon element from @navikt/aksel-icons or custom SVG */
+  icon: React.ReactNode;
+  /** Visible text (e.g., "Facebook") */
+  label: string;
+  /** URL for the social link */
+  href: string;
+}
+
+export interface ContactPerson {
+  /** Contact person's name */
+  name: string;
+  /** Role or title */
+  role: string;
+  /** Email address */
+  email: string;
+  /** Phone number (optional) */
+  phone?: string;
+  /** Address (optional) */
+  address?: string;
+}
+
+export interface LegalLink {
+  /** Link text */
+  label: string;
+  /** URL for the link */
+  href: string;
+}
+
 export interface FooterProps {
   /** Background color for the main section */
   'data-color'?: 'primary' | 'additional' | 'neutral';
+  /** Footer layout variant */
+  variant?: 'default' | 'contact';
   /** Show CrossCorner decorative elements */
   showCrossCorners?: boolean;
   /** Newsletter section description text */
@@ -50,10 +81,21 @@ export interface FooterProps {
   primaryLogoAlt?: string;
   /** Slot content for the white section */
   whiteSectionSlot?: React.ReactNode;
+  /** Social media links with icons (contact variant) */
+  socialLinks?: SocialLink[];
+  /** Contact person cards (contact variant) */
+  contactPersons?: ContactPerson[];
+  /** Bottom legal links row (contact variant) */
+  legalLinks?: LegalLink[];
+  /** Title for social links section (contact variant) */
+  socialLinksTitle?: string;
+  /** Title for contact persons section (contact variant) */
+  contactPersonsTitle?: string;
 }
 
 export const Footer = ({
   'data-color': dataColor = 'neutral',
+  variant = 'default',
   showCrossCorners = false,
   newsletterDescription = 'Tekst om rødekors som kan være rundt 2 linjebrudd i lengde.',
   newsletterPlaceholder = 'Input tekst',
@@ -72,6 +114,11 @@ export const Footer = ({
   primaryLogoSrc,
   primaryLogoAlt = 'Røde Kors Logo',
   whiteSectionSlot,
+  socialLinks = [],
+  contactPersons = [],
+  legalLinks = [],
+  socialLinksTitle,
+  contactPersonsTitle,
 }: FooterProps = {}) => {
   const currentYear = new Date().getFullYear();
   const { t } = useLanguageOptional();
@@ -148,6 +195,175 @@ export const Footer = ({
   const shortcuts = shortcutsLinks || defaultShortcutsLinks;
   const links = linksLinks || defaultLinksLinks;
 
+  // Internal component: Social Links Section
+  const SocialLinksSection = () => (
+    <div className={styles.socialLinksSection}>
+      {socialLinksTitle && (
+        <h3 className={styles.socialLinksTitle}>
+          {socialLinksTitle}
+        </h3>
+      )}
+      <ul className={styles.socialLinksList}>
+        {socialLinks.map((link, index) => (
+          <li key={index}>
+            <Link href={link.href} className={styles.socialLink}>
+              <span className={styles.socialLinkIcon}>{link.icon}</span>
+              {link.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+
+  // Internal component: Contact Person Card
+  const ContactPersonCard = ({ person }: { person: ContactPerson }) => (
+    <div className={styles.contactPersonCard}>
+      <p className={styles.contactPersonName}>{person.name}</p>
+      <p className={styles.contactPersonRole}>{person.role}</p>
+      <div className={styles.contactPersonDetails}>
+        <p className={styles.contactPersonEmail}>
+          <span className={styles.contactPersonLabel}>{t('footer.contact.email') || 'E-post'}:</span>{' '}
+          <Link href={`mailto:${person.email}`}>{person.email}</Link>
+        </p>
+        {person.phone && (
+          <p className={styles.contactPersonPhone}>
+            <span className={styles.contactPersonLabel}>{t('footer.contact.phone') || 'Telefon'}:</span>{' '}
+            {person.phone}
+          </p>
+        )}
+        {person.address && (
+          <p className={styles.contactPersonAddress}>{person.address}</p>
+        )}
+      </div>
+    </div>
+  );
+
+  // Internal component: Contact Persons Section
+  const ContactPersonsSection = () => (
+    <div className={styles.contactPersonsSection}>
+      {contactPersonsTitle && (
+        <h3 className={styles.contactPersonsTitle}>
+          {contactPersonsTitle}
+        </h3>
+      )}
+      <div className={styles.contactPersonsGrid}>
+        {contactPersons.map((person, index) => (
+          <ContactPersonCard key={index} person={person} />
+        ))}
+      </div>
+    </div>
+  );
+
+  // Internal component: Legal Links Row
+  const LegalLinksRow = () => (
+    <ul className={styles.legalLinksRow}>
+      {legalLinks.map((link, index) => (
+        <li key={index}>
+          <Link href={link.href} className={styles.legalLink}>
+            {link.label}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
+
+  // Render contact variant
+  if (variant === 'contact') {
+    return (
+      <footer className={styles.footer} data-color={dataColor}>
+        {/* Main Section */}
+        <div className={styles.mainSection}>
+          <div className={styles.mainContainer}>
+            {/* Top-right CrossCorner */}
+            {showCrossCorners && (
+              <div className={styles.crossCornerTopRight}>
+                <CrossCorner position="top-right" size="md" aria-hidden />
+              </div>
+            )}
+
+            {/* Content Row: Social Links + Contact Persons */}
+            <div className={styles.contentRowContact}>
+              {socialLinks.length > 0 && <SocialLinksSection />}
+              {contactPersons.length > 0 && <ContactPersonsSection />}
+            </div>
+
+            {/* Divider */}
+            <div className={styles.divider} />
+
+            {/* Contact Information Section */}
+            <div className={styles.contactSection}>
+              <div className={styles.contactColumn}>
+                <h4 className={styles.contactTitle}>{t('footer.contact.visitingAddress') || 'Besøks adresse'}</h4>
+                <div className={styles.contactContent}>
+                  {visitingAddress.map((line, index) => (
+                    <p key={index}>{line}</p>
+                  ))}
+                </div>
+              </div>
+
+              <div className={styles.contactColumn}>
+                <h4 className={styles.contactTitle}>{t('footer.contact.organizationNumber') || 'Organisasjonsnummer'}</h4>
+                <p className={styles.contactContent}>{organizationNumber}</p>
+              </div>
+
+              <div className={styles.contactColumn}>
+                <h4 className={styles.contactTitle}>{t('footer.contact.email') || 'E-post'}</h4>
+                <p className={styles.contactContent}>{email}</p>
+              </div>
+            </div>
+
+            {/* Divider */}
+            <div className={styles.divider} />
+
+            {/* Bottom Row: Legal Links + Copyright */}
+            <div className={styles.bottomRowContact}>
+              {legalLinks.length > 0 && <LegalLinksRow />}
+              <p className={styles.copyrightText}>
+                © {currentYear} {t('footer.copyright') || 'Rødekors'}
+              </p>
+            </div>
+
+            {/* Bottom-left CrossCorner */}
+            {showCrossCorners && (
+              <div className={styles.crossCornerBottomLeft}>
+                <CrossCorner position="bottom-left" size="md" aria-hidden />
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* White Background Section */}
+        <div className={styles.whiteSection}>
+          <div className={styles.whiteContainer}>
+            <div className={styles.whiteContent}>
+              {showPrimaryLogo && (
+                primaryLogoSrc ? (
+                  <img
+                    src={primaryLogoSrc}
+                    alt={primaryLogoAlt}
+                    className={styles.logo}
+                    loading="lazy"
+                  />
+                ) : (
+                  <div className={styles.logo}>
+                    <RedCrossLogo />
+                  </div>
+                )
+              )}
+              {whiteSectionSlot && (
+                <div className={styles.slotLarge}>
+                  {whiteSectionSlot}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </footer>
+    );
+  }
+
+  // Render default variant
   return (
     <footer className={styles.footer} data-color={dataColor}>
       {/* Main Section */}
@@ -535,6 +751,185 @@ function buildInlineCss(styles: Record<string, string>): string {
   .${s.slotLarge} {
     width: 100%;
     max-width: none;
+  }
+}
+/* Contact Variant Styles */
+.${s.contentRowContact} {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--ds-size-12, 48px);
+  padding: var(--ds-size-8, 32px) 0;
+  flex-wrap: wrap;
+}
+.${s.socialLinksSection} {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-4, 16px);
+  min-width: 200px;
+}
+.${s.socialLinksTitle} {
+  font-size: var(--ds-font-size-7, 30px);
+  font-weight: var(--ds-font-weight-regular);
+  line-height: 1.3;
+  letter-spacing: -0.075px;
+  color: var(--ds-color-primary-color-red-text-subtle, #b42419);
+  margin: 0;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.${s.socialLinksList} {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-2, 8px);
+}
+.${s.socialLink} {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-size-2, 8px);
+  font-size: var(--ds-font-size-4, 18px);
+  font-weight: var(--ds-font-weight-regular);
+  line-height: 1.5;
+  letter-spacing: 0.09px;
+  color: var(--ds-color-neutral-text-default, #2b2b2b);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.${s.socialLinkIcon} {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+.${s.contactPersonsSection} {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-4, 16px);
+  flex: 1;
+}
+.${s.contactPersonsTitle} {
+  font-size: var(--ds-font-size-7, 30px);
+  font-weight: var(--ds-font-weight-regular);
+  line-height: 1.3;
+  letter-spacing: -0.075px;
+  color: var(--ds-color-primary-color-red-text-subtle, #b42419);
+  margin: 0;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.${s.contactPersonsGrid} {
+  display: flex;
+  gap: var(--ds-size-12, 48px);
+  flex-wrap: wrap;
+}
+.${s.contactPersonCard} {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-1, 4px);
+  min-width: 220px;
+  flex: 0 0 auto;
+}
+.${s.contactPersonName} {
+  font-size: var(--ds-font-size-4, 18px);
+  font-weight: var(--ds-font-weight-bold);
+  line-height: 1.5;
+  letter-spacing: 0.09px;
+  color: var(--ds-color-neutral-text-default, #2b2b2b);
+  margin: 0;
+}
+.${s.contactPersonRole} {
+  font-size: var(--ds-font-size-3, 16px);
+  font-weight: var(--ds-font-weight-regular);
+  line-height: 1.5;
+  letter-spacing: 0.04px;
+  color: var(--ds-color-neutral-text-subtle, #5d5d5d);
+  margin: 0;
+}
+.${s.contactPersonDetails} {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-1, 4px);
+  margin-top: var(--ds-size-2, 8px);
+}
+.${s.contactPersonLabel} {
+  font-weight: var(--ds-font-weight-regular);
+}
+.${s.contactPersonEmail},
+.${s.contactPersonPhone},
+.${s.contactPersonAddress} {
+  font-size: var(--ds-font-size-3, 16px);
+  font-weight: var(--ds-font-weight-regular);
+  line-height: 1.5;
+  letter-spacing: 0.04px;
+  color: var(--ds-color-neutral-text-default, #2b2b2b);
+  margin: 0;
+  word-break: break-word;
+}
+.${s.contactPersonEmail} a {
+  color: var(--ds-color-neutral-text-default, #2b2b2b);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.${s.bottomRowContact} {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--ds-size-4, 16px);
+}
+.${s.legalLinksRow} {
+  display: flex;
+  gap: var(--ds-size-6, 24px);
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.${s.legalLink} {
+  font-size: var(--ds-font-size-3, 16px);
+  font-weight: var(--ds-font-weight-regular);
+  line-height: 1.5;
+  letter-spacing: 0.04px;
+  color: var(--ds-color-neutral-text-default, #2b2b2b);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+@media (max-width: 1024px) {
+  .${s.contentRowContact} {
+    gap: var(--ds-size-8, 32px);
+  }
+  .${s.contactPersonsGrid} {
+    gap: var(--ds-size-6, 24px);
+  }
+}
+@media (max-width: 768px) {
+  .${s.contentRowContact} {
+    flex-direction: column;
+  }
+  .${s.socialLinksSection} {
+    width: 100%;
+  }
+  .${s.contactPersonsSection} {
+    width: 100%;
+  }
+  .${s.contactPersonsGrid} {
+    flex-direction: column;
+  }
+  .${s.contactPersonCard} {
+    max-width: none;
+  }
+  .${s.bottomRowContact} {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .${s.legalLinksRow} {
+    flex-direction: column;
+    gap: var(--ds-size-2, 8px);
   }
 }
 `;
