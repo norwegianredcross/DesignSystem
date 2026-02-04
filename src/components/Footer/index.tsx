@@ -124,6 +124,12 @@ export const Footer = ({
   const { t } = useLanguageOptional();
   const [emailValue, setEmailValue] = React.useState('');
 
+  // Helper to get translation with proper fallback (avoids showing raw keys like "footer.contact.phone")
+  const tWithFallback = (key: string, fallback: string): string => {
+    const result = t(key);
+    return result === key ? fallback : result;
+  };
+
   // Fallback: inject minimal footer styles if consumer did not import the CSS bundle.
   React.useEffect(() => {
     const styleId = 'rk-footer-inline-styles';
@@ -168,20 +174,20 @@ export const Footer = ({
 
   // Default shortcut links
   const defaultShortcutsLinks: FooterLink[] = [
-    { label: t('footer.shortcutsLinks.services') || 'Tilbudene', href: '#' },
-    { label: t('footer.shortcutsLinks.volunteer') || 'Bli frivillig', href: '#' },
-    { label: t('footer.shortcutsLinks.ourWork') || 'Vårt arbeid', href: '#' },
-    { label: t('footer.shortcutsLinks.about') || 'Om Røde Kors', href: '#' },
-    { label: t('footer.shortcutsLinks.support') || 'Støtt arbeidet', href: '#' },
-    { label: t('footer.shortcutsLinks.contact') || 'Kontakt oss', href: '#' },
+    { label: tWithFallback('footer.shortcutsLinks.services', 'Tilbudene'), href: '#' },
+    { label: tWithFallback('footer.shortcutsLinks.volunteer', 'Bli frivillig'), href: '#' },
+    { label: tWithFallback('footer.shortcutsLinks.ourWork', 'Vårt arbeid'), href: '#' },
+    { label: tWithFallback('footer.shortcutsLinks.about', 'Om Røde Kors'), href: '#' },
+    { label: tWithFallback('footer.shortcutsLinks.support', 'Støtt arbeidet'), href: '#' },
+    { label: tWithFallback('footer.shortcutsLinks.contact', 'Kontakt oss'), href: '#' },
   ];
 
   // Default links for "Lenker" column
   const defaultLinksLinks: FooterLink[] = [
-    { label: t('footer.legal.privacy') || 'Personvern', href: '#' },
-    { label: t('footer.legal.press') || 'For presse', href: '#' },
-    { label: t('footer.legal.procurement') || 'Regler for innkjøp', href: '#' },
-    { label: t('footer.legal.whistleblowing') || 'Varsling/Misconduct', href: '#' },
+    { label: tWithFallback('footer.legal.privacy', 'Personvern'), href: '#' },
+    { label: tWithFallback('footer.legal.press', 'For presse'), href: '#' },
+    { label: tWithFallback('footer.legal.procurement', 'Regler for innkjøp'), href: '#' },
+    { label: tWithFallback('footer.legal.whistleblowing', 'Varsling/Misconduct'), href: '#' },
   ];
 
   const defaultConsentText = (
@@ -223,12 +229,12 @@ export const Footer = ({
       <p className={styles.contactPersonRole}>{person.role}</p>
       <div className={styles.contactPersonDetails}>
         <p className={styles.contactPersonEmail}>
-          <span className={styles.contactPersonLabel}>{t('footer.contact.email') || 'E-post'}:</span>{' '}
+          <span className={styles.contactPersonLabel}>{tWithFallback('footer.contact.email', 'E-post')}:</span>{' '}
           <Link href={`mailto:${person.email}`}>{person.email}</Link>
         </p>
         {person.phone && (
           <p className={styles.contactPersonPhone}>
-            <span className={styles.contactPersonLabel}>{t('footer.contact.phone') || 'Telefon'}:</span>{' '}
+            <span className={styles.contactPersonLabel}>{tWithFallback('footer.contact.phone', 'Telefon')}:</span>{' '}
             {person.phone}
           </p>
         )}
@@ -294,7 +300,7 @@ export const Footer = ({
             {/* Contact Information Section */}
             <div className={styles.contactSection}>
               <div className={styles.contactColumn}>
-                <h4 className={styles.contactTitle}>{t('footer.contact.visitingAddress') || 'Besøks adresse'}</h4>
+                <h4 className={styles.contactTitle}>{tWithFallback('footer.contact.visitingAddress', 'Besøks adresse')}</h4>
                 <div className={styles.contactContent}>
                   {visitingAddress.map((line, index) => (
                     <p key={index}>{line}</p>
@@ -303,12 +309,12 @@ export const Footer = ({
               </div>
 
               <div className={styles.contactColumn}>
-                <h4 className={styles.contactTitle}>{t('footer.contact.organizationNumber') || 'Organisasjonsnummer'}</h4>
+                <h4 className={styles.contactTitle}>{tWithFallback('footer.contact.organizationNumber', 'Organisasjonsnummer')}</h4>
                 <p className={styles.contactContent}>{organizationNumber}</p>
               </div>
 
               <div className={styles.contactColumn}>
-                <h4 className={styles.contactTitle}>{t('footer.contact.email') || 'E-post'}</h4>
+                <h4 className={styles.contactTitle}>{tWithFallback('footer.contact.email', 'E-post')}</h4>
                 <p className={styles.contactContent}>{email}</p>
               </div>
             </div>
@@ -320,7 +326,7 @@ export const Footer = ({
             <div className={styles.bottomRowContact}>
               {legalLinks.length > 0 && <LegalLinksRow />}
               <p className={styles.copyrightText}>
-                © {currentYear} {t('footer.copyright') || 'Rødekors'}
+                © {currentYear} {tWithFallback('footer.copyright', 'Rødekors')}
               </p>
             </div>
 
@@ -405,8 +411,8 @@ export const Footer = ({
             {/* Links Columns */}
             <div className={styles.linksSection}>
               {/* Snarveier Column */}
-              <nav className={styles.linksColumn} aria-label={shortcutsTitle || t('footer.shortcuts') || 'Snarveier'}>
-                <h3 className={styles.linksTitle}>{shortcutsTitle || t('footer.shortcuts') || 'Snarveier'}</h3>
+              <nav className={styles.linksColumn} aria-label={shortcutsTitle || tWithFallback('footer.shortcuts', 'Snarveier')}>
+                <h3 className={styles.linksTitle}>{shortcutsTitle || tWithFallback('footer.shortcuts', 'Snarveier')}</h3>
                 <ul className={styles.linksList}>
                   {shortcuts.map((link, index) => (
                     <li key={index}>
@@ -419,8 +425,8 @@ export const Footer = ({
               </nav>
 
               {/* Lenker Column */}
-              <nav className={styles.linksColumn} aria-label={linksTitle || t('footer.links') || 'Lenker'}>
-                <h3 className={styles.linksTitle}>{linksTitle || t('footer.links') || 'Lenker'}</h3>
+              <nav className={styles.linksColumn} aria-label={linksTitle || tWithFallback('footer.links', 'Lenker')}>
+                <h3 className={styles.linksTitle}>{linksTitle || tWithFallback('footer.links', 'Lenker')}</h3>
                 <ul className={styles.linksList}>
                   {links.map((link, index) => (
                     <li key={index}>
@@ -440,7 +446,7 @@ export const Footer = ({
           {/* Contact Information Section */}
           <div className={styles.contactSection}>
             <div className={styles.contactColumn}>
-              <h4 className={styles.contactTitle}>{t('footer.contact.visitingAddress') || 'Besøks adresse'}</h4>
+              <h4 className={styles.contactTitle}>{tWithFallback('footer.contact.visitingAddress', 'Besøks adresse')}</h4>
               <div className={styles.contactContent}>
                 {visitingAddress.map((line, index) => (
                   <p key={index}>{line}</p>
@@ -449,12 +455,12 @@ export const Footer = ({
             </div>
 
             <div className={styles.contactColumn}>
-              <h4 className={styles.contactTitle}>{t('footer.contact.organizationNumber') || 'Organisasjonsnummer'}</h4>
+              <h4 className={styles.contactTitle}>{tWithFallback('footer.contact.organizationNumber', 'Organisasjonsnummer')}</h4>
               <p className={styles.contactContent}>{organizationNumber}</p>
             </div>
 
             <div className={styles.contactColumn}>
-              <h4 className={styles.contactTitle}>{t('footer.contact.email') || 'E-post'}</h4>
+              <h4 className={styles.contactTitle}>{tWithFallback('footer.contact.email', 'E-post')}</h4>
               <p className={styles.contactContent}>{email}</p>
             </div>
           </div>
@@ -465,7 +471,7 @@ export const Footer = ({
           {/* Copyright */}
           <div className={styles.copyrightSection}>
             <p className={styles.copyrightText}>
-              © {currentYear} {t('footer.copyright') || 'Rødekors'}
+              © {currentYear} {tWithFallback('footer.copyright', 'Rødekors')}
             </p>
           </div>
 
