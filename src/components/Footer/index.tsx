@@ -527,7 +527,7 @@ function buildInlineCss(styles: Record<string, string>): string {
   background-color: var(--ds-color-additional-color-ocean-background-tinted);
 }
 .${s.footer}[data-color="neutral"] .${s.mainSection} {
-  background-color: var(--ds-color-neutral-background-default, #ffffff);
+  background-color: var(--ds-color-neutral-background-subtle, #f5f5f5);
 }
 .${s.mainContainer} {
   position: relative;
