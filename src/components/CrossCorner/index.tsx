@@ -1,7 +1,36 @@
-import { forwardRef } from 'react';
+import { forwardRef, useEffect } from 'react';
 import type { DefaultProps } from '../../types';
 import type { MergeRight } from '../../utilities';
 import styles from './styles.module.css';
+
+// Fallback CSS injection function
+function buildInlineCss(s: Record<string, string>): string {
+  return `
+.${s.crossCorner} {
+  display: inline-block;
+  flex-shrink: 0;
+}
+.${s.shape} {
+  fill: var(--ds-color-base-default, #DA4236);
+}
+/* Color variants via data-color attribute */
+.${s.crossCorner}[data-color="accent"] .${s.shape} {
+  fill: var(--ds-color-accent-base-default, #DA4236);
+}
+.${s.crossCorner}[data-color="brand1"] .${s.shape} {
+  fill: var(--ds-color-brand1-base-default, #DA4236);
+}
+.${s.crossCorner}[data-color="brand2"] .${s.shape} {
+  fill: var(--ds-color-brand2-base-default, #1E2B3C);
+}
+.${s.crossCorner}[data-color="brand3"] .${s.shape} {
+  fill: var(--ds-color-brand3-base-default, #F5F5F5);
+}
+.${s.crossCorner}[data-color="neutral"] .${s.shape} {
+  fill: var(--ds-color-neutral-base-default, #5D5D5D);
+}
+`;
+}
 
 /**
  * Position variants for the CrossCorner component.
@@ -83,6 +112,18 @@ export const CrossCorner = forwardRef<SVGSVGElement, CrossCornerProps>(
     },
     ref
   ) => {
+    // Fallback: inject minimal CrossCorner styles if consumer did not import the CSS bundle.
+    useEffect(() => {
+      const styleId = 'rk-crosscorner-inline-styles';
+      if (typeof document === 'undefined') return;
+      if (document.getElementById(styleId)) return;
+      const css = buildInlineCss(styles);
+      const tag = document.createElement('style');
+      tag.id = styleId;
+      tag.textContent = css;
+      document.head.appendChild(tag);
+    }, []);
+
     const pixelSize = SIZE_MAP[size];
     const rotation = ROTATION_MAP[position];
 
