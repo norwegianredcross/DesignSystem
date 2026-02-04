@@ -1,1 +1,0 @@
-import{r as m,j as e}from"./iframe-DJ_T1ny6.js";import{S as n}from"./index-C2uCWd-6.js";import{c as i}from"./lite-DaUVFjkg.js";const p=m.forwardRef(({asChild:r,className:s,...o},t)=>{const a=r?n:"a";return e.jsx(a,{className:i("ds-link",s),ref:t,...o})});p.displayName="Link";export{p as L};
