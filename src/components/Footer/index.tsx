@@ -823,16 +823,15 @@ function buildInlineCss(styles: Record<string, string>): string {
   text-underline-offset: 4px;
 }
 .${s.contactPersonsGrid} {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: var(--ds-size-12, 48px);
-  flex-wrap: wrap;
 }
 .${s.contactPersonCard} {
   display: flex;
   flex-direction: column;
   gap: var(--ds-size-1, 4px);
-  min-width: 220px;
-  flex: 0 0 auto;
+  min-width: 0;
 }
 .${s.contactPersonName} {
   font-size: var(--ds-font-size-4, 18px);
@@ -904,6 +903,7 @@ function buildInlineCss(styles: Record<string, string>): string {
     gap: var(--ds-size-8, 32px);
   }
   .${s.contactPersonsGrid} {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: var(--ds-size-6, 24px);
   }
 }
@@ -918,7 +918,7 @@ function buildInlineCss(styles: Record<string, string>): string {
     width: 100%;
   }
   .${s.contactPersonsGrid} {
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
   .${s.contactPersonCard} {
     max-width: none;

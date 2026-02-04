@@ -407,17 +407,16 @@
 }
 
 .contactPersonsGrid {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: var(--ds-size-12, 48px);
-  flex-wrap: wrap;
 }
 
 .contactPersonCard {
   display: flex;
   flex-direction: column;
   gap: var(--ds-size-1, 4px);
-  min-width: 220px;
-  flex: 0 0 auto;
+  min-width: 0;
 }
 
 .contactPersonName {
@@ -518,6 +517,7 @@
   }
 
   .contactPersonsGrid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: var(--ds-size-6, 24px);
   }
 }
@@ -536,7 +536,7 @@
   }
 
   .contactPersonsGrid {
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
 
   .contactPersonCard {
