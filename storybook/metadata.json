@@ -1362,6 +1362,13 @@
         "required": false
       },
       {
+        "name": "variant",
+        "type": "enum",
+        "description": "Footer layout variant",
+        "defaultValue": "default",
+        "required": false
+      },
+      {
         "name": "showCrossCorners",
         "type": "boolean",
         "description": "Show CrossCorner decorative elements",
@@ -1484,6 +1491,41 @@
         "name": "whiteSectionSlot",
         "type": "ReactNode",
         "description": "Slot content for the white section",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "socialLinks",
+        "type": "SocialLink[]",
+        "description": "Social media links with icons (contact variant)",
+        "defaultValue": "[]",
+        "required": false
+      },
+      {
+        "name": "contactPersons",
+        "type": "ContactPerson[]",
+        "description": "Contact person cards (contact variant)",
+        "defaultValue": "[]",
+        "required": false
+      },
+      {
+        "name": "legalLinks",
+        "type": "LegalLink[]",
+        "description": "Bottom legal links row (contact variant)",
+        "defaultValue": "[]",
+        "required": false
+      },
+      {
+        "name": "socialLinksTitle",
+        "type": "string",
+        "description": "Title for social links section (contact variant)",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "contactPersonsTitle",
+        "type": "string",
+        "description": "Title for contact persons section (contact variant)",
         "defaultValue": null,
         "required": false
       }

@@ -1081,9 +1081,12 @@ import { Carousel } from 'rk-designsystem';
 import { Footer } from 'rk-designsystem';
 
 <Footer
+  contactPersons?={[]}
+  contactPersonsTitle?={string}
   data-color?={neutral}
   email?={post@redcross.no}
   hideNewsletter?={false}
+  legalLinks?={[]}
   linksLinks?={FooterLink[]}
   linksTitle?={string}
   newsletterButtonText?={Meld deg på}
@@ -1098,6 +1101,9 @@ import { Footer } from 'rk-designsystem';
   shortcutsTitle?={string}
   showCrossCorners?={false}
   showPrimaryLogo?={true}
+  socialLinks?={[]}
+  socialLinksTitle?={string}
+  variant?={default}
   visitingAddress?={["Hausmannsgate 7 (Korsegården)", "0186 Oslo"]}
   whiteSectionSlot?={ReactNode}
  />
