@@ -203,6 +203,10 @@ export type { HeaderProps } from './components/Header';
 export { Footer } from './components/Footer';
 export type { FooterProps } from './components/Footer';
 
+// Donor (Custom component)
+export { Donor } from './components/Donor';
+export type { DonorProps, DonorAmount } from './components/Donor';
+
 // Language
 export { LanguageProvider, useLanguage, useLanguageOptional } from './context/LanguageContext';
 export type { LanguageContextType, Language } from './context/LanguageContext';

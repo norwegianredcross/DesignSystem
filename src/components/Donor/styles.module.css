@@ -1,0 +1,200 @@
+.donor {
+  border-radius: 16px;
+  overflow: hidden;
+  background-color: var(--ds-color-primary-color-red-surface-default, #ffffff);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 344px;
+  padding-top: var(--ds-size-2, 8px);
+}
+
+/* Tabs wrapper — force tabs to fill 50/50 */
+.tabsWrapper {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.tabsWrapper [role="tablist"] {
+  display: flex !important;
+  width: 100% !important;
+}
+
+.tabsWrapper [role="tab"] {
+  flex: 1 1 50% !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center;
+  white-space: nowrap;
+  font-family: var(--ds-font-family, 'Source Sans Pro', sans-serif);
+  font-weight: var(--ds-font-weight-regular, 400);
+  font-size: var(--ds-font-size-4, 18px);
+  line-height: 1.5;
+  letter-spacing: 0.5px;
+}
+
+/* Content area below tabs */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-6, 24px);
+  align-items: center;
+  justify-content: center;
+  padding: var(--ds-size-6, 24px);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Amount selection section */
+.amountSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-2, 8px);
+  align-items: flex-start;
+  width: 296px;
+}
+
+.amountLabel {
+  font-family: var(--ds-font-family, 'Source Sans Pro', sans-serif);
+  font-weight: var(--ds-font-weight-regular, 400);
+  font-size: var(--ds-font-size-3, 16px);
+  line-height: 1.5;
+  letter-spacing: 0.04px;
+  color: var(--ds-color-neutral-text-default, #333333);
+  margin: 0;
+}
+
+.amountButtons {
+  display: flex;
+  gap: var(--ds-size-2, 8px);
+  align-items: flex-start;
+  width: 100%;
+}
+
+.amountButtons > button {
+  flex: 1;
+}
+
+.customAmountField {
+  width: 100%;
+}
+
+/* Impact message row */
+.impactRow {
+  display: flex;
+  gap: var(--ds-size-3, 12px);
+  align-items: center;
+  width: 296px;
+  min-height: 48px;
+}
+
+.heartIcon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heartIcon svg {
+  width: 19px;
+  height: 18px;
+}
+
+.impactText {
+  flex: 1;
+  font-family: var(--ds-font-family, 'Source Sans Pro', sans-serif);
+  font-weight: var(--ds-font-weight-regular, 400);
+  font-size: var(--ds-font-size-3, 16px);
+  line-height: 1.5;
+  letter-spacing: 0.04px;
+  color: var(--ds-color-neutral-text-default, #333333);
+  margin: 0;
+}
+
+.impactAmount {
+  font-weight: var(--ds-font-weight-semibold, 600);
+}
+
+/* Actions section (Vipps + avtalegiro) */
+.actionsSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-2, 8px);
+  align-items: center;
+  justify-content: center;
+  width: 296px;
+}
+
+/* Vipps button */
+.vippsButton {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  height: 44px;
+  padding: 12px 16px;
+  background-color: #ff5b24;
+  border: none;
+  border-radius: var(--ds-border-radius-xl, 12px);
+  overflow: hidden;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.vippsButton:hover {
+  opacity: 0.9;
+}
+
+.vippsButton:active {
+  opacity: 0.8;
+}
+
+.vippsButton:focus-visible {
+  outline: 2px solid var(--ds-color-neutral-border-default, #797979);
+  outline-offset: 2px;
+}
+
+.vippsButtonLabel {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 700;
+  font-size: 18.5px;
+  line-height: 1;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.vippsLogo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-shrink: 0;
+}
+
+.vippsLogo svg {
+  width: 64px;
+  height: 16px;
+}
+
+/* Avtalegiro link */
+.avtalegiroLink {
+  text-align: center;
+}
+
+/* Heart icon in monthly tab */
+.tabHeartIcon {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+.tabHeartIcon svg {
+  width: 16px;
+  height: 15px;
+}
