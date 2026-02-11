@@ -335,11 +335,6 @@ function buildInlineCss(s: Record<string, string>): string {
   justify-content: center !important;
   text-align: center;
   white-space: nowrap;
-  font-family: var(--ds-font-family, 'Source Sans Pro', sans-serif);
-  font-weight: var(--ds-font-weight-regular, 400);
-  font-size: var(--ds-font-size-4, 18px);
-  line-height: 1.5;
-  letter-spacing: 0.5px;
 }
 .${s.content} {
   display: flex;
@@ -359,7 +354,6 @@ function buildInlineCss(s: Record<string, string>): string {
   width: 296px;
 }
 .${s.amountLabel} {
-  font-family: var(--ds-font-family, 'Source Sans Pro', sans-serif);
   font-weight: var(--ds-font-weight-regular, 400);
   font-size: var(--ds-font-size-3, 16px);
   line-height: 1.5;
@@ -400,7 +394,6 @@ function buildInlineCss(s: Record<string, string>): string {
 }
 .${s.impactText} {
   flex: 1;
-  font-family: var(--ds-font-family, 'Source Sans Pro', sans-serif);
   font-weight: var(--ds-font-weight-regular, 400);
   font-size: var(--ds-font-size-3, 16px);
   line-height: 1.5;
@@ -433,6 +426,7 @@ function buildInlineCss(s: Record<string, string>): string {
   overflow: hidden;
   cursor: pointer;
   transition: opacity 0.15s ease;
+  font-family: inherit;
 }
 .${s.vippsButton}:hover {
   opacity: 0.9;
@@ -445,7 +439,7 @@ function buildInlineCss(s: Record<string, string>): string {
   outline-offset: 2px;
 }
 .${s.vippsButtonLabel} {
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: inherit;
   font-weight: 700;
   font-size: 18.5px;
   line-height: 1;

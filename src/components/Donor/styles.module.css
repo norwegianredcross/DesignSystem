@@ -29,11 +29,6 @@
   justify-content: center !important;
   text-align: center;
   white-space: nowrap;
-  font-family: var(--ds-font-family, 'Source Sans Pro', sans-serif);
-  font-weight: var(--ds-font-weight-regular, 400);
-  font-size: var(--ds-font-size-4, 18px);
-  line-height: 1.5;
-  letter-spacing: 0.5px;
 }
 
 /* Content area below tabs */
@@ -58,7 +53,6 @@
 }
 
 .amountLabel {
-  font-family: var(--ds-font-family, 'Source Sans Pro', sans-serif);
   font-weight: var(--ds-font-weight-regular, 400);
   font-size: var(--ds-font-size-3, 16px);
   line-height: 1.5;
@@ -107,7 +101,6 @@
 
 .impactText {
   flex: 1;
-  font-family: var(--ds-font-family, 'Source Sans Pro', sans-serif);
   font-weight: var(--ds-font-weight-regular, 400);
   font-size: var(--ds-font-size-3, 16px);
   line-height: 1.5;
@@ -145,6 +138,7 @@
   overflow: hidden;
   cursor: pointer;
   transition: opacity 0.15s ease;
+  font-family: inherit;
 }
 
 .vippsButton:hover {
@@ -161,7 +155,7 @@
 }
 
 .vippsButtonLabel {
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: inherit;
   font-weight: 700;
   font-size: 18.5px;
   line-height: 1;
