@@ -69,6 +69,11 @@ const meta: Meta<typeof Header> = {
       control: 'text',
       description: 'Alt text for the secondary logo',
     },
+    extensionColor: {
+      control: 'select',
+      options: ['primary', 'neutral', 'tinted'],
+      description: 'Background color variant for the top bar. "tinted" uses a soft pink background.',
+    },
   },
 };
 

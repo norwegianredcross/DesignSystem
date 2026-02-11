@@ -70,6 +70,13 @@
   color: var(--ds-color-neutral-text-default);
 }
 
+/* Tinted variant for header extension */
+.headerExtensionTinted,
+.headerExtension[data-extension-color="tinted"] {
+  background: var(--color-primary-color-red-surface-tinted, #FAE4E2) !important;
+  color: var(--ds-color-neutral-text-default, #2b2b2b);
+}
+
 .extensionContentWrapper {
   width: 100%;
   max-width: 1364px;

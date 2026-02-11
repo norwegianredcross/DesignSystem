@@ -35,6 +35,8 @@ export interface HeaderProps {
   showHeaderExtension?: boolean;
   showModeToggle?: boolean;
   showLanguageSwitch?: boolean;
+  /** Background color variant for the header extension (top bar). 'tinted' uses a soft pink/red tinted background. */
+  extensionColor?: 'primary' | 'neutral' | 'tinted';
 }
 
 export const Header = ({ 
@@ -59,7 +61,8 @@ export const Header = ({
   showMenuButton = true,
   showHeaderExtension = false,
   showModeToggle = false,
-  showLanguageSwitch = false
+  showLanguageSwitch = false,
+  extensionColor,
 }: HeaderProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -266,7 +269,7 @@ export const Header = ({
   return (
     <header className={styles.header} data-open={isOpen ? 'true' : 'false'} data-color={dataColor}>
       {showHeaderExtension && (
-        <div className={styles.headerExtension} data-color-scheme="light">
+        <div className={`${styles.headerExtension}${extensionColor === 'tinted' ? ` ${styles.headerExtensionTinted}` : ''}`} data-color-scheme="light" data-extension-color={extensionColor}>
           <div className={styles.extensionContentWrapper}>
             {showModeToggle && (
               <div className={styles.extensionContent}>
@@ -662,6 +665,11 @@ function buildInlineCss(styles: Record<string, string>): string {
 .${s.header}[data-color="neutral"] .${s.headerExtension} {
   background-color: var(--ds-color-neutral-base-default);
   color: var(--ds-color-neutral-text-default);
+}
+.${s.headerExtensionTinted},
+.${s.headerExtension}[data-extension-color="tinted"] {
+  background: var(--color-primary-color-red-surface-tinted, #FAE4E2) !important;
+  color: var(--ds-color-neutral-text-default, #2b2b2b);
 }
 .${s.extensionContentWrapper} {
   width: 100%;
