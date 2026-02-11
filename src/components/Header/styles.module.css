@@ -89,8 +89,8 @@
   color: var(--color-neutral-text-default, #2B2B2B) !important;
 }
 
-.header .headerExtensionTinted .extensionContent :global(.fds-switch__label),
-.header .headerExtension[data-extension-color="tinted"] .extensionContent :global(.fds-switch__label) {
+.header .headerExtensionTinted .extensionContent :global(.ds-label),
+.header .headerExtension[data-extension-color="tinted"] .extensionContent :global(.ds-label) {
   color: var(--color-neutral-text-default, #2B2B2B) !important;
 }
 
@@ -108,21 +108,16 @@
   gap: var(--ds-size-4);
 }
 
-.extensionContent :global(.fds-switch__input:checked + .fds-switch__track) {
-  background-color: var(--ds-color-neutral-background-default) !important; /* Keep track light/white */
-  border-color: var(--ds-color-neutral-border-default) !important;
+/* Label text color and size based on data-color */
+.extensionContent :global(.ds-label) {
+  font-size: var(--ds-font-size-md) !important;
 }
 
-.extensionContent :global(.fds-switch__input:checked + .fds-switch__track::after) {
-  background-color: var(--ds-color-neutral-text-default) !important; /* Knob color */
-}
-
-/* Label text color based on data-color */
-.header[data-color="primary"] .extensionContent :global(.fds-switch__label) {
+.header[data-color="primary"] .extensionContent :global(.ds-label) {
   color: white !important;
 }
 
-.header[data-color="neutral"] .extensionContent :global(.fds-switch__label) {
+.header[data-color="neutral"] .extensionContent :global(.ds-label) {
   color: var(--ds-color-neutral-text-default) !important;
 }
 

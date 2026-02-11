@@ -679,8 +679,8 @@ function buildInlineCss(styles: Record<string, string>): string {
 .${s.header} .${s.headerExtension}[data-extension-color="tinted"] .${s.languageLink} {
   color: var(--color-neutral-text-default, #2B2B2B) !important;
 }
-.${s.header} .${s.headerExtensionTinted} .${s.extensionContent} .fds-switch__label,
-.${s.header} .${s.headerExtension}[data-extension-color="tinted"] .${s.extensionContent} .fds-switch__label {
+.${s.header} .${s.headerExtensionTinted} .${s.extensionContent} .ds-label,
+.${s.header} .${s.headerExtension}[data-extension-color="tinted"] .${s.extensionContent} .ds-label {
   color: var(--color-neutral-text-default, #2B2B2B) !important;
 }
 .${s.header} .${s.headerExtensionTinted} .${s.extensionDivider},
@@ -695,6 +695,7 @@ function buildInlineCss(styles: Record<string, string>): string {
   align-items: center;
   gap: var(--ds-size-4);
 }
+.${s.extensionContent} .ds-label { font-size: var(--ds-font-size-md) !important; }
 .${s.extensionDivider} { width: 1px; height: 18px; background-color: rgba(247,233,232,1); }
 .${s.languageSwitch} { display: flex; align-items: center; gap: var(--ds-size-2); }
 .${s.languageLabel} { font-size: var(--ds-font-size-md); color: #ECECEC; }
