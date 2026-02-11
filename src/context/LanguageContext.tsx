@@ -64,7 +64,7 @@ export const useLanguageOptional = (): LanguageContextType => {
         // Return a readable fallback based on the key
         const fallbacks: Record<string, string> = {
           // Header translations
-          'header.darkMode': 'Mørk modus',
+          'header.darkMode': 'Nattmodus',
           'header.language': 'Språk',
           'header.selectLanguage': 'Velg språk',
           'header.homeAriaLabel': 'Norges Røde Kors Hjem',

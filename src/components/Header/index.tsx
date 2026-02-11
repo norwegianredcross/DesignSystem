@@ -679,8 +679,8 @@ function buildInlineCss(styles: Record<string, string>): string {
 .${s.headerExtension}[data-extension-color="tinted"] .${s.languageLink} {
   color: var(--color-neutral-text-default, #2B2B2B) !important;
 }
-.${s.headerExtensionTinted} .${s.extensionContent} :global(.fds-switch__label),
-.${s.headerExtension}[data-extension-color="tinted"] .${s.extensionContent} :global(.fds-switch__label) {
+.${s.headerExtensionTinted} .${s.extensionContent} .fds-switch__label,
+.${s.headerExtension}[data-extension-color="tinted"] .${s.extensionContent} .fds-switch__label {
   color: var(--color-neutral-text-default, #2B2B2B) !important;
 }
 .${s.headerExtensionTinted} .${s.extensionDivider},
@@ -703,7 +703,7 @@ function buildInlineCss(styles: Record<string, string>): string {
 .${s.header}[data-color="neutral"] .${s.languageLabel} { color: var(--ds-color-neutral-text-default); }
 .${s.header}[data-color="primary"] .${s.languageLink} { color: white !important; }
 .${s.header}[data-color="neutral"] .${s.languageLink} { color: var(--ds-color-neutral-text-default) !important; }
-.${s.languageSwitch} :global([popover]) { margin-top: 0 !important; background-color: var(--ds-color-neutral-background-default) !important; position: fixed !important; overflow: visible; z-index: 20000 !important; }
+.${s.languageSwitch} [popover] { margin-top: 0 !important; background-color: var(--ds-color-neutral-background-default) !important; position: fixed !important; overflow: visible; z-index: 20000 !important; }
 .${s.headerInner} {
   display: flex; align-items: center; justify-content: space-between;
   min-height: 119px; width: 100%; max-width: 1364px;
@@ -787,7 +787,7 @@ function buildInlineCss(styles: Record<string, string>): string {
   .${s.slotContent} { padding: 0; }
   .${s.menuLeftColumn} { display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-end; padding: var(--ds-size-6); }
   .${s.menuBrand} { display: flex; justify-content: flex-start; margin-top: auto; padding: var(--ds-size-6); margin-left: calc(-1 * var(--ds-size-6)); margin-right: calc(-1 * var(--ds-size-6)); margin-bottom: calc(-1 * var(--ds-size-6)); background-color: white; }
-  .${s.menuUtilities} .${s.languageSwitch} :global([popover]) { background-color: var(--ds-color-neutral-background-default) !important; margin-top: 0 !important; position: fixed !important; overflow: visible; z-index: 20000 !important; }
+  .${s.menuUtilities} .${s.languageSwitch} [popover] { background-color: var(--ds-color-neutral-background-default) !important; margin-top: 0 !important; position: fixed !important; overflow: visible; z-index: 20000 !important; }
   @media (prefers-color-scheme: light) {
     .${s.menuUtilities} .${s.languageLabel} { color: var(--color-neutral-text-default, #2B2B2B); }
     .${s.menuUtilities} .${s.languageLink} { color: var(--color-neutral-text-default, #2B2B2B) !important; }
