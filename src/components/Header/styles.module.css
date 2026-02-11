@@ -122,7 +122,6 @@
 }
 
 .languageLabel {
-  font-family: var(--ds-font-family);
   font-size: var(--ds-font-size-md);
   /* Default for primary (red background) */
   color: #ECECEC;

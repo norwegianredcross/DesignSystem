@@ -673,7 +673,7 @@ function buildInlineCss(styles: Record<string, string>): string {
 }
 .${s.extensionDivider} { width: 1px; height: 18px; background-color: rgba(247,233,232,1); }
 .${s.languageSwitch} { display: flex; align-items: center; gap: var(--ds-size-2); }
-.${s.languageLabel} { font-family: var(--ds-font-family); font-size: var(--ds-font-size-md); color: #ECECEC; }
+.${s.languageLabel} { font-size: var(--ds-font-size-md); color: #ECECEC; }
 .${s.languageLink} { color: white; text-decoration: none; display: flex; align-items: center; gap: 4px; }
 .${s.header}[data-color="primary"] .${s.languageLabel} { color: #ECECEC; }
 .${s.header}[data-color="neutral"] .${s.languageLabel} { color: var(--ds-color-neutral-text-default); }
