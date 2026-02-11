@@ -77,24 +77,25 @@
   color: var(--ds-color-neutral-text-default, #2b2b2b);
 }
 
-/* Force all text/elements inside tinted extension to dark for WCAG contrast */
-.headerExtensionTinted .languageLabel,
-.headerExtension[data-extension-color="tinted"] .languageLabel {
+/* Force all text/elements inside tinted extension to dark for WCAG contrast.
+   Uses .header parent to ensure higher specificity than data-color="primary" rules (0,4,0 > 0,3,0). */
+.header .headerExtensionTinted .languageLabel,
+.header .headerExtension[data-extension-color="tinted"] .languageLabel {
   color: var(--color-neutral-text-default, #2B2B2B) !important;
 }
 
-.headerExtensionTinted .languageLink,
-.headerExtension[data-extension-color="tinted"] .languageLink {
+.header .headerExtensionTinted .languageLink,
+.header .headerExtension[data-extension-color="tinted"] .languageLink {
   color: var(--color-neutral-text-default, #2B2B2B) !important;
 }
 
-.headerExtensionTinted .extensionContent :global(.fds-switch__label),
-.headerExtension[data-extension-color="tinted"] .extensionContent :global(.fds-switch__label) {
+.header .headerExtensionTinted .extensionContent :global(.fds-switch__label),
+.header .headerExtension[data-extension-color="tinted"] .extensionContent :global(.fds-switch__label) {
   color: var(--color-neutral-text-default, #2B2B2B) !important;
 }
 
-.headerExtensionTinted .extensionDivider,
-.headerExtension[data-extension-color="tinted"] .extensionDivider {
+.header .headerExtensionTinted .extensionDivider,
+.header .headerExtension[data-extension-color="tinted"] .extensionDivider {
   background-color: var(--ds-color-neutral-border-subtle, #bcbcbc);
 }
 
