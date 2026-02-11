@@ -671,6 +671,22 @@ function buildInlineCss(styles: Record<string, string>): string {
   background: var(--color-primary-color-red-surface-tinted, #FAE4E2) !important;
   color: var(--ds-color-neutral-text-default, #2b2b2b);
 }
+.${s.headerExtensionTinted} .${s.languageLabel},
+.${s.headerExtension}[data-extension-color="tinted"] .${s.languageLabel} {
+  color: var(--color-neutral-text-default, #2B2B2B) !important;
+}
+.${s.headerExtensionTinted} .${s.languageLink},
+.${s.headerExtension}[data-extension-color="tinted"] .${s.languageLink} {
+  color: var(--color-neutral-text-default, #2B2B2B) !important;
+}
+.${s.headerExtensionTinted} .${s.extensionContent} :global(.fds-switch__label),
+.${s.headerExtension}[data-extension-color="tinted"] .${s.extensionContent} :global(.fds-switch__label) {
+  color: var(--color-neutral-text-default, #2B2B2B) !important;
+}
+.${s.headerExtensionTinted} .${s.extensionDivider},
+.${s.headerExtension}[data-extension-color="tinted"] .${s.extensionDivider} {
+  background-color: var(--ds-color-neutral-border-subtle, #bcbcbc);
+}
 .${s.extensionContentWrapper} {
   width: 100%;
   max-width: 1364px;
