@@ -1346,6 +1346,13 @@
         "description": "",
         "defaultValue": "false",
         "required": false
+      },
+      {
+        "name": "extensionColor",
+        "type": "enum",
+        "description": "Background color variant for the header extension (top bar). 'tinted' uses a soft pink/red tinted background.",
+        "defaultValue": null,
+        "required": false
       }
     ]
   },
