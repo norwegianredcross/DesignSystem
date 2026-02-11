@@ -803,6 +803,37 @@ import { Details, Details.Summary, Details.Content } from 'rk-designsystem';
 
 Use `<Details.Summary>` and `<Details.Content>` for accordion structure.
 
+#### Donor
+```tsx
+import { Donor } from 'rk-designsystem';
+
+<Donor
+  amountLabel?={Velg ønsket beløp:}
+  amounts?={[
+  { value: 220, label: "220 kr" },
+  { value: 345, label: "345 kr" },
+  { value: 660, label: "660 kr" },
+]}
+  avtalegiroHref?={#}
+  avtalegiroLabel?={Gi med avtalegiro}
+  currencySuffix?={kr}
+  customAmountPlaceholder?={Valgfritt beløp}
+  data-color?={primary}
+  defaultAmount?={345}
+  heartVariant?={outlined}
+  impactMessage?={En gave på {amount} bidrar til ...}
+  monthlyLabel?={Hver måned}
+  onAmountChange?={(amount: number, frequency: 'one-time' | 'monthly') => void}
+  onAvtalegiroClick?={() => void}
+  oneTimeLabel?={En gang}
+  onVippsClick?={(amount: number, frequency: 'one-time' | 'monthly') => void}
+  showAvtalegiroLink?={true}
+  showImpactMessage?={true}
+  showVippsButton?={true}
+  vippsButtonLabel?={Gi med}
+ />
+```
+
 #### Dropdown
 ```tsx
 import { Dropdown } from 'rk-designsystem';

@@ -1843,6 +1843,146 @@
     ]
   },
   {
+    "componentName": "Donor",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-color",
+        "type": "enum",
+        "description": "Color theme variant",
+        "defaultValue": "primary",
+        "required": false
+      },
+      {
+        "name": "amounts",
+        "type": "DonorAmount[]",
+        "description": "Preset donation amounts",
+        "defaultValue": "[\n  { value: 220, label: '220 kr' },\n  { value: 345, label: '345 kr' },\n  { value: 660, label: '660 kr' },\n]",
+        "required": false
+      },
+      {
+        "name": "defaultAmount",
+        "type": "number",
+        "description": "Default selected amount (value)",
+        "defaultValue": "345",
+        "required": false
+      },
+      {
+        "name": "oneTimeLabel",
+        "type": "string",
+        "description": "Tab labels",
+        "defaultValue": "En gang",
+        "required": false
+      },
+      {
+        "name": "monthlyLabel",
+        "type": "string",
+        "description": "",
+        "defaultValue": "Hver måned",
+        "required": false
+      },
+      {
+        "name": "customAmountPlaceholder",
+        "type": "string",
+        "description": "Custom amount placeholder",
+        "defaultValue": "Valgfritt beløp",
+        "required": false
+      },
+      {
+        "name": "amountLabel",
+        "type": "string",
+        "description": "Amount selection label",
+        "defaultValue": "Velg ønsket beløp:",
+        "required": false
+      },
+      {
+        "name": "impactMessage",
+        "type": "string",
+        "description": "Impact message template — use {amount} as placeholder for the selected amount",
+        "defaultValue": "En gave på {amount} bidrar til ...",
+        "required": false
+      },
+      {
+        "name": "vippsButtonLabel",
+        "type": "string",
+        "description": "Vipps button label (text before logo)",
+        "defaultValue": "Gi med",
+        "required": false
+      },
+      {
+        "name": "avtalegiroLabel",
+        "type": "string",
+        "description": "Avtalegiro link label",
+        "defaultValue": "Gi med avtalegiro",
+        "required": false
+      },
+      {
+        "name": "avtalegiroHref",
+        "type": "string",
+        "description": "Avtalegiro link href",
+        "defaultValue": "#",
+        "required": false
+      },
+      {
+        "name": "currencySuffix",
+        "type": "string",
+        "description": "Currency suffix (e.g. \"kr\")",
+        "defaultValue": "kr",
+        "required": false
+      },
+      {
+        "name": "onVippsClick",
+        "type": "(amount: number, frequency: 'one-time' | 'monthly') => void",
+        "description": "Callback when Vipps button is clicked — receives selected amount and frequency",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "onAvtalegiroClick",
+        "type": "() => void",
+        "description": "Callback when avtalegiro link is clicked",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "onAmountChange",
+        "type": "(amount: number, frequency: 'one-time' | 'monthly') => void",
+        "description": "Callback when amount changes",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "showVippsButton",
+        "type": "boolean",
+        "description": "Show/hide the Vipps button",
+        "defaultValue": "true",
+        "required": false
+      },
+      {
+        "name": "showAvtalegiroLink",
+        "type": "boolean",
+        "description": "Show/hide the avtalegiro link",
+        "defaultValue": "true",
+        "required": false
+      },
+      {
+        "name": "showImpactMessage",
+        "type": "boolean",
+        "description": "Show/hide the impact message",
+        "defaultValue": "true",
+        "required": false
+      },
+      {
+        "name": "heartVariant",
+        "type": "enum",
+        "description": "Heart icon variant for the impact message",
+        "defaultValue": "outlined",
+        "required": false
+      }
+    ]
+  },
+  {
     "componentName": "Divider",
     "importPath": "rk-designsystem",
     "description": "",
