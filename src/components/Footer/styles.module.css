@@ -553,3 +553,32 @@
     gap: var(--ds-size-2, 8px);
   }
 }
+
+@media (max-width: 480px) {
+  .mainContainer {
+    padding: var(--ds-size-10, 40px) var(--ds-size-4, 16px);
+  }
+
+  .whiteContainer {
+    padding: var(--ds-size-4) var(--ds-size-4);
+  }
+
+  .linksTitle,
+  .socialLinksTitle {
+    font-size: var(--ds-font-size-5, 21px);
+  }
+
+  .linksColumn,
+  .contactColumn {
+    min-width: 0;
+  }
+
+  .logo img,
+  .redCrossLogo {
+    width: 130px;
+  }
+
+  .newsletterInputGroup {
+    flex-direction: column;
+  }
+}

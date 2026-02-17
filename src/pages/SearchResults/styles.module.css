@@ -72,3 +72,27 @@
   color: var(--ds-color-neutral-text-subtle);
 }
 
+@media (max-width: 768px) {
+  .container {
+    padding: var(--ds-size-6) var(--ds-size-3);
+  }
+
+  .resultItem {
+    padding: var(--ds-size-4);
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: var(--ds-size-4) var(--ds-size-2);
+  }
+
+  .resultItem {
+    padding: var(--ds-size-3);
+  }
+
+  .resultTitle {
+    font-size: var(--ds-font-size-md);
+  }
+}
+

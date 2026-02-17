@@ -390,6 +390,24 @@
     }
   }
 
+  @media (max-width: 480px) {
+    .heroSection {
+      padding: var(--ds-size-12) 0 var(--ds-size-10);
+    }
+
+    .heroVisual {
+      display: none;
+    }
+
+    .gridColumn {
+      width: 150px;
+    }
+
+    .sectionValues {
+      padding: var(--ds-size-12) 0;
+    }
+  }
+
   /* Large Desktop & Up - Better balance for Hero */
   @media (min-width: 1200px) {
     .splitLayout {

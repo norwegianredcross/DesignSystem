@@ -139,6 +139,75 @@
   padding-top: var(--ds-size-18);
 }
 
+/* Sidebar toggle button — hidden on desktop */
+.sidebarToggle {
+  display: none;
+  width: 100%;
+  padding: var(--ds-size-3) var(--ds-size-4);
+  background: var(--ds-color-neutral-surface-tinted);
+  border: 1px solid var(--ds-color-neutral-border-subtle);
+  border-radius: var(--ds-border-radius-md);
+  font-family: inherit;
+  font-size: var(--ds-font-size-md);
+  font-weight: var(--ds-font-weight-medium);
+  color: var(--ds-color-neutral-text-default);
+  cursor: pointer;
+  text-align: left;
+}
+
+.sidebarToggle::after {
+  content: ' ▼';
+  float: right;
+}
+
+.sidebarToggle[aria-expanded="true"]::after {
+  content: ' ▲';
+}
+
+/* Responsive intro grid */
+.introGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--ds-size-6);
+}
+
+@media (max-width: 768px) {
+  .docLayout {
+    flex-direction: column;
+    gap: 0;
+    min-height: auto;
+  }
+
+  .sidebar {
+    width: 100%;
+    position: static;
+    max-height: none;
+    overflow: visible;
+    border-bottom: 1px solid var(--ds-color-neutral-border-subtle);
+    padding-right: 0;
+    padding-top: var(--ds-size-4);
+    padding-bottom: var(--ds-size-4);
+  }
+
+  .sidebarCollapsed {
+    display: none;
+  }
+
+  .sidebarToggle {
+    display: block;
+  }
+
+  .docContent {
+    padding-left: 0;
+    padding-top: var(--ds-size-6);
+    border-left: none;
+  }
+
+  .introGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Utility to hide/show content */
 .hidden { display: none; }
 .block { display: block; }

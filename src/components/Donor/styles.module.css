@@ -192,3 +192,20 @@
   width: 16px;
   height: 15px;
 }
+
+@media (max-width: 480px) {
+  .donor {
+    max-width: 100%;
+  }
+
+  .amountSection,
+  .impactRow,
+  .actionsSection {
+    width: 100%;
+  }
+
+  .vippsButton {
+    width: 100%;
+    max-width: 300px;
+  }
+}

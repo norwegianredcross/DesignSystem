@@ -30,7 +30,7 @@ const OverviewContent = ({ setActivePage }: { setActivePage: (page: string) => v
         {t('code.overview.text3')}
       </Paragraph>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--ds-size-6)' }}>
+      <div className={styles.introGrid}>
         <Card variant="tinted" data-color="neutral">
           <CardBlock>
             <Heading level={3} data-size="sm">{t('code.overview.getStartedCard')}</Heading>
@@ -1118,6 +1118,7 @@ interface CodePageProps {
 export const CodePage = ({ setPage, section }: CodePageProps) => {
   const { t } = useLanguage();
   const [activeCodePage, setActiveCodePage] = useState(section || 'intro');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Update active page if section prop changes
   if (section && section !== activeCodePage) {
@@ -1172,8 +1173,17 @@ export const CodePage = ({ setPage, section }: CodePageProps) => {
   return (
     <main className={`container ${styles.docLayout}`}>
       
+      {/* --- SIDEBAR TOGGLE (mobile only) --- */}
+      <button
+        className={styles.sidebarToggle}
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+        aria-expanded={sidebarOpen}
+      >
+        {t('code.sidebar.overview')}
+      </button>
+
       {/* --- SIDEBAR --- */}
-      <aside className={styles.sidebar}>
+      <aside className={`${styles.sidebar} ${!sidebarOpen ? styles.sidebarCollapsed : ''}`}>
         <nav className={styles.nav}>
           {menuItems.map((group, index) => (
             <div key={index} className={styles.group}>

@@ -790,3 +790,13 @@
     color: var(--color-neutral-text-default, #2B2B2B) !important;
   }
 }
+
+@media (max-width: 480px) {
+  .slotText {
+    font-size: 14px;
+  }
+
+  .slotComponent {
+    padding: 8px 12px;
+  }
+}

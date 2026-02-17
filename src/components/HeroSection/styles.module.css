@@ -200,3 +200,21 @@
     height: 300px;
   }
 }
+
+@media (max-width: 480px) {
+  .container {
+    padding: var(--ds-size-6) var(--ds-size-3);
+  }
+
+  .contentWrapperCards {
+    padding: var(--ds-size-6) var(--ds-size-3);
+  }
+
+  .cardGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .cardImage {
+    height: 220px;
+  }
+}

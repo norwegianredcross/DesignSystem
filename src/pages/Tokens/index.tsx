@@ -23,6 +23,7 @@ export const TokensPage = () => {
   const [tokens, setTokens] = useState<Token[]>([]);
   const [activeCategory, setActiveCategory] = useState<string>('');
   const categoryRefs = useRef<Record<string, HTMLElement | null>>({});
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     // Extract all CSS custom properties from the document
@@ -373,8 +374,17 @@ export const TokensPage = () => {
 
   return (
     <main className={`container ${styles.docLayout}`}>
+      {/* --- SIDEBAR TOGGLE (mobile only) --- */}
+      <button
+        className={styles.sidebarToggle}
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+        aria-expanded={sidebarOpen}
+      >
+        Categories
+      </button>
+
       {/* --- SIDEBAR --- */}
-      <aside className={styles.sidebar}>
+      <aside className={`${styles.sidebar} ${!sidebarOpen ? styles.sidebarCollapsed : ''}`}>
         <nav className={styles.nav}>
           {menuItems.map((group, index) => (
             <div key={index} className={styles.group}>

@@ -1055,6 +1055,7 @@ export const DesignPage = ({ section }: DesignPageProps) => {
   const { t } = useLanguage();
   const [activeDesignPage, setActiveDesignPage] = useState(section || 'intro');
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Update active page if section prop changes
   if (section && section !== activeDesignPage) {
@@ -1137,7 +1138,7 @@ export const DesignPage = ({ section }: DesignPageProps) => {
 
   const DefaultDesignContent = () => (
     <ArticleLayout title={t('design.intro.title')} intro={t('design.intro.welcome')} category="Intro">
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--ds-size-6)' }}>
+      <div className={styles.introGrid}>
         <Card variant="tinted" data-color="neutral">
           <CardBlock>
             <Heading level={3} data-size="sm">{t('design.intro.getStarted')}</Heading>
@@ -1157,8 +1158,17 @@ export const DesignPage = ({ section }: DesignPageProps) => {
   return (
     <main className={`container ${styles.docLayout}`}>
       
+      {/* --- SIDEBAR TOGGLE (mobile only) --- */}
+      <button
+        className={styles.sidebarToggle}
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+        aria-expanded={sidebarOpen}
+      >
+        {t('design.sidebar.forDesigners')}
+      </button>
+
       {/* --- CUSTOM SIDEBAR --- */}
-      <aside className={styles.sidebar}>
+      <aside className={`${styles.sidebar} ${!sidebarOpen ? styles.sidebarCollapsed : ''}`}>
         <nav className={styles.nav}>
           {menuItems.map((group, index) => (
             <div key={index} className={styles.group}>
