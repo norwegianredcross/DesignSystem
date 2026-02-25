@@ -1,7 +1,7 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import React, { useState, useEffect } from 'react'; // Import useState and useEffect
 // --- CORRECTED IMPORT ---
-import { format, parse, isValid, subDays, isSameDay, addMonths } from 'date-fns'; // Added isSameDay, addMonths
+import { format, parse, isValid, subDays, isSameDay } from 'date-fns';
 import { nb } from 'date-fns/locale';
 import { action } from 'storybook/actions';
 import { expect, within, userEvent, fn } from 'storybook/test';

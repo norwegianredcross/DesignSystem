@@ -56,7 +56,9 @@ export const Default: Story = {
   render: (args) => (
     <Fieldset>
       <Fieldset.Legend>Er du over 18 år?</Fieldset.Legend>
+      {/* @ts-expect-error Storybook args spread */}
       <Radio {...args} value="ja" label="Ja" name="alternativ" />
+      {/* @ts-expect-error Storybook args spread */}
       <Radio {...args} value="nei" label="Nei" name="alternativ" />
     </Fieldset>
   ),
@@ -71,7 +73,9 @@ export const AriaLabel: Story = {
   render: (args) => (
     <Fieldset>
       <Fieldset.Legend>Velg et alternativ</Fieldset.Legend>
+      {/* @ts-expect-error Storybook args spread */}
       <Radio {...args} value="a" aria-label="Alternativ A" name="aria-group" />
+      {/* @ts-expect-error Storybook args spread */}
       <Radio {...args} value="b" aria-label="Alternativ B" name="aria-group" />
     </Fieldset>
   ),
@@ -86,8 +90,11 @@ export const Group: Story = {
   render: (args) => (
     <Fieldset>
       <Fieldset.Legend>Velg en frukt</Fieldset.Legend>
+      {/* @ts-expect-error Storybook args spread */}
       <Radio {...args} value="apple" label="Eple" name="frukt" />
+      {/* @ts-expect-error Storybook args spread */}
       <Radio {...args} value="banana" label="Banan" name="frukt" />
+      {/* @ts-expect-error Storybook args spread */}
       <Radio {...args} value="pear" label="Pære" name="frukt" />
     </Fieldset>
   ),
@@ -104,7 +111,9 @@ export const WithError: Story = {
       <p id="radio-error-note" style={{ color: 'var(--ds-color-danger-500)', marginTop: 4, marginBottom: 8 }}>
         Du må velge en farge
       </p>
+      {/* @ts-expect-error Storybook args spread */}
       <Radio {...args} value="red" label="Rød" name="farge" aria-describedby="radio-error-note" />
+      {/* @ts-expect-error Storybook args spread */}
       <Radio {...args} value="green" label="Grønn" name="farge" aria-describedby="radio-error-note" />
     </Fieldset>
   ),
@@ -118,7 +127,9 @@ export const ReadOnly: Story = {
   render: (args) => (
     <Fieldset>
       <Fieldset.Legend>Velg en status</Fieldset.Legend>
+      {/* @ts-expect-error Storybook args spread */}
       <Radio {...args} value="on" label="På" name="status-ro" readOnly checked />
+      {/* @ts-expect-error Storybook args spread */}
       <Radio {...args} value="off" label="Av" name="status-ro" readOnly />
     </Fieldset>
   ),
@@ -133,7 +144,9 @@ export const Inline: Story = {
     <Fieldset>
       <Fieldset.Legend>Ja / Nei</Fieldset.Legend>
       <div style={{ display: 'flex', gap: '16px' }}>
+        {/* @ts-expect-error Storybook args spread */}
         <Radio {...args} value="ja" label="Ja" name="inline" />
+        {/* @ts-expect-error Storybook args spread */}
         <Radio {...args} value="nei" label="Nei" name="inline" />
       </div>
     </Fieldset>

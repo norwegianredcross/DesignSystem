@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 import { Heading } from '../../components/Heading';
 import { Paragraph } from '../../components/Paragraph';
-import { Link } from '../../components/Link';
 import styles from './styles.module.css';
 import { searchIndex } from '../../utils/search-index';
 

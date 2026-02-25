@@ -19,7 +19,7 @@ interface TokenGroup {
 }
 
 export const TokensPage = () => {
-  const { t } = useLanguage();
+  useLanguage();
   const [tokens, setTokens] = useState<Token[]>([]);
   const [activeCategory, setActiveCategory] = useState<string>('');
   const categoryRefs = useRef<Record<string, HTMLElement | null>>({});
@@ -164,17 +164,6 @@ export const TokensPage = () => {
           };
           
           // Check if variant is exactly "default" (not "contrast-default" or similar)
-          const isDefaultVariant = (token: Token, variant: string): boolean => {
-            // Only return true if variant is exactly "default"
-            // Check both the extracted variant and if the token name ends with "-{subgroup}-default"
-            if (variant === 'default') return true;
-            // Also check if it ends with "-{subgroup}-default" pattern (not "-{subgroup}-something-default")
-            if (token.subGroup && token.name.endsWith(`-${token.subGroup}-default`)) {
-              return true;
-            }
-            return false;
-          };
-          
           const subGroupA = a.subGroup || '';
           const subGroupB = b.subGroup || '';
           const variantA = getVariant(a);

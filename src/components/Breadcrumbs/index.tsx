@@ -10,7 +10,7 @@ import {
  * Breadcrumbs-komponenter for navigasjonssti.
  * Eksporterer hovedkomponenten og underkomponenter.
  */
-export interface BreadcrumbsProps extends DigDirBreadcrumbsProps {}
+export type BreadcrumbsProps = DigDirBreadcrumbsProps;
 
 export const Breadcrumbs: typeof DigDirBreadcrumbs = DigDirBreadcrumbs;
 export const BreadcrumbsList: typeof DigDirBreadcrumbsList = DigDirBreadcrumbsList;

@@ -123,12 +123,13 @@ export const Header = ({
       const originalOverflow = document.body.style.overflow;
       // Prevent scrolling
       document.body.style.overflow = 'hidden';
-      
+
       return () => {
         // Restore original overflow when menu closes
         document.body.style.overflow = originalOverflow;
       };
     }
+    return undefined;
   }, [isOpen, isMobile]);
 
   // Track viewport to force menu button on mobile (<850px)
@@ -137,9 +138,17 @@ export const Header = ({
     const mq = window.matchMedia('(max-width: 850px)');
     const handler = (e: MediaQueryList | MediaQueryListEvent) => setIsMobile('matches' in e ? e.matches : mq.matches);
     handler(mq);
-    mq.addEventListener ? mq.addEventListener('change', handler) : mq.addListener(handler);
+    if (mq.addEventListener) {
+      mq.addEventListener('change', handler);
+    } else {
+      mq.addListener(handler);
+    }
     return () => {
-      mq.removeEventListener ? mq.removeEventListener('change', handler) : mq.removeListener(handler);
+      if (mq.removeEventListener) {
+        mq.removeEventListener('change', handler);
+      } else {
+        mq.removeListener(handler);
+      }
     };
   }, []);
 

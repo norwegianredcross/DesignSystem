@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import {
   useState,
@@ -9,7 +10,6 @@ import {
 import {
   Suggestion,
   SuggestionProps,
-  SuggestionOptionProps,
 } from './index';
 import { Field } from '../Field'; // Assuming Field is in ../Field
 import { Label } from '../Label'; // Assuming Label is in ../Label
@@ -107,19 +107,6 @@ const defaultOptions: StorySuggestionItem[] = [
   { label: 'Bergen', value: 'bergen' },
   { label: 'Trondheim', value: 'trondheim' },
   { label: 'Stavanger', value: 'stavanger' },
-];
-
-const allCountries: StorySuggestionItem[] = [
-  { label: 'Norway', value: 'NO' },
-  { label: 'Sweden', value: 'SE' },
-  { label: 'Denmark', value: 'DK' },
-  { label: 'Finland', value: 'FI' },
-  { label: 'Germany', value: 'DE' },
-  { label: 'United Kingdom', value: 'GB' },
-  { label: 'United States', value: 'US' },
-  { label: 'France', value: 'FR' },
-  { label: 'Spain', value: 'ES' },
-  { label: 'Poland', value: 'PL' },
 ];
 
 // --- Default (Single Select) ---

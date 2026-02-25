@@ -1115,7 +1115,7 @@ interface CodePageProps {
   section?: string;
 }
 
-export const CodePage = ({ setPage, section }: CodePageProps) => {
+export const CodePage = ({ section }: CodePageProps) => {
   const { t } = useLanguage();
   const [activeCodePage, setActiveCodePage] = useState(section || 'intro');
   const [sidebarOpen, setSidebarOpen] = useState(false);

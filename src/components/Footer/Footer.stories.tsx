@@ -1,5 +1,4 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
-import React from 'react';
 import { Footer, FooterProps } from './index';
 
 const meta: Meta<typeof Footer> = {

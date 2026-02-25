@@ -4,7 +4,7 @@ import type { StoryFn } from "@storybook/react";
  * Oppretter en historie som viser rå HTML-innhold.
  * Nyttig for å vise hvordan komponenter rendres som ren HTML.
  */
-export function createHtmlStory(htmlContent: string, options?: any): StoryFn {
+export function createHtmlStory(htmlContent: string, options?: Record<string, unknown>): StoryFn {
   const story: StoryFn = () => {
     return <div dangerouslySetInnerHTML={{ __html: htmlContent }} />;
   };

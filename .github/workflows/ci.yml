@@ -39,11 +39,9 @@ jobs:
 
       - name: Lint
         run: npm run lint
-        continue-on-error: true # TODO: remove once lint errors are fixed
 
       - name: Typecheck
         run: npm run typecheck
-        continue-on-error: true # TODO: remove once type errors are fixed
 
       - name: Build package
         run: npm run build

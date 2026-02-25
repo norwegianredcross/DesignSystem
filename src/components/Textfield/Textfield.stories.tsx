@@ -198,50 +198,18 @@ export const Controlled: Story = {
   render: (args) => {
     const [value, setValue] = useState<string>('');
     // Destructure relevant props from args instead of spreading all
-    const {
-      name,
-      'data-size': dataSize,
-       // Although not listed as a direct prop, pass it if needed for context
-      placeholder,
-      required,
-      disabled,
-      readOnly,
-      multiline,
-      maxLength,
-      counter,
-      prefix,
-      suffix,
-      error, // Include error if needed
-      description, // Include description if needed
-      // Exclude label, value, onChange as they are handled explicitly
-      // Exclude aria-label/labelledby as label is explicit
-    } = args;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { label: _label, value: _value, onChange: _onChange, ...rest } = args;
 
     return (
       <>
-        {/* Pass props explicitly */}
         <Textfield
-          label="Kontroller meg!" // Explicit label
-          value={value} // Explicit value from state
+          label="Kontroller meg!"
+          value={value}
           onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
             setValue(e.target.value)
-          } // Explicit onChange
-          // Pass other relevant props explicitly
-          name={name}
-          data-size={dataSize} // Pass data-color if needed
-          placeholder={placeholder}
-          required={required}
-          disabled={disabled}
-          readOnly={readOnly}
-          multiline={multiline}
-         
-          maxLength={maxLength}
-          counter={counter}
-          prefix={prefix}
-          suffix={suffix}
-          error={error}
-          description={description}
-          // Do NOT spread {...args} here
+          }
+          {...(rest as Record<string, unknown>)}
         />
         <Divider style={{ margin: 'var(--ds-size-4) 0 var(--ds-size-2) 0' }} />
         <Paragraph style={{ margin: '0' }}>

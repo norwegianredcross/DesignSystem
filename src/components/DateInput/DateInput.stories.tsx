@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { DateInput, DateInputProps } from './index';
+import { DateInput } from './index';
 import { CalendarIcon } from '@navikt/aksel-icons';
 import { useState } from 'react';
 import { expect, within, userEvent, fn } from 'storybook/test';
@@ -99,7 +99,7 @@ export const Controlled: Story = {
         <DateInput
           {...args}
           value={value}
-          onChange={(e, formattedValue) => setValue(formattedValue)}
+          onChange={(_e, formattedValue) => setValue(formattedValue)}
         />
         <button
           onClick={() => setValue('01.01.2030')}
@@ -270,7 +270,7 @@ export const TestDisabledState: Story = {
     suffixIcon: <CalendarIcon aria-hidden />,
     onSuffixClick: fn(),
   },
-  play: async ({ canvasElement, args }) => {
+  play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const input = canvas.getByRole('textbox');
 
@@ -320,7 +320,7 @@ export const TestControlledMode: Story = {
         <DateInput
           {...args}
           value={value}
-          onChange={(e, formattedValue) => setValue(formattedValue)}
+          onChange={(_e, formattedValue) => setValue(formattedValue)}
         />
         <button
           data-testid="set-date-btn"

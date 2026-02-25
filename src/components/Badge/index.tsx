@@ -9,8 +9,8 @@ import {
 /**
  * Badge-komponent for å vise status eller antall.
  */
-export interface BadgeProps extends DigDirBadgeProps {}
-export interface BadgePositionProps extends DigDirBadgePositionProps {}
+export type BadgeProps = DigDirBadgeProps;
+export type BadgePositionProps = DigDirBadgePositionProps;
 
 export const Badge = forwardRef<HTMLSpanElement, BadgeProps>((props, ref) => {
   return <DigDirBadge ref={ref} {...props} />;

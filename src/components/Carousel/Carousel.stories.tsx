@@ -548,7 +548,7 @@ export const TestImageAltText: Story = {
 
     // Check that images have alt text
     const images = canvas.getAllByRole('img');
-    images.forEach((img, index) => {
+    images.forEach((img) => {
       expect(img).toHaveAttribute('alt');
       expect(img.getAttribute('alt')).not.toBe('');
     });
@@ -586,7 +586,7 @@ export const TestDotsAccessibility: Story = {
 
     // Check that each dot has proper attributes
     const dots = canvas.getAllByRole('tab');
-    dots.forEach((dot, index) => {
+    dots.forEach((dot) => {
       expect(dot).toHaveAttribute('aria-label');
       expect(dot).toHaveAttribute('aria-selected');
     });

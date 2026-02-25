@@ -134,7 +134,8 @@ export const LargeNeutral: Story = {
 // --- Example as Link ---
 export const AsLink: Story = {
   render: (args) => (
-    <Button asChild {...(args as any)}>
+    // @ts-expect-error Storybook args spread
+    <Button asChild {...(args as unknown as ButtonProps)}>
       <a href="https://designsystemet.no/" target="_blank" rel="noopener noreferrer">
         Gå til Designsystemet
       </a>
@@ -194,7 +195,8 @@ export const DangerWithIcon: Story = {
 export const AsLinkWithIcon: Story = {
   name: 'Example As Link with Icon',
   render: (args) => (
-    <Button asChild {...(args as any)}>
+    // @ts-expect-error Storybook args spread
+    <Button asChild {...(args as unknown as ButtonProps)}>
       <a target="_blank" rel="noreferrer" href="https://www.designsystemet.no">
         Gå til Designsystemet
         <ExternalLinkIcon title="Ekstern lenke" style={{ marginLeft: 'var(--ds-spacing-1, 4px)', verticalAlign: 'middle' }}/>

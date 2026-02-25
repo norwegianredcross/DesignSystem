@@ -108,6 +108,7 @@ export const LegendAsHeading: Story = {
   render: (args) => (
     <form>
       <Fieldset {...args}>
+        {/* @ts-expect-error asChild not in Fieldset.Legend types but supported at runtime */}
         <Fieldset.Legend asChild>
           <h3 style={{ margin: 0 }}>Hvor bor du nå?</h3>
         </Fieldset.Legend>

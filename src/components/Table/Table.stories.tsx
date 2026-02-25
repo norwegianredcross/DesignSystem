@@ -217,7 +217,7 @@ export const Sortable: Story = {
     const [sortConfig, setSortConfig] = useState<{ key: SortKey; direction: SortDirection }>({ key: 'name', direction: 'ascending' });
 
     const sortedData = useMemo(() => {
-      let sortableItems = [...sortableData];
+      const sortableItems = [...sortableData];
       if (sortConfig.key !== null && sortConfig.direction !== 'none') {
         sortableItems.sort((a, b) => {
           const valA = a[sortConfig.key as keyof typeof a];

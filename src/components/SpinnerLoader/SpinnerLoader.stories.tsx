@@ -68,7 +68,7 @@ export const Sizes: Story = {
 
 // --- In Button (Best Practices) ---
 export const InButton: Story = {
-  render: (args) => (
+  render: () => (
     <button type="button" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 12px' }} aria-live="polite">
       <Spinner aria-hidden={true} data-size="sm" />
       Lagrer...

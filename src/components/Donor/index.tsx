@@ -246,6 +246,7 @@ export const Donor = ({
 
           <div className={styles.customAmountField}>
             <Textfield
+              aria-label={customAmountPlaceholder}
               placeholder={customAmountPlaceholder}
               value={customAmount}
               onChange={handleCustomAmountChange}
