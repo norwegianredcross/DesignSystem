@@ -31,4 +31,7 @@ storybook-static/
 # Storybook specific logs/caches
 *storybook.log
 .storybook-temp/         
-.storybook/cache/        
+.storybook/cache/
+
+# Internal backlog
+BACKLOG.md        

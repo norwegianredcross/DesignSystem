@@ -1,0 +1,115 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version bump type'
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PAT }}
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: 'npm'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build package
+        run: npm run build
+
+      - name: Bump version
+        id: version
+        run: |
+          OLD_VERSION=$(node -p "require('./package.json').version")
+          npm version ${{ inputs.version }} --no-git-tag-version
+          NEW_VERSION=$(node -p "require('./package.json').version")
+          echo "old=$OLD_VERSION" >> "$GITHUB_OUTPUT"
+          echo "new=$NEW_VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Generate changelog entry
+        run: |
+          NEW_VERSION="${{ steps.version.outputs.new }}"
+          DATE=$(date +%Y-%m-%d)
+
+          # Get the previous tag (if any)
+          PREV_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+
+          # Collect commits since last tag (or all commits if no tag)
+          if [ -n "$PREV_TAG" ]; then
+            COMMITS=$(git log "${PREV_TAG}..HEAD" --pretty=format:"- %s (%h)" --no-merges)
+          else
+            COMMITS=$(git log --pretty=format:"- %s (%h)" --no-merges -50)
+          fi
+
+          # Build the new changelog entry
+          ENTRY="## ${NEW_VERSION} (${DATE})"$'\n\n'"${COMMITS}"
+
+          # Prepend to CHANGELOG.md
+          if [ -f CHANGELOG.md ]; then
+            EXISTING=$(cat CHANGELOG.md)
+            # Remove the header line if it exists
+            BODY=$(echo "$EXISTING" | sed '1{/^# /d;}')
+            echo -e "# Changelog\n\n${ENTRY}\n\n${BODY}" > CHANGELOG.md
+          else
+            echo -e "# Changelog\n\n${ENTRY}" > CHANGELOG.md
+          fi
+
+      - name: Commit release
+        run: |
+          git add package.json package-lock.json CHANGELOG.md
+          git commit -m "chore(release): v${{ steps.version.outputs.new }}"
+          git tag "v${{ steps.version.outputs.new }}"
+
+      - name: Publish to npm
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Push commit and tag
+        run: |
+          git push origin main
+          git push origin "v${{ steps.version.outputs.new }}"
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.PAT }}
+        run: |
+          NEW_VERSION="${{ steps.version.outputs.new }}"
+          DATE=$(date +%Y-%m-%d)
+
+          # Extract this version's changelog section for the release notes
+          PREV_TAG=$(git describe --tags --abbrev=0 "v${NEW_VERSION}^" 2>/dev/null || echo "")
+          if [ -n "$PREV_TAG" ]; then
+            NOTES=$(git log "${PREV_TAG}..v${NEW_VERSION}" --pretty=format:"- %s (%h)" --no-merges)
+          else
+            NOTES=$(git log --pretty=format:"- %s (%h)" --no-merges -50)
+          fi
+
+          gh release create "v${NEW_VERSION}" \
+            --title "v${NEW_VERSION} (${DATE})" \
+            --notes "$NOTES"

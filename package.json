@@ -63,13 +63,10 @@
     "build": "vite build && npm run copy-styles",
     "copy-styles": "node -e \"require('fs').copyFileSync('src/styles.css', 'dist/styles.css')\"",
     "clean": "rimraf dist",
-    "changeset": "changeset",
     "lint": "eslint .",
+    "typecheck": "tsc --noEmit -p tsconfig.app.json",
     "preview": "vite preview",
     "prepublishOnly": "npm run clean && npm run build",
-    "release:patch": "npm version patch && npm publish",
-    "release:minor": "npm version minor && npm publish",
-    "release:major": "npm version major && npm publish",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "npm run generate-metadata && npm run update-ai-guide-components && storybook build --output-dir storybook-build",
     "generate-metadata": "node generate-metadata.mjs",
@@ -82,7 +79,6 @@
     "deploy:app": "npm run build:app && gh-pages -d dist-app -b gh-pages -r https://github.com/norwegianredcross/DesignSystem.git --add"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.27.7",
     "@chromatic-com/storybook": "^4.1.2",
     "@digdir/designsystemet": "^1.0.3",
     "@digdir/designsystemet-css": "^1.0.3",

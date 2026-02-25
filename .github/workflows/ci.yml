@@ -1,4 +1,4 @@
-name: Build and Deploy Storybook
+name: Build and Deploy
 
 on:
   push:
@@ -36,22 +36,17 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore(deps): update rk-design-tokens to latest [skip ci]"
-      
+
+      - name: Lint
+        run: npm run lint
+        continue-on-error: true # TODO: remove once lint errors are fixed
+
+      - name: Typecheck
+        run: npm run typecheck
+        continue-on-error: true # TODO: remove once type errors are fixed
+
       - name: Build package
         run: npm run build
-
-      - name: Bump version and publish to npm
-        run: |
-          npm version patch --no-git-tag-version
-          npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Commit version bump
-        run: |
-          git add package.json package-lock.json
-          git commit -m "chore(release): bump version to $(node -p "require('./package.json').version") [skip ci]" || true
-          git push origin main
 
       - name: Build Storybook
         run: npm run build-storybook

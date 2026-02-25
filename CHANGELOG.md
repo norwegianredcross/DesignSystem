@@ -1,7 +1,5 @@
-# rk-designsystem
+# Changelog
 
-## 1.1.0
+## 1.1.118 (2025-02-25)
 
-### Minor Changes
-
-- cc7ddd1: Changelog and README update
+Baseline release. Previous versions were auto-published without changelogs.
