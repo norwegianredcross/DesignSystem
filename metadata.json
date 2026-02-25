@@ -959,43 +959,78 @@
     ]
   },
   {
-    "componentName": "usePagination",
+    "componentName": "PaginationList",
     "importPath": "rk-designsystem",
     "description": "",
     "props": [
       {
-        "name": "currentPage",
-        "type": "number",
-        "description": "The current page number",
-        "defaultValue": "1",
-        "required": true
-      },
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "PaginationItem",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
       {
-        "name": "totalPages",
-        "type": "number",
-        "description": "The total number of pages",
-        "defaultValue": "1",
-        "required": true
-      },
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "PaginationButton",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
       {
-        "name": "showPages",
-        "type": "number",
-        "description": "The maximum number of pages to show",
-        "defaultValue": "7",
+        "name": "aria-current",
+        "type": "boolean | 'true' | 'false' | 'page' | 'step' | 'location' | 'date' | 'time'",
+        "description": "Toggle button as active\nIndicates the element that represents the current item within a container or set of related elements.",
+        "defaultValue": "false",
         "required": false
       },
       {
-        "name": "setCurrentPage",
-        "type": "(page: number) => void",
-        "description": "Callback to set the current page",
+        "name": "data-color",
+        "type": "any",
+        "description": "Change the color scheme of the button",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "onChange",
-        "type": "(event: MouseEvent<HTMLElement, MouseEvent>, page: number) => void",
-        "description": "Callback when the page changes",
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "variant",
+        "type": "enum",
+        "description": "Specify which variant to use",
+        "defaultValue": "'primary'",
+        "required": false
+      },
+      {
+        "name": "type",
+        "type": "enum",
+        "description": "Specify the type of button. Unset when `asChild` is true",
+        "defaultValue": "'button'",
         "required": false
       }
     ]
@@ -1372,21 +1407,21 @@
         "name": "secondaryLogo",
         "type": "boolean",
         "description": "Show secondary (design system) logo in white section",
-        "defaultValue": "true",
+        "defaultValue": "false",
         "required": false
       },
       {
         "name": "secondaryLogoSrc",
         "type": "string",
         "description": "Secondary logo source (light mode)",
-        "defaultValue": "`${import.meta.env.BASE_URL}designsystemlogofinallight.svg`",
+        "defaultValue": null,
         "required": false
       },
       {
         "name": "secondaryLogoSrcDark",
         "type": "string",
         "description": "Secondary logo source (dark mode)",
-        "defaultValue": "`${import.meta.env.BASE_URL}designsystemlogofinaldark.svg`",
+        "defaultValue": null,
         "required": false
       },
       {
@@ -1561,6 +1596,164 @@
         "type": "enum",
         "description": "The placement of the dropdown",
         "defaultValue": "bottom-end",
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "DropdownTrigger",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "inline",
+        "type": "boolean",
+        "description": "Will render the trigger as inline text.",
+        "defaultValue": "false\nfalse",
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false\nfalse",
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "any",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "any",
+        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.\nChange the color scheme of the button",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "variant",
+        "type": "enum",
+        "description": "Specify which variant to use",
+        "defaultValue": "'primary'",
+        "required": false
+      },
+      {
+        "name": "icon",
+        "type": "boolean",
+        "description": "Toggle icon only styling, pass icon as children\nWhen combined with loading, the loading-icon will be shown instead of the icon.",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "loading",
+        "type": "ReactNode",
+        "description": "Toggle loading state.\nPass an element if you want to display a custom loader.",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "type",
+        "type": "enum",
+        "description": "Specify the type of button. Unset when `asChild` is true",
+        "defaultValue": "'button'",
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "DropdownTriggerContext",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": []
+  },
+  {
+    "componentName": "DropdownHeading",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "level",
+        "type": "enum",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "enum",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "DropdownList",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": []
+  },
+  {
+    "componentName": "DropdownItem",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": []
+  },
+  {
+    "componentName": "DropdownButton",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-color",
+        "type": "any",
+        "description": "Change the color scheme of the button",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "type",
+        "type": "enum",
+        "description": "Specify the type of button. Unset when `asChild` is true",
+        "defaultValue": "'button'",
+        "required": false
+      },
+      {
+        "name": "icon",
+        "type": "boolean",
+        "description": "Toggle icon only styling, pass icon as children\nWhen combined with loading, the loading-icon will be shown instead of the icon.",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "loading",
+        "type": "ReactNode",
+        "description": "Toggle loading state.\nPass an element if you want to display a custom loader.",
+        "defaultValue": "false",
         "required": false
       }
     ]
