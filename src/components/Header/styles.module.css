@@ -6,6 +6,7 @@
   z-index: 1000;
   display: flex;
   flex-direction: column;
+  font-family: 'Source Sans 3', sans-serif;
 }
 
 /* Ensure dropdown popover always sits above header content */
@@ -263,7 +264,7 @@
 }
 
 .slotText {
-  font-family: var(--ds-font-family, 'Source Sans 3', sans-serif);
+  font-family: inherit;
   font-size: 18px;
   color: var(--ds-color-neutral-text-default);
   line-height: 1.3;
@@ -310,7 +311,7 @@
 
 .navLink {
   color: var(--ds-color-primary-color-red-text-default);
-  font-family: var(--ds-font-family, 'Source Sans 3', sans-serif);
+  font-family: inherit;
   font-size: var(--ds-font-size-md);
   text-decoration: none;
   font-weight: var(--ds-font-weight-regular);
@@ -347,7 +348,7 @@
 
 .userName {
   display: block;
-  font-family: var(--ds-font-family, 'Source Sans 3', sans-serif);
+  font-family: inherit;
   font-size: var(--ds-font-size-md);
   color: var(--ds-color-neutral-text-default);
 }
@@ -362,7 +363,7 @@
 }
 
 .loginText {
-  font-family: var(--ds-font-family, 'Source Sans 3', sans-serif);
+  font-family: inherit;
   font-size: var(--ds-font-size-md);
   font-weight: var(--ds-font-weight-regular);
   line-height: 1.5;
@@ -499,7 +500,7 @@
 }
 
 .suggestionsTitle {
-  font-family: var(--ds-font-family, 'Source Sans 3', sans-serif);
+  font-family: inherit;
   font-size: var(--ds-font-size-md);
   color: var(--ds-color-neutral-text-subtle);
   font-weight: var(--ds-font-weight-regular);
@@ -555,7 +556,7 @@
 }
 
 .suggestionText {
-  font-family: var(--ds-font-family, 'Source Sans 3', sans-serif);
+  font-family: inherit;
   font-size: var(--ds-font-size-md);
   color: var(--ds-color-neutral-text-default);
   line-height: 1.5;

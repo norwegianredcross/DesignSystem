@@ -412,7 +412,7 @@ export const Header = ({
           {/* Login Link */}
           {showLogin && (
             <a href="#" className={styles.loginLink}>
-              <span className={styles.loginText}>{t('header.login')}</span>
+              <Paragraph data-size="md" className={styles.loginText}>{t('header.login')}</Paragraph>
               <div className={styles.underline}></div>
             </a>
           )}
@@ -646,6 +646,7 @@ function buildInlineCss(styles: Record<string, string>): string {
   z-index: 1000;
   display: flex;
   flex-direction: column;
+  font-family: 'Source Sans 3', sans-serif;
 }
 .${s.headerExtension} {
   background-color: var(--ds-color-primary-color-red-base-default, #D52B1E);
@@ -716,15 +717,15 @@ function buildInlineCss(styles: Record<string, string>): string {
 .${s.secondaryLogoWrapper} { display: flex; align-items: center; justify-content: center; height: 100%; padding: 0 var(--ds-size-6); background: var(--ds-color-neutral-background-default); }
 .${s.secondaryLogo} { height: 24px; width: auto; display: block; }
 .${s.navItems} { display: flex; gap: 40px; align-items: center; margin-left: 24px; flex-grow: 1; justify-content: flex-end; }
-.${s.navLink} { color: var(--ds-color-primary-color-red-text-default); font-family: var(--ds-font-family, 'Source Sans 3', sans-serif); font-size: var(--ds-font-size-md); text-decoration: none; font-weight: var(--ds-font-weight-regular); letter-spacing: 0.09px; }
+.${s.navLink} { color: var(--ds-color-primary-color-red-text-default); font-family: inherit; font-size: var(--ds-font-size-md); text-decoration: none; font-weight: var(--ds-font-weight-regular); letter-spacing: 0.09px; }
 .${s.navLink}:hover { text-decoration: underline; }
 .${s.actions} { display: flex; align-items: center; gap: var(--ds-size-6); flex-shrink: 0; margin-left: auto; }
 .${s.ctaButton} { display: flex; align-items: center; }
 .${s.themeToggle} { display: flex; align-items: center; }
 .${s.userInfo} { display: flex; align-items: center; gap: var(--ds-size-3); }
-.${s.userName} { display: block; font-family: var(--ds-font-family, 'Source Sans 3', sans-serif); font-size: var(--ds-font-size-md); color: var(--ds-color-neutral-text-default); }
+.${s.userName} { display: block; font-family: inherit; font-size: var(--ds-font-size-md); color: var(--ds-color-neutral-text-default); }
 .${s.loginLink} { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--ds-color-main-text-subtle); gap: 2px; }
-.${s.loginText} { font-family: var(--ds-font-family, 'Source Sans 3', sans-serif); font-size: var(--ds-font-size-md); font-weight: var(--ds-font-weight-regular); line-height: 1.5; }
+.${s.loginText} { font-family: inherit; font-size: var(--ds-font-size-md); font-weight: var(--ds-font-weight-regular); line-height: 1.5; }
 .${s.underline} { width: 100%; height: 1px; background-color: var(--ds-color-main-border-strong); }
 .${s.searchButtonWrapper} { display: flex; }
 .${s.buttonText} { display: inline-block; margin-left: var(--ds-size-2); }
@@ -750,7 +751,7 @@ function buildInlineCss(styles: Record<string, string>): string {
 .${s.menuBrand} { display: none; }
 .${s.menuUtilities} { display: flex; justify-content: space-between; align-items: center; width: 100%; }
 .${s.suggestionsSection} { display: flex; flex-direction: column; gap: var(--ds-size-4); }
-.${s.suggestionsTitle} { font-family: var(--ds-font-family, 'Source Sans 3', sans-serif); font-size: var(--ds-font-size-md); color: var(--ds-color-neutral-text-subtle); font-weight: var(--ds-font-weight-regular); margin: 0; letter-spacing: 0.09px; }
+.${s.suggestionsTitle} { font-family: inherit; font-size: var(--ds-font-size-md); color: var(--ds-color-neutral-text-subtle); font-weight: var(--ds-font-weight-regular); margin: 0; letter-spacing: 0.09px; }
 .${s.searchResults} { margin-top: var(--ds-size-4); max-height: 400px; overflow-y: auto; }
 .${s.resultList} { list-style: none; padding: 0; margin: 0; }
 .${s.resultItem} { border-bottom: none; }
@@ -760,7 +761,7 @@ function buildInlineCss(styles: Record<string, string>): string {
   text-align: left; cursor: pointer; gap: var(--ds-size-4); text-decoration: none;
 }
 .${s.suggestionIcon} { font-size: 20px; color: var(--ds-color-neutral-text-subtle); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.${s.suggestionText} { font-family: var(--ds-font-family, 'Source Sans 3', sans-serif); font-size: var(--ds-font-size-md); color: var(--ds-color-neutral-text-default); line-height: 1.5; }
+.${s.suggestionText} { font-family: inherit; font-size: var(--ds-font-size-md); color: var(--ds-color-neutral-text-default); line-height: 1.5; }
 .${s.highlightedText} { color: var(--ds-color-primary-color-red-text-default); font-weight: var(--ds-font-weight-medium); }
 .${s.remainingText} { color: var(--ds-color-neutral-border-subtle); }
 .${s.viewAllLink} { display: block; padding: var(--ds-size-3); text-align: left; font-size: var(--ds-font-size-sm); font-weight: var(--ds-font-weight-medium); color: var(--ds-color-neutral-text-default); text-decoration: none; }
