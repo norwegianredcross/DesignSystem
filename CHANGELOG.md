@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.121 (2026-02-25)
+
+- fix(Header): set font-family on root header element for inline CSS fallback (a5db9c79)
+
+
 ## 1.1.120 (2026-02-25)
 
 - chore(deps): update rk-design-tokens to latest [skip ci] (6cf5a7e6)
