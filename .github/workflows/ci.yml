@@ -64,16 +64,14 @@ jobs:
       - name: Build Main Application
         run: npm run build:app
 
-      - name: Deploy Storybook to GitHub Pages
+      - name: Prepare combined deploy directory
         run: |
-          npx gh-pages \
-            --repo https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }}.git \
-            --dest storybook \
-            -d storybook-build
+          mkdir -p deploy-output/storybook
+          cp -r dist-app/* deploy-output/
+          cp -r storybook-build/* deploy-output/storybook/
 
-      - name: Deploy Main Application to GitHub Pages
+      - name: Deploy to GitHub Pages
         run: |
           npx gh-pages \
             --repo https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }}.git \
-            --add \
-            -d dist-app
+            -d deploy-output
