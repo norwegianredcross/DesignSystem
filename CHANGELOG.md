@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.123 (2026-02-26)
+
+- fix(components): prevent card grid overflow on narrow mobile screens (2ddd553a)
+
+
 ## 1.1.122 (2026-02-26)
 
 - style(storybook): align sidebar theme background with page (7034e6c2)
