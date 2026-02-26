@@ -84,7 +84,15 @@
       gap: var(--ds-size-8);
     }
   }
-  
+
+  @media (max-width: 768px) {
+    .container {
+      width: 90%;
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
   /* Link Wrapper */
   .cardLink {
     text-decoration: none;
