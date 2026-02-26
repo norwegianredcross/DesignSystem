@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.1.122 (2026-02-26)
+
+- style(storybook): align sidebar theme background with page (7034e6c2)
+- fix(storybook): replace fragile hash-class selectors with stable #root for header layout (e6200070)
+- chore(deps): update rk-design-tokens to latest [skip ci] (e9faa410)
+- feat: add vitest browser testing with Storybook addon (cde6201a)
+- fix: resolve all lint and typecheck errors, make CI quality gates blocking (60d880a8)
+
+
 ## 1.1.121 (2026-02-25)
 
 - fix(Header): set font-family on root header element for inline CSS fallback (a5db9c79)
