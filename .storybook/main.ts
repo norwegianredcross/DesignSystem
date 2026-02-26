@@ -185,19 +185,9 @@ const config: StorybookConfig = {
       }
 
       /* LAYOUT OVERRIDES */
-      .css-17kqctq {
-        width: 100% !important;
-        max-width: 1364px !important; /* Updated to match HeaderInner max-width */
-        margin: 0 auto !important;
-        position: relative !important;
-        top: 163px !important; /* Header height: 44px extension + 119px inner = 163px */
+      #root {
+        margin-top: 163px !important;
         height: calc(100vh - 163px) !important;
-        background-color: white;
-        box-shadow: none !important;
-        border: none !important;
-        display: grid !important;
-        grid-template-columns: 240px 1fr !important;
-        grid-template-rows: 1fr !important;
       }
       
       /* White background section on the left side of header (from viewport left to end of logo + gutter) */
@@ -228,8 +218,11 @@ const config: StorybookConfig = {
         }
       }
       .sidebar-header { display: none !important; }
-      .css-v51glt { position: relative !important; height: 100% !important; border-right: 1px solid #eee; }
-      .css-g9eqoe { position: relative !important; height: 100% !important; }
+
+      /* Match sidebar background to page background */
+      [role="complementary"] {
+        background-color: #f4f4f4 !important;
+      }
     </style>
     <script>
       document.addEventListener('DOMContentLoaded', () => {
@@ -394,12 +387,6 @@ const config: StorybookConfig = {
         \`;
         
         document.body.insertBefore(header, document.body.firstChild);
-
-        // Update top padding to account for header height (44px extension + 119px inner = 163px)
-        const existingTopPadding = document.querySelector('.css-17kqctq');
-        if (existingTopPadding) {
-          existingTopPadding.style.top = '163px !important';
-        }
 
         // Theme Toggle Logic
         const themeToggle = document.getElementById('sb-theme-toggle');
