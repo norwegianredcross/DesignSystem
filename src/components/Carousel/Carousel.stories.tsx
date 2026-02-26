@@ -538,17 +538,16 @@ export const TestImageAltText: Story = {
     </div>
   ),
   play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
-    // Wait for images to be rendered
+    // Wait for <img> elements to be rendered (use querySelectorAll to
+    // avoid picking up SVG icons that also match role="img")
     await waitFor(() => {
-      const images = canvas.getAllByRole('img');
-      expect(images.length).toBeGreaterThan(0);
+      const imgs = canvasElement.querySelectorAll('img');
+      expect(imgs.length).toBeGreaterThan(0);
     });
 
-    // Check that images have alt text
-    const images = canvas.getAllByRole('img');
-    images.forEach((img) => {
+    // Check that every <img> tag has a non-empty alt attribute
+    const imgs = canvasElement.querySelectorAll('img');
+    imgs.forEach((img) => {
       expect(img).toHaveAttribute('alt');
       expect(img.getAttribute('alt')).not.toBe('');
     });

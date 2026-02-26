@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { DateInput } from './index';
 import { CalendarIcon } from '@navikt/aksel-icons';
 import { useState } from 'react';
-import { expect, within, userEvent, fn } from 'storybook/test';
+import { expect, within, userEvent, fn, waitFor } from 'storybook/test';
 
 const meta: Meta<typeof DateInput> = {
   title: 'Components/DateInput',
@@ -123,6 +123,35 @@ export const Controlled: Story = {
 // --- INTERACTION TESTS ---
 
 /**
+ * Wait for requestAnimationFrame to fire (the DateInput component schedules
+ * its value updates inside rAF).
+ */
+function waitForRaf(): Promise<void> {
+  return new Promise((resolve) => {
+    requestAnimationFrame(() => {
+      // Schedule a second rAF to ensure React has also flushed any
+      // state updates triggered by the first rAF callback.
+      requestAnimationFrame(() => resolve());
+    });
+  });
+}
+
+/**
+ * Helper: Type digits into a DateInput one character at a time, waiting for
+ * requestAnimationFrame and React re-render between each keystroke.
+ */
+async function typeDateDigits(
+  input: HTMLElement,
+  digits: string,
+) {
+  for (const char of digits) {
+    await userEvent.type(input, char);
+    // Wait for the component's rAF-based value update to complete
+    await waitForRaf();
+  }
+}
+
+/**
  * Tests that input is automatically formatted with dots (dd.mm.yyyy).
  */
 export const TestAutoFormatting: Story = {
@@ -138,11 +167,13 @@ export const TestAutoFormatting: Story = {
     // Clear any existing value
     await userEvent.clear(input);
 
-    // Type digits without dots
-    await userEvent.type(input, '15062025');
+    // Type digits one at a time to allow requestAnimationFrame to process
+    await typeDateDigits(input, '15062025');
 
     // Verify the value is formatted with dots
-    expect(input).toHaveValue('15.06.2025');
+    await waitFor(() => {
+      expect(input).toHaveValue('15.06.2025');
+    });
   },
 };
 
@@ -161,11 +192,13 @@ export const TestDayValidation: Story = {
 
     await userEvent.clear(input);
 
-    // Type a day value greater than 31
-    await userEvent.type(input, '45');
+    // Type a day value greater than 31, one digit at a time
+    await typeDateDigits(input, '45');
 
     // Verify the day is capped at 31
-    expect(input).toHaveValue('31');
+    await waitFor(() => {
+      expect(input).toHaveValue('31');
+    });
   },
 };
 
@@ -184,11 +217,13 @@ export const TestMonthValidation: Story = {
 
     await userEvent.clear(input);
 
-    // Type a valid day followed by an invalid month
-    await userEvent.type(input, '1599'); // Day 15, month 99
+    // Type a valid day followed by an invalid month, one digit at a time
+    await typeDateDigits(input, '1599');
 
     // Verify the month is capped at 12
-    expect(input).toHaveValue('15.12');
+    await waitFor(() => {
+      expect(input).toHaveValue('15.12');
+    });
   },
 };
 
@@ -222,14 +257,18 @@ export const TestOnChangeCallback: Story = {
     const input = canvas.getByRole('textbox');
 
     await userEvent.clear(input);
-    await userEvent.type(input, '01012025');
+
+    // Type digits one at a time to allow requestAnimationFrame to process
+    await typeDateDigits(input, '01012025');
 
     // Verify onChange was called
     expect(args.onChange).toHaveBeenCalled();
 
     // Verify the displayed value shows the formatted date
-    const lastValueDisplay = canvas.getByTestId('last-value');
-    expect(lastValueDisplay).toHaveTextContent('01.01.2025');
+    await waitFor(() => {
+      const lastValueDisplay = canvas.getByTestId('last-value');
+      expect(lastValueDisplay).toHaveTextContent('01.01.2025');
+    });
   },
 };
 

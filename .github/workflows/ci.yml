@@ -43,6 +43,12 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
+      - name: Install Playwright browsers
+        run: npx playwright install chromium
+
+      - name: Test
+        run: npm test
+
       - name: Build package
         run: npm run build
 

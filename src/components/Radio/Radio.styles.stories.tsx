@@ -4,7 +4,7 @@ import { Radio, RadioProps, Fieldset, useRadioGroup } from './index';
 import { ValidationMessage } from '@digdir/designsystemet-react'; 
 
 const meta: Meta<typeof Radio> = {
-  title: 'Components/Radio',
+  title: 'Components/Radio/Advanced',
   component: Radio,
   tags: ['autodocs'],
   parameters: {

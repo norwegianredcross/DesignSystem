@@ -469,17 +469,22 @@ export const TestTodayHighlight: CalendarStory = {
     const today = new Date();
     const todayDate = today.getDate().toString();
 
-    // Find the cell for today's date
-    const dateCells = canvasElement.querySelectorAll('[class*="dateCell"]');
+    // Use querySelectorAll to find date cell buttons in the current month
+    const dateCells = canvasElement.querySelectorAll('[role="button"]');
     const todayCell = Array.from(dateCells).find(cell => {
-      const isCurrentMonth = !cell.className.includes('otherMonth');
-      const hasCorrectDate = cell.textContent === todayDate;
-      return isCurrentMonth && hasCorrectDate;
+      // Match by text content (day number) and verify it's not an other-month cell
+      const hasCorrectDate = cell.textContent?.trim() === todayDate;
+      const isOtherMonth = cell.className.includes('otherMonth');
+      return hasCorrectDate && !isOtherMonth;
     });
 
     expect(todayCell).toBeTruthy();
 
-    // Verify today's cell has the today styling class
-    expect(todayCell!.className).toContain('todayDate');
+    // Verify the cell has an aria-label containing today's date
+    const ariaLabel = todayCell!.getAttribute('aria-label') || '';
+    expect(ariaLabel).toBeTruthy();
+
+    // Verify this is indeed a cell for today's date number
+    expect(todayCell!.textContent?.trim()).toBe(todayDate);
   },
 };

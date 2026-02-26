@@ -20,6 +20,7 @@ const config: StorybookConfig = {
     '@storybook/addon-a11y',
     '@storybook/addon-docs',
     '@chromatic-com/storybook',
+    '@storybook/addon-vitest',
   ],
 
   staticDirs: ['../public'],
@@ -29,11 +30,13 @@ const config: StorybookConfig = {
     options: { strictMode: true },
   },
 
-  viteFinal: (cfg) =>
+  viteFinal: (cfg, { configType }) =>
     mergeConfig(
       cfg,
       defineConfig({
-        base: '/DesignSystem/storybook/',
+        // Only set the base path for production builds (GitHub Pages deployment).
+        // In dev/test mode, the base must stay '/' for vitest browser to work.
+        ...(configType === 'PRODUCTION' ? { base: '/DesignSystem/storybook/' } : {}),
         resolve: {
           alias: {
             '@story-utils': path.resolve(__dirname, '../src/story-utils'),
