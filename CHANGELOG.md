@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.124 (2026-02-27)
+
+- fix(ci): combine deploys into single gh-pages push (4293702e)
+- fix(components): constrain container width to 90% on mobile (3f92b814)
+
+
 ## 1.1.123 (2026-02-26)
 
 - fix(components): prevent card grid overflow on narrow mobile screens (2ddd553a)
