@@ -21,6 +21,9 @@
   "bugs": {
     "url": "https://github.com/norwegianredcross/DesignSystem/issues"
   },
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "private": false,
   "type": "module",
   "main": "./dist/componentlibrary.umd.js",
