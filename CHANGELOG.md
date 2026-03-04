@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.125 (2026-03-04)
+
+- chore(deps): update rk-design-tokens to latest [skip ci] (5ba62d57)
+- chore: update package-lock.json after dependency version bump (540ff94c)
+- fix: broken CSS variables, dependency mismatch, and missing Vite externals (39ab75e1)
+- fix(ui): add red accent to sidebar titles and fix footer dark mode (6143ad8a)
+
+
 ## 1.1.124 (2026-02-27)
 
 - fix(ci): combine deploys into single gh-pages push (4293702e)
