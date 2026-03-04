@@ -50,6 +50,7 @@
   letter-spacing: 0.05em;
   margin-bottom: var(--ds-size-2, 8px);
   padding-left: var(--ds-size-3, 12px);
+  border-left: 4px solid var(--ds-color-primary-color-red-base-default);
 }
 
 .list {
