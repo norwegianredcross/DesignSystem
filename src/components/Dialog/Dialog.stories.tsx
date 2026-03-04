@@ -1,5 +1,6 @@
 // src/components/Dialog/Dialog.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
+import { expect, within, userEvent, waitFor } from 'storybook/test';
 import { useRef } from 'react';
 import { Dialog, DialogProps } from './index';
 import { Button } from '../Button';
@@ -230,4 +231,48 @@ export const WithForm: Story = {
     closeButton: 'Lukk dialogvindu',
   },
   name: 'With Form',
+};
+
+// --- INTERACTION TESTS ---
+
+export const TestInteraction: Story = {
+  name: 'Test: Interaction',
+  render: () => (
+    <Dialog.TriggerContext>
+      <Dialog.Trigger>Open Dialog</Dialog.Trigger>
+      <Dialog modal={true} closeButton="Lukk dialogvindu">
+        <Dialog.Block>
+          <Heading data-size="xs">Test Dialog</Heading>
+        </Dialog.Block>
+        <Dialog.Block>
+          <Paragraph>Dialog content for testing.</Paragraph>
+        </Dialog.Block>
+      </Dialog>
+    </Dialog.TriggerContext>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Click trigger to open dialog
+    const trigger = canvas.getByRole('button', { name: /open dialog/i });
+    await userEvent.click(trigger);
+
+    // Dialog should be visible
+    const body = within(document.body);
+    await waitFor(() => {
+      expect(body.getByRole('dialog')).toBeInTheDocument();
+    });
+
+    // Close button should be present and work
+    const dialog = body.getByRole('dialog');
+    const dialogCanvas = within(dialog);
+    const closeButton = dialogCanvas.getByRole('button', { name: /lukk/i });
+    expect(closeButton).toBeInTheDocument();
+    await userEvent.click(closeButton);
+
+    // Dialog should close
+    await waitFor(() => {
+      expect(dialog).not.toHaveAttribute('open');
+    });
+  },
 };

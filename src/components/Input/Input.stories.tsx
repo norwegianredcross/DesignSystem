@@ -1,5 +1,6 @@
 // src/components/Input/Input.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
+import { expect, within, userEvent } from 'storybook/test';
 import { useState } from 'react';
 import { Input, InputProps } from './index';
 import { Label, Paragraph } from '@digdir/designsystemet-react'; // Import Label
@@ -226,5 +227,44 @@ export const Controlled: Story = {
     type: 'text',
     name: 'controlled-input',
     'data-size': 'md',
+  },
+};
+
+// --- INTERACTION TESTS ---
+
+export const TestInteraction: Story = {
+  name: 'Test: Interaction',
+  render: () => (
+    <>
+      <Label id="test-input-label" htmlFor="test-input">Test Input</Label>
+      <Input id="test-input" aria-labelledby="test-input-label" type="text" name="test-input" />
+    </>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Input should be accessible
+    const input = canvas.getByRole('textbox', { name: /test input/i });
+    expect(input).toBeInTheDocument();
+
+    // Type text
+    await userEvent.type(input, 'Hello World');
+    expect(input).toHaveValue('Hello World');
+  },
+};
+
+export const TestDisabledState: Story = {
+  name: 'Test: Disabled State',
+  render: () => (
+    <>
+      <Label id="test-input-disabled-label" htmlFor="test-input-disabled">Disabled Input</Label>
+      <Input id="test-input-disabled" aria-labelledby="test-input-disabled-label" disabled value="Cannot edit" />
+    </>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    const input = canvas.getByRole('textbox', { name: /disabled input/i });
+    expect(input).toBeDisabled();
   },
 };

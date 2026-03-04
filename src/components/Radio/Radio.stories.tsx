@@ -1,4 +1,5 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
+import { expect, within, userEvent } from 'storybook/test';
 import { Radio, RadioProps, Fieldset } from './index';
 
 const meta: Meta<typeof Radio> = {
@@ -153,6 +154,45 @@ export const Inline: Story = {
   ),
   args: {
     'data-size': 'md',
+  },
+};
+
+// --- INTERACTION TESTS ---
+
+export const TestInteraction: Story = {
+  name: 'Test: Interaction',
+  render: () => (
+    <Fieldset>
+      <Fieldset.Legend>Velg et alternativ</Fieldset.Legend>
+      <Radio value="yes" label="Ja" name="test-radio" />
+      <Radio value="no" label="Nei" name="test-radio" />
+      <Radio value="maybe" label="Kanskje" name="test-radio" />
+    </Fieldset>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    const radioYes = canvas.getByRole('radio', { name: /ja/i });
+    const radioNo = canvas.getByRole('radio', { name: /nei/i });
+    const radioMaybe = canvas.getByRole('radio', { name: /kanskje/i });
+
+    // None selected initially
+    expect(radioYes).not.toBeChecked();
+    expect(radioNo).not.toBeChecked();
+
+    // Click selects radio
+    await userEvent.click(radioYes);
+    expect(radioYes).toBeChecked();
+
+    // Only one selected at a time
+    await userEvent.click(radioNo);
+    expect(radioNo).toBeChecked();
+    expect(radioYes).not.toBeChecked();
+
+    // Switching to third option
+    await userEvent.click(radioMaybe);
+    expect(radioMaybe).toBeChecked();
+    expect(radioNo).not.toBeChecked();
   },
 };
 

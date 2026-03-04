@@ -1,7 +1,7 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
+import { expect, within, userEvent } from 'storybook/test';
 import { useState } from 'react';
-import { Textarea, TextareaProps } from './index'; 
-// Import components for context/examples
+import { Textarea, TextareaProps } from './index';
 import { Field, Label, Paragraph, Divider } from '@digdir/designsystemet-react';
 
 const meta: Meta<typeof Textarea> = {
@@ -185,4 +185,42 @@ export const WithMaxLength: Story = {
     'data-size': 'md',
   },
   name: 'With MaxLength',
+};
+
+// --- INTERACTION TESTS ---
+
+export const TestInteraction: Story = {
+  name: 'Test: Interaction',
+  render: () => (
+    <Field>
+      <Label id="test-textarea-label" htmlFor="test-textarea">Test Textarea</Label>
+      <Textarea id="test-textarea" aria-labelledby="test-textarea-label" name="test-textarea" rows={3} />
+    </Field>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    const textarea = canvas.getByRole('textbox', { name: /test textarea/i });
+    expect(textarea).toBeInTheDocument();
+
+    // Type text
+    await userEvent.type(textarea, 'Multi-line text');
+    expect(textarea).toHaveValue('Multi-line text');
+  },
+};
+
+export const TestDisabledState: Story = {
+  name: 'Test: Disabled State',
+  render: () => (
+    <Field>
+      <Label id="test-textarea-disabled-label" htmlFor="test-textarea-disabled">Disabled Textarea</Label>
+      <Textarea id="test-textarea-disabled" aria-labelledby="test-textarea-disabled-label" disabled defaultValue="Cannot edit" />
+    </Field>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    const textarea = canvas.getByRole('textbox', { name: /disabled textarea/i });
+    expect(textarea).toBeDisabled();
+  },
 };

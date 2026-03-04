@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { expect, within, userEvent, waitFor } from 'storybook/test';
 import { Header } from './index';
 
 const meta: Meta<typeof Header> = {
@@ -170,5 +171,52 @@ export const NeutralColor: Story = {
         story: 'Header with neutral background color for the top bar (neutral-base-default).',
       },
     },
+  },
+};
+
+// --- INTERACTION TESTS ---
+
+export const TestInteraction: Story = {
+  name: 'Test: Interaction',
+  args: {
+    showUser: true,
+    showSearch: true,
+    showLogin: false,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Logo link should be present
+    const logoLink = canvas.getByRole('link', { name: /hjem/i });
+    expect(logoLink).toBeInTheDocument();
+
+    // Menu button should be present and toggle
+    const menuButton = canvas.getByRole('button', { name: /meny/i });
+    expect(menuButton).toBeInTheDocument();
+    expect(menuButton).toHaveAttribute('aria-expanded', 'false');
+
+    await userEvent.click(menuButton);
+
+    await waitFor(() => {
+      expect(menuButton).toHaveAttribute('aria-expanded', 'true');
+    });
+
+    // Close menu
+    await userEvent.click(menuButton);
+
+    await waitFor(() => {
+      expect(menuButton).toHaveAttribute('aria-expanded', 'false');
+    });
+
+    // Search button should be present and toggle
+    const searchButton = canvas.getByRole('button', { name: /søk/i });
+    expect(searchButton).toBeInTheDocument();
+    expect(searchButton).toHaveAttribute('aria-expanded', 'false');
+
+    await userEvent.click(searchButton);
+
+    await waitFor(() => {
+      expect(searchButton).toHaveAttribute('aria-expanded', 'true');
+    });
   },
 };

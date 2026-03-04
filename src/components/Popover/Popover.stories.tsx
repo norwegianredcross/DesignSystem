@@ -1,6 +1,7 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
-import { useState } from 'react'; 
-import { Popover, PopoverProps } from './index'; 
+import { expect, within, userEvent, waitFor } from 'storybook/test';
+import { useState } from 'react';
+import { Popover, PopoverProps } from './index';
 import { Button, Paragraph } from '@digdir/designsystemet-react';
 
 const meta: Meta<typeof Popover> = {
@@ -189,5 +190,37 @@ export const Controlled: Story = {
     children: null,
     placement: 'bottom',
     'data-color': 'info',
+  },
+};
+
+// --- INTERACTION TESTS ---
+
+export const TestInteraction: Story = {
+  name: 'Test: Interaction',
+  render: () => (
+    <Popover.TriggerContext>
+      <Popover.Trigger>Open Popover</Popover.Trigger>
+      <Popover placement="bottom">Popover test content</Popover>
+    </Popover.TriggerContext>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Click trigger to open popover
+    const trigger = canvas.getByRole('button', { name: /open popover/i });
+    await userEvent.click(trigger);
+
+    // Popover content should be visible
+    const body = within(document.body);
+    await waitFor(() => {
+      expect(body.getByText('Popover test content')).toBeVisible();
+    });
+
+    // Click trigger again to close
+    await userEvent.click(trigger);
+
+    await waitFor(() => {
+      expect(body.queryByText('Popover test content')).not.toBeVisible();
+    });
   },
 };

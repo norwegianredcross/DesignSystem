@@ -1,6 +1,7 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
-import { useState } from 'react'; 
-import { Pagination, PaginationProps, usePagination } from './index'; 
+import { expect, within, userEvent, waitFor } from 'storybook/test';
+import { useState } from 'react';
+import { Pagination, PaginationProps, usePagination } from './index';
 import { Link } from '../Link';
 
 const meta: Meta<typeof Pagination> = {
@@ -240,4 +241,79 @@ export const Mobile: Story = {
     'data-color': 'neutral',
   },
   name: 'Mobile (Truncated)',
+};
+
+// --- INTERACTION TESTS ---
+
+export const TestInteraction: Story = {
+  name: 'Test: Interaction',
+  render: () => {
+    const [currentPage, setCurrentPage] = useState(1);
+    const totalPages = 5;
+    const { pages, prevButtonProps, nextButtonProps } = usePagination({
+      currentPage,
+      totalPages,
+      onChange: (_e, page) => setCurrentPage(page),
+    });
+
+    return (
+      <Pagination aria-label="Sidenavigering">
+        <Pagination.List>
+          <Pagination.Item>
+            <Pagination.Button {...prevButtonProps} aria-label="Forrige side">
+              Forrige
+            </Pagination.Button>
+          </Pagination.Item>
+          {pages.map(({ page, itemKey, buttonProps }) => (
+            <Pagination.Item key={itemKey}>
+              {typeof page === 'number' ? (
+                <Pagination.Button {...buttonProps} aria-label={`Side ${page}`}>
+                  {page}
+                </Pagination.Button>
+              ) : (
+                <span>...</span>
+              )}
+            </Pagination.Item>
+          ))}
+          <Pagination.Item>
+            <Pagination.Button {...nextButtonProps} aria-label="Neste side">
+              Neste
+            </Pagination.Button>
+          </Pagination.Item>
+        </Pagination.List>
+      </Pagination>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Page 1 should be current
+    const page1 = canvas.getByRole('button', { name: /side 1/i });
+    expect(page1).toHaveAttribute('aria-current', 'page');
+
+    // Previous button is aria-hidden on first page
+    const prevButton = canvasElement.querySelector('button[aria-label="Forrige side"]') as HTMLButtonElement;
+    expect(prevButton).toHaveAttribute('aria-hidden', 'true');
+
+    // Click next
+    const nextButton = canvas.getByRole('button', { name: /neste/i });
+    await userEvent.click(nextButton);
+
+    // Page 2 should now be current
+    await waitFor(() => {
+      const page2 = canvas.getByRole('button', { name: /side 2/i });
+      expect(page2).toHaveAttribute('aria-current', 'page');
+    });
+
+    // Previous should now be visible (not aria-hidden)
+    expect(prevButton).toHaveAttribute('aria-hidden', 'false');
+
+    // Click a specific page
+    const page4 = canvas.getByRole('button', { name: /side 4/i });
+    await userEvent.click(page4);
+
+    await waitFor(() => {
+      expect(page4).toHaveAttribute('aria-current', 'page');
+    });
+  },
 };

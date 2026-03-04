@@ -1,6 +1,7 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
-import { useState } from 'react'; // Import useState for controlled example
-import { Tabs, TabsProps } from './index'; // Import the main Tabs component
+import { expect, within, userEvent, waitFor } from 'storybook/test';
+import { useState } from 'react';
+import { Tabs, TabsProps } from './index';
 // Import components for context/examples
 import { Button } from '@digdir/designsystemet-react';
 // Import icons (assuming they are exported from the main package)
@@ -194,4 +195,45 @@ export const IconsWithText: Story = {
     'data-color': 'neutral',
   },
   name: 'Icons with Text',
+};
+
+// --- INTERACTION TESTS ---
+
+export const TestInteraction: Story = {
+  name: 'Test: Interaction',
+  render: () => (
+    <Tabs defaultValue="value1">
+      <Tabs.List>
+        <Tabs.Tab value="value1">Tab 1</Tabs.Tab>
+        <Tabs.Tab value="value2">Tab 2</Tabs.Tab>
+        <Tabs.Tab value="value3">Tab 3</Tabs.Tab>
+      </Tabs.List>
+      <Tabs.Panel value="value1">Content for Tab 1</Tabs.Panel>
+      <Tabs.Panel value="value2">Content for Tab 2</Tabs.Panel>
+      <Tabs.Panel value="value3">Content for Tab 3</Tabs.Panel>
+    </Tabs>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Default tab content should be visible
+    expect(canvas.getByText('Content for Tab 1')).toBeVisible();
+
+    // First tab should be selected
+    const tab1 = canvas.getByRole('tab', { name: /tab 1/i });
+    expect(tab1).toHaveAttribute('aria-selected', 'true');
+
+    // Click second tab
+    const tab2 = canvas.getByRole('tab', { name: /tab 2/i });
+    await userEvent.click(tab2);
+
+    // Second tab should now be selected
+    await waitFor(() => {
+      expect(tab2).toHaveAttribute('aria-selected', 'true');
+    });
+    expect(tab1).toHaveAttribute('aria-selected', 'false');
+
+    // Second panel content should be visible
+    expect(canvas.getByText('Content for Tab 2')).toBeVisible();
+  },
 };

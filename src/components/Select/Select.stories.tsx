@@ -1,5 +1,6 @@
 // src/components/Select/Select.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
+import { expect, within, userEvent } from 'storybook/test';
 import { Select, SelectProps } from './index';
 import { Field, Label, ValidationMessage } from '@digdir/designsystemet-react';
 
@@ -219,5 +220,54 @@ export const ReadOnly: Story = {
     'data-size': 'md',
     readOnly: true,
     value: 'galdhopiggen',
+  },
+};
+
+// --- INTERACTION TESTS ---
+
+export const TestInteraction: Story = {
+  name: 'Test: Interaction',
+  render: () => (
+    <>
+      <Label htmlFor="test-select">Velg et fjell</Label>
+      <Select id="test-select" name="test-select" defaultValue="">
+        <Select.Option value="" disabled>Velg et fjell …</Select.Option>
+        <Select.Option value="galdhopiggen">Galdhøpiggen</Select.Option>
+        <Select.Option value="glittertind">Glittertind</Select.Option>
+      </Select>
+    </>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Select should render with options
+    const select = canvas.getByRole('combobox', { name: /velg et fjell/i });
+    expect(select).toBeInTheDocument();
+
+    // Change selection
+    await userEvent.selectOptions(select, 'galdhopiggen');
+    expect(select).toHaveValue('galdhopiggen');
+
+    // Change again
+    await userEvent.selectOptions(select, 'glittertind');
+    expect(select).toHaveValue('glittertind');
+  },
+};
+
+export const TestDisabledState: Story = {
+  name: 'Test: Disabled State',
+  render: () => (
+    <>
+      <Label htmlFor="test-select-disabled">Utilgjengelig valg</Label>
+      <Select id="test-select-disabled" name="test-select-disabled" disabled value="1">
+        <Select.Option value="1">Valgt (Deaktivert)</Select.Option>
+      </Select>
+    </>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    const select = canvas.getByRole('combobox', { name: /utilgjengelig/i });
+    expect(select).toBeDisabled();
   },
 };

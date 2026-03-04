@@ -1,6 +1,7 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
-import { useState } from 'react'; 
-import { Search, SearchProps } from './index'; 
+import { expect, within, userEvent, waitFor } from 'storybook/test';
+import { useState } from 'react';
+import { Search, SearchProps } from './index';
 import { Label, Field } from '@digdir/designsystemet-react';
 
 type SearchStoryProps = SearchProps & {
@@ -241,5 +242,44 @@ export const Variants: Story = {
   args: {
     'data-size': 'md',
     'data-color': 'neutral',
+  },
+};
+
+// --- INTERACTION TESTS ---
+
+export const TestInteraction: Story = {
+  name: 'Test: Interaction',
+  render: () => {
+    const [value, setValue] = useState('');
+    return (
+      <Search data-size="md">
+        <Search.Input
+          aria-label="Søk"
+          placeholder="Søk her..."
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+        <Search.Clear onClick={() => setValue('')} />
+        <Search.Button variant="primary" />
+      </Search>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Type in search input
+    const input = canvas.getByRole('searchbox', { name: /søk/i });
+    expect(input).toBeInTheDocument();
+
+    await userEvent.type(input, 'test query');
+    expect(input).toHaveValue('test query');
+
+    // Clear button should reset value
+    const clearButton = canvas.getByRole('button', { name: /tøm/i });
+    await userEvent.click(clearButton);
+
+    await waitFor(() => {
+      expect(input).toHaveValue('');
+    });
   },
 };

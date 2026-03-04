@@ -1,5 +1,6 @@
 // src/components/ToggleGroup/ToggleGroup.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
+import { expect, within, userEvent, waitFor } from 'storybook/test';
 import { useState } from 'react';
 import { ToggleGroup, ToggleGroupProps } from './index';
 import { Button, Divider, Paragraph } from '@digdir/designsystemet-react';
@@ -176,5 +177,44 @@ export const LargeSize: Story = {
     name: 'large-toggle',
     'data-size': 'lg',
     'data-color': 'neutral',
+  },
+};
+
+// --- INTERACTION TESTS ---
+
+export const TestInteraction: Story = {
+  name: 'Test: Interaction',
+  render: () => (
+    <ToggleGroup defaultValue="innboks" name="test-toggle">
+      <ToggleGroup.Item value="innboks">Innboks</ToggleGroup.Item>
+      <ToggleGroup.Item value="utkast">Utkast</ToggleGroup.Item>
+      <ToggleGroup.Item value="arkiv">Arkiv</ToggleGroup.Item>
+    </ToggleGroup>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Default item should be selected
+    const innboksRadio = canvas.getByRole('radio', { name: /innboks/i });
+    expect(innboksRadio).toBeChecked();
+
+    // Click another item
+    const utkastRadio = canvas.getByRole('radio', { name: /utkast/i });
+    await userEvent.click(utkastRadio);
+
+    // New item selected, previous deselected
+    await waitFor(() => {
+      expect(utkastRadio).toBeChecked();
+    });
+    expect(innboksRadio).not.toBeChecked();
+
+    // Click third item
+    const arkivRadio = canvas.getByRole('radio', { name: /arkiv/i });
+    await userEvent.click(arkivRadio);
+
+    await waitFor(() => {
+      expect(arkivRadio).toBeChecked();
+    });
+    expect(utkastRadio).not.toBeChecked();
   },
 };

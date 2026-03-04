@@ -1,6 +1,6 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
-import { Tooltip, TooltipProps } from './index'; 
-// Import components for context/examples
+import { expect, within, userEvent, waitFor } from 'storybook/test';
+import { Tooltip, TooltipProps } from './index';
 import { Button } from '@digdir/designsystemet-react';
 
 const meta: Meta<typeof Tooltip> = {
@@ -104,5 +104,35 @@ export const Placements: Story = {
   argTypes: {
     placement: { control: false },
     children: { control: false },
+  },
+};
+
+// --- INTERACTION TESTS ---
+
+export const TestInteraction: Story = {
+  name: 'Test: Interaction',
+  render: () => (
+    <Tooltip content="Tooltip message">
+      <Button>Hover me</Button>
+    </Tooltip>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Trigger button should exist
+    const trigger = canvas.getByRole('button', { name: /hover me/i });
+    expect(trigger).toBeInTheDocument();
+
+    // Hover to show tooltip
+    await userEvent.hover(trigger);
+
+    // Tooltip text should appear in DOM
+    const body = within(document.body);
+    await waitFor(() => {
+      expect(body.getByText('Tooltip message')).toBeInTheDocument();
+    });
+
+    // Unhover
+    await userEvent.unhover(trigger);
   },
 };

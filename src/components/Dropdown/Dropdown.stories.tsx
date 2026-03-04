@@ -1,7 +1,8 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
-import { useState } from 'react'; 
-import { Dropdown, DropdownProps } from './index'; 
-import { Button } from '../Button'; 
+import { expect, within, userEvent, waitFor } from 'storybook/test';
+import { useState } from 'react';
+import { Dropdown, DropdownProps } from './index';
+import { Button } from '../Button';
 import { Paragraph } from '@digdir/designsystemet-react'; 
 
 const meta: Meta<typeof Dropdown> = {
@@ -196,5 +197,51 @@ export const Controlled: Story = {
   args: {
     placement: 'bottom',
     'data-color': 'accent',
+  },
+};
+
+// --- INTERACTION TESTS ---
+
+export const TestInteraction: Story = {
+  name: 'Test: Interaction',
+  render: () => (
+    <Dropdown.TriggerContext>
+      <Dropdown.Trigger>Open Dropdown</Dropdown.Trigger>
+      <Dropdown placement="bottom-start">
+        <Dropdown.Heading>Options</Dropdown.Heading>
+        <Dropdown.List>
+          <Dropdown.Item>
+            <Dropdown.Button>Edit</Dropdown.Button>
+          </Dropdown.Item>
+          <Dropdown.Item>
+            <Dropdown.Button>Copy</Dropdown.Button>
+          </Dropdown.Item>
+        </Dropdown.List>
+      </Dropdown>
+    </Dropdown.TriggerContext>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Click trigger to open dropdown
+    const trigger = canvas.getByRole('button', { name: /open dropdown/i });
+    await userEvent.click(trigger);
+
+    // Dropdown items should be visible
+    const body = within(document.body);
+    await waitFor(() => {
+      expect(body.getByText('Edit')).toBeVisible();
+    });
+
+    // Click a menu item
+    const editButton = body.getByText('Edit');
+    expect(editButton).toBeInTheDocument();
+
+    // Close by clicking trigger again
+    await userEvent.click(trigger);
+
+    await waitFor(() => {
+      expect(body.queryByText('Edit')).not.toBeVisible();
+    });
   },
 };

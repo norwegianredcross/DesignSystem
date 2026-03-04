@@ -1,5 +1,6 @@
 // src/components/Buttons/Buttons.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
+import { expect, within, userEvent } from 'storybook/test';
 import { Button, ButtonProps } from './index';
 import {
   PencilWritingIcon,
@@ -265,5 +266,55 @@ export const IconOnlyWithTooltip: Story = {
     variant: { control: false },
     children: { control: false },
     'aria-label': { control: false },
+  },
+};
+
+// --- INTERACTION TESTS ---
+
+export const TestInteraction: Story = {
+  name: 'Test: Interaction',
+  args: {
+    children: 'Lagre',
+    variant: 'primary',
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Verify button renders with correct text
+    const button = canvas.getByRole('button', { name: /lagre/i });
+    expect(button).toBeInTheDocument();
+
+    // Button should be clickable (not disabled)
+    expect(button).not.toBeDisabled();
+    await userEvent.click(button);
+  },
+};
+
+export const TestDisabledState: Story = {
+  name: 'Test: Disabled State',
+  args: {
+    children: 'Deaktivert',
+    variant: 'primary',
+    disabled: true,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    const button = canvas.getByRole('button', { name: /deaktivert/i });
+    expect(button).toBeDisabled();
+  },
+};
+
+export const TestLoadingState: Story = {
+  name: 'Test: Loading State',
+  args: {
+    children: 'Laster...',
+    loading: true,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    const button = canvas.getByRole('button');
+    expect(button).toHaveAttribute('aria-busy', 'true');
   },
 };

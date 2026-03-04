@@ -1,5 +1,6 @@
 // src/components/Checkbox/Checkbox.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
+import { expect, within, userEvent } from 'storybook/test';
 import { useState } from 'react';
 import {
   Checkbox,
@@ -228,5 +229,42 @@ export const Indeterminate: Story = {
   args: {
     'data-size': 'md',
     'data-color': 'accent',
+  },
+};
+
+// --- INTERACTION TESTS ---
+
+export const TestInteraction: Story = {
+  name: 'Test: Interaction',
+  render: () => (
+    <Fieldset>
+      <Checkbox label="Option A" value="a" name="test-checkbox" />
+      <Checkbox label="Option B" value="b" name="test-checkbox" />
+      <Checkbox label="Disabled" value="c" name="test-checkbox" disabled />
+    </Fieldset>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Get all checkboxes
+    const checkboxA = canvas.getByRole('checkbox', { name: /option a/i });
+    const checkboxB = canvas.getByRole('checkbox', { name: /option b/i });
+    const checkboxDisabled = canvas.getByRole('checkbox', { name: /disabled/i });
+
+    // Initially unchecked
+    expect(checkboxA).not.toBeChecked();
+    expect(checkboxB).not.toBeChecked();
+
+    // Click toggles checked
+    await userEvent.click(checkboxA);
+    expect(checkboxA).toBeChecked();
+
+    // Multiple checkboxes can be checked independently
+    await userEvent.click(checkboxB);
+    expect(checkboxA).toBeChecked();
+    expect(checkboxB).toBeChecked();
+
+    // Disabled checkbox should not be clickable
+    expect(checkboxDisabled).toBeDisabled();
   },
 };

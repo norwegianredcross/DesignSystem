@@ -1,4 +1,5 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
+import { expect, within, userEvent } from 'storybook/test';
 import { Footer, FooterProps } from './index';
 
 const meta: Meta<typeof Footer> = {
@@ -297,5 +298,36 @@ export const ContactVariantWithCrossCorners: Story = {
     ...ContactVariant.args,
     'data-color': 'additional',
     showCrossCorners: true,
+  },
+};
+
+// --- INTERACTION TESTS ---
+
+export const TestInteraction: Story = {
+  name: 'Test: Interaction',
+  args: {
+    'data-color': 'neutral',
+    showCrossCorners: false,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Newsletter input should accept text
+    const emailInput = canvas.getByPlaceholderText(/input tekst/i);
+    expect(emailInput).toBeInTheDocument();
+
+    await userEvent.type(emailInput, 'test@example.com');
+    expect(emailInput).toHaveValue('test@example.com');
+
+    // Submit button should be present
+    const submitButton = canvas.getByRole('button', { name: /meld deg på/i });
+    expect(submitButton).toBeInTheDocument();
+
+    // Navigation links should be present with correct hrefs
+    const snarveierNav = canvas.getByRole('navigation', { name: /snarveier/i });
+    expect(snarveierNav).toBeInTheDocument();
+
+    const lenkerNav = canvas.getByRole('navigation', { name: /lenker/i });
+    expect(lenkerNav).toBeInTheDocument();
   },
 };

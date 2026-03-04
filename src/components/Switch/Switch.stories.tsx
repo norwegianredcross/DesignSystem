@@ -1,5 +1,6 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
-import { useState } from 'react'; 
+import { expect, within, userEvent } from 'storybook/test';
+import { useState } from 'react';
 import { Switch, SwitchProps, Fieldset } from './index'; 
 const meta: Meta<typeof Switch> = {
   title: 'Components/Switch',
@@ -225,5 +226,33 @@ export const Controlled: Story = {
     label: 'Kontrollert Switch', 
     value: 'controlled_toggle',
     name: 'controlled-switch',
+  },
+};
+
+// --- INTERACTION TESTS ---
+
+export const TestInteraction: Story = {
+  name: 'Test: Interaction',
+  args: {
+    label: 'Test Switch',
+    value: 'test_toggle',
+    name: 'test-switch',
+    defaultChecked: false,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Switch renders with role="switch"
+    const switchInput = canvas.getByRole('switch', { name: /test switch/i });
+    expect(switchInput).toBeInTheDocument();
+    expect(switchInput).not.toBeChecked();
+
+    // Click should toggle state
+    await userEvent.click(switchInput);
+    expect(switchInput).toBeChecked();
+
+    // Click again should uncheck
+    await userEvent.click(switchInput);
+    expect(switchInput).not.toBeChecked();
   },
 };
