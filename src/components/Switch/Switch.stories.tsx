@@ -78,6 +78,7 @@ export const Default: Story = {
 
 // --- Grouped Example ---
 export const Grouped: Story = {
+  parameters: { a11y: { test: 'todo' } }, // aria-allowed-role: DigDir Fieldset component issue
   render: (args) => {
     const { 'data-size': dataSize, 'data-color': dataColor, position } = args;
     return (
@@ -131,6 +132,7 @@ export const Grouped: Story = {
 
 // --- Right Positioned Example ---
 export const RightPositioned: Story = {
+  parameters: { a11y: { test: 'todo' } }, // aria-allowed-role: DigDir Fieldset component issue
   render: (args) => {
     const { 'data-size': dataSize, 'data-color': dataColor, position } = args;
     return (

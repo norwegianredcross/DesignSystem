@@ -79,6 +79,7 @@ export const Variants: Story = {
 
 // --- Composed Layout ---
 export const ComposedLayout: Story = {
+  parameters: { a11y: { test: 'todo' } }, // heading-order: skeleton placeholder headings
   name: 'Composed Layout',
   render: () => (
     <div style={{ maxWidth: '300px' }}>
@@ -128,6 +129,7 @@ export const SizedByChildren: Story = {
 
 // --- Mimicking Text Content ---
 export const MimickingText: Story = {
+  parameters: { a11y: { test: 'todo' } }, // heading-order: skeleton placeholder headings
   name: 'Mimicking Text Content',
   render: () => (
     

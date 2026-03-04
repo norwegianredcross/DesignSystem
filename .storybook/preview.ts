@@ -63,6 +63,9 @@ const preview: Preview = {
         type: 'auto',
       },
     },
+    a11y: {
+      test: 'error',
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,
@@ -88,7 +91,7 @@ const preview: Preview = {
       },
     },
   },
-  tags: ['autodocs'],
+  tags: ['autodocs', 'a11y-test'],
   decorators: [themeDecorator, customStylesDecorator, paddingDecorator],
 };
 

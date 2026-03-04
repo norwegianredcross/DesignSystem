@@ -82,13 +82,13 @@ export const IconsOnly: Story = {
   render: (args) => (
     <Tabs {...args}>
       <Tabs.List>
-        <Tabs.Tab value="value1">
+        <Tabs.Tab value="value1" aria-label="Airplane">
           <AirplaneIcon aria-hidden />
         </Tabs.Tab>
-        <Tabs.Tab value="value2">
+        <Tabs.Tab value="value2" aria-label="Newspaper">
           <NewspaperIcon aria-hidden />
         </Tabs.Tab>
-        <Tabs.Tab value="value3">
+        <Tabs.Tab value="value3" aria-label="Dog">
           <DogIcon aria-hidden />
         </Tabs.Tab>
       </Tabs.List>

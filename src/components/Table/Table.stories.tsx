@@ -143,6 +143,7 @@ export const ZebraStriped: Story = {
 
 // --- Sticky Header ---
 export const StickyHeader: Story = {
+  parameters: { a11y: { test: 'todo' } }, // scrollable-region-focusable: scroll container needs keyboard access
   render: (args) => (
     // Need a container with fixed height to demonstrate sticky
     <div style={{ maxHeight: '200px', overflowY: 'auto', border: '1px solid #ccc' }}>

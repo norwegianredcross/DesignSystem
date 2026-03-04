@@ -15,6 +15,7 @@ const meta: Meta<typeof Select> = {
           'Select (dropdown list) allows users to choose one option from a static list.',
       },
     },
+    a11y: { test: 'todo' }, // select-name: DigDir Select component a11y issue
   },
   argTypes: {
     'aria-invalid': {

@@ -57,6 +57,7 @@ const meta: Meta<typeof Suggestion> = {
           'A searchable "select" component, with support for single or multiple selections. Use when a standard <Select> is not sufficient.',
       },
     },
+    a11y: { test: 'todo' }, // aria-allowed-role: DigDir EXPERIMENTAL_Suggestion component a11y issue
   },
   argTypes: {
     multiple: {
