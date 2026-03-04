@@ -74,7 +74,7 @@
 /* Tinted variant for header extension */
 .headerExtensionTinted,
 .headerExtension[data-extension-color="tinted"] {
-  background: var(--color-primary-color-red-surface-tinted, #FAE4E2) !important;
+  background: var(--ds-color-primary-color-red-surface-tinted, #FAE4E2) !important;
   color: var(--ds-color-neutral-text-default, #2b2b2b);
 }
 
@@ -82,17 +82,17 @@
    Uses .header parent to ensure higher specificity than data-color="primary" rules (0,4,0 > 0,3,0). */
 .header .headerExtensionTinted .languageLabel,
 .header .headerExtension[data-extension-color="tinted"] .languageLabel {
-  color: var(--color-neutral-text-default, #2B2B2B) !important;
+  color: var(--ds-color-neutral-text-default, #2B2B2B) !important;
 }
 
 .header .headerExtensionTinted .languageLink,
 .header .headerExtension[data-extension-color="tinted"] .languageLink {
-  color: var(--color-neutral-text-default, #2B2B2B) !important;
+  color: var(--ds-color-neutral-text-default, #2B2B2B) !important;
 }
 
 .header .headerExtensionTinted .extensionContent :global(.ds-label),
 .header .headerExtension[data-extension-color="tinted"] .extensionContent :global(.ds-label) {
-  color: var(--color-neutral-text-default, #2B2B2B) !important;
+  color: var(--ds-color-neutral-text-default, #2B2B2B) !important;
 }
 
 .header .headerExtensionTinted .extensionDivider,
@@ -774,21 +774,21 @@
   /* Override language selector colors in mobile menu for light mode only */
   @media (prefers-color-scheme: light) {
     .menuUtilities .languageLabel {
-      color: var(--color-neutral-text-default, #2B2B2B);
+      color: var(--ds-color-neutral-text-default, #2B2B2B);
     }
 
     .menuUtilities .languageLink {
-      color: var(--color-neutral-text-default, #2B2B2B) !important;
+      color: var(--ds-color-neutral-text-default, #2B2B2B) !important;
     }
   }
 
   /* Also check for data-color-scheme attribute on root */
   :global([data-color-scheme="light"]) .menuUtilities .languageLabel {
-    color: var(--color-neutral-text-default, #2B2B2B);
+    color: var(--ds-color-neutral-text-default, #2B2B2B);
   }
 
   :global([data-color-scheme="light"]) .menuUtilities .languageLink {
-    color: var(--color-neutral-text-default, #2B2B2B) !important;
+    color: var(--ds-color-neutral-text-default, #2B2B2B) !important;
   }
 }
 

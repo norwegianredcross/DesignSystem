@@ -37,6 +37,8 @@ export default defineConfig({
         '@digdir/designsystemet-react',
         '@navikt/aksel-icons',
         'date-fns',
+        'classnames',
+        'embla-carousel-react',
       ],
       output: {
         globals: {
@@ -46,6 +48,8 @@ export default defineConfig({
           '@digdir/designsystemet-react': 'designsystemetReact',
           '@navikt/aksel-icons': 'akselIcons',
           'date-fns': 'dateFns',
+          'classnames': 'classnames',
+          'embla-carousel-react': 'emblaCarouselReact',
         },
       },
     },

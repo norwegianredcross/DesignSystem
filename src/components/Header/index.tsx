@@ -678,20 +678,20 @@ function buildInlineCss(styles: Record<string, string>): string {
 }
 .${s.headerExtensionTinted},
 .${s.headerExtension}[data-extension-color="tinted"] {
-  background: var(--color-primary-color-red-surface-tinted, #FAE4E2) !important;
+  background: var(--ds-color-primary-color-red-surface-tinted, #FAE4E2) !important;
   color: var(--ds-color-neutral-text-default, #2b2b2b);
 }
 .${s.header} .${s.headerExtensionTinted} .${s.languageLabel},
 .${s.header} .${s.headerExtension}[data-extension-color="tinted"] .${s.languageLabel} {
-  color: var(--color-neutral-text-default, #2B2B2B) !important;
+  color: var(--ds-color-neutral-text-default, #2B2B2B) !important;
 }
 .${s.header} .${s.headerExtensionTinted} .${s.languageLink},
 .${s.header} .${s.headerExtension}[data-extension-color="tinted"] .${s.languageLink} {
-  color: var(--color-neutral-text-default, #2B2B2B) !important;
+  color: var(--ds-color-neutral-text-default, #2B2B2B) !important;
 }
 .${s.header} .${s.headerExtensionTinted} .${s.extensionContent} .ds-label,
 .${s.header} .${s.headerExtension}[data-extension-color="tinted"] .${s.extensionContent} .ds-label {
-  color: var(--color-neutral-text-default, #2B2B2B) !important;
+  color: var(--ds-color-neutral-text-default, #2B2B2B) !important;
 }
 .${s.header} .${s.headerExtensionTinted} .${s.extensionDivider},
 .${s.header} .${s.headerExtension}[data-extension-color="tinted"] .${s.extensionDivider} {
@@ -800,11 +800,11 @@ function buildInlineCss(styles: Record<string, string>): string {
   .${s.menuBrand} { display: flex; justify-content: flex-start; margin-top: auto; padding: var(--ds-size-6); margin-left: calc(-1 * var(--ds-size-6)); margin-right: calc(-1 * var(--ds-size-6)); margin-bottom: calc(-1 * var(--ds-size-6)); background-color: white; }
   .${s.menuUtilities} .${s.languageSwitch} [popover] { background-color: var(--ds-color-neutral-background-default) !important; margin-top: 0 !important; position: fixed !important; overflow: visible; z-index: 20000 !important; }
   @media (prefers-color-scheme: light) {
-    .${s.menuUtilities} .${s.languageLabel} { color: var(--color-neutral-text-default, #2B2B2B); }
-    .${s.menuUtilities} .${s.languageLink} { color: var(--color-neutral-text-default, #2B2B2B) !important; }
+    .${s.menuUtilities} .${s.languageLabel} { color: var(--ds-color-neutral-text-default, #2B2B2B); }
+    .${s.menuUtilities} .${s.languageLink} { color: var(--ds-color-neutral-text-default, #2B2B2B) !important; }
   }
-  [data-color-scheme="light"] .${s.menuUtilities} .${s.languageLabel} { color: var(--color-neutral-text-default, #2B2B2B); }
-  [data-color-scheme="light"] .${s.menuUtilities} .${s.languageLink} { color: var(--color-neutral-text-default, #2B2B2B) !important; }
+  [data-color-scheme="light"] .${s.menuUtilities} .${s.languageLabel} { color: var(--ds-color-neutral-text-default, #2B2B2B); }
+  [data-color-scheme="light"] .${s.menuUtilities} .${s.languageLink} { color: var(--ds-color-neutral-text-default, #2B2B2B) !important; }
   .${s.searchOverlay}::before { display: none; }
 }
 `;

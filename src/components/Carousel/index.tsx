@@ -365,8 +365,8 @@ function buildCarouselInlineCss(s: Record<string, string>): string {
   transition: all 0.2s ease;
 }
 .${s.dotActive} {
-  background-color: var(--primary-color-red-10);
-  border-color: var(--primary-color-red-10);
+  background-color: var(--ds-color-primary-color-red-base-default, #D52B1E);
+  border-color: var(--ds-color-primary-color-red-base-default, #D52B1E);
   transform: scale(1.1);
 }
 @media (max-width: 640px) {
