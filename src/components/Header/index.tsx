@@ -387,17 +387,13 @@ export const Header = ({
         <div className={styles.actions}>
           {/* CTA Button */}
           {showCta && (
-            <Button 
-              variant="primary" 
-              data-color="main" 
-              data-size="md"
-              className={styles.ctaButton}
-              onClick={onCtaClick}
-            >
-              {ctaIcon}
-              <span className={styles.buttonText}>{ctaLabel || t('header.supportUs')}</span>
-            </Button>
-          )}
+    <Button variant="primary" data-color="main" data-size="md"
+  className={styles.ctaButton} onClick={onCtaClick}>
+      {ctaIcon}
+      <span className={ctaIcon ? styles.buttonText :
+  undefined}>{ctaLabel || t('header.supportUs')}</span>
+    </Button>
+  )}
 
           {/* Theme Toggle - Only show if extension is NOT shown, or if specifically requested via old prop and extension is hidden */}
           {!showHeaderExtension && showThemeToggle && (

@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm ls:*)",
+      "Bash(wc:*)",
+      "Bash(git stash:*)",
+      "Bash(git pull:*)",
+      "Bash(git push)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nfix\\(app\\): use consistent light logo in footer and simplify avatar\n\n- Remove dark mode logo variant from Footer, keeping light version only\n- Replace Avatar image with initials in homepage hero section\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "mcp__figma__get_design_context",
+      "mcp__figma__get_screenshot",
+      "mcp__figma__get_metadata",
+      "Bash(npx tsc:*)",
+      "Bash(npm run build:*)"
+    ]
+  }
+}
