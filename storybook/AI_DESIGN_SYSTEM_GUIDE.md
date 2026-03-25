@@ -329,6 +329,7 @@ import { Checkbox } from 'rk-designsystem';
   aria-label?={string}
   aria-labelledby?={string}
   data-color?={any}
+  data-indeterminate?={false}
   data-size?={any}
   description?={ReactNode}
   disabled?={boolean}
@@ -380,6 +381,7 @@ import { Input } from 'rk-designsystem';
 
 <Input
   data-color?="accent" | "neutral" | "danger" | etc.
+  data-indeterminate?={false}
   data-size?="sm" | "md" | "lg"
   disabled?={boolean}
   readOnly?={boolean}
@@ -397,6 +399,7 @@ import { Radio } from 'rk-designsystem';
   aria-label?={string}
   aria-labelledby?={string}
   data-color?={any}
+  data-indeterminate?={false}
   data-size?={any}
   description?={ReactNode}
   disabled?={boolean}
@@ -452,6 +455,7 @@ import { Textfield } from 'rk-designsystem';
   aria-labelledby?={string}
   className?={string}
   counter?="number" | ""FieldCounterProps""
+  data-indeterminate?={false}
   data-size?={any}
   description?={ReactNode}
   error?={ReactNode}
@@ -539,10 +543,12 @@ Use `<BreadcrumbsList>`, `<BreadcrumbsItem>`, and `<BreadcrumbsLink>` for struct
 import { Pagination } from 'rk-designsystem';
 
 <Pagination
-  aria-label?={Sidenavigering}
+  aria-label?={"Bla i sider"}
   asChild?={false}
   data-color?="accent" | "neutral" | "danger" | etc.
+  data-current?={string}
   data-size?="sm" | "md" | "lg"
+  data-total?={string}
  />
 ```
 
@@ -585,6 +591,7 @@ import { Dialog } from 'rk-designsystem';
   modal?={true}
   onClose?={(event: Event) => void}
   open?={boolean}
+  placement?={"center"}
  />
 ```
 
@@ -627,6 +634,7 @@ import { Tooltip } from 'rk-designsystem';
   data-size?="sm" | "md" | "lg"
   open?={boolean}
   placement?={"top"}
+  type?={}
  />
 ```
 
@@ -637,10 +645,13 @@ import { Tooltip } from 'rk-designsystem';
 import { Avatar } from 'rk-designsystem';
 
 <Avatar
+  aria-hidden?={Booleanish}
   aria-label?={string}
+  asChild?={false}
   children?={ReactNode}
   data-color?="accent" | "neutral" | "danger" | etc.
   data-size?={any}
+  data-tooltip?={string}
   initials?={string}
   variant?={"circle"}
  />
@@ -700,6 +711,7 @@ import { Tag } from 'rk-designsystem';
 <Tag
   data-color?={any}
   data-size?="sm" | "md" | "lg"
+  variant?={"default"}
  />
 ```
 
@@ -903,7 +915,6 @@ false}
   inline?={false
 false}
   loading?={false}
-  type?={"button"}
   variant?={"primary"}
  />
 ```
@@ -966,10 +977,6 @@ import { PaginationButton } from 'rk-designsystem';
 <PaginationButton
   aria-current?={false}
   asChild?={false}
-  data-color?={any}
-  data-size?="sm" | "md" | "lg"
-  type?={"button"}
-  variant?={"primary"}
  />
 ```
 
@@ -1052,6 +1059,7 @@ import { ToggleGroup } from 'rk-designsystem';
 <ToggleGroup
   data-color?="accent" | "neutral" | "danger" | etc.
   data-size?="sm" | "md" | "lg"
+  data-toggle-group?={string}
   defaultValue?={string}
   name?={string}
   onChange?={(value: string) => void}

@@ -70,7 +70,14 @@
       {
         "name": "open",
         "type": "boolean",
-        "description": "Whether the tooltip is open or not.\nThis overrides the internal state of the tooltip.",
+        "description": "Whether the tooltip is open or not.\nThis overrides the internal state of the tooltip.\n@deprecated This should not be used on Tooltip. Use a Popover instead\n@TODO Look at this prop",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "type",
+        "type": "enum",
+        "description": "Override if `aria-describedby` or `aria-labelledby` is used.\nBy default, if the trigger element has no inner text, `aria-labelledby` is used.",
         "defaultValue": null,
         "required": false
       }
@@ -127,6 +134,13 @@
         "name": "name",
         "type": "string",
         "description": "Form element name",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-toggle-group",
+        "type": "string",
+        "description": "Toggle group label for accessibility",
         "defaultValue": null,
         "required": false
       }
@@ -234,6 +248,13 @@
         "description": "Defines the width of `Input` in count of characters.",
         "defaultValue": null,
         "required": false
+      },
+      {
+        "name": "data-indeterminate",
+        "type": "boolean",
+        "description": "Indeterminate state for checkbox inputs\nOnly works when used inside `Field` component",
+        "defaultValue": "false",
+        "required": false
       }
     ]
   },
@@ -268,6 +289,13 @@
         "type": "any",
         "description": "Change the color scheme of the tag",
         "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "variant",
+        "type": "enum",
+        "description": "The visual variant of the tag",
+        "defaultValue": "'default'",
         "required": false
       }
     ]
@@ -630,7 +658,7 @@
       {
         "name": "readOnly",
         "type": "boolean",
-        "description": "Defines if the select is readOnly",
+        "description": "Defines if the select is readOnly\n@deprecated Use `aria-readonly` instead.",
         "defaultValue": "false",
         "required": false
       },
@@ -695,6 +723,13 @@
         "type": "boolean",
         "description": "Toggle `readOnly`",
         "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-indeterminate",
+        "type": "boolean",
+        "description": "Indeterminate state for checkbox inputs\nOnly works when used inside `Field` component",
+        "defaultValue": "false",
         "required": false
       },
       {
@@ -946,13 +981,27 @@
         "name": "aria-label",
         "type": "string",
         "description": "Sets the screen reader label for the Pagination area",
-        "defaultValue": "Sidenavigering",
+        "defaultValue": "'Bla i sider'",
+        "required": false
+      },
+      {
+        "name": "data-current",
+        "type": "string",
+        "description": "Current page number",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-total",
+        "type": "string",
+        "description": "Total number of pages",
+        "defaultValue": null,
         "required": false
       },
       {
         "name": "asChild",
         "type": "boolean",
-        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.\n@deprecated This is not supported anymore, as the element needs to be `ds-pagination`",
         "defaultValue": "false",
         "required": false
       }
@@ -999,38 +1048,10 @@
         "required": false
       },
       {
-        "name": "data-color",
-        "type": "any",
-        "description": "Change the color scheme of the button",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "data-size",
-        "type": "Size",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
-        "defaultValue": null,
-        "required": false
-      },
-      {
         "name": "asChild",
         "type": "boolean",
         "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
         "defaultValue": "false",
-        "required": false
-      },
-      {
-        "name": "variant",
-        "type": "enum",
-        "description": "Specify which variant to use",
-        "defaultValue": "'primary'",
-        "required": false
-      },
-      {
-        "name": "type",
-        "type": "enum",
-        "description": "Specify the type of button. Unset when `asChild` is true",
-        "defaultValue": "'button'",
         "required": false
       }
     ]
@@ -1163,6 +1184,13 @@
         "type": "AriaRole",
         "description": "Set role, i.e. `switch` when `checkbox` or `radio`",
         "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-indeterminate",
+        "type": "boolean",
+        "description": "Indeterminate state for checkbox inputs\nOnly works when used inside `Field` component",
+        "defaultValue": "false",
         "required": false
       }
     ]
@@ -1574,7 +1602,7 @@
       {
         "name": "asChild",
         "type": "boolean",
-        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.\n@deprecated This is not supported anymore, as the element needs to be `ds-field`",
         "defaultValue": "false",
         "required": false
       },
@@ -1608,7 +1636,7 @@
       {
         "name": "asChild",
         "type": "ReactNode",
-        "description": "",
+        "description": "@deprecated This is not supported anymore, as the element needs to be `ds-error-summary`",
         "defaultValue": null,
         "required": false
       },
@@ -1743,13 +1771,6 @@
         "type": "ReactNode",
         "description": "Toggle loading state.\nPass an element if you want to display a custom loader.",
         "defaultValue": "false",
-        "required": false
-      },
-      {
-        "name": "type",
-        "type": "enum",
-        "description": "Specify the type of button. Unset when `asChild` is true",
-        "defaultValue": "'button'",
         "required": false
       }
     ]
@@ -2024,14 +2045,21 @@
       {
         "name": "closedby",
         "type": "enum",
-        "description": "Light dismiss behavior, allowing to close on backdrop click  by setting `closedby=\"any\"`.",
+        "description": "Light dismiss behavior, allowing to close on backdrop click  by setting `closedby=\"any\"`.\n@see [mdn closedBy](https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/closedBy)",
         "defaultValue": "'closerequest'",
+        "required": false
+      },
+      {
+        "name": "placement",
+        "type": "enum",
+        "description": "When not center, displays dialog as a \"drawer\" from the specified side.",
+        "defaultValue": "'center'",
         "required": false
       },
       {
         "name": "modal",
         "type": "boolean",
-        "description": "Toogle modal and non-modal dialog.\n@see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#creating_a_modal_dialog",
+        "description": "Toogle modal and non-modal dialog.\n@see [mdn modal dialog](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#creating_a_modal_dialog)",
         "defaultValue": "true",
         "required": false
       },
@@ -2441,6 +2469,13 @@
         "required": false
       },
       {
+        "name": "data-indeterminate",
+        "type": "boolean",
+        "description": "Indeterminate state for checkbox inputs\nOnly works when used inside `Field` component",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
         "name": "aria-label",
         "type": "string",
         "description": "Optional aria-label",
@@ -2847,7 +2882,21 @@
       {
         "name": "aria-label",
         "type": "string",
-        "description": "The name of the person the avatar represents.",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-tooltip",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "aria-hidden",
+        "type": "Booleanish",
+        "description": "",
         "defaultValue": null,
         "required": false
       },
@@ -2870,6 +2919,13 @@
         "type": "string",
         "description": "Initials to display inside the avatar.",
         "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
         "required": false
       },
       {
