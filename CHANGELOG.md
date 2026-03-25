@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.1.126 (2026-03-25)
+
+- fix(lint): remove unused imports in Tooltip test (d586c4a5)
+- fix(tests): update Tooltip test for CSS-based tooltip in designsystemet v1.13 (4fce4bb2)
+- fix(tests): update interaction tests for designsystemet v1.13 breaking changes (99f0da81)
+- chore(deps): update rk-design-tokens to latest [skip ci] (21eff72f)
+- chore(deps): update @digdir/designsystemet packages to latest and remove deprecated theme (8fba6efe)
+- feat(ui): conditionally apply buttonText class in Header CTA and add SVG assets (ff46eafd)
+- feat(a11y): enable automated axe accessibility testing in CI (59c2dbc6)
+- chore(deps): update rk-design-tokens to latest [skip ci] (24e10939)
+- chore: pin Node.js version to >=20 via engines field and .nvmrc (4807d3a1)
+- test: add interaction tests to 17 interactive component stories (7fb789b6)
+
+
 ## 1.1.125 (2026-03-04)
 
 - chore(deps): update rk-design-tokens to latest [skip ci] (5ba62d57)
