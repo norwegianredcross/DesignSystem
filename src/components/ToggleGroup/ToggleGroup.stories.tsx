@@ -198,20 +198,22 @@ export const TestInteraction: Story = {
     const innboksRadio = canvas.getByRole('radio', { name: /innboks/i });
     expect(innboksRadio).toBeChecked();
 
-    // Click another item
-    const utkastRadio = canvas.getByRole('radio', { name: /utkast/i });
-    await userEvent.click(utkastRadio);
+    // Click another item via its label
+    const utkastLabel = canvas.getByText('Utkast');
+    await userEvent.click(utkastLabel);
 
     // New item selected, previous deselected
+    const utkastRadio = canvas.getByRole('radio', { name: /utkast/i });
     await waitFor(() => {
       expect(utkastRadio).toBeChecked();
     });
     expect(innboksRadio).not.toBeChecked();
 
-    // Click third item
-    const arkivRadio = canvas.getByRole('radio', { name: /arkiv/i });
-    await userEvent.click(arkivRadio);
+    // Click third item via its label
+    const arkivLabel = canvas.getByText('Arkiv');
+    await userEvent.click(arkivLabel);
 
+    const arkivRadio = canvas.getByRole('radio', { name: /arkiv/i });
     await waitFor(() => {
       expect(arkivRadio).toBeChecked();
     });

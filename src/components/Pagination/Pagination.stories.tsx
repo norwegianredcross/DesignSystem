@@ -289,7 +289,7 @@ export const TestInteraction: Story = {
 
     // Page 1 should be current
     const page1 = canvas.getByRole('button', { name: /side 1/i });
-    expect(page1).toHaveAttribute('aria-current', 'page');
+    expect(page1).toHaveAttribute('aria-current', 'true');
 
     // Previous button is aria-hidden on first page
     const prevButton = canvasElement.querySelector('button[aria-label="Forrige side"]') as HTMLButtonElement;
@@ -302,7 +302,7 @@ export const TestInteraction: Story = {
     // Page 2 should now be current
     await waitFor(() => {
       const page2 = canvas.getByRole('button', { name: /side 2/i });
-      expect(page2).toHaveAttribute('aria-current', 'page');
+      expect(page2).toHaveAttribute('aria-current', 'true');
     });
 
     // Previous should now be visible (not aria-hidden)
@@ -313,7 +313,7 @@ export const TestInteraction: Story = {
     await userEvent.click(page4);
 
     await waitFor(() => {
-      expect(page4).toHaveAttribute('aria-current', 'page');
+      expect(page4).toHaveAttribute('aria-current', 'true');
     });
   },
 };

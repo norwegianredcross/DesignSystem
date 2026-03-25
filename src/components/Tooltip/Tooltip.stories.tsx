@@ -119,8 +119,8 @@ export const TestInteraction: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    // Trigger button should exist
-    const trigger = canvas.getByRole('button', { name: /hover me/i });
+    // Trigger button should exist (aria-label is set to tooltip content by designsystemet)
+    const trigger = canvas.getByRole('button', { name: /tooltip message/i });
     expect(trigger).toBeInTheDocument();
 
     // Hover to show tooltip
