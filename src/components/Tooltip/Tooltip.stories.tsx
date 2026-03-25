@@ -123,16 +123,7 @@ export const TestInteraction: Story = {
     const trigger = canvas.getByRole('button', { name: /tooltip message/i });
     expect(trigger).toBeInTheDocument();
 
-    // Hover to show tooltip
-    await userEvent.hover(trigger);
-
-    // Tooltip text should appear in DOM
-    const body = within(document.body);
-    await waitFor(() => {
-      expect(body.getByText('Tooltip message')).toBeInTheDocument();
-    });
-
-    // Unhover
-    await userEvent.unhover(trigger);
+    // Tooltip content is rendered via CSS (data-tooltip attribute + pseudo-elements)
+    expect(trigger).toHaveAttribute('data-tooltip', 'Tooltip message');
   },
 };
