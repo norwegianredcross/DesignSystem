@@ -1,5 +1,5 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
-import { expect, within, userEvent, waitFor } from 'storybook/test';
+import { expect, within } from 'storybook/test';
 import { Tooltip, TooltipProps } from './index';
 import { Button } from '@digdir/designsystemet-react';
 
