@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.128 (2026-03-31)
+
+- fix: header navitems placement (a5115cd5)
+
+
 ## 1.1.127 (2026-03-31)
 
 - fix: header nav items positioning (95a17433)
