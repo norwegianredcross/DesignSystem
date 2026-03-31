@@ -721,7 +721,7 @@ function buildInlineCss(styles: Record<string, string>): string {
 .${s.redCrossLogo} { width: 169px; height: auto; display: block; }
 .${s.secondaryLogoWrapper} { display: flex; align-items: center; justify-content: center; height: 100%; padding: 0 var(--ds-size-6); background: var(--ds-color-neutral-background-default); }
 .${s.secondaryLogo} { height: 24px; width: auto; display: block; }
-.${s.navItems} { display: flex; gap: 40px; align-items: center; margin-left: 24px; flex-grow: 1; justify-content: flex-end; }
+.${s.navItems} { display: flex; gap: 40px; align-items: center; margin-left: 24px; flex-grow: 1; justify-content: center; }
 .${s.navLink} { color: var(--ds-color-primary-color-red-text-default); font-family: inherit; font-size: var(--ds-font-size-md); text-decoration: none; font-weight: var(--ds-font-weight-regular); letter-spacing: 0.09px; }
 .${s.navLink}:hover { text-decoration: underline; }
 .${s.actions} { display: flex; align-items: center; gap: var(--ds-size-6); flex-shrink: 0; margin-left: auto; }
