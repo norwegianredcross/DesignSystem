@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.127 (2026-03-31)
+
+- fix: header nav items positioning (95a17433)
+
+
 ## 1.1.126 (2026-03-25)
 
 - fix(lint): remove unused imports in Tooltip test (d586c4a5)
