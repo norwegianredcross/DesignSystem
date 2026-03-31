@@ -306,7 +306,7 @@
   align-items: center;
   margin-left: 24px; /* Space from logo */
   flex-grow: 1; /* Pushes actions to the right */
-  justify-content: flex-end; /* Align nav links to the right */
+  justify-content: center ; /* Align nav links to center */
 }
 
 .navLink {
