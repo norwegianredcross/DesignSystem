@@ -329,6 +329,7 @@ import { Checkbox } from 'rk-designsystem';
   aria-label?={string}
   aria-labelledby?={string}
   data-color?={any}
+  data-indeterminate?={false}
   data-size?={any}
   description?={ReactNode}
   disabled?={boolean}
@@ -380,6 +381,7 @@ import { Input } from 'rk-designsystem';
 
 <Input
   data-color?="accent" | "neutral" | "danger" | etc.
+  data-indeterminate?={false}
   data-size?="sm" | "md" | "lg"
   disabled?={boolean}
   readOnly?={boolean}
@@ -397,6 +399,7 @@ import { Radio } from 'rk-designsystem';
   aria-label?={string}
   aria-labelledby?={string}
   data-color?={any}
+  data-indeterminate?={false}
   data-size?={any}
   description?={ReactNode}
   disabled?={boolean}
@@ -452,6 +455,7 @@ import { Textfield } from 'rk-designsystem';
   aria-labelledby?={string}
   className?={string}
   counter?="number" | ""FieldCounterProps""
+  data-indeterminate?={false}
   data-size?={any}
   description?={ReactNode}
   error?={ReactNode}
@@ -539,10 +543,12 @@ Use `<BreadcrumbsList>`, `<BreadcrumbsItem>`, and `<BreadcrumbsLink>` for struct
 import { Pagination } from 'rk-designsystem';
 
 <Pagination
-  aria-label?={Sidenavigering}
+  aria-label?={"Bla i sider"}
   asChild?={false}
   data-color?="accent" | "neutral" | "danger" | etc.
+  data-current?={string}
   data-size?="sm" | "md" | "lg"
+  data-total?={string}
  />
 ```
 
@@ -585,6 +591,7 @@ import { Dialog } from 'rk-designsystem';
   modal?={true}
   onClose?={(event: Event) => void}
   open?={boolean}
+  placement?={"center"}
  />
 ```
 
@@ -627,6 +634,7 @@ import { Tooltip } from 'rk-designsystem';
   data-size?="sm" | "md" | "lg"
   open?={boolean}
   placement?={"top"}
+  type?={}
  />
 ```
 
@@ -637,10 +645,13 @@ import { Tooltip } from 'rk-designsystem';
 import { Avatar } from 'rk-designsystem';
 
 <Avatar
+  aria-hidden?={Booleanish}
   aria-label?={string}
+  asChild?={false}
   children?={ReactNode}
   data-color?="accent" | "neutral" | "danger" | etc.
   data-size?={any}
+  data-tooltip?={string}
   initials?={string}
   variant?={"circle"}
  />
@@ -700,6 +711,7 @@ import { Tag } from 'rk-designsystem';
 <Tag
   data-color?={any}
   data-size?="sm" | "md" | "lg"
+  variant?={"default"}
  />
 ```
 
@@ -769,6 +781,21 @@ import { BreadcrumbsList } from 'rk-designsystem';
 <BreadcrumbsList />
 ```
 
+#### CrossCorner
+```tsx
+import { CrossCorner } from 'rk-designsystem';
+
+<CrossCorner
+  aria-hidden?={true}
+  aria-label?={string}
+  className?={string}
+  data-color?="accent" | "neutral" | "danger" | etc.
+  data-size?="sm" | "md" | "lg"
+  position?={top-left}
+  size?={md}
+ />
+```
+
 #### Details
 ```tsx
 import { Details, Details.Summary, Details.Content } from 'rk-designsystem';
@@ -787,6 +814,37 @@ import { Details, Details.Summary, Details.Content } from 'rk-designsystem';
 ```
 
 Use `<Details.Summary>` and `<Details.Content>` for accordion structure.
+
+#### Donor
+```tsx
+import { Donor } from 'rk-designsystem';
+
+<Donor
+  amountLabel?={Velg ønsket beløp:}
+  amounts?={[
+  { value: 220, label: "220 kr" },
+  { value: 345, label: "345 kr" },
+  { value: 660, label: "660 kr" },
+]}
+  avtalegiroHref?={#}
+  avtalegiroLabel?={Gi med avtalegiro}
+  currencySuffix?={kr}
+  customAmountPlaceholder?={Valgfritt beløp}
+  data-color?={primary}
+  defaultAmount?={345}
+  heartVariant?={outlined}
+  impactMessage?={En gave på {amount} bidrar til ...}
+  monthlyLabel?={Hver måned}
+  onAmountChange?={(amount: number, frequency: 'one-time' | 'monthly') => void}
+  onAvtalegiroClick?={() => void}
+  oneTimeLabel?={En gang}
+  onVippsClick?={(amount: number, frequency: 'one-time' | 'monthly') => void}
+  showAvtalegiroLink?={true}
+  showImpactMessage?={true}
+  showVippsButton?={true}
+  vippsButtonLabel?={Gi med}
+ />
+```
 
 #### Dropdown
 ```tsx
@@ -857,7 +915,6 @@ false}
   inline?={false
 false}
   loading?={false}
-  type?={"button"}
   variant?={"primary"}
  />
 ```
@@ -920,10 +977,6 @@ import { PaginationButton } from 'rk-designsystem';
 <PaginationButton
   aria-current?={false}
   asChild?={false}
-  data-color?={any}
-  data-size?="sm" | "md" | "lg"
-  type?={"button"}
-  variant?={"primary"}
  />
 ```
 
@@ -1006,6 +1059,7 @@ import { ToggleGroup } from 'rk-designsystem';
 <ToggleGroup
   data-color?="accent" | "neutral" | "danger" | etc.
   data-size?="sm" | "md" | "lg"
+  data-toggle-group?={string}
   defaultValue?={string}
   name?={string}
   onChange?={(value: string) => void}
@@ -1066,19 +1120,31 @@ import { Carousel } from 'rk-designsystem';
 import { Footer } from 'rk-designsystem';
 
 <Footer
-  data-color?={additional}
+  contactPersons?={[]}
+  contactPersonsTitle?={string}
+  data-color?={neutral}
+  email?={post@redcross.no}
+  hideNewsletter?={false}
+  legalLinks?={[]}
+  linksLinks?={FooterLink[]}
+  linksTitle?={string}
+  newsletterButtonText?={Meld deg på}
+  newsletterConsentText?={ReactNode}
+  newsletterDescription?={Tekst om rødekors som kan være rundt 2 linjebrudd i lengde.}
+  newsletterPlaceholder?={Input tekst}
+  onNewsletterSubmit?={(email: string) => void}
+  organizationNumber?={XXX XXX XXX}
   primaryLogoAlt?={Røde Kors Logo}
   primaryLogoSrc?={string}
-  redSectionSlot?={ReactNode}
-  secondaryLogo?={false}
-  secondaryLogoAlt?={Designsystem Logo}
-  secondaryLogoSrc?={string}
-  secondaryLogoSrcDark?={string}
-  shortcutsLinksLeft?={FooterLink[]}
-  shortcutsLinksRight?={FooterLink[]}
+  shortcutsLinks?={FooterLink[]}
+  shortcutsTitle?={string}
+  showCrossCorners?={false}
   showPrimaryLogo?={true}
-  whiteSectionSlotLarge?={ReactNode}
-  whiteSectionSlotSmall?={ReactNode}
+  socialLinks?={[]}
+  socialLinksTitle?={string}
+  variant?={default}
+  visitingAddress?={["Hausmannsgate 7 (Korsegården)", "0186 Oslo"]}
+  whiteSectionSlot?={ReactNode}
  />
 ```
 
@@ -1091,6 +1157,7 @@ import { Header } from 'rk-designsystem';
   ctaIcon?={<HeartIcon aria-hidden />}
   ctaLabel?={string}
   data-color?={primary}
+  extensionColor?={}
   navItems?={{ label: string; href: string; }[]}
   onCtaClick?={() => void}
   secondaryLogo?={false}

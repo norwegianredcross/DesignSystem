@@ -196,8 +196,19 @@ Invoke-WebRequest -Uri "https://norwegianredcross.github.io/DesignSystem/storybo
 ### Related Resources
 
 - **Component Metadata**: https://norwegianredcross.github.io/DesignSystem/storybook/metadata.json
+- **AI Context Manifest**: https://norwegianredcross.github.io/DesignSystem/storybook/ai-context.manifest.json
 - **Design Tokens**: https://norwegianredcross.github.io/design-tokens/theme.css
 - **GitHub Repository**: https://github.com/norwegianredcross/DesignSystem
+
+### Published Context Bundle
+
+The Storybook publish step ships three downstream-facing artifacts together:
+
+- `AI_DESIGN_SYSTEM_GUIDE.md`
+- `metadata.json`
+- `ai-context.manifest.json`
+
+The guide remains the main human-readable reference. The manifest is additive and exists so downstream repos can refresh local rules and detect drift without scraping the full guide.
 
 ---
 
