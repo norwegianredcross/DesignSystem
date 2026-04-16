@@ -1,0 +1,195 @@
+.player {
+  display: flex;
+  flex-direction: column;
+  background: var(--ds-color-neutral-background-default);
+  border: 1px solid var(--ds-color-neutral-border-subtle);
+  border-radius: var(--ds-border-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--ds-shadow-md);
+}
+
+.stage {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 0;
+  min-height: 360px;
+}
+
+/* --- Editor --- */
+.editor {
+  display: flex;
+  flex-direction: column;
+  background: #0f1420;
+  color: #e6e9f2;
+  border-right: 1px solid var(--ds-color-neutral-border-subtle);
+  min-width: 0;
+}
+
+.editorChrome {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-size-2);
+  padding: var(--ds-size-3) var(--ds-size-4);
+  background: #0a0e17;
+  border-bottom: 1px solid #1f2637;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--ds-border-radius-full);
+  display: inline-block;
+}
+
+.dotRed { background: #ff5f57; }
+.dotAmber { background: #febc2e; }
+.dotGreen { background: #28c840; }
+
+.fileName {
+  margin-left: var(--ds-size-4);
+  font-family: 'Courier New', ui-monospace, monospace;
+  font-size: var(--ds-body-sm-font-size, 13px);
+  color: #8b93a7;
+}
+
+.codeBlock {
+  margin: 0;
+  padding: var(--ds-size-4) 0;
+  font-family: 'Courier New', ui-monospace, monospace;
+  font-size: 14px;
+  line-height: 1.7;
+  overflow-x: auto;
+  flex: 1;
+}
+
+.codeBlock code {
+  display: block;
+}
+
+.line {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ds-size-4);
+  padding: 0 var(--ds-size-5);
+  white-space: pre;
+}
+
+.lineNumber {
+  width: 1.5em;
+  text-align: right;
+  color: #4a5168;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.lineContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.caret {
+  display: inline-block;
+  color: var(--ds-color-primary-color-red-base-default);
+  animation: blink 1s steps(2, start) infinite;
+  margin-left: 1px;
+  transform: translateY(-1px);
+}
+
+@keyframes blink {
+  to { opacity: 0; }
+}
+
+/* --- Syntax colors --- */
+.tokenTag { color: #f47a8e; }
+.tokenProp { color: #89d1f5; }
+.tokenString { color: #b4e07f; }
+.tokenExpr { color: #f0c36d; }
+
+/* --- Preview --- */
+.preview {
+  display: flex;
+  flex-direction: column;
+  padding: var(--ds-size-6) var(--ds-size-6) var(--ds-size-8);
+  background:
+    radial-gradient(circle at bottom left, var(--ds-color-neutral-surface-tinted) 0%, transparent 60%),
+    var(--ds-color-neutral-background-default);
+  min-width: 0;
+}
+
+.previewLabel {
+  font-size: var(--ds-body-xs-font-size, 12px);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ds-color-neutral-text-subtle);
+  font-weight: var(--ds-font-weight-semibold);
+  margin-bottom: var(--ds-size-3);
+}
+
+.previewCard {
+  flex: 1;
+  animation: cardIn var(--ds-duration-slow) var(--ds-ease-emphasized);
+}
+
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.previewStack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--ds-size-3);
+  padding: var(--ds-size-3);
+  min-height: 220px;
+  justify-content: center;
+}
+
+.previewItem {
+  opacity: 0;
+  transform: translateY(6px) scale(0.94);
+  transition: opacity var(--ds-duration-slow) var(--ds-ease-emphasized),
+              transform var(--ds-duration-slow) var(--ds-ease-emphasized);
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.previewItemVisible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.previewEmpty {
+  flex: 1;
+  border: 2px dashed var(--ds-color-neutral-border-subtle);
+  border-radius: var(--ds-border-radius-lg);
+  min-height: 220px;
+}
+
+@media (max-width: 768px) {
+  .stage {
+    grid-template-columns: 1fr;
+  }
+
+  .editor {
+    border-right: none;
+    border-bottom: 1px solid var(--ds-color-neutral-border-subtle);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .caret,
+  .previewItem,
+  .previewCard {
+    animation: none !important;
+    transition: none !important;
+  }
+}

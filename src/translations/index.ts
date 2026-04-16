@@ -65,7 +65,36 @@ export const translations = {
       featureFont: "Source Sans 3 inkludert",
       featureComponent: "Nye komponentvarianter",
       featureSeeAll: "Se alle oppdateringer",
-      
+
+      // Interactive Showcase
+      showcase: {
+        eyebrow: "Designsystemet i bruk",
+        title: "Fra idé til kode",
+        lead: "Designsystemet fungerer både i Figma og i React. Se hvordan en komponent settes sammen visuelt, og hvordan den samme komposisjonen skrives ut i kode.",
+        designRow: {
+          kicker: "01 · Design",
+          heading: "Komponér visuelt",
+          body: "Alle komponentene finnes som ferdige byggeklosser i Figma. Dra dem inn på lerretet, kombinér dem, og finn et uttrykk som fungerer — før en eneste linje kode er skrevet."
+        },
+        codeRow: {
+          kicker: "02 · Kode",
+          heading: "Samme komposisjon i React",
+          body: "Det du bygger i Figma kan gjenskapes i React med de samme komponentene. Props, tokens og struktur er delt mellom de to verdenene, så designet og koden holder seg i takt."
+        },
+        canvasTitle: "Lerret",
+        fileName: "ProfileCard.tsx",
+        palette: {
+          title: "Komponenter",
+          avatar: "Avatar",
+          heading: "Overskrift",
+          button: "Button",
+          tag: "Tag"
+        },
+        labels: {
+          save: "Lagre"
+        }
+      },
+
       // Visual elements (cards)
       profile: "Profil",
       name: "Navn Navnesen",
@@ -933,6 +962,23 @@ export const translations = {
         githubIssuesLink: "https://github.com/norwegianredcross/DesignSystem/issues"
       }
     },
+    // Tokens Page
+    tokensPage: {
+      title: "Designtokens",
+      description: "Alle designtokens tilgjengelig fra theme.css. Disse CSS-variablene kan brukes i hele applikasjonen.",
+      categoriesLabel: "Kategorier",
+      categories: {
+        colors: "Farger",
+        sizes: "Størrelser og avstand",
+        typography: "Typografi",
+        borders: "Kantlinjer",
+        shadows: "Skygger",
+        effects: "Effekter",
+        other: "Annet"
+      },
+      copyTokenLabel: "Kopier {name} til utklippstavlen",
+      colorPreviewLabel: "Fargeforhåndsvisning: {value}"
+    },
     // Footer
     footer: {
       shortcuts: "Snarveier",
@@ -1041,6 +1087,35 @@ export const translations = {
       featureFont: "Source Sans 3 included",
       featureComponent: "New component variants",
       featureSeeAll: "See all updates",
+
+      // Interactive Showcase
+      showcase: {
+        eyebrow: "The design system in action",
+        title: "From idea to code",
+        lead: "The design system works in both Figma and React. Watch how a component gets assembled visually, and how the same composition is written out in code.",
+        designRow: {
+          kicker: "01 · Design",
+          heading: "Compose visually",
+          body: "Every component ships as a ready-made building block in Figma. Drag them onto the canvas, combine them, and find the right expression — before a single line of code is written."
+        },
+        codeRow: {
+          kicker: "02 · Code",
+          heading: "The same composition in React",
+          body: "What you build in Figma can be recreated in React with the exact same components. Props, tokens and structure are shared between both worlds, so design and code stay in lockstep."
+        },
+        canvasTitle: "Canvas",
+        fileName: "ProfileCard.tsx",
+        palette: {
+          title: "Components",
+          avatar: "Avatar",
+          heading: "Heading",
+          button: "Button",
+          tag: "Tag"
+        },
+        labels: {
+          save: "Save"
+        }
+      },
 
       // Visual elements (cards)
       profile: "Profile",
@@ -1910,6 +1985,23 @@ export const translations = {
         githubLink: "https://github.com/norwegianredcross/DesignSystem",
         githubIssuesLink: "https://github.com/norwegianredcross/DesignSystem/issues"
       }
+    },
+    // Tokens Page
+    tokensPage: {
+      title: "Design Tokens",
+      description: "All design tokens available from theme.css. These CSS custom properties can be used throughout your application.",
+      categoriesLabel: "Categories",
+      categories: {
+        colors: "Colors",
+        sizes: "Sizes & Spacing",
+        typography: "Typography",
+        borders: "Borders",
+        shadows: "Shadows",
+        effects: "Effects",
+        other: "Other"
+      },
+      copyTokenLabel: "Copy {name} to clipboard",
+      colorPreviewLabel: "Color preview: {value}"
     },
     // Footer
     footer: {

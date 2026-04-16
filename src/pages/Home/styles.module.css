@@ -11,7 +11,7 @@
   .heroSection {
     position: relative;
     /* Using tokens for vertical padding */
-    padding: var(--ds-size-30) 0 var(--ds-size-22);
+    padding: calc(var(--ds-size-30) + var(--ds-size-10)) 0 var(--ds-size-30);
     background-color: var(--ds-color-neutral-background-default);
     overflow: hidden; /* Ensure the large floating grid doesn't cause scrollbars */
   }
@@ -93,7 +93,7 @@
   .heroVisual {
     position: relative;
     /* Using size tokens for height constraints */
-    height: calc(var(--ds-size-30) * 3);
+    height: calc(var(--ds-size-30) * 3.5);
     width: 100%;
     display: flex;
     justify-content: center;
@@ -160,9 +160,105 @@
     z-index: 5;
   }
   
+  /* --- INTERACTIVE SHOWCASE --- */
+  .showcaseSection {
+    padding: var(--ds-size-30) 0 var(--ds-size-22);
+    background: var(--ds-color-neutral-background-default);
+  }
+
+  .showcaseContainer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ds-size-10);
+  }
+
+  .showcaseIntro {
+    max-width: 720px;
+    text-align: center;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--ds-size-4);
+  }
+
+  .showcaseIntro .sectionTitle {
+    margin-bottom: 0;
+  }
+
+  .showcaseLead {
+    color: var(--ds-color-neutral-text-subtle);
+    margin: 0;
+  }
+
+  .showcaseRows {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ds-size-16);
+  }
+
+  .showcaseRow {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: var(--ds-size-12);
+    align-items: center;
+  }
+
+  /* Row 2 flips so the copy sits on the left of the animation */
+  .showcaseRowRight {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+  }
+
+  .showcaseAnimation {
+    min-width: 0;
+  }
+
+  .showcaseCopy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ds-size-3);
+    max-width: 42ch;
+  }
+
+  .showcaseKicker {
+    font-size: var(--ds-body-xs-font-size, 12px);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ds-color-primary-color-red-text-default);
+    font-weight: var(--ds-font-weight-bold);
+  }
+
+  .showcaseCopyTitle {
+    margin: 0;
+    color: var(--ds-color-neutral-text-default);
+  }
+
+  .showcaseCopyBody {
+    margin: 0;
+    color: var(--ds-color-neutral-text-subtle);
+  }
+
+  @media (max-width: 900px) {
+    .showcaseRow,
+    .showcaseRowRight {
+      grid-template-columns: 1fr;
+      gap: var(--ds-size-6);
+    }
+
+    /* On stacked layout keep the animation above the copy regardless of row direction */
+    .showcaseRowRight .showcaseAnimation {
+      order: -1;
+    }
+
+    .showcaseCopy {
+      max-width: 100%;
+    }
+  }
+
   /* --- BENTO NAVIGATION --- */
   .section {
     padding: var(--ds-size-22) 0;
+    background: var(--ds-color-neutral-background-tinted);
   }
   
   .sectionTitle {
@@ -371,7 +467,7 @@
     .heroVisual {
       flex: 1;
       /* Use tokens for height */
-      height: calc(var(--ds-size-30) * 3);
+      height: calc(var(--ds-size-30) * 3.5);
       justify-content: center;
       perspective-origin: center right;
       width:200%;

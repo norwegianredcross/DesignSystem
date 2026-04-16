@@ -7,6 +7,8 @@ import { Switch } from '../../components/Switch';
 import { Avatar } from '../../components/Avatar';
 import { Badge } from '../../components/Badge';
 import { Chip } from '../../components/Chip';
+import { DesignAnimation } from '../../animations/DesignAnimation';
+import { CodeAnimation } from '../../animations/CodeAnimation';
 import {
   WheelchairIcon,
   PaletteIcon,
@@ -195,6 +197,73 @@ export const HomePage = ({ setPage }: HomePageProps) => {
               </div>
             </a>
 
+          </div>
+        </div>
+      </section>
+
+      {/* --- INTERACTIVE SHOWCASE --- */}
+      <section id="showcase" className={styles.showcaseSection}>
+        <div className={`container ${styles.showcaseContainer}`}>
+          <div className={styles.showcaseIntro}>
+            <Heading level={2} data-size="xl" className={styles.sectionTitle}>
+              {t('home.showcase.title')}
+            </Heading>
+            <Paragraph data-size="lg" className={styles.showcaseLead}>
+              {t('home.showcase.lead')}
+            </Paragraph>
+          </div>
+
+          <div className={styles.showcaseRows}>
+            {/* Row 1 — Design (animation left, text right) */}
+            <div className={`${styles.showcaseRow} ${styles.showcaseRowLeft}`}>
+              <div className={styles.showcaseAnimation}>
+                <DesignAnimation
+                  labels={{
+                    avatar: t('home.showcase.palette.avatar'),
+                    heading: t('home.showcase.palette.heading'),
+                    button: t('home.showcase.palette.button'),
+                    tag: t('home.showcase.palette.tag'),
+                    name: t('home.name'),
+                    role: t('home.volunteer'),
+                    cta: t('home.showcase.labels.save'),
+                    paletteTitle: t('home.showcase.palette.title'),
+                    canvasTitle: t('home.showcase.canvasTitle'),
+                  }}
+                />
+              </div>
+              <div className={styles.showcaseCopy}>
+                <div className={styles.showcaseKicker}>{t('home.showcase.designRow.kicker')}</div>
+                <Heading level={3} data-size="lg" className={styles.showcaseCopyTitle}>
+                  {t('home.showcase.designRow.heading')}
+                </Heading>
+                <Paragraph className={styles.showcaseCopyBody}>
+                  {t('home.showcase.designRow.body')}
+                </Paragraph>
+              </div>
+            </div>
+
+            {/* Row 2 — Code (text left, animation right) */}
+            <div className={`${styles.showcaseRow} ${styles.showcaseRowRight}`}>
+              <div className={styles.showcaseCopy}>
+                <div className={styles.showcaseKicker}>{t('home.showcase.codeRow.kicker')}</div>
+                <Heading level={3} data-size="lg" className={styles.showcaseCopyTitle}>
+                  {t('home.showcase.codeRow.heading')}
+                </Heading>
+                <Paragraph className={styles.showcaseCopyBody}>
+                  {t('home.showcase.codeRow.body')}
+                </Paragraph>
+              </div>
+              <div className={styles.showcaseAnimation}>
+                <CodeAnimation
+                  labels={{
+                    name: t('home.name'),
+                    role: t('home.volunteer'),
+                    cta: t('home.showcase.labels.save'),
+                    fileName: t('home.showcase.fileName'),
+                  }}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
