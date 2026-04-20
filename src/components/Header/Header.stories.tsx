@@ -318,8 +318,9 @@ export const TestUserClick: Story = {
     const canvas = within(canvasElement);
 
     // Name renders and initials derive to "ON"
+    // DigDir Avatar exposes initials via data-initials (CSS pseudo-element), not text content.
     expect(canvas.getByText('Ola Nordmann')).toBeInTheDocument();
-    expect(canvas.getByLabelText('Ola Nordmann')).toHaveTextContent('ON');
+    expect(canvas.getByLabelText('Ola Nordmann')).toHaveAttribute('data-initials', 'ON');
 
     // Block is a keyboard-accessible button
     const userBlock = canvas.getByRole('button', { name: /Ola Nordmann/i });
