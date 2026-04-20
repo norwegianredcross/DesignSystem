@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.129 (2026-04-20)
+
+- fix(header): assert initials via data-initials attribute in test (aa532a73)
+- feat(header): accept user name, initials, avatar image, and click handler (4e7db730)
+- feat(home, tokens): add design/code animations and rework Tokens page (54fb779b)
+
+
 ## 1.1.128 (2026-03-31)
 
 - fix: header navitems placement (a5115cd5)
