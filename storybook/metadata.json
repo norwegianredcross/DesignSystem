@@ -1381,6 +1381,34 @@
         "description": "Background color variant for the header extension (top bar). 'tinted' uses a soft pink/red tinted background.",
         "defaultValue": null,
         "required": false
+      },
+      {
+        "name": "userName",
+        "type": "string",
+        "description": "Display name shown next to the avatar. Falls back to current placeholder if omitted.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "userInitials",
+        "type": "string",
+        "description": "Initials rendered inside the avatar circle. Auto-derived from userName if omitted.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "userAvatarSrc",
+        "type": "string",
+        "description": "Avatar image URL. Takes precedence over initials when provided.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "onUserClick",
+        "type": "() => void",
+        "description": "Optional click handler on the user block — enables future dropdown/menu integration.",
+        "defaultValue": null,
+        "required": false
       }
     ]
   },

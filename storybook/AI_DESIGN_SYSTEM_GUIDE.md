@@ -1160,6 +1160,7 @@ import { Header } from 'rk-designsystem';
   extensionColor?={}
   navItems?={{ label: string; href: string; }[]}
   onCtaClick?={() => void}
+  onUserClick?={() => void}
   secondaryLogo?={false}
   secondaryLogoAlt?={Secondary Logo}
   secondaryLogoSrc?={string}
@@ -1175,6 +1176,9 @@ import { Header } from 'rk-designsystem';
   showSearch?={true}
   showThemeToggle?={false}
   showUser?={true}
+  userAvatarSrc?={string}
+  userInitials?={string}
+  userName?={string}
  />
 ```
 
