@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { expect, within, userEvent, waitFor } from 'storybook/test';
+import { expect, within, userEvent, waitFor, fn } from 'storybook/test';
 import { Header } from './index';
+import avatarPlaceholder from '../../assets/images/person2.jpg';
 
 const meta: Meta<typeof Header> = {
   title: 'Components/Header',
@@ -74,6 +75,22 @@ const meta: Meta<typeof Header> = {
       control: 'select',
       options: ['primary', 'neutral', 'tinted'],
       description: 'Background color variant for the top bar. "tinted" uses a soft pink background.',
+    },
+    userName: {
+      control: 'text',
+      description: 'Display name shown next to the avatar. Falls back to "Frodo Baggins" if omitted.',
+    },
+    userInitials: {
+      control: 'text',
+      description: 'Initials rendered inside the avatar. Auto-derived from userName if omitted.',
+    },
+    userAvatarSrc: {
+      control: 'text',
+      description: 'Avatar image URL. Takes precedence over initials when provided.',
+    },
+    onUserClick: {
+      action: 'user-clicked',
+      description: 'Click handler on the user block. When set, the block becomes a keyboard-accessible button.',
     },
   },
 };
@@ -158,6 +175,73 @@ export const WithMenuContent: Story = {
   },
 };
 
+export const WithRealUser: Story = {
+  args: {
+    showUser: true,
+    showSearch: true,
+    showLogin: false,
+    userName: 'Daniel Barlag',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Pass `userName` and the avatar initials are auto-derived (here: "DB").',
+      },
+    },
+  },
+};
+
+export const WithExplicitInitials: Story = {
+  args: {
+    showUser: true,
+    showSearch: true,
+    showLogin: false,
+    userName: 'Ola',
+    userInitials: 'ON',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Override auto-derivation by supplying `userInitials` explicitly.',
+      },
+    },
+  },
+};
+
+export const WithAvatarImage: Story = {
+  args: {
+    showUser: true,
+    showSearch: true,
+    showLogin: false,
+    userName: 'Kari Hansen',
+    userAvatarSrc: avatarPlaceholder,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'When `userAvatarSrc` is provided, the avatar renders the image instead of initials.',
+      },
+    },
+  },
+};
+
+export const ClickableUser: Story = {
+  args: {
+    showUser: true,
+    showSearch: true,
+    showLogin: false,
+    userName: 'Daniel Barlag',
+    onUserClick: fn(),
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'When `onUserClick` is provided, the user block becomes a keyboard-accessible button (role="button", tabIndex=0, Enter/Space activation).',
+      },
+    },
+  },
+};
+
 export const NeutralColor: Story = {
   args: {
     'data-color': 'neutral',
@@ -217,6 +301,33 @@ export const TestInteraction: Story = {
 
     await waitFor(() => {
       expect(searchButton).toHaveAttribute('aria-expanded', 'true');
+    });
+  },
+};
+
+export const TestUserClick: Story = {
+  name: 'Test: User block click',
+  args: {
+    showUser: true,
+    showSearch: false,
+    showLogin: false,
+    userName: 'Ola Nordmann',
+    onUserClick: fn(),
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+
+    // Name renders and initials derive to "ON"
+    expect(canvas.getByText('Ola Nordmann')).toBeInTheDocument();
+    expect(canvas.getByLabelText('Ola Nordmann')).toHaveTextContent('ON');
+
+    // Block is a keyboard-accessible button
+    const userBlock = canvas.getByRole('button', { name: /Ola Nordmann/i });
+    expect(userBlock).toHaveAttribute('tabIndex', '0');
+
+    await userEvent.click(userBlock);
+    await waitFor(() => {
+      expect(args.onUserClick).toHaveBeenCalledTimes(1);
     });
   },
 };

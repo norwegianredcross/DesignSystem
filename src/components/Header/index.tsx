@@ -37,6 +37,23 @@ export interface HeaderProps {
   showLanguageSwitch?: boolean;
   /** Background color variant for the header extension (top bar). 'tinted' uses a soft pink/red tinted background. */
   extensionColor?: 'primary' | 'neutral' | 'tinted';
+  /** Display name shown next to the avatar. Falls back to current placeholder if omitted. */
+  userName?: string;
+  /** Initials rendered inside the avatar circle. Auto-derived from userName if omitted. */
+  userInitials?: string;
+  /** Avatar image URL. Takes precedence over initials when provided. */
+  userAvatarSrc?: string;
+  /** Optional click handler on the user block — enables future dropdown/menu integration. */
+  onUserClick?: () => void;
+}
+
+function deriveInitials(name: string): string {
+  return name
+    .split(/\s+/)
+    .map((part) => part[0] ?? '')
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
 }
 
 export const Header = ({ 
@@ -63,6 +80,10 @@ export const Header = ({
   showModeToggle = false,
   showLanguageSwitch = false,
   extensionColor,
+  userName,
+  userInitials,
+  userAvatarSrc,
+  onUserClick,
 }: HeaderProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -407,12 +428,42 @@ export const Header = ({
           )}
 
           {/* User Info - Desktop shows Name + Avatar, Mobile shows Avatar */}
-          {showUser && (
-            <div className={styles.userInfo}>
-              <Paragraph data-size="md" className={styles.userName}>Frodo Baggins</Paragraph>
-              <Avatar aria-label="Frodo Baggins" data-color="main" variant="circle" initials="FB" />
-            </div>
-          )}
+          {showUser && (() => {
+            const displayName = userName ?? 'Frodo Baggins';
+            const displayInitials = userInitials ?? (userName ? deriveInitials(userName) : 'FB');
+            const isClickable = Boolean(onUserClick);
+            return (
+              <div
+                className={styles.userInfo}
+                onClick={onUserClick}
+                role={isClickable ? 'button' : undefined}
+                tabIndex={isClickable ? 0 : undefined}
+                onKeyDown={isClickable ? (e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    onUserClick?.();
+                  }
+                } : undefined}
+                style={isClickable ? { cursor: 'pointer' } : undefined}
+              >
+                <Paragraph data-size="md" className={styles.userName}>{displayName}</Paragraph>
+                <Avatar
+                  aria-label={displayName}
+                  data-color="main"
+                  variant="circle"
+                  initials={userAvatarSrc ? undefined : displayInitials}
+                >
+                  {userAvatarSrc ? (
+                    <img
+                      src={userAvatarSrc}
+                      alt=""
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
+                  ) : undefined}
+                </Avatar>
+              </div>
+            );
+          })()}
 
           {/* Login Link */}
           {showLogin && (
