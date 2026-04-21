@@ -78,40 +78,40 @@ export const HomePage = ({ setPage }: HomePageProps) => {
                      </div>
                    </CardBlock>
                  </Card>
-                 <div className={styles.visualElement}>
+                 <Card variant="default" className={styles.visualElement}>
                    <Button variant="primary" style={{ width: '100%' }}>{t('home.save')}</Button>
-                 </div>
-                 <div className={styles.visualElement}>
+                 </Card>
+                 <Card variant="default" className={styles.visualElement}>
                    <Tag data-color="success" data-size="sm">{t('home.approved')}</Tag>
                    <Tag data-color="danger" data-size="sm">{t('home.rejected')}</Tag>
-                 </div>
+                 </Card>
               </div>
 
               {/* Column 2 (Center Offset) */}
               <div className={`${styles.gridColumn} ${styles.columnOffset}`} style={{ animationDelay: '1.5s' }}>
-                <div className={styles.visualElement}>
+                <Card variant="default" className={styles.visualElement}>
                    <Switch label={t('home.darkModeLabel')} position="start" data-size="sm" />
-                 </div>
+                 </Card>
                  <Card variant="default" className={styles.visualCard} style={{ borderLeft: 'var(--ds-size-1) solid var(--ds-color-primary-color-red-base-default)' }}>
                    <CardBlock>
                      <Heading level={3} data-size="xs">{t('home.importantMessage')}</Heading>
                      <Paragraph data-size="sm" style={{ marginTop: 'var(--ds-size-2)' }}>{t('home.updateGuidelines')}</Paragraph>
                    </CardBlock>
                  </Card>
-                 <div className={styles.visualElement}>
+                 <Card variant="default" className={styles.visualElement}>
                    <div className={styles.cardRow} style={{gap: 'var(--ds-size-2)'}}>
                      <Chip.Radio name="filter-demo" value="all" defaultChecked>{t('home.all')}</Chip.Radio>
                      <Chip.Radio name="filter-demo" value="active">{t('home.active')}</Chip.Radio>
                    </div>
-                 </div>
+                 </Card>
               </div>
 
                {/* Column 3 */}
                <div className={styles.gridColumn} style={{ animationDelay: '0.8s' }}>
-                 <div className={styles.visualElement}>
+                 <Card variant="default" className={styles.visualElement}>
                    <Badge data-color="primary" count={5} maxCount={9} />
                    <Button variant="tertiary">{t('home.alerts')}</Button>
-                 </div>
+                 </Card>
                  <Card variant="tinted" data-color="primary" className={styles.visualCard}>
                    <CardBlock>
                      <div className={styles.spaceBetween}>
@@ -138,10 +138,12 @@ export const HomePage = ({ setPage }: HomePageProps) => {
           
           <div className={styles.bentoWrapper}>
             {/* Components Card */}
-            <a 
-              href="#" 
-              onClick={(e) => { e.preventDefault(); setPage('components'); }} 
+            <Card
+              variant="default"
               className={styles.bentoItem}
+              onClick={() => setPage('components')}
+              role="link"
+              tabIndex={0}
             >
               <div className={styles.bentoContent}>
                 <div className={styles.bentoHeader}>
@@ -155,13 +157,15 @@ export const HomePage = ({ setPage }: HomePageProps) => {
                   <Paragraph className={styles.bentoDesc}>{t('home.componentsDesc')}</Paragraph>
                 </div>
               </div>
-            </a>
+            </Card>
 
             {/* Design Card */}
-            <a 
-              href="#" 
-              onClick={(e) => { e.preventDefault(); setPage('design'); }} 
+            <Card
+              variant="default"
               className={styles.bentoItem}
+              onClick={() => setPage('design')}
+              role="link"
+              tabIndex={0}
             >
               <div className={styles.bentoContent}>
                 <div className={styles.bentoHeader}>
@@ -175,13 +179,15 @@ export const HomePage = ({ setPage }: HomePageProps) => {
                   <Paragraph className={styles.bentoDesc}>{t('home.designDesc')}</Paragraph>
                 </div>
               </div>
-            </a>
+            </Card>
 
             {/* Code Card */}
-            <a
-              href="#"
-              onClick={(e) => { e.preventDefault(); setPage('code'); }}
+            <Card
+              variant="default"
               className={styles.bentoItem}
+              onClick={() => setPage('code')}
+              role="link"
+              tabIndex={0}
             >
               <div className={styles.bentoContent}>
                 <div className={styles.bentoHeader}>
@@ -195,7 +201,7 @@ export const HomePage = ({ setPage }: HomePageProps) => {
                   <Paragraph className={styles.bentoDesc}>{t('home.codeDesc')}</Paragraph>
                 </div>
               </div>
-            </a>
+            </Card>
 
           </div>
         </div>
@@ -272,7 +278,7 @@ export const HomePage = ({ setPage }: HomePageProps) => {
       <section className={styles.sectionValues} data-color-scheme="dark">
         <div className="container">
           <div className={styles.valuesGrid}>
-            <div className={styles.valueItem}>
+            <Card variant="default" className={styles.valueItem}>
               <div className={styles.valueIcon}>
                 <WheelchairIcon className={styles.iconXLarge} aria-hidden />
               </div>
@@ -290,9 +296,9 @@ export const HomePage = ({ setPage }: HomePageProps) => {
                 {t('home.readGuidelines')}
                 <ArrowRightIcon aria-hidden />
               </Button>
-            </div>
+            </Card>
 
-            <div className={styles.valueItem}>
+            <Card variant="default" className={styles.valueItem}>
               <div className={styles.valueIcon}>
                 <PaletteIcon className={styles.iconXLarge} aria-hidden />
               </div>
@@ -310,9 +316,9 @@ export const HomePage = ({ setPage }: HomePageProps) => {
                 {t('home.seeColors')}
                 <ArrowRightIcon aria-hidden />
               </Button>
-            </div>
+            </Card>
 
-            <div className={styles.valueItem}>
+            <Card variant="default" className={styles.valueItem}>
               <div className={styles.valueIcon}>
                 <LightningIcon className={styles.iconXLarge} aria-hidden />
               </div>
@@ -330,7 +336,7 @@ export const HomePage = ({ setPage }: HomePageProps) => {
                 {t('home.exploreComponents')}
                 <ArrowRightIcon aria-hidden />
               </Button>
-            </div>
+            </Card>
           </div>
         </div>
       </section>
