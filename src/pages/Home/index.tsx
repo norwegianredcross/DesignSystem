@@ -38,11 +38,11 @@ export const HomePage = ({ setPage }: HomePageProps) => {
             <Tag data-color="neutral" data-size="sm" className={styles.versionBadge}>
               v1.1 · Open Source
             </Tag>
-            <Heading level={1} className={styles.heroTitle}>
+            <Heading level={1} data-size="2xl" className={styles.heroTitle}>
               {t('home.heroTitle')}
             </Heading>
-            
-            <Paragraph className={styles.heroLead} data-size="lg">
+
+            <Paragraph data-size="lg" className={styles.heroLead}>
               {t('home.heroLead')}
             </Paragraph>
             
@@ -142,7 +142,7 @@ export const HomePage = ({ setPage }: HomePageProps) => {
               variant="default"
               className={styles.bentoItem}
               onClick={() => setPage('components')}
-              role="link"
+              role="button"
               tabIndex={0}
             >
               <div className={styles.bentoContent}>
@@ -164,7 +164,7 @@ export const HomePage = ({ setPage }: HomePageProps) => {
               variant="default"
               className={styles.bentoItem}
               onClick={() => setPage('design')}
-              role="link"
+              role="button"
               tabIndex={0}
             >
               <div className={styles.bentoContent}>
@@ -186,7 +186,7 @@ export const HomePage = ({ setPage }: HomePageProps) => {
               variant="default"
               className={styles.bentoItem}
               onClick={() => setPage('code')}
-              role="link"
+              role="button"
               tabIndex={0}
             >
               <div className={styles.bentoContent}>
@@ -278,7 +278,7 @@ export const HomePage = ({ setPage }: HomePageProps) => {
       <section className={styles.sectionValues} data-color-scheme="dark">
         <div className="container">
           <div className={styles.valuesGrid}>
-            <Card variant="default" className={styles.valueItem}>
+            <div className={styles.valueItem}>
               <div className={styles.valueIcon}>
                 <WheelchairIcon className={styles.iconXLarge} aria-hidden />
               </div>
@@ -296,9 +296,9 @@ export const HomePage = ({ setPage }: HomePageProps) => {
                 {t('home.readGuidelines')}
                 <ArrowRightIcon aria-hidden />
               </Button>
-            </Card>
+            </div>
 
-            <Card variant="default" className={styles.valueItem}>
+            <div className={styles.valueItem}>
               <div className={styles.valueIcon}>
                 <PaletteIcon className={styles.iconXLarge} aria-hidden />
               </div>
@@ -316,9 +316,9 @@ export const HomePage = ({ setPage }: HomePageProps) => {
                 {t('home.seeColors')}
                 <ArrowRightIcon aria-hidden />
               </Button>
-            </Card>
+            </div>
 
-            <Card variant="default" className={styles.valueItem}>
+            <div className={styles.valueItem}>
               <div className={styles.valueIcon}>
                 <LightningIcon className={styles.iconXLarge} aria-hidden />
               </div>
@@ -336,7 +336,7 @@ export const HomePage = ({ setPage }: HomePageProps) => {
                 {t('home.exploreComponents')}
                 <ArrowRightIcon aria-hidden />
               </Button>
-            </Card>
+            </div>
           </div>
         </div>
       </section>

@@ -100,9 +100,13 @@
   min-width: 0;
 }
 
+/* Canvas: drop-zone UI metaphor (not a content card). Dashed border signals empty state. */
 .canvasCard {
   flex: 1;
-  border-style: dashed;
+  background: var(--ds-color-neutral-surface-default);
+  border: var(--ds-border-width-default) dashed var(--ds-color-neutral-border-subtle);
+  border-radius: var(--ds-border-radius-lg);
+  padding: var(--ds-size-6);
 }
 
 .canvasStack {

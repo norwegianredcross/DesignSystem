@@ -93,44 +93,13 @@
     }
   }
 
-  /* Link Wrapper */
+  /* Card-as-link: layout-only. Visuals (background/border/radius/hover) come
+     from ds-card's native `a` selector now that Card renders as <a> via asChild. */
   .cardLink {
-    text-decoration: none;
-    color: inherit;
-    display: block;
     height: 100%;
-    border-radius: var(--ds-border-radius-md);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
-  
-  .cardLink:focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 var(--ds-border-width-focus) var(--ds-color-focus-outer);
-  }
-  
-  /* Card Overrides & Interaction */
-  /* We target the Card component via class to apply hover effects on the parent link */
-  .cardOverride {
-    height: 100%;
-    border: var(--ds-border-width-default) solid var(--ds-color-neutral-border-subtle);
-    background-color: var(--ds-color-neutral-surface-default);
-    border-radius: var(--ds-border-radius-md);
-    box-shadow: var(--ds-shadow-sm);
-    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  
-  .cardLink:hover .cardOverride {
-    transform: translateY(-4px); /* Slightly more lift */
-    background-color: var(--ds-color-neutral-surface-hover);
-    border-color: var(--ds-color-neutral-border-default);
-    box-shadow: var(--ds-shadow-md);
-  }
-  
-  .cardLink:active .cardOverride {
-    transform: translateY(-1px);
-    background-color: var(--ds-color-neutral-surface-active);
-  }
-  
+
+
   /* Card Internals */
   .cardContent {
     display: flex;
@@ -165,13 +134,6 @@
     height: var(--ds-size-12);
     background-color: var(--ds-color-neutral-surface-tinted);
     border-radius: var(--ds-border-radius-full);
-  }
-  
-  .cardTitle {
-    font-size: var(--ds-heading-sm-font-size);
-    font-weight: var(--ds-heading-sm-font-weight);
-    color: var(--ds-color-neutral-text-default);
-    margin: 0;
   }
   
   /* Empty State */

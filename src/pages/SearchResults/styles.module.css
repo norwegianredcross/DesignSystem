@@ -23,32 +23,11 @@
   gap: var(--ds-size-4);
 }
 
-.resultItem {
-  padding: var(--ds-size-6);
-  background-color: var(--ds-color-neutral-background-default);
-  border: 1px solid var(--ds-color-neutral-border-subtle);
-  border-radius: var(--ds-border-radius-md);
-  transition: all 0.2s ease;
-}
-
-.resultItem:hover {
-  border-color: var(--ds-color-neutral-border-default);
-  box-shadow: var(--ds-shadow-sm);
-}
-
+/* Anchor-as-Card: layout-only. Card handles background/border/radius/hover. */
 .resultLink {
-  text-decoration: none;
-  color: inherit;
   display: flex;
   flex-direction: column;
   gap: var(--ds-size-2);
-}
-
-.resultTitle {
-  font-size: var(--ds-font-size-lg);
-  font-weight: var(--ds-font-weight-medium);
-  color: var(--ds-color-primary-text-default);
-  margin: 0;
 }
 
 .resultCategory {
@@ -57,13 +36,6 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: var(--ds-font-weight-medium);
-}
-
-.resultDescription {
-  font-size: var(--ds-font-size-md);
-  color: var(--ds-color-neutral-text-default);
-  margin: 0;
-  line-height: 1.5;
 }
 
 .noResults {
@@ -76,23 +48,11 @@
   .container {
     padding: var(--ds-size-6) var(--ds-size-3);
   }
-
-  .resultItem {
-    padding: var(--ds-size-4);
-  }
 }
 
 @media (max-width: 480px) {
   .container {
     padding: var(--ds-size-4) var(--ds-size-2);
-  }
-
-  .resultItem {
-    padding: var(--ds-size-3);
-  }
-
-  .resultTitle {
-    font-size: var(--ds-font-size-md);
   }
 }
 

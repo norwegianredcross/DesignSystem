@@ -58,12 +58,13 @@
     margin-bottom: var(--ds-size-4);
   }
 
+  /* Hero title uses Heading data-size="2xl" natively. The extra weight,
+     tight letter-spacing and line-height below are a LIBRARY GAP — a
+     "display" heading variant for hero/brand contexts would cover this. */
   .heroTitle {
     margin-bottom: var(--ds-size-6);
-    color: var(--ds-color-neutral-text-default);
     font-weight: 800;
     letter-spacing: -0.02em;
-    font-size: var(--ds-font-size-9);
     line-height: 1.1;
   }
 
@@ -72,14 +73,13 @@
     position: relative;
     display: inline-block;
   }
-  
+
+  /* Hero lead: sizing from Paragraph data-size="lg". The subtle color is a
+     LIBRARY GAP — Paragraph doesn't have a `subtle` variant. */
   .heroLead {
     color: var(--ds-color-neutral-text-subtle);
     max-width: 50ch;
     margin-bottom: var(--ds-size-10);
-    /* Lead text usually slightly larger than body */
-    font-size: var(--ds-font-size-4); 
-    line-height: 1.6;
   }
   
   .heroActions {
@@ -126,16 +126,14 @@
     100% { transform: translateY(calc(var(--ds-size-8) * -1)); }
   }
   
+  /* Decorative floating tiles: layout-only. Visuals come from ds-card + data-variant.
+     LIBRARY GAP: ds-card only ships one padding size (size-6). These decorative
+     tiles ideally need a compact-padding variant — until that exists, .visualElement
+     keeps a padding override. */
   .visualCard, .visualElement {
-    background: var(--ds-color-neutral-background-default);
-    /* Mimic glassmorphism with tokens if possible, otherwise keep solid */
-    opacity: 0.95;
-    border: var(--ds-border-width-default) solid var(--ds-color-neutral-border-subtle);
-    border-radius: var(--ds-border-radius-lg);
-    box-shadow: var(--ds-shadow-lg);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease;
   }
-  
+
   .visualElement {
     padding: var(--ds-size-3);
     display: flex;
@@ -230,9 +228,9 @@
 
   .showcaseCopyTitle {
     margin: 0;
-    color: var(--ds-color-neutral-text-default);
   }
 
+  /* LIBRARY GAP: Paragraph has no `subtle` variant. */
   .showcaseCopyBody {
     margin: 0;
     color: var(--ds-color-neutral-text-subtle);
@@ -273,33 +271,11 @@
     gap: var(--ds-size-6);
   }
   
-  /* Shared Bento Item Styles */
+  /* Bento Item: layout-only. Visuals come from ds-card + data-variant. */
   .bentoItem {
-    background-color: var(--ds-color-neutral-background-default);
-    border: var(--ds-border-width-default) solid var(--ds-color-neutral-border-subtle);
-    border-radius: var(--ds-border-radius-xl);
-    padding: var(--ds-size-8);
-    text-decoration: none;
-    color: inherit;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     display: flex;
     flex-direction: column;
   }
-  
-  .bentoItem:hover {
-    transform: translateY(calc(var(--ds-size-1) * -1));
-    box-shadow: var(--ds-shadow-xl);
-    border-color: var(--ds-color-primary-color-red-border-subtle);
-  }
-  
-  /* PRIMARY ITEM (Components) */
-  .bentoPrimary {
-    background: linear-gradient(135deg, var(--ds-color-neutral-background-default) 0%, var(--ds-color-neutral-surface-tinted) 100%);
-  }
-  
-  /* SIDE STACK REMOVED - Layout flattened */
 
   /* Bento Content */
   .bentoContent {
@@ -331,6 +307,7 @@
   .iconLarge { font-size: var(--ds-font-size-6); }
   .iconXLarge { font-size: var(--ds-font-size-8); }
   
+  /* LIBRARY GAP: Paragraph has no `subtle` variant. */
   .bentoDesc {
     color: var(--ds-color-neutral-text-subtle);
     margin-top: var(--ds-size-2);
@@ -341,37 +318,12 @@
     color: var(--ds-color-neutral-text-subtle);
     transition: transform 0.3s ease, color 0.3s ease;
   }
-  
+
   .bentoItem:hover .arrowIcon {
-    color: var(--ds-color-primary-color-red-text-default);
     transform: translate(var(--ds-size-1), calc(var(--ds-size-1) * -1));
   }
-  
-  /* Bento Preview (Abstract UI in Component card) */
-  .bentoPreview {
-    position: absolute;
-    bottom: calc(var(--ds-size-6) * -1);
-    right: calc(var(--ds-size-6) * -1);
-    width: 50%;
-    padding: var(--ds-size-5);
-    background: var(--ds-color-neutral-background-default);
-    border-radius: var(--ds-border-radius-lg);
-    box-shadow: var(--ds-shadow-md);
-    border: var(--ds-border-width-default) solid var(--ds-color-neutral-border-subtle);
-    transform: rotate(-6deg);
-    transition: transform 0.5s ease;
-    display: none; /* Hidden on mobile */
-  }
-  
-  .bentoPrimary:hover .bentoPreview {
-    transform: rotate(0deg) scale(1.05) translate(calc(var(--ds-size-2) * -1), calc(var(--ds-size-2) * -1));
-  }
-  
-  .previewLine { height: var(--ds-size-2); width: 60%; background: var(--ds-color-neutral-surface-active); margin-bottom: var(--ds-size-3); border-radius: var(--ds-border-radius-sm); }
-  .previewRow { display: flex; gap: var(--ds-size-2); margin-bottom: var(--ds-size-3); }
-  .previewBtn { height: var(--ds-size-8); flex: 1; background: var(--ds-color-primary-color-red-surface-tinted); border-radius: var(--ds-border-radius-md); } 
-  .previewCard { height: var(--ds-size-14); background: var(--ds-color-neutral-surface-tinted); border-radius: var(--ds-border-radius-md); }
-  
+
+
   /* --- VALUES SECTION --- */
   .sectionValues {
     /* Dark red tinted background - forced dark mode via data-color-scheme="dark" on element */
@@ -387,17 +339,11 @@
     gap: var(--ds-size-12);
   }
 
+  /* Value Item: layout-only. Visuals come from ds-card + data-variant. */
   .valueItem {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: var(--ds-size-6);
-    border-radius: var(--ds-border-radius-lg);
-    transition: background-color 0.2s ease;
-  }
-
-  .valueItem:hover {
-    background-color: var(--ds-color-primary-color-red-surface-hover);
   }
 
   .valueIcon {
@@ -412,16 +358,14 @@
     color: var(--ds-color-primary-color-red-text-default);
   }
 
+  /* LIBRARY GAP: Heading has no color prop; primary/accent heading color isn't expressible natively. */
   .valueTitle {
     color: var(--ds-color-primary-color-red-text-default);
     margin-bottom: var(--ds-size-3);
-    font-weight: var(--ds-font-weight-semibold);
   }
 
   .valueText {
-    color: var(--ds-color-neutral-text-default);
     margin-bottom: var(--ds-size-6);
-    line-height: 1.6;
   }
 
   .valueButton {

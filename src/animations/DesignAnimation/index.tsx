@@ -1,5 +1,4 @@
 import { useEffect, useLayoutEffect, useRef, useState, ReactNode } from 'react';
-import { Card, CardBlock } from '../../components/Card';
 import { Avatar } from '../../components/Avatar';
 import { Heading } from '../../components/Heading';
 import { Button } from '../../components/Button';
@@ -259,26 +258,24 @@ export const DesignAnimation = ({ labels }: DesignAnimationProps) => {
         {/* Canvas column */}
         <div className={styles.canvas}>
           <div className={styles.columnLabel}>{labels.canvasTitle}</div>
-          <Card variant="default" className={styles.canvasCard}>
-            <CardBlock>
-              <div className={styles.canvasStack}>
-                {ITEM_ORDER.map((id) => {
-                  const isFilled = phase.placed.includes(id);
-                  return (
-                    <div
-                      key={id}
-                      ref={(el) => {
-                        canvasRefs.current[id] = el;
-                      }}
-                      className={`${styles.canvasSlot} ${isFilled ? styles.canvasSlotFilled : ''}`}
-                    >
-                      {isFilled && renderCanvasItem(id)}
-                    </div>
-                  );
-                })}
-              </div>
-            </CardBlock>
-          </Card>
+          <div className={styles.canvasCard}>
+            <div className={styles.canvasStack}>
+              {ITEM_ORDER.map((id) => {
+                const isFilled = phase.placed.includes(id);
+                return (
+                  <div
+                    key={id}
+                    ref={(el) => {
+                      canvasRefs.current[id] = el;
+                    }}
+                    className={`${styles.canvasSlot} ${isFilled ? styles.canvasSlotFilled : ''}`}
+                  >
+                    {isFilled && renderCanvasItem(id)}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
 
         {/* Floating cursor */}
