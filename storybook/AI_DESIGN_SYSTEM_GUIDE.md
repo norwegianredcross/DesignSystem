@@ -312,6 +312,9 @@ import { Button } from 'rk-designsystem';
 
 <Button
   asChild?={false}
+  command?={string}
+  commandfor?={string}
+  commandFor?={string}
   data-color?={any}
   data-size?="sm" | "md" | "lg"
   icon?={false}
@@ -869,6 +872,9 @@ import { DropdownButton } from 'rk-designsystem';
 
 <DropdownButton
   asChild?={false}
+  command?={string}
+  commandfor?={string}
+  commandFor?={string}
   data-color?={any}
   data-size?="sm" | "md" | "lg"
   icon?={false}
@@ -909,6 +915,9 @@ import { DropdownTrigger } from 'rk-designsystem';
 <DropdownTrigger
   asChild?={false
 false}
+  command?={string}
+  commandfor?={string}
+  commandFor?={string}
   data-color?={any}
   data-size?={any}
   icon?={false}
@@ -977,6 +986,13 @@ import { PaginationButton } from 'rk-designsystem';
 <PaginationButton
   aria-current?={false}
   asChild?={false}
+  command?={string}
+  commandfor?={string}
+  commandFor?={string}
+  data-color?={any}
+  data-size?="sm" | "md" | "lg"
+  type?={"button"}
+  variant?={"primary"}
  />
 ```
 

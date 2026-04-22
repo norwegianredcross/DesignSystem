@@ -1048,10 +1048,59 @@
         "required": false
       },
       {
+        "name": "data-color",
+        "type": "any",
+        "description": "Change the color scheme of the button",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
         "name": "asChild",
         "type": "boolean",
         "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
         "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "type",
+        "type": "enum",
+        "description": "Specify the type of button. Unset when `asChild` is true",
+        "defaultValue": "'button'",
+        "required": false
+      },
+      {
+        "name": "variant",
+        "type": "enum",
+        "description": "Specify which variant to use",
+        "defaultValue": "'primary'",
+        "required": false
+      },
+      {
+        "name": "command",
+        "type": "string",
+        "description": "Native invoker commands. Specifies actions to perform on an element specified by commandfor. Polyfilled by designsystemet-web and includes a custom --show-non-modal command.\n\"show-modal\", \"close\", \"request-close\", \"show-popover\", \"hide-popover\", \"toggle-popover\", \"--show-non-modal\"",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "commandfor",
+        "type": "string",
+        "description": "Specifies the target element for \"command\".\nvalue is ID of target",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "commandFor",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
         "required": false
       }
     ]
@@ -1800,6 +1849,27 @@
         "description": "Toggle loading state.\nPass an element if you want to display a custom loader.",
         "defaultValue": "false",
         "required": false
+      },
+      {
+        "name": "command",
+        "type": "string",
+        "description": "Native invoker commands. Specifies actions to perform on an element specified by commandfor. Polyfilled by designsystemet-web and includes a custom --show-non-modal command.\n\"show-modal\", \"close\", \"request-close\", \"show-popover\", \"hide-popover\", \"toggle-popover\", \"--show-non-modal\"",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "commandfor",
+        "type": "string",
+        "description": "Specifies the target element for \"command\".\nvalue is ID of target",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "commandFor",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
       }
     ]
   },
@@ -1880,6 +1950,27 @@
         "type": "enum",
         "description": "Specify the type of button. Unset when `asChild` is true",
         "defaultValue": "'button'",
+        "required": false
+      },
+      {
+        "name": "command",
+        "type": "string",
+        "description": "Native invoker commands. Specifies actions to perform on an element specified by commandfor. Polyfilled by designsystemet-web and includes a custom --show-non-modal command.\n\"show-modal\", \"close\", \"request-close\", \"show-popover\", \"hide-popover\", \"toggle-popover\", \"--show-non-modal\"",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "commandfor",
+        "type": "string",
+        "description": "Specifies the target element for \"command\".\nvalue is ID of target",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "commandFor",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
         "required": false
       },
       {
@@ -2746,6 +2837,27 @@
         "type": "enum",
         "description": "Specify the type of button. Unset when `asChild` is true",
         "defaultValue": "'button'",
+        "required": false
+      },
+      {
+        "name": "command",
+        "type": "string",
+        "description": "Native invoker commands. Specifies actions to perform on an element specified by commandfor. Polyfilled by designsystemet-web and includes a custom --show-non-modal command.\n\"show-modal\", \"close\", \"request-close\", \"show-popover\", \"hide-popover\", \"toggle-popover\", \"--show-non-modal\"",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "commandfor",
+        "type": "string",
+        "description": "Specifies the target element for \"command\".\nvalue is ID of target",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "commandFor",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
         "required": false
       }
     ]
