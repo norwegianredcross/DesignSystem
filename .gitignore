@@ -12,10 +12,16 @@ node_modules/
 
 # Build outputs
 dist/
+dist-app/
 dist-ssr/
-storybook-build/  
-storybook-static/  
+storybook-build/
+storybook-static/
 *.local
+
+# Environment files (never commit secrets)
+.env
+.env.*
+!.env.example
 
 # Editor directories and files
 .vscode/

@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { Heading } from '../../components/Heading';
 import { Paragraph } from '../../components/Paragraph';
+import { Card } from '../../components/Card';
 import styles from './styles.module.css';
 import { searchIndex } from '../../utils/search-index';
 
@@ -40,18 +41,20 @@ export const SearchResultsPage = ({ query, setPage }: SearchResultsPageProps) =>
       {results.length > 0 ? (
         <ul className={styles.resultList}>
           {results.map((result) => (
-            <li key={result.id} className={styles.resultItem}>
-              <a 
-                href="#" 
-                className={styles.resultLink}
-                onClick={(e) => handleResultClick(e, result.path)}
-              >
-                <span className={styles.resultCategory}>{result.category}</span>
-                <h2 className={styles.resultTitle}>{result.title}</h2>
-                {result.description && (
-                  <p className={styles.resultDescription}>{result.description}</p>
-                )}
-              </a>
+            <li key={result.id}>
+              <Card asChild variant="default">
+                <a
+                  href="#"
+                  className={styles.resultLink}
+                  onClick={(e) => handleResultClick(e, result.path)}
+                >
+                  <span className={styles.resultCategory}>{result.category}</span>
+                  <Heading level={2} data-size="md">{result.title}</Heading>
+                  {result.description && (
+                    <Paragraph data-size="sm">{result.description}</Paragraph>
+                  )}
+                </a>
+              </Card>
             </li>
           ))}
         </ul>

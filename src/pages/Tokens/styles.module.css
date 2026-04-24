@@ -44,7 +44,7 @@
   flex-direction: column;
 }
 
-.groupTitle {
+.navGroupLabel {
   font-size: var(--ds-font-size-sm, 14px);
   font-weight: var(--ds-font-weight-bold, 700);
   color: var(--ds-color-neutral-text-subtle, #5d5d5d);
@@ -52,6 +52,7 @@
   letter-spacing: 0.05em;
   margin-bottom: var(--ds-size-2, 8px);
   padding-left: var(--ds-size-3, 12px);
+  border-left: 4px solid var(--ds-color-primary-color-red-base-default);
 }
 
 .list {
@@ -142,15 +143,20 @@
 }
 
 .pageTitle {
-  margin-bottom: var(--ds-size-6);
+  margin-bottom: var(--ds-size-4);
   color: var(--ds-color-neutral-text-default);
 }
 
 .pageDescription {
-  margin-bottom: var(--ds-size-16);
+  margin-bottom: var(--ds-size-8);
   color: var(--ds-color-neutral-text-subtle);
-  font-size: var(--ds-body-md-font-size);
   max-width: 65ch;
+}
+
+.pageDivider {
+  border: 0;
+  border-bottom: 1px solid var(--ds-color-neutral-border-subtle);
+  margin: 0 0 var(--ds-size-10) 0;
 }
 
 .categorySection {
@@ -187,7 +193,7 @@
   margin-top: 0;
 }
 
-.groupTitle {
+.groupHeading {
   margin-bottom: var(--ds-size-8);
   margin-top: var(--ds-size-6);
   color: var(--ds-color-neutral-text-default);
@@ -305,6 +311,112 @@
   height: 16px;
 }
 
+/* --- LIST VIEW (non-color tokens) --- */
+.tokenList {
+  list-style: none;
+  padding: 0;
+  margin: var(--ds-size-4) 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-2);
+}
+
+.tokenRow {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.5fr) minmax(120px, 1fr) minmax(140px, auto) auto;
+  align-items: center;
+  gap: var(--ds-size-5);
+  padding: var(--ds-size-3) var(--ds-size-5);
+  background: var(--ds-color-neutral-background-default);
+  border: 1px solid var(--ds-color-neutral-border-subtle);
+  border-radius: var(--ds-border-radius-md);
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.tokenRow:hover {
+  background: var(--ds-color-neutral-surface-hover);
+  border-color: var(--ds-color-neutral-border-default);
+}
+
+.tokenRowName {
+  font-family: 'Courier New', monospace;
+  font-size: var(--ds-body-sm-font-size);
+  color: var(--ds-color-neutral-text-default);
+  font-weight: var(--ds-font-weight-medium);
+  word-break: break-all;
+}
+
+.tokenRowPreview {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 40px;
+  overflow: hidden;
+}
+
+.tokenRowValue {
+  font-family: 'Courier New', monospace;
+  font-size: var(--ds-body-sm-font-size);
+  color: var(--ds-color-neutral-text-subtle);
+  justify-self: end;
+  text-align: right;
+  word-break: break-all;
+}
+
+/* Size / spacing preview */
+.sizeBarWrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.sizeBar {
+  height: 14px;
+  background: var(--ds-color-primary-color-red-base-default);
+  border-radius: var(--ds-border-radius-sm);
+  max-width: 100%;
+}
+
+/* Border radius preview */
+.radiusBox {
+  width: 48px;
+  height: 48px;
+  background: var(--ds-color-neutral-surface-tinted);
+  border: 1px solid var(--ds-color-neutral-border-default);
+}
+
+/* Border width preview */
+.borderLine {
+  width: 72px;
+  border-top-style: solid;
+  border-top-color: var(--ds-color-neutral-text-default);
+}
+
+/* Shadow preview */
+.shadowBox {
+  width: 72px;
+  height: 48px;
+  background: var(--ds-color-neutral-background-default);
+  border: 1px solid var(--ds-color-neutral-border-subtle);
+  border-radius: var(--ds-border-radius-sm);
+}
+
+/* Opacity preview */
+.opacityBox {
+  width: 64px;
+  height: 32px;
+  background: var(--ds-color-primary-color-red-base-default);
+  border-radius: var(--ds-border-radius-sm);
+}
+
+/* Typography preview */
+.typeSample {
+  font-family: var(--ds-font-family-body, sans-serif);
+  color: var(--ds-color-neutral-text-default);
+  line-height: 1;
+  white-space: nowrap;
+}
+
 /* Sidebar toggle button — hidden on desktop */
 .sidebarToggle {
   display: none;
@@ -365,5 +477,23 @@
   .tokensGrid {
     grid-template-columns: 1fr;
   }
+
+  .tokenRow {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "name copy"
+      "preview preview"
+      "value value";
+    row-gap: var(--ds-size-2);
+  }
+
+  .tokenRowName { grid-area: name; }
+  .tokenRowPreview { grid-area: preview; }
+  .tokenRowValue {
+    grid-area: value;
+    justify-self: start;
+    text-align: left;
+  }
+  .tokenRow .copyButtonInline { grid-area: copy; }
 }
 

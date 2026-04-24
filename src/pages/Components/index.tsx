@@ -95,14 +95,12 @@ export const ComponentsPage = () => {
         {filteredComponents.length > 0 ? (
           <div className={styles.cardsGrid}>
             {filteredComponents.map((comp) => (
-              <a
-                key={comp}
-                href={`${import.meta.env.BASE_URL}storybook/?path=/docs/components-${comp.toLowerCase()}--docs`}
-                className={styles.cardLink}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <Card variant="tinted" className={styles.cardOverride}>
+              <Card key={comp} asChild variant="default" className={styles.cardLink}>
+                <a
+                  href={`${import.meta.env.BASE_URL}storybook/?path=/docs/components-${comp.toLowerCase()}--docs`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <CardBlock>
                     <div className={styles.cardContent}>
                       <div className={styles.cardIconWrapper}>
@@ -117,11 +115,11 @@ export const ComponentsPage = () => {
                           <div className={styles.iconPlaceholder} aria-hidden="true" />
                         )}
                       </div>
-                      <Heading level={2} className={styles.cardTitle}>{comp}</Heading>
+                      <Heading level={2} data-size="sm">{comp}</Heading>
                     </div>
                   </CardBlock>
-                </Card>
-              </a>
+                </a>
+              </Card>
             ))}
           </div>
         ) : (
