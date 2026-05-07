@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-04-08T10:53:57.931Z",
+  "package": {
+    "name": "rk-designsystem",
+    "version": "1.1.128"
+  },
+  "resources": {
+    "storybookUrl": "https://norwegianredcross.github.io/DesignSystem/storybook",
+    "guideUrl": "https://norwegianredcross.github.io/DesignSystem/storybook/AI_DESIGN_SYSTEM_GUIDE.md",
+    "metadataUrl": "https://norwegianredcross.github.io/DesignSystem/storybook/metadata.json",
+    "manifestUrl": "https://norwegianredcross.github.io/DesignSystem/storybook/ai-context.manifest.json",
+    "themeUrl": "https://norwegianredcross.github.io/design-tokens/theme.css"
+  },
+  "summary": {
+    "componentCount": 67,
+    "exportedComponents": [
+      "Alert",
+      "Avatar",
+      "Badge",
+      "BadgePosition",
+      "Breadcrumbs",
+      "BreadcrumbsItem",
+      "BreadcrumbsLink",
+      "BreadcrumbsList",
+      "Button",
+      "Button",
+      "Card",
+      "Carousel",
+      "Checkbox",
+      "Checkbox",
+      "Chip",
+      "CrossCorner",
+      "DateInput",
+      "DatePicker",
+      "Details",
+      "Dialog",
+      "Divider",
+      "Donor",
+      "Dropdown",
+      "DropdownButton",
+      "DropdownHeading",
+      "DropdownItem",
+      "DropdownList",
+      "DropdownTrigger",
+      "DropdownTriggerContext",
+      "ErrorSummary",
+      "Field",
+      "FieldDescription",
+      "Fieldset",
+      "Fieldset",
+      "Fieldset",
+      "Fieldset",
+      "Footer",
+      "Header",
+      "Heading",
+      "Input",
+      "Label",
+      "Link",
+      "List",
+      "Pagination",
+      "PaginationButton",
+      "PaginationItem",
+      "PaginationList",
+      "Paragraph",
+      "Popover",
+      "Radio",
+      "Radio",
+      "Search",
+      "Select",
+      "SkeletonLoader",
+      "SkipLink",
+      "Spinner",
+      "Suggestion",
+      "Switch",
+      "Table",
+      "Tabs",
+      "Tag",
+      "Textarea",
+      "Textfield",
+      "ToggleGroup",
+      "Tooltip",
+      "ValidationMessage",
+      "useRadioGroup"
+    ]
+  },
+  "ruleHints": [
+    {
+      "id": "prefer-rk-components",
+      "summary": "Prefer rk-designsystem components over custom HTML for common UI."
+    },
+    {
+      "id": "use-ds-size-tokens",
+      "summary": "Use --ds-size-* tokens for spacing instead of --ds-spacing-* shortcuts."
+    },
+    {
+      "id": "prefer-semantic-structure",
+      "summary": "Use semantic landmarks, headings, and accessible names as a baseline."
+    },
+    {
+      "id": "limit-css-overrides",
+      "summary": "Use local styling for layout and composition rather than restyling design system components."
+    }
+  ],
+  "driftSignals": [
+    {
+      "id": "spacing-token-drift",
+      "severity": "review",
+      "detectAnyOf": [
+        "--ds-spacing-",
+        "var(--spacing-"
+      ],
+      "guidance": "Spacing guidance should use --ds-size-* tokens."
+    },
+    {
+      "id": "hardcoded-color-drift",
+      "severity": "review",
+      "detectAnyOf": [
+        "#D52B1E",
+        "rgb(",
+        "hsl("
+      ],
+      "guidance": "Published guidance should prefer tokenized color examples over raw color values where possible."
+    }
+  ],
+  "verification": {
+    "preferredBrowserTool": "chrome-devtools-mcp",
+    "downstreamChecks": [
+      "typecheck",
+      "lint",
+      "check:designsystem",
+      "check:a11y",
+      "check:agent-context"
+    ]
+  },
+  "guideDiagnostics": [
+    {
+      "severity": "review",
+      "message": "AI guide still references spacing terminology that conflicts with --ds-size-* token usage."
+    }
+  ]
+}

@@ -65,6 +65,6 @@ When working with Figma designs or the Røde Kors Design System:
 
 - **Storybook**: https://norwegianredcross.github.io/DesignSystem/storybook/
 - **Component Metadata**: https://norwegianredcross.github.io/DesignSystem/storybook/metadata.json
+- **AI Context Manifest**: https://norwegianredcross.github.io/DesignSystem/storybook/ai-context.manifest.json
 - **Design Tokens**: https://norwegianredcross.github.io/design-tokens/theme.css
 - **GitHub Repository**: https://github.com/norwegianredcross/DesignSystem
-
