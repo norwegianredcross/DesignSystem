@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.2 (2026-05-26)
+
+- refactor(Button,Tag): apply shape/variant via inline style — drop CSS bundle dep (f1a8f325)
+
+
 ## 1.2.1 (2026-05-26)
 
 - feat(Tag): add shape="rounded" extension (1d0d6f3d)
