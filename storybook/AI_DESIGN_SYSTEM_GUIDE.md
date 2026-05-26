@@ -311,15 +311,16 @@ All components are exported from `rk-designsystem`. Below is a comprehensive lis
 import { Button } from 'rk-designsystem';
 
 <Button
-  asChild?={false}
+  asChild?={boolean}
   command?={string}
   commandfor?={string}
   commandFor?={string}
   data-color?={any}
-  data-size?="sm" | "md" | "lg"
-  icon?={false}
-  loading?={false}
-  type?={"button"}
+  data-size?={}
+  icon?={boolean}
+  loading?={ReactNode}
+  shape?={"squared"}
+  type?={}
   variant?={"primary"}
  />
 ```
