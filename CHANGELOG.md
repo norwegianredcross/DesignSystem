@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.1 (2026-05-26)
+
+- feat(Tag): add shape="rounded" extension (1d0d6f3d)
+- feat(Button): add variant="soft" and shape="pill" extensions (dd9d70c6)
+
+
 ## 1.2.0 (2026-05-26)
 
 - feat(Header): add buttonStyle="soft" variant with pill action buttons (7451fe72)
