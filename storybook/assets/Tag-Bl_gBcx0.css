@@ -1,0 +1,1 @@
+.ds-tag{border-radius:var(--dsc-tag-radius, var(--ds-border-radius-sm))}.ds-tag[data-shape=rounded]{--dsc-tag-radius: var(--ds-border-radius-xl, 12px)}

@@ -714,7 +714,8 @@ import { Tag } from 'rk-designsystem';
 
 <Tag
   data-color?={any}
-  data-size?="sm" | "md" | "lg"
+  data-size?={}
+  shape?={"squared"}
   variant?={"default"}
  />
 ```

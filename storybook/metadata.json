@@ -278,24 +278,31 @@
     "description": "",
     "props": [
       {
-        "name": "data-size",
-        "type": "Size",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "name": "data-color",
+        "type": "any",
+        "description": "Color scheme. Follows Digdir's `data-color` cascade.",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "data-color",
-        "type": "any",
-        "description": "Change the color scheme of the tag",
+        "name": "data-size",
+        "type": "enum",
+        "description": "Changes size for descendant Designsystemet components.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "variant",
         "type": "enum",
-        "description": "The visual variant of the tag",
+        "description": "Visual variant.",
         "defaultValue": "'default'",
+        "required": false
+      },
+      {
+        "name": "shape",
+        "type": "enum",
+        "description": "Geometry. `'rounded'` uses `--ds-border-radius-xl` (12px), matching the\nActivity-Card style in Figma. `'squared'` keeps Digdir's default radius-sm.",
+        "defaultValue": "'squared'",
         "required": false
       }
     ]
