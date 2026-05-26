@@ -481,6 +481,7 @@ export const Header = ({
             <div className={styles.searchButtonWrapper}>
                <Button
                 variant="secondary"
+                shape={buttonStyle === 'soft' ? 'pill' : undefined}
                 data-color={buttonStyle === 'soft' ? 'neutral' : 'main'}
                 data-size="md"
                 onClick={toggleSearch}
@@ -500,7 +501,8 @@ export const Header = ({
         {/* Menu Button */}
           {(showMenuButton || isMobile) && (
             <Button
-              variant="primary"
+              variant={buttonStyle === 'soft' ? 'soft' : 'primary'}
+              shape={buttonStyle === 'soft' ? 'pill' : undefined}
               data-color="main"
               data-size="md"
               onClick={toggleMenu}
@@ -797,26 +799,11 @@ function buildInlineCss(styles: Record<string, string>): string {
 .${s.header}[data-button-style="soft"] .${s.actions} { gap: var(--ds-size-2); }
 .${s.header}[data-button-style="soft"] .${s.searchButtonWrapper} .ds-button,
 .${s.header}[data-button-style="soft"] .${s.menuButton} {
-  height: var(--ds-size-12, 48px);
-  padding: 0 var(--ds-size-4, 16px);
-  gap: var(--ds-size-2, 8px);
-  border-radius: 9999px;
+  --dsc-button-padding: 0 var(--ds-size-4);
+  height: var(--ds-size-12);
 }
 .${s.header}[data-button-style="soft"] .${s.searchButtonWrapper} .${s.buttonText},
 .${s.header}[data-button-style="soft"] .${s.menuButton} .${s.buttonText} { margin-left: 0; }
-.${s.header}[data-button-style="soft"] .${s.menuButton} {
-  background-color: var(--ds-color-primary-color-red-surface-tinted, #FAE4E2);
-  color: var(--ds-color-primary-color-red-text-default);
-  border-color: transparent;
-}
-.${s.header}[data-button-style="soft"] .${s.menuButton}:hover {
-  background-color: var(--ds-color-primary-color-red-surface-hover, #F6D2CF);
-  border-color: transparent;
-}
-.${s.header}[data-button-style="soft"] .${s.menuButton}:active {
-  background-color: var(--ds-color-primary-color-red-surface-active, #F2BDB9);
-  border-color: transparent;
-}
 .${s.menuOverlay}, .${s.searchOverlay} {
   position: absolute; top: 100%; left: 0; width: 100%;
   background-color: var(--ds-color-neutral-background-default);

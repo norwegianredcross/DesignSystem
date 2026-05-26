@@ -389,38 +389,22 @@
   align-items: center;
 }
 
-/* ---- Soft button variant (pill-shaped Søk + tinted Meny), matches Figma node 230:4741 ---- */
+/* Header-specific sizing for the soft action buttons (matches Figma 230:4741).
+   Shape/variant/colors live on <Button shape="pill" variant="soft" data-color=…>;
+   only the Figma-specific padding/height/gap belongs here. */
 .header[data-button-style="soft"] .actions {
   gap: var(--ds-size-2);
 }
 
 .header[data-button-style="soft"] .searchButtonWrapper :global(.ds-button),
 .header[data-button-style="soft"] .menuButton {
-  height: var(--ds-size-12, 48px);
-  padding: 0 var(--ds-size-4, 16px);
-  gap: var(--ds-size-2, 8px);
-  border-radius: 9999px;
+  --dsc-button-padding: 0 var(--ds-size-4);
+  height: var(--ds-size-12);
 }
 
 .header[data-button-style="soft"] .searchButtonWrapper .buttonText,
 .header[data-button-style="soft"] .menuButton .buttonText {
   margin-left: 0;
-}
-
-.header[data-button-style="soft"] .menuButton {
-  background-color: var(--ds-color-primary-color-red-surface-tinted, #FAE4E2);
-  color: var(--ds-color-primary-color-red-text-default);
-  border-color: transparent;
-}
-
-.header[data-button-style="soft"] .menuButton:hover {
-  background-color: var(--ds-color-primary-color-red-surface-hover, #F6D2CF);
-  border-color: transparent;
-}
-
-.header[data-button-style="soft"] .menuButton:active {
-  background-color: var(--ds-color-primary-color-red-surface-active, #F2BDB9);
-  border-color: transparent;
 }
 
 .menuOverlay {
