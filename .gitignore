@@ -40,4 +40,7 @@ storybook-static/
 .storybook/cache/
 
 # Internal backlog
-BACKLOG.md        
+BACKLOG.md
+
+# Personal scratchpad — Figma UI kit sync notes (not for the repo)
+FIGMA_UI_KIT_SYNC.md        

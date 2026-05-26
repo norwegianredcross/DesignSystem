@@ -2,8 +2,7 @@ import {
   Button as DigDirButton,
 } from '@digdir/designsystemet-react';
 import type { Color, SeverityColors } from '@digdir/designsystemet-types';
-import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from 'react';
-import './Button.css';
+import { forwardRef, type ButtonHTMLAttributes, type CSSProperties, type ReactNode } from 'react';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'soft';
 export type ButtonShape = 'squared' | 'pill';
@@ -43,17 +42,39 @@ export interface ButtonProps
   commandFor?: string;
 }
 
+// Shape and variant overrides applied as inline custom properties / style.
+// Digdir already routes background/color/border-color through --dsc-button-*,
+// so soft variant works token-only. Digdir hardcodes border-radius, so shape
+// has to set the property directly.
+function softVariantStyle(): CSSProperties {
+  return {
+    '--dsc-button-background':         'var(--ds-color-surface-tinted)',
+    '--dsc-button-background--hover':  'var(--ds-color-surface-hover)',
+    '--dsc-button-background--active': 'var(--ds-color-surface-active)',
+    '--dsc-button-color':              'var(--ds-color-text-default)',
+    '--dsc-button-color--hover':       'var(--ds-color-text-default)',
+    '--dsc-button-border-color':       'transparent',
+  } as CSSProperties;
+}
+
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
-  { variant, shape, ...rest },
+  { variant, shape, style, ...rest },
   ref,
 ) {
-  // Digdir narrows variant in TS but the runtime forwards it verbatim to
+  // Build our defaults first; consumer's `style` wins via later spread.
+  const ours: CSSProperties = {};
+  if (variant === 'soft') Object.assign(ours, softVariantStyle());
+  if (shape === 'pill') ours.borderRadius = 'var(--ds-border-radius-full)';
+  const mergedStyle: CSSProperties | undefined =
+    Object.keys(ours).length === 0 && !style ? undefined : { ...ours, ...style };
+
+  // Digdir narrows variant in TS but the runtime forwards verbatim to
   // data-variant, so 'soft' flows through. data-shape isn't part of Digdir's
   // prop type, so route both via a generic spread.
   const extra: Record<string, unknown> = {};
   if (variant !== undefined) extra.variant = variant;
   if (shape === 'pill') extra['data-shape'] = 'pill';
-  return <DigDirButton ref={ref} {...rest} {...extra} />;
+  return <DigDirButton ref={ref} {...rest} {...extra} style={mergedStyle} />;
 });
 
 Button.displayName = 'Button';
