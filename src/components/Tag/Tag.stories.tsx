@@ -28,12 +28,18 @@ const meta: Meta<typeof Tag> = {
     },
     'data-color': {
       control: 'select',
-      options: [ 
+      options: [
         'neutral', 'success', 'warning', 'danger', 'info',
-        'brand1', 'brand2', 'brand3', 'accent' 
+        'brand1', 'brand2', 'brand3', 'accent', 'main'
       ],
       description: 'Change the color scheme of the tag.',
-      defaultValue: 'neutral', 
+      defaultValue: 'neutral',
+    },
+    shape: {
+      control: 'radio',
+      options: ['squared', 'rounded'],
+      description: '"rounded" uses --ds-border-radius-xl (12px), matching the Activity-Card style in Figma.',
+      defaultValue: 'squared',
     },
   } as ArgTypes<TagProps>,
 };
@@ -90,6 +96,39 @@ export const Colors: Story = {
   argTypes: {
     'data-color': { control: false },
     children: { control: false }, 
+  },
+};
+
+// --- Rounded shape (Activity-Card style) ---
+export const Rounded: Story = {
+  args: {
+    children: 'Behov',
+    'data-color': 'main',
+    shape: 'rounded',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Tinted-pink rounded tag used inside the Figma Activity Card (node 231:4732). `shape="rounded"` sets border-radius to `--ds-border-radius-xl` (12px); `data-color="main"` resolves the tinted surface to the red ramp.',
+      },
+    },
+  },
+};
+
+// --- Activity-card example: two rounded tags side by side ---
+export const ActivityCardTags: Story = {
+  name: 'Activity card tags',
+  render: () => (
+    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+      <Tag shape="rounded" data-color="info">Behov</Tag>
+      <Tag shape="rounded" data-color="main">Categori</Tag>
+    </div>
+  ),
+  argTypes: {
+    'data-color': { control: false },
+    'data-size': { control: false },
+    shape: { control: false },
+    children: { control: false },
   },
 };
 

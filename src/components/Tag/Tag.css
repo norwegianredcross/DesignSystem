@@ -1,0 +1,12 @@
+/* rk-designsystem extension to @digdir/designsystemet-react Tag.
+   Lifts border-radius into a --dsc-tag-radius custom property so consumers can
+   override per-instance (mirrors --dsc-tag-padding / --dsc-tag-background).
+   Adds a shape axis; default preserves Digdir's existing radius-sm. */
+
+.ds-tag {
+  border-radius: var(--dsc-tag-radius, var(--ds-border-radius-sm));
+}
+
+.ds-tag[data-shape="rounded"] {
+  --dsc-tag-radius: var(--ds-border-radius-xl, 12px);
+}
