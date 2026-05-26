@@ -37,6 +37,8 @@ export interface HeaderProps {
   showLanguageSwitch?: boolean;
   /** Background color variant for the header extension (top bar). 'tinted' uses a soft pink/red tinted background. */
   extensionColor?: 'primary' | 'neutral' | 'tinted';
+  /** Visual style of the header action buttons (Søk + Meny). 'soft' renders pill-shaped buttons with a tinted red fill on Meny, matching the Figma soft variant. */
+  buttonStyle?: 'default' | 'soft';
   /** Display name shown next to the avatar. Falls back to current placeholder if omitted. */
   userName?: string;
   /** Initials rendered inside the avatar circle. Auto-derived from userName if omitted. */
@@ -80,6 +82,7 @@ export const Header = ({
   showModeToggle = false,
   showLanguageSwitch = false,
   extensionColor,
+  buttonStyle = 'default',
   userName,
   userInitials,
   userAvatarSrc,
@@ -297,7 +300,7 @@ export const Header = ({
   };
 
   return (
-    <header className={styles.header} data-open={isOpen ? 'true' : 'false'} data-color={dataColor}>
+    <header className={styles.header} data-open={isOpen ? 'true' : 'false'} data-color={dataColor} data-button-style={buttonStyle}>
       {showHeaderExtension && (
         <div className={`${styles.headerExtension}${extensionColor === 'tinted' ? ` ${styles.headerExtensionTinted}` : ''}`} data-color-scheme="light" data-extension-color={extensionColor}>
           <div className={styles.extensionContentWrapper}>
@@ -476,9 +479,9 @@ export const Header = ({
           {/* Search Button */}
           {showSearch && (
             <div className={styles.searchButtonWrapper}>
-               <Button 
-                variant="secondary" 
-                data-color="main"
+               <Button
+                variant="secondary"
+                data-color={buttonStyle === 'soft' ? 'neutral' : 'main'}
                 data-size="md"
                 onClick={toggleSearch}
                 aria-expanded={isSearchOpen}
@@ -496,8 +499,8 @@ export const Header = ({
 
         {/* Menu Button */}
           {(showMenuButton || isMobile) && (
-            <Button 
-              variant="primary" 
+            <Button
+              variant="primary"
               data-color="main"
               data-size="md"
               onClick={toggleMenu}
@@ -505,12 +508,17 @@ export const Header = ({
               aria-label={isOpen ? t('header.closeMenu') : t('header.openMenu')}
               className={styles.menuButton}
             >
-              {isOpen ? (
-                <XMarkIcon aria-hidden />
+              {buttonStyle === 'soft' ? (
+                <>
+                  <span className={styles.buttonText}>{isOpen ? t('header.close') : t('header.menu')}</span>
+                  {isOpen ? <XMarkIcon aria-hidden /> : <MenuHamburgerIcon aria-hidden />}
+                </>
               ) : (
-                <MenuHamburgerIcon aria-hidden />
+                <>
+                  {isOpen ? <XMarkIcon aria-hidden /> : <MenuHamburgerIcon aria-hidden />}
+                  <span className={styles.buttonText}>{isOpen ? t('header.close') : t('header.menu')}</span>
+                </>
               )}
-              <span className={styles.buttonText}>{isOpen ? t('header.close') : t('header.menu')}</span>
             </Button>
           )}
         </div>
@@ -786,6 +794,29 @@ function buildInlineCss(styles: Record<string, string>): string {
 .${s.searchButtonWrapper} { display: flex; }
 .${s.buttonText} { display: inline-block; margin-left: var(--ds-size-2); }
 .${s.menuButton} { display: flex; align-items: center; }
+.${s.header}[data-button-style="soft"] .${s.actions} { gap: var(--ds-size-2); }
+.${s.header}[data-button-style="soft"] .${s.searchButtonWrapper} .ds-button,
+.${s.header}[data-button-style="soft"] .${s.menuButton} {
+  height: var(--ds-size-12, 48px);
+  padding: 0 var(--ds-size-4, 16px);
+  gap: var(--ds-size-2, 8px);
+  border-radius: 9999px;
+}
+.${s.header}[data-button-style="soft"] .${s.searchButtonWrapper} .${s.buttonText},
+.${s.header}[data-button-style="soft"] .${s.menuButton} .${s.buttonText} { margin-left: 0; }
+.${s.header}[data-button-style="soft"] .${s.menuButton} {
+  background-color: var(--ds-color-primary-color-red-surface-tinted, #FAE4E2);
+  color: var(--ds-color-primary-color-red-text-default);
+  border-color: transparent;
+}
+.${s.header}[data-button-style="soft"] .${s.menuButton}:hover {
+  background-color: var(--ds-color-primary-color-red-surface-hover, #F6D2CF);
+  border-color: transparent;
+}
+.${s.header}[data-button-style="soft"] .${s.menuButton}:active {
+  background-color: var(--ds-color-primary-color-red-surface-active, #F2BDB9);
+  border-color: transparent;
+}
 .${s.menuOverlay}, .${s.searchOverlay} {
   position: absolute; top: 100%; left: 0; width: 100%;
   background-color: var(--ds-color-neutral-background-default);
