@@ -1432,6 +1432,13 @@
         "required": false
       },
       {
+        "name": "buttonStyle",
+        "type": "enum",
+        "description": "Visual style of the header action buttons (Søk + Meny). 'soft' renders pill-shaped buttons with a tinted red fill on Meny, matching the Figma soft variant.",
+        "defaultValue": "default",
+        "required": false
+      },
+      {
         "name": "userName",
         "type": "string",
         "description": "Display name shown next to the avatar. Falls back to current placeholder if omitted.",

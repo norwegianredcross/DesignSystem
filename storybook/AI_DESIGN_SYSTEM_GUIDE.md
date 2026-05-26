@@ -1170,6 +1170,7 @@ import { Header } from 'rk-designsystem';
 
 <Header
   activePage?={string}
+  buttonStyle?={default}
   ctaIcon?={<HeartIcon aria-hidden />}
   ctaLabel?={string}
   data-color?={primary}
