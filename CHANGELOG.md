@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.2.0 (2026-05-26)
+
+- feat(Header): add buttonStyle="soft" variant with pill action buttons (7451fe72)
+- chore(deps): update rk-design-tokens to latest [skip ci] (fbb97aa1)
+- chore(security): patch transitive dev dependency vulnerabilities (1a23a5b2)
+- chore(security): remove zeroheight HTML archive; stop tracking dist-app; ignore .env (309c76a6)
+- chore(deps): update rk-design-tokens to latest [skip ci] (c7c7f111)
+- chore(deps): bump @digdir/designsystemet{,-css,-react} to 1.13.2 (fb7318cd)
+- refactor(pages): use ds components natively; strip style overrides (93193a0f)
+- refactor(home): use Card component for visual elements, bento tiles, and value blocks (410e828f)
+- Publish structured AI context artifacts (1c7a6a2b)
+
+
 ## 1.1.129 (2026-04-20)
 
 - fix(header): assert initials via data-initials attribute in test (aa532a73)
