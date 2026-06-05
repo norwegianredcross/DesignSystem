@@ -364,6 +364,17 @@ export const Footer = ({
                 © {currentYear} {tWithFallback('footer.copyright', 'Røde Kors')}
               </p>
             </div>
+
+            {/* Brand logo — bottom-left. If a logo src is supplied, render it
+                directly (the asset carries its own frame); otherwise fall back
+                to the inline Red Cross logo on a white plate. */}
+            {primaryLogoSrc ? (
+              <img src={primaryLogoSrc} alt={primaryLogoAlt} className={styles.dpLogoImg} />
+            ) : (
+              <div className={styles.dpLogoBox} data-color-scheme="light">
+                <RedCrossLogo />
+              </div>
+            )}
           </div>
         </div>
       </footer>

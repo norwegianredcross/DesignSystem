@@ -689,6 +689,31 @@
   margin: 0;
 }
 
+/* Brand logo plate: left-aligned at the bottom; data-color-scheme="light"
+   makes the box white via tokens. */
+.dpLogoBox {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+  margin-top: var(--ds-size-16, 64px);
+  padding: var(--ds-size-1, 4px) var(--ds-size-2, 8px);
+  background-color: var(--ds-color-neutral-background-default);
+  border-radius: var(--ds-border-radius-sm, 4px);
+}
+
+.dpLogoBox .redCrossLogo {
+  width: 150px;
+}
+
+/* Pre-framed logo asset (e.g. logo-frame.svg) — rendered as-is, no extra plate. */
+.dpLogoImg {
+  display: block;
+  width: 180px;
+  height: auto;
+  margin-top: var(--ds-size-16, 64px);
+}
+
 @media (max-width: 1024px) {
   .dpContainer {
     padding: var(--ds-size-12, 48px) var(--ds-size-8, 32px);
