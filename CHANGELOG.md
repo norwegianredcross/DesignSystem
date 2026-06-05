@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.4 (2026-06-05)
+
+- fix(Footer): logo plate refinements in columns variant (#11) (abd1ee47)
+
+
 ## 1.2.3 (2026-06-05)
 
 - feat(Header,Footer): add compact header + columns footer variants (1b4b0e7a)
