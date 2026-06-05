@@ -25,11 +25,20 @@ const meta: Meta<typeof Footer> = {
     },
     variant: {
       control: 'select',
-      options: ['default', 'contact'],
-      description: 'Footer layout variant.',
+      options: ['default', 'contact', 'columns'],
+      description: "Footer layout variant. 'columns' renders N nav columns (from `columns`) + an org-meta row + a legal/copyright row.",
       table: {
         defaultValue: { summary: 'default' },
       },
+    },
+    colorScheme: {
+      control: 'inline-radio',
+      options: ['light', 'dark'],
+      description: "Force a colour scheme on the footer (applies `data-color-scheme`). 'dark' renders a dark surface from the active colour family's tinted token (e.g. maroon).",
+    },
+    columns: {
+      control: 'object',
+      description: 'Navigation columns ({ title, links }) for the `columns` variant.',
     },
     showCrossCorners: {
       control: 'boolean',
@@ -299,6 +308,56 @@ export const ContactVariantWithCrossCorners: Story = {
     'data-color': 'additional',
     showCrossCorners: true,
   },
+};
+
+// --- Columns Variant ---
+const columnsArgs: Partial<FooterProps> = {
+  variant: 'columns',
+  columns: [
+    {
+      title: 'Snarveier',
+      links: [
+        { label: 'Tilbudene', href: '#' },
+        { label: 'Bli frivillig', href: '#' },
+        { label: 'Vårt arbeid', href: '#' },
+        { label: 'Om Røde Kors', href: '#' },
+      ],
+    },
+    {
+      title: 'Ressurser',
+      links: [
+        { label: 'GitHub', href: '#' },
+        { label: 'Storybook', href: '#' },
+        { label: 'npm', href: '#' },
+      ],
+    },
+    {
+      title: 'Kontakt',
+      links: [
+        { label: 'Kontakt oss', href: '#' },
+        { label: 'Støtt arbeidet', href: '#' },
+      ],
+    },
+  ],
+  visitingAddress: ['Hausmannsgate 7 (Korsegården)', '0186 Oslo'],
+  organizationNumber: '864 139 442',
+  email: 'post@redcross.no',
+  legalLinks: [
+    { label: 'Personvern', href: '#' },
+    { label: 'Varsling/Misconduct', href: '#' },
+  ],
+};
+
+export const ColumnsVariant: Story = {
+  name: 'Columns Variant',
+  args: { ...columnsArgs },
+};
+
+// The dark colour scheme renders the maroon surface from tokens — matches the
+// dark footer used by the docs site.
+export const ColumnsVariantDark: Story = {
+  name: 'Columns Variant (Dark / maroon)',
+  args: { ...columnsArgs, colorScheme: 'dark' },
 };
 
 // --- INTERACTION TESTS ---

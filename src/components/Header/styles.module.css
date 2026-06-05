@@ -819,3 +819,20 @@
     padding: 8px 12px;
   }
 }
+
+/* ===== Compact variant ===== */
+/* Slimmer, lighter header: no white logo box overlay, reduced height,
+   transparent logo area. Visuals stay token-driven. */
+.header[data-variant="compact"]::before {
+  display: none;
+}
+
+.header[data-variant="compact"] .headerInner {
+  min-height: var(--ds-size-18, 72px);
+}
+
+.header[data-variant="compact"] .logoWrapper {
+  background-color: transparent;
+  margin-left: 0;
+  padding-left: 0;
+}
