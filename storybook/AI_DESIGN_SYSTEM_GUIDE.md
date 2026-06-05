@@ -1138,6 +1138,8 @@ import { Carousel } from 'rk-designsystem';
 import { Footer } from 'rk-designsystem';
 
 <Footer
+  colorScheme?={}
+  columns?={{ title: string; links: FooterLink[]; }[]}
   contactPersons?={[]}
   contactPersonsTitle?={string}
   data-color?={neutral}
@@ -1198,6 +1200,7 @@ import { Header } from 'rk-designsystem';
   userAvatarSrc?={string}
   userInitials?={string}
   userName?={string}
+  variant?={default}
  />
 ```
 

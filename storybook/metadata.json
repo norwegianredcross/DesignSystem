@@ -1285,6 +1285,13 @@
     "description": "",
     "props": [
       {
+        "name": "variant",
+        "type": "enum",
+        "description": "Layout density. 'compact' renders a slimmer header with a transparent (non-boxed) logo area and reduced height — useful for documentation sites, dashboards or any app that wants a lighter top bar. Defaults to 'default'.",
+        "defaultValue": "default",
+        "required": false
+      },
+      {
         "name": "data-color",
         "type": "enum",
         "description": "Background color for the header extension (top bar): 'primary' uses primary-color-red-base-default, 'neutral' uses neutral-base-default",
@@ -1490,8 +1497,22 @@
       {
         "name": "variant",
         "type": "enum",
-        "description": "Footer layout variant",
+        "description": "Footer layout variant. 'columns' renders N navigation columns (from `columns`) + an organisation meta row + a legal/copyright row.",
         "defaultValue": "default",
+        "required": false
+      },
+      {
+        "name": "colorScheme",
+        "type": "enum",
+        "description": "Force a colour scheme on the footer (applies `data-color-scheme`). Lets any project render a light or dark footer from the same tokens.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "columns",
+        "type": "{ title: string; links: FooterLink[]; }[]",
+        "description": "Navigation columns for the `columns` variant.",
+        "defaultValue": null,
         "required": false
       },
       {
