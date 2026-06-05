@@ -43,8 +43,12 @@ export interface LegalLink {
 export interface FooterProps {
   /** Background color for the main section */
   'data-color'?: 'primary' | 'additional' | 'neutral';
-  /** Footer layout variant */
-  variant?: 'default' | 'contact';
+  /** Footer layout variant. 'columns' renders N navigation columns (from `columns`) + an organisation meta row + a legal/copyright row. */
+  variant?: 'default' | 'contact' | 'columns';
+  /** Force a colour scheme on the footer (applies `data-color-scheme`). Lets any project render a light or dark footer from the same tokens. */
+  colorScheme?: 'light' | 'dark';
+  /** Navigation columns for the `columns` variant. */
+  columns?: { title: string; links: FooterLink[] }[];
   /** Show CrossCorner decorative elements */
   showCrossCorners?: boolean;
   /** Newsletter section description text */
@@ -96,6 +100,8 @@ export interface FooterProps {
 export const Footer = ({
   'data-color': dataColor = 'neutral',
   variant = 'default',
+  colorScheme,
+  columns,
   showCrossCorners = false,
   newsletterDescription = 'Tekst om rødekors som kan være rundt 2 linjebrudd i lengde.',
   newsletterPlaceholder = 'Input tekst',
@@ -273,6 +279,96 @@ export const Footer = ({
       ))}
     </ul>
   );
+
+  // Render columns variant (N nav columns + meta row + legal/copyright row)
+  if (variant === 'columns') {
+    const defaultColumns: { title: string; links: FooterLink[] }[] = [
+      {
+        title: tWithFallback('footer.contact.title', 'Kontakt'),
+        links: defaultShortcutsLinks,
+      },
+      {
+        title: tWithFallback('footer.bidra', 'Bidra'),
+        links: defaultShortcutsLinks,
+      },
+      {
+        title: tWithFallback('footer.shortcuts', 'Snarveier'),
+        links: defaultShortcutsLinks,
+      },
+    ];
+    const dpColumns = columns && columns.length > 0 ? columns : defaultColumns;
+    const dpLegal = legalLinks.length > 0 ? legalLinks : defaultLinksLinks;
+
+    return (
+      <footer className={styles.footer} data-color={dataColor} data-color-scheme={colorScheme}>
+        <div className={styles.dpMain}>
+          <div className={styles.dpContainer}>
+            {/* Navigation columns */}
+            <div className={styles.dpColumns}>
+              {dpColumns.map((col, i) => (
+                <nav key={i} className={styles.dpColumn} aria-label={col.title}>
+                  <h3 className={styles.dpColTitle}>{col.title}</h3>
+                  <ul className={styles.dpList}>
+                    {col.links.map((link, j) => (
+                      <li key={j}>
+                        <Link href={link.href} className={styles.dpLink}>
+                          {link.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+              ))}
+            </div>
+
+            <hr className={styles.dpDivider} />
+
+            {/* Meta row: address / org number / email */}
+            <div className={styles.dpMeta}>
+              <div className={styles.dpMetaCol}>
+                <h4 className={styles.dpMetaTitle}>
+                  {tWithFallback('footer.contact.visitingAddress', 'Besøksadresse')}
+                </h4>
+                {visitingAddress.map((line, index) => (
+                  <p key={index} className={styles.dpMetaText}>{line}</p>
+                ))}
+              </div>
+              <div className={styles.dpMetaCol}>
+                <h4 className={styles.dpMetaTitle}>
+                  {tWithFallback('footer.contact.organizationNumber', 'Organisasjonsnummer')}
+                </h4>
+                <p className={styles.dpMetaText}>{organizationNumber}</p>
+              </div>
+              <div className={styles.dpMetaCol}>
+                <h4 className={styles.dpMetaTitle}>
+                  {tWithFallback('footer.contact.email', 'E-post')}
+                </h4>
+                <p className={styles.dpMetaText}>{email}</p>
+              </div>
+            </div>
+
+            <hr className={styles.dpDivider} />
+
+            {/* Bottom row: legal links + copyright */}
+            <div className={styles.dpBottom}>
+              <ul className={styles.dpLegal}>
+                {dpLegal.map((link, index) => (
+                  <li key={index}>
+                    <Link href={link.href} className={styles.dpLegalLink}>
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              <p className={styles.dpCopyright}>
+                © {currentYear} {tWithFallback('footer.copyright', 'Røde Kors')}
+              </p>
+            </div>
+          </div>
+        </div>
+      </footer>
+    );
+  }
 
   // Render contact variant
   if (variant === 'contact') {

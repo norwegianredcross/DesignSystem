@@ -33,6 +33,14 @@ const meta: Meta<typeof Header> = {
     },
   },
   argTypes: {
+    variant: {
+      control: 'inline-radio',
+      options: ['default', 'compact'],
+      description: "Layout density. 'compact' renders a slimmer header: transparent (non-boxed) logo area, no white logo box, reduced height.",
+      table: {
+        defaultValue: { summary: 'default' },
+      },
+    },
     'data-color': {
       control: 'select',
       options: ['primary', 'neutral'],
@@ -274,6 +282,29 @@ export const NeutralColor: Story = {
     docs: {
       description: {
         story: 'Header with neutral background color for the top bar (neutral-base-default).',
+      },
+    },
+  },
+};
+
+export const Compact: Story = {
+  args: {
+    variant: 'compact',
+    showUser: false,
+    showSearch: true,
+    showLogin: false,
+    showMenuButton: false,
+    showNavItems: true,
+    navItems: [
+      { label: 'Design', href: 'design' },
+      { label: 'Komponenter', href: 'components' },
+      { label: 'Kode', href: 'code' },
+    ],
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "The `compact` variant: a slimmer, lighter header (transparent logo area, no white logo box, reduced height). Useful for documentation sites, dashboards, or any app wanting a lighter top bar.",
       },
     },
   },

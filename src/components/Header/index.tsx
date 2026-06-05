@@ -12,6 +12,8 @@ import { MenuHamburgerIcon, XMarkIcon, MagnifyingGlassIcon, HeartIcon, ChevronDo
 import { searchIndex } from '../../utils/search-index';
 
 export interface HeaderProps {
+  /** Layout density. 'compact' renders a slimmer header with a transparent (non-boxed) logo area and reduced height — useful for documentation sites, dashboards or any app that wants a lighter top bar. Defaults to 'default'. */
+  variant?: 'default' | 'compact';
   /** Background color for the header extension (top bar): 'primary' uses primary-color-red-base-default, 'neutral' uses neutral-base-default */
   'data-color'?: 'primary' | 'neutral';
   activePage?: string;
@@ -58,9 +60,10 @@ function deriveInitials(name: string): string {
     .toUpperCase();
 }
 
-export const Header = ({ 
+export const Header = ({
+  variant = 'default',
   'data-color': dataColor = 'primary',
-  activePage, 
+  activePage,
   setPage, 
   children,
   showUser = true,
@@ -300,7 +303,7 @@ export const Header = ({
   };
 
   return (
-    <header className={styles.header} data-open={isOpen ? 'true' : 'false'} data-color={dataColor} data-button-style={buttonStyle}>
+    <header className={styles.header} data-open={isOpen ? 'true' : 'false'} data-color={dataColor} data-button-style={buttonStyle} data-variant={variant}>
       {showHeaderExtension && (
         <div className={`${styles.headerExtension}${extensionColor === 'tinted' ? ` ${styles.headerExtensionTinted}` : ''}`} data-color-scheme="light" data-extension-color={extensionColor}>
           <div className={styles.extensionContentWrapper}>
