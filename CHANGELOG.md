@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.3 (2026-06-05)
+
+- feat(Header,Footer): add compact header + columns footer variants (1b4b0e7a)
+
+
 ## 1.2.2 (2026-05-26)
 
 - refactor(Button,Tag): apply shape/variant via inline style — drop CSS bundle dep (f1a8f325)
