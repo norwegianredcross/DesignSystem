@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-04-08T10:53:57.931Z",
+  "generatedAt": "2026-06-15T09:55:46.074Z",
   "package": {
     "name": "rk-designsystem",
-    "version": "1.1.128"
+    "version": "1.2.4"
   },
   "resources": {
     "storybookUrl": "https://norwegianredcross.github.io/DesignSystem/storybook",
@@ -13,7 +13,7 @@
     "themeUrl": "https://norwegianredcross.github.io/design-tokens/theme.css"
   },
   "summary": {
-    "componentCount": 67,
+    "componentCount": 61,
     "exportedComponents": [
       "Alert",
       "Avatar",
@@ -24,10 +24,8 @@
       "BreadcrumbsLink",
       "BreadcrumbsList",
       "Button",
-      "Button",
       "Card",
       "Carousel",
-      "Checkbox",
       "Checkbox",
       "Chip",
       "CrossCorner",
@@ -48,9 +46,6 @@
       "Field",
       "FieldDescription",
       "Fieldset",
-      "Fieldset",
-      "Fieldset",
-      "Fieldset",
       "Footer",
       "Header",
       "Heading",
@@ -64,7 +59,6 @@
       "PaginationList",
       "Paragraph",
       "Popover",
-      "Radio",
       "Radio",
       "Search",
       "Select",

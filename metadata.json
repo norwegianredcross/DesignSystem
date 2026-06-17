@@ -278,24 +278,31 @@
     "description": "",
     "props": [
       {
-        "name": "data-size",
-        "type": "Size",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "name": "data-color",
+        "type": "any",
+        "description": "Color scheme. Follows Digdir's `data-color` cascade.",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "data-color",
-        "type": "any",
-        "description": "Change the color scheme of the tag",
+        "name": "data-size",
+        "type": "enum",
+        "description": "Changes size for descendant Designsystemet components.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "variant",
         "type": "enum",
-        "description": "The visual variant of the tag",
+        "description": "Visual variant.",
         "defaultValue": "'default'",
+        "required": false
+      },
+      {
+        "name": "shape",
+        "type": "enum",
+        "description": "Geometry. `'rounded'` uses `--ds-border-radius-xl` (12px), matching the\nActivity-Card style in Figma. `'squared'` keeps Digdir's default radius-sm.",
+        "defaultValue": "'squared'",
         "required": false
       }
     ]
@@ -777,27 +784,6 @@
     ]
   },
   {
-    "componentName": "Fieldset",
-    "importPath": "rk-designsystem",
-    "description": "",
-    "props": [
-      {
-        "name": "data-size",
-        "type": "Size",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "data-color",
-        "type": "Color",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
-        "defaultValue": null,
-        "required": false
-      }
-    ]
-  },
-  {
     "componentName": "useRadioGroup",
     "importPath": "rk-designsystem",
     "description": "",
@@ -1048,10 +1034,59 @@
         "required": false
       },
       {
+        "name": "data-color",
+        "type": "any",
+        "description": "Change the color scheme of the button",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size",
+        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
         "name": "asChild",
         "type": "boolean",
         "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
         "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "type",
+        "type": "enum",
+        "description": "Specify the type of button. Unset when `asChild` is true",
+        "defaultValue": "'button'",
+        "required": false
+      },
+      {
+        "name": "variant",
+        "type": "enum",
+        "description": "Specify which variant to use",
+        "defaultValue": "'primary'",
+        "required": false
+      },
+      {
+        "name": "command",
+        "type": "string",
+        "description": "Native invoker commands. Specifies actions to perform on an element specified by commandfor. Polyfilled by designsystemet-web and includes a custom --show-non-modal command.\n\"show-modal\", \"close\", \"request-close\", \"show-popover\", \"hide-popover\", \"toggle-popover\", \"--show-non-modal\"",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "commandfor",
+        "type": "string",
+        "description": "Specifies the target element for \"command\".\nvalue is ID of target",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "commandFor",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
         "required": false
       }
     ]
@@ -1229,6 +1264,13 @@
     "description": "",
     "props": [
       {
+        "name": "variant",
+        "type": "enum",
+        "description": "Layout density. 'compact' renders a slimmer header with a transparent (non-boxed) logo area and reduced height — useful for documentation sites, dashboards or any app that wants a lighter top bar. Defaults to 'default'.",
+        "defaultValue": "default",
+        "required": false
+      },
+      {
         "name": "data-color",
         "type": "enum",
         "description": "Background color for the header extension (top bar): 'primary' uses primary-color-red-base-default, 'neutral' uses neutral-base-default",
@@ -1381,6 +1423,41 @@
         "description": "Background color variant for the header extension (top bar). 'tinted' uses a soft pink/red tinted background.",
         "defaultValue": null,
         "required": false
+      },
+      {
+        "name": "buttonStyle",
+        "type": "enum",
+        "description": "Visual style of the header action buttons (Søk + Meny). 'soft' renders pill-shaped buttons with a tinted red fill on Meny, matching the Figma soft variant.",
+        "defaultValue": "default",
+        "required": false
+      },
+      {
+        "name": "userName",
+        "type": "string",
+        "description": "Display name shown next to the avatar. Falls back to current placeholder if omitted.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "userInitials",
+        "type": "string",
+        "description": "Initials rendered inside the avatar circle. Auto-derived from userName if omitted.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "userAvatarSrc",
+        "type": "string",
+        "description": "Avatar image URL. Takes precedence over initials when provided.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "onUserClick",
+        "type": "() => void",
+        "description": "Optional click handler on the user block — enables future dropdown/menu integration.",
+        "defaultValue": null,
+        "required": false
       }
     ]
   },
@@ -1399,8 +1476,22 @@
       {
         "name": "variant",
         "type": "enum",
-        "description": "Footer layout variant",
+        "description": "Footer layout variant. 'columns' renders N navigation columns (from `columns`) + an organisation meta row + a legal/copyright row.",
         "defaultValue": "default",
+        "required": false
+      },
+      {
+        "name": "colorScheme",
+        "type": "enum",
+        "description": "Force a colour scheme on the footer (applies `data-color-scheme`). Lets any project render a light or dark footer from the same tokens.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "columns",
+        "type": "{ title: string; links: FooterLink[]; }[]",
+        "description": "Navigation columns for the `columns` variant.",
+        "defaultValue": null,
         "required": false
       },
       {
@@ -1561,27 +1652,6 @@
         "name": "contactPersonsTitle",
         "type": "string",
         "description": "Title for contact persons section (contact variant)",
-        "defaultValue": null,
-        "required": false
-      }
-    ]
-  },
-  {
-    "componentName": "Fieldset",
-    "importPath": "rk-designsystem",
-    "description": "",
-    "props": [
-      {
-        "name": "data-size",
-        "type": "Size",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "data-color",
-        "type": "Color",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
       }
@@ -1772,6 +1842,27 @@
         "description": "Toggle loading state.\nPass an element if you want to display a custom loader.",
         "defaultValue": "false",
         "required": false
+      },
+      {
+        "name": "command",
+        "type": "string",
+        "description": "Native invoker commands. Specifies actions to perform on an element specified by commandfor. Polyfilled by designsystemet-web and includes a custom --show-non-modal command.\n\"show-modal\", \"close\", \"request-close\", \"show-popover\", \"hide-popover\", \"toggle-popover\", \"--show-non-modal\"",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "commandfor",
+        "type": "string",
+        "description": "Specifies the target element for \"command\".\nvalue is ID of target",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "commandFor",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
       }
     ]
   },
@@ -1852,6 +1943,27 @@
         "type": "enum",
         "description": "Specify the type of button. Unset when `asChild` is true",
         "defaultValue": "'button'",
+        "required": false
+      },
+      {
+        "name": "command",
+        "type": "string",
+        "description": "Native invoker commands. Specifies actions to perform on an element specified by commandfor. Polyfilled by designsystemet-web and includes a custom --show-non-modal command.\n\"show-modal\", \"close\", \"request-close\", \"show-popover\", \"hide-popover\", \"toggle-popover\", \"--show-non-modal\"",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "commandfor",
+        "type": "string",
+        "description": "Specifies the target element for \"command\".\nvalue is ID of target",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "commandFor",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
         "required": false
       },
       {
@@ -2354,83 +2466,83 @@
   {
     "componentName": "Button",
     "importPath": "rk-designsystem",
-    "description": "Chip.Button used for interaction",
+    "description": "",
     "props": [
       {
+        "name": "variant",
+        "type": "enum",
+        "description": "Color treatment. `'soft'` is an rk-designsystem extension that renders a\ntinted surface with no border; the active `data-color` cascade picks the ramp.",
+        "defaultValue": "'primary'",
+        "required": false
+      },
+      {
+        "name": "shape",
+        "type": "enum",
+        "description": "Geometry. `'pill'` fully rounds both ends. Orthogonal to `variant`.",
+        "defaultValue": "'squared'",
+        "required": false
+      },
+      {
         "name": "data-color",
-        "type": "Color",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "type": "any",
+        "description": "",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-size",
-        "type": "Size",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "type": "enum",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "icon",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "loading",
+        "type": "ReactNode",
+        "description": "",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "asChild",
         "type": "boolean",
-        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
-        "defaultValue": "false",
-        "required": false
-      }
-    ]
-  },
-  {
-    "componentName": "Checkbox",
-    "importPath": "rk-designsystem",
-    "description": "Chip.Checkbox used for multiselection",
-    "props": [
-      {
-        "name": "data-color",
-        "type": "Color",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "description": "",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "data-size",
-        "type": "Size",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "name": "type",
+        "type": "enum",
+        "description": "",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "asChild",
-        "type": "boolean",
-        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
-        "defaultValue": "false",
-        "required": false
-      }
-    ]
-  },
-  {
-    "componentName": "Radio",
-    "importPath": "rk-designsystem",
-    "description": "Chip.Radio used for single selection",
-    "props": [
-      {
-        "name": "data-color",
-        "type": "Color",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "name": "command",
+        "type": "string",
+        "description": "",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "data-size",
-        "type": "Size",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "name": "commandfor",
+        "type": "string",
+        "description": "",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "asChild",
-        "type": "boolean",
-        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
-        "defaultValue": "false",
+        "name": "commandFor",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
         "required": false
       }
     ]
@@ -2514,27 +2626,6 @@
         "name": "aria-labelledby",
         "type": "string",
         "description": "",
-        "defaultValue": null,
-        "required": false
-      }
-    ]
-  },
-  {
-    "componentName": "Fieldset",
-    "importPath": "rk-designsystem",
-    "description": "",
-    "props": [
-      {
-        "name": "data-size",
-        "type": "Size",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "data-color",
-        "type": "Color",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
       }
@@ -2663,62 +2754,6 @@
         "description": "Instances of `Card.Block`, `Divider` or other React nodes",
         "defaultValue": null,
         "required": true
-      }
-    ]
-  },
-  {
-    "componentName": "Button",
-    "importPath": "rk-designsystem",
-    "description": "",
-    "props": [
-      {
-        "name": "data-size",
-        "type": "Size",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "variant",
-        "type": "enum",
-        "description": "Specify which variant to use",
-        "defaultValue": "'primary'",
-        "required": false
-      },
-      {
-        "name": "data-color",
-        "type": "any",
-        "description": "Change the color scheme of the button",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "icon",
-        "type": "boolean",
-        "description": "Toggle icon only styling, pass icon as children\nWhen combined with loading, the loading-icon will be shown instead of the icon.",
-        "defaultValue": "false",
-        "required": false
-      },
-      {
-        "name": "loading",
-        "type": "ReactNode",
-        "description": "Toggle loading state.\nPass an element if you want to display a custom loader.",
-        "defaultValue": "false",
-        "required": false
-      },
-      {
-        "name": "asChild",
-        "type": "boolean",
-        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
-        "defaultValue": "false",
-        "required": false
-      },
-      {
-        "name": "type",
-        "type": "enum",
-        "description": "Specify the type of button. Unset when `asChild` is true",
-        "defaultValue": "'button'",
-        "required": false
       }
     ]
   },
