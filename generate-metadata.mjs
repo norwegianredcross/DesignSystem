@@ -51,7 +51,7 @@ const options = {
 const allComponentsInfo = docgenParse(componentFiles, options);
 
 // 4. Filter and format the parsed data
-const metadata = allComponentsInfo
+const parsedMetadata = allComponentsInfo
   .filter(component => publicExports.has(component.displayName)) // Only include public exports
   .map((component) => {
     console.log(`Processing: ${component.displayName}`);
@@ -71,6 +71,50 @@ const metadata = allComponentsInfo
       props: props,
     };
   });
+
+// 5. Collapse duplicate records.
+// `react-docgen-typescript` emits one record per file that declares a component,
+// so types re-exported from several folders (e.g. `Fieldset` lives in
+// Fieldset/Checkbox/Radio/Switch) show up multiple times under the same name.
+// Keep the richest record per name (most props, then the one with a description)
+// so the count and the per-component entry stay accurate.
+function deduplicateComponents(metadata) {
+  const componentMap = new Map();
+
+  metadata.forEach((component) => {
+    const name = component.componentName;
+    const existing = componentMap.get(name);
+
+    if (!existing) {
+      componentMap.set(name, component);
+      return;
+    }
+
+    const existingPropsCount = existing.props?.length || 0;
+    const currentPropsCount = component.props?.length || 0;
+
+    if (currentPropsCount > existingPropsCount) {
+      componentMap.set(name, component);
+    } else if (
+      currentPropsCount === existingPropsCount &&
+      component.description &&
+      !existing.description
+    ) {
+      componentMap.set(name, component);
+    }
+  });
+
+  return Array.from(componentMap.values());
+}
+
+const duplicateCount = parsedMetadata.length;
+const metadata = deduplicateComponents(parsedMetadata);
+if (metadata.length < duplicateCount) {
+  console.log(
+    `Collapsed ${duplicateCount - metadata.length} duplicate component record(s) ` +
+      `(${duplicateCount} parsed → ${metadata.length} unique).`,
+  );
+}
 
 // --- WRITE FILE ---
 try {
