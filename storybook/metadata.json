@@ -784,27 +784,6 @@
     ]
   },
   {
-    "componentName": "Fieldset",
-    "importPath": "rk-designsystem",
-    "description": "",
-    "props": [
-      {
-        "name": "data-size",
-        "type": "Size",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "data-color",
-        "type": "Color",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
-        "defaultValue": null,
-        "required": false
-      }
-    ]
-  },
-  {
     "componentName": "useRadioGroup",
     "importPath": "rk-designsystem",
     "description": "",
@@ -1679,27 +1658,6 @@
     ]
   },
   {
-    "componentName": "Fieldset",
-    "importPath": "rk-designsystem",
-    "description": "",
-    "props": [
-      {
-        "name": "data-size",
-        "type": "Size",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "data-color",
-        "type": "Color",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
-        "defaultValue": null,
-        "required": false
-      }
-    ]
-  },
-  {
     "componentName": "Field",
     "importPath": "rk-designsystem",
     "description": "Field-komponent for å omslutte skjemafelter.\nInkluderer støtte for beskrivelse og tegn-teller.",
@@ -2508,83 +2466,83 @@
   {
     "componentName": "Button",
     "importPath": "rk-designsystem",
-    "description": "Chip.Button used for interaction",
+    "description": "",
     "props": [
       {
+        "name": "variant",
+        "type": "enum",
+        "description": "Color treatment. `'soft'` is an rk-designsystem extension that renders a\ntinted surface with no border; the active `data-color` cascade picks the ramp.",
+        "defaultValue": "'primary'",
+        "required": false
+      },
+      {
+        "name": "shape",
+        "type": "enum",
+        "description": "Geometry. `'pill'` fully rounds both ends. Orthogonal to `variant`.",
+        "defaultValue": "'squared'",
+        "required": false
+      },
+      {
         "name": "data-color",
-        "type": "Color",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "type": "any",
+        "description": "",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-size",
-        "type": "Size",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "type": "enum",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "icon",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "loading",
+        "type": "ReactNode",
+        "description": "",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "asChild",
         "type": "boolean",
-        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
-        "defaultValue": "false",
-        "required": false
-      }
-    ]
-  },
-  {
-    "componentName": "Checkbox",
-    "importPath": "rk-designsystem",
-    "description": "Chip.Checkbox used for multiselection",
-    "props": [
-      {
-        "name": "data-color",
-        "type": "Color",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "description": "",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "data-size",
-        "type": "Size",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "name": "type",
+        "type": "enum",
+        "description": "",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "asChild",
-        "type": "boolean",
-        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
-        "defaultValue": "false",
-        "required": false
-      }
-    ]
-  },
-  {
-    "componentName": "Radio",
-    "importPath": "rk-designsystem",
-    "description": "Chip.Radio used for single selection",
-    "props": [
-      {
-        "name": "data-color",
-        "type": "Color",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "name": "command",
+        "type": "string",
+        "description": "",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "data-size",
-        "type": "Size",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "name": "commandfor",
+        "type": "string",
+        "description": "",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "asChild",
-        "type": "boolean",
-        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
-        "defaultValue": "false",
+        "name": "commandFor",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
         "required": false
       }
     ]
@@ -2668,27 +2626,6 @@
         "name": "aria-labelledby",
         "type": "string",
         "description": "",
-        "defaultValue": null,
-        "required": false
-      }
-    ]
-  },
-  {
-    "componentName": "Fieldset",
-    "importPath": "rk-designsystem",
-    "description": "",
-    "props": [
-      {
-        "name": "data-size",
-        "type": "Size",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "data-color",
-        "type": "Color",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
       }
@@ -2817,90 +2754,6 @@
         "description": "Instances of `Card.Block`, `Divider` or other React nodes",
         "defaultValue": null,
         "required": true
-      }
-    ]
-  },
-  {
-    "componentName": "Button",
-    "importPath": "rk-designsystem",
-    "description": "",
-    "props": [
-      {
-        "name": "variant",
-        "type": "enum",
-        "description": "Color treatment. `'soft'` is an rk-designsystem extension that renders a\ntinted surface with no border; the active `data-color` cascade picks the ramp.",
-        "defaultValue": "'primary'",
-        "required": false
-      },
-      {
-        "name": "shape",
-        "type": "enum",
-        "description": "Geometry. `'pill'` fully rounds both ends. Orthogonal to `variant`.",
-        "defaultValue": "'squared'",
-        "required": false
-      },
-      {
-        "name": "data-color",
-        "type": "any",
-        "description": "",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "data-size",
-        "type": "enum",
-        "description": "",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "icon",
-        "type": "boolean",
-        "description": "",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "loading",
-        "type": "ReactNode",
-        "description": "",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "asChild",
-        "type": "boolean",
-        "description": "",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "type",
-        "type": "enum",
-        "description": "",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "command",
-        "type": "string",
-        "description": "",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "commandfor",
-        "type": "string",
-        "description": "",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "commandFor",
-        "type": "string",
-        "description": "",
-        "defaultValue": null,
-        "required": false
       }
     ]
   },
