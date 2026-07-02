@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.2.5 (2026-07-02)
+
+- chore(deps): bump rk-design-tokens to ^1.0.49 (#15) (3be9a42d)
+- feat(Button,Header)!: move button styling to design tokens — remove shape and soft props (#14) (6056227f)
+- chore(deps): npm audit fix for dev dependencies (13 → 10 advisories) (#13) (199c64fe)
+- fix(metadata): collapse duplicate component records (67 → 61 unique) (#12) (3d099d5a)
+
+
 ## 1.2.4 (2026-06-05)
 
 - fix(Footer): logo plate refinements in columns variant (#11) (abd1ee47)
