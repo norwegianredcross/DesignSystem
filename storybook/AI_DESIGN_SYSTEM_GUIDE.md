@@ -319,7 +319,6 @@ import { Button } from 'rk-designsystem';
   data-size?={}
   icon?={boolean}
   loading?={ReactNode}
-  shape?={"squared"}
   type?={}
   variant?={"primary"}
  />
@@ -1174,7 +1173,6 @@ import { Header } from 'rk-designsystem';
 
 <Header
   activePage?={string}
-  buttonStyle?={default}
   ctaIcon?={<HeartIcon aria-hidden />}
   ctaLabel?={string}
   data-color?={primary}
