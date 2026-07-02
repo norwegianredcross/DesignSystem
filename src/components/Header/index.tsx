@@ -39,8 +39,6 @@ export interface HeaderProps {
   showLanguageSwitch?: boolean;
   /** Background color variant for the header extension (top bar). 'tinted' uses a soft pink/red tinted background. */
   extensionColor?: 'primary' | 'neutral' | 'tinted';
-  /** Visual style of the header action buttons (Søk + Meny). 'soft' renders pill-shaped buttons with a tinted red fill on Meny, matching the Figma soft variant. */
-  buttonStyle?: 'default' | 'soft';
   /** Display name shown next to the avatar. Falls back to current placeholder if omitted. */
   userName?: string;
   /** Initials rendered inside the avatar circle. Auto-derived from userName if omitted. */
@@ -85,7 +83,6 @@ export const Header = ({
   showModeToggle = false,
   showLanguageSwitch = false,
   extensionColor,
-  buttonStyle = 'default',
   userName,
   userInitials,
   userAvatarSrc,
@@ -303,7 +300,7 @@ export const Header = ({
   };
 
   return (
-    <header className={styles.header} data-open={isOpen ? 'true' : 'false'} data-color={dataColor} data-button-style={buttonStyle} data-variant={variant}>
+    <header className={styles.header} data-open={isOpen ? 'true' : 'false'} data-color={dataColor} data-variant={variant}>
       {showHeaderExtension && (
         <div className={`${styles.headerExtension}${extensionColor === 'tinted' ? ` ${styles.headerExtensionTinted}` : ''}`} data-color-scheme="light" data-extension-color={extensionColor}>
           <div className={styles.extensionContentWrapper}>
@@ -484,8 +481,7 @@ export const Header = ({
             <div className={styles.searchButtonWrapper}>
                <Button
                 variant="secondary"
-                shape={buttonStyle === 'soft' ? 'pill' : undefined}
-                data-color={buttonStyle === 'soft' ? 'neutral' : 'main'}
+                data-color="main"
                 data-size="md"
                 onClick={toggleSearch}
                 aria-expanded={isSearchOpen}
@@ -504,8 +500,7 @@ export const Header = ({
         {/* Menu Button */}
           {(showMenuButton || isMobile) && (
             <Button
-              variant={buttonStyle === 'soft' ? 'soft' : 'primary'}
-              shape={buttonStyle === 'soft' ? 'pill' : undefined}
+              variant="primary"
               data-color="main"
               data-size="md"
               onClick={toggleMenu}
@@ -513,17 +508,8 @@ export const Header = ({
               aria-label={isOpen ? t('header.closeMenu') : t('header.openMenu')}
               className={styles.menuButton}
             >
-              {buttonStyle === 'soft' ? (
-                <>
-                  <span className={styles.buttonText}>{isOpen ? t('header.close') : t('header.menu')}</span>
-                  {isOpen ? <XMarkIcon aria-hidden /> : <MenuHamburgerIcon aria-hidden />}
-                </>
-              ) : (
-                <>
-                  {isOpen ? <XMarkIcon aria-hidden /> : <MenuHamburgerIcon aria-hidden />}
-                  <span className={styles.buttonText}>{isOpen ? t('header.close') : t('header.menu')}</span>
-                </>
-              )}
+              {isOpen ? <XMarkIcon aria-hidden /> : <MenuHamburgerIcon aria-hidden />}
+              <span className={styles.buttonText}>{isOpen ? t('header.close') : t('header.menu')}</span>
             </Button>
           )}
         </div>
@@ -799,14 +785,6 @@ function buildInlineCss(styles: Record<string, string>): string {
 .${s.searchButtonWrapper} { display: flex; }
 .${s.buttonText} { display: inline-block; margin-left: var(--ds-size-2); }
 .${s.menuButton} { display: flex; align-items: center; }
-.${s.header}[data-button-style="soft"] .${s.actions} { gap: var(--ds-size-2); }
-.${s.header}[data-button-style="soft"] .${s.searchButtonWrapper} .ds-button,
-.${s.header}[data-button-style="soft"] .${s.menuButton} {
-  --dsc-button-padding: 0 var(--ds-size-4);
-  height: var(--ds-size-12);
-}
-.${s.header}[data-button-style="soft"] .${s.searchButtonWrapper} .${s.buttonText},
-.${s.header}[data-button-style="soft"] .${s.menuButton} .${s.buttonText} { margin-left: 0; }
 .${s.menuOverlay}, .${s.searchOverlay} {
   position: absolute; top: 100%; left: 0; width: 100%;
   background-color: var(--ds-color-neutral-background-default);
