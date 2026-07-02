@@ -311,12 +311,15 @@ All components are exported from `rk-designsystem`. Below is a comprehensive lis
 import { Button } from 'rk-designsystem';
 
 <Button
-  asChild?={false}
+  asChild?={boolean}
+  command?={string}
+  commandfor?={string}
+  commandFor?={string}
   data-color?={any}
-  data-size?="sm" | "md" | "lg"
-  icon?={false}
-  loading?={false}
-  type?={"button"}
+  data-size?={}
+  icon?={boolean}
+  loading?={ReactNode}
+  type?={}
   variant?={"primary"}
  />
 ```
@@ -710,7 +713,8 @@ import { Tag } from 'rk-designsystem';
 
 <Tag
   data-color?={any}
-  data-size?="sm" | "md" | "lg"
+  data-size?={}
+  shape?={"squared"}
   variant?={"default"}
  />
 ```
@@ -869,6 +873,9 @@ import { DropdownButton } from 'rk-designsystem';
 
 <DropdownButton
   asChild?={false}
+  command?={string}
+  commandfor?={string}
+  commandFor?={string}
   data-color?={any}
   data-size?="sm" | "md" | "lg"
   icon?={false}
@@ -909,6 +916,9 @@ import { DropdownTrigger } from 'rk-designsystem';
 <DropdownTrigger
   asChild?={false
 false}
+  command?={string}
+  commandfor?={string}
+  commandFor?={string}
   data-color?={any}
   data-size?={any}
   icon?={false}
@@ -977,6 +987,13 @@ import { PaginationButton } from 'rk-designsystem';
 <PaginationButton
   aria-current?={false}
   asChild?={false}
+  command?={string}
+  commandfor?={string}
+  commandFor?={string}
+  data-color?={any}
+  data-size?="sm" | "md" | "lg"
+  type?={"button"}
+  variant?={"primary"}
  />
 ```
 
@@ -1120,6 +1137,8 @@ import { Carousel } from 'rk-designsystem';
 import { Footer } from 'rk-designsystem';
 
 <Footer
+  colorScheme?={}
+  columns?={{ title: string; links: FooterLink[]; }[]}
   contactPersons?={[]}
   contactPersonsTitle?={string}
   data-color?={neutral}
@@ -1160,6 +1179,7 @@ import { Header } from 'rk-designsystem';
   extensionColor?={}
   navItems?={{ label: string; href: string; }[]}
   onCtaClick?={() => void}
+  onUserClick?={() => void}
   secondaryLogo?={false}
   secondaryLogoAlt?={Secondary Logo}
   secondaryLogoSrc?={string}
@@ -1175,6 +1195,10 @@ import { Header } from 'rk-designsystem';
   showSearch?={true}
   showThemeToggle?={false}
   showUser?={true}
+  userAvatarSrc?={string}
+  userInitials?={string}
+  userName?={string}
+  variant?={default}
  />
 ```
 

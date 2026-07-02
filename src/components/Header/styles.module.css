@@ -389,24 +389,6 @@
   align-items: center;
 }
 
-/* Header-specific sizing for the soft action buttons (matches Figma 230:4741).
-   Shape/variant/colors live on <Button shape="pill" variant="soft" data-color=…>;
-   only the Figma-specific padding/height/gap belongs here. */
-.header[data-button-style="soft"] .actions {
-  gap: var(--ds-size-2);
-}
-
-.header[data-button-style="soft"] .searchButtonWrapper :global(.ds-button),
-.header[data-button-style="soft"] .menuButton {
-  --dsc-button-padding: 0 var(--ds-size-4);
-  height: var(--ds-size-12);
-}
-
-.header[data-button-style="soft"] .searchButtonWrapper .buttonText,
-.header[data-button-style="soft"] .menuButton .buttonText {
-  margin-left: 0;
-}
-
 .menuOverlay {
   position: absolute;
   top: 100%;

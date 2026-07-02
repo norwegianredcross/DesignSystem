@@ -32,15 +32,9 @@ const meta: Meta<typeof Button> = {
     },
     variant: {
       control: 'select',
-      options: ['primary', 'secondary', 'tertiary', 'soft'],
-      description: 'Color treatment. "soft" is an rk-designsystem extension: tinted surface, no border; color follows the active data-color cascade.',
+      options: ['primary', 'secondary', 'tertiary'],
+      description: 'Color treatment.',
       defaultValue: 'primary',
-    },
-    shape: {
-      control: 'radio',
-      options: ['squared', 'pill'],
-      description: 'Geometry. "pill" fully rounds both ends. Orthogonal to variant.',
-      defaultValue: 'squared',
     },
     'data-size': {
       control: 'select',
@@ -139,75 +133,21 @@ export const LargeNeutral: Story = {
   },
 };
 
-// --- Soft variant ---
-export const Soft: Story = {
-  args: {
-    children: 'Meny',
-    variant: 'soft',
-    'data-color': 'neutral',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Tinted surface, no border. The active `data-color` cascade picks the ramp (here: neutral).',
-      },
-    },
-  },
-};
-
-// --- Pill shape ---
-export const Pill: Story = {
-  args: {
-    children: 'Søk',
-    variant: 'secondary',
-    shape: 'pill',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: '`shape="pill"` fully rounds the button. Orthogonal to `variant`.',
-      },
-    },
-  },
-};
-
-// --- Soft + pill (header-style) ---
-export const SoftPill: Story = {
-  args: {
-    children: 'Meny',
-    variant: 'soft',
-    shape: 'pill',
-    'data-color': 'main',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Combine the two axes. With `data-color="main"` the soft tint resolves to the brand-red surface ramp — same look as the Header soft variant.',
-      },
-    },
-  },
-};
-
-// --- Variant × shape matrix ---
-export const VariantShapeMatrix: Story = {
-  name: 'Matrix: variant × shape',
+// --- Variant overview ---
+export const VariantOverview: Story = {
+  name: 'Overview: variants',
   render: () => (
-    <div style={{ display: 'grid', gridTemplateColumns: 'auto repeat(2, 1fr)', gap: '1rem', alignItems: 'center' }}>
-      <span />
-      <strong>squared</strong>
-      <strong>pill</strong>
-      {(['primary', 'secondary', 'tertiary', 'soft'] as const).map((v) => (
+    <div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '1rem', alignItems: 'center' }}>
+      {(['primary', 'secondary', 'tertiary'] as const).map((v) => (
         <Fragment key={v}>
           <strong>{v}</strong>
           <Button variant={v}>Knapp</Button>
-          <Button variant={v} shape="pill">Knapp</Button>
         </Fragment>
       ))}
     </div>
   ),
   argTypes: {
     variant: { control: false },
-    shape: { control: false },
     children: { control: false },
     'data-color': { control: false },
   },

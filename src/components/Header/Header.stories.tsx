@@ -84,11 +84,6 @@ const meta: Meta<typeof Header> = {
       options: ['primary', 'neutral', 'tinted'],
       description: 'Background color variant for the top bar. "tinted" uses a soft pink background.',
     },
-    buttonStyle: {
-      control: 'radio',
-      options: ['default', 'soft'],
-      description: 'Visual style of Søk + Meny buttons. "soft" gives them pill corners and a tinted red fill on Meny (matches the Figma soft variant).',
-    },
     userName: {
       control: 'text',
       description: 'Display name shown next to the avatar. Falls back to "Frodo Baggins" if omitted.',
@@ -250,22 +245,6 @@ export const ClickableUser: Story = {
     docs: {
       description: {
         story: 'When `onUserClick` is provided, the user block becomes a keyboard-accessible button (role="button", tabIndex=0, Enter/Space activation).',
-      },
-    },
-  },
-};
-
-export const SoftButtons: Story = {
-  args: {
-    showUser: false,
-    showSearch: true,
-    showLogin: false,
-    buttonStyle: 'soft',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Pill-shaped action buttons with a tinted-red Meny fill. Matches the Figma "soft" header variant (node 230:4741).',
       },
     },
   },
