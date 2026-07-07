@@ -1,12 +1,59 @@
-name: Build and Deploy
+name: CI
 
+# Testpolicy: test tidlig og kontinuerlig, full regresjon på hver endring,
+# ingenting produksjonssettes utestet (se TESTING.md).
 on:
   push:
     branches:
       - main
+  pull_request:
 
 jobs:
-  build-and-deploy:
+  # Full kvalitetssjekk av innsendt kode — kjøres på hver PR og hver push.
+  # Dette er regresjonstesten: hele suiten, ikke bare det som er endret.
+  test:
+    name: Lint, typecheck, test & build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Install Playwright browsers
+        run: npx playwright install chromium
+
+      - name: Test (full regression, all stories + a11y)
+        run: npm test
+
+      - name: Build package
+        run: npm run build
+
+      - name: Build Storybook
+        run: npm run build-storybook
+
+      - name: Build Main Application
+        run: npm run build:app
+
+  # Deploy kjøres kun på push til main, og kun når testjobben er grønn.
+  # Token-oppdateringen testes FØR den committes og deployes.
+  deploy:
+    name: Update tokens, verify & deploy
+    if: github.event_name == 'push'
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -32,22 +79,16 @@ jobs:
       - name: Update design tokens package
         run: npm update rk-design-tokens
 
+      - name: Install Playwright browsers
+        run: npx playwright install chromium
+
+      - name: Test with updated tokens (regression before commit/deploy)
+        run: npm test
+
       - name: Commit and Push Dependency Updates
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore(deps): update rk-design-tokens to latest [skip ci]"
-
-      - name: Lint
-        run: npm run lint
-
-      - name: Typecheck
-        run: npm run typecheck
-
-      - name: Install Playwright browsers
-        run: npx playwright install chromium
-
-      - name: Test
-        run: npm test
 
       - name: Build package
         run: npm run build
