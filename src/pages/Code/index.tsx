@@ -31,6 +31,17 @@ const DocArticle = ({ title, intro, category, children }: { title: string; intro
         <hr className={styles.leadRule} />
       </>
     )}
+    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--ds-size-6)', marginBottom: 'var(--ds-size-10)', fontSize: 'var(--ds-font-size-2)', color: 'var(--ds-color-neutral-text-subtle)' }}>
+      <span>Oppdatert juli 2026</span>
+      <a
+        href="https://github.com/norwegianredcross/DesignSystem/issues/new/choose"
+        target="_blank"
+        rel="noreferrer"
+        style={{ color: 'var(--ds-color-primary-color-red-text-default)' }}
+      >
+        Send innspill på GitHub
+      </a>
+    </div>
     {children}
   </article>
 );

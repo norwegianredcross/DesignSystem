@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
+import { ArrowRightIcon } from '@navikt/aksel-icons';
 import { useLanguage } from '../../context/LanguageContext';
 import { Heading } from '../../components/Heading';
 import { Paragraph } from '../../components/Paragraph';
@@ -350,6 +351,10 @@ export const TokensPage = () => {
           <Paragraph data-size="lg" className={styles.pageDescription}>
             {t('tokensPage.description')}
           </Paragraph>
+          <a href="#design/vedlikeholde-design-tokens" className={styles.heroGuideLink}>
+            Slik vedlikeholder du tokens
+            <ArrowRightIcon aria-hidden />
+          </a>
         </div>
       </header>
 

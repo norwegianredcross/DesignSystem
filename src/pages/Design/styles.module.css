@@ -247,6 +247,61 @@
   color: var(--ds-color-neutral-text-default);
 }
 
+/* --- Guide articles (Guider) --- */
+
+/* Updated-line + feedback link under the ingress (designsystemet.no guide pattern) */
+.guideMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ds-size-2) var(--ds-size-6);
+  margin-bottom: var(--ds-size-8);
+  font-size: var(--ds-font-size-sm);
+  color: var(--ds-color-neutral-text-subtle);
+}
+
+/* Copyable code block: cream panel with a floating copy button */
+.codeBlockWrap {
+  position: relative;
+  margin-bottom: var(--ds-size-4);
+}
+
+.codeBlock {
+  background-color: var(--ds-color-neutral-background-tinted);
+  padding: var(--ds-size-4) var(--ds-size-14) var(--ds-size-4) var(--ds-size-5);
+  border-radius: var(--ds-border-radius-lg);
+  font-family: monospace;
+  font-size: var(--ds-font-size-sm);
+  overflow-x: auto;
+  margin: 0;
+  white-space: pre-wrap;
+  border: 1px solid var(--ds-color-neutral-border-subtle);
+  color: var(--ds-color-neutral-text-default);
+}
+
+.copyCodeButton {
+  position: absolute;
+  top: var(--ds-size-2);
+  right: var(--ds-size-2);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-size-1);
+  padding: var(--ds-size-1) var(--ds-size-2);
+  border: none;
+  border-radius: var(--ds-border-radius-md);
+  background-color: var(--ds-color-neutral-background-default);
+  color: var(--ds-color-neutral-text-subtle);
+  font-family: inherit;
+  font-size: var(--ds-font-size-2);
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.copyCodeButton:hover {
+  background-color: var(--ds-color-primary-color-red-surface-tinted);
+  color: var(--ds-color-primary-color-red-text-default);
+}
+
 /* Sidebar toggle button — hidden on desktop */
 .sidebarToggle {
   display: none;
