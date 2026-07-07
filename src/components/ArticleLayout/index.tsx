@@ -23,13 +23,13 @@ export const ArticleLayout = ({ title, intro, category, children }: ArticleLayou
         {category}
       </div>
     )}
-    <Heading level={1} data-size="xl" style={{ marginBottom: 'var(--ds-size-4)' }}>{title}</Heading>
+    <Heading level={1} data-size="xl" style={{ marginBottom: 'var(--ds-size-4)', color: 'var(--ds-color-primary-color-red-text-default)' }}>{title}</Heading>
     {intro && (
-      <Paragraph data-size="lg" style={{ color: 'var(--ds-color-neutral-text-subtle)', marginBottom: 'var(--ds-size-8)' }}>
+      <Paragraph data-size="lg" style={{ color: 'var(--ds-color-primary-color-red-text-default)', marginBottom: 'var(--ds-size-6)' }}>
         {intro}
       </Paragraph>
     )}
-    <hr style={{ border: 0, borderBottom: '1px solid var(--ds-color-neutral-border-subtle)', marginBottom: 'var(--ds-size-10)' }} />
+    <hr style={{ border: 0, borderTop: '2px solid var(--ds-color-primary-color-red-base-default)', width: 'var(--ds-size-30)', marginLeft: 0, marginBottom: 'var(--ds-size-10)' }} />
     {children}
   </div>
 );

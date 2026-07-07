@@ -35,6 +35,16 @@ export const translations = {
     home: {
       heroTitle: "Røde Kors Designsystem",
       heroLead: "Felles komponentbibliotek og retningslinjer for design og utvikling av digitale løsninger i Røde Kors.",
+      hero: {
+        kicker: "For designere og utviklere",
+        title: "Ett felles designspråk for Røde Kors",
+        lead: "Ferdige React-komponenter, designtokens og retningslinjer — bygget på Digdir Designsystemet og tilpasset Røde Kors sin visuelle identitet.",
+        primaryCta: "Kom i gang",
+        secondaryCta: "Utforsk komponenter",
+        specimenButton: "Bli frivillig",
+        breadcrumbLabel: "Du er her",
+        breadcrumbHome: "Hjem"
+      },
       searchComponents: "Søk i komponenter",
       exploreSystem: "Utforsk systemet",
       componentsDesc: "Bibliotek med ferdige React-komponenter.",
@@ -43,6 +53,11 @@ export const translations = {
       tokensDesc: "Design tokens, farger og spacing.",
       universalDesign: "Universell utforming",
       universalDesignText: "Innebygd tilgjengelighet som standard. Vi følger WCAG 2.1-kravene strengt.",
+      palette: {
+        title: "Varme farger",
+        lead: "Fargepaletten er utvidet med varme, nøytrale toner som komplementerer rød uten å konkurrere med den — og gir flaten mer pust.",
+        link: "Se alle tokens"
+      },
       readGuidelines: "Les retningslinjene",
       consistentBrand: "Konsistent merkevare",
       consistentBrandText: "Design tokens sikrer at Røde Kors sin visuelle profil ivaretas på alle flater.",
@@ -116,7 +131,11 @@ export const translations = {
       intro: "Designsystemet inneholder grunnleggende komponenter som kan settes sammen på mange ulike måter og i forskjellige mønstre.",
       searchPlaceholder: "Søk etter komponent...",
       searchAriaLabel: "Søk i komponenter",
-      noResults: "Ingen komponenter funnet for"
+      noResults: "Ingen komponenter funnet for",
+      openLabel: "Les mer",
+      ctaTitle: "Utforsk komponentene i Storybook",
+      ctaText: "Se alle varianter, tilstander og kodeeksempler i den interaktive dokumentasjonen.",
+      ctaButton: "Åpne Storybook"
     },
     // Code Page
     code: {
@@ -1057,6 +1076,16 @@ export const translations = {
     home: {
       heroTitle: "Red Cross Design System",
       heroLead: "Common component library and guidelines for design and development of digital solutions in Red Cross.",
+      hero: {
+        kicker: "For designers and developers",
+        title: "One shared design language for the Red Cross",
+        lead: "Ready-made React components, design tokens and guidelines — built on the Digdir Design System and tailored to the Red Cross visual identity.",
+        primaryCta: "Get started",
+        secondaryCta: "Explore components",
+        specimenButton: "Volunteer",
+        breadcrumbLabel: "You are here",
+        breadcrumbHome: "Home"
+      },
       searchComponents: "Search components",
       exploreSystem: "Explore the system",
       componentsDesc: "Library with ready-made React components.",
@@ -1065,6 +1094,11 @@ export const translations = {
       tokensDesc: "Design tokens, colors, and spacing.",
       universalDesign: "Universal Design",
       universalDesignText: "Built-in accessibility by default. We strictly follow WCAG 2.1 requirements.",
+      palette: {
+        title: "Warm colors",
+        lead: "The color palette has been extended with warm, neutral tones that complement red without competing with it — giving the surface more room to breathe.",
+        link: "See all tokens"
+      },
       readGuidelines: "Read guidelines",
       consistentBrand: "Consistent Brand",
       consistentBrandText: "Design tokens ensure the Red Cross visual profile is maintained across all surfaces.",
@@ -1138,7 +1172,11 @@ export const translations = {
       intro: "The design system contains fundamental components that can be combined in many different ways and in different patterns.",
       searchPlaceholder: "Search for component...",
       searchAriaLabel: "Search components",
-      noResults: "No components found for"
+      noResults: "No components found for",
+      openLabel: "Learn more",
+      ctaTitle: "Explore the components in Storybook",
+      ctaText: "See every variant, state and code example in the interactive documentation.",
+      ctaButton: "Open Storybook"
     },
     // Code Page
     code: {

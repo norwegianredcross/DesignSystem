@@ -6,6 +6,7 @@
   align-items: flex-start;
 }
 
+/* Sidebar as a soft cream panel (warm band against the white content) */
 .sidebar {
   width: 280px;
   flex-shrink: 0;
@@ -15,8 +16,10 @@
   max-height: calc(100vh - var(--ds-size-12));
   overflow-y: auto;
   overflow-x: hidden;
-  padding-right: var(--ds-size-4);
-  padding-top: var(--ds-size-10);
+  margin-top: var(--ds-size-10);
+  padding: var(--ds-size-6) var(--ds-size-4);
+  background: var(--ds-color-neutral-background-tinted);
+  border-radius: var(--ds-border-radius-xl);
 }
 
 /* Custom Scrollbar for Sidebar */
@@ -28,7 +31,7 @@
 }
 .sidebar::-webkit-scrollbar-thumb {
   background-color: var(--ds-color-neutral-border-subtle);
-  border-radius: 3px;
+  border-radius: var(--ds-border-radius-full);
 }
 
 .nav {
@@ -42,15 +45,15 @@
   flex-direction: column;
 }
 
+/* Group titles: maroon, semibold — page-level wayfinding */
 .groupTitle {
-  font-size: var(--ds-font-size-sm, 14px);
-  font-weight: var(--ds-font-weight-bold, 700);
-  color: var(--ds-color-neutral-text-subtle, #5d5d5d);
+  font-size: var(--ds-font-size-2);
+  font-weight: var(--ds-font-weight-semibold);
+  color: var(--ds-color-primary-color-red-text-default);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: var(--ds-size-2, 8px);
-  padding-left: var(--ds-size-3, 12px);
-  border-left: 4px solid var(--ds-color-primary-color-red-base-default);
+  margin-bottom: var(--ds-size-2);
+  padding-left: var(--ds-size-3);
 }
 
 .list {
@@ -63,6 +66,7 @@
   margin-bottom: 2px;
 }
 
+/* Nav links: soft pills on the cream panel */
 .link {
   display: flex;
   align-items: center;
@@ -72,7 +76,7 @@
   font-size: var(--ds-font-size-md);
   color: var(--ds-color-neutral-text-default);
   text-decoration: none;
-  border-radius: var(--ds-border-radius-md);
+  border-radius: var(--ds-border-radius-full);
   transition: all 0.2s ease;
   background: transparent;
   border: none;
@@ -82,13 +86,13 @@
 }
 
 .link:hover {
-  background-color: var(--ds-color-neutral-surface-hover);
+  background-color: var(--ds-color-neutral-background-default);
   color: var(--ds-color-neutral-text-default);
 }
 
 .linkActive {
-  background-color: var(--ds-color-primary-surface-subtle);
-  color: var(--ds-color-primary-text-default);
+  background-color: var(--ds-color-primary-color-red-surface-tinted);
+  color: var(--ds-color-primary-color-red-text-default);
   font-weight: var(--ds-font-weight-medium);
 }
 
@@ -100,6 +104,7 @@
   display: none;
 }
 
+/* Nested list: dusty pink thread as the "rød tråd" accent */
 .nestedList {
   list-style: none;
   display: flex;
@@ -107,7 +112,7 @@
   gap: 1px;
   padding-left: var(--ds-size-3);
   margin-top: 2px;
-  border-left: 1px solid var(--ds-color-neutral-border-subtle);
+  border-left: 1px solid var(--ds-color-primary-color-red-border-subtle);
   margin-left: var(--ds-size-3);
 }
 
@@ -119,25 +124,127 @@
 
 .nestedLink:hover {
   color: var(--ds-color-neutral-text-default);
-  background-color: var(--ds-color-neutral-surface-hover);
+  background-color: var(--ds-color-neutral-background-default);
 }
 
 .nestedLinkActive {
-  color: var(--ds-color-primary-text-default);
-  background-color: var(--ds-color-primary-surface-subtle);
+  color: var(--ds-color-primary-color-red-text-default);
+  background-color: var(--ds-color-primary-color-red-surface-tinted);
   font-weight: var(--ds-font-weight-medium);
-  border-left: 2px solid var(--ds-color-primary-base-default);
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  margin-left: -1px; /* Overlap border */
 }
 
 .docContent {
   flex: 1;
   padding-left: var(--ds-size-10);
-  border-left: 1px solid var(--ds-color-neutral-border-subtle);
   min-width: 0;
   padding-top: var(--ds-size-18);
+}
+
+/* --- Article typography (design direction: Skala) --- */
+
+/* Page-level titles: large, semibold, maroon */
+.docContent h1[class] {
+  color: var(--ds-color-primary-color-red-text-default);
+  font-size: var(--ds-font-size-9);
+  font-weight: var(--ds-font-weight-semibold);
+}
+
+/* Sub-heads stay neutral, semibold for hierarchy */
+.docContent h2[class],
+.docContent h3[class] {
+  color: var(--ds-color-neutral-text-default);
+  font-weight: var(--ds-font-weight-semibold);
+}
+
+/* Text links: maroon underlined, red on hover (Fargehierarki) */
+.docContent a[class]:not(.textButton) {
+  color: var(--ds-color-primary-color-red-text-default);
+  text-decoration: underline;
+}
+
+.docContent a[class]:not(.textButton):hover {
+  color: var(--ds-color-primary-color-red-text-subtle);
+}
+
+/* Text button: maroon text + arrow, pink pill on hover (Fargehierarki spec) */
+.docContent a.textButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-size-2);
+  align-self: flex-start;
+  color: var(--ds-color-primary-color-red-text-default);
+  font-weight: var(--ds-font-weight-medium);
+  text-decoration: none;
+  padding: var(--ds-size-2) var(--ds-size-4);
+  margin-left: calc(var(--ds-size-4) * -1);
+  border-radius: var(--ds-border-radius-full);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.docContent a.textButton:hover {
+  background-color: var(--ds-color-primary-color-red-surface-hover);
+  color: var(--ds-color-primary-color-red-text-default);
+}
+
+.textButton svg {
+  font-size: var(--ds-font-size-4);
+  transition: transform 0.2s ease;
+}
+
+.textButton:hover svg {
+  transform: translateX(var(--ds-size-1));
+}
+
+/* Figures: cream panels with soft radii instead of grey bordered boxes */
+.docContent :global(.article-image) {
+  background: var(--ds-color-neutral-background-tinted);
+  border-radius: var(--ds-border-radius-xl);
+  padding: var(--ds-size-5);
+}
+
+.docContent :global(.article-image) img {
+  display: block;
+  border-radius: var(--ds-border-radius-lg) !important;
+  border: none !important;
+}
+
+/* Token table: cream panel, soft radius, no hard grid */
+.tokenTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--ds-color-neutral-background-tinted);
+  border-radius: var(--ds-border-radius-xl);
+  overflow: hidden;
+  margin-bottom: var(--ds-size-8);
+}
+
+.tokenTable th {
+  text-align: left;
+  padding: var(--ds-size-3) var(--ds-size-4);
+  font-weight: var(--ds-font-weight-semibold);
+  color: var(--ds-color-primary-color-red-text-default);
+  border-bottom: 1px solid var(--ds-color-primary-color-red-border-subtle);
+}
+
+.tokenTable td {
+  padding: var(--ds-size-3) var(--ds-size-4);
+  color: var(--ds-color-neutral-text-default);
+  border-bottom: 1px solid var(--ds-color-neutral-border-subtle);
+}
+
+.tokenTable tr:last-child td {
+  border-bottom: none;
+}
+
+.tokenName {
+  display: inline-block;
+  background: var(--ds-color-neutral-background-default);
+  border-radius: var(--ds-border-radius-full);
+  padding: var(--ds-size-1) var(--ds-size-3);
+  font-size: var(--ds-font-size-2);
+  font-weight: var(--ds-font-weight-medium);
+  color: var(--ds-color-neutral-text-default);
 }
 
 /* Sidebar toggle button — hidden on desktop */
@@ -145,9 +252,9 @@
   display: none;
   width: 100%;
   padding: var(--ds-size-3) var(--ds-size-4);
-  background: var(--ds-color-neutral-surface-tinted);
-  border: 1px solid var(--ds-color-neutral-border-subtle);
-  border-radius: var(--ds-border-radius-md);
+  background: var(--ds-color-neutral-background-tinted);
+  border: none;
+  border-radius: var(--ds-border-radius-full);
   font-family: inherit;
   font-size: var(--ds-font-size-md);
   font-weight: var(--ds-font-weight-medium);
@@ -172,6 +279,15 @@
   gap: var(--ds-size-6);
 }
 
+/* Intro cards: cream, extra-soft radius, no border */
+.docContent .introCard {
+  position: relative;
+  overflow: hidden;
+  border: none;
+  border-radius: var(--ds-border-radius-xl);
+  background: var(--ds-color-neutral-background-tinted);
+}
+
 @media (max-width: 768px) {
   .docLayout {
     flex-direction: column;
@@ -184,10 +300,8 @@
     position: static;
     max-height: none;
     overflow: visible;
-    border-bottom: 1px solid var(--ds-color-neutral-border-subtle);
-    padding-right: 0;
-    padding-top: var(--ds-size-4);
-    padding-bottom: var(--ds-size-4);
+    margin-top: var(--ds-size-4);
+    padding: var(--ds-size-4);
   }
 
   .sidebarCollapsed {
@@ -196,12 +310,12 @@
 
   .sidebarToggle {
     display: block;
+    margin-top: var(--ds-size-4);
   }
 
   .docContent {
     padding-left: 0;
     padding-top: var(--ds-size-6);
-    border-left: none;
   }
 
   .introGrid {

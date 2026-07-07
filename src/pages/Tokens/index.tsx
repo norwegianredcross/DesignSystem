@@ -2,7 +2,6 @@ import { useEffect, useState, useMemo } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import { Heading } from '../../components/Heading';
 import { Paragraph } from '../../components/Paragraph';
-import { Card, CardBlock } from '../../components/Card';
 import styles from './styles.module.css';
 
 interface Token {
@@ -343,125 +342,129 @@ export const TokensPage = () => {
     : [];
 
   return (
-    <main className={`container ${styles.docLayout}`}>
-      {/* --- SIDEBAR TOGGLE (mobile only) --- */}
-      <button
-        className={styles.sidebarToggle}
-        onClick={() => setSidebarOpen(!sidebarOpen)}
-        aria-expanded={sidebarOpen}
-      >
-        {categoryLabels[activeCategory] || t('tokensPage.categoriesLabel')}
-      </button>
+    <main className={styles.page}>
+      {/* --- HERO — inset rounded cream panel inside the container --- */}
+      <header className={`container ${styles.heroWrap}`}>
+        <div className={styles.heroPanel}>
+          <Heading level={1} data-size="xl" className={styles.pageTitle}>{t('tokensPage.title')}</Heading>
+          <Paragraph data-size="lg" className={styles.pageDescription}>
+            {t('tokensPage.description')}
+          </Paragraph>
+        </div>
+      </header>
 
-      {/* --- SIDEBAR --- */}
-      <aside className={`${styles.sidebar} ${!sidebarOpen ? styles.sidebarCollapsed : ''}`}>
-        <nav className={styles.nav}>
-          <div className={styles.group}>
-            <div className={styles.navGroupLabel}>{t('tokensPage.categoriesLabel')}</div>
-            <ul className={styles.list}>
-              {sortedCategories.map((category) => (
-                <li key={category} className={styles.listItem}>
-                  <button
-                    type="button"
-                    className={`${styles.link} ${activeCategory === category ? styles.linkActive : ''}`}
-                    onClick={() => {
-                      setActiveCategory(category);
-                      setSidebarOpen(false);
-                    }}
-                  >
-                    {categoryLabels[category]}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </nav>
-      </aside>
+      <div className={`container ${styles.docLayout}`}>
+        {/* --- SIDEBAR TOGGLE (mobile only) --- */}
+        <button
+          className={styles.sidebarToggle}
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          aria-expanded={sidebarOpen}
+        >
+          {categoryLabels[activeCategory] || t('tokensPage.categoriesLabel')}
+        </button>
 
-      {/* --- MAIN CONTENT AREA --- */}
-      <div className={styles.docContent}>
-        <Heading level={1} data-size="xl" className={styles.pageTitle}>{t('tokensPage.title')}</Heading>
-        <Paragraph data-size="lg" className={styles.pageDescription}>
-          {t('tokensPage.description')}
-        </Paragraph>
-        <hr className={styles.pageDivider} />
+        {/* --- SIDEBAR --- */}
+        <aside className={`${styles.sidebar} ${!sidebarOpen ? styles.sidebarCollapsed : ''}`}>
+          <nav className={styles.nav}>
+            <div className={styles.group}>
+              <div className={styles.navGroupLabel}>{t('tokensPage.categoriesLabel')}</div>
+              <ul className={styles.list}>
+                {sortedCategories.map((category) => (
+                  <li key={category} className={styles.listItem}>
+                    <button
+                      type="button"
+                      className={`${styles.link} ${activeCategory === category ? styles.linkActive : ''}`}
+                      onClick={() => {
+                        setActiveCategory(category);
+                        setSidebarOpen(false);
+                      }}
+                    >
+                      {categoryLabels[category]}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </nav>
+        </aside>
 
-        {structuredGroups[activeCategory] && (
-          <section className={styles.categorySection}>
-            <Heading level={2} data-size="lg" className={styles.categoryTitle}>
-              {categoryLabels[activeCategory]}
-            </Heading>
+        {/* --- MAIN CONTENT AREA --- */}
+        <div className={styles.docContent}>
+          {structuredGroups[activeCategory] && (
+            <section className={styles.categorySection}>
+              <Heading level={2} data-size="lg" className={styles.categoryTitle}>
+                {categoryLabels[activeCategory]}
+              </Heading>
 
-            {currentGroupKeys.map(groupKey => {
-              const group = structuredGroups[activeCategory][groupKey];
-              return (
-                <div key={groupKey} className={styles.tokenGroup}>
-                  <Heading level={3} data-size="sm" className={styles.groupHeading}>
-                    {formatGroupName(group.name)}
-                  </Heading>
+              {currentGroupKeys.map(groupKey => {
+                const group = structuredGroups[activeCategory][groupKey];
+                return (
+                  <section key={groupKey} className={styles.tokenGroup}>
+                    <Heading level={3} data-size="sm" className={styles.groupHeading}>
+                      {formatGroupName(group.name)}
+                    </Heading>
 
-                  {activeCategory === 'colors' ? (
-                    <div className={styles.tokensGrid}>
-                      {group.tokens.map((token, index) => (
-                        <Card key={index} className={styles.tokenCard} data-color="neutral">
-                          <CardBlock>
-                            <div className={styles.colorSwatchContainer}>
-                              <span
-                                className={styles.colorSwatch}
-                                style={{ backgroundColor: token.value }}
-                                aria-label={t('tokensPage.colorPreviewLabel').replace('{value}', token.value)}
-                              />
-                              <button
-                                className={styles.copyButton}
-                                onClick={() => copyToClipboard(token.name)}
-                                aria-label={t('tokensPage.copyTokenLabel').replace('{name}', token.name)}
-                                title={`Copy ${token.name}`}
-                              >
+                    <div className={styles.groupPanel}>
+                    {activeCategory === 'colors' ? (
+                      <ul className={styles.swatchGrid}>
+                        {group.tokens.map((token, index) => (
+                          <li key={index} className={styles.swatchItem}>
+                            <span
+                              className={styles.swatchCircle}
+                              style={{ backgroundColor: token.value }}
+                              role="img"
+                              aria-label={t('tokensPage.colorPreviewLabel').replace('{value}', token.value)}
+                            />
+                            <button
+                              type="button"
+                              className={styles.swatchCopy}
+                              onClick={() => copyToClipboard(token.name)}
+                              aria-label={t('tokensPage.copyTokenLabel').replace('{name}', token.name)}
+                              title={`Copy ${token.name}`}
+                            >
+                              <span className={styles.swatchValue}>
+                                {token.value}
                                 <CopyIcon />
-                              </button>
-                            </div>
-                            <div className={styles.tokenInfo}>
-                              <code className={styles.tokenName} title={token.name}>
+                              </span>
+                              <code className={styles.swatchName} title={token.name}>
                                 {token.name}
                               </code>
-                              <code className={styles.tokenValue} title={token.value}>
-                                {token.value}
-                              </code>
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <ul className={styles.tokenList}>
+                        {group.tokens.map((token, index) => (
+                          <li key={index} className={styles.tokenRow}>
+                            <code className={styles.tokenRowName} title={token.name}>
+                              {token.name}
+                            </code>
+                            <div className={styles.tokenRowPreview}>
+                              {renderPreview(token)}
                             </div>
-                          </CardBlock>
-                        </Card>
-                      ))}
+                            <code className={styles.tokenRowValue} title={token.value}>
+                              {token.value}
+                            </code>
+                            <button
+                              className={styles.copyButtonInline}
+                              onClick={() => copyToClipboard(token.name)}
+                              aria-label={t('tokensPage.copyTokenLabel').replace('{name}', token.name)}
+                              title={`Copy ${token.name}`}
+                            >
+                              <CopyIcon />
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                     </div>
-                  ) : (
-                    <ul className={styles.tokenList}>
-                      {group.tokens.map((token, index) => (
-                        <li key={index} className={styles.tokenRow}>
-                          <code className={styles.tokenRowName} title={token.name}>
-                            {token.name}
-                          </code>
-                          <div className={styles.tokenRowPreview}>
-                            {renderPreview(token)}
-                          </div>
-                          <code className={styles.tokenRowValue} title={token.value}>
-                            {token.value}
-                          </code>
-                          <button
-                            className={styles.copyButtonInline}
-                            onClick={() => copyToClipboard(token.name)}
-                            aria-label={t('tokensPage.copyTokenLabel').replace('{name}', token.name)}
-                            title={`Copy ${token.name}`}
-                          >
-                            <CopyIcon />
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              );
-            })}
-          </section>
-        )}
+                  </section>
+                );
+              })}
+            </section>
+          )}
+        </div>
       </div>
     </main>
   );

@@ -1,464 +1,585 @@
-/* Main Layout */
+/* Main Layout — white page canvas; sections use inset panels (concept-page rhythm) */
 .main {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden;
-    background-color: var(--ds-color-neutral-background-default);
-  }
-  
-  /* --- HERO SECTION --- */
-  .heroSection {
-    position: relative;
-    /* Using tokens for vertical padding */
-    padding: calc(var(--ds-size-30) + var(--ds-size-10)) 0 var(--ds-size-30);
-    background-color: var(--ds-color-neutral-background-default);
-    overflow: hidden; /* Ensure the large floating grid doesn't cause scrollbars */
-  }
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  background-color: var(--ds-color-neutral-background-default);
+}
 
-  .heroSection::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: var(--ds-size-26);
-    background: linear-gradient(to bottom, transparent, var(--ds-color-neutral-background-default));
-    pointer-events: none;
-  }
-  
-  .splitLayout {
-    display: flex;
-    flex-direction: column;
-    gap: var(--ds-size-12);
-  }
-  
-  /* Content Side */
-  .splitContent {
-    position: relative;
-    z-index: 10;
-    max-width: 100%;
-  }
-  
-  .heroBadge {
-    display: inline-block;
-    padding: var(--ds-size-1) var(--ds-size-3);
-    background-color: var(--ds-color-primary-color-red-surface-tinted);
-    color: var(--ds-color-primary-color-red-text-default);
-    font-size: var(--ds-font-size-2);
-    font-weight: var(--ds-font-weight-bold);
-    border-radius: var(--ds-border-radius-full);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: var(--ds-size-6);
-    border: var(--ds-border-width-default) solid var(--ds-color-primary-color-red-border-subtle);
-  }
+/* --- HERO: inset rounded cream panel ("Varme" + "Avrunding") --- */
+.heroSection {
+  padding: var(--ds-size-8) 0 var(--ds-size-4);
+  background-color: var(--ds-color-neutral-background-default);
+}
 
-  .versionBadge {
-    margin-bottom: var(--ds-size-4);
-  }
+/* Panel with the "krysset" corner cutout. Geometry lifted from the Figma
+   boolean subtract (node 2277:118305): uniform 20px radius on every corner
+   (= --ds-border-radius-lg), notch ≈ 18.5% of width × 17% of height. */
+.heroPanel {
+  position: relative;
+  background-color: var(--ds-color-neutral-background-tinted);
+  border-radius: var(--ds-border-radius-lg);
+  border-top-left-radius: 0; /* corner is cut away by the notch */
+  padding: calc(var(--ds-size-26) + var(--ds-size-10)) var(--ds-size-8) var(--ds-size-12);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow: hidden;
+}
 
-  /* Hero title uses Heading data-size="2xl" natively. The extra weight,
-     tight letter-spacing and line-height below are a LIBRARY GAP — a
-     "display" heading variant for hero/brand contexts would cover this. */
-  .heroTitle {
-    margin-bottom: var(--ds-size-6);
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    line-height: 1.1;
-  }
+/* Notch: a substantial step cut out of the panel's top-left corner.
+   Page-background token keeps the "cutout" illusion in dark mode. */
+.heroNotch {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: var(--ds-size-26);
+  min-width: calc(var(--ds-size-30) * 2);
+  background-color: var(--ds-color-neutral-background-default);
+  border-bottom-right-radius: var(--ds-border-radius-lg);
+  padding-left: var(--ds-size-8);
+  padding-right: var(--ds-size-15);
+  display: flex;
+  align-items: center;
+  gap: var(--ds-size-3);
+}
 
-  .textHighlight {
-    color: var(--ds-color-primary-color-red-base-default);
-    position: relative;
-    display: inline-block;
-  }
+.notchMeta {
+  font-size: var(--ds-font-size-2);
+  font-weight: var(--ds-font-weight-medium);
+  color: var(--ds-color-neutral-text-subtle);
+}
 
-  /* Hero lead: sizing from Paragraph data-size="lg". The subtle color is a
-     LIBRARY GAP — Paragraph doesn't have a `subtle` variant. */
-  .heroLead {
-    color: var(--ds-color-neutral-text-subtle);
-    max-width: 50ch;
-    margin-bottom: var(--ds-size-10);
-  }
-  
-  .heroActions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--ds-size-4);
-    margin-bottom: var(--ds-size-4);
-  }
-  
-  /* --- VISUAL WALL (Right Side) --- */
-  .heroVisual {
-    position: relative;
-    /* Using size tokens for height constraints */
-    height: calc(var(--ds-size-30) * 3.5);
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    perspective: 2000px; 
-    mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
-  }
+/* Inverted fillets: concave 20px transitions where the step meets the
+   panel's top and left edges (same radius as every other corner). */
+.heroNotch::before,
+.heroNotch::after {
+  content: '';
+  position: absolute;
+  width: var(--ds-border-radius-lg);
+  height: var(--ds-border-radius-lg);
+  background: radial-gradient(
+    circle at 100% 100%,
+    transparent calc(var(--ds-border-radius-lg) - 1px),
+    var(--ds-color-neutral-background-default) var(--ds-border-radius-lg)
+  );
+}
 
-  .floatingGrid {
-    display: flex;
-    gap: var(--ds-size-2);
-    transform: rotateX(12deg) rotateY(-12deg) rotateZ(6deg) translateX(var(--ds-size-5));
-    transform-style: preserve-3d;
-  }
-  
-  .gridColumn {
-    display: flex;
-    flex-direction: column;
-    gap: var(--ds-size-5);
-    width: 200px; /* Fixed width for stability */
-    /* animation: floatColumn 14s ease-in-out infinite alternate; */
-  }
-  
-  .columnOffset {
-    margin-top: calc(var(--ds-size-22) * -1);
-  }
-  
-  @keyframes floatColumn {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(calc(var(--ds-size-8) * -1)); }
-  }
-  
-  /* Decorative floating tiles: layout-only. Visuals come from ds-card + data-variant.
-     LIBRARY GAP: ds-card only ships one padding size (size-6). These decorative
-     tiles ideally need a compact-padding variant — until that exists, .visualElement
-     keeps a padding override. */
-  .visualCard, .visualElement {
-    transition: transform 0.3s ease;
-  }
+/* Fillet on the panel's top edge, right of the step */
+.heroNotch::before {
+  top: 0;
+  right: calc(-1 * var(--ds-border-radius-lg));
+}
 
-  .visualElement {
-    padding: var(--ds-size-3);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--ds-size-2);
-  }
-  
-  .cardRow { display: flex; gap: var(--ds-size-3); margin-top: var(--ds-size-3); align-items: center; }
-  .cardTextBold { font-weight: var(--ds-font-weight-bold); font-size: var(--ds-font-size-2); }
-  .cardTextSubtle { font-size: var(--ds-font-size-1); color: var(--ds-color-neutral-text-subtle); }
-  .spaceBetween { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--ds-size-2); }
-  .statusDot { width: var(--ds-size-2); height: var(--ds-size-2); border-radius: 50%; background-color: var(--ds-color-success-base-default); }
-  .progressBarBg { height: var(--ds-size-1); background-color: var(--ds-color-neutral-surface-active); border-radius: var(--ds-border-radius-full); width: 100%; overflow: hidden;}
-  .progressBarFill { height: 100%; width: 75%; background-color: var(--ds-color-primary-color-red-base-default); border-radius: var(--ds-border-radius-full); }
-  
-  .gradientOverlay {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 60% 50%, transparent 0%, var(--ds-color-neutral-background-default) 80%);
-    pointer-events: none;
-    z-index: 5;
-  }
-  
-  /* --- INTERACTIVE SHOWCASE --- */
-  .showcaseSection {
-    padding: var(--ds-size-30) 0 var(--ds-size-22);
-    background: var(--ds-color-neutral-background-default);
-  }
+/* Fillet on the panel's left edge, below the step */
+.heroNotch::after {
+  left: 0;
+  bottom: calc(-1 * var(--ds-border-radius-lg));
+}
 
-  .showcaseContainer {
-    display: flex;
-    flex-direction: column;
-    gap: var(--ds-size-10);
-  }
+/* Audience kicker — small uppercase red eyebrow */
+.heroKicker {
+  font-size: var(--ds-font-size-1);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: var(--ds-font-weight-semibold);
+  color: var(--ds-color-primary-color-red-text-subtle);
+  margin-bottom: var(--ds-size-5);
+}
 
-  .showcaseIntro {
-    max-width: 720px;
-    text-align: center;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--ds-size-4);
-  }
+/* Display statement heading ("Millioner av sivile rammet" treatment, Source Sans 3).
+   LIBRARY GAP: a display heading variant would cover this natively.
+   Doubled class out-ranks .ds-heading[data-size] from the library sheet. */
+.heroTitle.heroTitle {
+  margin-bottom: var(--ds-size-6);
+  max-width: 18ch;
+  font-size: var(--ds-font-size-9);
+  font-weight: var(--ds-font-weight-semibold);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  color: var(--ds-color-primary-color-red-text-default);
+}
 
-  .showcaseIntro .sectionTitle {
-    margin-bottom: 0;
-  }
+/* Hero ingress. LIBRARY GAP: Paragraph has no `subtle` variant. */
+.heroLead {
+  color: var(--ds-color-neutral-text-default);
+  max-width: 55ch;
+  margin-bottom: var(--ds-size-10);
+}
 
-  .showcaseLead {
-    color: var(--ds-color-neutral-text-subtle);
-    margin: 0;
-  }
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ds-size-4);
+  margin-bottom: var(--ds-size-12);
+}
 
-  .showcaseRows {
-    display: flex;
-    flex-direction: column;
-    gap: var(--ds-size-16);
-  }
+/* Specimen shelf — real components resting on a white plate inside the cream panel */
+.heroSpecimen {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ds-size-6);
+  align-self: stretch;
+  max-width: 100%;
+  box-sizing: border-box;
+  background-color: var(--ds-color-neutral-background-default);
+  border-radius: var(--ds-border-radius-lg);
+  padding: var(--ds-size-5) var(--ds-size-8);
+}
 
-  .showcaseRow {
-    display: grid;
-    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
-    gap: var(--ds-size-12);
-    align-items: center;
-  }
+.specimenProgress {
+  flex: 1;
+  min-width: var(--ds-size-22);
+  max-width: var(--ds-size-30);
+}
 
-  /* Row 2 flips so the copy sits on the left of the animation */
+.progressBarBg { height: var(--ds-size-1); background-color: var(--ds-color-neutral-surface-active); border-radius: var(--ds-border-radius-full); width: 100%; overflow: hidden;}
+.progressBarFill { height: 100%; width: 75%; background-color: var(--ds-color-primary-color-red-base-default); border-radius: var(--ds-border-radius-full); }
+
+/* --- STATS ROW ("Skala") — full-bleed pale-blue band per the "Stor typografi" slide --- */
+.statsSection {
+  padding: var(--ds-size-15) 0;
+  margin-top: var(--ds-size-10);
+  background-color: var(--ds-color-additional-color-ocean-background-tinted);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--ds-size-6);
+}
+
+/* White cards on the blue band (reference: stat cards in "Stor typografi").
+   Doubled class out-ranks ds-card's [data-variant] background rule. */
+.statCard.statCard {
+  background: var(--ds-color-neutral-background-default);
+  border: none;
+  border-radius: var(--ds-border-radius-xl);
+}
+
+.statBlock.statBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-3);
+  padding: var(--ds-size-8);
+}
+
+/* Big red display numbers — "Skala" */
+.statNumber {
+  font-size: var(--ds-font-size-8);
+  font-weight: var(--ds-font-weight-semibold);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ds-color-primary-color-red-text-subtle);
+}
+
+.statLabel {
+  margin: 0;
+  color: var(--ds-color-neutral-text-subtle);
+}
+
+/* --- SECTION HEADING ROWS (concept-page pattern: heading directly above grid) --- */
+/* LIBRARY GAP: Heading has no color prop; maroon section headings aren't expressible natively. */
+.sectionTitle {
+  margin-bottom: var(--ds-size-8);
+  text-align: left;
+  color: var(--ds-color-primary-color-red-text-default);
+  font-weight: var(--ds-font-weight-semibold);
+}
+
+/* --- PALETTE STRIP ("Utvidet fargepalett" slide) --- */
+.paletteSection {
+  padding: var(--ds-size-15) 0 var(--ds-size-12);
+  background: var(--ds-color-neutral-background-default);
+}
+
+.paletteHeader {
+  max-width: 60ch;
+}
+
+/* LIBRARY GAP: Paragraph has no `subtle` variant. */
+.paletteLead {
+  color: var(--ds-color-neutral-text-subtle);
+  margin-top: calc(-1 * var(--ds-size-4));
+  margin-bottom: var(--ds-size-10);
+}
+
+.paletteCircles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ds-size-6);
+  margin-bottom: var(--ds-size-8);
+}
+
+/* Big soft circles; the inset ring keeps white/cream swatches readable
+   and flips automatically in dark mode via the token */
+.paletteCircle {
+  width: var(--ds-size-22);
+  height: var(--ds-size-22);
+  border-radius: var(--ds-border-radius-full);
+  box-shadow: inset 0 0 0 1px var(--ds-color-neutral-border-subtle);
+  flex-shrink: 0;
+}
+
+.swatchRed { background-color: var(--ds-color-primary-color-red-base-default); }
+.swatchMaroon { background-color: var(--ds-color-secondary-color-rust-text-default); }
+.swatchDustyPink { background-color: var(--ds-color-primary-color-red-border-subtle); }
+.swatchPalePink { background-color: var(--ds-color-primary-color-red-surface-tinted); }
+.swatchWhite { background-color: var(--ds-color-neutral-background-default); }
+.swatchCream { background-color: var(--ds-color-neutral-background-tinted); }
+.swatchPaleGreen { background-color: var(--ds-color-additional-color-jungle-surface-tinted); }
+.swatchGreen { background-color: var(--ds-color-additional-color-jungle-surface-hover); }
+.swatchPaleBlue { background-color: var(--ds-color-additional-color-ocean-background-tinted); }
+
+/* Text-button to the Tokens page (Fargehierarki pattern) */
+.paletteLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-size-2);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--ds-font-size-4);
+  font-weight: var(--ds-font-weight-medium);
+  color: var(--ds-color-primary-color-red-text-default);
+  padding: var(--ds-size-2) var(--ds-size-5);
+  margin-left: calc(-1 * var(--ds-size-5));
+  border-radius: var(--ds-border-radius-full);
+  transition: background-color 0.2s ease;
+}
+
+.paletteLink:hover,
+.paletteLink:focus-visible {
+  background-color: var(--ds-color-primary-color-red-surface-hover);
+}
+
+/* --- NAVIGATION CARDS --- */
+.section {
+  padding: var(--ds-size-15) 0 var(--ds-size-10);
+  background: var(--ds-color-neutral-background-default);
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--ds-size-6);
+}
+
+/* Card pattern: media/icon area on top, cream body, maroon title, text-button footer.
+   Doubled/tripled class selectors intentionally out-rank the ds-card
+   [data-variant] and :hover rules from the library stylesheet. */
+.navCard {
+  display: flex;
+  flex-direction: column;
+  border: none;
+  border-radius: var(--ds-border-radius-xl);
+}
+
+.navCard.navCard.navCard {
+  background: var(--ds-color-neutral-background-tinted);
+}
+
+/* Keep the cream surface on hover — the pink pill on the text-button is
+   the hover affordance (Fargehierarki), not a full-card colour shift. */
+.navCard.navCard.navCard:hover,
+.navCard.navCard.navCard:hover:active {
+  background: var(--ds-color-neutral-background-tinted);
+}
+
+.navCardContent {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Media area on top — icon on a tinted tile; tile colors rotate through
+   the extended palette (pink / green / blue) for visual variety */
+.navCardMedia {
+  height: calc(var(--ds-size-30) * 0.8);
+  border-radius: var(--ds-border-radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ds-color-primary-color-red-text-default);
+  margin-bottom: var(--ds-size-6);
+}
+
+.mediaPink { background-color: var(--ds-color-primary-color-red-surface-tinted); }
+.mediaGreen { background-color: var(--ds-color-additional-color-jungle-surface-tinted); }
+.mediaBlue { background-color: var(--ds-color-additional-color-ocean-background-tinted); }
+
+.iconLarge { font-size: var(--ds-font-size-9); }
+
+/* LIBRARY GAP: Heading has no color prop; maroon card titles need an override. */
+.navCardTitle {
+  color: var(--ds-color-primary-color-red-text-default);
+}
+
+/* LIBRARY GAP: Paragraph has no `subtle` variant. */
+.navCardDesc {
+  color: var(--ds-color-neutral-text-subtle);
+  margin-top: var(--ds-size-2);
+}
+
+.navCardText {
+  flex: 1;
+  margin-bottom: var(--ds-size-6);
+}
+
+.arrowIcon {
+  font-size: var(--ds-font-size-5);
+  color: currentColor;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+/* "Les mer →" text-button (maroon text + arrow) — gains the dusty-pink pill
+   on hover, per the Fargehierarki spec. Whole card is the interactive element. */
+.navCardLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-size-2);
+  align-self: flex-start;
+  margin-top: auto;
+  margin-left: calc(var(--ds-size-4) * -1);
+  padding: var(--ds-size-2) var(--ds-size-4);
+  border-radius: var(--ds-border-radius-full);
+  color: var(--ds-color-primary-color-red-text-default);
+  font-weight: var(--ds-font-weight-medium);
+  transition: background-color 0.2s ease;
+}
+
+.navCard:hover .navCardLink,
+.navCard:focus-visible .navCardLink {
+  background-color: var(--ds-color-primary-color-red-surface-hover);
+}
+
+.navCard:hover .arrowIcon {
+  transform: translateX(var(--ds-size-1));
+}
+
+/* --- INTERACTIVE SHOWCASE — white section with a left-aligned heading row --- */
+.showcaseSection {
+  padding: var(--ds-size-15) 0;
+  background: var(--ds-color-neutral-background-default);
+}
+
+.showcaseContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-10);
+}
+
+.showcaseIntro {
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-2);
+}
+
+.showcaseIntro .sectionTitle {
+  margin-bottom: 0;
+}
+
+/* LIBRARY GAP: Paragraph has no `subtle` variant. */
+.showcaseLead {
+  color: var(--ds-color-neutral-text-subtle);
+  margin: 0;
+}
+
+.showcaseRows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-16);
+}
+
+.showcaseRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: var(--ds-size-12);
+  align-items: center;
+}
+
+/* Row 2 flips so the copy sits on the left of the animation */
+.showcaseRowRight {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+}
+
+.showcaseAnimation {
+  min-width: 0;
+}
+
+.showcaseCopy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-3);
+  max-width: 42ch;
+}
+
+.showcaseKicker {
+  font-size: var(--ds-font-size-1);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ds-color-primary-color-red-text-default);
+  font-weight: var(--ds-font-weight-semibold);
+}
+
+.showcaseCopyTitle {
+  margin: 0;
+}
+
+/* LIBRARY GAP: Paragraph has no `subtle` variant. */
+.showcaseCopyBody {
+  margin: 0;
+  color: var(--ds-color-neutral-text-subtle);
+}
+
+@media (max-width: 900px) {
+  .showcaseRow,
   .showcaseRowRight {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
-  }
-
-  .showcaseAnimation {
-    min-width: 0;
-  }
-
-  .showcaseCopy {
-    display: flex;
-    flex-direction: column;
-    gap: var(--ds-size-3);
-    max-width: 42ch;
-  }
-
-  .showcaseKicker {
-    font-size: var(--ds-body-xs-font-size, 12px);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--ds-color-primary-color-red-text-default);
-    font-weight: var(--ds-font-weight-bold);
-  }
-
-  .showcaseCopyTitle {
-    margin: 0;
-  }
-
-  /* LIBRARY GAP: Paragraph has no `subtle` variant. */
-  .showcaseCopyBody {
-    margin: 0;
-    color: var(--ds-color-neutral-text-subtle);
-  }
-
-  @media (max-width: 900px) {
-    .showcaseRow,
-    .showcaseRowRight {
-      grid-template-columns: 1fr;
-      gap: var(--ds-size-6);
-    }
-
-    /* On stacked layout keep the animation above the copy regardless of row direction */
-    .showcaseRowRight .showcaseAnimation {
-      order: -1;
-    }
-
-    .showcaseCopy {
-      max-width: 100%;
-    }
-  }
-
-  /* --- BENTO NAVIGATION --- */
-  .section {
-    padding: var(--ds-size-22) 0;
-    background: var(--ds-color-neutral-background-tinted);
-  }
-  
-  .sectionTitle {
-    margin-bottom: var(--ds-size-12);
-    text-align: center;
-  }
-  
-  /* Bento Wrapper: The flex/grid container */
-  .bentoWrapper {
-    display: grid;
     grid-template-columns: 1fr;
     gap: var(--ds-size-6);
   }
-  
-  /* Bento Item: layout-only. Visuals come from ds-card + data-variant. */
-  .bentoItem {
-    display: flex;
-    flex-direction: column;
+
+  /* On stacked layout keep the animation above the copy regardless of row direction */
+  .showcaseRowRight .showcaseAnimation {
+    order: -1;
   }
 
-  /* Bento Content */
-  .bentoContent {
-    position: relative;
-    z-index: 2;
+  .showcaseCopy {
+    max-width: 100%;
+  }
+}
+
+/* --- CONTRIBUTION CTA BANNER — pale green inset panel ("Mennesker i fokus") --- */
+.ctaSection {
+  padding: var(--ds-size-8) 0 var(--ds-size-18);
+  background: var(--ds-color-neutral-background-default);
+}
+
+.ctaBanner {
+  background-color: var(--ds-color-additional-color-jungle-surface-tinted);
+  border-radius: var(--ds-border-radius-xl);
+  padding: var(--ds-size-12) var(--ds-size-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-8);
+}
+
+.ctaText {
+  max-width: 56ch;
+}
+
+/* LIBRARY GAP: Heading has no color prop; maroon banner title needs an override. */
+.ctaTitle {
+  color: var(--ds-color-primary-color-red-text-default);
+  margin-bottom: var(--ds-size-4);
+}
+
+.ctaBody {
+  margin: 0;
+  color: var(--ds-color-neutral-text-default);
+}
+
+.ctaAction {
+  display: flex;
+  align-items: center;
+}
+
+/* --- RESPONSIVE MEDIA QUERIES --- */
+
+/* Tablet & Up */
+@media (min-width: 768px) {
+  .heroPanel {
+    padding: calc(var(--ds-size-26) + var(--ds-size-10)) var(--ds-size-12) var(--ds-size-15);
+  }
+
+  .heroTitle.heroTitle {
+    font-size: var(--ds-font-size-10);
+  }
+
+  .heroSpecimen {
+    gap: var(--ds-size-8);
+    padding: var(--ds-size-6) var(--ds-size-10);
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .statNumber {
+    font-size: var(--ds-font-size-10);
+  }
+
+  .cardGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .navCard {
     height: 100%;
-    display: flex;
-    flex-direction: column;
+    min-height: var(--ds-size-30);
   }
-  
-  .bentoHeader {
-    display: flex;
+
+  .ctaBanner {
+    flex-direction: row;
+    align-items: center;
     justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: var(--ds-size-6);
+    padding: var(--ds-size-15) var(--ds-size-12);
   }
-  
-  .bentoIconBg {
-    width: var(--ds-size-12);
-    height: var(--ds-size-12);
-    background-color: var(--ds-color-neutral-surface-tinted);
-    border-radius: var(--ds-border-radius-lg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--ds-color-neutral-text-default);
-  }
-  
-  .iconLarge { font-size: var(--ds-font-size-6); }
-  .iconXLarge { font-size: var(--ds-font-size-8); }
-  
-  /* LIBRARY GAP: Paragraph has no `subtle` variant. */
-  .bentoDesc {
-    color: var(--ds-color-neutral-text-subtle);
-    margin-top: var(--ds-size-2);
-  }
-  
-  .arrowIcon {
-    font-size: var(--ds-font-size-5);
-    color: var(--ds-color-neutral-text-subtle);
-    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+/* Desktop & Up */
+@media (min-width: 1024px) {
+  .heroPanel {
+    padding: calc(var(--ds-size-26) + var(--ds-size-12)) var(--ds-size-15) var(--ds-size-15);
   }
 
-  .bentoItem:hover .arrowIcon {
-    transform: translate(var(--ds-size-1), calc(var(--ds-size-1) * -1));
+  .cardGrid {
+    gap: var(--ds-size-8);
+  }
+}
+
+/* Large Desktop & Up — full display scale for the statement heading */
+@media (min-width: 1200px) {
+  .heroTitle.heroTitle {
+    font-size: calc(var(--ds-font-size-10) * 1.2);
+  }
+}
+
+@media (max-width: 480px) {
+  .heroSection {
+    padding: var(--ds-size-4) 0;
   }
 
-
-  /* --- VALUES SECTION --- */
-  .sectionValues {
-    /* Dark red tinted background - forced dark mode via data-color-scheme="dark" on element */
-    background-color: var(--ds-color-primary-color-red-background-tinted);
-    padding: var(--ds-size-26) 0;
-    margin-top: var(--ds-size-12);
-    border-radius: var(--ds-border-radius-xl) var(--ds-border-radius-xl) 0 0;
+  .heroPanel {
+    padding: calc(var(--ds-size-18) + var(--ds-size-8)) var(--ds-size-6) var(--ds-size-10);
   }
 
-  .valuesGrid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--ds-size-12);
+  .heroNotch {
+    height: var(--ds-size-18);
+    min-width: 0;
+    padding-left: var(--ds-size-4);
+    padding-right: var(--ds-size-8);
   }
 
-  /* Value Item: layout-only. Visuals come from ds-card + data-variant. */
-  .valueItem {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+  .heroSpecimen {
+    gap: var(--ds-size-4);
+    padding: var(--ds-size-4) var(--ds-size-5);
   }
 
-  .valueIcon {
-    width: var(--ds-size-15);
-    height: var(--ds-size-15);
-    background-color: var(--ds-color-primary-color-red-surface-active);
-    border-radius: var(--ds-border-radius-lg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: var(--ds-size-6);
-    color: var(--ds-color-primary-color-red-text-default);
+  .statsSection {
+    padding: var(--ds-size-8) 0 var(--ds-size-4);
   }
 
-  /* LIBRARY GAP: Heading has no color prop; primary/accent heading color isn't expressible natively. */
-  .valueTitle {
-    color: var(--ds-color-primary-color-red-text-default);
-    margin-bottom: var(--ds-size-3);
+  .ctaSection {
+    padding: var(--ds-size-6) 0 var(--ds-size-12);
   }
 
-  .valueText {
-    margin-bottom: var(--ds-size-6);
+  .ctaBanner {
+    padding: var(--ds-size-8) var(--ds-size-6);
   }
-
-  .valueButton {
-    margin-top: auto;
-    align-self: flex-start;
-  }
-  
-  /* --- RESPONSIVE MEDIA QUERIES --- */
-  
-  /* Tablet & Up */
-  @media (min-width: 768px) {
-    .bentoWrapper {
-      /* 3 columns for navigation cards */
-      grid-template-columns: repeat(3, 1fr);
-    }
-  
-    .bentoItem {
-      height: 100%;
-      min-height: var(--ds-size-30);
-    }
-  
-    .bentoPreview {
-      display: block; 
-    }
-    
-    .heroTitle {
-      font-size: var(--ds-font-size-10);
-    }
-  }
-  
-  /* Desktop & Up */
-  @media (min-width: 1024px) {
-    .splitLayout {
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-    }
-    
-    .splitContent {
-      flex: 0 0 45%;
-    }
-    
-    .heroVisual {
-      flex: 1;
-      /* Use tokens for height */
-      height: calc(var(--ds-size-30) * 3.5);
-      justify-content: center;
-      perspective-origin: center right;
-      width:200%;
-    }
-    
-    .gradientOverlay {
-      background: linear-gradient(to right, var(--ds-color-neutral-background-default) 0%, transparent 20%);
-    }
-    
-    .bentoWrapper {
-      gap: var(--ds-size-8);
-    }
-    
-    .valuesGrid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  @media (max-width: 480px) {
-    .heroSection {
-      padding: var(--ds-size-12) 0 var(--ds-size-10);
-    }
-
-    .heroVisual {
-      display: none;
-    }
-
-    .gridColumn {
-      width: 150px;
-    }
-
-    .sectionValues {
-      padding: var(--ds-size-12) 0;
-    }
-  }
-
-  /* Large Desktop & Up - Better balance for Hero */
-  @media (min-width: 1200px) {
-    .splitLayout {
-      gap: var(--ds-size-16);
-    }
-
-    .splitContent {
-      flex: 0 0 40%;
-    }
-    
-    .heroVisual {
-      flex: 1 / 2;
-    }
-  }
+}
