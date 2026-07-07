@@ -231,6 +231,14 @@ pnpm build
 pnpm storybook
 ```
 
+## Testing
+
+Testing i dette repoet følger Norges Røde Kors' testpolicy og overordnede teststrategi. Se **[TESTING.md](./TESTING.md)** for testplanen: testnivåer, risikobasert prioritering, kriterier for «klar til produksjon», feilhåndtering og rapportering. Kort versjon:
+
+- Stories er testene: hver komponent testes i ekte nettleser med `play`-assertions og automatisk WCAG-sjekk (brudd feiler bygget).
+- Full regresjon (`npm test`) kjøres på hver pull request og hver push til `main` — ingenting merges eller publiseres utestet.
+- Feil meldes som GitHub Issues med bug-malen; alvorlighetsgrad og reproduksjonssteg er påkrevd.
+
 ## Core Principles
 
 Every component we build should adhere to these core principles:

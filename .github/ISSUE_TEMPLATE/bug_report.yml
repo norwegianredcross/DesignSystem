@@ -1,0 +1,68 @@
+name: Feilrapport (bug)
+description: Rapporter en feil i designsystemet
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Takk for at du melder feilen! En god feilrapport gjør at vi kan reprodusere og rette raskere.
+        (Jf. «Testing – prinsipper og praksis» kap. 9.4 — tydelig tittel, faktisk og forventet resultat, steg og skjermbilder.)
+  - type: textarea
+    id: actual
+    attributes:
+      label: Hva skjedde? (faktisk resultat)
+      description: Beskriv feilen slik den oppstod.
+      placeholder: 'Eksempel: DatePicker lukker seg når jeg klikker på "neste måned".'
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Hva forventet du? (forventet resultat)
+      placeholder: 'Eksempel: Kalenderen skal bla til neste måned og forbli åpen.'
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steg for å reprodusere
+      description: Nummererte steg som utløser feilen.
+      placeholder: |
+        1. Gå til …
+        2. Klikk på …
+        3. Se feilen
+    validations:
+      required: true
+  - type: input
+    id: component
+    attributes:
+      label: Komponent/område
+      placeholder: 'Eksempel: DatePicker'
+    validations:
+      required: true
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Alvorlighetsgrad
+      description: Jf. TESTING.md kap. 10.
+      options:
+        - Kritisk — ubrukelig, sikkerhets-/tilgjengelighetsbrudd eller produksjonsfeil
+        - Høy — vesentlig funksjonalitet feiler, workaround finnes
+        - Middels — feil med enkel workaround
+        - Lav — kosmetisk
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Versjon av rk-designsystem
+      placeholder: 'Eksempel: 1.2.5'
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Miljø og vedlegg
+      description: Nettleser/OS/rammeverk, skjermbilder eller video.
+      placeholder: 'Chrome 141 / macOS, Next.js 15. Skjermbilde vedlagt.'
