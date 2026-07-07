@@ -9,6 +9,250 @@ import { Card, CardBlock } from '../../components/Card';
 import { ArticleLayout, ArticleImage } from '../../components/ArticleLayout';
 import styles from './styles.module.css';
 
+// --- GUIDE HELPERS (Guider) ---
+
+const CopyIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M5.5 4.5V3.5C5.5 2.67157 6.17157 2 7 2H12.5C13.3284 2 14 2.67157 14 3.5V9C14 9.82843 13.3284 10.5 12.5 10.5H11.5M5.5 4.5H3.5C2.67157 4.5 2 5.17157 2 6V12.5C2 13.3284 2.67157 14 3.5 14H9C9.82843 14 10.5 13.3284 10.5 12.5V10.5M5.5 4.5C5.5 5.32843 6.17157 6 7 6H11.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
+/** Copyable code block for the guides (mirrors the Tokens page copy pattern). */
+const GuideCodeBlock = ({ code, label }: { code: string; label: string }) => {
+  const [copied, setCopied] = useState(false);
+  const handleCopy = () => {
+    navigator.clipboard.writeText(code).then(() => {
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    });
+  };
+  return (
+    <div className={styles.codeBlockWrap}>
+      <pre className={styles.codeBlock}><code>{code}</code></pre>
+      <button
+        type="button"
+        className={styles.copyCodeButton}
+        onClick={handleCopy}
+        aria-label={`Kopier ${label}`}
+        title={`Kopier ${label}`}
+      >
+        {copied ? 'Kopiert' : <CopyIcon />}
+      </button>
+    </div>
+  );
+};
+
+// --- GUIDE ARTICLES (Guider) ---
+
+const VedlikeholdeTokensContent = () => (
+  <ArticleLayout
+    title="Vedlikeholde design tokens"
+    intro="Design tokens er den felles kilden til farger, typografi og avstander i designsystemet. Slik gjør du endringer i tokens og publiserer dem til alle som bruker systemet."
+    category="Guider"
+  >
+
+    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+      Alle design tokens vedlikeholdes i repoet{' '}
+      <Link href="https://github.com/norwegianredcross/design-tokens" target="_blank" rel="noreferrer">rk-design-tokens</Link>{' '}
+      og publiseres til npm som pakken <code>rk-design-tokens</code>. Repoet er den eneste kilden til sannhet for
+      farger, typografi og avstander i designsystemet.
+    </Paragraph>
+    <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
+      Repoet inneholder to temaer: hovedtemaet, som defineres i <code>designsystemet.config.theme.json</code>, og
+      konferansesenter-temaet, som defineres i <code>designsystemet.config.konferansesenter.json</code>.
+    </Paragraph>
+
+    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Steg 1: Klon repoet</Heading>
+    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+      Klon token-repoet og installer avhengighetene. Du trenger Node.js versjon 20 eller nyere.
+    </Paragraph>
+    <GuideCodeBlock
+      label="kommandoer for å klone repoet"
+      code={`git clone https://github.com/norwegianredcross/design-tokens.git
+cd design-tokens
+npm install`}
+    />
+
+    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)', marginTop: 'var(--ds-size-6)' }}>Steg 2: Endre konfigurasjonen</Heading>
+    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+      Gjør endringene i konfigurasjonsfilen til temaet du vil oppdatere. Skal du endre selve fargepaletten eller
+      bygge et nytt tema, se guiden{' '}
+      <Link href="#design/endre-bygge-tema">Endre eller bygge tema</Link>.
+    </Paragraph>
+
+    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)', marginTop: 'var(--ds-size-6)' }}>Steg 3: Generer tokens på nytt</Heading>
+    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+      Kommandoen regenererer token-JSON-filene under <code>design-tokens/</code>.
+    </Paragraph>
+    <GuideCodeBlock label="kommando for å generere tokens" code="npm run create:tokens" />
+
+    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)', marginTop: 'var(--ds-size-6)' }}>Steg 4: Bygg utdataene</Heading>
+    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+      Bygget produserer <code>design-tokens-build/theme.css</code> sammen med Bootstrap-, shadcn- og
+      metadata-utdataene.
+    </Paragraph>
+    <GuideCodeBlock label="kommando for å bygge tokens" code="npm run build" />
+
+    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)', marginTop: 'var(--ds-size-6)' }}>Steg 5: Commit, push og publiser</Heading>
+    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+      Commit og push endringene, og publiser deretter en ny versjon av pakken til npm.
+    </Paragraph>
+    <GuideCodeBlock
+      label="kommandoer for å publisere ny versjon"
+      code={`git add .
+git commit -m "Beskriv endringen"
+git push
+npm version patch
+npm publish`}
+    />
+
+    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)', marginTop: 'var(--ds-size-6)' }}>Slik når endringene fram</Heading>
+    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+      CI-en i DesignSystem-repoet kjører <code>npm update rk-design-tokens</code> automatisk på hver push til main,
+      og kjører hele testsuiten med de nye tokenene før de committes og deployes.
+    </Paragraph>
+    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+      Konsumenter får tokens via <code>rk-designsystem/styles</code> eller direkte fra token-pakken:
+    </Paragraph>
+    <GuideCodeBlock
+      label="import av tokens"
+      code={`/* Via komponentbiblioteket */
+@import 'rk-designsystem/styles';
+
+/* Eller direkte fra token-pakken */
+@import 'rk-design-tokens/design-tokens-build/theme.css';`}
+    />
+  </ArticleLayout>
+);
+
+const EndreByggeTemaContent = () => (
+  <ArticleLayout
+    title="Endre eller bygge tema"
+    intro="Fargeskalaene i designsystemet genereres fra profilfargene med Digdirs temabygger. Slik endrer du hovedtemaet, eller legger til et helt nytt tema."
+    category="Guider"
+  >
+
+    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Steg 1: Generer fargeskalaer i Temabygger</Heading>
+    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+      Bruk Digdirs Temabygger på{' '}
+      <Link href="https://theme.designsystemet.no" target="_blank" rel="noreferrer">theme.designsystemet.no</Link>{' '}
+      til å generere fargeskalaer fra profilfargene. Klikk «Ta i bruk tema» og kopier config-innholdet.
+    </Paragraph>
+
+    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)', marginTop: 'var(--ds-size-6)' }}>Steg 2: Lim inn i konfigurasjonsfilen</Heading>
+    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+      Lim config-innholdet inn i <code>designsystemet.config.theme.json</code> i rk-design-tokens-repoet.
+      Slik ser konfigurasjonen for hovedtemaet ut:
+    </Paragraph>
+    <GuideCodeBlock
+      label="eksempel på temakonfigurasjon"
+      code={`{
+  "outDir": "./design-tokens",
+  "themes": {
+    "theme": {
+      "colors": {
+        "primary-color-red": "#D52B1E",
+        "secondary-color-orange": "#EA5A2A",
+        "secondary-color-rust": "#96171A",
+        "secondary-color-pink": "#F16670",
+        "additional-color-ocean": "#355770",
+        "additional-color-jungle": "#6C733E",
+        "neutral": "#1E1E1E"
+      },
+      "borderRadius": 4
+    }
+  }
+}`}
+    />
+
+    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)', marginTop: 'var(--ds-size-6)' }}>Steg 3: Generer og bygg tokens</Heading>
+    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+      Generer tokens fra konfigurasjonen:
+    </Paragraph>
+    <GuideCodeBlock
+      label="kommando for å generere tokens fra config"
+      code="npx @digdir/designsystemet@latest tokens create --config designsystemet.config.theme.json"
+    />
+    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+      Eller bruk npm-scriptet, og bygg deretter utdataene:
+    </Paragraph>
+    <GuideCodeBlock
+      label="npm-scripts for å generere og bygge temaet"
+      code={`npm run create:tokens:theme
+npm run build:tokens:theme`}
+    />
+    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+      Kjør kommandoene på nytt hver gang konfigurasjonen endres.
+    </Paragraph>
+
+    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)', marginTop: 'var(--ds-size-6)' }}>Steg 4: Verifiser og publiser</Heading>
+    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+      Verifiser endringene i Storybook eller dokumentasjonen lokalt før du publiserer en ny versjon av
+      token-pakken. Se guiden{' '}
+      <Link href="#design/vedlikeholde-design-tokens">Vedlikeholde design tokens</Link>{' '}
+      for publiseringsstegene.
+    </Paragraph>
+
+    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)', marginTop: 'var(--ds-size-6)' }}>Flere temaer</Heading>
+    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+      Konferansesenter-temaet er eksempelet på et ekstra tema: det har sin egen konfigurasjonsfil,{' '}
+      <code>designsystemet.config.konferansesenter.json</code>, og egne npm-scripts. Nye temaer legges til på
+      samme måte, med egen config-fil og egne scripts.
+    </Paragraph>
+    <GuideCodeBlock
+      label="npm-scripts for konferansesenter-temaet"
+      code={`npm run create:tokens:konferansesenter
+npm run build:tokens:konferansesenter`}
+    />
+  </ArticleLayout>
+);
+
+const KobleTokensTilFigmaContent = () => (
+  <ArticleLayout
+    title="Koble tokens til Figma"
+    intro="Design tokens kan synkroniseres inn i Figma med Tokens Studio, slik at design og kode alltid bygger på de samme verdiene."
+    category="Guider"
+  >
+
+    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>Steg 1: Installer Tokens Studio</Heading>
+    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+      Installer Tokens Studio-pluginen i Figma.
+    </Paragraph>
+
+    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)', marginTop: 'var(--ds-size-6)' }}>Steg 2: Koble pluginen til token-repoet</Heading>
+    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+      Koble Tokens Studio til rk-design-tokens-repoet med Git-synkronisering, og sett «Token storage location» til:
+    </Paragraph>
+    <GuideCodeBlock label="verdi for Token storage location" code="design-tokens" />
+    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+      Steg-for-steg-oppsettet av GitHub-synkroniseringen finner du i artikkelen{' '}
+      <Link href="#design/token-studio">Token studio</Link>.
+    </Paragraph>
+    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+      <strong>Anbefaling:</strong> ikke push endringer via Tokens Studio. Endringer i tokens skal gjøres i
+      konfigurasjonen og bygges med CLI-et, slik at overstyringer ikke mistes.
+    </Paragraph>
+
+    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)', marginTop: 'var(--ds-size-6)' }}>Steg 3: Hent nye tokens</Heading>
+    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+      Bruk Pull-knappen i pluginen for å hente nye tokens etter hver oppdatering i repoet.
+    </Paragraph>
+
+    <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)', marginTop: 'var(--ds-size-6)' }}>Steg 4: Eksporter til Figma</Heading>
+    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+      Gå til «Styles &amp; variables» og velg «Export styles &amp; variables to Figma». Velg deretter Themes →
+      Select All → Export to Figma.
+    </Paragraph>
+    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+      <strong>Obs:</strong> Tokens Studio sletter ikke eksisterende modes ved eksport — rydd bort gamle
+      standardtemaer etterpå.
+    </Paragraph>
+    <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
+      «Design retning»-Figmafilen er designkilden — bruk den som referanse når du jobber med tokens i Figma.
+    </Paragraph>
+  </ArticleLayout>
+);
+
 // --- CONTENT COMPONENTS ---
 
 const HvaErDesignTokensContent = () => {
@@ -1134,6 +1378,14 @@ export const DesignPage = ({ section }: DesignPageProps) => {
           ]
         }
       ]
+    },
+    {
+      title: 'Guider',
+      items: [
+        { label: 'Vedlikeholde design tokens', id: 'vedlikeholde-design-tokens' },
+        { label: 'Endre eller bygge tema', id: 'endre-bygge-tema' },
+        { label: 'Koble tokens til Figma', id: 'koble-tokens-til-figma' },
+      ]
     }
   ];
 
@@ -1261,6 +1513,9 @@ export const DesignPage = ({ section }: DesignPageProps) => {
          activeDesignPage === 'storrelse-tokens' ? <StorrelseTokensContent /> :
          activeDesignPage === 'font-family' ? <FontFamilyContent /> :
          activeDesignPage === 'typografi-tokens' ? <TypografiTokensContent /> :
+         activeDesignPage === 'vedlikeholde-design-tokens' ? <VedlikeholdeTokensContent /> :
+         activeDesignPage === 'endre-bygge-tema' ? <EndreByggeTemaContent /> :
+         activeDesignPage === 'koble-tokens-til-figma' ? <KobleTokensTilFigmaContent /> :
          <DefaultDesignContent />
         }
       </div>

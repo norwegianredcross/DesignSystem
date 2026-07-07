@@ -29,7 +29,18 @@ export const ArticleLayout = ({ title, intro, category, children }: ArticleLayou
         {intro}
       </Paragraph>
     )}
-    <hr style={{ border: 0, borderTop: '2px solid var(--ds-color-primary-color-red-base-default)', width: 'var(--ds-size-30)', marginLeft: 0, marginBottom: 'var(--ds-size-10)' }} />
+    <hr style={{ border: 0, borderTop: '2px solid var(--ds-color-primary-color-red-base-default)', width: 'var(--ds-size-30)', marginLeft: 0, marginBottom: 'var(--ds-size-6)' }} />
+    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--ds-size-6)', marginBottom: 'var(--ds-size-10)', fontSize: 'var(--ds-font-size-2)', color: 'var(--ds-color-neutral-text-subtle)' }}>
+      <span>Oppdatert juli 2026</span>
+      <a
+        href="https://github.com/norwegianredcross/DesignSystem/issues/new/choose"
+        target="_blank"
+        rel="noreferrer"
+        style={{ color: 'var(--ds-color-primary-color-red-text-default)' }}
+      >
+        Send innspill på GitHub
+      </a>
+    </div>
     {children}
   </div>
 );
