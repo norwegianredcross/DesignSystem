@@ -1,11 +1,12 @@
 import { useState } from 'react';
+import { ArrowRightIcon } from '@navikt/aksel-icons';
 import { useLanguage } from '../../context/LanguageContext';
 import { Heading } from '../../components/Heading';
 import { Paragraph } from '../../components/Paragraph';
 import { List } from '../../components/List';
 import { Link } from '../../components/Link';
 import { Card, CardBlock } from '../../components/Card';
-import { ArticleLayout, ArticleImage } from '../../components/ArticleLayout';
+import { ArticleImage } from '../../components/ArticleLayout';
 import styles from './styles.module.css';
 
 // --- CONTENT COMPONENTS ---
@@ -16,10 +17,28 @@ const CodeBlock = ({ children, style, className }: { children: React.ReactNode; 
   </pre>
 );
 
+/**
+ * Article shell for doc sections: category kicker, maroon display heading,
+ * maroon ingress followed by a thin red rule (design retning article pattern).
+ */
+const DocArticle = ({ title, intro, category, children }: { title: string; intro?: string; category?: string; children?: React.ReactNode }) => (
+  <article className="article-max-width animate-fade-in">
+    {category && <div className={styles.kicker}>{category}</div>}
+    <Heading level={1} data-size="xl" className={styles.articleTitle}>{title}</Heading>
+    {intro && (
+      <>
+        <Paragraph data-size="lg" className={styles.ingress}>{intro}</Paragraph>
+        <hr className={styles.leadRule} />
+      </>
+    )}
+    {children}
+  </article>
+);
+
 const OverviewContent = ({ setActivePage }: { setActivePage: (page: string) => void }) => {
   const { t } = useLanguage();
   return (
-    <ArticleLayout title={t('code.overview.title')} intro={t('code.overview.intro')} category={t('code.sidebar.overview')}>
+    <DocArticle title={t('code.overview.title')} intro={t('code.overview.intro')} category={t('code.sidebar.overview')}>
       <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
         {t('code.overview.text1')}
       </Paragraph>
@@ -31,36 +50,36 @@ const OverviewContent = ({ setActivePage }: { setActivePage: (page: string) => v
       </Paragraph>
 
       <div className={styles.introGrid}>
-        <Card variant="tinted" data-color="neutral">
+        <Card variant="tinted" data-color="neutral" className={styles.introCard}>
           <CardBlock>
             <Heading level={3} data-size="sm">{t('code.overview.getStartedCard')}</Heading>
             <Paragraph data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>{t('code.overview.getStartedDesc')}</Paragraph>
-            <Link href="https://github.com/norwegianredcross/DesignSystem" target="_blank" rel="noopener noreferrer">{t('code.overview.getStartedLink')}</Link>
+            <Link href="https://github.com/norwegianredcross/DesignSystem" target="_blank" rel="noopener noreferrer" className={styles.arrowLink}>{t('code.overview.getStartedLink')} <ArrowRightIcon aria-hidden /></Link>
           </CardBlock>
         </Card>
-        <Card variant="tinted" data-color="neutral">
+        <Card variant="tinted" data-color="neutral" className={styles.introCard}>
           <CardBlock>
             <Heading level={3} data-size="sm">{t('code.overview.designTokensCard')}</Heading>
             <Paragraph data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>{t('code.overview.designTokensDesc')}</Paragraph>
-            <Link href="#" onClick={(e) => {e.preventDefault(); setActivePage('design-tokens')}}>{t('code.overview.designTokensLink')}</Link>
+            <Link href="#" onClick={(e) => {e.preventDefault(); setActivePage('design-tokens')}} className={styles.arrowLink}>{t('code.overview.designTokensLink')} <ArrowRightIcon aria-hidden /></Link>
           </CardBlock>
         </Card>
-        <Card variant="tinted" data-color="neutral">
+        <Card variant="tinted" data-color="neutral" className={styles.introCard}>
           <CardBlock>
             <Heading level={3} data-size="sm">{t('code.overview.workflowCard')}</Heading>
             <Paragraph data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>{t('code.overview.workflowDesc')}</Paragraph>
-            <Link href="#" onClick={(e) => {e.preventDefault(); setActivePage('figma-mcp')}}>{t('code.overview.workflowLink')}</Link>
+            <Link href="#" onClick={(e) => {e.preventDefault(); setActivePage('figma-mcp')}} className={styles.arrowLink}>{t('code.overview.workflowLink')} <ArrowRightIcon aria-hidden /></Link>
           </CardBlock>
         </Card>
       </div>
-    </ArticleLayout>
+    </DocArticle>
   );
 };
 
 const GettingStartedContent = () => {
   const { t } = useLanguage();
   return (
-    <ArticleLayout title={t('code.getStarted.title')} category={t('code.sidebar.overview')}>
+    <DocArticle title={t('code.getStarted.title')} category={t('code.sidebar.overview')}>
       <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
         {t('code.getStarted.intro')}
       </Paragraph>
@@ -185,14 +204,14 @@ export default function Home() {
         {t('code.getStarted.updateText')}
       </Paragraph>
       <CodeBlock>npm update rk-design-tokens</CodeBlock>
-    </ArticleLayout>
+    </DocArticle>
   );
 };
 
 const DesignTokensContent = () => {
   const { t } = useLanguage();
   return (
-    <ArticleLayout title={t('code.designTokens.title')} category={t('code.sidebar.overview')}>
+    <DocArticle title={t('code.designTokens.title')} category={t('code.sidebar.overview')}>
       <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
         {t('code.designTokens.intro')}
       </Paragraph>
@@ -258,14 +277,14 @@ export default function RootLayout({ children }) {
         <List.Item><strong>{t('code.designTokens.phase3Item4').split(':')[0]}:</strong> {t('code.designTokens.phase3Item4').split(':').slice(1).join(':').trim()}</List.Item>
       </List.Unordered>
       
-    </ArticleLayout>
+    </DocArticle>
   );
 };
 
 const FontsContent = () => {
   const { t } = useLanguage();
   return (
-    <ArticleLayout title={t('code.fonts.title')} category={t('code.sidebar.overview')}>
+    <DocArticle title={t('code.fonts.title')} category={t('code.sidebar.overview')}>
       <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
         {t('code.fonts.intro')}
       </Paragraph>
@@ -284,7 +303,7 @@ const FontsContent = () => {
       <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
         {t('code.fonts.nextjsText')}
       </Paragraph>
-      <Paragraph style={{ marginBottom: 'var(--ds-size-4)', fontWeight: 'bold', color: 'var(--ds-color-danger-base-default)' }}>
+      <Paragraph className={styles.callout} style={{ marginBottom: 'var(--ds-size-4)' }}>
         {t('code.fonts.classNameWarning')}
       </Paragraph>
       <CodeBlock>
@@ -342,14 +361,14 @@ export default function App({ Component, pageProps }: AppProps) {
       <Paragraph>
         {t('code.fonts.cssVariablesText')}
       </Paragraph>
-    </ArticleLayout>
+    </DocArticle>
   );
 };
 
 const IconsContent = () => {
   const { t } = useLanguage();
   return (
-    <ArticleLayout title={t('code.icons.title')} category={t('code.sidebar.overview')}>
+    <DocArticle title={t('code.icons.title')} category={t('code.sidebar.overview')}>
       <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
         {t('code.icons.intro')}
       </Paragraph>
@@ -403,14 +422,14 @@ export function IconsExample() {
       <Paragraph>
         {t('code.icons.performanceText')}
       </Paragraph>
-    </ArticleLayout>
+    </DocArticle>
   );
 };
 
 const ContributingContent = () => {
   const { t } = useLanguage();
   return (
-    <ArticleLayout title={t('code.contributing.title')} category={t('code.sidebar.contribute')}>
+    <DocArticle title={t('code.contributing.title')} category={t('code.sidebar.contribute')}>
       <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
         {t('code.contributing.intro')}
       </Paragraph>
@@ -521,14 +540,14 @@ pnpm storybook`}
             </ul>
         </List.Item>
       </List.Ordered>
-    </ArticleLayout>
+    </DocArticle>
   );
 };
 
 const FigmaMcpIntroContent = () => {
   const { t } = useLanguage();
   return (
-    <ArticleLayout title={t('code.figmaMcp.introTitle')} category={t('code.sidebar.workflow')}>
+    <DocArticle title={t('code.figmaMcp.introTitle')} category={t('code.sidebar.workflow')}>
       <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
         {t('code.figmaMcp.intro')}
       </Paragraph>
@@ -598,14 +617,14 @@ const FigmaMcpIntroContent = () => {
         <List.Item>{t('code.figmaMcp.nextStepsItem1')}</List.Item>
         <List.Item>{t('code.figmaMcp.nextStepsItem2')}</List.Item>
       </List.Unordered>
-    </ArticleLayout>
+    </DocArticle>
   );
 };
 
 const FigmaMcpCursorContent = () => {
   const { t } = useLanguage();
   return (
-    <ArticleLayout title={t('code.figmaMcp.cursorWorkflowTitle')} category={t('code.sidebar.workflow')}>
+    <DocArticle title={t('code.figmaMcp.cursorWorkflowTitle')} category={t('code.sidebar.workflow')}>
       <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
         {t('code.figmaMcp.cursorWorkflowIntro')}
       </Paragraph>
@@ -811,14 +830,14 @@ const FigmaMcpCursorContent = () => {
         <List.Item>{t('code.figmaMcp.proTip1')}</List.Item>
         <List.Item>{t('code.figmaMcp.proTip2')}</List.Item>
       </List.Unordered>
-    </ArticleLayout>
+    </DocArticle>
   );
 };
 
 const FigmaMcpClaudeContent = () => {
   const { t } = useLanguage();
   return (
-    <ArticleLayout title={t('code.figmaMcp.claudeWorkflowTitle')} category={t('code.sidebar.workflow')}>
+    <DocArticle title={t('code.figmaMcp.claudeWorkflowTitle')} category={t('code.sidebar.workflow')}>
       <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
         {t('code.figmaMcp.claudeWorkflowIntro')}
       </Paragraph>
@@ -989,14 +1008,14 @@ const FigmaMcpClaudeContent = () => {
         <List.Item>{t('code.figmaMcp.step0_5WhyItem4')}</List.Item>
         <List.Item>{t('code.figmaMcp.step0_5WhyItem5')}</List.Item>
       </List.Unordered>
-    </ArticleLayout>
+    </DocArticle>
   );
 };
 
 const MetadataFilesContent = () => {
   const { t } = useLanguage();
   return (
-    <ArticleLayout title={t('code.metadataFiles.title')} category={t('code.sidebar.structure')}>
+    <DocArticle title={t('code.metadataFiles.title')} category={t('code.sidebar.structure')}>
       <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
         {t('code.metadataFiles.intro')}
       </Paragraph>
@@ -1023,14 +1042,14 @@ const MetadataFilesContent = () => {
       <Paragraph>
         {t('code.metadataFiles.howText')}
       </Paragraph>
-    </ArticleLayout>
+    </DocArticle>
   );
 };
 
 const KomponentKreasjonContent = () => {
   const { t } = useLanguage();
   return (
-    <ArticleLayout title={t('code.componentCreation.title')} category={t('code.sidebar.workflow')}>
+    <DocArticle title={t('code.componentCreation.title')} category={t('code.sidebar.workflow')}>
       <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
         {t('code.componentCreation.intro')}
       </Paragraph>
@@ -1097,7 +1116,7 @@ const KomponentKreasjonContent = () => {
         <List.Item><strong>{t('code.componentCreation.benefit3').split(':')[0]}:</strong> {t('code.componentCreation.benefit3').split(':').slice(1).join(':').trim()}</List.Item>
         <List.Item><strong>{t('code.componentCreation.benefit4').split(':')[0]}:</strong> {t('code.componentCreation.benefit4').split(':').slice(1).join(':').trim()}</List.Item>
       </List.Unordered>
-    </ArticleLayout>
+    </DocArticle>
   );
 };
 

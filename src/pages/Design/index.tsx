@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ArrowRightIcon } from '@navikt/aksel-icons';
 import { useLanguage } from '../../context/LanguageContext';
 import { Heading } from '../../components/Heading';
 import { Paragraph } from '../../components/Paragraph';
@@ -90,11 +91,11 @@ const FargerOversiktContent = () => {
       
       <ArticleImage src="/SemanticColorUsage.png" alt="Semantiske farger eksempel" caption={t('design.colorOverview.semanticCaption')} />
 
-      <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: 'var(--ds-size-8)' }}>
+      <table className={styles.tokenTable}>
         <thead>
-          <tr style={{ borderBottom: '2px solid var(--ds-color-neutral-border-default)', textAlign: 'left' }}>
-            <th style={{ padding: 'var(--ds-size-2)', fontWeight: 'bold' }}>{t('design.colorOverview.tableName')}</th>
-            <th style={{ padding: 'var(--ds-size-2)', fontWeight: 'bold' }}>{t('design.colorOverview.tableUsage')}</th>
+          <tr>
+            <th>{t('design.colorOverview.tableName')}</th>
+            <th>{t('design.colorOverview.tableUsage')}</th>
           </tr>
         </thead>
         <tbody>
@@ -116,9 +117,9 @@ const FargerOversiktContent = () => {
             ['base-contrast-subtle', t('design.colorOverview.baseContrastSubtle')],
             ['base-contrast-default', t('design.colorOverview.baseContrastDefault')],
           ].map(([name, desc]) => (
-            <tr key={name} style={{ borderBottom: '1px solid var(--ds-color-neutral-border-subtle)' }}>
-              <td style={{ padding: 'var(--ds-size-2)', fontFamily: 'monospace' }}>{name}</td>
-              <td style={{ padding: 'var(--ds-size-2)' }}>{desc}</td>
+            <tr key={name}>
+              <td><span className={styles.tokenName}>{name}</span></td>
+              <td>{desc}</td>
             </tr>
           ))}
         </tbody>
@@ -1139,16 +1140,22 @@ export const DesignPage = ({ section }: DesignPageProps) => {
   const DefaultDesignContent = () => (
     <ArticleLayout title={t('design.intro.title')} intro={t('design.intro.welcome')} category="Intro">
       <div className={styles.introGrid}>
-        <Card variant="tinted" data-color="neutral">
+        <Card variant="tinted" data-color="neutral" className={styles.introCard}>
           <CardBlock>
             <Heading level={3} data-size="sm">{t('design.intro.getStarted')}</Heading>
-            <Link href="#" onClick={(e) => {e.preventDefault(); setActiveDesignPage('figma-oppkobling')}}>{t('design.intro.goToGuide')}</Link>
+            <Link href="#" className={styles.textButton} onClick={(e) => {e.preventDefault(); setActiveDesignPage('figma-oppkobling')}}>
+              {t('design.intro.goToGuide')}
+              <ArrowRightIcon aria-hidden />
+            </Link>
           </CardBlock>
         </Card>
-        <Card variant="tinted" data-color="neutral">
+        <Card variant="tinted" data-color="neutral" className={styles.introCard}>
           <CardBlock>
             <Heading level={3} data-size="sm">{t('design.intro.colors')}</Heading>
-            <Link href="#" onClick={(e) => {e.preventDefault(); setActiveDesignPage('fargesystem')}}>{t('design.intro.seeColors')}</Link>
+            <Link href="#" className={styles.textButton} onClick={(e) => {e.preventDefault(); setActiveDesignPage('fargesystem')}}>
+              {t('design.intro.seeColors')}
+              <ArrowRightIcon aria-hidden />
+            </Link>
           </CardBlock>
         </Card>
       </div>

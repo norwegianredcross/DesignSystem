@@ -80,18 +80,28 @@ function App() {
       </div>
 
       <Footer
-        data-color="neutral"
+        variant="columns"
+        data-color="primary"
+        colorScheme="dark"
         showCrossCorners={false}
         hideNewsletter={true}
-        shortcutsLinks={[
-          { label: t('header.nav.components'), href: '#components' },
-          { label: t('header.nav.design'), href: '#design' },
-          { label: t('header.nav.code'), href: '#code' },
-          { label: t('header.nav.tokens'), href: '#tokens' }
-        ]}
-        linksLinks={[
-          { label: 'GitHub', href: 'https://github.com/norwegianredcross/DesignSystem' },
-          { label: 'Storybook', href: 'https://norwegianredcross.github.io/DesignSystem/storybook' }
+        columns={[
+          {
+            title: t('footer.shortcuts'),
+            links: [
+              { label: t('header.nav.design'), href: '#design' },
+              { label: t('header.nav.components'), href: '#components' },
+              { label: t('header.nav.code'), href: '#code' },
+              { label: t('header.nav.tokens'), href: '#tokens' }
+            ]
+          },
+          {
+            title: 'Lenker',
+            links: [
+              { label: 'GitHub', href: 'https://github.com/norwegianredcross/DesignSystem' },
+              { label: 'Storybook', href: 'https://norwegianredcross.github.io/DesignSystem/storybook' }
+            ]
+          }
         ]}
       />
     </div>

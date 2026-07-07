@@ -1,144 +1,257 @@
-/* Using mapped design tokens from provided CSS 
-*/
+/* Components catalog — "Design retning" restyle.
+   Tokens only: colors/radii/spacing/type all come from rk-design-tokens (--ds-*). */
 
 .pageWrapper {
-    /* Using ds-size-* for vertical rhythm */
-    padding: var(--ds-size-18) 0 var(--ds-size-26);
-    width: 100%;
-    background-color: var(--ds-color-neutral-background-default);
-    min-height: 100vh;
-  }
-  
-  .container {
-    /* Responsive container logic using max-width */
-    width: 100%;
-    max-width: 1200px; 
-    margin: 0 auto;
-    padding-left: var(--ds-size-6);
-    padding-right: var(--ds-size-6);
-  }
-  
-  /* Header Styling */
-  .header {
-    margin-bottom: var(--ds-size-12);
-    display: flex;
-    flex-direction: column;
-    gap: var(--ds-size-4);
-    text-align: center;
-    align-items: center;
-  }
-  
-  .title {
-    color: var(--ds-color-neutral-text-default);
-    /* Typography token application if Heading component doesn't handle it automatically */
-    font-size: var(--ds-heading-xl-font-size);
-    font-weight: var(--ds-heading-xl-font-weight);
-    letter-spacing: var(--ds-heading-xl-letter-spacing);
-  }
-  
-  .introText {
-    color: var(--ds-color-neutral-text-subtle);
-    max-width: 65ch;
-    font-size: var(--ds-body-lg-font-size);
-    line-height: var(--ds-body-lg-line-height);
-  }
-  
-  /* Search Input Styling */
-  .searchWrapper {
-    width: 100%;
-    max-width: 480px;
-    margin-top: var(--ds-size-6);
-  }
-  
-  .searchInput {
-    width: 100%;
-    padding: var(--ds-size-3) var(--ds-size-4);
-    border: var(--ds-border-width-default) solid var(--ds-color-neutral-border-default);
-    border-radius: var(--ds-border-radius-lg); /* Rounded search bar */
-    background-color: var(--ds-color-neutral-background-default);
-    color: var(--ds-color-neutral-text-default);
-    font-size: var(--ds-body-md-font-size);
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  }
-  
-  .searchInput:focus {
-    outline: none;
-    border-color: var(--ds-color-neutral-base-default);
-    box-shadow: 0 0 0 var(--ds-border-width-focus) var(--ds-color-focus-outer);
-  }
-  
-  .searchInput::placeholder {
-    color: var(--ds-color-neutral-text-subtle);
-  }
-  
-  /* Grid Layout */
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--ds-color-neutral-background-default);
+  padding-bottom: var(--ds-size-26);
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: var(--ds-size-6);
+  padding-right: var(--ds-size-6);
+}
+
+/* Hero: inset rounded cream panel inside the container (design retning pattern) */
+.heroPanel {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-4);
+  text-align: center;
+  align-items: center;
+  background-color: var(--ds-color-neutral-background-tinted);
+  border-radius: var(--ds-border-radius-xl);
+  padding: var(--ds-size-15) var(--ds-size-10);
+  margin: var(--ds-size-8) 0 var(--ds-size-12);
+}
+
+.title {
+  color: var(--ds-color-primary-color-red-text-default);
+  font-size: var(--ds-font-size-10);
+  font-weight: var(--ds-font-weight-semibold);
+  line-height: var(--ds-line-height-sm);
+}
+
+.introText {
+  color: var(--ds-color-neutral-text-subtle);
+  max-width: 65ch;
+  font-size: var(--ds-font-size-5);
+  line-height: var(--ds-line-height-md);
+}
+
+/* Search input: soft pill on the cream band */
+.searchWrapper {
+  width: 100%;
+  max-width: 480px;
+  margin-top: var(--ds-size-6);
+}
+
+.searchInput {
+  width: 100%;
+  padding: var(--ds-size-3) var(--ds-size-6);
+  border: var(--ds-border-width-default) solid var(--ds-color-neutral-border-subtle);
+  border-radius: var(--ds-border-radius-full);
+  background-color: var(--ds-color-neutral-background-default);
+  color: var(--ds-color-neutral-text-default);
+  font-size: var(--ds-font-size-4);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.searchInput:hover {
+  border-color: var(--ds-color-primary-color-red-border-subtle);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--ds-color-primary-color-red-border-subtle);
+  box-shadow: 0 0 0 var(--ds-border-width-focus) var(--ds-color-focus-outer);
+}
+
+.searchInput::placeholder {
+  color: var(--ds-color-neutral-text-subtle);
+}
+
+/* Grid layout */
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr));
+  gap: var(--ds-size-6);
+}
+
+@media (min-width: 768px) {
   .cardsGrid {
-    display: grid;
-    /* Optimized grid for responsiveness */
-    grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr));
-    gap: var(--ds-size-6);
+    gap: var(--ds-size-8);
   }
-  
-  @media (min-width: 768px) {
-    .cardsGrid {
-      gap: var(--ds-size-8);
-    }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding-left: var(--ds-size-4);
+    padding-right: var(--ds-size-4);
   }
 
-  @media (max-width: 768px) {
-    .container {
-      width: 90%;
-      padding-left: 0;
-      padding-right: 0;
-    }
+  .heroPanel {
+    padding: var(--ds-size-10) var(--ds-size-5);
+    margin-top: var(--ds-size-4);
   }
 
-  /* Card-as-link: layout-only. Visuals (background/border/radius/hover) come
-     from ds-card's native `a` selector now that Card renders as <a> via asChild. */
-  .cardLink {
-    height: 100%;
+  .title {
+    font-size: var(--ds-font-size-8);
+  }
+}
+
+/* Card-as-link: soft cream card, xl radius, pink-tinted border on hover.
+   Doubled class selector so these visuals win over ds-card defaults. */
+.cardLink.cardLink {
+  display: block;
+  height: 100%;
+  background-color: var(--ds-color-neutral-background-tinted);
+  border: var(--ds-border-width-default) solid var(--ds-color-neutral-background-tinted);
+  border-radius: var(--ds-border-radius-xl);
+  overflow: hidden;
+  text-decoration: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cardLink.cardLink:hover,
+.cardLink.cardLink:focus-visible {
+  border-color: var(--ds-color-primary-color-red-border-subtle);
+  box-shadow: var(--ds-shadow-md);
+}
+
+/* Card anatomy per the concept listing cards: full-bleed media band on top,
+   left-aligned body with title, thin divider, "Les mer →" text-button. */
+.cardMedia {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(var(--ds-size-30) * 0.9);
+  width: 100%;
+  background-color: var(--ds-color-primary-color-red-surface-tinted);
+}
+
+.cardIcon {
+  width: var(--ds-size-15);
+  height: var(--ds-size-15);
+  object-fit: contain;
+  opacity: 0.9;
+}
+
+.iconPlaceholder {
+  width: var(--ds-size-15);
+  height: var(--ds-size-15);
+  background-color: var(--ds-color-neutral-surface-tinted);
+  border-radius: var(--ds-border-radius-full);
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  padding: var(--ds-size-5) var(--ds-size-6) var(--ds-size-5);
+}
+
+.cardTitle[class] {
+  color: var(--ds-color-primary-color-red-text-default);
+  font-weight: var(--ds-font-weight-semibold);
+  margin-bottom: var(--ds-size-4);
+}
+
+/* Thin rule above the action, like the concept cards */
+.cardDivider {
+  width: 100%;
+  border: none;
+  border-top: 1px solid var(--ds-color-neutral-border-subtle);
+  margin: 0 0 var(--ds-size-4);
+}
+
+/* Text-button language: maroon label + arrow, pink pill appears on hover/focus */
+.cardAction {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-size-2);
+  color: var(--ds-color-primary-color-red-text-default);
+  font-size: var(--ds-font-size-3);
+  font-weight: var(--ds-font-weight-medium);
+  padding: var(--ds-size-1) var(--ds-size-4);
+  margin-left: calc(-1 * var(--ds-size-4));
+  border-radius: var(--ds-border-radius-full);
+  transition: background-color 0.2s ease;
+}
+
+.cardArrow {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.cardLink:hover .cardAction,
+.cardLink:focus-visible .cardAction {
+  background-color: var(--ds-color-primary-color-red-surface-hover);
+}
+
+.cardLink:hover .cardArrow {
+  transform: translateX(var(--ds-size-1));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cardLink.cardLink,
+  .cardAction,
+  .cardArrow,
+  .searchInput {
+    transition: none;
   }
 
+  .cardLink:hover .cardArrow {
+    transform: none;
+  }
+}
 
-  /* Card Internals */
-  .cardContent {
-    display: flex;
+/* Empty state: soft cream panel */
+.emptyState {
+  text-align: center;
+  padding: var(--ds-size-12);
+  color: var(--ds-color-neutral-text-subtle);
+  background-color: var(--ds-color-neutral-background-tinted);
+  border-radius: var(--ds-border-radius-xl);
+}
+
+/* Green CTA banner (design retning pattern): two columns, pale green, xl radius */
+.ctaBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ds-size-8);
+  background-color: var(--ds-color-additional-color-jungle-surface-tinted);
+  border-radius: var(--ds-border-radius-xl);
+  padding: var(--ds-size-10) var(--ds-size-12);
+  margin-top: var(--ds-size-15);
+}
+
+.ctaBannerTitle[class] {
+  color: var(--ds-color-primary-color-red-text-default);
+  margin-bottom: var(--ds-size-3);
+}
+
+.ctaBannerBody {
+  color: var(--ds-color-neutral-text-default);
+  max-width: 55ch;
+}
+
+.ctaBannerButton[class] {
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .ctaBanner {
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: var(--ds-size-4) 0;
-    text-align: center;
+    align-items: flex-start;
+    padding: var(--ds-size-8) var(--ds-size-6);
   }
-  
-  .cardIconWrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: var(--ds-size-4);
-    /* Use token size for container height to ensure alignment */
-    height: var(--ds-size-14); 
-    width: 100%;
-  }
-  
-  .cardIcon {
-    /* Dynamic sizing based on tokens approx 3rem */
-    width: var(--ds-size-12);
-    height: var(--ds-size-12);
-    object-fit: contain;
-    /* Optional: filter to align icon color with text if SVGs are monochromatic */
-    opacity: 0.9;
-  }
-  
-  .iconPlaceholder {
-    width: var(--ds-size-12);
-    height: var(--ds-size-12);
-    background-color: var(--ds-color-neutral-surface-tinted);
-    border-radius: var(--ds-border-radius-full);
-  }
-  
-  /* Empty State */
-  .emptyState {
-    text-align: center;
-    padding: var(--ds-size-12);
-    color: var(--ds-color-neutral-text-subtle);
-  }
+}

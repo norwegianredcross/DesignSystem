@@ -1,23 +1,21 @@
 import { useState, useMemo } from 'react';
+import { ArrowRightIcon } from '@navikt/aksel-icons';
 import { useLanguage } from '../../context/LanguageContext';
 import { Heading } from '../../components/Heading';
 import { Paragraph } from '../../components/Paragraph';
-import { Card, CardBlock } from '../../components/Card';
+import { Card } from '../../components/Card';
+import { Button } from '../../components/Button';
 import styles from './styles.module.css';
 
-export const ComponentsPage = () => {
-  const { t } = useLanguage();
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const components = [
+const components = [
     'Alert', 'Avatar', 'Badge', 'Breadcrumbs', 'Button', 'Card', 'Carousel', 'Checkbox', 'Chip',
     'DateInput', 'DatePicker', 'Details', 'Dialog', 'Divider', 'Dropdown', 'ErrorSummary',
     'Field', 'Fieldset', 'Header', 'HeroSection', 'Input', 'Link', 'List', 'Pagination', 'Popover', 'Radio',
     'Search', 'Select', 'SkeletonLoader', 'SkipLink', 'SpinnerLoader', 'Suggestion',
     'Switch', 'Table', 'Tabs', 'Tag', 'Textarea', 'Textfield', 'ToggleGroup', 'Tooltip'
-  ];
+];
 
-  const iconMap: Record<string, string> = {
+const iconMap: Record<string, string> = {
     Alert: 'alert.svg',
     Avatar: 'avatar.svg',
     Badge: 'badge.svg',
@@ -56,41 +54,46 @@ export const ComponentsPage = () => {
     Textfield: 'textfield.svg',
     ToggleGroup: 'togglegroup.svg',
     Tooltip: 'tooltip.svg',
-  };
+};
+
+export const ComponentsPage = () => {
+  const { t } = useLanguage();
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Filter components based on search query
   const filteredComponents = useMemo(() => {
     return components.filter((comp) =>
       comp.toLowerCase().includes(searchQuery.toLowerCase())
     );
-  }, [components, searchQuery]);
+  }, [searchQuery]);
 
   return (
     <main className={styles.pageWrapper}>
+      {/* Hero: inset rounded cream panel (design retning pattern) */}
       <div className={styles.container}>
-        
-        {/* Header Section */}
-        <div className={styles.header}>
+        <header className={styles.heroPanel}>
           <Heading level={1} className={styles.title}>
             {t('components.title')}
           </Heading>
           <Paragraph className={styles.introText}>
             {t('components.intro')}
           </Paragraph>
-          
+
           {/* Search Input */}
           <div className={styles.searchWrapper}>
-            <input 
-              type="search" 
-              placeholder={t('components.searchPlaceholder')} 
+            <input
+              type="search"
+              placeholder={t('components.searchPlaceholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className={styles.searchInput}
               aria-label={t('components.searchAriaLabel')}
             />
           </div>
-        </div>
+        </header>
+      </div>
 
+      <div className={styles.container}>
         {/* Grid Section */}
         {filteredComponents.length > 0 ? (
           <div className={styles.cardsGrid}>
@@ -101,23 +104,28 @@ export const ComponentsPage = () => {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <CardBlock>
-                    <div className={styles.cardContent}>
-                      <div className={styles.cardIconWrapper}>
-                        {iconMap[comp] ? (
-                          <img
-                            src={`${import.meta.env.BASE_URL}components/${iconMap[comp]}`}
-                            alt=""
-                            className={styles.cardIcon}
-                            loading="lazy"
-                          />
-                        ) : (
-                          <div className={styles.iconPlaceholder} aria-hidden="true" />
-                        )}
-                      </div>
-                      <Heading level={2} data-size="sm">{comp}</Heading>
-                    </div>
-                  </CardBlock>
+                  <div className={styles.cardMedia}>
+                    {iconMap[comp] ? (
+                      <img
+                        src={`${import.meta.env.BASE_URL}components/${iconMap[comp]}`}
+                        alt=""
+                        className={styles.cardIcon}
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div className={styles.iconPlaceholder} aria-hidden="true" />
+                    )}
+                  </div>
+                  <div className={styles.cardBody}>
+                    <Heading level={2} data-size="sm" className={styles.cardTitle}>
+                      {comp}
+                    </Heading>
+                    <hr className={styles.cardDivider} />
+                    <span className={styles.cardAction}>
+                      {t('components.openLabel')}
+                      <ArrowRightIcon aria-hidden="true" className={styles.cardArrow} />
+                    </span>
+                  </div>
                 </a>
               </Card>
             ))}
@@ -128,6 +136,33 @@ export const ComponentsPage = () => {
             <Paragraph>{t('components.noResults')} "{searchQuery}"</Paragraph>
           </div>
         )}
+
+        {/* Green CTA banner (design retning pattern) */}
+        <aside className={styles.ctaBanner}>
+          <div className={styles.ctaBannerText}>
+            <Heading level={2} data-size="md" className={styles.ctaBannerTitle}>
+              {t('components.ctaTitle')}
+            </Heading>
+            <Paragraph className={styles.ctaBannerBody}>
+              {t('components.ctaText')}
+            </Paragraph>
+          </div>
+          <Button
+            asChild
+            variant="secondary"
+            data-color="main"
+            className={styles.ctaBannerButton}
+          >
+            <a
+              href={`${import.meta.env.BASE_URL}storybook/`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {t('components.ctaButton')}
+              <ArrowRightIcon aria-hidden="true" />
+            </a>
+          </Button>
+        </aside>
       </div>
     </main>
   );

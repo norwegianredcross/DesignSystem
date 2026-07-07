@@ -6,6 +6,7 @@
   align-items: flex-start;
 }
 
+/* Sidebar as a soft cream panel (same treatment as the Design page) */
 .sidebar {
   width: 280px;
   flex-shrink: 0;
@@ -15,8 +16,10 @@
   max-height: calc(100vh - var(--ds-size-12));
   overflow-y: auto;
   overflow-x: hidden;
-  padding-right: var(--ds-size-4);
-  padding-top: var(--ds-size-10);
+  margin-top: var(--ds-size-10);
+  padding: var(--ds-size-6) var(--ds-size-4);
+  background: var(--ds-color-neutral-background-tinted);
+  border-radius: var(--ds-border-radius-xl);
 }
 
 /* Custom Scrollbar for Sidebar */
@@ -42,15 +45,15 @@
   flex-direction: column;
 }
 
+/* Group titles: maroon, semibold — page-level wayfinding (as on Design) */
 .groupTitle {
-  font-size: var(--ds-font-size-sm, 14px);
-  font-weight: var(--ds-font-weight-bold, 700);
-  color: var(--ds-color-neutral-text-subtle, #5d5d5d);
+  font-size: var(--ds-font-size-2);
+  font-weight: var(--ds-font-weight-semibold);
+  color: var(--ds-color-primary-color-red-text-default);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: var(--ds-size-2, 8px);
-  padding-left: var(--ds-size-3, 12px);
-  border-left: 4px solid var(--ds-color-primary-color-red-base-default);
+  margin-bottom: var(--ds-size-2);
+  padding-left: var(--ds-size-3);
 }
 
 .list {
@@ -72,7 +75,7 @@
   font-size: var(--ds-font-size-md);
   color: var(--ds-color-neutral-text-default);
   text-decoration: none;
-  border-radius: var(--ds-border-radius-md);
+  border-radius: var(--ds-border-radius-full);
   transition: all 0.2s ease;
   background: transparent;
   border: none;
@@ -82,14 +85,19 @@
 }
 
 .link:hover {
-  background-color: var(--ds-color-neutral-surface-hover);
+  background-color: var(--ds-color-neutral-background-default);
   color: var(--ds-color-neutral-text-default);
 }
 
 .linkActive {
-  background-color: var(--ds-color-primary-surface-subtle);
-  color: var(--ds-color-primary-text-default);
+  background-color: var(--ds-color-primary-color-red-surface-tinted);
+  color: var(--ds-color-primary-color-red-text-default);
   font-weight: var(--ds-font-weight-medium);
+}
+
+.linkActive:hover {
+  background-color: var(--ds-color-primary-color-red-surface-hover);
+  color: var(--ds-color-primary-color-red-text-default);
 }
 
 .details > summary {
@@ -107,7 +115,7 @@
   gap: 1px;
   padding-left: var(--ds-size-3);
   margin-top: 2px;
-  border-left: 1px solid var(--ds-color-neutral-border-subtle);
+  border-left: 1px solid var(--ds-color-primary-color-red-border-subtle);
   margin-left: var(--ds-size-3);
 }
 
@@ -119,23 +127,23 @@
 
 .nestedLink:hover {
   color: var(--ds-color-neutral-text-default);
-  background-color: var(--ds-color-neutral-surface-hover);
+  background-color: var(--ds-color-neutral-background-default);
 }
 
 .nestedLinkActive {
-  color: var(--ds-color-primary-text-default);
-  background-color: var(--ds-color-primary-surface-subtle);
+  color: var(--ds-color-primary-color-red-text-default);
+  background-color: var(--ds-color-primary-color-red-surface-tinted);
   font-weight: var(--ds-font-weight-medium);
-  border-left: 2px solid var(--ds-color-primary-base-default);
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  margin-left: -1px; /* Overlap border */
+}
+
+.nestedLinkActive:hover {
+  color: var(--ds-color-primary-color-red-text-default);
+  background-color: var(--ds-color-primary-color-red-surface-hover);
 }
 
 .docContent {
   flex: 1;
   padding-left: var(--ds-size-10);
-  border-left: 1px solid var(--ds-color-neutral-border-subtle);
   min-width: 0;
   padding-top: var(--ds-size-18);
 }
@@ -149,9 +157,9 @@
   display: none;
   width: 100%;
   padding: var(--ds-size-3) var(--ds-size-4);
-  background: var(--ds-color-neutral-surface-tinted);
+  background: var(--ds-color-neutral-background-tinted);
   border: 1px solid var(--ds-color-neutral-border-subtle);
-  border-radius: var(--ds-border-radius-md);
+  border-radius: var(--ds-border-radius-lg);
   font-family: inherit;
   font-size: var(--ds-font-size-md);
   font-weight: var(--ds-font-weight-medium);
@@ -215,8 +223,8 @@
 
 .codeBlock {
   background-color: var(--ds-color-neutral-background-subtle);
-  padding: var(--ds-size-4);
-  border-radius: var(--ds-border-radius-md);
+  padding: var(--ds-size-4) var(--ds-size-5);
+  border-radius: var(--ds-border-radius-lg);
   font-family: monospace;
   font-size: var(--ds-font-size-sm);
   overflow-x: auto;
@@ -224,4 +232,86 @@
   white-space: pre-wrap;
   border: 1px solid var(--ds-color-neutral-border-subtle);
   color: var(--ds-color-neutral-text-default);
+}
+
+/* --- Content typography & interaction (design retning) --- */
+
+/* Page-level heading in maroon; sub-heads stay neutral */
+.docContent h1 {
+  color: var(--ds-color-primary-color-red-text-default);
+}
+
+/* Links: maroon underlined, red on hover */
+.docContent a {
+  color: var(--ds-color-primary-color-red-text-default);
+  text-decoration: underline;
+}
+
+.docContent a:hover {
+  color: var(--ds-color-primary-color-red-text-subtle);
+}
+
+/* Arrow text-buttons: maroon text + arrow icon, pink pill on hover */
+.docContent a.arrowLink,
+.arrowLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-size-2);
+  color: var(--ds-color-primary-color-red-text-default);
+  font-weight: var(--ds-font-weight-medium);
+  text-decoration: none;
+  border-radius: var(--ds-border-radius-full);
+  padding: var(--ds-size-1) var(--ds-size-3);
+  margin-inline-start: calc(-1 * var(--ds-size-3));
+  transition: background-color 0.15s ease;
+}
+
+.docContent a.arrowLink:hover,
+.arrowLink:hover {
+  background-color: var(--ds-color-primary-color-red-surface-hover);
+  color: var(--ds-color-primary-color-red-text-default);
+}
+
+/* Cream panel cards on the overview page (soft xl radius) */
+.introGrid .introCard {
+  background-color: var(--ds-color-neutral-background-tinted);
+  border-color: transparent;
+  border-radius: var(--ds-border-radius-xl);
+}
+
+/* Callout panel: cream surface, xl radius, maroon emphasis */
+.docContent .callout {
+  background-color: var(--ds-color-neutral-background-tinted);
+  border-radius: var(--ds-border-radius-xl);
+  padding: var(--ds-size-4) var(--ds-size-5);
+  color: var(--ds-color-primary-color-red-text-default);
+  font-weight: var(--ds-font-weight-semibold);
+}
+
+/* Article shell (design retning article pattern: kicker, maroon title,
+   maroon ingress, thin red lead rule) */
+.kicker {
+  font-size: var(--ds-font-size-2);
+  font-weight: var(--ds-font-weight-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ds-color-neutral-text-subtle);
+  margin-bottom: var(--ds-size-3);
+}
+
+.articleTitle[class] {
+  color: var(--ds-color-primary-color-red-text-default);
+  margin-bottom: var(--ds-size-4);
+}
+
+.ingress[class] {
+  color: var(--ds-color-primary-color-red-text-default);
+  margin-bottom: var(--ds-size-6);
+}
+
+.leadRule {
+  border: none;
+  border-top: 2px solid var(--ds-color-primary-color-red-base-default);
+  width: var(--ds-size-30);
+  margin: 0 0 var(--ds-size-8);
 }

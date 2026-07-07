@@ -10,9 +10,7 @@ import { Chip } from '../../components/Chip';
 import { DesignAnimation } from '../../animations/DesignAnimation';
 import { CodeAnimation } from '../../animations/CodeAnimation';
 import {
-  WheelchairIcon,
   PaletteIcon,
-  LightningIcon,
   ComponentIcon,
   CodeIcon,
   ArrowRightIcon
@@ -29,177 +27,194 @@ export const HomePage = ({ setPage }: HomePageProps) => {
 
   return (
     <main className={styles.main}>
-      {/* --- HERO SECTION --- */}
+      {/* --- HERO: typography-led cream panel ("Millioner av sivile rammet" / tilbud-hero treatment) --- */}
       <section className={styles.heroSection}>
-        <div className={`container ${styles.splitLayout} ${styles.heroContainer}`}>
-          
-          {/* Content Side */}
-          <div className={styles.splitContent}>
-            <Tag data-color="neutral" data-size="sm" className={styles.versionBadge}>
-              v1.1 · Open Source
-            </Tag>
-            <Heading level={1} data-size="2xl" className={styles.heroTitle}>
-              {t('home.heroTitle')}
+        <div className="container">
+          <div className={styles.heroPanel}>
+            {/* Notch: white step cut out of the panel's top-left corner ("krysset" cutout).
+                Holds the release badge — the system's "stamp" in the brand-mark slot. */}
+            <div className={styles.heroNotch}>
+              <Tag data-color="main" data-size="sm">v1.2</Tag>
+              <span className={styles.notchMeta}>Open Source</span>
+            </div>
+            <span className={styles.heroKicker}>{t('home.hero.kicker')}</span>
+            <Heading level={1} className={styles.heroTitle}>
+              {t('home.hero.title')}
             </Heading>
-
             <Paragraph data-size="lg" className={styles.heroLead}>
-              {t('home.heroLead')}
+              {t('home.hero.lead')}
             </Paragraph>
-            
+
             <div className={styles.heroActions}>
-              <Button onClick={() => setPage('components')} data-size="lg">
-                {t('home.searchComponents')}
+              <Button onClick={() => setPage('code')} data-size="lg">
+                {t('home.hero.primaryCta')}
+                <ArrowRightIcon aria-hidden />
               </Button>
-              <Button 
-                variant="secondary" 
+              <Button
+                variant="secondary"
                 data-size="lg"
-                onClick={() => window.open('https://github.com/norwegianredcross/DesignSystem', '_blank')}
+                onClick={() => setPage('components')}
               >
-                GitHub
+                {t('home.hero.secondaryCta')}
               </Button>
             </div>
-          </div>
-          
-          {/* Visual Wall Side */}
-          <div className={styles.heroVisual}>
-            <div className={styles.floatingGrid}>
-              
-              {/* Column 1 */}
-              <div className={styles.gridColumn} style={{ animationDelay: '0s' }}>
-                 <Card variant="tinted" data-color="neutral" className={styles.visualCard}>
-                   <CardBlock>
-                     <Heading level={3} data-size="xs">{t('home.profile')}</Heading>
-                     <div className={styles.cardRow}>
-                       <Avatar aria-label="Avatar" initials="MH" />
-                       <div>
-                         <div className={styles.cardTextBold}>{t('home.name')}</div>
-                         <div className={styles.cardTextSubtle}>{t('home.volunteer')}</div>
-                       </div>
-                     </div>
-                   </CardBlock>
-                 </Card>
-                 <Card variant="default" className={styles.visualElement}>
-                   <Button variant="primary" style={{ width: '100%' }}>{t('home.save')}</Button>
-                 </Card>
-                 <Card variant="default" className={styles.visualElement}>
-                   <Tag data-color="success" data-size="sm">{t('home.approved')}</Tag>
-                   <Tag data-color="danger" data-size="sm">{t('home.rejected')}</Tag>
-                 </Card>
-              </div>
 
-              {/* Column 2 (Center Offset) */}
-              <div className={`${styles.gridColumn} ${styles.columnOffset}`} style={{ animationDelay: '1.5s' }}>
-                <Card variant="default" className={styles.visualElement}>
-                   <Switch label={t('home.darkModeLabel')} position="start" data-size="sm" />
-                 </Card>
-                 <Card variant="default" className={styles.visualCard} style={{ borderLeft: 'var(--ds-size-1) solid var(--ds-color-primary-color-red-base-default)' }}>
-                   <CardBlock>
-                     <Heading level={3} data-size="xs">{t('home.importantMessage')}</Heading>
-                     <Paragraph data-size="sm" style={{ marginTop: 'var(--ds-size-2)' }}>{t('home.updateGuidelines')}</Paragraph>
-                   </CardBlock>
-                 </Card>
-                 <Card variant="default" className={styles.visualElement}>
-                   <div className={styles.cardRow} style={{gap: 'var(--ds-size-2)'}}>
-                     <Chip.Radio name="filter-demo" value="all" defaultChecked>{t('home.all')}</Chip.Radio>
-                     <Chip.Radio name="filter-demo" value="active">{t('home.active')}</Chip.Radio>
-                   </div>
-                 </Card>
+            {/* Specimen shelf: real components from the library on a white plate.
+                Decorative — inert keeps them out of the tab order. */}
+            <div className={styles.heroSpecimen} aria-hidden="true" inert>
+              <Button data-size="sm">{t('home.hero.specimenButton')}</Button>
+              <Tag data-color="success" data-size="sm">{t('home.approved')}</Tag>
+              <Chip.Radio name="hero-specimen" value="all" defaultChecked>
+                {t('home.all')}
+              </Chip.Radio>
+              <Switch label={t('home.darkModeLabel')} position="start" data-size="sm" />
+              <Avatar aria-label="" initials="RK" data-size="sm" />
+              <Badge data-color="primary" count={5} maxCount={9} />
+              <div className={styles.specimenProgress}>
+                <div className={styles.progressBarBg}>
+                  <div className={styles.progressBarFill}></div>
+                </div>
               </div>
-
-               {/* Column 3 */}
-               <div className={styles.gridColumn} style={{ animationDelay: '0.8s' }}>
-                 <Card variant="default" className={styles.visualElement}>
-                   <Badge data-color="primary" count={5} maxCount={9} />
-                   <Button variant="tertiary">{t('home.alerts')}</Button>
-                 </Card>
-                 <Card variant="tinted" data-color="primary" className={styles.visualCard}>
-                   <CardBlock>
-                     <div className={styles.spaceBetween}>
-                       <Heading level={3} data-size="xs">{t('home.status')}</Heading>
-                       <div className={styles.statusDot}></div>
-                     </div>
-                     <div className={styles.progressBarBg}>
-                       <div className={styles.progressBarFill}></div>
-                     </div>
-                   </CardBlock>
-                 </Card>
-              </div>
-
             </div>
-            <div className={styles.gradientOverlay}></div>
           </div>
         </div>
       </section>
 
-      {/* --- BENTO NAVIGATION --- */}
+      {/* --- STATS ROW ("Skala") --- */}
+      <section className={styles.statsSection}>
+        <div className={`container ${styles.statsGrid}`}>
+          <Card variant="default" className={styles.statCard}>
+            <CardBlock className={styles.statBlock}>
+              <div className={styles.statNumber}>39</div>
+              <Paragraph data-size="sm" className={styles.statLabel}>
+                {t('header.nav.components')}
+              </Paragraph>
+            </CardBlock>
+          </Card>
+          <Card variant="default" className={styles.statCard}>
+            <CardBlock className={styles.statBlock}>
+              <div className={styles.statNumber}>WCAG 2.1</div>
+              <Paragraph data-size="sm" className={styles.statLabel}>
+                {t('home.universalDesign')}
+              </Paragraph>
+            </CardBlock>
+          </Card>
+          <Card variant="default" className={styles.statCard}>
+            <CardBlock className={styles.statBlock}>
+              <div className={styles.statNumber}>v1.2</div>
+              <Paragraph data-size="sm" className={styles.statLabel}>
+                Open Source
+              </Paragraph>
+            </CardBlock>
+          </Card>
+        </div>
+      </section>
+
+      {/* --- PALETTE STRIP ("Utvidet fargepalett") --- */}
+      <section className={styles.paletteSection}>
+        <div className="container">
+          <div className={styles.paletteHeader}>
+            <Heading level={2} className={styles.sectionTitle} data-size="lg">
+              {t('home.palette.title')}
+            </Heading>
+            <Paragraph data-size="lg" className={styles.paletteLead}>
+              {t('home.palette.lead')}
+            </Paragraph>
+          </div>
+          <div className={styles.paletteCircles} aria-hidden="true">
+            <span className={`${styles.paletteCircle} ${styles.swatchRed}`} />
+            <span className={`${styles.paletteCircle} ${styles.swatchMaroon}`} />
+            <span className={`${styles.paletteCircle} ${styles.swatchDustyPink}`} />
+            <span className={`${styles.paletteCircle} ${styles.swatchPalePink}`} />
+            <span className={`${styles.paletteCircle} ${styles.swatchWhite}`} />
+            <span className={`${styles.paletteCircle} ${styles.swatchCream}`} />
+            <span className={`${styles.paletteCircle} ${styles.swatchPaleGreen}`} />
+            <span className={`${styles.paletteCircle} ${styles.swatchGreen}`} />
+            <span className={`${styles.paletteCircle} ${styles.swatchPaleBlue}`} />
+          </div>
+          <button
+            type="button"
+            className={styles.paletteLink}
+            onClick={() => setPage('tokens')}
+          >
+            {t('home.palette.link')}
+            <ArrowRightIcon className={styles.arrowIcon} aria-hidden />
+          </button>
+        </div>
+      </section>
+
+      {/* --- NAVIGATION CARDS --- */}
       <section className={styles.section}>
         <div className="container">
-          <Heading level={2} className={styles.sectionTitle} data-size="xl">{t('home.exploreSystem')}</Heading>
-          
-          <div className={styles.bentoWrapper}>
+          <Heading level={2} className={styles.sectionTitle} data-size="lg">{t('home.exploreSystem')}</Heading>
+
+          <div className={styles.cardGrid}>
             {/* Components Card */}
             <Card
               variant="default"
-              className={styles.bentoItem}
+              className={styles.navCard}
               onClick={() => setPage('components')}
               role="button"
               tabIndex={0}
             >
-              <div className={styles.bentoContent}>
-                <div className={styles.bentoHeader}>
-                  <div className={styles.bentoIconBg}>
-                    <ComponentIcon className={styles.iconLarge} aria-hidden />
-                  </div>
+              <div className={styles.navCardContent}>
+                <div className={`${styles.navCardMedia} ${styles.mediaPink}`}>
+                  <ComponentIcon className={styles.iconLarge} aria-hidden />
+                </div>
+                <div className={styles.navCardText}>
+                  <Heading level={3} data-size="md" className={styles.navCardTitle}>{t('header.nav.components')}</Heading>
+                  <Paragraph className={styles.navCardDesc}>{t('home.componentsDesc')}</Paragraph>
+                </div>
+                <span className={styles.navCardLink}>
+                  {t('home.openComponents')}
                   <ArrowRightIcon className={styles.arrowIcon} aria-hidden />
-                </div>
-                <div className={styles.bentoText}>
-                  <Heading level={3} data-size="md">{t('header.nav.components')}</Heading>
-                  <Paragraph className={styles.bentoDesc}>{t('home.componentsDesc')}</Paragraph>
-                </div>
+                </span>
               </div>
             </Card>
 
             {/* Design Card */}
             <Card
               variant="default"
-              className={styles.bentoItem}
+              className={styles.navCard}
               onClick={() => setPage('design')}
               role="button"
               tabIndex={0}
             >
-              <div className={styles.bentoContent}>
-                <div className={styles.bentoHeader}>
-                  <div className={styles.bentoIconBg}>
-                    <PaletteIcon className={styles.iconLarge} aria-hidden />
-                  </div>
+              <div className={styles.navCardContent}>
+                <div className={`${styles.navCardMedia} ${styles.mediaGreen}`}>
+                  <PaletteIcon className={styles.iconLarge} aria-hidden />
+                </div>
+                <div className={styles.navCardText}>
+                  <Heading level={3} data-size="md" className={styles.navCardTitle}>{t('header.nav.design')}</Heading>
+                  <Paragraph className={styles.navCardDesc}>{t('home.designDesc')}</Paragraph>
+                </div>
+                <span className={styles.navCardLink}>
+                  {t('home.openDesign')}
                   <ArrowRightIcon className={styles.arrowIcon} aria-hidden />
-                </div>
-                <div className={styles.bentoText}>
-                  <Heading level={3} data-size="md">{t('header.nav.design')}</Heading>
-                  <Paragraph className={styles.bentoDesc}>{t('home.designDesc')}</Paragraph>
-                </div>
+                </span>
               </div>
             </Card>
 
             {/* Code Card */}
             <Card
               variant="default"
-              className={styles.bentoItem}
+              className={styles.navCard}
               onClick={() => setPage('code')}
               role="button"
               tabIndex={0}
             >
-              <div className={styles.bentoContent}>
-                <div className={styles.bentoHeader}>
-                  <div className={styles.bentoIconBg}>
-                    <CodeIcon className={styles.iconLarge} aria-hidden />
-                  </div>
+              <div className={styles.navCardContent}>
+                <div className={`${styles.navCardMedia} ${styles.mediaBlue}`}>
+                  <CodeIcon className={styles.iconLarge} aria-hidden />
+                </div>
+                <div className={styles.navCardText}>
+                  <Heading level={3} data-size="md" className={styles.navCardTitle}>{t('header.nav.code')}</Heading>
+                  <Paragraph className={styles.navCardDesc}>{t('home.codeDesc')}</Paragraph>
+                </div>
+                <span className={styles.navCardLink}>
+                  {t('home.openCode')}
                   <ArrowRightIcon className={styles.arrowIcon} aria-hidden />
-                </div>
-                <div className={styles.bentoText}>
-                  <Heading level={3} data-size="md">{t('header.nav.code')}</Heading>
-                  <Paragraph className={styles.bentoDesc}>{t('home.codeDesc')}</Paragraph>
-                </div>
+                </span>
               </div>
             </Card>
 
@@ -211,7 +226,7 @@ export const HomePage = ({ setPage }: HomePageProps) => {
       <section id="showcase" className={styles.showcaseSection}>
         <div className={`container ${styles.showcaseContainer}`}>
           <div className={styles.showcaseIntro}>
-            <Heading level={2} data-size="xl" className={styles.sectionTitle}>
+            <Heading level={2} data-size="lg" className={styles.sectionTitle}>
               {t('home.showcase.title')}
             </Heading>
             <Paragraph data-size="lg" className={styles.showcaseLead}>
@@ -274,66 +289,26 @@ export const HomePage = ({ setPage }: HomePageProps) => {
         </div>
       </section>
 
-      {/* --- VALUES SECTION --- */}
-      <section className={styles.sectionValues} data-color-scheme="dark">
+      {/* --- CONTRIBUTION CTA BANNER (green, replaces the values section) --- */}
+      <section className={styles.ctaSection}>
         <div className="container">
-          <div className={styles.valuesGrid}>
-            <div className={styles.valueItem}>
-              <div className={styles.valueIcon}>
-                <WheelchairIcon className={styles.iconXLarge} aria-hidden />
-              </div>
-              <Heading level={3} data-size="sm" className={styles.valueTitle}>{t('home.universalDesign')}</Heading>
-              <Paragraph data-size="sm" className={styles.valueText}>
-                {t('home.universalDesignText')}
+          <div className={styles.ctaBanner}>
+            <div className={styles.ctaText}>
+              <Heading level={2} data-size="lg" className={styles.ctaTitle}>
+                Vil du bidra til designsystemet?
+              </Heading>
+              <Paragraph className={styles.ctaBody}>
+                Designsystemet er åpen kildekode. Rapporter feil, foreslå forbedringer
+                eller bidra med kode og dokumentasjon på GitHub.
               </Paragraph>
-              <Button
-                variant="tertiary"
-                data-color="primary"
-                data-size="sm"
-                onClick={() => setPage('design')}
-                className={styles.valueButton}
-              >
-                {t('home.readGuidelines')}
-                <ArrowRightIcon aria-hidden />
-              </Button>
             </div>
-
-            <div className={styles.valueItem}>
-              <div className={styles.valueIcon}>
-                <PaletteIcon className={styles.iconXLarge} aria-hidden />
-              </div>
-              <Heading level={3} data-size="sm" className={styles.valueTitle}>{t('home.consistentBrand')}</Heading>
-              <Paragraph data-size="sm" className={styles.valueText}>
-                {t('home.consistentBrandText')}
-              </Paragraph>
+            <div className={styles.ctaAction}>
               <Button
-                variant="tertiary"
-                data-color="primary"
-                data-size="sm"
-                onClick={() => setPage('design')}
-                className={styles.valueButton}
+                variant="secondary"
+                data-size="lg"
+                onClick={() => window.open('https://github.com/norwegianredcross/DesignSystem', '_blank')}
               >
-                {t('home.seeColors')}
-                <ArrowRightIcon aria-hidden />
-              </Button>
-            </div>
-
-            <div className={styles.valueItem}>
-              <div className={styles.valueIcon}>
-                <LightningIcon className={styles.iconXLarge} aria-hidden />
-              </div>
-              <Heading level={3} data-size="sm" className={styles.valueTitle}>{t('home.efficientDev')}</Heading>
-              <Paragraph data-size="sm" className={styles.valueText}>
-                {t('home.efficientDevText')}
-              </Paragraph>
-              <Button
-                variant="tertiary"
-                data-color="primary"
-                data-size="sm"
-                onClick={() => setPage('components')}
-                className={styles.valueButton}
-              >
-                {t('home.exploreComponents')}
+                GitHub
                 <ArrowRightIcon aria-hidden />
               </Button>
             </div>

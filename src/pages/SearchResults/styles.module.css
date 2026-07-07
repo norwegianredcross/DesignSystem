@@ -1,17 +1,47 @@
+/* Search results — "Design retning" restyle.
+   Shares the card/link language of the Components page. Tokens only. */
+
+.pageWrapper {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--ds-color-neutral-background-default);
+  padding-bottom: var(--ds-size-26);
+}
+
 .container {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: var(--ds-size-8) var(--ds-size-4);
+  padding-left: var(--ds-size-6);
+  padding-right: var(--ds-size-6);
 }
 
-.header {
-  margin-bottom: var(--ds-size-8);
+/* Hero: inset rounded cream panel inside the container (design retning pattern) */
+.heroPanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-3);
+  background-color: var(--ds-color-neutral-background-tinted);
+  border-radius: var(--ds-border-radius-xl);
+  padding: var(--ds-size-12) var(--ds-size-10);
+  margin: var(--ds-size-8) 0 var(--ds-size-10);
+}
+
+.title {
+  color: var(--ds-color-primary-color-red-text-default);
+  font-size: var(--ds-font-size-9);
+  font-weight: var(--ds-font-weight-semibold);
+  line-height: var(--ds-line-height-sm);
+  overflow-wrap: anywhere;
 }
 
 .query {
   color: var(--ds-color-neutral-text-subtle);
   font-weight: var(--ds-font-weight-regular);
+}
+
+.resultCount {
+  color: var(--ds-color-neutral-text-subtle);
 }
 
 .resultList {
@@ -23,36 +53,118 @@
   gap: var(--ds-size-4);
 }
 
-/* Anchor-as-Card: layout-only. Card handles background/border/radius/hover. */
+/* Card-as-link: soft cream card, xl radius, pink-tinted border on hover.
+   Doubled class selector so these visuals win over ds-card defaults. */
+.resultCard.resultCard {
+  display: block;
+  background-color: var(--ds-color-neutral-background-tinted);
+  border: var(--ds-border-width-default) solid var(--ds-color-neutral-background-tinted);
+  border-radius: var(--ds-border-radius-xl);
+  overflow: hidden;
+  text-decoration: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.resultCard.resultCard:hover,
+.resultCard.resultCard:focus-visible {
+  border-color: var(--ds-color-primary-color-red-border-subtle);
+  box-shadow: var(--ds-shadow-md);
+}
+
 .resultLink {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: var(--ds-size-2);
 }
 
+/* Small pink accent pill for the category label */
 .resultCategory {
-  font-size: var(--ds-font-size-sm);
-  color: var(--ds-color-neutral-text-subtle);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--ds-color-primary-color-red-surface-tinted);
+  color: var(--ds-color-primary-color-red-text-default);
+  font-size: var(--ds-font-size-1);
   font-weight: var(--ds-font-weight-medium);
+  text-transform: uppercase;
+  padding: var(--ds-size-1) var(--ds-size-3);
+  border-radius: var(--ds-border-radius-full);
 }
 
+.resultTitle {
+  display: flex;
+}
+
+/* Text-button language: maroon title + arrow, pink pill appears on hover/focus */
+.resultAction {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-size-2);
+  color: var(--ds-color-primary-color-red-text-default);
+  padding: var(--ds-size-1) var(--ds-size-4);
+  margin-left: calc(-1 * var(--ds-size-4));
+  border-radius: var(--ds-border-radius-full);
+  transition: background-color 0.2s ease;
+}
+
+.resultArrow {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.resultCard:hover .resultAction,
+.resultCard:focus-visible .resultAction {
+  background-color: var(--ds-color-primary-color-red-surface-hover);
+}
+
+.resultCard:hover .resultArrow {
+  transform: translateX(var(--ds-size-1));
+}
+
+.resultDescription {
+  color: var(--ds-color-neutral-text-subtle);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .resultCard.resultCard,
+  .resultAction,
+  .resultArrow {
+    transition: none;
+  }
+
+  .resultCard:hover .resultArrow {
+    transform: none;
+  }
+}
+
+/* Empty state: soft cream panel */
 .noResults {
   text-align: center;
   padding: var(--ds-size-12);
   color: var(--ds-color-neutral-text-subtle);
+  background-color: var(--ds-color-neutral-background-tinted);
+  border-radius: var(--ds-border-radius-xl);
 }
 
 @media (max-width: 768px) {
   .container {
-    padding: var(--ds-size-6) var(--ds-size-3);
+    padding-left: var(--ds-size-4);
+    padding-right: var(--ds-size-4);
+  }
+
+  .heroPanel {
+    padding: var(--ds-size-8) var(--ds-size-5);
+    margin-top: var(--ds-size-4);
+  }
+
+  .title {
+    font-size: var(--ds-font-size-7);
   }
 }
 
 @media (max-width: 480px) {
   .container {
-    padding: var(--ds-size-4) var(--ds-size-2);
+    padding-left: var(--ds-size-3);
+    padding-right: var(--ds-size-3);
   }
 }
-
