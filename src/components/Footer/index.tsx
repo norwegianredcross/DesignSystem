@@ -3,7 +3,7 @@ import styles from './styles.module.css';
 import { Link } from '../Link';
 import { Button } from '../Button';
 import { Input } from '../Input';
-import { CrossCorner } from '../CrossCorner';
+import { GraphicElement } from '../GraphicElement';
 import { useLanguageOptional } from '../../context/LanguageContext';
 
 export interface FooterLink {
@@ -391,7 +391,7 @@ export const Footer = ({
             {/* Top-right CrossCorner */}
             {showCrossCorners && (
               <div className={styles.crossCornerTopRight}>
-                <CrossCorner position="top-right" size="md" aria-hidden />
+                <GraphicElement shape="angle" position="top-right" size="md" aria-hidden />
               </div>
             )}
 
@@ -440,7 +440,7 @@ export const Footer = ({
             {/* Bottom-left CrossCorner */}
             {showCrossCorners && (
               <div className={styles.crossCornerBottomLeft}>
-                <CrossCorner position="bottom-left" size="md" aria-hidden />
+                <GraphicElement shape="angle" position="bottom-left" size="md" aria-hidden />
               </div>
             )}
           </div>
@@ -485,7 +485,7 @@ export const Footer = ({
           {/* Top-right CrossCorner */}
           {showCrossCorners && (
             <div className={styles.crossCornerTopRight}>
-              <CrossCorner position="top-right" size="md" aria-hidden />
+              <GraphicElement shape="angle" position="top-right" size="md" aria-hidden />
             </div>
           )}
 
@@ -585,7 +585,7 @@ export const Footer = ({
           {/* Bottom-left CrossCorner */}
           {showCrossCorners && (
             <div className={styles.crossCornerBottomLeft}>
-              <CrossCorner position="bottom-left" size="md" aria-hidden />
+              <GraphicElement shape="angle" position="bottom-left" size="md" aria-hidden />
             </div>
           )}
         </div>

@@ -57,8 +57,21 @@ export type { DateInputProps } from './components/DateInput';
 export { Carousel } from './components/Carousel';
 export type { CarouselProps } from './components/Carousel';
 
-// CrossCorner (Custom component)
+// GraphicElement (Custom component) - grafiske elementer avledet av korset
+export { GraphicElement } from './components/GraphicElement';
+export type {
+  GraphicElementProps,
+  GraphicElementShape,
+  GraphicElementIsoShape,
+  GraphicElementVariant,
+  GraphicElementPosition,
+  GraphicElementSize,
+} from './components/GraphicElement';
+
+// CrossCorner
+/** @deprecated Bruk GraphicElement. */
 export { CrossCorner } from './components/CrossCorner';
+/** @deprecated Bruk GraphicElement-typene (GraphicElementProps, GraphicElementPosition, GraphicElementSize). */
 export type { CrossCornerProps, CrossCornerPosition, CrossCornerSize } from './components/CrossCorner';
 
 // Details
