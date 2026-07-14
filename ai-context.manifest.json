@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-02T11:32:00.546Z",
+  "generatedAt": "2026-07-10T14:58:09.292Z",
   "package": {
     "name": "rk-designsystem",
-    "version": "1.2.4"
+    "version": "1.2.5"
   },
   "resources": {
     "storybookUrl": "https://norwegianredcross.github.io/DesignSystem/storybook",
@@ -13,7 +13,7 @@
     "themeUrl": "https://norwegianredcross.github.io/design-tokens/theme.css"
   },
   "summary": {
-    "componentCount": 61,
+    "componentCount": 62,
     "exportedComponents": [
       "Alert",
       "Avatar",
@@ -47,6 +47,7 @@
       "FieldDescription",
       "Fieldset",
       "Footer",
+      "GraphicElement",
       "Header",
       "Heading",
       "Input",

@@ -1,0 +1,38 @@
+.graphicElement {
+  display: inline-block;
+  flex-shrink: 0;
+  --graphic-element-color: var(--ds-color-base-default, #DA4236);
+  --graphic-element-face-front: var(--ds-color-border-subtle, #EEABA6);
+  --graphic-element-face-top: var(--ds-color-surface-active, #E5776F);
+}
+
+/* data-color scoping: the theme's [data-color] scopes swap the generic
+   --ds-color-* variables, so no per-ramp rules are needed here. */
+
+.shape {
+  fill: var(--graphic-element-color);
+}
+
+/* Outline variant: thin stroke, no fill */
+.graphicElement[data-variant="outline"] {
+  overflow: visible;
+}
+
+.graphicElement[data-variant="outline"] .shape {
+  fill: none;
+  stroke: var(--graphic-element-color);
+  stroke-width: 2px;
+}
+
+/* Isometric variant: three token-driven cube faces */
+.faceFront {
+  fill: var(--graphic-element-face-front);
+}
+
+.faceTop {
+  fill: var(--graphic-element-face-top);
+}
+
+.faceRight {
+  fill: var(--graphic-element-color);
+}
