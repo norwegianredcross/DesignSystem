@@ -790,13 +790,17 @@ import { BreadcrumbsList } from 'rk-designsystem';
 import { CrossCorner } from 'rk-designsystem';
 
 <CrossCorner
-  aria-hidden?={true}
+  aria-hidden?={true (decorative by default)}
   aria-label?={string}
   className?={string}
   data-color?="accent" | "neutral" | "danger" | etc.
   data-size?="sm" | "md" | "lg"
-  position?={top-left}
-  size?={md}
+  mirrored?={false}
+  position?={"top-left"}
+  shape?={"corner"
+"corner"}
+  size?={"md"}
+  variant?={"solid"}
  />
 ```
 
@@ -941,6 +945,24 @@ import { DropdownTriggerContext } from 'rk-designsystem';
 import { FieldDescription } from 'rk-designsystem';
 
 <FieldDescription />
+```
+
+#### GraphicElement
+```tsx
+import { GraphicElement } from 'rk-designsystem';
+
+<GraphicElement
+  aria-hidden?={true}
+  aria-label?={string}
+  className?={string}
+  data-color?="accent" | "neutral" | "danger" | etc.
+  data-size?="sm" | "md" | "lg"
+  mirrored?={false}
+  position?={top-left}
+  shape?={corner}
+  size?={md}
+  variant?={solid}
+ />
 ```
 
 #### Heading
