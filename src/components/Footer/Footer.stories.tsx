@@ -1,5 +1,5 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
-import { expect, within, userEvent } from 'storybook/test';
+import { expect, within, userEvent, fn } from 'storybook/test';
 import { Footer, FooterProps } from './index';
 
 const meta: Meta<typeof Footer> = {
@@ -367,8 +367,9 @@ export const TestInteraction: Story = {
   args: {
     'data-color': 'neutral',
     showCrossCorners: false,
+    onNewsletterSubmit: fn(),
   },
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
 
     // Newsletter input should accept text
@@ -381,6 +382,9 @@ export const TestInteraction: Story = {
     // Submit button should be present
     const submitButton = canvas.getByRole('button', { name: /meld deg på/i });
     expect(submitButton).toBeInTheDocument();
+    await userEvent.click(submitButton);
+    expect(args.onNewsletterSubmit).toHaveBeenCalledTimes(1);
+    expect(args.onNewsletterSubmit).toHaveBeenCalledWith('test@example.com');
 
     // Navigation links should be present with correct hrefs
     const snarveierNav = canvas.getByRole('navigation', { name: /snarveier/i });
@@ -388,5 +392,51 @@ export const TestInteraction: Story = {
 
     const lenkerNav = canvas.getByRole('navigation', { name: /lenker/i });
     expect(lenkerNav).toBeInTheDocument();
+  },
+};
+
+export const TestNewsletterValidation: Story = {
+  name: 'Test: Newsletter Validation',
+  args: {
+    'data-color': 'neutral',
+    showCrossCorners: false,
+    onNewsletterSubmit: fn(),
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const emailInput = canvas.getByPlaceholderText(/input tekst/i) as HTMLInputElement;
+    const submit = canvas.getByRole('button', { name: /meld deg på/i });
+
+    await userEvent.type(emailInput, 'ugyldig-adresse');
+    await userEvent.click(submit);
+    expect(emailInput.validity.typeMismatch).toBe(true);
+    expect(args.onNewsletterSubmit).not.toHaveBeenCalled();
+
+    await userEvent.clear(emailInput);
+    await userEvent.type(emailInput, 'frivillig@example.no');
+    await userEvent.click(submit);
+    expect(emailInput).toBeValid();
+    expect(args.onNewsletterSubmit).toHaveBeenCalledTimes(1);
+    expect(args.onNewsletterSubmit).toHaveBeenCalledWith('frivillig@example.no');
+  },
+};
+
+export const TestColumnsSemanticContract: Story = {
+  name: 'Test: Columns Semantic Contract',
+  args: {
+    ...columnsArgs,
+    primaryLogoAlt: 'Røde Kors hovedlogo',
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    expect(canvas.getByRole('contentinfo')).toBeInTheDocument();
+    expect(canvas.getByRole('navigation', { name: 'Snarveier' })).toBeInTheDocument();
+    expect(canvas.getByRole('navigation', { name: 'Ressurser' })).toBeInTheDocument();
+    expect(canvas.getByRole('navigation', { name: 'Kontakt' })).toBeInTheDocument();
+    expect(canvas.getByText('864 139 442')).toBeVisible();
+    expect(canvas.getByText('post@redcross.no')).toBeVisible();
+    expect(
+      canvas.getByText(new RegExp(`©\\s*${new Date().getFullYear()}\\s*Rødekors`, 'i')),
+    ).toBeVisible();
   },
 };

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
-import { expect, within, userEvent, waitFor } from 'storybook/test';
+import { expect, within, userEvent, waitFor, fn } from 'storybook/test';
 import { useState } from 'react';
 import { Popover, PopoverProps } from './index';
 import { Button, Paragraph } from '@digdir/designsystemet-react';
@@ -221,6 +221,76 @@ export const TestInteraction: Story = {
 
     await waitFor(() => {
       expect(body.queryByText('Popover test content')).not.toBeVisible();
+    });
+  },
+};
+
+export const TestEscapeDismissAndCallbacks: Story = {
+  name: 'Test: Escape Dismiss And Callbacks',
+  render: (args) => (
+    <Popover.TriggerContext>
+      <Popover.Trigger>Vis hurtigtaster</Popover.Trigger>
+      <Popover {...args} placement="bottom">
+        <Button type="button">Utfør handling</Button>
+      </Popover>
+    </Popover.TriggerContext>
+  ),
+  args: {
+    onOpen: fn(),
+    onClose: fn(),
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: 'Vis hurtigtaster' });
+
+    trigger.focus();
+    await userEvent.keyboard('{Enter}');
+
+    const action = within(document.body).getByRole('button', {
+      name: 'Utfør handling',
+    });
+    await waitFor(() => {
+      expect(action).toBeVisible();
+      expect(args.onOpen).toHaveBeenCalledTimes(1);
+    });
+
+    await userEvent.keyboard('{Escape}');
+
+    await waitFor(() => {
+      expect(action).not.toBeVisible();
+      expect(args.onClose).toHaveBeenCalledTimes(1);
+      expect(trigger).toHaveFocus();
+    });
+  },
+};
+
+export const TestOutsideClickDismiss: Story = {
+  name: 'Test: Outside Click Dismiss',
+  render: (args) => (
+    <>
+      <Popover.TriggerContext>
+        <Popover.Trigger>Åpne valg</Popover.Trigger>
+        <Popover {...args}>Valginnhold</Popover>
+      </Popover.TriggerContext>
+      <Button type="button">Utenfor</Button>
+    </>
+  ),
+  args: {
+    onOpen: fn(),
+    onClose: fn(),
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole('button', { name: 'Åpne valg' }));
+
+    const content = within(document.body).getByText('Valginnhold');
+    await waitFor(() => expect(content).toBeVisible());
+
+    await userEvent.click(canvas.getByRole('button', { name: 'Utenfor' }));
+    await waitFor(() => {
+      expect(content).not.toBeVisible();
+      expect(args.onOpen).toHaveBeenCalledTimes(1);
+      expect(args.onClose).toHaveBeenCalledTimes(1);
     });
   },
 };

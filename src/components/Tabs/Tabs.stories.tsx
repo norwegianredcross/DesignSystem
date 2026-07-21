@@ -1,5 +1,5 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
-import { expect, within, userEvent, waitFor } from 'storybook/test';
+import { expect, within, userEvent, waitFor, fn, fireEvent } from 'storybook/test';
 import { useState } from 'react';
 import { Tabs, TabsProps } from './index';
 // Import components for context/examples
@@ -235,5 +235,105 @@ export const TestInteraction: Story = {
 
     // Second panel content should be visible
     expect(canvas.getByText('Content for Tab 2')).toBeVisible();
+  },
+};
+
+export const TestAriaWiringAndKeyboardNavigation: Story = {
+  name: 'Test: Aria Wiring And Keyboard Navigation',
+  render: (args) => (
+    <Tabs {...args} defaultValue="overview">
+      <Tabs.List aria-label="Saksinformasjon">
+        <Tabs.Tab value="overview">Oversikt</Tabs.Tab>
+        <Tabs.Tab value="activity">Aktivitet</Tabs.Tab>
+        <Tabs.Tab value="documents">Dokumenter</Tabs.Tab>
+      </Tabs.List>
+      <Tabs.Panel value="overview">Innhold: oversikt</Tabs.Panel>
+      <Tabs.Panel value="activity">Innhold: aktivitet</Tabs.Panel>
+      <Tabs.Panel value="documents">Innhold: dokumenter</Tabs.Panel>
+    </Tabs>
+  ),
+  args: {
+    onChange: fn(),
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    expect(canvas.getByRole('tablist', { name: 'Saksinformasjon' })).toBeInTheDocument();
+
+    const overview = canvas.getByRole('tab', { name: 'Oversikt' });
+    const activity = canvas.getByRole('tab', { name: 'Aktivitet' });
+    const documents = canvas.getByRole('tab', { name: 'Dokumenter' });
+    const overviewPanel = canvas.getByRole('tabpanel', { name: 'Oversikt' });
+
+    expect(overview).toHaveAttribute('aria-controls', overviewPanel.id);
+    expect(overviewPanel).toHaveAttribute('aria-labelledby', overview.id);
+    expect(overview).toHaveAttribute('aria-selected', 'true');
+
+    overview.focus();
+    await fireEvent.keyDown(overview, { key: 'ArrowRight' });
+    await waitFor(() => {
+      expect(activity).toHaveFocus();
+    });
+    expect(overview).toHaveAttribute('aria-selected', 'true');
+    expect(args.onChange).not.toHaveBeenCalled();
+
+    await fireEvent.keyDown(activity, { key: 'Enter' });
+    await waitFor(() => expect(activity).toHaveAttribute('aria-selected', 'true'));
+    expect(args.onChange).toHaveBeenLastCalledWith('activity');
+    expect(canvas.getByRole('tabpanel', { name: 'Aktivitet' })).toBeVisible();
+
+    await fireEvent.keyDown(activity, { key: 'End' });
+    await waitFor(() => expect(documents).toHaveFocus());
+    expect(activity).toHaveAttribute('aria-selected', 'true');
+
+    await fireEvent.keyDown(documents, { key: ' ' });
+    await waitFor(() => expect(documents).toHaveAttribute('aria-selected', 'true'));
+    expect(args.onChange).toHaveBeenLastCalledWith('documents');
+
+    await fireEvent.keyDown(documents, { key: 'ArrowRight' });
+    await waitFor(() => expect(overview).toHaveFocus());
+    expect(documents).toHaveAttribute('aria-selected', 'true');
+
+    await fireEvent.keyDown(overview, { key: 'Enter' });
+    await waitFor(() => expect(overview).toHaveAttribute('aria-selected', 'true'));
+    expect(args.onChange).toHaveBeenCalledTimes(3);
+  },
+};
+
+export const TestControlledSelection: Story = {
+  name: 'Test: Controlled Selection',
+  render: (args) => {
+    const [value, setValue] = useState('one');
+    return (
+      <Tabs
+        {...args}
+        value={value}
+        onChange={(nextValue) => {
+          args.onChange?.(nextValue);
+          setValue(nextValue);
+        }}
+      >
+        <Tabs.List>
+          <Tabs.Tab value="one">Ett</Tabs.Tab>
+          <Tabs.Tab value="two">To</Tabs.Tab>
+        </Tabs.List>
+        <Tabs.Panel value="one">Første panel</Tabs.Panel>
+        <Tabs.Panel value="two">Andre panel</Tabs.Panel>
+      </Tabs>
+    );
+  },
+  args: {
+    onChange: fn(),
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const second = canvas.getByRole('tab', { name: 'To' });
+    await userEvent.click(second);
+
+    await waitFor(() => {
+      expect(second).toHaveAttribute('aria-selected', 'true');
+      expect(canvas.getByText('Andre panel')).toBeVisible();
+    });
+    expect(args.onChange).toHaveBeenCalledTimes(1);
+    expect(args.onChange).toHaveBeenCalledWith('two');
   },
 };

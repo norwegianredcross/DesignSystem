@@ -1,5 +1,5 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
-import { expect, within } from 'storybook/test';
+import { expect, within, userEvent } from 'storybook/test';
 import { Tooltip, TooltipProps } from './index';
 import { Button } from '@digdir/designsystemet-react';
 
@@ -125,5 +125,31 @@ export const TestInteraction: Story = {
 
     // Tooltip content is rendered via CSS (data-tooltip attribute + pseudo-elements)
     expect(trigger).toHaveAttribute('data-tooltip', 'Tooltip message');
+  },
+};
+
+export const TestKeyboardFocusContract: Story = {
+  name: 'Test: Keyboard Focus Contract',
+  render: () => (
+    <>
+      <Button>Før</Button>
+      <Tooltip content="Forklaring av lagring" placement="bottom" autoPlacement={false}>
+        <Button>Lagre</Button>
+      </Tooltip>
+    </>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: 'Forklaring av lagring' });
+
+    await userEvent.tab();
+    expect(canvas.getByRole('button', { name: 'Før' })).toHaveFocus();
+    await userEvent.tab();
+
+    expect(trigger).toHaveFocus();
+    expect(trigger).toHaveAttribute('aria-label', 'Forklaring av lagring');
+    expect(trigger).toHaveAttribute('data-tooltip', 'Forklaring av lagring');
+    expect(trigger).toHaveAttribute('data-placement', 'bottom');
+    expect(trigger).toHaveAttribute('data-autoplacement', 'false');
   },
 };

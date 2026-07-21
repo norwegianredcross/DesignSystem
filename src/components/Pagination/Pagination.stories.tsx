@@ -317,3 +317,102 @@ export const TestInteraction: Story = {
     });
   },
 };
+
+export const TestBoundaryNavigation: Story = {
+  name: 'Test: Boundary Navigation',
+  render: () => {
+    const [currentPage, setCurrentPage] = useState(1);
+    const { pages, prevButtonProps, nextButtonProps } = usePagination({
+      currentPage,
+      totalPages: 5,
+      onChange: (_event, page) => setCurrentPage(page),
+    });
+
+    return (
+      <Pagination aria-label="Resultatsider">
+        <Pagination.List>
+          <Pagination.Item>
+            <Pagination.Button {...prevButtonProps} aria-label="Forrige side">
+              Forrige
+            </Pagination.Button>
+          </Pagination.Item>
+          {pages.map(({ page, itemKey, buttonProps }) => (
+            <Pagination.Item key={itemKey}>
+              {typeof page === 'number' ? (
+                <Pagination.Button {...buttonProps} aria-label={`Side ${page}`}>
+                  {page}
+                </Pagination.Button>
+              ) : (
+                <span aria-hidden>…</span>
+              )}
+            </Pagination.Item>
+          ))}
+          <Pagination.Item>
+            <Pagination.Button {...nextButtonProps} aria-label="Neste side">
+              Neste
+            </Pagination.Button>
+          </Pagination.Item>
+        </Pagination.List>
+      </Pagination>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    expect(canvas.getByRole('navigation', { name: 'Resultatsider' })).toBeInTheDocument();
+
+    const previous = canvasElement.querySelector(
+      'button[aria-label="Forrige side"]',
+    ) as HTMLButtonElement;
+    const next = canvas.getByRole('button', { name: 'Neste side' });
+    expect(previous).toHaveAttribute('aria-hidden', 'true');
+
+    await userEvent.click(canvas.getByRole('button', { name: 'Side 5' }));
+    await waitFor(() => {
+      expect(canvas.getByRole('button', { name: 'Side 5' })).toHaveAttribute(
+        'aria-current',
+        'true',
+      );
+      expect(next).toHaveAttribute('aria-hidden', 'true');
+    });
+
+    const visiblePrevious = canvas.getByRole('button', { name: 'Forrige side' });
+    await userEvent.click(visiblePrevious);
+    await waitFor(() =>
+      expect(canvas.getByRole('button', { name: 'Side 4' })).toHaveAttribute(
+        'aria-current',
+        'true',
+      ),
+    );
+    expect(next).toHaveAttribute('aria-hidden', 'false');
+  },
+};
+
+export const TestLinkRenderingContract: Story = {
+  name: 'Test: Link Rendering Contract',
+  render: () => (
+    <Pagination aria-label="Lenkebaserte sider">
+      <Pagination.List>
+        <Pagination.Item>
+          <Pagination.Button asChild aria-current="page">
+            <Link href="#side-2">Side 2</Link>
+          </Pagination.Button>
+        </Pagination.Item>
+        <Pagination.Item>
+          <Pagination.Button asChild>
+            <Link href="#side-3">Side 3</Link>
+          </Pagination.Button>
+        </Pagination.Item>
+      </Pagination.List>
+    </Pagination>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const current = canvas.getByRole('link', { name: 'Side 2' });
+    const next = canvas.getByRole('link', { name: 'Side 3' });
+
+    expect(current).toHaveAttribute('href', '#side-2');
+    expect(current).toHaveAttribute('aria-current', 'page');
+    expect(next).toHaveAttribute('href', '#side-3');
+    expect(next).not.toHaveAttribute('aria-current');
+  },
+};

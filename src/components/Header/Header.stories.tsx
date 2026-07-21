@@ -361,5 +361,80 @@ export const TestUserClick: Story = {
     await waitFor(() => {
       expect(args.onUserClick).toHaveBeenCalledTimes(1);
     });
+
+    userBlock.focus();
+    await userEvent.keyboard('{Enter}');
+    await userEvent.keyboard(' ');
+    expect(args.onUserClick).toHaveBeenCalledTimes(3);
+  },
+};
+
+export const TestMenuSearchAndResultFlow: Story = {
+  name: 'Test: Menu, Search And Result Flow',
+  args: {
+    showUser: false,
+    showLogin: false,
+    showSearch: true,
+    showMenuButton: true,
+    setPage: fn(),
+    children: (
+      <nav aria-label="Utvidet meny">
+        <a href="#aktiviteter">Aktiviteter</a>
+      </nav>
+    ),
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const menuButton = canvas.getByRole('button', { name: /meny/i });
+    const searchButton = canvas.getByRole('button', { name: /søk/i });
+
+    await userEvent.click(menuButton);
+    await waitFor(() => {
+      expect(menuButton).toHaveAttribute('aria-expanded', 'true');
+      expect(canvas.getByRole('navigation', { name: 'Utvidet meny' })).toBeVisible();
+    });
+
+    await userEvent.click(searchButton);
+    await waitFor(() => {
+      expect(menuButton).toHaveAttribute('aria-expanded', 'false');
+      expect(searchButton).toHaveAttribute('aria-expanded', 'true');
+      expect(canvas.queryByRole('navigation', { name: 'Utvidet meny' })).not.toBeInTheDocument();
+    });
+
+    const input = canvas.getByRole('searchbox', { name: /søk/i });
+    await userEvent.type(input, 'Dialog');
+    const result = await canvas.findByRole('button', { name: 'Dialog' });
+    await userEvent.click(result);
+
+    expect(args.setPage).toHaveBeenCalledTimes(1);
+    expect(args.setPage).toHaveBeenCalledWith('components');
+    await waitFor(() => {
+      expect(searchButton).toHaveAttribute('aria-expanded', 'false');
+      expect(canvas.queryByRole('searchbox', { name: /søk/i })).not.toBeInTheDocument();
+    });
+  },
+};
+
+export const TestNavigationCallbacks: Story = {
+  name: 'Test: Navigation Callbacks',
+  args: {
+    showUser: false,
+    showSearch: false,
+    showMenuButton: false,
+    showNavItems: true,
+    navItems: [
+      { label: 'Komponenter', href: 'components' },
+      { label: 'Design', href: 'design' },
+    ],
+    setPage: fn(),
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole('link', { name: 'Komponenter' }));
+    expect(args.setPage).toHaveBeenLastCalledWith('components');
+
+    await userEvent.click(canvas.getByRole('link', { name: /hjem/i }));
+    expect(args.setPage).toHaveBeenLastCalledWith('home');
+    expect(args.setPage).toHaveBeenCalledTimes(2);
   },
 };
