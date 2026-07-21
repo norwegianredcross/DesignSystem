@@ -1,6 +1,7 @@
 // src/components/Table/Table.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import { useState, useMemo } from 'react'; // Import useState and useMemo for sorting example
+import { expect, within, userEvent } from 'storybook/test';
 import { Table, TableProps } from './index'; // Import the main Table component
 // Import components for context/examples
 import { Checkbox, Textfield } from '@digdir/designsystemet-react';
@@ -385,5 +386,218 @@ export const Numbers: Story = {
   ),
   args: {
     'data-size': 'md',
+  },
+};
+
+// --- INTERACTION TESTS ---
+
+const testActivityData = [
+  { id: 1, aktivitet: 'Leksehjelp', by: 'Oslo', frivillige: 12 },
+  { id: 2, aktivitet: 'Besøkstjeneste', by: 'Tromsø', frivillige: 24 },
+  { id: 3, aktivitet: 'Hjelpekorps', by: 'Bergen', frivillige: 31 },
+];
+
+/**
+ * Tests sortable headers: clicking a sortable column header toggles aria-sort
+ * between ascending and descending and actually reorders the rows. Switching
+ * to another sortable column resets the first one, the non-sortable column is
+ * unaffected, and sorting is keyboard-operable via the header button.
+ */
+export const TestSortableColumns: Story = {
+  name: 'Test: Sortable Columns',
+  render: (args) => {
+    type SortKey = 'aktivitet' | 'frivillige';
+    type SortDirection = 'ascending' | 'descending';
+    const [sortConfig, setSortConfig] = useState<{
+      key: SortKey;
+      direction: SortDirection;
+    } | null>(null);
+
+    const handleSort = (key: SortKey) =>
+      setSortConfig((prev) =>
+        prev && prev.key === key
+          ? {
+              key,
+              direction:
+                prev.direction === 'ascending' ? 'descending' : 'ascending',
+            }
+          : { key, direction: 'ascending' },
+      );
+
+    const sortedData = [...testActivityData];
+    if (sortConfig) {
+      sortedData.sort((a, b) => {
+        const valA = a[sortConfig.key];
+        const valB = b[sortConfig.key];
+        const compared =
+          typeof valA === 'number' && typeof valB === 'number'
+            ? valA - valB
+            : String(valA).localeCompare(String(valB), 'no');
+        return sortConfig.direction === 'ascending' ? compared : -compared;
+      });
+    }
+
+    return (
+      <Table {...args}>
+        <caption>Aktiviteter i Røde Kors</caption>
+        <Table.Head>
+          <Table.Row>
+            <Table.HeaderCell
+              scope="col"
+              sort={
+                sortConfig?.key === 'aktivitet' ? sortConfig.direction : 'none'
+              }
+              onClick={() => handleSort('aktivitet')}
+            >
+              Aktivitet
+            </Table.HeaderCell>
+            <Table.HeaderCell scope="col">By</Table.HeaderCell>
+            <Table.HeaderCell
+              scope="col"
+              sort={
+                sortConfig?.key === 'frivillige' ? sortConfig.direction : 'none'
+              }
+              onClick={() => handleSort('frivillige')}
+            >
+              Frivillige
+            </Table.HeaderCell>
+          </Table.Row>
+        </Table.Head>
+        <Table.Body>
+          {sortedData.map((row) => (
+            <Table.Row key={row.id}>
+              <Table.Cell>{row.aktivitet}</Table.Cell>
+              <Table.Cell>{row.by}</Table.Cell>
+              <Table.Cell>{row.frivillige}</Table.Cell>
+            </Table.Row>
+          ))}
+        </Table.Body>
+      </Table>
+    );
+  },
+  args: {
+    'data-size': 'md',
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const table = canvas.getByRole('table', { name: 'Aktiviteter i Røde Kors' });
+
+    const activityHeader = within(table).getByRole('columnheader', {
+      name: 'Aktivitet',
+    });
+    const cityHeader = within(table).getByRole('columnheader', { name: 'By' });
+    const volunteersHeader = within(table).getByRole('columnheader', {
+      name: 'Frivillige',
+    });
+
+    const getBodyRows = () => {
+      const [, tbody] = within(table).getAllByRole('rowgroup');
+      return within(tbody).getAllByRole('row');
+    };
+    const firstRowText = (cellIndex: number) =>
+      within(getBodyRows()[0]).getAllByRole('cell')[cellIndex].textContent;
+
+    // Initial state: sortable columns expose aria-sort="none", the
+    // non-sortable column has no aria-sort and no sort button
+    expect(activityHeader).toHaveAttribute('aria-sort', 'none');
+    expect(volunteersHeader).toHaveAttribute('aria-sort', 'none');
+    expect(cityHeader).not.toHaveAttribute('aria-sort');
+    expect(within(cityHeader).queryByRole('button')).not.toBeInTheDocument();
+
+    // Unsorted: rows in data order
+    expect(firstRowText(0)).toBe('Leksehjelp');
+
+    // Click "Aktivitet" -> ascending, rows reorder alphabetically
+    await userEvent.click(within(activityHeader).getByRole('button'));
+    expect(activityHeader).toHaveAttribute('aria-sort', 'ascending');
+    expect(firstRowText(0)).toBe('Besøkstjeneste');
+
+    // Click again -> descending, first row changes
+    await userEvent.click(within(activityHeader).getByRole('button'));
+    expect(activityHeader).toHaveAttribute('aria-sort', 'descending');
+    expect(firstRowText(0)).toBe('Leksehjelp');
+
+    // The non-sortable column is unaffected by sorting
+    expect(cityHeader).not.toHaveAttribute('aria-sort');
+
+    // Click "Frivillige" -> numeric ascending sort, "Aktivitet" resets
+    await userEvent.click(within(volunteersHeader).getByRole('button'));
+    expect(volunteersHeader).toHaveAttribute('aria-sort', 'ascending');
+    expect(activityHeader).toHaveAttribute('aria-sort', 'none');
+    expect(firstRowText(2)).toBe('12');
+
+    // Keyboard: Enter on the focused header button toggles to descending
+    within(volunteersHeader).getByRole('button').focus();
+    await userEvent.keyboard('{Enter}');
+    expect(volunteersHeader).toHaveAttribute('aria-sort', 'descending');
+    expect(firstRowText(2)).toBe('31');
+    expect(firstRowText(0)).toBe('Hjelpekorps');
+  },
+};
+
+/**
+ * Tests structural table semantics: the caption names the table, header cells
+ * are exposed as columnheaders with scope="col", head/body/foot are rowgroups,
+ * and rows/cells are exposed with the expected roles and content.
+ */
+export const TestTableSemantics: Story = {
+  name: 'Test: Table Semantics',
+  render: (args) => (
+    <Table {...args}>
+      <caption>Medlemsoversikt</caption>
+      <Table.Head>
+        <Table.Row>
+          <Table.HeaderCell scope="col">Navn</Table.HeaderCell>
+          <Table.HeaderCell scope="col">Lokalforening</Table.HeaderCell>
+        </Table.Row>
+      </Table.Head>
+      <Table.Body>
+        <Table.Row>
+          <Table.Cell>Kari Nordmann</Table.Cell>
+          <Table.Cell>Oslo Røde Kors</Table.Cell>
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>Ola Nordmann</Table.Cell>
+          <Table.Cell>Bergen Røde Kors</Table.Cell>
+        </Table.Row>
+      </Table.Body>
+      <Table.Foot>
+        <Table.Row>
+          <Table.Cell>Totalt</Table.Cell>
+          <Table.Cell>2 medlemmer</Table.Cell>
+        </Table.Row>
+      </Table.Foot>
+    </Table>
+  ),
+  args: {
+    'data-size': 'md',
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Caption gives the table its accessible name
+    const table = canvas.getByRole('table', { name: 'Medlemsoversikt' });
+
+    // thead, tbody and tfoot are all exposed as rowgroups
+    const rowGroups = within(table).getAllByRole('rowgroup');
+    expect(rowGroups).toHaveLength(3);
+
+    // Column headers with scope="col"
+    const headers = within(table).getAllByRole('columnheader');
+    expect(headers).toHaveLength(2);
+    for (const header of headers) {
+      expect(header).toHaveAttribute('scope', 'col');
+    }
+
+    // 1 header row + 2 body rows + 1 footer row
+    expect(within(table).getAllByRole('row')).toHaveLength(4);
+
+    // Body cells are exposed as cells with their content
+    expect(
+      within(table).getByRole('cell', { name: 'Kari Nordmann' }),
+    ).toBeInTheDocument();
+    expect(
+      within(table).getByRole('cell', { name: 'Bergen Røde Kors' }),
+    ).toBeInTheDocument();
   },
 };
