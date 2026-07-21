@@ -30,7 +30,7 @@ Kvalitet er et felles ansvar; testing er ikke en fase til slutt, men en del av h
 
 | Nivå | Slik gjør vi det | Verktøy |
 |---|---|---|
-| **Enhetstest** | Hver komponent har stories som kjøres som tester i ekte nettleser; interaksjonstester (`play`) verifiserer forventet resultat | Vitest + Storybook addon, headless Chromium (Playwright) |
+| **Enhetstest** | Hver offentlig komponent har minst én assertion-bærende kontraktstory; komponenter med brukeradferd har i tillegg risikobaserte interaksjonstester | Vitest + Storybook addon, headless Chromium (Playwright) |
 | **Integrasjonstest** | Sammensatte komponenter (Header, Footer, Donor, skjema-komposisjoner) testes gjennom sine stories; dokumentasjonsplattformen bygger mot biblioteket | Samme suite + `vite build` |
 | **Systemtest** | Full bygg av npm-pakke, Storybook og docs-app i CI ved hver endring | GitHub Actions |
 | **Akseptansetest (UAT)** | PR-review: reviewer verifiserer endringen i Storybook/localhost før merge. Merge til `main` = godkjenning. Nye komponenter demonstreres for konsumerende team ved behov | GitHub PR + Storybook |
@@ -38,7 +38,8 @@ Kvalitet er et felles ansvar; testing er ikke en fase til slutt, men en del av h
 
 ## 5. Testtyper (jf. praksisguiden kap. 4.2)
 
-- **Funksjonell testing:** `play`-assertions i stories (klikk, tastatur, tilstander, forventet resultat).
+- **Nivå 1 — kontrakt (alle offentlige komponenter):** Minst én `play`-story verifiserer observerbar kontrakt i nettleseren: semantisk HTML/ARIA, innhold og relevante props/data-attributter. Statiske komponenter er ferdig dekket når denne kontrakten og automatisk a11y er verifisert; det er ikke et unntak fra assertions.
+- **Nivå 2 — adferd (komponenter med brukerinteraksjon):** `play`-stories verifiserer representative muse- og tastaturflyter, tilstandsendringer, fokus, callbacks og negative/boundary-tilfeller etter risiko. Det kreves ikke én test per prop eller kombinasjon; testene skal dekke meningsfulle brukerutfall.
 - **Tilgjengelighet (ikke-funksjonell):** `@storybook/addon-a11y` med `test: 'error'` — WCAG-brudd **feiler** testkjøringen. Dette er vårt viktigste ikke-funksjonelle krav (universell utforming).
 - **Visuell testing:** Manuell verifisering i Storybook (lys/mørk modus, tre brand-varianter) som del av PR-review. Skjermbilder i PR-beskrivelsen ved visuelle endringer.
 - **Negativ testing:** Stories skal dekke feiltilstander (disabled, error, tomme verdier) der komponenten har dem.
@@ -68,7 +69,7 @@ Testinnsatsen prioriteres der feil gjør mest skade. Vurdering per område:
 | Header/Footer (alle flater) | Høy (synlig overalt) | Middels | **Høy** | Interaksjonstester, responsiv + mørk modus-verifisering |
 | Donor (donasjonsflyt) | Høy (økonomi/omdømme) | Middels | **Høy** | Interaksjonstester på beløpsvalg og callbacks |
 | Tokens-integrasjon (`rk-design-tokens`) | Høy (endrer alt visuelt) | Middels (auto-oppdateres i CI) | **Høy** | Full regresjon kjøres ved hver token-bump; visuell sjekk ved major-endringer |
-| Visningskomponenter (Tag, Badge, Avatar, …) | Lav–middels | Lav | Lav | Render- og a11y-tester |
+| Visningskomponenter (Tag, Badge, Avatar, …) | Lav–middels | Lav | Lav | Assertion-bærende kontraktstory + a11y |
 | Dokumentasjonsplattformen (`src/pages`) | Lav (publiseres ikke til npm) | Middels | Middels | Typecheck/lint + manuell verifisering |
 
 **Akseptert risiko** (bevisste valg, jf. kap. 12.3.2 E):
@@ -76,13 +77,16 @@ Testinnsatsen prioriteres der feil gjør mest skade. Vurdering per område:
 - Ingen ytelsestesting av komponenter — lav last, statiske komponenter.
 - Dokumentasjonsplattformen har ikke egne automatiserte tester — lav konsekvens, dekkes av typecheck og manuell review.
 
+Statiske komponenter er ikke akseptert risiko: de skal oppfylle nivå 1. Nivå 2 er bare relevant når komponenten har observerbar brukeradferd.
+
 Når testing begrenses utover dette skal det dokumenteres i PR-beskrivelsen med begrunnelse.
 
 ## 9. Kriterier
 
 **«Klar til test» (før PR åpnes):**
 - [ ] Typecheck og lint er grønne lokalt
-- [ ] Endret/ny funksjonalitet har stories (enhetstest)
+- [ ] Ny/offentlig komponent har en assertion-bærende kontraktstory (nivå 1)
+- [ ] Endret/ny brukeradferd har risikobaserte interaksjonstester (nivå 2)
 - [ ] Full testsuite er kjørt lokalt (regresjon)
 
 **«Klar til produksjon» (før merge/release):**

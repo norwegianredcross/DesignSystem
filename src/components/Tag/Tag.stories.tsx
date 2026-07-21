@@ -1,4 +1,5 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
+import { expect, within } from 'storybook/test';
 import { Tag, TagProps } from './index'; 
 
 const meta: Meta<typeof Tag> = {
@@ -149,4 +150,26 @@ export const WithIcon: Story = {
     'data-color': 'accent',
   },
   name: 'With Icon',
+};
+
+export const TestStaticContract: Story = {
+  name: 'Test: Static Contract',
+  tags: ['!autodocs'],
+  args: {
+    children: 'Pågående',
+    'data-color': 'warning',
+    'data-size': 'sm',
+    variant: 'outline',
+    shape: 'rounded',
+  },
+  play: async ({ canvasElement }) => {
+    const tag = within(canvasElement).getByText('Pågående');
+
+    await expect(tag.tagName).toBe('SPAN');
+    await expect(tag).toHaveAttribute('data-color', 'warning');
+    await expect(tag).toHaveAttribute('data-size', 'sm');
+    await expect(tag).toHaveAttribute('data-variant', 'outline');
+    await expect(tag).toHaveAttribute('data-shape', 'rounded');
+    await expect(tag.style.borderRadius).toBe('var(--ds-border-radius-xl)');
+  },
 };

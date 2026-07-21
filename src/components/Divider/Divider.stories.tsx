@@ -1,4 +1,5 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
+import { expect } from 'storybook/test';
 import { Divider, DividerProps } from './index'; 
 import { Paragraph, Heading } from '@digdir/designsystemet-react'; 
 
@@ -103,5 +104,24 @@ export const Colored: Story = {
   args: {
     'data-color': 'brand1', 
     'data-size': 'md',
+  },
+};
+
+export const TestStaticContract: Story = {
+  name: 'Test: Static Contract',
+  tags: ['!autodocs'],
+  render: (args) => <Divider {...args} />,
+  args: {
+    'data-color': 'brand1',
+    'data-size': 'lg',
+  },
+  play: async ({ canvasElement }) => {
+    const divider = canvasElement.querySelector('hr');
+
+    await expect(divider).toBeInTheDocument();
+    await expect(divider).toHaveClass('ds-divider');
+    await expect(divider).toHaveAttribute('aria-hidden', 'true');
+    await expect(divider).toHaveAttribute('data-color', 'brand1');
+    await expect(divider).toHaveAttribute('data-size', 'lg');
   },
 };

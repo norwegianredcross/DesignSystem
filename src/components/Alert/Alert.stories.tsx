@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { expect, within } from 'storybook/test';
 import { Alert } from './index';
 
 const meta = {
@@ -118,5 +119,23 @@ export const LargeSize: Story = {
     'data-size': 'lg',
     title: 'Stor alert',
     children: 'Dette er en stor alert.',
+  },
+};
+
+export const TestStaticContract: Story = {
+  name: 'Test: Static Contract',
+  tags: ['!autodocs'],
+  args: {
+    'data-color': 'danger',
+    'data-size': 'lg',
+    children: 'Kunne ikke lagre endringene.',
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const message = canvas.getByText('Kunne ikke lagre endringene.');
+
+    await expect(message).toHaveClass('ds-alert');
+    await expect(message).toHaveAttribute('data-color', 'danger');
+    await expect(message).toHaveAttribute('data-size', 'lg');
   },
 };
