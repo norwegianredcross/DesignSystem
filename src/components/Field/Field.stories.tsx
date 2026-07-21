@@ -1,8 +1,10 @@
 // src/components/Field/Field.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
+import { expect, within, userEvent, waitFor } from 'storybook/test';
 import { Field, FieldProps, FieldDescription, FieldCounter } from './index';
 import {
   Field as DigDirField,
+  Input,
   Label,
   Textfield,
   Textarea,
@@ -214,5 +216,108 @@ export const AffixExamples: Story = {
   },
   argTypes: {
     position: { control: false },
+  },
+};
+
+// --- INTERACTION TESTS ---
+
+/**
+ * Tests the core composition wiring of Field: without any explicit ids,
+ * the underlying ds-field element associates the Label (for/id), the
+ * FieldDescription and the ValidationMessage (aria-describedby) with the
+ * input, and sets aria-invalid when a validation message is present.
+ */
+export const TestCompositionWiring: Story = {
+  name: 'Test: Label, Description And Validation Wiring',
+  render: (args) => (
+    <Field {...args}>
+      <Label>Fullt navn</Label>
+      <FieldDescription>Skriv både fornavn og etternavn</FieldDescription>
+      <Input />
+      <ValidationMessage>Du må fylle ut navn</ValidationMessage>
+    </Field>
+  ),
+  args: {
+    'data-size': 'md',
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // ds-field wires the (id-less) label to the input asynchronously
+    const input = await waitFor(() => canvas.getByLabelText('Fullt navn'));
+    const label = canvas.getByText('Fullt navn');
+    expect(input).toHaveAttribute('id');
+    expect(label).toHaveAttribute('for', input.id);
+
+    // Description and validation message are both announced via aria-describedby
+    const description = canvas.getByText('Skriv både fornavn og etternavn');
+    const validation = canvas.getByText('Du må fylle ut navn');
+    await waitFor(() => {
+      expect(description).toHaveAttribute('id');
+      expect(validation).toHaveAttribute('id');
+      const describedBy = input.getAttribute('aria-describedby') ?? '';
+      expect(describedBy).toContain(description.id);
+      expect(describedBy).toContain(validation.id);
+    });
+
+    // The presence of a ValidationMessage marks the input as invalid
+    await waitFor(() => {
+      expect(input).toHaveAttribute('aria-invalid', 'true');
+    });
+
+    // Native label/id association: clicking the label focuses the input
+    await userEvent.click(label);
+    expect(input).toHaveFocus();
+
+    // The field remains editable
+    await userEvent.type(input, 'Frodo Baggins');
+    expect(input).toHaveValue('Frodo Baggins');
+  },
+};
+
+/**
+ * Tests that FieldCounter counts down as the user types, and flips to an
+ * "over the limit" message when the text gets too long (negative case —
+ * no maxLength is set, so overtyping is possible).
+ */
+export const TestCounterCountsDown: Story = {
+  name: 'Test: Counter Counts Down While Typing',
+  render: (args) => (
+    <Field {...args}>
+      <Label>Kort melding</Label>
+      <Textarea rows={3} />
+      <FieldCounter limit={25} />
+    </Field>
+  ),
+  args: {
+    'data-size': 'md',
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const textarea = await waitFor(() => canvas.getByLabelText('Kort melding'));
+
+    // The ds-field element renders the counter text via the data-label
+    // attribute (displayed with CSS), so we assert on that attribute
+    const counter = canvasElement.querySelector('[data-field="counter"]');
+    expect(counter).not.toBeNull();
+
+    // Initial state announces the full limit
+    await waitFor(() => {
+      expect(counter).toHaveAttribute('data-label', '25 tegn igjen');
+      expect(counter).toHaveAttribute('data-state', 'under');
+    });
+
+    // Counter counts down as the user types ("Røde Kors" = 9 characters)
+    await userEvent.type(textarea, 'Røde Kors');
+    await waitFor(() => {
+      expect(counter).toHaveAttribute('data-label', '16 tegn igjen');
+    });
+
+    // Negative case: exceeding the limit switches to the "for mye" message
+    await userEvent.type(textarea, ' i hele Norge, hver eneste dag');
+    await waitFor(() => {
+      expect(counter).toHaveAttribute('data-label', '14 tegn for mye');
+      expect(counter).toHaveAttribute('data-state', 'over');
+    });
   },
 };
