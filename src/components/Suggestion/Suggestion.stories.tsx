@@ -601,8 +601,8 @@ export const TestEscapeClosesList: Story = {
     await waitFor(() => {
       expect(list).toHaveAttribute('hidden');
     });
-    // KNOWN: aria-expanded stays "true" on desktop even when the list is
-    // closed — upstream u-datalist behavior (aria-expanded = !IS_MOBILE || open).
+    // Known issue #24: aria-expanded stays "true" on desktop even when the
+    // list is closed (upstream u-datalist behavior).
     expect(args.onSelectedChange).not.toHaveBeenCalled();
     expect(input).toHaveValue('');
   },

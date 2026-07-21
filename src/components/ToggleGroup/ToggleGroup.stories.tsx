@@ -1,6 +1,6 @@
 // src/components/ToggleGroup/ToggleGroup.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
-import { expect, within, userEvent, waitFor } from 'storybook/test';
+import { expect, within, userEvent, waitFor, fn } from 'storybook/test';
 import { useState } from 'react';
 import { ToggleGroup, ToggleGroupProps } from './index';
 import { Button, Divider, Paragraph } from '@digdir/designsystemet-react';
@@ -39,6 +39,10 @@ const meta: Meta<typeof ToggleGroup> = {
       control: 'text',
       description: 'Form element name for the group.',
       defaultValue: 'toggle-group-story',
+    },
+    'data-toggle-group': {
+      control: 'text',
+      description: 'Accessible label used by the keyboard-navigation helper.',
     },
     'data-size': {
       control: 'select',
@@ -84,6 +88,7 @@ export const Default: Story = {
   args: {
     defaultValue: 'innboks',
     name: 'folder-toggle',
+    'data-toggle-group': 'Mapper',
     'data-size': 'md',
     'data-color': 'neutral',
   },
@@ -114,6 +119,7 @@ export const IconOnlyWithTooltip: Story = {
   args: {
     defaultValue: 'option-1',
     name: 'alignment-icon-toggle',
+    'data-toggle-group': 'Tekstjustering',
     'data-size': 'md', // Example size
     'data-color': 'accent', // Example color
   },
@@ -158,6 +164,7 @@ export const ControlledWithIcons: Story = {
   },
   args: {
     name: 'controlled-folder-toggle-icons',
+    'data-toggle-group': 'Mapper',
     'data-size': 'md',
     'data-color': 'brand1',
   },
@@ -175,6 +182,7 @@ export const LargeSize: Story = {
   args: {
     defaultValue: 'large1',
     name: 'large-toggle',
+    'data-toggle-group': 'Størrelse',
     'data-size': 'lg',
     'data-color': 'neutral',
   },
@@ -185,7 +193,11 @@ export const LargeSize: Story = {
 export const TestInteraction: Story = {
   name: 'Test: Interaction',
   render: () => (
-    <ToggleGroup defaultValue="innboks" name="test-toggle">
+    <ToggleGroup
+      defaultValue="innboks"
+      name="test-toggle"
+      data-toggle-group="Mapper"
+    >
       <ToggleGroup.Item value="innboks">Innboks</ToggleGroup.Item>
       <ToggleGroup.Item value="utkast">Utkast</ToggleGroup.Item>
       <ToggleGroup.Item value="arkiv">Arkiv</ToggleGroup.Item>
@@ -218,5 +230,94 @@ export const TestInteraction: Story = {
       expect(arkivRadio).toBeChecked();
     });
     expect(utkastRadio).not.toBeChecked();
+  },
+};
+
+export const TestKeyboardNavigationAndCallback: Story = {
+  name: 'Test: Keyboard Navigation And Callback',
+  render: (args) => (
+    <ToggleGroup
+      {...args}
+      defaultValue="left"
+      name="alignment-test"
+      aria-label="Tekstjustering"
+      data-toggle-group="Tekstjustering"
+    >
+      <ToggleGroup.Item value="left">Venstre</ToggleGroup.Item>
+      <ToggleGroup.Item value="center">Midten</ToggleGroup.Item>
+      <ToggleGroup.Item value="right">Høyre</ToggleGroup.Item>
+    </ToggleGroup>
+  ),
+  args: {
+    onChange: fn(),
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const group = canvas.getByRole('group', { name: 'Tekstjustering' });
+    const left = within(group).getByRole('radio', { name: 'Venstre' });
+    const center = within(group).getByRole('radio', { name: 'Midten' });
+    const right = within(group).getByRole('radio', { name: 'Høyre' });
+
+    expect(left).toBeChecked();
+    expect(left).toHaveAttribute('name', 'alignment-test');
+    expect(center).toHaveAttribute('name', 'alignment-test');
+    expect(right).toHaveAttribute('name', 'alignment-test');
+
+    left.focus();
+    await userEvent.keyboard('{ArrowRight}');
+    await waitFor(() => expect(center).toHaveFocus());
+    expect(left).toBeChecked();
+    expect(args.onChange).not.toHaveBeenCalled();
+
+    await userEvent.keyboard('{Enter}');
+    await waitFor(() => expect(center).toBeChecked());
+    expect(args.onChange).toHaveBeenLastCalledWith('center');
+
+    await userEvent.keyboard('{ArrowLeft}');
+    await waitFor(() => expect(left).toHaveFocus());
+    expect(center).toBeChecked();
+    await userEvent.keyboard('{Enter}');
+    await waitFor(() => expect(left).toBeChecked());
+    expect(args.onChange).toHaveBeenLastCalledWith('left');
+
+    await userEvent.keyboard('{ArrowLeft}');
+    await waitFor(() => expect(right).toHaveFocus());
+    expect(left).toBeChecked();
+    await userEvent.keyboard('{Enter}');
+    await waitFor(() => expect(right).toBeChecked());
+    expect(args.onChange).toHaveBeenCalledTimes(3);
+  },
+};
+
+export const TestDisabledItemIsSkipped: Story = {
+  name: 'Test: Disabled Item Is Skipped',
+  render: () => (
+    <ToggleGroup
+      defaultValue="first"
+      name="disabled-test"
+      aria-label="Visning"
+      data-toggle-group="Visning"
+    >
+      <ToggleGroup.Item value="first">Liste</ToggleGroup.Item>
+      <ToggleGroup.Item value="second" disabled>Detaljer</ToggleGroup.Item>
+      <ToggleGroup.Item value="third">Kort</ToggleGroup.Item>
+    </ToggleGroup>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const list = canvas.getByRole('radio', { name: 'Liste' });
+    const details = canvas.getByRole('radio', { name: 'Detaljer' });
+    const cards = canvas.getByRole('radio', { name: 'Kort' });
+
+    expect(details).toBeDisabled();
+    list.focus();
+    await userEvent.keyboard('{ArrowRight}');
+
+    await waitFor(() => expect(cards).toHaveFocus());
+    expect(list).toBeChecked();
+    expect(details).not.toBeChecked();
+
+    await userEvent.keyboard('{Enter}');
+    await waitFor(() => expect(cards).toBeChecked());
   },
 };

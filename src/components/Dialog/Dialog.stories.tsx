@@ -1,6 +1,6 @@
 // src/components/Dialog/Dialog.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
-import { expect, within, userEvent, waitFor } from 'storybook/test';
+import { expect, within, userEvent, waitFor, fn } from 'storybook/test';
 import { useRef } from 'react';
 import { Dialog, DialogProps } from './index';
 import { Button } from '../Button';
@@ -274,5 +274,88 @@ export const TestInteraction: Story = {
     await waitFor(() => {
       expect(dialog).not.toHaveAttribute('open');
     });
+  },
+};
+
+export const TestKeyboardDismissAndFocusReturn: Story = {
+  name: 'Test: Keyboard Close And Focus Return',
+  render: (args) => (
+    <Dialog.TriggerContext>
+      <Dialog.Trigger>Åpne registrering</Dialog.Trigger>
+      <Dialog {...args} modal closeButton="Lukk registrering">
+        <Dialog.Block>
+          <Heading data-size="xs">Registrer navn</Heading>
+        </Dialog.Block>
+        <Dialog.Block>
+          <Textfield label="Navn" autoFocus />
+          <Button type="button">Lagre</Button>
+        </Dialog.Block>
+      </Dialog>
+    </Dialog.TriggerContext>
+  ),
+  args: {
+    onClose: fn(),
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: 'Åpne registrering' });
+
+    trigger.focus();
+    await userEvent.keyboard('{Enter}');
+
+    const dialog = await within(document.body).findByRole('dialog');
+    expect(within(dialog).getByRole('textbox', { name: 'Navn' })).toBeInTheDocument();
+    await waitFor(() => {
+      expect(dialog).toHaveAttribute('open');
+      expect(dialog).toContainElement(document.activeElement as HTMLElement);
+    });
+    const closeButton = within(dialog).getByRole('button', {
+      name: 'Lukk registrering',
+    });
+    expect(closeButton).toHaveFocus();
+    await userEvent.keyboard('{Enter}');
+
+    await waitFor(() => {
+      expect(dialog).not.toHaveAttribute('open');
+      expect(args.onClose).toHaveBeenCalledTimes(1);
+      expect(trigger).toHaveFocus();
+    });
+  },
+};
+
+export const TestModalContainsTabFocus: Story = {
+  name: 'Test: Modal Contains Tab Focus',
+  render: () => (
+    <>
+      <Button type="button">Før dialogen</Button>
+      <Dialog.TriggerContext>
+        <Dialog.Trigger>Åpne fokusdialog</Dialog.Trigger>
+        <Dialog modal closeButton="Lukk fokusdialog">
+          <Dialog.Block>
+            <Textfield label="Fornavn" autoFocus />
+            <Button type="button">Bekreft</Button>
+          </Dialog.Block>
+        </Dialog>
+      </Dialog.TriggerContext>
+      <Button type="button">Etter dialogen</Button>
+    </>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(
+      canvas.getByRole('button', { name: 'Åpne fokusdialog' }),
+    );
+
+    const dialog = await within(document.body).findByRole('dialog');
+    await waitFor(() =>
+      expect(dialog).toContainElement(document.activeElement as HTMLElement),
+    );
+
+    for (let step = 0; step < 5; step += 1) {
+      await userEvent.tab();
+      expect(dialog).toContainElement(document.activeElement as HTMLElement);
+    }
+
+    expect(canvas.getByRole('button', { name: 'Etter dialogen' })).not.toHaveFocus();
   },
 };

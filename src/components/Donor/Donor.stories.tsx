@@ -228,7 +228,7 @@ export const TestCustomAmount: Story = {
  * Documents current behavior for invalid custom input.
  */
 export const TestInvalidCustomAmount: Story = {
-  name: 'Test: Invalid Custom Amount',
+  name: 'Test: Invalid Amount Does Not Emit Change',
   args: {
     impactMessage: IMPACT_MESSAGE,
     onAmountChange: fn(),
@@ -236,27 +236,16 @@ export const TestInvalidCustomAmount: Story = {
   },
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
-    const impact = canvas.getByText(/bidrar til at Røde Kors/);
     const customInput = canvas.getByRole('spinbutton', { name: 'Valgfritt beløp' });
 
     await userEvent.type(customInput, '0');
 
-    // onAmountChange is silently skipped for values <= 0 (documented behavior)
+    expect(customInput).toHaveValue(0);
     expect(args.onAmountChange).not.toHaveBeenCalled();
 
-    // KNOWN: the impact message still interpolates "0 kr" even though the
-    // amount is invalid — the fallback to the selected preset only happens
-    // for an empty custom field, not for a zero/invalid value.
-    await waitFor(() => {
-      expect(impact).toHaveTextContent('En gave på 0 kr bidrar til');
-    });
-
-    // KNOWN: the Vipps submit callback is NOT guarded against invalid
-    // amounts — clicking Vipps with a custom value of 0 fires
-    // onVippsClick(0, 'monthly'). Consumers must validate the amount.
-    await userEvent.click(canvas.getByRole('button', { name: 'Gi med Vipps' }));
-    expect(args.onVippsClick).toHaveBeenCalledTimes(1);
-    expect(args.onVippsClick).toHaveBeenCalledWith(0, 'monthly');
+    // Known product defects are tracked in #22 (invalid impact copy) and #23
+    // (invalid Vipps submission). Do not assert those broken outcomes as the
+    // component contract; their fixes must add the desired regression checks.
   },
 };
 

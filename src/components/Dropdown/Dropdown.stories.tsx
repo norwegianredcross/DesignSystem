@@ -1,5 +1,5 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
-import { expect, within, userEvent, waitFor } from 'storybook/test';
+import { expect, within, userEvent, waitFor, fn } from 'storybook/test';
 import { useState } from 'react';
 import { Dropdown, DropdownProps } from './index';
 import { Button } from '../Button';
@@ -242,6 +242,99 @@ export const TestInteraction: Story = {
 
     await waitFor(() => {
       expect(body.queryByText('Edit')).not.toBeVisible();
+    });
+  },
+};
+
+export const TestKeyboardFlowAndDismiss: Story = {
+  name: 'Test: Keyboard Flow And Dismiss',
+  render: (args) => {
+    const [action, setAction] = useState('');
+
+    return (
+      <>
+        <Dropdown.TriggerContext>
+          <Dropdown.Trigger>Handlinger</Dropdown.Trigger>
+          <Dropdown {...args} placement="bottom-start">
+            <Dropdown.Heading>Dokumenthandlinger</Dropdown.Heading>
+            <Dropdown.List>
+              <Dropdown.Item>
+                <Dropdown.Button onClick={() => setAction('Rediger valgt')}>
+                  Rediger
+                </Dropdown.Button>
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <Dropdown.Button>Kopier</Dropdown.Button>
+              </Dropdown.Item>
+            </Dropdown.List>
+          </Dropdown>
+        </Dropdown.TriggerContext>
+        {action && <p role="status">{action}</p>}
+      </>
+    );
+  },
+  args: {
+    onOpen: fn(),
+    onClose: fn(),
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: 'Handlinger' });
+
+    trigger.focus();
+    await userEvent.keyboard('{Enter}');
+
+    const body = within(document.body);
+    const edit = body.getByRole('button', { name: 'Rediger' });
+    await waitFor(() => expect(edit).toBeVisible());
+
+    await userEvent.tab();
+    expect(edit).toHaveFocus();
+    await userEvent.keyboard('{Enter}');
+    expect(canvas.getByRole('status')).toHaveTextContent('Rediger valgt');
+    expect(args.onOpen).toHaveBeenCalledTimes(1);
+
+    await userEvent.keyboard('{Escape}');
+    await waitFor(() => {
+      expect(edit).not.toBeVisible();
+      expect(args.onClose).toHaveBeenCalledTimes(1);
+      expect(trigger).toHaveFocus();
+    });
+  },
+};
+
+export const TestOutsideClickDismiss: Story = {
+  name: 'Test: Outside Click Dismiss',
+  render: (args) => (
+    <>
+      <Dropdown.TriggerContext>
+        <Dropdown.Trigger>Åpne meny</Dropdown.Trigger>
+        <Dropdown {...args}>
+          <Dropdown.List>
+            <Dropdown.Item>
+              <Dropdown.Button>Last ned</Dropdown.Button>
+            </Dropdown.Item>
+          </Dropdown.List>
+        </Dropdown>
+      </Dropdown.TriggerContext>
+      <Button type="button">Utenfor menyen</Button>
+    </>
+  ),
+  args: {
+    onOpen: fn(),
+    onClose: fn(),
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole('button', { name: 'Åpne meny' }));
+    const item = within(document.body).getByRole('button', { name: 'Last ned' });
+    await waitFor(() => expect(item).toBeVisible());
+
+    await userEvent.click(canvas.getByRole('button', { name: 'Utenfor menyen' }));
+    await waitFor(() => {
+      expect(item).not.toBeVisible();
+      expect(args.onOpen).toHaveBeenCalledTimes(1);
+      expect(args.onClose).toHaveBeenCalledTimes(1);
     });
   },
 };
