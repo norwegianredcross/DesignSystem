@@ -1,5 +1,6 @@
 // src/design-system/Typography.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, within } from 'storybook/test';
 
 
 // Define a simple component to render the showcase
@@ -166,5 +167,31 @@ export default meta;
 type Story = StoryObj<typeof TypographyShowcase>;
 
 export const Showcase: Story = {
-  // No args needed for this story
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const heading2xl = canvas.getByRole('heading', {
+      level: 1,
+      name: 'Heading 2XL',
+    });
+    const headingXs = canvas.getByRole('heading', {
+      level: 6,
+      name: 'Heading XS',
+    });
+    const bodyMd = canvas.getByText(/^Body MD:/);
+    const bodyLongSm = canvas.getByText(/^Body Long SM:/);
+
+    await expect(heading2xl.style.fontSize).toBe(
+      'var(--ds-heading-2xl-font-size)',
+    );
+    await expect(heading2xl.style.fontWeight).toBe(
+      'var(--ds-heading-2xl-font-weight)',
+    );
+    await expect(headingXs.style.fontSize).toBe(
+      'var(--ds-heading-xs-font-size)',
+    );
+    await expect(bodyMd.style.lineHeight).toBe('var(--ds-body-md-line-height)');
+    await expect(bodyLongSm.style.lineHeight).toBe(
+      'var(--ds-body-long-sm-line-height)',
+    );
+  },
 };

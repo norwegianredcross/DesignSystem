@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { expect, fn, userEvent, within } from 'storybook/test';
 import { HeroSection } from './index';
 
 const meta: Meta<typeof HeroSection> = {
@@ -101,5 +102,65 @@ export const NoButtons: Story = {
     title: 'Hero Heading',
     description: 'This is a hero section without buttons.',
     layout: 'centered',
+  },
+};
+
+export const TestContentAndActionsContract: Story = {
+  name: 'Test: Content And Actions Contract',
+  tags: ['!autodocs'],
+  args: {
+    title: 'Bli frivillig',
+    description: 'Gjør en forskjell der du bor.',
+    descriptionPosition: 'top',
+    primaryButtonText: 'Finn aktivitet',
+    secondaryButtonText: 'Les mer',
+    onPrimaryClick: fn(),
+    onSecondaryClick: fn(),
+    image: `${import.meta.env.BASE_URL}testimg.png`,
+    imageAlt: 'Frivillige i aktivitet',
+    layout: 'side-by-side',
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const section = canvasElement.querySelector('section');
+    const heading = canvas.getByRole('heading', { level: 2, name: 'Bli frivillig' });
+    const description = canvas.getByText('Gjør en forskjell der du bor.');
+
+    await expect(section).toBeInTheDocument();
+    await expect(
+      description.compareDocumentPosition(heading) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+    await expect(canvas.getByRole('img', { name: 'Frivillige i aktivitet' })).toBeVisible();
+
+    await userEvent.click(canvas.getByRole('button', { name: 'Finn aktivitet' }));
+    await userEvent.click(canvas.getByRole('button', { name: 'Les mer' }));
+    await expect(args.onPrimaryClick).toHaveBeenCalledTimes(1);
+    await expect(args.onSecondaryClick).toHaveBeenCalledTimes(1);
+  },
+};
+
+export const TestCardsAreCappedAtFour: Story = {
+  name: 'Test: Cards Are Capped At Four',
+  tags: ['!autodocs'],
+  parameters: { a11y: { test: 'todo' } },
+  args: {
+    title: 'Aktiviteter',
+    description: 'Finn noe som passer for deg.',
+    layout: 'cards',
+    cards: Array.from({ length: 5 }, (_, index) => ({
+      imageUrl: `${import.meta.env.BASE_URL}card${(index % 4) + 1}.png`,
+      imageAlt: `Aktivitet ${index + 1}`,
+    })),
+  },
+  play: async ({ canvasElement }) => {
+    const images = within(canvasElement).getAllByRole('img');
+
+    await expect(images).toHaveLength(4);
+    await expect(images.map((image) => image.getAttribute('alt'))).toEqual([
+      'Aktivitet 1',
+      'Aktivitet 2',
+      'Aktivitet 3',
+      'Aktivitet 4',
+    ]);
   },
 };

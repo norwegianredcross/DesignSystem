@@ -1,4 +1,5 @@
 import type { Meta, StoryObj} from '@storybook/react-vite';
+import { expect, within } from 'storybook/test';
 import { List } from './index'; 
 import { Heading, Link } from '@digdir/designsystemet-react';
 
@@ -150,4 +151,33 @@ export const ListOfLinks: StoryObj<typeof List.Unordered> = {
     'data-color': 'accent',
   },
   name: 'List of Links',
+};
+
+export const TestListSemantics: StoryObj = {
+  name: 'Test: List Semantics',
+  tags: ['!autodocs'],
+  render: () => (
+    <div>
+      <List.Unordered aria-label="Pakkeliste" data-size="sm">
+        <List.Item>Førstehjelpsutstyr</List.Item>
+        <List.Item>Vann</List.Item>
+      </List.Unordered>
+      <List.Ordered aria-label="Fremgangsmåte" data-color="brand1">
+        <List.Item>Varsle</List.Item>
+        <List.Item>Hjelp</List.Item>
+      </List.Ordered>
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const unordered = canvas.getByRole('list', { name: 'Pakkeliste' });
+    const ordered = canvas.getByRole('list', { name: 'Fremgangsmåte' });
+
+    await expect(unordered.tagName).toBe('UL');
+    await expect(ordered.tagName).toBe('OL');
+    await expect(within(unordered).getAllByRole('listitem')).toHaveLength(2);
+    await expect(within(ordered).getAllByRole('listitem')).toHaveLength(2);
+    await expect(unordered).toHaveAttribute('data-size', 'sm');
+    await expect(ordered).toHaveAttribute('data-color', 'brand1');
+  },
 };

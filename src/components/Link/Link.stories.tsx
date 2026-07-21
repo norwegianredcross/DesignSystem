@@ -1,5 +1,6 @@
 // src/components/Link/Link.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite'; // Import React for JSX
+import { expect, within } from 'storybook/test';
 import { Link, LinkProps } from './index';
 import { Paragraph } from '@digdir/designsystemet-react';
 // --- Import Icon ---
@@ -117,5 +118,29 @@ export const External: Story = {
     href: 'https://www.digdir.no/',
     target: '_blank',
     rel: 'noopener noreferrer',
+  },
+};
+
+export const TestAnchorContract: Story = {
+  name: 'Test: Anchor Contract',
+  tags: ['!autodocs'],
+  args: {
+    children: 'Åpne ekstern ressurs',
+    href: 'https://www.digdir.no/',
+    target: '_blank',
+    rel: 'noopener noreferrer',
+    'data-color': 'accent',
+    'data-size': 'lg',
+  },
+  play: async ({ canvasElement }) => {
+    const link = within(canvasElement).getByRole('link', {
+      name: 'Åpne ekstern ressurs',
+    });
+
+    await expect(link).toHaveAttribute('href', 'https://www.digdir.no/');
+    await expect(link).toHaveAttribute('target', '_blank');
+    await expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+    await expect(link).toHaveAttribute('data-color', 'accent');
+    await expect(link).toHaveAttribute('data-size', 'lg');
   },
 };

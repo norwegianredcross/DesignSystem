@@ -1,5 +1,6 @@
 // src/components/Skeleton/Skeleton.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
+import { expect, within } from 'storybook/test';
 import { SkeletonLoader, SkeletonProps } from './index'; // Import the main Skeleton component
 // Import components for context/examples
 import { Heading, Paragraph, Button } from '@digdir/designsystemet-react';
@@ -38,9 +39,9 @@ const meta: Meta<typeof SkeletonLoader> = {
       defaultValue: false,
     },
     characters: {
-      control: 'number',
-      description: 'Sets width based on character count (for text variant)',
-      if: { arg: 'variant', eq: 'text' },
+      control: false,
+      description: 'Deprecated upstream. Use `width` or text children instead.',
+      table: { category: 'Deprecated' },
     },
     children: {
       control: false,
@@ -71,7 +72,7 @@ export const Variants: Story = {
       <SkeletonLoader variant="circle" width="50px" height="50px" />
       <SkeletonLoader variant="rectangle" width="100px" height="50px" />
       <Paragraph>
-        <SkeletonLoader variant="text" characters={10} />
+        <SkeletonLoader variant="text" width={10} />
       </Paragraph>
     </div>
   ),
@@ -97,7 +98,7 @@ export const ComposedLayout: Story = {
           <SkeletonLoader variant="text" width="80%" /> 
         </Heading>
       </div>
-      <SkeletonLoader variant="text" characters={140} /> 
+      <SkeletonLoader variant="text" width={140} />
     </div>
   ),
 };
@@ -146,27 +147,26 @@ export const MimickingText: Story = {
           <SkeletonLoader variant="text" width="60%" />
         </Heading>
         <Paragraph data-size="sm">
-          <SkeletonLoader variant="text" characters={40} />
+          <SkeletonLoader variant="text" width={40} />
         </Paragraph>
       </div>
     </div>
   ),
 };
 
-// --- Text Variant with Characters Prop ---
+// --- Text Variant Sized by Approximate Character Width ---
 export const TextWithCharacters: Story = {
-  name: 'Text (Characters Prop)',
+  name: 'Text (Width as Character Count)',
   render: (args) => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-      <Paragraph>Mimicking text lines using `characters` prop:</Paragraph>
-      <SkeletonLoader {...args} variant="text" characters={args.characters || 20} />
-      <SkeletonLoader {...args} variant="text" characters={args.characters ? args.characters + 15 : 35} />
-      <SkeletonLoader {...args} variant="text" characters={args.characters ? args.characters + 10 : 30} />
+      <Paragraph>Mimicking text lines using numeric `width` values:</Paragraph>
+      <SkeletonLoader {...args} variant="text" width={20} />
+      <SkeletonLoader {...args} variant="text" width={35} />
+      <SkeletonLoader {...args} variant="text" width={30} />
     </div>
   ),
   args: {
     variant: 'text',
-    characters: 25,
   },
 };
 
@@ -184,3 +184,30 @@ export const AsChildHeading: Story = {
   name: 'As Child (Heading)',
 };
 
+export const TestStaticContract: Story = {
+  name: 'Test: Static Contract',
+  tags: ['!autodocs'],
+  render: () => (
+    <div>
+      <SkeletonLoader
+        data-testid="rectangle-skeleton"
+        variant="rectangle"
+        width={160}
+        height={48}
+      />
+      <SkeletonLoader data-testid="text-skeleton" variant="text" width={6} />
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const rectangle = canvas.getByTestId('rectangle-skeleton');
+    const text = canvas.getByTestId('text-skeleton');
+
+    await expect(rectangle).toHaveAttribute('aria-hidden', 'true');
+    await expect(rectangle).toHaveAttribute('data-variant', 'rectangle');
+    await expect(rectangle).toHaveStyle({ width: '160px', height: '48px' });
+    await expect(text).toHaveAttribute('aria-hidden', 'true');
+    await expect(text).toHaveAttribute('data-variant', 'text');
+    await expect(text).toHaveAttribute('data-text', '------');
+  },
+};

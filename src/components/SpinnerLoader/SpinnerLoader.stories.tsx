@@ -1,4 +1,5 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
+import { expect, within } from 'storybook/test';
 import { Spinner, SpinnerProps } from './index'; 
 
 const meta: Meta<typeof Spinner> = {
@@ -78,4 +79,32 @@ export const InButton: Story = {
     'aria-label': 'Laster...',
   },
   name: 'In Button',
+};
+
+export const TestAccessibleAndDecorativeContracts: Story = {
+  name: 'Test: Accessible And Decorative Contracts',
+  tags: ['!autodocs'],
+  render: () => (
+    <div>
+      <Spinner aria-label="Henter aktivitetsdata" data-size="lg" />
+      <button type="button">
+        <Spinner aria-hidden="true" data-size="sm" />
+        Lagrer
+      </button>
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const labelledSpinner = canvas.getByRole('img', {
+      name: 'Henter aktivitetsdata',
+    });
+    const button = canvas.getByRole('button', { name: 'Lagrer' });
+    const decorativeSpinner = button.querySelector('svg');
+
+    await expect(labelledSpinner).toHaveAttribute('viewBox', '0 0 50 50');
+    await expect(labelledSpinner).toHaveAttribute('data-size', 'lg');
+    await expect(labelledSpinner.querySelectorAll('circle')).toHaveLength(2);
+    await expect(decorativeSpinner).toHaveAttribute('aria-hidden', 'true');
+    await expect(button).toHaveAccessibleName('Lagrer');
+  },
 };
