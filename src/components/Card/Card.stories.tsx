@@ -1,5 +1,6 @@
 // src/components/Card/Card.stories.tsx
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
+import { expect, within, userEvent, waitFor, fn } from 'storybook/test';
 import { Card, CardProps, CardBlock } from './index';
 import {
   Heading,
@@ -244,4 +245,170 @@ export const ComplexComposition: Story = {
      asChild: { control: false },
      children: { control: false },
   }
+};
+
+// --- INTERACTION TESTS ---
+
+/**
+ * Tests the clickable card rendered as a button via asChild: the card element
+ * IS the button (role button, ds-card styling), it is reachable with Tab, and
+ * Enter, Space and mouse click all fire the click handler.
+ */
+export const TestCardAsButton: Story = {
+  name: 'Test: Card As Button Keyboard Operable',
+  render: (args) => (
+    <Card {...args} style={{ maxWidth: '320px' }}>
+      <button type="button">
+        <h3>Meld deg som frivillig</h3>
+        <p>Bli med på en aktivitet i din lokalforening.</p>
+      </button>
+    </Card>
+  ),
+  args: {
+    asChild: true,
+    'data-color': 'brand2',
+    onClick: fn(),
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+
+    // asChild merges the Card onto the button: one element with both roles
+    const cardButton = canvas.getByRole('button', {
+      name: /Meld deg som frivillig/,
+    });
+    expect(cardButton).toHaveClass('ds-card');
+    expect(cardButton.tagName).toBe('BUTTON');
+
+    // Keyboard-reachable via Tab
+    await userEvent.tab();
+    expect(cardButton).toHaveFocus();
+
+    // Enter and Space activate the card
+    await userEvent.keyboard('{Enter}');
+    expect(args.onClick).toHaveBeenCalledTimes(1);
+    await userEvent.keyboard(' ');
+    expect(args.onClick).toHaveBeenCalledTimes(2);
+
+    // Mouse click works too
+    await userEvent.click(cardButton);
+    expect(args.onClick).toHaveBeenCalledTimes(3);
+  },
+};
+
+/**
+ * Tests the click-delegation behavior for cards with a heading link: the card
+ * marks itself with data-clickdelegatefor pointing at the heading link, a
+ * click anywhere on non-interactive card content forwards to the link, while
+ * clicks on nested interactive elements (a button) are NOT delegated.
+ */
+export const TestCardClickDelegation: StoryObj<{
+  onNavigate: () => void;
+  onReadMore: () => void;
+}> = {
+  name: 'Test: Card Click Delegates To Heading Link',
+  render: (args) => (
+    <Card style={{ maxWidth: '320px' }} data-color="neutral">
+      <CardBlock>
+        <h3>
+          <a
+            href="#gi-et-bidrag"
+            onClick={(event) => {
+              event.preventDefault();
+              args.onNavigate?.();
+            }}
+          >
+            Gi et bidrag
+          </a>
+        </h3>
+        <Paragraph>Din støtte gjør at vi kan hjelpe flere mennesker i nød.</Paragraph>
+      </CardBlock>
+      <CardBlock>
+        <Button
+          variant="secondary"
+          data-size="sm"
+          onClick={() => args.onReadMore?.()}
+        >
+          Les mer
+        </Button>
+      </CardBlock>
+    </Card>
+  ),
+  args: {
+    onNavigate: fn(),
+    onReadMore: fn(),
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const card = canvasElement.querySelector('.ds-card') as HTMLElement;
+    const link = canvas.getByRole('link', { name: 'Gi et bidrag' });
+
+    // The card wires itself to the heading link
+    await waitFor(() => {
+      expect(link).toHaveAttribute('id');
+      expect(card).toHaveAttribute('data-clickdelegatefor', link.id);
+    });
+
+    // Clicking non-interactive content anywhere in the card activates the link
+    await userEvent.click(canvas.getByText(/Din støtte gjør at vi kan hjelpe/));
+    expect(args.onNavigate).toHaveBeenCalledTimes(1);
+    expect(args.onReadMore).not.toHaveBeenCalled();
+
+    // Clicking a nested interactive element is NOT delegated to the link
+    await userEvent.click(canvas.getByRole('button', { name: 'Les mer' }));
+    expect(args.onReadMore).toHaveBeenCalledTimes(1);
+    expect(args.onNavigate).toHaveBeenCalledTimes(1);
+
+    // Clicking the link itself still works normally
+    await userEvent.click(link);
+    expect(args.onNavigate).toHaveBeenCalledTimes(2);
+  },
+};
+
+/**
+ * Tests that a static (non-interactive) card stays non-focusable and role-less
+ * while its CardBlock composition renders as separate blocks with the content
+ * intact.
+ */
+export const TestStaticCardStructure: Story = {
+  name: 'Test: Static Card Structure',
+  render: (args) => (
+    <Card {...args} style={{ maxWidth: '320px' }}>
+      <CardBlock>
+        <h3>Om Røde Kors</h3>
+        <p>Røde Kors er en frivillig, medlemsstyrt organisasjon.</p>
+      </CardBlock>
+      <CardBlock>
+        <p>Vi er til stede i lokalsamfunn over hele landet.</p>
+      </CardBlock>
+      <CardBlock>
+        <small>Sist oppdatert 2026</small>
+      </CardBlock>
+    </Card>
+  ),
+  args: {
+    'data-color': 'neutral',
+    variant: 'tinted',
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const card = canvasElement.querySelector('.ds-card') as HTMLElement;
+
+    // A static card has no interactive semantics
+    expect(card).not.toHaveAttribute('tabindex');
+    expect(card).not.toHaveAttribute('role');
+    // No heading link -> no click delegation either
+    expect(card).not.toHaveAttribute('data-clickdelegatefor');
+
+    // Tab does not land on the card (nothing in it is focusable)
+    await userEvent.tab();
+    expect(card).not.toHaveFocus();
+    expect(card.contains(document.activeElement)).toBe(false);
+
+    // CardBlock composition: three separate blocks with their content
+    const blocks = card.querySelectorAll(':scope > .ds-card__block');
+    expect(blocks).toHaveLength(3);
+    expect(canvas.getByRole('heading', { level: 3, name: 'Om Røde Kors' })).toBeVisible();
+    expect(canvas.getByText(/til stede i lokalsamfunn/)).toBeVisible();
+    expect(canvas.getByText('Sist oppdatert 2026')).toBeVisible();
+  },
 };
