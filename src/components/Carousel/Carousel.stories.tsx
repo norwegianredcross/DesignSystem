@@ -3,8 +3,9 @@ import React from 'react';
 import { Carousel, type CarouselProps } from './index';
 import { Spinner } from '../SpinnerLoader';
 import { expect, within, userEvent, waitFor } from 'storybook/test';
-import personPng from '../../assets/images/person.png';
-import person2Jpg from '../../assets/images/person2.jpg';
+import demo1 from '../../assets/images/carousel-demo-1.svg';
+import demo2 from '../../assets/images/carousel-demo-2.svg';
+import demo3 from '../../assets/images/carousel-demo-3.svg';
 
 const meta: Meta<typeof Carousel> = {
   title: 'Components/Carousel',
@@ -73,18 +74,9 @@ type Story = StoryObj<typeof Carousel>;
 export const Default: Story = {
   args: {
     images: [
-      {
-        src: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop',
-        alt: 'Solnedgang',
-      },
-      {
-        src: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1200&auto=format&fit=crop',
-        alt: 'Fjell',
-      },
-      {
-        src: 'https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=1200&auto=format&fit=crop',
-        alt: 'Skog',
-      },
+      { src: demo1, alt: 'Grafisk element: hjørne' },
+      { src: demo2, alt: 'Grafisk element: kors' },
+      { src: demo3, alt: 'Grafisk element: hjerte' },
     ],
     autoPlay: false,
     autoDelay: 5,
@@ -284,9 +276,9 @@ function SupabaseExample(args: Omit<CarouselProps, 'images'>) {
 // Lokale fixtures — testene skal ikke avhenge av eksterne bildetjenester.
 // Query-suffikset gir en tredje unik URL fra samme fil.
 const localImages = [
-  { src: personPng, alt: 'Test bilde 1' },
-  { src: person2Jpg, alt: 'Test bilde 2' },
-  { src: `${personPng}?v=2`, alt: 'Test bilde 3' },
+  { src: demo1, alt: 'Test bilde 1' },
+  { src: demo2, alt: 'Test bilde 2' },
+  { src: demo3, alt: 'Test bilde 3' },
 ];
 const testImages = localImages;
 

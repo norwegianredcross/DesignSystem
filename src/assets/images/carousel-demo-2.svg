@@ -1,0 +1,10 @@
+<svg width="1200" height="675" viewBox="0 0 1200 675" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="675" fill="#F7F3EF"/>
+  <!-- gapped cross -->
+  <rect x="500" y="87" width="200" height="200" fill="#D52B1E"/>
+  <rect x="500" y="387" width="200" height="200" fill="#D52B1E"/>
+  <rect x="290" y="237" width="200" height="200" fill="#D52B1E"/>
+  <rect x="710" y="237" width="200" height="200" fill="#D52B1E"/>
+  <rect x="80" y="87" width="120" height="500" fill="#CDE4CA"/>
+  <rect x="1000" y="87" width="120" height="500" fill="#FAE4E2"/>
+</svg>
