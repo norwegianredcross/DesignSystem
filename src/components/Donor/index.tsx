@@ -258,6 +258,10 @@ export const Donor = ({
               onClick={handleVippsClick}
               type="button"
               aria-label={`${vippsButtonLabel} Vipps`}
+              // Hvit tekst på Vipps-oransje (#ff5b24) gir ~2.9:1 kontrast —
+              // under WCAG AA (4.5:1). Fargen er Vipps' offisielle merkevare
+              // og kan ikke endres; attributtet unntar KUN denne knappen fra
+              // kontrastregelen i axe (se a11y-config i Donor.stories.tsx).
               data-brand-exception="vipps"
             >
               <span className={styles.vippsButtonLabel}>{vippsButtonLabel}</span>
