@@ -91,7 +91,19 @@ export const Header = ({
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  // The switch must reflect the page's REAL color scheme on mount.
+  // Hardcoding 'light' desynced it whenever the page was already dark:
+  // the first toggle then set 'dark' on an already-dark page - a no-op
+  // from the user's point of view. Lazy init reads the actual attribute,
+  // falling back to the OS preference.
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    if (typeof document !== 'undefined') {
+      const current = document.documentElement.getAttribute('data-color-scheme');
+      if (current === 'dark' || current === 'light') return current;
+      if (window.matchMedia?.('(prefers-color-scheme: dark)').matches) return 'dark';
+    }
+    return 'light';
+  });
   const { language, setLanguage, t } = useLanguageOptional();
   const [isMobile, setIsMobile] = useState(false);
 
