@@ -14,6 +14,8 @@ jobs:
   test:
     name: Lint, typecheck, test & build
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -50,16 +52,17 @@ jobs:
 
   # Deploy kjøres kun på push til main, og kun når testjobben er grønn.
   # Token-oppdateringen testes FØR den committes og deployes.
+  # Bruker jobbens innebygde GITHUB_TOKEN (ingen PAT å vedlikeholde/utløpe).
   deploy:
     name: Update tokens, verify & deploy
     if: github.event_name == 'push'
     needs: test
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.PAT }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -114,5 +117,5 @@ jobs:
       - name: Deploy to GitHub Pages
         run: |
           npx gh-pages \
-            --repo https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }}.git \
+            --repo https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git \
             -d deploy-output

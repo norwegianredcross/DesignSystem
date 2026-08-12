@@ -21,7 +21,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.PAT }}
           fetch-depth: 0
 
       - name: Setup Node.js
@@ -110,7 +109,7 @@ jobs:
 
       - name: Create GitHub Release
         env:
-          GH_TOKEN: ${{ secrets.PAT }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           NEW_VERSION="${{ steps.version.outputs.new }}"
           DATE=$(date +%Y-%m-%d)
