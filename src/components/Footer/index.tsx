@@ -49,8 +49,8 @@ export interface FooterProps {
   colorScheme?: 'light' | 'dark';
   /** Navigation columns for the `columns` variant. */
   columns?: { title: string; links: FooterLink[] }[];
-  /** Show CrossCorner decorative elements */
-  showCrossCorners?: boolean;
+  /** Show decorative GraphicElement shapes in the corners */
+  showGraphicElements?: boolean;
   /** Newsletter section description text */
   newsletterDescription?: string;
   /** Newsletter input placeholder text */
@@ -102,7 +102,7 @@ export const Footer = ({
   variant = 'default',
   colorScheme,
   columns,
-  showCrossCorners = false,
+  showGraphicElements = false,
   newsletterDescription = 'Tekst om rødekors som kan være rundt 2 linjebrudd i lengde.',
   newsletterPlaceholder = 'Input tekst',
   newsletterButtonText = 'Meld deg på',
@@ -400,9 +400,9 @@ export const Footer = ({
         {/* Main Section */}
         <div className={styles.mainSection}>
           <div className={styles.mainContainer}>
-            {/* Top-right CrossCorner */}
-            {showCrossCorners && (
-              <div className={styles.crossCornerTopRight}>
+            {/* Top-right GraphicElement */}
+            {showGraphicElements && (
+              <div className={styles.graphicElementTopRight}>
                 <GraphicElement shape="angle" position="top-right" size="md" aria-hidden />
               </div>
             )}
@@ -449,9 +449,9 @@ export const Footer = ({
               </p>
             </div>
 
-            {/* Bottom-left CrossCorner */}
-            {showCrossCorners && (
-              <div className={styles.crossCornerBottomLeft}>
+            {/* Bottom-left GraphicElement */}
+            {showGraphicElements && (
+              <div className={styles.graphicElementBottomLeft}>
                 <GraphicElement shape="angle" position="bottom-left" size="md" aria-hidden />
               </div>
             )}
@@ -494,9 +494,9 @@ export const Footer = ({
       {/* Main Section */}
       <div className={styles.mainSection}>
         <div className={styles.mainContainer}>
-          {/* Top-right CrossCorner */}
-          {showCrossCorners && (
-            <div className={styles.crossCornerTopRight}>
+          {/* Top-right GraphicElement */}
+          {showGraphicElements && (
+            <div className={styles.graphicElementTopRight}>
               <GraphicElement shape="angle" position="top-right" size="md" aria-hidden />
             </div>
           )}
@@ -594,9 +594,9 @@ export const Footer = ({
             </p>
           </div>
 
-          {/* Bottom-left CrossCorner */}
-          {showCrossCorners && (
-            <div className={styles.crossCornerBottomLeft}>
+          {/* Bottom-left GraphicElement */}
+          {showGraphicElements && (
+            <div className={styles.graphicElementBottomLeft}>
               <GraphicElement shape="angle" position="bottom-left" size="md" aria-hidden />
             </div>
           )}
@@ -662,13 +662,13 @@ function buildInlineCss(styles: Record<string, string>): string {
   padding: var(--ds-size-30, 120px) 175px;
   box-sizing: border-box;
 }
-.${s.crossCornerTopRight} {
+.${s.graphicElementTopRight} {
   display: flex;
   justify-content: flex-end;
   width: 100%;
   margin-bottom: var(--ds-size-6, 24px);
 }
-.${s.crossCornerBottomLeft} {
+.${s.graphicElementBottomLeft} {
   display: flex;
   justify-content: flex-start;
   width: 100%;

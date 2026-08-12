@@ -68,12 +68,6 @@ export type {
   GraphicElementSize,
 } from './components/GraphicElement';
 
-// CrossCorner
-/** @deprecated Bruk GraphicElement. */
-export { CrossCorner } from './components/CrossCorner';
-/** @deprecated Bruk GraphicElement-typene (GraphicElementProps, GraphicElementPosition, GraphicElementSize). */
-export type { CrossCornerProps, CrossCornerPosition, CrossCornerSize } from './components/CrossCorner';
-
 // Details
 export { Details } from './components/Details';
 export type { DetailsProps } from './components/Details';

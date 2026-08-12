@@ -92,7 +92,7 @@ const meta: Meta<typeof GraphicElement> = {
     docs: {
       description: {
         component:
-          'Grafiske elementer fra Røde Kors\' designretning, avledet av korsets grunnform. Korsets fire armer deles opp og brukes som selvstendige grafiske elementer - vinkler, hjørner, hjerter og stolper. Elementene kan fungere som visuelle koblinger på tvers av digitale produkter, i ulike farger, størrelser og komposisjoner. Tre stiler: `solid` (fylt), `outline` (tynn strek) og `isometric` (3D-kuber med tre tokenstyrte flater). `isometric` er tilgjengelig for formene square, corner, angle, heart og bar; `position` velger mellom stående/liggende (corner, angle) og horisontal/vertikal (bar), og `mirrored` speilvender hjertet. Den gamle CrossCorner-formen tilsvarer `shape="angle"`; `CrossCorner` er nå et deprecated alias for GraphicElement.',
+          'Grafiske elementer fra Røde Kors\' designretning, avledet av korsets grunnform. Korsets fire armer deles opp og brukes som selvstendige grafiske elementer - vinkler, hjørner, hjerter og stolper. Elementene kan fungere som visuelle koblinger på tvers av digitale produkter, i ulike farger, størrelser og komposisjoner. Tre stiler: `solid` (fylt), `outline` (tynn strek) og `isometric` (3D-kuber med tre tokenstyrte flater). `isometric` er tilgjengelig for formene square, corner, angle, heart og bar; `position` velger mellom stående/liggende (corner, angle) og horisontal/vertikal (bar), og `mirrored` speilvender hjertet. Den gamle CrossCorner-formen tilsvarer `shape="angle"`.',
       },
     },
   },

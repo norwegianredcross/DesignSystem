@@ -1509,9 +1509,9 @@
         "required": false
       },
       {
-        "name": "showCrossCorners",
+        "name": "showGraphicElements",
         "type": "boolean",
-        "description": "Show CrossCorner decorative elements",
+        "description": "Show decorative GraphicElement shapes in the corners",
         "defaultValue": "false",
         "required": false
       },
@@ -2418,55 +2418,6 @@
         "type": "ReactNode",
         "description": "",
         "defaultValue": null,
-        "required": false
-      }
-    ]
-  },
-  {
-    "componentName": "CrossCorner",
-    "importPath": "rk-designsystem",
-    "description": "CrossCorner — deprecated compatibility wrapper around GraphicElement.",
-    "props": [
-      {
-        "name": "position",
-        "type": "enum",
-        "description": "Which corner the graphic points to.",
-        "defaultValue": "'top-left'",
-        "required": false
-      },
-      {
-        "name": "size",
-        "type": "enum",
-        "description": "Size: sm 48px, md 68px, lg 96px.",
-        "defaultValue": "'md'",
-        "required": false
-      },
-      {
-        "name": "data-color",
-        "type": "Color",
-        "description": "Color scope from the theme (rk-design-tokens).",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "className",
-        "type": "string",
-        "description": "",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "aria-label",
-        "type": "string",
-        "description": "",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "aria-hidden",
-        "type": "boolean",
-        "description": "",
-        "defaultValue": "true (decorative)",
         "required": false
       }
     ]
