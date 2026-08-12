@@ -23,6 +23,7 @@ export const searchIndex: SearchItem[] = [
   { id: 'checkbox', title: 'Checkbox', category: 'Component', path: 'components', description: 'Valg av flere alternativer' },
   { id: 'dialog', title: 'Dialog', category: 'Component', path: 'components', description: 'Modale vinduer' },
   { id: 'dropdown', title: 'Dropdown', category: 'Component', path: 'components', description: 'Nedtrekksmenyer' },
+  { id: 'graphicelement', title: 'GraphicElement', category: 'Component', path: 'components', description: 'Grafiske merkevareelementer fra designretningen' },
   { id: 'header', title: 'Header', category: 'Component', path: 'components', description: 'Topptekst og navigasjon' },
   { id: 'herosection', title: 'HeroSection', category: 'Component', path: 'components', description: 'Store introduksjonsseksjoner' },
   { id: 'input', title: 'Input', category: 'Component', path: 'components', description: 'Tekstfelt for brukerinput' },
