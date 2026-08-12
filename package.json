@@ -37,7 +37,6 @@
     },
     "./styles": "./dist/styles.css",
     "./styles.css": "./dist/styles.css",
-    "./dist/componentlibrary.css": "./dist/componentlibrary.css",
     "./dist/rk-designsystem.css": "./dist/rk-designsystem.css"
   },
   "sideEffects": [
@@ -66,7 +65,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build && npm run copy-styles",
-    "copy-styles": "node -e \"require('fs').copyFileSync('src/styles.css', 'dist/styles.css')\"",
+    "copy-styles": "node scripts/build-styles.mjs",
+    "test:packaging": "node scripts/packaging-smoke.mjs",
     "clean": "rimraf dist",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
