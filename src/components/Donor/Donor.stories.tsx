@@ -8,7 +8,21 @@ const meta: Meta<typeof Donor> = {
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
-    a11y: { test: 'todo' }, // color-contrast: Donor component styling needs a11y review
+    // WCAG-gaten er PÅ for Donor. Ett presist unntak: kontrastregelen kjører
+    // ikke på Vipps-knappen (hvit tekst på Vipps-oransje #ff5b24 ≈ 2.9:1).
+    // Fargen er Vipps' offisielle merkevare og kan ikke endres av oss;
+    // knappen er merket data-brand-exception="vipps" i komponenten.
+    // Alle andre elementer kontrastsjekkes fortsatt. Se TESTING.md.
+    a11y: {
+      config: {
+        rules: [
+          {
+            id: 'color-contrast',
+            selector: '*:not([data-brand-exception="vipps"]):not([data-brand-exception="vipps"] *)',
+          },
+        ],
+      },
+    },
   },
   argTypes: {
     'data-color': {

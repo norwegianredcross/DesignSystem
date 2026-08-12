@@ -209,3 +209,9 @@
     max-width: 300px;
   }
 }
+
+/* Panelet er bare en semantisk beholder — layouten eies av .content */
+.tabPanel {
+  width: 100%;
+  padding: 0;
+}
