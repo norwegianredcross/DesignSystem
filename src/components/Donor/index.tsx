@@ -258,10 +258,11 @@ export const Donor = ({
               onClick={handleVippsClick}
               type="button"
               aria-label={`${vippsButtonLabel} Vipps`}
-              // Hvit tekst på Vipps-oransje (#ff5b24) gir ~2.9:1 kontrast —
-              // under WCAG AA (4.5:1). Fargen er Vipps' offisielle merkevare
-              // og kan ikke endres; attributtet unntar KUN denne knappen fra
-              // kontrastregelen i axe (se a11y-config i Donor.stories.tsx).
+              // White text on Vipps orange (#ff5b24) gives ~2.9:1 contrast —
+              // below WCAG AA (4.5:1). The color is Vipps' official branding
+              // and cannot change; this attribute exempts ONLY this button
+              // from the axe contrast rule (see a11y config in
+              // Donor.stories.tsx).
               data-brand-exception="vipps"
             >
               <span className={styles.vippsButtonLabel}>{vippsButtonLabel}</span>
@@ -292,9 +293,10 @@ export const Donor = ({
 
   return (
     <div className={styles.donor} data-color={dataColor}>
-      {/* Tabs med ekte paneler: hver fane peker på et panel som finnes i
-          DOM (Digdir holder begge ds-tabpanel-elementer i treet og skjuler
-          det inaktive), slik at aria-controls alltid refererer gyldig id. */}
+      {/* Tabs with real panels: each tab points at a panel that exists in
+          the DOM (Digdir keeps both ds-tabpanel elements in the tree and
+          hides the inactive one), so aria-controls always references a
+          valid id. */}
       <Tabs
         defaultValue="monthly"
         onChange={handleTabChange}
@@ -312,8 +314,8 @@ export const Donor = ({
             {monthlyLabel}
           </Tabs.Tab>
         </Tabs.List>
-        {/* Begge paneler ligger i DOM (gyldige aria-controls-mål); innholdet
-            rendres bare i det aktive for å unngå duplisert innhold. */}
+        {/* Both panels stay in the DOM (valid aria-controls targets); the
+            content renders only in the active one to avoid duplication. */}
         <Tabs.Panel value="one-time" className={styles.tabPanel}>
           {frequency === 'one-time' ? donorContent : null}
         </Tabs.Panel>
