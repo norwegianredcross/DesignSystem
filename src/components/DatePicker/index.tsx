@@ -1,31 +1,31 @@
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import React, { useState, useMemo, useCallback, useEffect, useId, useRef } from 'react';
 import { Button as DigDirButton } from '@digdir/designsystemet-react';
 import {
-  format, startOfMonth, startOfWeek, eachDayOfInterval,
+  format, startOfMonth, startOfWeek, endOfWeek, eachDayOfInterval,
   addMonths, subMonths, isSameMonth, isSameDay, isToday, addDays,
-  isValid
+  isValid, setDate, getDaysInMonth,
 } from 'date-fns';
 import { nb } from 'date-fns/locale';
 import { ChevronLeftIcon } from '../../assets/images/ChevronLeftIcon';
 import { ChevronRightIcon } from '../../assets/images/ChevronRightIcon';
 
 import styles from './styles.module.css';
-// Import shared types
-import type { DefaultProps } from "../../types";
-import type { MergeRight } from "../../utilities";
+import type { DefaultProps } from '../../types';
+import type { MergeRight } from '../../utilities';
 import { useLanguageOptional } from '../../context/LanguageContext';
 
-// --- Grensesnitt Oppdatert ---
 export type DatePickerProps = MergeRight<
-  DefaultProps, // <-- Lagt til
+  DefaultProps,
   {
+    /** Måneden kalenderen åpner på når ingen dato er valgt. */
     initialDate?: Date;
+    /** Valgt dato. Utheves i kalenderen. */
     selectedDate?: Date | null;
+    /** Kalles når brukeren velger en dato. */
     onDateSelect?: (date: Date) => void;
   }
 >;
 
-// Hjelpefunksjoner (generateCalendarDays, capitalizeFirstLetter) forblir de samme
 const generateCalendarDays = (date: Date): Date[] => {
   const monthStart = startOfMonth(date);
   const startDate = startOfWeek(monthStart, { locale: nb });
@@ -38,16 +38,24 @@ const capitalizeFirstLetter = (string: string): string => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
+/** Flytt en dato inn i angitt måned, avgrenset til månedens siste dag. */
+const clampIntoMonth = (day: Date, monthDate: Date): Date => {
+  const wanted = Math.min(day.getDate(), getDaysInMonth(monthDate));
+  return setDate(startOfMonth(monthDate), wanted);
+};
 
 /**
  * DatePicker-komponent for å velge en dato fra en kalender.
+ * Kalenderen følger ARIA-grid-mønsteret: ett tabstopp, piltaster mellom
+ * dager (på tvers av måneder), Home/End til start/slutt av uken og
+ * PageUp/PageDown mellom måneder.
  */
 export const DatePicker: React.FC<DatePickerProps> = ({
   initialDate = new Date(),
-  selectedDate = null, // Prop for valgt dato
+  selectedDate = null,
   onDateSelect,
-  "data-color": dataColor, // <-- Destrukturert
-  "data-size": dataSize,   // <-- Destrukturert
+  'data-color': dataColor,
+  'data-size': dataSize,
 }) => {
   const { t } = useLanguageOptional();
 
@@ -63,93 +71,164 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     document.head.appendChild(tag);
   }, []);
 
-  // Intern tilstand for måneden som vises
   const [currentMonthDate, setCurrentMonthDate] = useState(
     startOfMonth(selectedDate && isValid(selectedDate) ? selectedDate : initialDate),
   );
 
-  // --- NY useEffect for å synkronisere kalendervisning med selectedDate prop ---
+  // Roving tabindex: cellen for denne datoen er gridets ene tabstopp.
+  const [focusedDate, setFocusedDate] = useState<Date>(() =>
+    selectedDate && isValid(selectedDate) ? selectedDate : initialDate,
+  );
+  const gridRef = useRef<HTMLDivElement>(null);
+  const shouldFocusCell = useRef(false);
+
+  // Synkroniser visning og fokus når selectedDate-propen endres
   useEffect(() => {
-    // Hvis selectedDate prop endres og er en gyldig dato...
     if (selectedDate && isValid(selectedDate)) {
+      setFocusedDate(selectedDate);
       const selectedMonthStart = startOfMonth(selectedDate);
-      // ...og den er forskjellig fra måneden som vises...
-      if (!isSameMonth(selectedMonthStart, currentMonthDate)) {
-        // ...oppdater intern tilstand for å navigere kalenderen.
-        setCurrentMonthDate(selectedMonthStart);
-      }
+      setCurrentMonthDate((prev) =>
+        isSameMonth(selectedMonthStart, prev) ? prev : selectedMonthStart,
+      );
     }
-    // Kjør denne effekten på nytt hvis selectedDate prop endres
-  }, [selectedDate]); // Fjernet currentMonthDate fra avhengigheter for å unngå potensielle løkker
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedDate]);
 
-  // --- Resten av DatePicker komponent-logikken forblir den samme ---
-
-  const startOfRealCurrentMonth = useMemo(() => startOfMonth(new Date()), []);
-  const isPrevMonthDisabled = useMemo(() => {
-      return false; // Forenklet: Tillat å gå tilbake
-  }, [currentMonthDate, startOfRealCurrentMonth]);
+  // Flytt DOM-fokus til riktig celle etter tastaturnavigasjon
+  useEffect(() => {
+    if (!shouldFocusCell.current) return;
+    shouldFocusCell.current = false;
+    const cell = gridRef.current?.querySelector<HTMLElement>(
+      `[data-date="${format(focusedDate, 'yyyy-MM-dd')}"]`,
+    );
+    cell?.focus();
+  }, [focusedDate, currentMonthDate]);
 
   const calendarDays = useMemo(
     () => generateCalendarDays(currentMonthDate),
     [currentMonthDate],
   );
 
+  const calendarWeeks = useMemo(() => {
+    const weeks: Date[][] = [];
+    for (let i = 0; i < calendarDays.length; i += 7) {
+      weeks.push(calendarDays.slice(i, i + 7));
+    }
+    return weeks;
+  }, [calendarDays]);
+
   const dayNames = useMemo(() => {
     const firstDayOfWeek = startOfWeek(new Date(), { locale: nb });
     return Array.from({ length: 7 }).map((_, i) => {
-    const dayName = format(addDays(firstDayOfWeek, i), 'EEEEEE', { locale: nb });
+      const dayName = format(addDays(firstDayOfWeek, i), 'EEEEEE', { locale: nb });
       return capitalizeFirstLetter(dayName);
     });
   }, []);
 
   const handlePrevMonth = useCallback(() => {
-    if (!isPrevMonthDisabled) {
-       setCurrentMonthDate((prevDate) => startOfMonth(subMonths(prevDate, 1)));
-    }
-  }, [isPrevMonthDisabled]);
+    setCurrentMonthDate((prevDate) => {
+      const next = startOfMonth(subMonths(prevDate, 1));
+      setFocusedDate((prevFocus) => clampIntoMonth(prevFocus, next));
+      return next;
+    });
+  }, []);
 
   const handleNextMonth = useCallback(() => {
-    setCurrentMonthDate((prevDate) => startOfMonth(addMonths(prevDate, 1)));
+    setCurrentMonthDate((prevDate) => {
+      const next = startOfMonth(addMonths(prevDate, 1));
+      setFocusedDate((prevFocus) => clampIntoMonth(prevFocus, next));
+      return next;
+    });
   }, []);
 
   const handleDateClick = useCallback(
     (day: Date) => {
-      if (onDateSelect) {
-        onDateSelect(day); // Dette oppdaterer tilstanden i forelderen (story)
-      }
+      setFocusedDate(day);
+      onDateSelect?.(day);
     },
     [onDateSelect],
   );
 
+  // Flytt fokus (og om nødvendig visningsmåned) til en ny dato
+  const moveFocus = useCallback((target: Date) => {
+    shouldFocusCell.current = true;
+    setFocusedDate(target);
+    setCurrentMonthDate((prev) =>
+      isSameMonth(target, prev) ? prev : startOfMonth(target),
+    );
+  }, []);
+
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>, day: Date) => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        handleDateClick(day);
+      switch (event.key) {
+        case 'Enter':
+        case ' ':
+          event.preventDefault();
+          handleDateClick(day);
+          return;
+        case 'ArrowLeft':
+          event.preventDefault();
+          moveFocus(addDays(day, -1));
+          return;
+        case 'ArrowRight':
+          event.preventDefault();
+          moveFocus(addDays(day, 1));
+          return;
+        case 'ArrowUp':
+          event.preventDefault();
+          moveFocus(addDays(day, -7));
+          return;
+        case 'ArrowDown':
+          event.preventDefault();
+          moveFocus(addDays(day, 7));
+          return;
+        case 'Home':
+          event.preventDefault();
+          moveFocus(startOfWeek(day, { locale: nb }));
+          return;
+        case 'End':
+          event.preventDefault();
+          moveFocus(endOfWeek(day, { locale: nb }));
+          return;
+        case 'PageUp':
+          event.preventDefault();
+          moveFocus(clampIntoMonth(day, subMonths(day, 1)));
+          return;
+        case 'PageDown':
+          event.preventDefault();
+          moveFocus(clampIntoMonth(day, addMonths(day, 1)));
+          return;
       }
     },
-    [handleDateClick]
+    [handleDateClick, moveFocus],
   );
 
   const monthName = format(currentMonthDate, 'MMMM', { locale: nb });
   const year = format(currentMonthDate, 'yyyy', { locale: nb });
   const monthYearHeader = `${capitalizeFirstLetter(monthName)} ${year}`;
+  const headerId = useId();
+
+  // Fokusdatoen må alltid finnes i gridet som celle med tabIndex 0
+  const focusableDate = isSameMonth(focusedDate, currentMonthDate)
+    ? focusedDate
+    : clampIntoMonth(focusedDate, currentMonthDate);
 
   return (
     <div
       className={styles.calendarContainer}
-      data-color={dataColor} // <-- Brukt
-      data-size={dataSize}   // <-- Brukt
+      data-color={dataColor}
+      data-size={dataSize}
     >
       <div className={styles.calendarHeader}>
-        <span className={styles.monthYear}>{monthYearHeader}</span>
+        <span className={styles.monthYear} id={headerId} aria-live="polite">
+          {monthYearHeader}
+        </span>
         <div className={styles.navigationButtons}>
           <DigDirButton
             variant="tertiary"
             icon
             onClick={handlePrevMonth}
             aria-label={t('datePicker.previousMonth')}
-            disabled={isPrevMonthDisabled}
           >
             <ChevronLeftIcon />
           </DigDirButton>
@@ -164,47 +243,57 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         </div>
       </div>
 
-      <div className={styles.grid}>
-        {dayNames.map((dayName) => (
-          <div key={dayName} className={styles.dayNameCell}>
-            {dayName}
+      <div role="grid" aria-labelledby={headerId} className={styles.gridWrapper} ref={gridRef}>
+        <div role="row" className={styles.gridRow}>
+          {dayNames.map((dayName) => (
+            <div key={dayName} role="columnheader" className={styles.dayNameCell}>
+              {dayName}
+            </div>
+          ))}
+        </div>
+
+        {calendarWeeks.map((week) => (
+          <div role="row" className={styles.gridRow} key={week[0].toISOString()}>
+            {week.map((day) => {
+              const isCurrentMonth = isSameMonth(day, currentMonthDate);
+              const isSelectedDay =
+                selectedDate && isValid(selectedDate) && isSameDay(day, selectedDate);
+              const isTodayDate = isToday(day);
+              const isFocusable = isCurrentMonth && isSameDay(day, focusableDate);
+
+              const cellClasses = [
+                styles.dateCell,
+                !isCurrentMonth ? styles.otherMonth : '',
+                isSelectedDay ? styles.selectedDate : '',
+                isTodayDate && !isSelectedDay ? styles.todayDate : '',
+              ]
+                .filter(Boolean)
+                .join(' ');
+
+              // Dager utenfor måneden er deaktivert i alle modaliteter:
+              // ikke klikkbare, ikke fokuserbare, annonsert som deaktivert.
+              return (
+                <div
+                  key={day.toISOString()}
+                  role="gridcell"
+                  className={cellClasses}
+                  data-date={format(day, 'yyyy-MM-dd')}
+                  onClick={isCurrentMonth ? () => handleDateClick(day) : undefined}
+                  onKeyDown={isCurrentMonth ? (e) => handleKeyDown(e, day) : undefined}
+                  tabIndex={isCurrentMonth ? (isFocusable ? 0 : -1) : undefined}
+                  aria-selected={isCurrentMonth ? Boolean(isSelectedDay) : undefined}
+                  aria-disabled={!isCurrentMonth || undefined}
+                  aria-current={isTodayDate ? 'date' : undefined}
+                  aria-label={format(day, 'PPP', { locale: nb })}
+                >
+                  <span className={styles.dateNumberContainer}>
+                    {format(day, 'd')}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         ))}
-      </div>
-
-      <div className={styles.grid}>
-        {calendarDays.map((day) => {
-          const isCurrentMonth = isSameMonth(day, currentMonthDate);
-          // Uthevingslogikk bruker selectedDate prop direkte
-          const isSelectedDay = selectedDate && isValid(selectedDate) && isSameDay(day, selectedDate);
-          const isTodayDate = isToday(day);
-
-          const cellClasses = [
-            styles.dateCell,
-            !isCurrentMonth ? styles.otherMonth : '',
-            isSelectedDay ? styles.selectedDate : '', // Utheving basert på prop
-            isTodayDate && !isSelectedDay ? styles.todayDate : '',
-          ]
-            .filter(Boolean)
-            .join(' ');
-
-          return (
-            <div
-              key={day.toISOString()}
-              className={cellClasses}
-              onClick={() => handleDateClick(day)}
-              onKeyDown={(e) => handleKeyDown(e, day)}
-              role="button"
-              tabIndex={0}
-              aria-pressed={isSelectedDay ?? false}
-              aria-label={format(day, 'PPP', { locale: nb })}
-            >
-              <span className={styles.dateNumberContainer}>
-                {format(day, 'd')}
-              </span>
-            </div>
-          );
-        })}
       </div>
     </div>
   );
@@ -250,12 +339,15 @@ function buildDatePickerInlineCss(s: Record<string, string>): string {
 .${s.navigationButtons} > button:disabled svg {
   opacity: var(--ds-opacity-disabled, 0.3);
 }
-.${s.grid} {
+.${s.gridWrapper} {
+  width: 100%;
+  overflow: hidden;
+}
+.${s.gridRow} {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   width: 100%;
   text-align: center;
-  overflow: hidden;
 }
 .${s.dayNameCell} {
   display: flex;
@@ -291,6 +383,12 @@ function buildDatePickerInlineCss(s: Record<string, string>): string {
   transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
   user-select: none;
   min-width: 0;
+}
+.${s.dateCell}:focus-visible {
+  outline: var(--ds-border-width-focus, 3px) solid var(--ds-color-focus-outer, #2b2b2b);
+  outline-offset: calc(-1 * var(--ds-border-width-focus, 3px));
+  position: relative;
+  z-index: 2;
 }
 .${s.dateNumberContainer} {
   display: flex;

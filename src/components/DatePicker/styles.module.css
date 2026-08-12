@@ -40,12 +40,16 @@
   opacity: var(--ds-opacity-disabled, 0.3);
 }
 
-.grid {
+.gridWrapper {
+  width: 100%;
+  overflow: hidden;
+}
+
+.gridRow {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   width: 100%;
   text-align: center;
-  overflow: hidden;
 }
 
 .dayNameCell {
@@ -90,6 +94,13 @@
   transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
   user-select: none;
   min-width: 0;
+}
+
+.dateCell:focus-visible {
+  outline: var(--ds-border-width-focus, 3px) solid var(--ds-color-focus-outer, #2b2b2b);
+  outline-offset: calc(-1 * var(--ds-border-width-focus, 3px));
+  position: relative;
+  z-index: 2;
 }
 
 .dateNumberContainer {

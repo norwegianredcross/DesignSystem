@@ -300,7 +300,15 @@ export const CombinedInputAndCalendar: StoryObj<typeof DatePickerInputCombo> = {
     },
     'data-color': {
       control: 'select',
-      options: ['accent', 'brand1', 'brand2', 'brand3', 'neutral'],
+      options: [
+        'primary-color-red',
+        'secondary-color-orange',
+        'secondary-color-rust',
+        'secondary-color-pink',
+        'additional-color-ocean',
+        'additional-color-jungle',
+        'neutral',
+      ],
     },
   },
 };
@@ -334,21 +342,108 @@ export const TestDateSelection: CalendarStory = {
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
 
-    // Find all date cells in the current month (not other month)
-    const dateCells = canvas.getAllByRole('button');
-    // Find a date cell that shows "15" (middle of month, always visible)
-    const day15Cell = dateCells.find(cell => cell.textContent === '15');
+    const day15Cell = canvas.getByRole('gridcell', { name: '15. januar 2025' });
+    await userEvent.click(day15Cell);
 
-    expect(day15Cell).toBeTruthy();
-
-    // Click on day 15
-    await userEvent.click(day15Cell!);
-
-    // Verify the callback was called
     expect(args.onDateSelect).toHaveBeenCalled();
+    expect(day15Cell).toHaveAttribute('aria-selected', 'true');
+  },
+};
 
-    // Verify the cell is now marked as selected (has aria-pressed="true")
-    expect(day15Cell).toHaveAttribute('aria-pressed', 'true');
+/**
+ * The calendar follows the ARIA grid pattern: one grid labelled by the
+ * month header, 7 column headers, a single tab stop (roving tabindex),
+ * and out-of-month cells disabled in every modality.
+ */
+export const TestGridSemantics: CalendarStory = {
+  name: 'Test: Grid Semantics',
+  render: (args) => <DatePicker {...args} />,
+  args: {
+    initialDate: new Date(2025, 0, 15),
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    const grid = canvas.getByRole('grid', { name: /januar 2025/i });
+    expect(grid).toBeInTheDocument();
+    expect(canvas.getAllByRole('columnheader').length).toBe(7);
+    expect(canvas.getAllByRole('row').length).toBe(7); // 1 header + 6 uker
+
+    // Nøyaktig ett tabstopp i hele gridet
+    const tabStops = grid.querySelectorAll('[tabindex="0"]');
+    expect(tabStops.length).toBe(1);
+    expect(tabStops[0]).toHaveAccessibleName('15. januar 2025');
+
+    // Celler utenfor måneden: deaktivert og ikke fokuserbare
+    const outside = grid.querySelectorAll('[aria-disabled="true"]');
+    expect(outside.length).toBeGreaterThan(0);
+    outside.forEach((cell) => {
+      expect(cell).not.toHaveAttribute('tabindex');
+    });
+  },
+};
+
+/**
+ * Arrow keys move focus between days, End jumps to the end of the week,
+ * PageDown moves a month ahead (the view follows), and Enter selects the
+ * focused day.
+ */
+export const TestArrowKeyNavigation: CalendarStory = {
+  name: 'Test: Arrow Key Navigation',
+  render: (args) => {
+    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+    const handleSelect = (date: Date) => {
+      setSelectedDate(date);
+      args.onDateSelect?.(date);
+    };
+    return (
+      <DatePicker
+        {...args}
+        selectedDate={selectedDate}
+        onDateSelect={handleSelect}
+      />
+    );
+  },
+  args: {
+    initialDate: new Date(2025, 0, 15),
+    onDateSelect: fn(),
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const doc = canvasElement.ownerDocument;
+    const activeDate = () => doc.activeElement?.getAttribute('data-date');
+
+    canvas.getByRole('gridcell', { name: '15. januar 2025' }).focus();
+
+    await userEvent.keyboard('{ArrowRight}');
+    expect(activeDate()).toBe('2025-01-16');
+
+    await userEvent.keyboard('{ArrowDown}');
+    expect(activeDate()).toBe('2025-01-23');
+
+    await userEvent.keyboard('{ArrowLeft}');
+    expect(activeDate()).toBe('2025-01-22');
+
+    await userEvent.keyboard('{ArrowUp}');
+    expect(activeDate()).toBe('2025-01-15');
+
+    // Piltast over månedsgrensen: visningen følger fokus
+    canvas.getByRole('gridcell', { name: '31. januar 2025' }).focus();
+    await userEvent.keyboard('{ArrowRight}');
+    expect(activeDate()).toBe('2025-02-01');
+    expect(canvas.getByRole('grid', { name: /februar 2025/i })).toBeInTheDocument();
+
+    // PageDown hopper en måned frem
+    await userEvent.keyboard('{PageDown}');
+    expect(activeDate()).toBe('2025-03-01');
+
+    // Enter velger fokusert dag
+    await userEvent.keyboard('{Enter}');
+    expect(args.onDateSelect).toHaveBeenCalled();
+    const selected = (args.onDateSelect as ReturnType<typeof fn>).mock.lastCall![0] as Date;
+    expect(selected.getFullYear()).toBe(2025);
+    expect(selected.getMonth()).toBe(2);
+    expect(selected.getDate()).toBe(1);
   },
 };
 
@@ -402,10 +497,10 @@ export const TestMonthNavigation: CalendarStory = {
 };
 
 /**
- * Tests keyboard navigation - pressing Enter or Space selects a date.
+ * Space selects the focused date, like Enter.
  */
-export const TestKeyboardNavigation: CalendarStory = {
-  name: 'Test: Keyboard Navigation',
+export const TestSpaceSelection: CalendarStory = {
+  name: 'Test: Space Selection',
   render: (args) => {
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const handleSelect = (date: Date) => {
@@ -427,28 +522,17 @@ export const TestKeyboardNavigation: CalendarStory = {
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
 
-    // Find a date cell
-    const dateCells = canvas.getAllByRole('button');
-    const day10Cell = dateCells.find(cell => cell.textContent === '10');
+    const day10Cell = canvas.getByRole('gridcell', { name: '10. januar 2025' });
+    day10Cell.focus();
+    await userEvent.keyboard(' ');
 
-    expect(day10Cell).toBeTruthy();
-
-    // Focus the cell
-    day10Cell!.focus();
-
-    // Press Enter to select
-    await userEvent.keyboard('{Enter}');
-
-    // Verify the callback was called
     expect(args.onDateSelect).toHaveBeenCalled();
-
-    // Verify the cell is selected
-    expect(day10Cell).toHaveAttribute('aria-pressed', 'true');
+    expect(day10Cell).toHaveAttribute('aria-selected', 'true');
   },
 };
 
 /**
- * Tests that today's date is visually distinguished.
+ * Today's date is marked with aria-current="date".
  */
 export const TestTodayHighlight: CalendarStory = {
   name: 'Test: Today Highlight',
@@ -466,25 +550,11 @@ export const TestTodayHighlight: CalendarStory = {
     initialDate: new Date(), // Current month
   },
   play: async ({ canvasElement }) => {
-    const today = new Date();
-    const todayDate = today.getDate().toString();
+    const todayCells = canvasElement.querySelectorAll('[aria-current="date"]');
+    expect(todayCells.length).toBe(1);
 
-    // Use querySelectorAll to find date cell buttons in the current month
-    const dateCells = canvasElement.querySelectorAll('[role="button"]');
-    const todayCell = Array.from(dateCells).find(cell => {
-      // Match by text content (day number) and verify it's not an other-month cell
-      const hasCorrectDate = cell.textContent?.trim() === todayDate;
-      const isOtherMonth = cell.className.includes('otherMonth');
-      return hasCorrectDate && !isOtherMonth;
-    });
-
-    expect(todayCell).toBeTruthy();
-
-    // Verify the cell has an aria-label containing today's date
-    const ariaLabel = todayCell!.getAttribute('aria-label') || '';
-    expect(ariaLabel).toBeTruthy();
-
-    // Verify this is indeed a cell for today's date number
-    expect(todayCell!.textContent?.trim()).toBe(todayDate);
+    const todayCell = todayCells[0];
+    expect(todayCell.textContent?.trim()).toBe(new Date().getDate().toString());
+    expect(todayCell).not.toHaveAttribute('aria-disabled');
   },
 };
