@@ -10,7 +10,7 @@ const meta: Meta<typeof Footer> = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: 'Footer component with newsletter signup, navigation links, contact information, and optional CrossCorner decorations.',
+        component: 'Footer component with newsletter signup, navigation links, contact information, and optional GraphicElement decorations.',
       },
     },
   },
@@ -40,9 +40,9 @@ const meta: Meta<typeof Footer> = {
       control: 'object',
       description: 'Navigation columns ({ title, links }) for the `columns` variant.',
     },
-    showCrossCorners: {
+    showGraphicElements: {
       control: 'boolean',
-      description: 'Show CrossCorner decorative elements.',
+      description: 'Show decorative GraphicElement shapes in the corners.',
       table: {
         defaultValue: { summary: 'false' },
       },
@@ -113,16 +113,16 @@ export const Default: Story = {
   name: 'Default',
   args: {
     'data-color': 'neutral',
-    showCrossCorners: true,
+    showGraphicElements: true,
   },
 };
 
-// --- Without CrossCorners ---
-export const WithoutCrossCorners: Story = {
-  name: 'Without CrossCorners',
+// --- Without GraphicElements ---
+export const WithoutGraphicElements: Story = {
+  name: 'Without GraphicElements',
   args: {
     'data-color': 'neutral',
-    showCrossCorners: false,
+    showGraphicElements: false,
   },
 };
 
@@ -131,7 +131,7 @@ export const WithSlotContent: Story = {
   name: 'With Slot Content',
   args: {
     'data-color': 'neutral',
-    showCrossCorners: true,
+    showGraphicElements: true,
     whiteSectionSlot: (
       <div style={{ textAlign: 'center' }}>
         <p style={{ margin: 0, fontWeight: 'bold' }}>SLOT</p>
@@ -146,7 +146,7 @@ export const PrimaryColor: Story = {
   name: 'Primary Color Background',
   args: {
     'data-color': 'primary',
-    showCrossCorners: true,
+    showGraphicElements: true,
   },
 };
 
@@ -155,7 +155,7 @@ export const AdditionalColor: Story = {
   name: 'Additional Color Background',
   args: {
     'data-color': 'additional',
-    showCrossCorners: true,
+    showGraphicElements: true,
   },
 };
 
@@ -164,7 +164,7 @@ export const WithoutNewsletter: Story = {
   name: 'Without Newsletter',
   args: {
     'data-color': 'neutral',
-    showCrossCorners: true,
+    showGraphicElements: true,
     hideNewsletter: true,
   },
 };
@@ -174,7 +174,7 @@ export const CustomLinks: Story = {
   name: 'Custom Links',
   args: {
     'data-color': 'neutral',
-    showCrossCorners: true,
+    showGraphicElements: true,
     shortcutsLinks: [
       { label: 'Hjem', href: '/' },
       { label: 'Om oss', href: '/om-oss' },
@@ -194,7 +194,7 @@ export const CustomContactInfo: Story = {
   name: 'Custom Contact Info',
   args: {
     'data-color': 'neutral',
-    showCrossCorners: true,
+    showGraphicElements: true,
     visitingAddress: ['Karl Johans gate 1', '0154 Oslo'],
     organizationNumber: '123 456 789',
     email: 'kontakt@example.no',
@@ -238,7 +238,7 @@ export const ContactVariant: Story = {
   args: {
     variant: 'contact',
     'data-color': 'neutral',
-    showCrossCorners: false,
+    showGraphicElements: false,
     socialLinks: [
       { icon: <XIcon />, label: 'X', href: 'https://x.com/rodekors' },
       { icon: <FacebookIcon />, label: 'Facebook', href: 'https://facebook.com/rodekors' },
@@ -300,13 +300,13 @@ export const ContactVariantWithTitles: Story = {
   },
 };
 
-// --- Contact Variant with CrossCorners ---
-export const ContactVariantWithCrossCorners: Story = {
-  name: 'Contact Variant (With CrossCorners)',
+// --- Contact Variant with GraphicElements ---
+export const ContactVariantWithGraphicElements: Story = {
+  name: 'Contact Variant (With GraphicElements)',
   args: {
     ...ContactVariant.args,
     'data-color': 'additional',
-    showCrossCorners: true,
+    showGraphicElements: true,
   },
 };
 
@@ -366,7 +366,7 @@ export const TestInteraction: Story = {
   name: 'Test: Interaction',
   args: {
     'data-color': 'neutral',
-    showCrossCorners: false,
+    showGraphicElements: false,
     onNewsletterSubmit: fn(),
   },
   play: async ({ canvasElement, args }) => {
@@ -399,7 +399,7 @@ export const TestNewsletterValidation: Story = {
   name: 'Test: Newsletter Validation',
   args: {
     'data-color': 'neutral',
-    showCrossCorners: false,
+    showGraphicElements: false,
     onNewsletterSubmit: fn(),
   },
   play: async ({ canvasElement, args }) => {

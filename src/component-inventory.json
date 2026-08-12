@@ -15,7 +15,6 @@
     { "name": "Carousel", "kind": "primary" },
     { "name": "Checkbox", "kind": "primary" },
     { "name": "Chip", "kind": "primary" },
-    { "name": "CrossCorner", "kind": "primary", "deprecated": true },
     { "name": "DateInput", "kind": "primary" },
     { "name": "DatePicker", "kind": "primary" },
     { "name": "Details", "kind": "primary" },

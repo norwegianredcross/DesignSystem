@@ -13,7 +13,7 @@
   },
   "summary": {
     "componentCount": 46,
-    "documentedComponentCount": 61,
+    "documentedComponentCount": 60,
     "exportedComponents": [
       "Alert",
       "Avatar",
@@ -29,7 +29,6 @@
       "Carousel",
       "Checkbox",
       "Chip",
-      "CrossCorner",
       "DateInput",
       "DatePicker",
       "Details",

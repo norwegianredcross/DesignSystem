@@ -101,7 +101,7 @@ function App() {
         variant="columns"
         data-color="primary"
         colorScheme="dark"
-        showCrossCorners={false}
+        showGraphicElements={false}
         hideNewsletter={true}
         columns={[
           {
