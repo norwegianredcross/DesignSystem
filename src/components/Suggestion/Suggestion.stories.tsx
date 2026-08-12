@@ -58,7 +58,21 @@ const meta: Meta<typeof Suggestion> = {
           'A searchable "select" component, with support for single or multiple selections. Use when a standard <Select> is not sufficient.',
       },
     },
-    a11y: { test: 'todo' }, // aria-allowed-role: DigDir EXPERIMENTAL_Suggestion component a11y issue
+    // WCAG-gaten er PÅ for Suggestion, men tre axe-regler er unntatt fordi
+    // bruddene ligger i Digdir sin EXPERIMENTAL_Suggestion-markup (input med
+    // role="combobox"/popovertarget og opsjoner utenfor listbox-forelder) og
+    // ikke kan rettes herfra. Alle andre regler (kontrast, navn, fokus …)
+    // håndheves fortsatt. Fjern unntakene når Digdir retter komponenten.
+    // Registrert som akseptert risiko i TESTING.md.
+    a11y: {
+      config: {
+        rules: [
+          { id: 'aria-allowed-role', enabled: false },
+          { id: 'aria-required-parent', enabled: false },
+          { id: 'aria-valid-attr-value', enabled: false },
+        ],
+      },
+    },
   },
   argTypes: {
     multiple: {
