@@ -1,20 +1,45 @@
+import { forwardRef } from 'react';
 import { GraphicElement } from '../GraphicElement';
-import type { GraphicElementProps, GraphicElementPosition, GraphicElementSize } from '../GraphicElement';
+import type { GraphicElementPosition, GraphicElementSize } from '../GraphicElement';
+import type { Color } from '../../types';
 
 /**
- * CrossCorner - Deprecated alias for GraphicElement.
+ * Props for CrossCorner — bevisst SMALERE enn GraphicElementProps.
+ * Gamle CrossCorner hadde ingen shape/variant-props, så wrapperen
+ * eksponerer heller ikke disse: da kan ikke ny kode velge andre former
+ * gjennom det utdaterte navnet.
  *
- * Bruk GraphicElement i stedet. CrossCorner er videreført som et alias for
- * GraphicElement og fjernes i en fremtidig versjon. Merk: den gamle
- * CrossCorner-formen tilsvarer `shape="angle"` i GraphicElement; standard
- * `shape="corner"` er en annen form.
- *
- * @deprecated Bruk GraphicElement.
+ * @deprecated Bruk GraphicElement og GraphicElementProps.
  */
-export const CrossCorner = GraphicElement;
+export interface CrossCornerProps {
+  /** Hvilket hjørne grafikken peker mot. @default 'top-left' */
+  position?: GraphicElementPosition;
+  /** Størrelse: sm 48px, md 68px, lg 96px. @default 'md' */
+  size?: GraphicElementSize;
+  /** Fargescope fra temaet (rk-design-tokens). */
+  'data-color'?: Color;
+  className?: string;
+  'aria-label'?: string;
+  /** @default true (dekorativ) */
+  'aria-hidden'?: boolean;
+}
 
-/** @deprecated Bruk GraphicElementProps. */
-export type CrossCornerProps = GraphicElementProps;
+/**
+ * CrossCorner — utdatert kompatibilitetsinnpakning rundt GraphicElement.
+ *
+ * @deprecated Bruk GraphicElement med shape="angle".
+ */
+export const CrossCorner = forwardRef<SVGSVGElement, CrossCornerProps>(
+  (props, ref) => (
+    // Gamle CrossCorner tegnet vinkel-formen (toppbjelke + celle nede til
+    // høyre). GraphicElements standard er shape="corner" — en ANNEN figur.
+    // Uten denne låsingen ville eksisterende konsumenter fått byttet
+    // grafikk i stillhet ved oppgradering.
+    <GraphicElement ref={ref} shape="angle" {...props} />
+  ),
+);
+
+CrossCorner.displayName = 'CrossCorner';
 
 /** @deprecated Bruk GraphicElementPosition. */
 export type CrossCornerPosition = GraphicElementPosition;

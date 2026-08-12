@@ -2271,7 +2271,7 @@
   {
     "componentName": "DatePicker",
     "importPath": "rk-designsystem",
-    "description": "DatePicker-komponent for å velge en dato fra en kalender.",
+    "description": "DatePicker-komponent for å velge en dato fra en kalender.\nKalenderen følger ARIA-grid-mønsteret: ett tabstopp, piltaster mellom\ndager (på tvers av måneder), Home/End til start/slutt av uken og\nPageUp/PageDown mellom måneder.",
     "props": [
       {
         "name": "data-color",
@@ -2290,21 +2290,21 @@
       {
         "name": "initialDate",
         "type": "Date",
-        "description": "",
+        "description": "Måneden kalenderen åpner på når ingen dato er valgt.",
         "defaultValue": "new Date()",
         "required": false
       },
       {
         "name": "selectedDate",
         "type": "Date",
-        "description": "",
+        "description": "Valgt dato. Utheves i kalenderen.",
         "defaultValue": "null",
         "required": false
       },
       {
         "name": "onDateSelect",
         "type": "(date: Date) => void",
-        "description": "",
+        "description": "Kalles når brukeren velger en dato.",
         "defaultValue": null,
         "required": false
       }
@@ -2330,65 +2330,44 @@
         "required": false
       },
       {
-        "name": "label",
-        "type": "ReactNode",
-        "description": "",
-        "defaultValue": null,
-        "required": false
-      },
-      {
         "name": "suffixIcon",
         "type": "ReactNode",
-        "description": "",
+        "description": "Ikon som vises til høyre i feltet, f.eks. et kalenderikon.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "onSuffixClick",
         "type": "MouseEventHandler<HTMLButtonElement>",
-        "description": "",
+        "description": "Klikk-håndterer for suffiks-knappen. Gjør knappen fokuserbar.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "inputWrapperClassName",
         "type": "string",
-        "description": "",
+        "description": "Klasse for input-wrapperen.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "inputClassName",
         "type": "string",
-        "description": "",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "aria-label",
-        "type": "string",
-        "description": "",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "aria-labelledby",
-        "type": "string",
-        "description": "",
+        "description": "Klasse for selve input-elementet.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "description",
         "type": "ReactNode",
-        "description": "",
+        "description": "Beskrivende hjelpetekst under etiketten.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "error",
         "type": "ReactNode",
-        "description": "",
+        "description": "Feilmelding. Styrer også aria-invalid og feilstiler.",
         "defaultValue": null,
         "required": false
       },
@@ -2409,6 +2388,34 @@
       {
         "name": "onChange",
         "type": "(event: ChangeEvent<HTMLInputElement>, formattedValue: string) => void",
+        "description": "Kalles ved endring med hendelsen og den formaterte verdien (dd.mm.åååå).",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "onValidationChange",
+        "type": "(valid: boolean, formattedValue: string) => void",
+        "description": "Kalles når gyldigheten endres. `true`/`false` når datoen er komplett\n(åtte sifre), `false` ved blur med ufullstendig dato, `null` når feltet\ner tomt eller under utfylling. Umulige datoer (31.02, skuddårsbrudd)\ngir `false`.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "aria-labelledby",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "label",
+        "type": "ReactNode",
         "description": "",
         "defaultValue": null,
         "required": false
@@ -2418,76 +2425,48 @@
   {
     "componentName": "CrossCorner",
     "importPath": "rk-designsystem",
-    "description": "CrossCorner - Deprecated alias for GraphicElement.\n\nBruk GraphicElement i stedet. CrossCorner er videreført som et alias for\nGraphicElement og fjernes i en fremtidig versjon. Merk: den gamle\nCrossCorner-formen tilsvarer `shape=\"angle\"` i GraphicElement; standard\n`shape=\"corner\"` er en annen form.",
+    "description": "CrossCorner — utdatert kompatibilitetsinnpakning rundt GraphicElement.",
     "props": [
-      {
-        "name": "data-size",
-        "type": "Size",
-        "description": "Endrer størrelse for underliggende Designsystemet-komponenter. Velg fra forhåndsdefinerte størrelser.",
-        "defaultValue": null,
-        "required": false
-      },
       {
         "name": "position",
         "type": "enum",
-        "description": "Orientation of the shape.\nFor solid and outline: which corner the graphic points to.\nFor isometric: selects between standing (top-*) and lying\n(bottom-*) orientations for corner and angle, and between\nvertical (top-left/bottom-right) and horizontal\n(top-right/bottom-left) for bar.",
+        "description": "Hvilket hjørne grafikken peker mot.",
         "defaultValue": "'top-left'",
         "required": false
       },
       {
         "name": "size",
         "type": "enum",
-        "description": "Size of the graphic (base grid size).\nFor the corner shape: sm: 48px, md: 68px, lg: 96px.",
+        "description": "Størrelse: sm 48px, md 68px, lg 96px.",
         "defaultValue": "'md'",
         "required": false
       },
       {
         "name": "data-color",
         "type": "Color",
-        "description": "Color scope from the theme (rk-design-tokens). Available scopes:\n'primary-color-red' (the default resolved value when inheriting\nfrom the surrounding scope), 'secondary-color-orange',\n'secondary-color-rust', 'secondary-color-pink',\n'additional-color-ocean', 'additional-color-jungle' and 'neutral'.",
+        "description": "Fargescope fra temaet (rk-design-tokens).",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "className",
         "type": "string",
-        "description": "Optional CSS class name.",
+        "description": "",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "aria-label",
         "type": "string",
-        "description": "Accessible label for the decorative graphic.\nSet to empty string if purely decorative.",
+        "description": "",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "aria-hidden",
         "type": "boolean",
-        "description": "Whether the graphic is hidden from assistive technologies.",
-        "defaultValue": "true (decorative by default)",
-        "required": false
-      },
-      {
-        "name": "variant",
-        "type": "enum",
-        "description": "Visual style: filled (solid) or thin stroke (outline).\nIsometric 3D variant: the shape built from unit cubes with\nthree token-driven faces. Available for the shapes square,\ncorner, angle, heart and bar.",
-        "defaultValue": "'solid'",
-        "required": false
-      },
-      {
-        "name": "shape",
-        "type": "enum",
-        "description": "Which graphic element to render. All shapes are derived from\nthe same base form: the arms of the cross.\nShapes available in the isometric variant.",
-        "defaultValue": "'corner'\n'corner'",
-        "required": false
-      },
-      {
-        "name": "mirrored",
-        "type": "boolean",
-        "description": "Mirrors the heart so the depth faces left instead of right.\nOnly applies to the isometric heart.",
-        "defaultValue": "false",
+        "description": "",
+        "defaultValue": "true (dekorativ)",
         "required": false
       }
     ]
