@@ -2271,7 +2271,7 @@
   {
     "componentName": "DatePicker",
     "importPath": "rk-designsystem",
-    "description": "DatePicker-komponent for å velge en dato fra en kalender.",
+    "description": "DatePicker-komponent for å velge en dato fra en kalender.\nKalenderen følger ARIA-grid-mønsteret: ett tabstopp, piltaster mellom\ndager (på tvers av måneder), Home/End til start/slutt av uken og\nPageUp/PageDown mellom måneder.",
     "props": [
       {
         "name": "data-color",
@@ -2290,21 +2290,21 @@
       {
         "name": "initialDate",
         "type": "Date",
-        "description": "",
+        "description": "Måneden kalenderen åpner på når ingen dato er valgt.",
         "defaultValue": "new Date()",
         "required": false
       },
       {
         "name": "selectedDate",
         "type": "Date",
-        "description": "",
+        "description": "Valgt dato. Utheves i kalenderen.",
         "defaultValue": "null",
         "required": false
       },
       {
         "name": "onDateSelect",
         "type": "(date: Date) => void",
-        "description": "",
+        "description": "Kalles når brukeren velger en dato.",
         "defaultValue": null,
         "required": false
       }
