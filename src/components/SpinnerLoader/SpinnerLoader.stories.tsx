@@ -3,7 +3,7 @@ import { expect, within } from 'storybook/test';
 import { Spinner, SpinnerProps } from './index'; 
 
 const meta: Meta<typeof Spinner> = {
-  title: 'Components/Spinner',
+  title: 'Components/SpinnerLoader',
   component: Spinner,
   tags: ['autodocs'],
   parameters: {

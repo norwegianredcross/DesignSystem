@@ -1207,12 +1207,34 @@ const FargeSystemContent = () => {
   );
 };
 
+
+/**
+ * Gjør en kjent frase i en oversatt tekst om til en ekte lenke (JSX).
+ * Tar en liste kandidatfraser slik at begge språk treffes; uten treff
+ * returneres teksten uendret.
+ */
+const linkifyPhrase = (text: string, phrases: string[], href: string) => {
+  for (const phrase of phrases) {
+    const index = text.indexOf(phrase);
+    if (index !== -1) {
+      return (
+        <>
+          {text.slice(0, index)}
+          <Link href={href} target="_blank" rel="noreferrer">{phrase}</Link>
+          {text.slice(index + phrase.length)}
+        </>
+      );
+    }
+  }
+  return text;
+};
+
 const TemabyggerContent = () => {
   const { t } = useLanguage();
   return (
     <ArticleLayout title={t('design.themeBuilder.title')} category={t('design.sidebar.colors')}>
       <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-        {t('design.themeBuilder.intro').replace('Designsystemets temagenerator', `<Link href="${t('design.themeBuilder.generatorLink')}" target="_blank" rel="noreferrer">Designsystemets temagenerator</Link>`)}
+        {linkifyPhrase(t('design.themeBuilder.intro'), ['Designsystemets temagenerator', "Design System's theme generator"], t('design.themeBuilder.generatorLink'))}
       </Paragraph>
       
       <ArticleImage src="/TemabyggerExample.png" alt="Temabygger" caption={t('design.themeBuilder.caption')} />
@@ -1232,7 +1254,7 @@ const TemabyggerContent = () => {
       </Paragraph>
 
       <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-        {t('design.themeBuilder.baseText').replace('Designsystemets temagenerator', `<Link href="${t('design.themeBuilder.generatorLink')}" target="_blank" rel="noreferrer">Designsystemets temagenerator</Link>`)}
+        {linkifyPhrase(t('design.themeBuilder.baseText'), ['Designsystemets temagenerator', "Design System's theme generator"], t('design.themeBuilder.generatorLink'))}
       </Paragraph>
     </ArticleLayout>
   );
@@ -1259,7 +1281,7 @@ const ForeslaDesignContent = () => {
 
       <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.proposeDesign.newComponent')}</Heading>
       <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-        {t('design.proposeDesign.newComponentText1').replace('Github', `<Link href="${t('design.proposeDesign.githubLink')}" target="_blank" rel="noreferrer">Github</Link>`)}
+        {linkifyPhrase(t('design.proposeDesign.newComponentText1'), ['Github'], t('design.proposeDesign.githubLink'))}
       </Paragraph>
       <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
         {t('design.proposeDesign.newComponentText2')}
@@ -1277,7 +1299,7 @@ const ForeslaDesignContent = () => {
 
       <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.proposeDesign.reportTitle')}</Heading>
       <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
-        {t('design.proposeDesign.reportText').replace('Github', `<Link href="${t('design.proposeDesign.githubIssuesLink')}" target="_blank" rel="noreferrer">Github</Link>`)}
+        {linkifyPhrase(t('design.proposeDesign.reportText'), ['Github'], t('design.proposeDesign.githubIssuesLink'))}
       </Paragraph>
     </ArticleLayout>
   );

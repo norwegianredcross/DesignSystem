@@ -6,7 +6,7 @@ import { SkeletonLoader, SkeletonProps } from './index'; // Import the main Skel
 import { Heading, Paragraph, Button } from '@digdir/designsystemet-react';
 
 const meta: Meta<typeof SkeletonLoader> = {
-  title: 'Components/Skeleton',
+  title: 'Components/SkeletonLoader',
   component: SkeletonLoader,
   tags: ['autodocs'],
   parameters: {
