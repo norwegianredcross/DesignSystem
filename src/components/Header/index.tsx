@@ -90,6 +90,10 @@ export const Header = ({
 }: HeaderProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const menuButtonRef = React.useRef<HTMLButtonElement>(null);
+  const searchButtonRef = React.useRef<HTMLButtonElement>(null);
+  const menuOverlayRef = React.useRef<HTMLDivElement>(null);
+  const searchInputRef = React.useRef<HTMLInputElement>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const { language, setLanguage, t } = useLanguageOptional();
@@ -245,6 +249,41 @@ export const Header = ({
       resizeObserver.disconnect();
     };
   }, [isSearchOpen]);
+
+  // Escape closes an open overlay and returns focus to the button that
+  // opened it. Without the focus return, keyboard focus would be left on
+  // an element that just disappeared, and the browser silently drops it
+  // to <body> - a keyboard user loses their place on the page.
+  useEffect(() => {
+    if (!isOpen && !isSearchOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return;
+      if (isOpen) {
+        setIsOpen(false);
+        menuButtonRef.current?.focus();
+      }
+      if (isSearchOpen) {
+        setIsSearchOpen(false);
+        searchButtonRef.current?.focus();
+      }
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [isOpen, isSearchOpen]);
+
+  // When an overlay opens, move focus into it: the search field for the
+  // search overlay, the first focusable element for the menu. Screen
+  // readers then announce the overlay content instead of staying on the
+  // toggle button as if nothing happened.
+  useEffect(() => {
+    if (isSearchOpen) {
+      searchInputRef.current?.focus();
+    } else if (isOpen) {
+      menuOverlayRef.current
+        ?.querySelector<HTMLElement>('a[href], button, input, select, [tabindex]:not([tabindex="-1"])')
+        ?.focus();
+    }
+  }, [isOpen, isSearchOpen]);
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
@@ -480,6 +519,7 @@ export const Header = ({
           {showSearch && (
             <div className={styles.searchButtonWrapper}>
                <Button
+                ref={searchButtonRef}
                 variant="secondary"
                 data-color="main"
                 data-size="md"
@@ -500,6 +540,7 @@ export const Header = ({
         {/* Menu Button */}
           {(showMenuButton || isMobile) && (
             <Button
+              ref={menuButtonRef}
               variant="primary"
               data-color="main"
               data-size="md"
@@ -517,7 +558,7 @@ export const Header = ({
 
       {/* Slottable Menu Area */}
       {isOpen && (
-        <div className={styles.menuOverlay}>
+        <div className={styles.menuOverlay} ref={menuOverlayRef}>
           <div className={styles.menuContent}>
             <div className={styles.menuLeftColumn} />
             <div className={styles.menuRightColumn}>
@@ -608,6 +649,7 @@ export const Header = ({
             <div className={styles.searchContent}>
               <Search>
                 <Search.Input 
+                  ref={searchInputRef}
                   aria-label={t('header.search')} 
                   placeholder={t('header.searchPlaceholder')} 
                   value={searchQuery}
