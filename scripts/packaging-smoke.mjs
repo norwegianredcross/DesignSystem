@@ -91,14 +91,14 @@ export default defineConfig({ base: './', plugins: [react()] });
 `,
   );
 
+  // Konsumenter installerer selv peers (react + Digdir) og byggverktøy;
+  // pakkens egne dependencies (ikoner, date-fns, tokens) skal npm dra inn.
   const deps = [
     JSON.stringify(tarball),
     `react@${dev.react}`,
     `react-dom@${dev['react-dom']}`,
     `@digdir/designsystemet-react@${dev['@digdir/designsystemet-react']}`,
     `@digdir/designsystemet-css@${dev['@digdir/designsystemet-css']}`,
-    `@navikt/aksel-icons@${dev['@navikt/aksel-icons']}`,
-    `rk-design-tokens@${repoPkg.dependencies?.['rk-design-tokens'] ?? dev['rk-design-tokens']}`,
     `vite@${dev.vite}`,
     `@vitejs/plugin-react@${dev['@vitejs/plugin-react']}`,
   ].join(' ');
@@ -172,6 +172,35 @@ export default defineConfig({ base: './', plugins: [react()] });
     await browser.close();
     server.close();
   }
+
+  // 5. Negativ test: en fersk app på React 17 som legger til pakken skal få
+  //    ERESOLVE-konflikt mot peer-kontrakten (>=18.3.1 || ^19), ikke en
+  //    stille installasjon. (I et eksisterende tre nedgraderer npm og merker
+  //    bare treet «invalid» — derfor testes fersk oppløsning uten lockfile.)
+  const freshDir = path.join(tmp, 'fresh-react17');
+  fs.mkdirSync(freshDir);
+  fs.writeFileSync(
+    path.join(freshDir, 'package.json'),
+    JSON.stringify({
+      name: 'rk-smoke-react17',
+      private: true,
+      dependencies: {
+        react: '17.0.2',
+        'react-dom': '17.0.2',
+        'rk-designsystem': `file:${tarball}`,
+      },
+    }),
+  );
+  let incompatibleRejected = false;
+  try {
+    execSync('npm install --dry-run --loglevel=error', { cwd: freshDir, stdio: 'pipe' });
+  } catch {
+    incompatibleRejected = true;
+  }
+  if (!incompatibleRejected) {
+    fail('npm godtok react@17 uten konflikt — peer-kontrakten fanger ikke inkompatible verter.');
+  }
+  console.log('✅ Inkompatibel React (17) avvises av peer-kontrakten.');
 
   console.log('✅ Pakke-røyktest bestått.');
 } finally {
