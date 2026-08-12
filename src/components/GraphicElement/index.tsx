@@ -1,44 +1,7 @@
-import { forwardRef, useEffect } from 'react';
+import { forwardRef } from 'react';
 import type { Color, DefaultProps } from '../../types';
 import type { MergeRight } from '../../utilities';
 import styles from './styles.module.css';
-
-// Fallback CSS injection function
-function buildInlineCss(s: Record<string, string>): string {
-  return `
-.${s.graphicElement} {
-  display: inline-block;
-  flex-shrink: 0;
-  --graphic-element-color: var(--ds-color-base-default, #DA4236);
-  --graphic-element-face-front: var(--ds-color-border-subtle, #EEABA6);
-  --graphic-element-face-top: var(--ds-color-surface-active, #E5776F);
-}
-/* data-color scoping: the theme's [data-color] scopes swap the generic
-   --ds-color-* variables, so no per-ramp rules are needed here. */
-.${s.shape} {
-  fill: var(--graphic-element-color);
-}
-/* Outline variant: thin stroke, no fill */
-.${s.graphicElement}[data-variant="outline"] {
-  overflow: visible;
-}
-.${s.graphicElement}[data-variant="outline"] .${s.shape} {
-  fill: none;
-  stroke: var(--graphic-element-color);
-  stroke-width: 2px;
-}
-/* Isometric variant: three token-driven cube faces */
-.${s.faceFront} {
-  fill: var(--graphic-element-face-front);
-}
-.${s.faceTop} {
-  fill: var(--graphic-element-face-top);
-}
-.${s.faceRight} {
-  fill: var(--graphic-element-color);
-}
-`;
-}
 
 /**
  * Shape variants for the GraphicElement component.
@@ -487,18 +450,6 @@ export const GraphicElement = forwardRef<SVGSVGElement, GraphicElementProps>(
     },
     ref
   ) => {
-    // Fallback: inject minimal GraphicElement styles if consumer did not import the CSS bundle.
-    useEffect(() => {
-      const styleId = 'rk-graphic-element-inline-styles';
-      if (typeof document === 'undefined') return;
-      if (document.getElementById(styleId)) return;
-      const css = buildInlineCss(styles);
-      const tag = document.createElement('style');
-      tag.id = styleId;
-      tag.textContent = css;
-      document.head.appendChild(tag);
-    }, []);
-
     const unit = UNIT_MAP[size];
     const geometry = SHAPE_MAP[shape];
     // Runtime guard for JS consumers bypassing the type union:
