@@ -32,7 +32,13 @@ const meta = {
     },
     title: {
       control: 'text',
-      description: 'The title of the alert.',
+      description: 'Synlig tittel øverst i varselet.',
+    },
+    titleLevel: {
+      control: 'select',
+      options: [undefined, 2, 3, 4, 5, 6],
+      description:
+        'Semantisk overskriftsnivå for tittelen. Uten nivå rendres tittelen som fremhevet tekst uten overskriftssemantikk.',
     },
   },
 } satisfies Meta<typeof Alert>;
@@ -119,6 +125,44 @@ export const LargeSize: Story = {
     'data-size': 'lg',
     title: 'Stor alert',
     children: 'Dette er en stor alert.',
+  },
+};
+
+export const TestTitleRendering: Story = {
+  name: 'Test: Title Rendering',
+  tags: ['!autodocs'],
+  args: {
+    'data-color': 'info',
+    title: 'Viktig informasjon',
+    children: 'Selve meldingen.',
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Tittelen er synlig tekst, men IKKE en overskrift uten titleLevel
+    const title = canvas.getByText('Viktig informasjon');
+    await expect(title).toBeVisible();
+    await expect(canvas.queryByRole('heading')).not.toBeInTheDocument();
+
+    // Tittelen skal ikke lenger lekke som native title-tooltip på rota
+    const alertRoot = canvasElement.querySelector('.ds-alert');
+    await expect(alertRoot).not.toHaveAttribute('title');
+  },
+};
+
+export const TestTitleHeadingLevel: Story = {
+  name: 'Test: Title Heading Level',
+  tags: ['!autodocs'],
+  args: {
+    'data-color': 'warning',
+    title: 'Frist nærmer seg',
+    titleLevel: 3,
+    children: 'Søknadsfristen er 15. april.',
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const heading = canvas.getByRole('heading', { level: 3, name: 'Frist nærmer seg' });
+    await expect(heading).toBeVisible();
   },
 };
 
