@@ -340,17 +340,17 @@ export const TestDefaultAttributes: Story = {
 export const TestRotatedLayoutBox: Story = {
   name: 'Test: Rotated Layout Box',
   tags: ['!autodocs'],
-  // bar er 102x34 grid-enheter liggende; bottom-right betyr 90 graders
-  // rotasjon. Layoutboksen skal da også snus (34x102) - tidligere roterte
-  // CSS bare pikslene og lot boksen stå igjen liggende, så elementet
-  // overlappet naboene sine.
+  // A bar is 102x34 grid units lying down; bottom-right means a 90 degree
+  // rotation. The layout box must flip too (34x102) - previously CSS only
+  // rotated the pixels and left the box lying down, so the element
+  // overlapped its neighbours.
   args: { shape: 'bar', position: 'bottom-right' },
   play: async ({ canvasElement }) => {
     const svg = canvasElement.querySelector('svg');
     await expect(svg).toHaveAttribute('viewBox', '0 0 34 102');
     await expect(svg).toHaveAttribute('width', '34');
     await expect(svg).toHaveAttribute('height', '102');
-    // Rotasjonen ligger som SVG-transform pa gruppen, ikke som CSS
+    // The rotation lives as an SVG transform on the group, not as CSS
     await expect(svg?.querySelector('g')).toHaveAttribute('transform');
     await expect(svg?.style.transform).toBeFalsy();
   },

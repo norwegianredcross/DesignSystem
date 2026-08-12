@@ -529,14 +529,14 @@ export const GraphicElement = forwardRef<SVGSVGElement, GraphicElementProps>(
     const viewBoxW = iso ? iso.w : geometry.viewBoxW;
     const viewBoxH = iso ? iso.h : geometry.viewBoxH;
 
-    // Rotasjonen skjer INNE i SVG-en (<g transform>), ikke med CSS på
-    // elementet. CSS transform roterer bare pikslene — layoutboksen beholder
-    // originalens bredde/høyde, så en liggende bar ville overlappe naboene
-    // sine. Ved 90°/270° bytter derfor viewBox og width/height plass, og
-    // geometrien mappes inn i den nye boksen:
+    // The rotation happens INSIDE the SVG (<g transform>), not with CSS on
+    // the element. CSS transform only rotates the pixels — the layout box
+    // keeps the original width/height, so a lying bar would overlap its
+    // neighbours. At 90°/270° the viewBox and width/height therefore swap,
+    // and the geometry is mapped into the new box:
     //   90°:  (x,y) -> (H-y, x)      180°: (x,y) -> (W-x, H-y)
     //   270°: (x,y) -> (y, W-x)
-    // (SVG-transformlister virker høyre-mot-venstre: translate først, så rotate.)
+    // (SVG transform lists apply right-to-left: translate first, then rotate.)
     const swapAxes = rotation === 90 || rotation === 270;
     const boxW = swapAxes ? viewBoxH : viewBoxW;
     const boxH = swapAxes ? viewBoxW : viewBoxH;
