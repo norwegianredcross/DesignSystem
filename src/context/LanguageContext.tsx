@@ -114,6 +114,9 @@ export const useLanguageOptional = (): LanguageContextType => {
           'datePicker.nextMonth': 'Neste måned',
           // DateInput translations
           'dateInput.openDatePicker': 'Åpne datovelger',
+          'dateInput.errorIncomplete': 'Ufullstendig dato. Bruk formatet dd.mm.åååå.',
+          'dateInput.errorInvalid': 'Ugyldig dato. Kontroller dag og måned.',
+          'dateInput.errorRange': 'Datoen må være mellom {min} og {max}.',
         };
         return fallbacks[key] || key;
       },

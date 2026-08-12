@@ -221,6 +221,59 @@ export const TestCalendarValidation: Story = {
 };
 
 /**
+ * Leaving the field with an invalid, incomplete or out-of-range date shows
+ * the built-in inline error (no consumer wiring needed); editing clears it,
+ * and an explicit error prop overrides it.
+ */
+export const TestBuiltInValidationMessage: Story = {
+  name: 'Test: Built-in Validation Message',
+  args: {
+    label: 'Dato',
+    id: 'test-builtin-validation',
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole('textbox');
+
+    // Year 4242 is a real calendar date but outside the default 1900-2100 range
+    await userEvent.clear(input);
+    await userEvent.type(input, '13124242');
+    await userEvent.tab();
+    const rangeError = await canvas.findByRole('alert');
+    expect(rangeError).toHaveTextContent('Datoen må være mellom 01.01.1900 og 31.12.2100.');
+    expect(input).toHaveAttribute('aria-invalid', 'true');
+    expect(input).toHaveAccessibleDescription(/mellom 01\.01\.1900/);
+
+    // Editing clears the message immediately
+    await userEvent.type(input, '{backspace}');
+    expect(canvas.queryByRole('alert')).not.toBeInTheDocument();
+    expect(input).toHaveAttribute('aria-invalid', 'false');
+
+    // Impossible date -> invalid message on blur
+    await userEvent.clear(input);
+    await userEvent.type(input, '31022024');
+    await userEvent.tab();
+    expect(await canvas.findByRole('alert')).toHaveTextContent(
+      'Ugyldig dato. Kontroller dag og måned.',
+    );
+
+    // Incomplete date -> incomplete message on blur
+    await userEvent.clear(input);
+    await userEvent.type(input, '1312');
+    await userEvent.tab();
+    expect(await canvas.findByRole('alert')).toHaveTextContent(
+      'Ufullstendig dato. Bruk formatet dd.mm.åååå.',
+    );
+
+    // A valid date leaves no error behind
+    await userEvent.clear(input);
+    await userEvent.type(input, '13122024');
+    await userEvent.tab();
+    expect(canvas.queryByRole('alert')).not.toBeInTheDocument();
+  },
+};
+
+/**
  * The event passed to onChange keeps the real input element as target, so
  * standard form patterns (e.target.name, .id, .focus()) work.
  */

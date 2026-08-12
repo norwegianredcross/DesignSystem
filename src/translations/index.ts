@@ -1037,7 +1037,10 @@ export const translations = {
     },
     // DateInput
     dateInput: {
-      openDatePicker: "Åpne datovelger"
+      openDatePicker: "Åpne datovelger",
+      errorIncomplete: "Ufullstendig dato. Bruk formatet dd.mm.åååå.",
+      errorInvalid: "Ugyldig dato. Kontroller dag og måned.",
+      errorRange: "Datoen må være mellom {min} og {max}."
     }
   },
   EN: {
@@ -2080,7 +2083,10 @@ export const translations = {
     },
     // DateInput
     dateInput: {
-      openDatePicker: "Open date picker"
+      openDatePicker: "Open date picker",
+      errorIncomplete: "Incomplete date. Use the format dd.mm.yyyy.",
+      errorInvalid: "Invalid date. Check the day and month.",
+      errorRange: "The date must be between {min} and {max}."
     }
   }
 };

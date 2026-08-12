@@ -7,7 +7,7 @@ import React, {
   useId,
   useRef,
 } from "react";
-import { isValid, parse } from "date-fns";
+import { format, isValid, parse } from "date-fns";
 import styles from "./styles.module.css";
 import type { DefaultProps, LabelRequired } from "../../types";
 import type { MergeRight } from "../../utilities";
@@ -55,9 +55,19 @@ export type DateInputProps = MergeRight<
      * Kalles når gyldigheten endres. `true`/`false` når datoen er komplett
      * (åtte sifre), `false` ved blur med ufullstendig dato, `null` når feltet
      * er tomt eller under utfylling. Umulige datoer (31.02, skuddårsbrudd)
-     * gir `false`.
+     * og datoer utenfor min-/maksgrensene gir `false`.
      */
     onValidationChange?: (valid: boolean | null, formattedValue: string) => void;
+    /** Tidligste gyldige dato. Standard: 01.01.1900. */
+    minDate?: Date;
+    /** Seneste gyldige dato. Standard: 31.12.2100. */
+    maxDate?: Date;
+    /**
+     * Om komponenten selv skal vise en feilmelding under feltet når en
+     * ugyldig eller ufullstendig dato forlates. En eksplisitt `error`-prop
+     * overstyrer alltid den innebygde meldingen. Standard: true.
+     */
+    showValidationMessage?: boolean;
   } & LabelRequired
 >;
 
@@ -75,15 +85,23 @@ const getDigits = (value: string | null | undefined): string => {
   return (value || "").replace(/\D/g, "").slice(0, 8);
 };
 
+const DEFAULT_MIN_DATE = new Date(1900, 0, 1);
+const DEFAULT_MAX_DATE = new Date(2100, 11, 31);
+
+type ValidationResult = "valid" | "invalid" | "out-of-range" | null;
+
 /**
  * Kalendervaliditet for en komplett dato. Ufullstendige datoer er `null`
  * (uavklart); komplette datoer valideres mot ekte kalender via date-fns,
- * slik at 31.02.2024 og 29.02.2023 er ugyldige. Inndata skrives aldri om.
+ * slik at 31.02.2024 og 29.02.2023 er ugyldige, og deretter mot
+ * min-/maksgrensene. Inndata skrives aldri om.
  */
-const computeValidity = (digits: string): boolean | null => {
+const computeValidity = (digits: string, minDate: Date, maxDate: Date): ValidationResult => {
   if (digits.length < 8) return null;
   const parsed = parse(formatNorwegianDate(digits), "dd.MM.yyyy", new Date());
-  return isValid(parsed);
+  if (!isValid(parsed)) return "invalid";
+  if (parsed < minDate || parsed > maxDate) return "out-of-range";
+  return "valid";
 };
 
 /**
@@ -117,6 +135,9 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
       defaultValue,
       onChange: onChangeProp,
       onValidationChange,
+      minDate = DEFAULT_MIN_DATE,
+      maxDate = DEFAULT_MAX_DATE,
+      showValidationMessage = true,
       readOnly,
       placeholder = "dd.mm.åååå",
       id,
@@ -151,6 +172,22 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
         onValidationChange?.(valid, formatted);
       },
       [onValidationChange],
+    );
+
+    // Innebygd feilmelding: settes ved blur, fjernes mens brukeren redigerer.
+    const [internalError, setInternalError] = useState<string | null>(null);
+    const validationMessageFor = useCallback(
+      (result: ValidationResult, incomplete: boolean): string | null => {
+        if (incomplete) return t('dateInput.errorIncomplete');
+        if (result === 'invalid') return t('dateInput.errorInvalid');
+        if (result === 'out-of-range') {
+          return t('dateInput.errorRange')
+            .replace('{min}', format(minDate, 'dd.MM.yyyy'))
+            .replace('{max}', format(maxDate, 'dd.MM.yyyy'));
+        }
+        return null;
+      },
+      [t, minDate, maxDate],
     );
 
     const getFormattedValue = useCallback(
@@ -205,37 +242,46 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
           onChangeProp?.(event, formatted);
         }
 
-        // Under utfylling rapporteres bare komplett/tom tilstand;
-        // ufullstendig dato avgjøres først ved blur.
-        const validity = computeValidity(currentDigits);
+        // Mens brukeren redigerer vises ingen feilmelding; endelig vurdering
+        // skjer ved blur. Komplett/tom tilstand rapporteres fortløpende.
+        setInternalError(null);
+        const validity = computeValidity(currentDigits, minDate, maxDate);
         if (currentDigits.length === 0 || currentDigits.length === 8) {
-          reportValidity(currentDigits.length === 0 ? null : validity, formatted);
+          reportValidity(currentDigits.length === 0 ? null : validity === 'valid', formatted);
         }
       },
-      [displayValue, isControlled, onChangeProp, reportValidity],
+      [displayValue, isControlled, onChangeProp, reportValidity, minDate, maxDate],
     );
 
     const handleBlur = useCallback(
       (event: React.FocusEvent<HTMLInputElement>) => {
         const digits = getDigits(event.target.value);
+        const formatted = formatNorwegianDate(digits);
         if (digits.length === 0) {
           reportValidity(null, "");
+          setInternalError(null);
         } else if (digits.length < 8) {
-          reportValidity(false, formatNorwegianDate(digits));
+          reportValidity(false, formatted);
+          setInternalError(validationMessageFor(null, true));
         } else {
-          reportValidity(computeValidity(digits), formatNorwegianDate(digits));
+          const result = computeValidity(digits, minDate, maxDate);
+          reportValidity(result === 'valid', formatted);
+          setInternalError(validationMessageFor(result, false));
         }
         onBlur?.(event);
       },
-      [onBlur, reportValidity],
+      [onBlur, reportValidity, validationMessageFor, minDate, maxDate],
     );
 
+    // Konsumentens error-prop overstyrer alltid den innebygde meldingen
+    const shownError = error ?? (showValidationMessage ? internalError : null);
+
     const fieldsetClasses = [styles.fieldset, className].filter(Boolean).join(' ');
-    
+
     const wrapperClasses = [
-      styles.inputWrapper, 
-      inputWrapperClassName, 
-      error ? styles.inputWrapperError : '', 
+      styles.inputWrapper,
+      inputWrapperClassName,
+      shownError ? styles.inputWrapperError : '',
     ].filter(Boolean).join(' ');
 
     const inputClasses = [
@@ -258,7 +304,7 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
     const inputId = id ?? `dateinput${autoId}`;
     const labelId = label && typeof label === 'string' ? `${inputId}-label` : undefined;
     const descriptionId = description ? `${inputId}-desc` : undefined;
-    const errorId = error ? `${inputId}-err` : undefined;
+    const errorId = shownError ? `${inputId}-err` : undefined;
     const describedByIds = [descriptionId, errorId].filter(Boolean).join(' ') || undefined;
     const labelledBy = ariaLabelledby ?? labelId;
 
@@ -305,7 +351,7 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
             aria-label={ariaLabel}
             aria-labelledby={labelledBy}
             aria-describedby={describedByIds}
-            aria-invalid={!!error}
+            aria-invalid={!!shownError}
             className={inputClasses}
             {...rest}
           />
@@ -324,9 +370,9 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
           )}
         </div>
 
-        {error && (
+        {shownError && (
           <p id={errorId} className={styles.error} role="alert">
-            {error}
+            {shownError}
           </p>
         )}
       </div>
