@@ -792,17 +792,12 @@ import { BreadcrumbsList } from 'rk-designsystem';
 import { CrossCorner } from 'rk-designsystem';
 
 <CrossCorner
-  aria-hidden?={true (decorative by default)}
+  aria-hidden?={true (decorative)}
   aria-label?={string}
   className?={string}
   data-color?="accent" | "neutral" | "danger" | etc.
-  data-size?="sm" | "md" | "lg"
-  mirrored?={false}
   position?={"top-left"}
-  shape?={"corner"
-"corner"}
   size?={"md"}
-  variant?={"solid"}
  />
 ```
 
