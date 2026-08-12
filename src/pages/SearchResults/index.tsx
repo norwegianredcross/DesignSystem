@@ -12,7 +12,14 @@ interface SearchResultsPageProps {
 }
 
 export const SearchResultsPage = ({ query, setPage }: SearchResultsPageProps) => {
-  const decodedQuery = decodeURIComponent(query || '');
+  // Defensiv dekoding: en hash med ugyldig prosent-sekvens (f.eks. et rått
+  // '%') skal ikke krasje hele appen.
+  let decodedQuery: string;
+  try {
+    decodedQuery = decodeURIComponent(query || '');
+  } catch {
+    decodedQuery = query || '';
+  }
 
   const results = useMemo(() => {
     if (!decodedQuery.trim()) return [];

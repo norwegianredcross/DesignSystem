@@ -35,7 +35,11 @@ function App() {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
   
-  const [mainPage, subPage] = page.split('/');
+  // Del kun på første skråstrek: resten av stien (f.eks. et søk med '/')
+  // hører til undersiden og skal ikke forkastes.
+  const slashIndex = page.indexOf('/');
+  const mainPage = slashIndex === -1 ? page : page.slice(0, slashIndex);
+  const subPage = slashIndex === -1 ? undefined : page.slice(slashIndex + 1);
 
   return (
     <div className="app-container">
@@ -71,11 +75,11 @@ function App() {
         ) : mainPage === 'code' ? (
           <CodePage setPage={setPage} section={subPage} />
         ) : mainPage === 'search' ? (
-          <SearchResultsPage query={subPage} setPage={setPage} />
+          <SearchResultsPage query={subPage ?? ''} setPage={setPage} />
         ) : mainPage === 'tokens' ? (
           <TokensPage />
         ) : (
-          <DesignPage section={subPage} />
+          <DesignPage section={subPage} setPage={setPage} />
         )}
       </div>
 

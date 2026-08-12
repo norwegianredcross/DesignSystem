@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
 import { useLanguage } from '../../context/LanguageContext';
 import { Heading } from '../../components/Heading';
@@ -1294,18 +1294,32 @@ type MenuItem = {
 
 interface DesignPageProps {
   section?: string;
+  setPage?: (page: string) => void;
 }
 
-export const DesignPage = ({ section }: DesignPageProps) => {
+export const DesignPage = ({ section, setPage }: DesignPageProps) => {
   const { t } = useLanguage();
   const [activeDesignPage, setActiveDesignPage] = useState(section || 'intro');
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Update active page if section prop changes
-  if (section && section !== activeDesignPage) {
-     setActiveDesignPage(section);
-  }
+  // URL-hashen er kilden til aktiv artikkel: prop-endringer (deep-links,
+  // frem/tilbake) synkroniseres hit i en effekt — aldri under render, som
+  // låste all sidenavigasjon etter en deep-link.
+  useEffect(() => {
+    setActiveDesignPage(section || 'intro');
+  }, [section]);
+
+  // Navigasjon fra sidemenyen skriver hashen (design/<artikkel>) slik at
+  // lenker kan deles og tilbake-knappen virker; uten setPage faller vi
+  // tilbake til ren lokal tilstand.
+  const navigate = (id: string) => {
+    if (setPage) {
+      setPage(id === 'intro' ? 'design' : `design/${id}`);
+    } else {
+      setActiveDesignPage(id);
+    }
+  };
 
   // Menu Data Structure
   const menuItems: { title: string; items: MenuItem[] }[] = [
@@ -1395,7 +1409,7 @@ export const DesignPage = ({ section }: DesignPageProps) => {
         <Card variant="tinted" data-color="neutral" className={styles.introCard}>
           <CardBlock>
             <Heading level={3} data-size="sm">{t('design.intro.getStarted')}</Heading>
-            <Link href="#" className={styles.textButton} onClick={(e) => {e.preventDefault(); setActiveDesignPage('figma-oppkobling')}}>
+            <Link href="#" className={styles.textButton} onClick={(e) => {e.preventDefault(); navigate('figma-oppkobling')}}>
               {t('design.intro.goToGuide')}
               <ArrowRightIcon aria-hidden />
             </Link>
@@ -1404,7 +1418,7 @@ export const DesignPage = ({ section }: DesignPageProps) => {
         <Card variant="tinted" data-color="neutral" className={styles.introCard}>
           <CardBlock>
             <Heading level={3} data-size="sm">{t('design.intro.colors')}</Heading>
-            <Link href="#" className={styles.textButton} onClick={(e) => {e.preventDefault(); setActiveDesignPage('fargesystem')}}>
+            <Link href="#" className={styles.textButton} onClick={(e) => {e.preventDefault(); navigate('fargesystem')}}>
               {t('design.intro.seeColors')}
               <ArrowRightIcon aria-hidden />
             </Link>
@@ -1458,10 +1472,7 @@ export const DesignPage = ({ section }: DesignPageProps) => {
                                  type="button"
                                  className={`${styles.link} ${styles.nestedLink} ${activeDesignPage === subItem.id ? styles.nestedLinkActive : ''}`}
                                  onClick={() => {
-                                   if (subItem.id) {
-                                     setActiveDesignPage(subItem.id);
-                                     // setOpenSections({}); // Keep menus open
-                                   }
+                                   if (subItem.id) navigate(subItem.id);
                                  }}
                                >
                                  {subItem.label}
@@ -1476,7 +1487,7 @@ export const DesignPage = ({ section }: DesignPageProps) => {
                          type="button"
                          className={`${styles.link} ${activeDesignPage === item.id ? styles.linkActive : ''}`}
                          onClick={() => {
-                            if (item.id) setActiveDesignPage(item.id);
+                            if (item.id) navigate(item.id);
                          }}
                        >
                          {item.label}
