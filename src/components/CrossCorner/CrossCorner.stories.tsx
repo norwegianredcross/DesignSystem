@@ -20,7 +20,6 @@ type Story = StoryObj<typeof meta>;
 
 export const LegacyAngle: Story = {
   args: {
-    shape: 'angle',
     position: 'top-right',
     size: 'sm',
     'data-color': 'secondary-color-rust',
@@ -33,8 +32,6 @@ export const TestAliasContract: Story = {
   name: 'Test: Deprecated Alias Contract',
   tags: ['!autodocs'],
   args: {
-    shape: 'angle',
-    variant: 'outline',
     position: 'bottom-right',
     size: 'sm',
     'aria-hidden': false,
@@ -46,11 +43,15 @@ export const TestAliasContract: Story = {
     });
 
     await expect(graphic.tagName).toBe('svg');
+    // The core of the compatibility contract: WITHOUT a shape prop the
+    // wrapper must render the angle shape (the old CrossCorner), not
+    // GraphicElement's default "corner". The solid path is the angle's
+    // geometry.
     await expect(graphic).toHaveAttribute('data-shape', 'angle');
-    await expect(graphic).toHaveAttribute('data-variant', 'outline');
+    await expect(graphic).toHaveAttribute('data-variant', 'solid');
     await expect(graphic).toHaveAttribute('viewBox', '0 0 68 68');
     await expect(graphic).toHaveAttribute('width', '48');
     await expect(graphic).toHaveAttribute('height', '48');
-    await expect(graphic.querySelector('path')).toHaveAttribute('d', 'M0 0H68V68');
+    await expect(graphic.querySelector('path')).toHaveAttribute('d', 'M0 0H68V68H34V34H0V0Z');
   },
 };
