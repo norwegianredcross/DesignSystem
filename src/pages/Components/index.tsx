@@ -10,7 +10,7 @@ import styles from './styles.module.css';
 const components = [
     'Alert', 'Avatar', 'Badge', 'Breadcrumbs', 'Button', 'Card', 'Carousel', 'Checkbox', 'Chip',
     'DateInput', 'DatePicker', 'Details', 'Dialog', 'Divider', 'Dropdown', 'ErrorSummary',
-    'Field', 'Fieldset', 'Header', 'HeroSection', 'Input', 'Link', 'List', 'Pagination', 'Popover', 'Radio',
+    'Field', 'Fieldset', 'GraphicElement', 'Header', 'HeroSection', 'Input', 'Link', 'List', 'Pagination', 'Popover', 'Radio',
     'Search', 'Select', 'SkeletonLoader', 'SkipLink', 'SpinnerLoader', 'Suggestion',
     'Switch', 'Table', 'Tabs', 'Tag', 'Textarea', 'Textfield', 'ToggleGroup', 'Tooltip'
 ];
@@ -34,6 +34,7 @@ const iconMap: Record<string, string> = {
     ErrorSummary: 'errorsummary.svg',
     Field: 'field.svg',
     Fieldset: 'fieldset.svg',
+    GraphicElement: 'graphicelement.svg',
     Input: 'textfield.svg',
     Link: 'link.svg',
     List: 'list.svg',

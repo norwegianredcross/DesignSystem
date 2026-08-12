@@ -1,0 +1,25 @@
+<svg width="216" height="106" viewBox="22 8 180 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g clip-path="url(#clip0_graphicelement)">
+    <rect width="180" height="90" transform="translate(22 8)" fill="#fae4e2" />
+
+    <!-- corner shape (GraphicElement shape="corner", U-grid geometry) -->
+    <path d="M63 24H80V58H46V41H63V24Z" fill="#D52B1E"/>
+
+    <!-- cross shape: gapped plus -->
+    <rect x="104" y="24" width="15" height="15" fill="#D52B1E"/>
+    <rect x="104" y="43" width="15" height="15" fill="#f6d2cf"/>
+    <rect x="95" y="34" width="15" height="15" fill="#f6d2cf"/>
+    <rect x="114" y="34" width="15" height="15" fill="#D52B1E"/>
+
+    <!-- square outline (variant="outline") -->
+    <rect x="146" y="26" width="30" height="30" stroke="#D52B1E" stroke-width="3"/>
+
+    <!-- bar shape underneath -->
+    <rect x="46" y="68" width="130" height="12" fill="#f6d2cf"/>
+  </g>
+  <defs>
+    <clipPath id="clip0_graphicelement">
+      <rect width="180" height="90" fill="white" transform="translate(22 8)"/>
+    </clipPath>
+  </defs>
+</svg>
