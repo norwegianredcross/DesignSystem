@@ -58,12 +58,13 @@ const meta: Meta<typeof Suggestion> = {
           'A searchable "select" component, with support for single or multiple selections. Use when a standard <Select> is not sufficient.',
       },
     },
-    // WCAG-gaten er PÅ for Suggestion, men tre axe-regler er unntatt fordi
-    // bruddene ligger i Digdir sin EXPERIMENTAL_Suggestion-markup (input med
-    // role="combobox"/popovertarget og opsjoner utenfor listbox-forelder) og
-    // ikke kan rettes herfra. Alle andre regler (kontrast, navn, fokus …)
-    // håndheves fortsatt. Fjern unntakene når Digdir retter komponenten.
-    // Registrert som akseptert risiko i TESTING.md.
+    // The WCAG gate is ON for Suggestion, but three axe rules are exempted
+    // because the violations live in Digdir's EXPERIMENTAL_Suggestion markup
+    // (an input with role="combobox"/popovertarget, and options rendered
+    // outside a listbox parent) and cannot be fixed from our wrapper. All
+    // other rules (contrast, names, focus ...) are still enforced. Remove
+    // the exemptions once Digdir fixes the component. Registered as
+    // accepted risk in TESTING.md.
     a11y: {
       config: {
         rules: [
