@@ -92,7 +92,10 @@ const groupedMountainOptions = [
 export const Default: Story = {
   name: 'Example Basic',
   render: (args) => (
-    // Label outside Field
+    // Label må ligge INNI Field: Field skanner sine barn og setter for/id-
+    // koblingen mellom Label og skjemafeltet automatisk. Utenfor Field blir
+    // det ingen kobling, og <select> står uten tilgjengelig navn
+    // (axe-regelen "select-name").
     <>
       <Field data-size={args['data-size']}>
         <Label>Velg et fjell</Label>
@@ -117,10 +120,12 @@ export const Default: Story = {
 export const WithError: Story = {
   name: 'Example with Error',
   render: (args) => (
-    // Label outside Field
     <>
       <Field data-size={args['data-size']}>
         <Label>Velg et fjell *</Label>
+        {/* Ingen manuell aria-describedby her: Field kobler selv feltet til
+            ValidationMessage under. Settes den i tillegg manuelt, får
+            select-en samme id to ganger — ugyldig attributtverdi for axe. */}
         <Select required {...args}>
           {mountainOptions.map((opt) => (
             <Select.Option key={opt.value} value={opt.value} disabled={opt.value === ''}>
@@ -148,8 +153,7 @@ export const WithError: Story = {
 export const WithGrouping: Story = {
     name: 'Example with Grouping (Optgroup)',
     render: (args) => (
-      // Label outside Field
-      <>
+        <>
         <Field data-size={args['data-size']}>
           <Label>Velg et fjell</Label>
           <Select {...args}>
@@ -179,7 +183,6 @@ export const WithGrouping: Story = {
 export const Disabled: Story = {
  name: 'Example Disabled',
  render: (args) => (
-    // Label outside Field
     <>
       <Field data-size={args['data-size']}>
         <Label>Utilgjengelig valg</Label>
@@ -201,7 +204,6 @@ export const Disabled: Story = {
 export const ReadOnly: Story = {
  name: 'Example ReadOnly',
  render: (args) => (
-    // Label outside Field
     <>
       <Field data-size={args['data-size']}>
         <Label>Kun lesbart valg</Label>
