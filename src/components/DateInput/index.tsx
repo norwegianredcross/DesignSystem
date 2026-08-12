@@ -4,18 +4,17 @@ import React, {
   useState,
   useEffect,
   useCallback,
+  useId,
   useRef,
 } from "react";
-// Bruk de angitte stilene
+import { isValid, parse } from "date-fns";
 import styles from "./styles.module.css";
-// Importer DefaultProps for å få data-color og data-size
-import type { DefaultProps } from "../../types";
+import type { DefaultProps, LabelRequired } from "../../types";
 import type { MergeRight } from "../../utilities";
 import { useLanguageOptional } from "../../context/LanguageContext";
 
-// --- Oppdatert grensesnitt ---
 export type DateInputProps = MergeRight<
-  DefaultProps, // <-- Legg til dette
+  DefaultProps,
   Omit<
     InputHTMLAttributes<HTMLInputElement>,
     | "prefix"
@@ -31,26 +30,37 @@ export type DateInputProps = MergeRight<
     | "defaultValue"
     | "onChange"
   > & {
-    label?: React.ReactNode;
+    /** Ikon som vises til høyre i feltet, f.eks. et kalenderikon. */
     suffixIcon?: React.ReactNode;
+    /** Klikk-håndterer for suffiks-knappen. Gjør knappen fokuserbar. */
     onSuffixClick?: React.MouseEventHandler<HTMLButtonElement>;
-    className?: string; // Klasse for det ytre fieldset-div
-    inputWrapperClassName?: string; // Klasse spesifikt for input-wrapper div
-    inputClassName?: string; // Klasse spesifikt for input-elementet
-    "aria-label"?: string;
-    "aria-labelledby"?: string;
+    /** Klasse for den ytre wrapperen. */
+    className?: string;
+    /** Klasse for input-wrapperen. */
+    inputWrapperClassName?: string;
+    /** Klasse for selve input-elementet. */
+    inputClassName?: string;
+    /** Beskrivende hjelpetekst under etiketten. */
     description?: React.ReactNode;
-    error?: React.ReactNode; // Brukes for styling og aria-invalid
+    /** Feilmelding. Styrer også aria-invalid og feilstiler. */
+    error?: React.ReactNode;
     value?: string | null;
     defaultValue?: string | null;
+    /** Kalles ved endring med hendelsen og den formaterte verdien (dd.mm.åååå). */
     onChange?: (
       event: React.ChangeEvent<HTMLInputElement>,
       formattedValue: string,
     ) => void;
-  }
+    /**
+     * Kalles når gyldigheten endres. `true`/`false` når datoen er komplett
+     * (åtte sifre), `false` ved blur med ufullstendig dato, `null` når feltet
+     * er tomt eller under utfylling. Umulige datoer (31.02, skuddårsbrudd)
+     * gir `false`.
+     */
+    onValidationChange?: (valid: boolean | null, formattedValue: string) => void;
+  } & LabelRequired
 >;
 
-// --- Hjelpefunksjoner (format, getDigits, validate) ---
 const formatNorwegianDate = (digits: string): string => {
   const d = digits.slice(0, 2);
   const m = digits.slice(2, 4);
@@ -62,20 +72,18 @@ const formatNorwegianDate = (digits: string): string => {
 };
 
 const getDigits = (value: string | null | undefined): string => {
-  return (value || "").replace(/\D/g, "");
+  return (value || "").replace(/\D/g, "").slice(0, 8);
 };
 
-const validateDigits = (digits: string): string => {
-  let validated = digits;
-  if (validated.length >= 2) {
-    const dayNum = parseInt(validated.substring(0, 2), 10);
-    if (!isNaN(dayNum) && dayNum > 31) validated = "31" + validated.substring(2);
-  }
-  if (validated.length >= 4) {
-    const monthNum = parseInt(validated.substring(2, 4), 10);
-    if (!isNaN(monthNum) && monthNum > 12) validated = validated.substring(0, 2) + "12" + validated.substring(4);
-  }
-  return validated.slice(0, 8);
+/**
+ * Kalendervaliditet for en komplett dato. Ufullstendige datoer er `null`
+ * (uavklart); komplette datoer valideres mot ekte kalender via date-fns,
+ * slik at 31.02.2024 og 29.02.2023 er ugyldige. Inndata skrives aldri om.
+ */
+const computeValidity = (digits: string): boolean | null => {
+  if (digits.length < 8) return null;
+  const parsed = parse(formatNorwegianDate(digits), "dd.MM.yyyy", new Date());
+  return isValid(parsed);
 };
 
 /**
@@ -102,12 +110,13 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
       label,
       suffixIcon,
       onSuffixClick,
-      className, // For ytre fieldset
-      inputWrapperClassName, // For input wrapper div
-      inputClassName, // For selve input-elementet
+      className,
+      inputWrapperClassName,
+      inputClassName,
       value: controlledValue,
       defaultValue,
       onChange: onChangeProp,
+      onValidationChange,
       readOnly,
       placeholder = "dd.mm.åååå",
       id,
@@ -115,15 +124,15 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
       required,
       disabled,
       onClick,
-      onFocus, // Send ekstern onFocus videre
-      onBlur,  // Send ekstern onBlur videre
+      onFocus,
+      onBlur,
       autoComplete = "off",
       "aria-label": ariaLabel,
       "aria-labelledby": ariaLabelledby,
       description,
-      error, // Bruk error-prop for styling
-      "data-color": dataColor, // <-- Destrukturering
-      "data-size": dataSize,   // <-- Destrukturering
+      error,
+      "data-color": dataColor,
+      "data-size": dataSize,
       ...rest
     } = props;
 
@@ -134,12 +143,18 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
       () => internalInputRef.current as HTMLInputElement,
     );
 
-    const getFormattedValue = useCallback(
-      (val: string | null | undefined) => {
-        const digits = getDigits(val);
-        const validatedDigits = validateDigits(digits);
-        return formatNorwegianDate(validatedDigits);
+    const lastReportedValidity = useRef<boolean | null>(null);
+    const reportValidity = useCallback(
+      (valid: boolean | null, formatted: string) => {
+        if (valid === lastReportedValidity.current) return;
+        lastReportedValidity.current = valid;
+        onValidationChange?.(valid, formatted);
       },
+      [onValidationChange],
+    );
+
+    const getFormattedValue = useCallback(
+      (val: string | null | undefined) => formatNorwegianDate(getDigits(val)),
       [],
     );
 
@@ -164,42 +179,55 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
     }, [controlledValue, isControlled, displayValue, getFormattedValue]);
 
 
-    // Håndterer endringer i input-feltet
+    // Endringer håndteres synkront slik at kontrollerte skjema får riktig
+    // rundtur-timing, og hendelsen som sendes videre beholder det ekte
+    // input-elementet som target (name, id, validity, focus() osv. virker).
     const handleInputChange = useCallback(
       (event: React.ChangeEvent<HTMLInputElement>) => {
         const input = event.target;
-        const currentValueInInput = input.value;
         const previousFormattedValue = displayValue;
 
-        const currentDigits = getDigits(currentValueInInput).slice(0, 8);
-        const validatedDigits = validateDigits(currentDigits);
-        const formatted = formatNorwegianDate(validatedDigits);
+        const currentDigits = getDigits(input.value);
+        const formatted = formatNorwegianDate(currentDigits);
 
         let cursorPos = 0;
-        const numDigits = validatedDigits.length;
+        const numDigits = currentDigits.length;
         if (numDigits <= 2) cursorPos = numDigits;
         else if (numDigits <= 4) cursorPos = numDigits + 1;
         else cursorPos = numDigits + 2;
         cursorPos = Math.min(cursorPos, formatted.length);
 
-        requestAnimationFrame(() => {
-          if (!internalInputRef.current) return;
-          setDisplayValue(formatted);
-          internalInputRef.current.value = formatted;
-          internalInputRef.current.setSelectionRange(cursorPos, cursorPos);
+        setDisplayValue(formatted);
+        input.value = formatted;
+        input.setSelectionRange(cursorPos, cursorPos);
 
-          if (formatted !== previousFormattedValue || isControlled) { // Varsle hvis kontrollert
-            if (onChangeProp) {
-              const syntheticEvent = {
-                ...event,
-                target: { ...input, value: formatted },
-              } as React.ChangeEvent<HTMLInputElement>;
-              onChangeProp(syntheticEvent, formatted);
-            }
-          }
-        });
+        if (formatted !== previousFormattedValue || isControlled) {
+          onChangeProp?.(event, formatted);
+        }
+
+        // Under utfylling rapporteres bare komplett/tom tilstand;
+        // ufullstendig dato avgjøres først ved blur.
+        const validity = computeValidity(currentDigits);
+        if (currentDigits.length === 0 || currentDigits.length === 8) {
+          reportValidity(currentDigits.length === 0 ? null : validity, formatted);
+        }
       },
-      [displayValue, isControlled, onChangeProp, getFormattedValue],
+      [displayValue, isControlled, onChangeProp, reportValidity],
+    );
+
+    const handleBlur = useCallback(
+      (event: React.FocusEvent<HTMLInputElement>) => {
+        const digits = getDigits(event.target.value);
+        if (digits.length === 0) {
+          reportValidity(null, "");
+        } else if (digits.length < 8) {
+          reportValidity(false, formatNorwegianDate(digits));
+        } else {
+          reportValidity(computeValidity(digits), formatNorwegianDate(digits));
+        }
+        onBlur?.(event);
+      },
+      [onBlur, reportValidity],
     );
 
     const fieldsetClasses = [styles.fieldset, className].filter(Boolean).join(' ');
@@ -223,10 +251,16 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
     if (!label && !ariaLabel && !ariaLabelledby) {
       console.warn('Advarsel: DateInput-komponenten bør ha label, aria-label, eller aria-labelledby for tilgjengelighet.');
     }
-    const labelId = label && typeof label === 'string' ? (ariaLabelledby || `${id}-label`) : undefined;
-    const descriptionId = description ? `${id}-desc` : undefined;
-    const errorId = error ? `${id}-err` : undefined;
+    // Stabile id-er også når konsumenten ikke oppgir id. En ekstern
+    // aria-labelledby respekteres som den er og gjenbrukes aldri som id på
+    // den interne etiketten.
+    const autoId = useId();
+    const inputId = id ?? `dateinput${autoId}`;
+    const labelId = label && typeof label === 'string' ? `${inputId}-label` : undefined;
+    const descriptionId = description ? `${inputId}-desc` : undefined;
+    const errorId = error ? `${inputId}-err` : undefined;
     const describedByIds = [descriptionId, errorId].filter(Boolean).join(' ') || undefined;
+    const labelledBy = ariaLabelledby ?? labelId;
 
     return (
       // --- Bruk data-color og data-size på den ytre wrapperen ---
@@ -236,7 +270,7 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
         data-size={dataSize}   // <-- Bruk
       >
         {label && typeof label === 'string' ? (
-          <label id={labelId} htmlFor={id}>
+          <label id={labelId} htmlFor={inputId}>
             {label}
           </label>
         ) : (
@@ -259,17 +293,17 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
             value={displayValue}
             readOnly={readOnly}
             placeholder={placeholder}
-            id={id}
+            id={inputId}
             name={name}
             required={required}
             disabled={disabled}
             onClick={onClick}
             onChange={handleInputChange}
             onFocus={onFocus}
-            onBlur={onBlur}
+            onBlur={handleBlur}
             autoComplete={autoComplete}
             aria-label={ariaLabel}
-            aria-labelledby={labelId}
+            aria-labelledby={labelledBy}
             aria-describedby={describedByIds}
             aria-invalid={!!error}
             className={inputClasses}
