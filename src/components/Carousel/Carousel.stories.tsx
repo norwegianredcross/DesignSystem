@@ -74,9 +74,18 @@ type Story = StoryObj<typeof Carousel>;
 export const Default: Story = {
   args: {
     images: [
-      { src: demo1, alt: 'Grafisk element: hjørne' },
-      { src: demo2, alt: 'Grafisk element: kors' },
-      { src: demo3, alt: 'Grafisk element: hjerte' },
+      {
+        src: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop',
+        alt: 'Solnedgang',
+      },
+      {
+        src: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1200&auto=format&fit=crop',
+        alt: 'Fjell',
+      },
+      {
+        src: 'https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=1200&auto=format&fit=crop',
+        alt: 'Skog',
+      },
     ],
     autoPlay: false,
     autoDelay: 5,
