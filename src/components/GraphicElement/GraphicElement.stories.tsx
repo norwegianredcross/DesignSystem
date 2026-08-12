@@ -336,6 +336,26 @@ export const TestDefaultAttributes: Story = {
   },
 };
 
+// --- Test: rotated shapes swap their layout box ---
+export const TestRotatedLayoutBox: Story = {
+  name: 'Test: Rotated Layout Box',
+  tags: ['!autodocs'],
+  // bar er 102x34 grid-enheter liggende; bottom-right betyr 90 graders
+  // rotasjon. Layoutboksen skal da også snus (34x102) - tidligere roterte
+  // CSS bare pikslene og lot boksen stå igjen liggende, så elementet
+  // overlappet naboene sine.
+  args: { shape: 'bar', position: 'bottom-right' },
+  play: async ({ canvasElement }) => {
+    const svg = canvasElement.querySelector('svg');
+    await expect(svg).toHaveAttribute('viewBox', '0 0 34 102');
+    await expect(svg).toHaveAttribute('width', '34');
+    await expect(svg).toHaveAttribute('height', '102');
+    // Rotasjonen ligger som SVG-transform pa gruppen, ikke som CSS
+    await expect(svg?.querySelector('g')).toHaveAttribute('transform');
+    await expect(svg?.style.transform).toBeFalsy();
+  },
+};
+
 // --- Test: shape, variant and color data attributes ---
 export const TestShapeAndVariantAttributes: Story = {
   name: 'Test: Shape and Variant Attributes',

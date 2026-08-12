@@ -523,13 +523,33 @@ export const GraphicElement = forwardRef<SVGSVGElement, GraphicElementProps>(
         'GraphicElement: `mirrored` gjelder kun variant="isometric" med shape="heart" og ignoreres her.'
       );
     }
-    // Isometric orientations are dedicated polygon sets; no CSS rotation
+    // Isometric orientations are dedicated polygon sets; no rotation
     // is applied (rotating an isometric projection breaks the shading).
     const rotation = iso ? 0 : ROTATION_MAP[position];
     const viewBoxW = iso ? iso.w : geometry.viewBoxW;
     const viewBoxH = iso ? iso.h : geometry.viewBoxH;
-    const width = Math.round((unit * viewBoxW) / VIEWBOX_UNIT);
-    const height = Math.round((unit * viewBoxH) / VIEWBOX_UNIT);
+
+    // Rotasjonen skjer INNE i SVG-en (<g transform>), ikke med CSS på
+    // elementet. CSS transform roterer bare pikslene — layoutboksen beholder
+    // originalens bredde/høyde, så en liggende bar ville overlappe naboene
+    // sine. Ved 90°/270° bytter derfor viewBox og width/height plass, og
+    // geometrien mappes inn i den nye boksen:
+    //   90°:  (x,y) -> (H-y, x)      180°: (x,y) -> (W-x, H-y)
+    //   270°: (x,y) -> (y, W-x)
+    // (SVG-transformlister virker høyre-mot-venstre: translate først, så rotate.)
+    const swapAxes = rotation === 90 || rotation === 270;
+    const boxW = swapAxes ? viewBoxH : viewBoxW;
+    const boxH = swapAxes ? viewBoxW : viewBoxH;
+    const width = Math.round((unit * boxW) / VIEWBOX_UNIT);
+    const height = Math.round((unit * boxH) / VIEWBOX_UNIT);
+    const groupTransform =
+      rotation === 90
+        ? `rotate(90) translate(0 ${-viewBoxH})`
+        : rotation === 180
+          ? `rotate(180) translate(${-viewBoxW} ${-viewBoxH})`
+          : rotation === 270
+            ? `rotate(-90) translate(${-viewBoxW} 0)`
+            : undefined;
 
     return (
       <svg
@@ -537,7 +557,7 @@ export const GraphicElement = forwardRef<SVGSVGElement, GraphicElementProps>(
         className={`${styles.graphicElement} ${className || ''}`}
         width={width}
         height={height}
-        viewBox={`0 0 ${viewBoxW} ${viewBoxH}`}
+        viewBox={`0 0 ${boxW} ${boxH}`}
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         aria-label={ariaLabel}
@@ -547,22 +567,21 @@ export const GraphicElement = forwardRef<SVGSVGElement, GraphicElementProps>(
         data-variant={effectiveVariant}
         data-color={dataColor}
         data-size={dataSize}
-        style={{
-          transform: rotation ? `rotate(${rotation}deg)` : undefined,
-        }}
         {...rest}
       >
-        {iso ? (
-          iso.faces.map((face, index) => (
-            <path key={index} d={face.d} className={FACE_CLASS[face.face]} />
-          ))
-        ) : (
-          <path
-            d={effectiveVariant === 'outline' ? geometry.outline : geometry.solid}
-            className={styles.shape}
-            vectorEffect="non-scaling-stroke"
-          />
-        )}
+        <g transform={groupTransform}>
+          {iso ? (
+            iso.faces.map((face, index) => (
+              <path key={index} d={face.d} className={FACE_CLASS[face.face]} />
+            ))
+          ) : (
+            <path
+              d={effectiveVariant === 'outline' ? geometry.outline : geometry.solid}
+              className={styles.shape}
+              vectorEffect="non-scaling-stroke"
+            />
+          )}
+        </g>
       </svg>
     );
   }
