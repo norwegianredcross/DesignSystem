@@ -109,6 +109,8 @@ export const useLanguageOptional = (): LanguageContextType => {
           'carousel.nextImage': 'Neste bilde',
           'carousel.imagePosition': 'Bildeposisjon',
           'carousel.goToImage': 'Gå til bilde',
+          'carousel.pauseAutoplay': 'Pause automatisk avspilling',
+          'carousel.resumeAutoplay': 'Start automatisk avspilling',
           // DatePicker translations
           'datePicker.previousMonth': 'Forrige måned',
           'datePicker.nextMonth': 'Neste måned',

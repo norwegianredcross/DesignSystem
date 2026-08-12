@@ -1028,7 +1028,9 @@ export const translations = {
       previousImage: "Forrige bilde",
       nextImage: "Neste bilde",
       imagePosition: "Bildeposisjon",
-      goToImage: "Gå til bilde"
+      goToImage: "Gå til bilde",
+      pauseAutoplay: "Pause automatisk avspilling",
+      resumeAutoplay: "Start automatisk avspilling"
     },
     // DatePicker
     datePicker: {
@@ -2071,7 +2073,9 @@ export const translations = {
       previousImage: "Previous image",
       nextImage: "Next image",
       imagePosition: "Image position",
-      goToImage: "Go to image"
+      goToImage: "Go to image",
+      pauseAutoplay: "Pause autoplay",
+      resumeAutoplay: "Resume autoplay"
     },
     // DatePicker
     datePicker: {

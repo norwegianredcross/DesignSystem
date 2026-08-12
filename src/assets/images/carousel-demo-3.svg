@@ -1,0 +1,9 @@
+<svg width="1200" height="675" viewBox="0 0 1200 675" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="675" fill="#57110C"/>
+  <!-- heart: two squares + notch block -->
+  <rect x="400" y="140" width="200" height="200" fill="#EEABA6"/>
+  <rect x="600" y="140" width="200" height="200" fill="#EEABA6"/>
+  <path d="M400 340H800V440H700V540H500V440H400V340Z" fill="#EEABA6"/>
+  <rect x="120" y="140" width="180" height="400" fill="#B42419"/>
+  <rect x="900" y="140" width="180" height="400" fill="#F6D2CF"/>
+</svg>

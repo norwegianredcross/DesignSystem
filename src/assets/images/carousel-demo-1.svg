@@ -1,0 +1,8 @@
+<svg width="1200" height="675" viewBox="0 0 1200 675" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="675" fill="#FAE4E2"/>
+  <!-- corner shape -->
+  <path d="M450 137H750V437H150V287H450V137Z" fill="#D52B1E"/>
+  <rect x="150" y="487" width="600" height="50" fill="#EEABA6"/>
+  <rect x="850" y="137" width="200" height="200" fill="#F7F3EF"/>
+  <rect x="850" y="387" width="200" height="150" fill="#57110C"/>
+</svg>
