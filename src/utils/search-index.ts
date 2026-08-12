@@ -41,7 +41,6 @@ export const searchIndex: SearchItem[] = [
   { id: 'fieldset', title: 'Fieldset', category: 'Component', path: 'components', description: 'Gruppering av skjemafelt' },
   { id: 'graphicelement', title: 'GraphicElement', category: 'Component', path: 'components', description: 'Grafiske merkevareelementer fra designretningen' },
   { id: 'header', title: 'Header', category: 'Component', path: 'components', description: 'Topptekst og navigasjon' },
-  { id: 'herosection', title: 'HeroSection', category: 'Component', path: 'components', description: 'Store introduksjonsseksjoner' },
   { id: 'input', title: 'Input', category: 'Component', path: 'components', description: 'Tekstfelt for brukerinput' },
   { id: 'link', title: 'Link', category: 'Component', path: 'components', description: 'Lenker til andre sider' },
   { id: 'list', title: 'List', category: 'Component', path: 'components', description: 'Ordnede og uordnede lister' },
