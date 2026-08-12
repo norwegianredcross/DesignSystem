@@ -1,3 +1,5 @@
+import packageJson from '../../../package.json';
+import inventory from '../../component-inventory.json';
 import { Heading } from '../../components/Heading';
 import { Paragraph } from '../../components/Paragraph';
 import { Card, CardBlock } from '../../components/Card';
@@ -22,6 +24,11 @@ interface HomePageProps {
   setPage: (page: string) => void;
 }
 
+// Avledet fra kanonisk inventar og pakkeversjon - aldri hardkodet.
+const componentCount = (inventory.exports as { kind: string; deprecated?: boolean }[])
+  .filter((entry) => entry.kind === 'primary' && !entry.deprecated).length;
+const versionLabel = `v${packageJson.version.split('.').slice(0, 2).join('.')}`;
+
 export const HomePage = ({ setPage }: HomePageProps) => {
   const { t } = useLanguage();
 
@@ -34,7 +41,7 @@ export const HomePage = ({ setPage }: HomePageProps) => {
             {/* Notch: white step cut out of the panel's top-left corner ("krysset" cutout).
                 Holds the release badge — the system's "stamp" in the brand-mark slot. */}
             <div className={styles.heroNotch}>
-              <Tag data-color="main" data-size="sm">v1.2</Tag>
+              <Tag data-color="main" data-size="sm">{versionLabel}</Tag>
               <span className={styles.notchMeta}>Open Source</span>
             </div>
             <span className={styles.heroKicker}>{t('home.hero.kicker')}</span>
@@ -85,7 +92,7 @@ export const HomePage = ({ setPage }: HomePageProps) => {
         <div className={`container ${styles.statsGrid}`}>
           <Card variant="default" className={styles.statCard}>
             <CardBlock className={styles.statBlock}>
-              <div className={styles.statNumber}>39</div>
+              <div className={styles.statNumber}>{componentCount}</div>
               <Paragraph data-size="sm" className={styles.statLabel}>
                 {t('header.nav.components')}
               </Paragraph>
@@ -101,7 +108,7 @@ export const HomePage = ({ setPage }: HomePageProps) => {
           </Card>
           <Card variant="default" className={styles.statCard}>
             <CardBlock className={styles.statBlock}>
-              <div className={styles.statNumber}>v1.2</div>
+              <div className={styles.statNumber}>{versionLabel}</div>
               <Paragraph data-size="sm" className={styles.statLabel}>
                 Open Source
               </Paragraph>

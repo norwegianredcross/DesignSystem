@@ -70,7 +70,7 @@
     "clean": "rimraf dist",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
-    "test": "vitest run --config vitest.config.ts --project storybook",
+    "test": "vitest run --config vitest.config.ts",
     "preview": "vite preview",
     "prepublishOnly": "npm run clean && npm run build",
     "storybook": "storybook dev -p 6006",

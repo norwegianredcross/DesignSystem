@@ -26,6 +26,7 @@ export const translations = {
         components: "Komponenter",
         code: "Kode",
         tokens: "Tokens",
+        skipToContent: "Hopp til hovedinnhold",
         work: "Vårt arbeid",
         volunteer: "Bli frivillig",
         courses: "Kurs og opplæring"
@@ -1069,6 +1070,7 @@ export const translations = {
         components: "Components",
         code: "Code",
         tokens: "Tokens",
+        skipToContent: "Skip to main content",
         work: "Our Work",
         volunteer: "Volunteer",
         courses: "Courses & Training"

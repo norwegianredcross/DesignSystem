@@ -31,7 +31,6 @@ export const ArticleLayout = ({ title, intro, category, children }: ArticleLayou
     )}
     <hr style={{ border: 0, borderTop: '2px solid var(--ds-color-primary-color-red-base-default)', width: 'var(--ds-size-30)', marginLeft: 0, marginBottom: 'var(--ds-size-6)' }} />
     <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--ds-size-6)', marginBottom: 'var(--ds-size-10)', fontSize: 'var(--ds-font-size-2)', color: 'var(--ds-color-neutral-text-subtle)' }}>
-      <span>Oppdatert juli 2026</span>
       <a
         href="https://github.com/norwegianredcross/DesignSystem/issues/new/choose"
         target="_blank"

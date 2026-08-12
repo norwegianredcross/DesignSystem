@@ -1,0 +1,56 @@
+import { readFileSync } from 'node:fs';
+import { describe, expect, it } from 'vitest';
+import { searchIndex } from './search-index';
+
+/**
+ * Indeksvalidering: hver design/- og code/-sti i søkeindeksen må peke på en
+ * artikkel som siden faktisk rendrer. Artikkel-id-ene leses ut av sidenes
+ * kildekode, så testen feiler når en artikkel fjernes/omdøpes uten at
+ * indeksen oppdateres — og omvendt.
+ */
+const extractIds = (file: string, stateVar: string): Set<string> => {
+  const source = readFileSync(file, 'utf8');
+  const pattern = new RegExp(`${stateVar} === '([a-z0-9-]+)'`, 'g');
+  const ids = new Set<string>();
+  for (const match of source.matchAll(pattern)) ids.add(match[1]);
+  return ids;
+};
+
+describe('search-index', () => {
+  const designIds = extractIds('src/pages/Design/index.tsx', 'activeDesignPage');
+  const codeIds = extractIds('src/pages/Code/index.tsx', 'activeCodePage');
+  const validPages = new Set(['home', 'components', 'design', 'code', 'tokens']);
+
+  it('has unique ids', () => {
+    const ids = searchIndex.map((item) => item.id);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it('every path resolves to a real page or article', () => {
+    for (const item of searchIndex) {
+      const [page, article] = [
+        item.path.includes('/') ? item.path.slice(0, item.path.indexOf('/')) : item.path,
+        item.path.includes('/') ? item.path.slice(item.path.indexOf('/') + 1) : undefined,
+      ];
+      expect(validPages, `ukjent side i path: ${item.path}`).toContain(page);
+      if (article !== undefined) {
+        const valid = page === 'design' ? designIds : page === 'code' ? codeIds : new Set<string>();
+        expect(valid.has(article), `død artikkelsti: ${item.path}`).toBe(true);
+      }
+    }
+  });
+
+  it('covers every design and code article', () => {
+    const indexed = new Set(
+      searchIndex.filter((i) => i.path.includes('/')).map((i) => i.path.slice(i.path.indexOf('/') + 1)),
+    );
+    for (const id of designIds) {
+      if (id === 'intro') continue; // dekkes av 'design'-sideoppføringen
+      expect(indexed.has(id), `design-artikkel mangler i indeksen: ${id}`).toBe(true);
+    }
+    for (const id of codeIds) {
+      if (id === 'intro') continue; // dekkes av 'code'-sideoppføringen
+      expect(indexed.has(id), `code-artikkel mangler i indeksen: ${id}`).toBe(true);
+    }
+  });
+});

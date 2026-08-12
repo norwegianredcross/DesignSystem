@@ -1,6 +1,7 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useLanguage } from './context/LanguageContext';
 import { Header } from './components/Header';
+import { SkipLink } from './components/SkipLink';
 import { Footer } from './components/Footer';
 import { HomePage } from './pages/Home';
 import { ComponentsPage } from './pages/Components';
@@ -41,8 +42,21 @@ function App() {
   const mainPage = slashIndex === -1 ? page : page.slice(0, slashIndex);
   const subPage = slashIndex === -1 ? undefined : page.slice(slashIndex + 1);
 
+  // Flytt fokus til hovedinnholdet ved sidebytte (ikke ved første last),
+  // slik at tastatur- og skjermleserbrukere lander i det nye innholdet.
+  const mainRef = useRef<HTMLDivElement>(null);
+  const isFirstRender = useRef(true);
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    mainRef.current?.focus();
+  }, [page]);
+
   return (
     <div className="app-container">
+      <SkipLink href="#hovedinnhold">{t('header.nav.skipToContent')}</SkipLink>
       <Header 
         activePage={mainPage} 
         setPage={setPage} 
@@ -67,7 +81,7 @@ function App() {
         ]}
       />
       
-      <div className="main-content">
+      <div className="main-content" id="hovedinnhold" ref={mainRef} tabIndex={-1} style={{ outline: 'none' }}>
         {mainPage === 'home' ? (
           <HomePage setPage={setPage} />
         ) : mainPage === 'components' ? (
