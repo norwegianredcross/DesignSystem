@@ -792,7 +792,7 @@ import { BreadcrumbsList } from 'rk-designsystem';
 import { CrossCorner } from 'rk-designsystem';
 
 <CrossCorner
-  aria-hidden?={true (dekorativ)}
+  aria-hidden?={true (decorative)}
   aria-label?={string}
   className?={string}
   data-color?="accent" | "neutral" | "danger" | etc.

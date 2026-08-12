@@ -43,9 +43,10 @@ export const TestAliasContract: Story = {
     });
 
     await expect(graphic.tagName).toBe('svg');
-    // Kjernen i kompatibilitetskontrakten: UTEN shape-prop skal wrapperen
-    // rendre vinkel-formen (gamle CrossCorner), ikke GraphicElements
-    // standard "corner". Solid-pathen er vinkelens geometri.
+    // The core of the compatibility contract: WITHOUT a shape prop the
+    // wrapper must render the angle shape (the old CrossCorner), not
+    // GraphicElement's default "corner". The solid path is the angle's
+    // geometry.
     await expect(graphic).toHaveAttribute('data-shape', 'angle');
     await expect(graphic).toHaveAttribute('data-variant', 'solid');
     await expect(graphic).toHaveAttribute('viewBox', '0 0 68 68');

@@ -4,37 +4,37 @@ import type { GraphicElementPosition, GraphicElementSize } from '../GraphicEleme
 import type { Color } from '../../types';
 
 /**
- * Props for CrossCorner — bevisst SMALERE enn GraphicElementProps.
- * Gamle CrossCorner hadde ingen shape/variant-props, så wrapperen
- * eksponerer heller ikke disse: da kan ikke ny kode velge andre former
- * gjennom det utdaterte navnet.
+ * Props for CrossCorner — deliberately NARROWER than GraphicElementProps.
+ * The old CrossCorner had no shape/variant props, so the wrapper does not
+ * expose them either: new code cannot pick other shapes through the
+ * deprecated name.
  *
  * @deprecated Bruk GraphicElement og GraphicElementProps.
  */
 export interface CrossCornerProps {
-  /** Hvilket hjørne grafikken peker mot. @default 'top-left' */
+  /** Which corner the graphic points to. @default 'top-left' */
   position?: GraphicElementPosition;
-  /** Størrelse: sm 48px, md 68px, lg 96px. @default 'md' */
+  /** Size: sm 48px, md 68px, lg 96px. @default 'md' */
   size?: GraphicElementSize;
-  /** Fargescope fra temaet (rk-design-tokens). */
+  /** Color scope from the theme (rk-design-tokens). */
   'data-color'?: Color;
   className?: string;
   'aria-label'?: string;
-  /** @default true (dekorativ) */
+  /** @default true (decorative) */
   'aria-hidden'?: boolean;
 }
 
 /**
- * CrossCorner — utdatert kompatibilitetsinnpakning rundt GraphicElement.
+ * CrossCorner — deprecated compatibility wrapper around GraphicElement.
  *
  * @deprecated Bruk GraphicElement med shape="angle".
  */
 export const CrossCorner = forwardRef<SVGSVGElement, CrossCornerProps>(
   (props, ref) => (
-    // Gamle CrossCorner tegnet vinkel-formen (toppbjelke + celle nede til
-    // høyre). GraphicElements standard er shape="corner" — en ANNEN figur.
-    // Uten denne låsingen ville eksisterende konsumenter fått byttet
-    // grafikk i stillhet ved oppgradering.
+    // The old CrossCorner drew the angle shape (top bar + bottom-right
+    // cell). GraphicElement's default is shape="corner" — a DIFFERENT
+    // figure. Without this lock, existing consumers would silently get a
+    // different graphic when upgrading.
     <GraphicElement ref={ref} shape="angle" {...props} />
   ),
 );

@@ -2425,26 +2425,26 @@
   {
     "componentName": "CrossCorner",
     "importPath": "rk-designsystem",
-    "description": "CrossCorner — utdatert kompatibilitetsinnpakning rundt GraphicElement.",
+    "description": "CrossCorner — deprecated compatibility wrapper around GraphicElement.",
     "props": [
       {
         "name": "position",
         "type": "enum",
-        "description": "Hvilket hjørne grafikken peker mot.",
+        "description": "Which corner the graphic points to.",
         "defaultValue": "'top-left'",
         "required": false
       },
       {
         "name": "size",
         "type": "enum",
-        "description": "Størrelse: sm 48px, md 68px, lg 96px.",
+        "description": "Size: sm 48px, md 68px, lg 96px.",
         "defaultValue": "'md'",
         "required": false
       },
       {
         "name": "data-color",
         "type": "Color",
-        "description": "Fargescope fra temaet (rk-design-tokens).",
+        "description": "Color scope from the theme (rk-design-tokens).",
         "defaultValue": null,
         "required": false
       },
@@ -2466,7 +2466,7 @@
         "name": "aria-hidden",
         "type": "boolean",
         "description": "",
-        "defaultValue": "true (dekorativ)",
+        "defaultValue": "true (decorative)",
         "required": false
       }
     ]
