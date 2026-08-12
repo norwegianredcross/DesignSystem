@@ -12,7 +12,7 @@ import { CalendarIcon } from '../../assets/images/CalendarIcon'; // Adjust path 
 
 // Storybook Meta Configuration
 const meta: Meta<typeof DatePicker> = {
-  title: 'Components/DatePicker (Calendar)',
+  title: 'Components/DatePicker',
   component: DatePicker,
   tags: ['autodocs'],
   parameters: {
