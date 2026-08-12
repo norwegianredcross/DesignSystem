@@ -92,10 +92,10 @@ const groupedMountainOptions = [
 export const Default: Story = {
   name: 'Example Basic',
   render: (args) => (
-    // Label må ligge INNI Field: Field skanner sine barn og setter for/id-
-    // koblingen mellom Label og skjemafeltet automatisk. Utenfor Field blir
-    // det ingen kobling, og <select> står uten tilgjengelig navn
-    // (axe-regelen "select-name").
+    // Label must live INSIDE Field: Field scans its children and wires the
+    // for/id pair between Label and the form control automatically. Outside
+    // Field no wiring happens, and the <select> has no accessible name
+    // (axe rule "select-name").
     <>
       <Field data-size={args['data-size']}>
         <Label>Velg et fjell</Label>
@@ -123,9 +123,10 @@ export const WithError: Story = {
     <>
       <Field data-size={args['data-size']}>
         <Label>Velg et fjell *</Label>
-        {/* Ingen manuell aria-describedby her: Field kobler selv feltet til
-            ValidationMessage under. Settes den i tillegg manuelt, får
-            select-en samme id to ganger — ugyldig attributtverdi for axe. */}
+        {/* No manual aria-describedby here: Field wires the control to the
+            ValidationMessage below by itself. Setting it manually as well
+            gives the select the same id twice — an invalid attribute value
+            according to axe. */}
         <Select required {...args}>
           {mountainOptions.map((opt) => (
             <Select.Option key={opt.value} value={opt.value} disabled={opt.value === ''}>
