@@ -7,12 +7,20 @@ import { parse as docgenParse } from 'react-docgen-typescript';
 const ROOT_DIR = process.cwd();
 const COMPONENTS_DIR = path.join(ROOT_DIR, 'src/components');
 const ENTRY_FILE = path.join(ROOT_DIR, 'src/index.ts'); // Source of truth for exports
+const INVENTORY_FILE = path.join(ROOT_DIR, 'src/component-inventory.json');
 const OUTPUT_FILE = path.join(ROOT_DIR, 'metadata.json');
 const PACKAGE_NAME = 'rk-designsystem'; // The name of your package
 
 console.log('Starting metadata generation...');
 
-// 1. Get the list of publicly exported components from the main index.ts
+// 1. Load the canonical inventory and validate it against the actual exports
+//    in src/index.ts. The inventory classifies every public export
+//    (primary / part / hook / provider); index.ts stays the source of truth
+//    for WHAT is exported, the inventory for WHAT KIND it is. Any drift
+//    between the two fails the build.
+const inventory = JSON.parse(fs.readFileSync(INVENTORY_FILE, 'utf8'));
+const inventoryNames = new Set(inventory.exports.map((e) => e.name));
+
 let entryContent;
 try {
   entryContent = fs.readFileSync(ENTRY_FILE, 'utf8');
@@ -21,17 +29,32 @@ try {
   process.exit(1);
 }
 
-const publicExports = new Set();
+const actualExports = new Set();
 const exportRegex = /export\s*{\s*([^}]+)\s*}/g;
 let match;
 while ((match = exportRegex.exec(entryContent)) !== null) {
   match[1].split(',').forEach(name => {
     const cleanName = name.trim().split(' ')[0]; // Handle "Button as Buttons" syntax
-    if (cleanName) publicExports.add(cleanName);
+    if (cleanName) actualExports.add(cleanName);
   });
 }
 
-console.log(`Found ${publicExports.size} publicly exported components.`);
+const missingFromInventory = [...actualExports].filter((n) => !inventoryNames.has(n));
+const missingFromEntry = [...inventoryNames].filter((n) => !actualExports.has(n));
+if (missingFromInventory.length > 0 || missingFromEntry.length > 0) {
+  if (missingFromInventory.length > 0) {
+    console.error(`❌ Exported from src/index.ts but missing in src/component-inventory.json: ${missingFromInventory.join(', ')}`);
+  }
+  if (missingFromEntry.length > 0) {
+    console.error(`❌ Listed in src/component-inventory.json but not exported from src/index.ts: ${missingFromEntry.join(', ')}`);
+  }
+  console.error('   Update src/component-inventory.json so it matches the public API.');
+  process.exit(1);
+}
+
+const componentEntries = inventory.exports.filter((e) => e.kind === 'primary' || e.kind === 'part');
+const publicExports = new Set(componentEntries.map((e) => e.name));
+console.log(`Inventory OK: ${inventory.exports.length} public exports (${componentEntries.length} component names).`);
 
 // 2. Find all possible component definition files
 const componentFiles = glob.sync(`${COMPONENTS_DIR}/*/index.tsx`);
@@ -116,7 +139,17 @@ if (metadata.length < duplicateCount) {
   );
 }
 
-// --- WRITE FILE ---
+// 6. No silent drops: every component name in the inventory must either have a
+//    metadata record or be listed here with the reason it could not be documented.
+const documented = new Set(metadata.map((c) => c.componentName));
+const undocumented = componentEntries.filter((e) => !documented.has(e.name));
+if (undocumented.length > 0) {
+  console.warn(`⚠️  ${undocumented.length} public component export(s) have no extractable react-docgen record and are NOT in metadata.json:`);
+  undocumented.forEach((e) => {
+    const context = e.parent ? ` (del av ${e.parent})` : '';
+    console.warn(`   - ${e.name}${context}: re-eksport uten egen dokumenterbar deklarasjon`);
+  });
+}
 try {
   fs.writeFileSync(OUTPUT_FILE, JSON.stringify(metadata, null, 2), 'utf8');
   console.log(`✅ Successfully generated metadata.json with ${metadata.length} components!`);

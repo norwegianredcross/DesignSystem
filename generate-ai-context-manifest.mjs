@@ -5,16 +5,26 @@ const ROOT_DIR = process.cwd();
 const PACKAGE_FILE = path.join(ROOT_DIR, "package.json");
 const GUIDE_FILE = path.join(ROOT_DIR, "AI_DESIGN_SYSTEM_GUIDE.md");
 const METADATA_FILE = path.join(ROOT_DIR, "metadata.json");
+const INVENTORY_FILE = path.join(ROOT_DIR, "src/component-inventory.json");
 const OUTPUT_FILE = path.join(ROOT_DIR, "ai-context.manifest.json");
 
 const packageJson = JSON.parse(fs.readFileSync(PACKAGE_FILE, "utf8"));
 const guide = fs.readFileSync(GUIDE_FILE, "utf8");
 const metadata = JSON.parse(fs.readFileSync(METADATA_FILE, "utf8"));
+const inventory = JSON.parse(fs.readFileSync(INVENTORY_FILE, "utf8"));
+
+const componentExports = inventory.exports.filter(
+  (e) => e.kind === "primary" || e.kind === "part",
+);
+const primaryComponents = inventory.exports.filter(
+  (e) => e.kind === "primary" && !e.deprecated,
+);
 
 const storybookBaseUrl = packageJson.homepage;
+// NOTE: no generatedAt timestamp — output must be byte-identical for identical
+// input so the checked-in artifact does not churn on every regeneration.
 const manifest = {
-  schemaVersion: 1,
-  generatedAt: new Date().toISOString(),
+  schemaVersion: 2,
   package: {
     name: packageJson.name,
     version: packageJson.version,
@@ -27,8 +37,10 @@ const manifest = {
     themeUrl: "https://norwegianredcross.github.io/design-tokens/theme.css",
   },
   summary: {
-    componentCount: metadata.length,
-    exportedComponents: metadata.map((component) => component.componentName).sort(),
+    componentCount: primaryComponents.length,
+    documentedComponentCount: metadata.length,
+    exportedComponents: componentExports.map((e) => e.name).sort(),
+    hooks: inventory.exports.filter((e) => e.kind === "hook").map((e) => e.name).sort(),
   },
   ruleHints: [
     {

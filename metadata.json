@@ -784,62 +784,6 @@
     ]
   },
   {
-    "componentName": "useRadioGroup",
-    "importPath": "rk-designsystem",
-    "description": "",
-    "props": [
-      {
-        "name": "disabled",
-        "type": "boolean",
-        "description": "Set disabled state of all radios",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "error",
-        "type": "ReactNode",
-        "description": "Shared error message for all radios",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "name",
-        "type": "string",
-        "description": "Name of all radios.",
-        "defaultValue": "string of auto-generated name",
-        "required": false
-      },
-      {
-        "name": "readOnly",
-        "type": "boolean",
-        "description": "Set read only state of all radios",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "required",
-        "type": "boolean",
-        "description": "Set required state of all radios",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "value",
-        "type": "string",
-        "description": "Initial value of the group",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "onChange",
-        "type": "(nextValue: string, prevValue: string) => void",
-        "description": "Callback when selected radios changes",
-        "defaultValue": null,
-        "required": false
-      }
-    ]
-  },
-  {
     "componentName": "Popover",
     "importPath": "rk-designsystem",
     "description": "",

@@ -1107,21 +1107,6 @@ import { ToggleGroup } from 'rk-designsystem';
  />
 ```
 
-#### useRadioGroup
-```tsx
-import { useRadioGroup } from 'rk-designsystem';
-
-<useRadioGroup
-  disabled?={boolean}
-  error?={ReactNode}
-  name?={string of auto-generated name}
-  onChange?={(nextValue: string, prevValue: string) => void}
-  readOnly?={boolean}
-  required?={boolean}
-  value?={string}
- />
-```
-
 #### ValidationMessage
 ```tsx
 import { ValidationMessage } from 'rk-designsystem';
