@@ -663,7 +663,7 @@ export const Header = ({
                         onClick={(e) => { 
                           e.preventDefault(); 
                           if (setPage) {
-                            setPage(`search/${searchQuery}`);
+                            setPage(`search/${encodeURIComponent(searchQuery)}`);
                           }
                           setIsSearchOpen(false);
                           setSearchQuery('');

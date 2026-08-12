@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
 import { useLanguage } from '../../context/LanguageContext';
 import { Heading } from '../../components/Heading';
@@ -1145,15 +1145,27 @@ interface CodePageProps {
   section?: string;
 }
 
-export const CodePage = ({ section }: CodePageProps) => {
+export const CodePage = ({ section, setPage }: CodePageProps) => {
   const { t } = useLanguage();
   const [activeCodePage, setActiveCodePage] = useState(section || 'intro');
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Update active page if section prop changes
-  if (section && section !== activeCodePage) {
-     setActiveCodePage(section);
-  }
+  // URL-hashen er kilden til aktiv artikkel: prop-endringer (deep-links,
+  // frem/tilbake) synkroniseres hit i en effekt - aldri under render, som
+  // laste all sidenavigasjon etter en deep-link.
+  useEffect(() => {
+    setActiveCodePage(section || 'intro');
+  }, [section]);
+
+  // Sidemeny-navigasjon skriver hashen (code/<artikkel>); uten setPage
+  // brukes ren lokal tilstand.
+  const navigate = (id: string) => {
+    if (setPage) {
+      setPage(id === 'intro' ? 'code' : `code/${id}`);
+    } else {
+      setActiveCodePage(id);
+    }
+  };
 
   // Menu Data Structure
   const menuItems: { title: string; items: MenuItem[] }[] = [
@@ -1233,7 +1245,7 @@ export const CodePage = ({ section }: CodePageProps) => {
                                <button 
                                  type="button"
                                  className={`${styles.link} ${styles.nestedLink} ${activeCodePage === subItem.id ? styles.nestedLinkActive : ''}`}
-                                 onClick={() => subItem.id && setActiveCodePage(subItem.id)}
+                                 onClick={() => subItem.id && navigate(subItem.id)}
                                >
                                  {subItem.label}
                                </button>
@@ -1247,7 +1259,7 @@ export const CodePage = ({ section }: CodePageProps) => {
                          type="button"
                          className={`${styles.link} ${activeCodePage === item.id ? styles.linkActive : ''}`}
                          onClick={() => {
-                            if (item.id) setActiveCodePage(item.id);
+                            if (item.id) navigate(item.id);
                          }}
                        >
                          {item.label}
@@ -1263,7 +1275,7 @@ export const CodePage = ({ section }: CodePageProps) => {
 
       {/* --- CONTENT --- */}
       <div className={styles.docContent}>
-        {activeCodePage === 'intro' ? <OverviewContent setActivePage={setActiveCodePage} /> :
+        {activeCodePage === 'intro' ? <OverviewContent setActivePage={navigate} /> :
          activeCodePage === 'kom-i-gang' ? <GettingStartedContent /> :
          activeCodePage === 'design-tokens' ? <DesignTokensContent /> :
          activeCodePage === 'fonts' ? <FontsContent /> :
@@ -1274,7 +1286,7 @@ export const CodePage = ({ section }: CodePageProps) => {
          activeCodePage === 'figma-mcp-claude' ? <FigmaMcpClaudeContent /> :
          activeCodePage === 'komponent-kreasjon' ? <KomponentKreasjonContent /> :
          activeCodePage === 'metadata-files' ? <MetadataFilesContent /> :
-         <OverviewContent setActivePage={setActiveCodePage} />
+         <OverviewContent setActivePage={navigate} />
         }
       </div>
     </main>
