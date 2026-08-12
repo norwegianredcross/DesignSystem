@@ -360,6 +360,7 @@ import { DateInput } from 'rk-designsystem';
   label?={ReactNode}
   onChange?={(event: ChangeEvent<HTMLInputElement>, formattedValue: string) => void}
   onSuffixClick?={MouseEventHandler<HTMLButtonElement>}
+  onValidationChange?={(valid: boolean, formattedValue: string) => void}
   suffixIcon?={ReactNode}
   value?={string}
  />

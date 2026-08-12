@@ -2330,65 +2330,44 @@
         "required": false
       },
       {
-        "name": "label",
-        "type": "ReactNode",
-        "description": "",
-        "defaultValue": null,
-        "required": false
-      },
-      {
         "name": "suffixIcon",
         "type": "ReactNode",
-        "description": "",
+        "description": "Ikon som vises til høyre i feltet, f.eks. et kalenderikon.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "onSuffixClick",
         "type": "MouseEventHandler<HTMLButtonElement>",
-        "description": "",
+        "description": "Klikk-håndterer for suffiks-knappen. Gjør knappen fokuserbar.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "inputWrapperClassName",
         "type": "string",
-        "description": "",
+        "description": "Klasse for input-wrapperen.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "inputClassName",
         "type": "string",
-        "description": "",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "aria-label",
-        "type": "string",
-        "description": "",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "aria-labelledby",
-        "type": "string",
-        "description": "",
+        "description": "Klasse for selve input-elementet.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "description",
         "type": "ReactNode",
-        "description": "",
+        "description": "Beskrivende hjelpetekst under etiketten.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "error",
         "type": "ReactNode",
-        "description": "",
+        "description": "Feilmelding. Styrer også aria-invalid og feilstiler.",
         "defaultValue": null,
         "required": false
       },
@@ -2409,6 +2388,34 @@
       {
         "name": "onChange",
         "type": "(event: ChangeEvent<HTMLInputElement>, formattedValue: string) => void",
+        "description": "Kalles ved endring med hendelsen og den formaterte verdien (dd.mm.åååå).",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "onValidationChange",
+        "type": "(valid: boolean, formattedValue: string) => void",
+        "description": "Kalles når gyldigheten endres. `true`/`false` når datoen er komplett\n(åtte sifre), `false` ved blur med ufullstendig dato, `null` når feltet\ner tomt eller under utfylling. Umulige datoer (31.02, skuddårsbrudd)\ngir `false`.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "aria-labelledby",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "label",
+        "type": "ReactNode",
         "description": "",
         "defaultValue": null,
         "required": false
