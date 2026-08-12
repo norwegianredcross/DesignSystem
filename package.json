@@ -69,6 +69,7 @@
     "test:packaging": "node scripts/packaging-smoke.mjs",
     "clean": "rimraf dist",
     "lint": "eslint .",
+    "check:tokens": "node scripts/check-tokens.mjs",
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
     "test": "vitest run --config vitest.config.ts",
     "preview": "vite preview",

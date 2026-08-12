@@ -109,7 +109,7 @@ export const WithError: Story = {
   render: (args) => (
     <Fieldset>
       <Fieldset.Legend>Velg en farge *</Fieldset.Legend>
-      <p id="radio-error-note" style={{ color: 'var(--ds-color-danger-500)', marginTop: 4, marginBottom: 8 }}>
+      <p id="radio-error-note" style={{ color: 'var(--ds-color-danger-base-default)', marginTop: 4, marginBottom: 8 }}>
         Du må velge en farge
       </p>
       {/* @ts-expect-error Storybook args spread */}

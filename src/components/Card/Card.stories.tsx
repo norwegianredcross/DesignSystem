@@ -159,7 +159,7 @@ export const ComposedContent: Story = {
       <CardBlock>
         <h3>Composed Card</h3>
         <p>This card contains other components.</p>
-        <div style={{ marginTop: 'var(--ds-spacing-4, 16px)' }}>
+        <div style={{ marginTop: 'var(--ds-size-4, 16px)' }}>
           <Button variant="primary" data-size="sm">
             Action
           </Button>

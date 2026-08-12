@@ -72,7 +72,7 @@
   justify-content: space-between;
   width: 100%;
   padding: var(--ds-size-2) var(--ds-size-3);
-  font-size: var(--ds-font-size-md);
+  font-size: var(--ds-font-size-3);
   color: var(--ds-color-neutral-text-default);
   text-decoration: none;
   border-radius: var(--ds-border-radius-full);
@@ -120,7 +120,7 @@
 }
 
 .nestedLink {
-  font-size: var(--ds-font-size-sm);
+  font-size: var(--ds-font-size-2);
   padding: var(--ds-size-2) var(--ds-size-3);
   color: var(--ds-color-neutral-text-subtle);
 }
@@ -161,7 +161,7 @@
   border: 1px solid var(--ds-color-neutral-border-subtle);
   border-radius: var(--ds-border-radius-lg);
   font-family: inherit;
-  font-size: var(--ds-font-size-md);
+  font-size: var(--ds-font-size-3);
   font-weight: var(--ds-font-weight-medium);
   color: var(--ds-color-neutral-text-default);
   cursor: pointer;
@@ -222,11 +222,11 @@
 }
 
 .codeBlock {
-  background-color: var(--ds-color-neutral-background-subtle);
+  background-color: var(--ds-color-neutral-background-tinted);
   padding: var(--ds-size-4) var(--ds-size-5);
   border-radius: var(--ds-border-radius-lg);
   font-family: monospace;
-  font-size: var(--ds-font-size-sm);
+  font-size: var(--ds-font-size-2);
   overflow-x: auto;
   margin-bottom: var(--ds-size-4);
   white-space: pre-wrap;

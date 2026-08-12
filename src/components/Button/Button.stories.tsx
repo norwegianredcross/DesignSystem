@@ -219,7 +219,7 @@ export const AsLinkWithIcon: Story = {
     <Button asChild {...(args as unknown as ButtonProps)}>
       <a target="_blank" rel="noreferrer" href="https://www.designsystemet.no">
         Gå til Designsystemet
-        <ExternalLinkIcon title="Ekstern lenke" style={{ marginLeft: 'var(--ds-spacing-1, 4px)', verticalAlign: 'middle' }}/>
+        <ExternalLinkIcon title="Ekstern lenke" style={{ marginLeft: 'var(--ds-size-1, 4px)', verticalAlign: 'middle' }}/>
       </a>
     </Button>
   ),
@@ -236,10 +236,10 @@ export const WithIcons: Story = {
      <div style={{ display: 'flex', gap: '1rem' }}>
         <Button {...args} variant='primary' data-color='neutral'>
           Start utfylling
-          <ArrowRightIcon aria-hidden style={{ marginLeft: 'var(--ds-spacing-1, 4px)' }}/>
+          <ArrowRightIcon aria-hidden style={{ marginLeft: 'var(--ds-size-1, 4px)' }}/>
         </Button>
         <Button {...args} variant='secondary' data-color='neutral'>
-          <ArrowUndoIcon aria-hidden style={{ marginRight: 'var(--ds-spacing-1, 4px)' }}/>
+          <ArrowUndoIcon aria-hidden style={{ marginRight: 'var(--ds-size-1, 4px)' }}/>
           Angre
         </Button>
      </div>

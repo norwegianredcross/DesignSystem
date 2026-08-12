@@ -13,7 +13,7 @@ export const ArticleLayout = ({ title, intro, category, children }: ArticleLayou
   <div className="article-max-width animate-fade-in">
     {category && (
       <div style={{ 
-        fontSize: 'var(--ds-font-size-sm)', 
+        fontSize: 'var(--ds-font-size-2)', 
         textTransform: 'uppercase', 
         letterSpacing: '0.05em', 
         color: 'var(--ds-color-neutral-text-subtle)', 
@@ -54,7 +54,7 @@ export const ArticleImage = ({ src, alt, caption }: { src: string, alt: string, 
       <img src={fullSrc} alt={alt} style={{ maxWidth: '100%', borderRadius: 'var(--ds-border-radius-md)', border: '1px solid var(--ds-color-neutral-border-subtle)' }} />
       {caption && (
         <p style={{ 
-          fontSize: 'var(--ds-font-size-sm)', 
+          fontSize: 'var(--ds-font-size-2)', 
           color: 'var(--ds-color-neutral-text-subtle)', 
           fontStyle: 'italic',
           marginTop: 'var(--ds-size-2)'

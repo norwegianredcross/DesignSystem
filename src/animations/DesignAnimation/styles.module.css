@@ -53,9 +53,9 @@
   background: var(--ds-color-neutral-background-default);
   border: 1px solid var(--ds-color-neutral-border-subtle);
   border-radius: var(--ds-border-radius-md);
-  transition: opacity var(--ds-duration-base) var(--ds-ease-standard),
-              transform var(--ds-duration-base) var(--ds-ease-standard),
-              border-color var(--ds-duration-base) var(--ds-ease-standard);
+  transition: opacity 260ms cubic-bezier(0.4, 0, 0.2, 1),
+              transform 260ms cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 260ms cubic-bezier(0.4, 0, 0.2, 1);
   min-height: 56px;
   overflow: hidden;
 }
@@ -73,7 +73,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  background: var(--ds-color-neutral-surface-subtle, var(--ds-color-neutral-background-tinted));
+  background: var(--ds-color-neutral-surface-tinted, var(--ds-color-neutral-background-tinted));
   border-radius: var(--ds-border-radius-sm);
   color: var(--ds-color-neutral-text-subtle);
 }
@@ -136,7 +136,7 @@
 }
 
 .canvasSlotFilled {
-  animation: slotIn var(--ds-duration-slow) var(--ds-ease-emphasized);
+  animation: slotIn 480ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @keyframes slotIn {
@@ -156,15 +156,15 @@
   color: var(--ds-color-neutral-text-default);
   pointer-events: none;
   transform: translate(-20%, -10%);
-  transition: left var(--ds-duration-slow) var(--ds-ease-emphasized),
-              top var(--ds-duration-slow) var(--ds-ease-emphasized);
+  transition: left 480ms cubic-bezier(0.22, 1, 0.36, 1),
+              top 480ms cubic-bezier(0.22, 1, 0.36, 1);
   z-index: 10;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
 }
 
 .cursorGrabbing svg {
   transform: scale(0.88);
-  transition: transform var(--ds-duration-fast) var(--ds-ease-standard);
+  transition: transform 160ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* --- Flying ghost --- */
@@ -177,8 +177,8 @@
   padding: var(--ds-size-2) var(--ds-size-3);
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
   transform: translate(14px, 14px);
-  transition: left var(--ds-duration-slow) var(--ds-ease-emphasized),
-              top var(--ds-duration-slow) var(--ds-ease-emphasized);
+  transition: left 480ms cubic-bezier(0.22, 1, 0.36, 1),
+              top 480ms cubic-bezier(0.22, 1, 0.36, 1);
   z-index: 9;
   display: flex;
   align-items: center;
