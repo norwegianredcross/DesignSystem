@@ -201,26 +201,7 @@ export const Donor = ({
     );
   };
 
-  return (
-    <div className={styles.donor} data-color={dataColor}>
-      {/* Tabs */}
-      <div className={styles.tabsWrapper}>
-        <Tabs defaultValue="monthly" onChange={handleTabChange} data-size="md">
-          <Tabs.List>
-            <Tabs.Tab value="one-time">
-              {oneTimeLabel}
-            </Tabs.Tab>
-            <Tabs.Tab value="monthly">
-              <span className={styles.tabHeartIcon}>
-                <HeartFilledIcon />
-              </span>
-              {monthlyLabel}
-            </Tabs.Tab>
-          </Tabs.List>
-        </Tabs>
-      </div>
-
-      {/* Content */}
+  const donorContent = (
       <div className={styles.content}>
         {/* Amount selection */}
         <div className={styles.amountSection}>
@@ -277,6 +258,7 @@ export const Donor = ({
               onClick={handleVippsClick}
               type="button"
               aria-label={`${vippsButtonLabel} Vipps`}
+              data-brand-exception="vipps"
             >
               <span className={styles.vippsButtonLabel}>{vippsButtonLabel}</span>
               <span className={styles.vippsLogo}>
@@ -302,6 +284,39 @@ export const Donor = ({
           )}
         </div>
       </div>
+  );
+
+  return (
+    <div className={styles.donor} data-color={dataColor}>
+      {/* Tabs med ekte paneler: hver fane peker på et panel som finnes i
+          DOM (Digdir holder begge ds-tabpanel-elementer i treet og skjuler
+          det inaktive), slik at aria-controls alltid refererer gyldig id. */}
+      <Tabs
+        defaultValue="monthly"
+        onChange={handleTabChange}
+        data-size="md"
+        className={styles.tabsWrapper}
+      >
+        <Tabs.List>
+          <Tabs.Tab value="one-time">
+            {oneTimeLabel}
+          </Tabs.Tab>
+          <Tabs.Tab value="monthly">
+            <span className={styles.tabHeartIcon}>
+              <HeartFilledIcon />
+            </span>
+            {monthlyLabel}
+          </Tabs.Tab>
+        </Tabs.List>
+        {/* Begge paneler ligger i DOM (gyldige aria-controls-mål); innholdet
+            rendres bare i det aktive for å unngå duplisert innhold. */}
+        <Tabs.Panel value="one-time" className={styles.tabPanel}>
+          {frequency === 'one-time' ? donorContent : null}
+        </Tabs.Panel>
+        <Tabs.Panel value="monthly" className={styles.tabPanel}>
+          {frequency === 'monthly' ? donorContent : null}
+        </Tabs.Panel>
+      </Tabs>
     </div>
   );
 };
@@ -328,6 +343,10 @@ function buildInlineCss(s: Record<string, string>): string {
 .${s.tabsWrapper} [role="tablist"] {
   display: flex !important;
   width: 100% !important;
+}
+.${s.tabPanel} {
+  width: 100%;
+  padding: 0;
 }
 .${s.tabsWrapper} [role="tab"] {
   flex: 1 1 50% !important;
