@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useId } from 'react';
 import { Tabs } from '../Tabs';
 import { Button } from '../Button';
 import { Textfield } from '../Textfield';
@@ -132,6 +132,7 @@ export const Donor = ({
   showImpactMessage = true,
   heartVariant = 'outlined',
 }: DonorProps) => {
+  const amountLabelId = useId();
   const [frequency, setFrequency] = useState<'one-time' | 'monthly'>('monthly');
   const [selectedAmount, setSelectedAmount] = useState<number>(defaultAmount);
   const [customAmount, setCustomAmount] = useState<string>('');
@@ -149,9 +150,13 @@ export const Donor = ({
     document.head.appendChild(tag);
   }, []);
 
-  const activeAmount = isCustom && customAmount
-    ? parseInt(customAmount, 10) || 0
-    : selectedAmount;
+  // The active amount can never become 0: while the custom field holds an
+  // invalid or empty value, the last selected preset stays active. This is
+  // what the impact copy, tab switching and the Vipps callback all read,
+  // so none of them can see a zero amount (issues #22/#23).
+  const parsedCustom = parseInt(customAmount, 10);
+  const activeAmount =
+    isCustom && customAmount && parsedCustom > 0 ? parsedCustom : selectedAmount;
 
   const handlePresetClick = (value: number) => {
     setSelectedAmount(value);
@@ -181,7 +186,10 @@ export const Donor = ({
   };
 
   const handleVippsClick = () => {
-    onVippsClick?.(activeAmount, frequency);
+    // Never submit a non-positive amount to payment; can only happen if a
+    // consumer passes an invalid defaultAmount, but payment is the last
+    // place we want that to surface.
+    if (activeAmount > 0) onVippsClick?.(activeAmount, frequency);
   };
 
   const handleAvtalegiroClick = () => {
@@ -205,11 +213,19 @@ export const Donor = ({
       <div className={styles.content}>
         {/* Amount selection */}
         <div className={styles.amountSection}>
-          <Paragraph className={styles.amountLabel} data-size="sm">
+          <Paragraph className={styles.amountLabel} data-size="sm" id={amountLabelId}>
             {amountLabel}
           </Paragraph>
 
-          <div className={styles.amountButtons}>
+          {/* role="group" + aria-labelledby ties the buttons to the visible
+              "Velg ønsket beløp" label; aria-pressed exposes WHICH preset is
+              selected to screen readers - previously only the color changed,
+              which is invisible to assistive technology. */}
+          <div
+            className={styles.amountButtons}
+            role="group"
+            aria-labelledby={amountLabelId}
+          >
             {amounts.map((amount) => {
               const isSelected = !isCustom && selectedAmount === amount.value;
               return (
@@ -217,6 +233,7 @@ export const Donor = ({
                   key={amount.value}
                   variant={isSelected ? 'primary' : 'secondary'}
                   data-color={isSelected ? 'accent' : 'neutral'}
+                  aria-pressed={isSelected}
                   onClick={() => handlePresetClick(amount.value)}
                 >
                   {amount.label}
@@ -258,10 +275,11 @@ export const Donor = ({
               onClick={handleVippsClick}
               type="button"
               aria-label={`${vippsButtonLabel} Vipps`}
-              // Hvit tekst på Vipps-oransje (#ff5b24) gir ~2.9:1 kontrast —
-              // under WCAG AA (4.5:1). Fargen er Vipps' offisielle merkevare
-              // og kan ikke endres; attributtet unntar KUN denne knappen fra
-              // kontrastregelen i axe (se a11y-config i Donor.stories.tsx).
+              // White text on Vipps orange (#ff5b24) gives ~2.9:1 contrast —
+              // below WCAG AA (4.5:1). The color is Vipps' official branding
+              // and cannot change; this attribute exempts ONLY this button
+              // from the axe contrast rule (see a11y config in
+              // Donor.stories.tsx).
               data-brand-exception="vipps"
             >
               <span className={styles.vippsButtonLabel}>{vippsButtonLabel}</span>
@@ -292,9 +310,10 @@ export const Donor = ({
 
   return (
     <div className={styles.donor} data-color={dataColor}>
-      {/* Tabs med ekte paneler: hver fane peker på et panel som finnes i
-          DOM (Digdir holder begge ds-tabpanel-elementer i treet og skjuler
-          det inaktive), slik at aria-controls alltid refererer gyldig id. */}
+      {/* Tabs with real panels: each tab points at a panel that exists in
+          the DOM (Digdir keeps both ds-tabpanel elements in the tree and
+          hides the inactive one), so aria-controls always references a
+          valid id. */}
       <Tabs
         defaultValue="monthly"
         onChange={handleTabChange}
@@ -312,8 +331,8 @@ export const Donor = ({
             {monthlyLabel}
           </Tabs.Tab>
         </Tabs.List>
-        {/* Begge paneler ligger i DOM (gyldige aria-controls-mål); innholdet
-            rendres bare i det aktive for å unngå duplisert innhold. */}
+        {/* Both panels stay in the DOM (valid aria-controls targets); the
+            content renders only in the active one to avoid duplication. */}
         <Tabs.Panel value="one-time" className={styles.tabPanel}>
           {frequency === 'one-time' ? donorContent : null}
         </Tabs.Panel>
