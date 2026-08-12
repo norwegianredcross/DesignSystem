@@ -336,6 +336,26 @@ export const TestDefaultAttributes: Story = {
   },
 };
 
+// --- Test: rotated shapes swap their layout box ---
+export const TestRotatedLayoutBox: Story = {
+  name: 'Test: Rotated Layout Box',
+  tags: ['!autodocs'],
+  // A bar is 102x34 grid units lying down; bottom-right means a 90 degree
+  // rotation. The layout box must flip too (34x102) - previously CSS only
+  // rotated the pixels and left the box lying down, so the element
+  // overlapped its neighbours.
+  args: { shape: 'bar', position: 'bottom-right' },
+  play: async ({ canvasElement }) => {
+    const svg = canvasElement.querySelector('svg');
+    await expect(svg).toHaveAttribute('viewBox', '0 0 34 102');
+    await expect(svg).toHaveAttribute('width', '34');
+    await expect(svg).toHaveAttribute('height', '102');
+    // The rotation lives as an SVG transform on the group, not as CSS
+    await expect(svg?.querySelector('g')).toHaveAttribute('transform');
+    await expect(svg?.style.transform).toBeFalsy();
+  },
+};
+
 // --- Test: shape, variant and color data attributes ---
 export const TestShapeAndVariantAttributes: Story = {
   name: 'Test: Shape and Variant Attributes',
