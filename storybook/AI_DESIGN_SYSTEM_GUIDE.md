@@ -787,20 +787,6 @@ import { BreadcrumbsList } from 'rk-designsystem';
 <BreadcrumbsList />
 ```
 
-#### CrossCorner
-```tsx
-import { CrossCorner } from 'rk-designsystem';
-
-<CrossCorner
-  aria-hidden?={true (decorative)}
-  aria-label?={string}
-  className?={string}
-  data-color?="accent" | "neutral" | "danger" | etc.
-  position?={"top-left"}
-  size?={"md"}
- />
-```
-
 #### Details
 ```tsx
 import { Details, Details.Summary, Details.Content } from 'rk-designsystem';
@@ -1161,7 +1147,7 @@ import { Footer } from 'rk-designsystem';
   primaryLogoSrc?={string}
   shortcutsLinks?={FooterLink[]}
   shortcutsTitle?={string}
-  showCrossCorners?={false}
+  showGraphicElements?={false}
   showPrimaryLogo?={true}
   socialLinks?={[]}
   socialLinksTitle?={string}
