@@ -8,11 +8,12 @@ const meta: Meta<typeof Donor> = {
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
-    // WCAG-gaten er PÅ for Donor. Ett presist unntak: kontrastregelen kjører
-    // ikke på Vipps-knappen (hvit tekst på Vipps-oransje #ff5b24 ≈ 2.9:1).
-    // Fargen er Vipps' offisielle merkevare og kan ikke endres av oss;
-    // knappen er merket data-brand-exception="vipps" i komponenten.
-    // Alle andre elementer kontrastsjekkes fortsatt. Se TESTING.md.
+    // The WCAG gate is ON for Donor. One precise exemption: the contrast
+    // rule does not run on the Vipps button (white text on Vipps orange
+    // #ff5b24 is roughly 2.9:1). The color is Vipps' official branding and
+    // not ours to change; the button is marked
+    // data-brand-exception="vipps" in the component. Everything else is
+    // still contrast-checked. See TESTING.md.
     a11y: {
       config: {
         rules: [
@@ -238,8 +239,9 @@ export const TestCustomAmount: Story = {
 };
 
 /**
- * Negative test: zero is not a valid donation amount.
- * Documents current behavior for invalid custom input.
+ * Negative test: zero is not a valid donation amount. While the custom field
+ * holds an invalid value, the last selected preset stays active - so the
+ * impact copy never shows "0 kr" and Vipps never receives 0 (issues #22/#23).
  */
 export const TestInvalidCustomAmount: Story = {
   name: 'Test: Invalid Amount Does Not Emit Change',
@@ -251,18 +253,20 @@ export const TestInvalidCustomAmount: Story = {
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
     const customInput = canvas.getByRole('spinbutton', { name: 'Valgfritt beløp' });
+    const impact = canvas.getByText(/bidrar til at Røde Kors/);
 
     await userEvent.type(customInput, '0');
-
     expect(customInput).toHaveValue(0);
     expect(args.onAmountChange).not.toHaveBeenCalled();
 
-    // Known product defects are tracked in #22 (invalid impact copy) and #23
-    // (invalid Vipps submission). Do not assert those broken outcomes as the
-    // component contract; their fixes must add the desired regression checks.
+    // The impact copy falls back to the default preset instead of "0 kr"
+    expect(impact).toHaveTextContent('En gave på 345 kr bidrar til');
+
+    // Vipps submits the fallback amount, never 0
+    await userEvent.click(canvas.getByRole('button', { name: 'Gi med Vipps' }));
+    expect(args.onVippsClick).toHaveBeenCalledWith(345, 'monthly');
   },
 };
-
 /**
  * Tests switching between the one-time and monthly tabs: tab selection state,
  * onAmountChange re-firing with the new frequency, and that the Vipps callback
