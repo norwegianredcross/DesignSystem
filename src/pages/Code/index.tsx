@@ -404,14 +404,14 @@ export function IconsExample() {
     <div style={{ display: 'flex', gap: 12 }}>
       {/* Ikon + tekst: skjul ikon for skjermlesere */}
       <Button>
-        <AirplaneIcon aria-hidden style={{ marginRight: 'var(--ds-spacing-1, 4px)' }} />
+        <AirplaneIcon aria-hidden style={{ marginRight: 'var(--ds-size-1, 4px)' }} />
         Fly
       </Button>
 
       {/* Ikon inni Tag */}
       <Tag data-color="info">
         <span style={{ display: 'inline-flex', alignItems: 'center' }}>
-          <NewspaperIcon aria-hidden style={{ marginRight: 'var(--ds-spacing-1, 4px)' }} />
+          <NewspaperIcon aria-hidden style={{ marginRight: 'var(--ds-size-1, 4px)' }} />
           Ny
         </span>
       </Tag>

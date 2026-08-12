@@ -340,24 +340,24 @@ DateInput.displayName = 'DateInput';
 function buildDateInputInlineCss(s: Record<string, string>): string {
   return `
 .${s.fieldset} {
-  margin-bottom: var(--ds-spacing-4, 16px);
+  margin-bottom: var(--ds-size-4, 16px);
 }
 .${s.fieldset} label {
   display: block;
-  margin-bottom: var(--ds-spacing-1, 4px);
+  margin-bottom: var(--ds-size-1, 4px);
   font-weight: var(--ds-font-weight-medium, 500);
   color: var(--ds-color-text-default, #2b2b2b);
 }
 .${s.description} {
-  font-size: var(--ds-font-size-sm, 14px);
+  font-size: var(--ds-font-size-2, 14px);
   color: var(--ds-color-text-subtle, #5d5d5d);
-  margin-top: var(--ds-spacing-1, 4px);
-  margin-bottom: var(--ds-spacing-2, 8px);
+  margin-top: var(--ds-size-1, 4px);
+  margin-bottom: var(--ds-size-2, 8px);
 }
 .${s.error} {
-  font-size: var(--ds-font-size-sm, 14px);
+  font-size: var(--ds-font-size-2, 14px);
   color: var(--ds-color-danger-text-default, #c30000);
-  margin-top: var(--ds-spacing-1, 4px);
+  margin-top: var(--ds-size-1, 4px);
 }
 .${s.inputWrapper} {
   display: flex;
@@ -374,7 +374,7 @@ function buildDateInputInlineCss(s: Record<string, string>): string {
 }
 .${s.inputWrapper}:focus-within {
   outline: var(--ds-border-width-focus, 3px) solid var(--ds-color-focus-outer, #2B2B2B);
-  outline-offset: var(--ds-focus-outline-offset, 2px);
+  outline-offset: var(--ds-border-width-focus, 2px);
 }
 .${s.inputWrapper} input {
   box-sizing: border-box;
@@ -395,7 +395,7 @@ function buildDateInputInlineCss(s: Record<string, string>): string {
 .${s.inputWrapper} input:disabled {
   opacity: var(--ds-opacity-disabled, 0.5);
   cursor: not-allowed;
-  background-color: var(--ds-color-neutral-surface-subtle, #f0f0f0);
+  background-color: var(--ds-color-neutral-surface-tinted, #f0f0f0);
   color: var(--ds-color-neutral-text-subtle, #5d5d5d);
 }
 .${s.suffixButton} {

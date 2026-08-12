@@ -73,7 +73,7 @@
   justify-content: space-between;
   width: 100%;
   padding: var(--ds-size-2) var(--ds-size-3);
-  font-size: var(--ds-font-size-md);
+  font-size: var(--ds-font-size-3);
   color: var(--ds-color-neutral-text-default);
   text-decoration: none;
   border-radius: var(--ds-border-radius-full);
@@ -117,7 +117,7 @@
 }
 
 .nestedLink {
-  font-size: var(--ds-font-size-sm);
+  font-size: var(--ds-font-size-2);
   padding: var(--ds-size-2) var(--ds-size-3);
   color: var(--ds-color-neutral-text-subtle);
 }
@@ -256,7 +256,7 @@
   align-items: center;
   gap: var(--ds-size-2) var(--ds-size-6);
   margin-bottom: var(--ds-size-8);
-  font-size: var(--ds-font-size-sm);
+  font-size: var(--ds-font-size-2);
   color: var(--ds-color-neutral-text-subtle);
 }
 
@@ -271,7 +271,7 @@
   padding: var(--ds-size-4) var(--ds-size-14) var(--ds-size-4) var(--ds-size-5);
   border-radius: var(--ds-border-radius-lg);
   font-family: monospace;
-  font-size: var(--ds-font-size-sm);
+  font-size: var(--ds-font-size-2);
   overflow-x: auto;
   margin: 0;
   white-space: pre-wrap;
@@ -311,7 +311,7 @@
   border: none;
   border-radius: var(--ds-border-radius-full);
   font-family: inherit;
-  font-size: var(--ds-font-size-md);
+  font-size: var(--ds-font-size-3);
   font-weight: var(--ds-font-weight-medium);
   color: var(--ds-color-neutral-text-default);
   cursor: pointer;

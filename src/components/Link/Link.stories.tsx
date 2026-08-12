@@ -87,7 +87,7 @@ export const WithIcon: Story = {
   render: (args) => (
     <Link {...args}>
       {/* Add icon before text */}
-      <EnvelopeClosedIcon aria-hidden style={{ marginRight: 'var(--ds-spacing-1, 4px)', verticalAlign: 'middle' }} />
+      <EnvelopeClosedIcon aria-hidden style={{ marginRight: 'var(--ds-size-1, 4px)', verticalAlign: 'middle' }} />
       {args.children} {/* Use children from args */}
     </Link>
   ),

@@ -1,13 +1,3 @@
-:root {
-  /* Motion tokens — app-level additions on top of the --ds-* theme */
-  --ds-duration-fast: 160ms;
-  --ds-duration-base: 260ms;
-  --ds-duration-slow: 480ms;
-  --ds-duration-showcase: 2400ms;
-  --ds-ease-emphasized: cubic-bezier(0.22, 1, 0.36, 1);
-  --ds-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
-}
-
 #root {
   width: 100%;
   min-height: 100vh;
@@ -96,5 +86,5 @@
 
 .header-menu-link-active {
   color: var(--ds-color-primary-color-red-text-default);
-  font-weight: var(--ds-font-weight-bold);
+  font-weight: var(--ds-font-weight-semibold);
 }

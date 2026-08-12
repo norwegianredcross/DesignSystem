@@ -9,7 +9,7 @@
   max-width: 1280px;
   margin: 0 auto;
   box-sizing: border-box;
-  background-color: var(--ds-color-main-background-default, #ffffff);
+  background-color: var(--ds-color-primary-color-red-background-default, #ffffff);
 }
 
 .containerSideBySide {

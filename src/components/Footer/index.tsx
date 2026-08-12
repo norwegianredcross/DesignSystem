@@ -659,7 +659,7 @@ function buildInlineCss(styles: Record<string, string>): string {
   width: 100%;
   max-width: 1440px;
   margin: 0 auto;
-  padding: var(--ds-size-30, 120px) var(--ds-size-44, 175px);
+  padding: var(--ds-size-30, 120px) 175px;
   box-sizing: border-box;
 }
 .${s.crossCornerTopRight} {
@@ -777,7 +777,7 @@ function buildInlineCss(styles: Record<string, string>): string {
 }
 .${s.contactTitle} {
   font-size: var(--ds-font-size-3, 16px);
-  font-weight: var(--ds-font-weight-bold);
+  font-weight: var(--ds-font-weight-semibold);
   line-height: 1.5;
   letter-spacing: 0.04px;
   color: var(--ds-color-neutral-text-default, #2b2b2b);
@@ -814,7 +814,7 @@ function buildInlineCss(styles: Record<string, string>): string {
   width: 100%;
   max-width: 1440px;
   margin: 0 auto;
-  padding: var(--ds-size-6, 24px) var(--ds-size-44, 175px);
+  padding: var(--ds-size-6, 24px) 175px;
   box-sizing: border-box;
 }
 .${s.whiteContent} {
@@ -850,7 +850,7 @@ function buildInlineCss(styles: Record<string, string>): string {
 }
 @media (max-width: 1024px) {
   .${s.mainContainer} {
-    padding: var(--ds-size-16, 64px) var(--ds-size-8, 32px);
+    padding: var(--ds-size-15, 64px) var(--ds-size-8, 32px);
   }
   .${s.whiteContainer} {
     padding: var(--ds-size-6, 24px) var(--ds-size-8, 32px);
@@ -960,7 +960,7 @@ function buildInlineCss(styles: Record<string, string>): string {
 }
 .${s.contactPersonName} {
   font-size: var(--ds-font-size-4, 18px);
-  font-weight: var(--ds-font-weight-bold);
+  font-weight: var(--ds-font-weight-semibold);
   line-height: 1.5;
   letter-spacing: 0.09px;
   color: var(--ds-color-neutral-text-default, #2b2b2b);

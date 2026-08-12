@@ -441,11 +441,11 @@ function buildDatePickerInlineCss(s: Record<string, string>): string {
   }
   .${s.dayNameCell} {
     padding: var(--ds-size-1, 4px);
-    font-size: var(--ds-body-2xs-font-size, 12px);
+    font-size: var(--ds-font-size-1, 12px);
   }
   .${s.dateCell} {
     padding: var(--ds-size-2, 8px);
-    font-size: var(--ds-body-2xs-font-size, 12px);
+    font-size: var(--ds-font-size-1, 12px);
   }
   .${s.dateNumberContainer} {
     width: 20px;

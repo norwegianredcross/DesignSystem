@@ -127,7 +127,7 @@
 
 .previewCard {
   flex: 1;
-  animation: cardIn var(--ds-duration-slow) var(--ds-ease-emphasized);
+  animation: cardIn 480ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @keyframes cardIn {
@@ -154,8 +154,8 @@
 .previewItem {
   opacity: 0;
   transform: translateY(6px) scale(0.94);
-  transition: opacity var(--ds-duration-slow) var(--ds-ease-emphasized),
-              transform var(--ds-duration-slow) var(--ds-ease-emphasized);
+  transition: opacity 480ms cubic-bezier(0.22, 1, 0.36, 1),
+              transform 480ms cubic-bezier(0.22, 1, 0.36, 1);
   min-height: 36px;
   display: flex;
   align-items: center;

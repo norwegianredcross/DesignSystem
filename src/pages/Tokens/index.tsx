@@ -193,7 +193,7 @@ export const TokensPage = () => {
           }
 
           // Natural-sort fallback: compare trailing number so --ds-size-2 beats --ds-size-10
-          // and --ds-body-2xs-font-size stays next to its siblings.
+          // and --ds-font-size-1 stays next to its siblings.
           return naturalCompare(a.name, b.name);
         });
       });

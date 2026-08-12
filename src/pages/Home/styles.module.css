@@ -394,7 +394,7 @@
 .showcaseRows {
   display: flex;
   flex-direction: column;
-  gap: var(--ds-size-16);
+  gap: var(--ds-size-15);
 }
 
 .showcaseRow {

@@ -213,7 +213,7 @@ export const WithForm: Story = {
             />
           </Dialog.Block>
           <Dialog.Block>
-            <div style={{ display: 'flex', gap: 'var(--ds-spacing-3)' }}>
+            <div style={{ display: 'flex', gap: 'var(--ds-size-3)' }}>
               <Button variant="secondary" type="reset"> 
                 Cancel
               </Button>

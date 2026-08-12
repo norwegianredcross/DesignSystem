@@ -328,7 +328,7 @@ function buildCarouselInlineCss(s: Record<string, string>): string {
   position: relative;
   width: 100%;
   height: 100%;
-  background-color: var(--ds-color-neutral-surface-subtle, #f5f5f5);
+  background-color: var(--ds-color-neutral-surface-tinted, #f5f5f5);
   overflow: hidden;
 }
 .${s.loaderOverlay} {
@@ -358,11 +358,11 @@ function buildCarouselInlineCss(s: Record<string, string>): string {
   align-items: center;
   gap: var(--ds-size-2, 8px);
   color: var(--ds-color-text-subtle, #5d5d5d);
-  font-size: var(--ds-font-size-sm, 14px);
+  font-size: var(--ds-font-size-2, 14px);
 }
 .${s.empty} {
   color: var(--ds-color-text-subtle, #5d5d5d);
-  font-size: var(--ds-font-size-sm, 14px);
+  font-size: var(--ds-font-size-2, 14px);
   text-align: center;
 }
 .${s.controls} {
