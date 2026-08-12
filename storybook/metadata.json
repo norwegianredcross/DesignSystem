@@ -3015,7 +3015,14 @@
       {
         "name": "title",
         "type": "string",
-        "description": "",
+        "description": "Synlig tittel øverst i varselet. Uten `titleLevel` rendres den som\nvisuelt fremhevet tekst (ikke en overskrift), slik at dokumentets\noverskriftsrekkefølge ikke brytes.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "titleLevel",
+        "type": "enum",
+        "description": "Semantisk overskriftsnivå (2–6) for tittelen. Angi nivået som passer\ninn i sidens overskriftshierarki der varselet vises.",
         "defaultValue": null,
         "required": false
       },

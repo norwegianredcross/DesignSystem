@@ -579,6 +579,7 @@ import { Alert } from 'rk-designsystem';
   data-color?={"info"}
   data-size?="sm" | "md" | "lg"
   title?={string}
+  titleLevel?={}
  />
 ```
 
