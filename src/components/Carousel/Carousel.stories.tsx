@@ -3,6 +3,8 @@ import React from 'react';
 import { Carousel, type CarouselProps } from './index';
 import { Spinner } from '../SpinnerLoader';
 import { expect, within, userEvent, waitFor } from 'storybook/test';
+import personPng from '../../assets/images/person.png';
+import person2Jpg from '../../assets/images/person2.jpg';
 
 const meta: Meta<typeof Carousel> = {
   title: 'Components/Carousel',
@@ -279,12 +281,14 @@ function SupabaseExample(args: Omit<CarouselProps, 'images'>) {
 
 // --- INTERACTION TESTS ---
 
-// Test images that load reliably (using placeholder service)
-const testImages = [
-  { src: 'https://picsum.photos/seed/test1/800/600', alt: 'Test bilde 1' },
-  { src: 'https://picsum.photos/seed/test2/800/600', alt: 'Test bilde 2' },
-  { src: 'https://picsum.photos/seed/test3/800/600', alt: 'Test bilde 3' },
+// Lokale fixtures — testene skal ikke avhenge av eksterne bildetjenester.
+// Query-suffikset gir en tredje unik URL fra samme fil.
+const localImages = [
+  { src: personPng, alt: 'Test bilde 1' },
+  { src: person2Jpg, alt: 'Test bilde 2' },
+  { src: `${personPng}?v=2`, alt: 'Test bilde 3' },
 ];
+const testImages = localImages;
 
 /**
  * Tests that next/previous arrow buttons navigate between slides.
@@ -315,32 +319,32 @@ export const TestArrowNavigation: Story = {
     const prevButton = canvas.getByRole('button', { name: /forrige/i });
 
     // Find all dot buttons to track position
-    const dots = canvas.getAllByRole('tab');
+    const dots = canvas.getAllByRole('button', { name: /gå til bilde/i });
     expect(dots.length).toBe(3);
 
     // Initially, first dot should be selected
-    expect(dots[0]).toHaveAttribute('aria-selected', 'true');
+    expect(dots[0]).toHaveAttribute('aria-current', 'true');
 
     // Click next button
     await userEvent.click(nextButton);
 
     // Wait for the carousel to update
     await waitFor(() => {
-      expect(dots[1]).toHaveAttribute('aria-selected', 'true');
+      expect(dots[1]).toHaveAttribute('aria-current', 'true');
     });
 
     // Click next again
     await userEvent.click(nextButton);
 
     await waitFor(() => {
-      expect(dots[2]).toHaveAttribute('aria-selected', 'true');
+      expect(dots[2]).toHaveAttribute('aria-current', 'true');
     });
 
     // Click previous to go back
     await userEvent.click(prevButton);
 
     await waitFor(() => {
-      expect(dots[1]).toHaveAttribute('aria-selected', 'true');
+      expect(dots[1]).toHaveAttribute('aria-current', 'true');
     });
   },
 };
@@ -366,26 +370,26 @@ export const TestDotNavigation: Story = {
 
     // Wait for carousel to initialize
     await waitFor(() => {
-      expect(canvas.getAllByRole('tab').length).toBe(3);
+      expect(canvas.getAllByRole('button', { name: /gå til bilde/i }).length).toBe(3);
     });
 
-    const dots = canvas.getAllByRole('tab');
+    const dots = canvas.getAllByRole('button', { name: /gå til bilde/i });
 
     // Initially, first dot should be selected
-    expect(dots[0]).toHaveAttribute('aria-selected', 'true');
+    expect(dots[0]).toHaveAttribute('aria-current', 'true');
 
     // Click on the third dot
     await userEvent.click(dots[2]);
 
     await waitFor(() => {
-      expect(dots[2]).toHaveAttribute('aria-selected', 'true');
+      expect(dots[2]).toHaveAttribute('aria-current', 'true');
     });
 
     // Click on the first dot to go back
     await userEvent.click(dots[0]);
 
     await waitFor(() => {
-      expect(dots[0]).toHaveAttribute('aria-selected', 'true');
+      expect(dots[0]).toHaveAttribute('aria-current', 'true');
     });
   },
 };
@@ -423,7 +427,7 @@ export const TestSingleImageDisabledArrows: Story = {
     expect(prevButton).toBeDisabled();
 
     // Dots should not be shown with only one image
-    const dots = canvas.queryAllByRole('tab');
+    const dots = canvas.queryAllByRole('button', { name: /gå til bilde/i });
     expect(dots.length).toBe(0);
   },
 };
@@ -449,7 +453,7 @@ export const TestHiddenArrows: Story = {
 
     // Wait for dots to appear (indicates carousel is ready)
     await waitFor(() => {
-      expect(canvas.getAllByRole('tab').length).toBe(3);
+      expect(canvas.getAllByRole('button', { name: /gå til bilde/i }).length).toBe(3);
     });
 
     // Arrows should not be present
@@ -460,7 +464,7 @@ export const TestHiddenArrows: Story = {
     expect(prevButton).not.toBeInTheDocument();
 
     // Dots should still work
-    const dots = canvas.getAllByRole('tab');
+    const dots = canvas.getAllByRole('button', { name: /gå til bilde/i });
     expect(dots.length).toBe(3);
   },
 };
@@ -490,7 +494,7 @@ export const TestHiddenDots: Story = {
     });
 
     // Dots should not be present
-    const dots = canvas.queryAllByRole('tab');
+    const dots = canvas.queryAllByRole('button', { name: /gå til bilde/i });
     expect(dots.length).toBe(0);
 
     // Arrows should still work
@@ -575,19 +579,120 @@ export const TestDotsAccessibility: Story = {
 
     // Wait for carousel to initialize
     await waitFor(() => {
-      expect(canvas.getAllByRole('tab').length).toBe(3);
+      expect(canvas.getAllByRole('button', { name: /gå til bilde/i }).length).toBe(3);
     });
 
-    // Check that dots container has proper role
-    const tablist = canvas.getByRole('tablist');
-    expect(tablist).toBeInTheDocument();
-    expect(tablist).toHaveAttribute('aria-label');
+    // Dots live in a labelled group (plain buttons, not a fake tabs pattern)
+    const group = canvas.getByRole('group', { name: /bildeposisjon/i });
+    expect(group).toBeInTheDocument();
 
-    // Check that each dot has proper attributes
-    const dots = canvas.getAllByRole('tab');
+    // Each dot is labelled; exactly one is marked current
+    const dots = canvas.getAllByRole('button', { name: /gå til bilde/i });
     dots.forEach((dot) => {
       expect(dot).toHaveAttribute('aria-label');
-      expect(dot).toHaveAttribute('aria-selected');
     });
+    const current = dots.filter((dot) => dot.getAttribute('aria-current') === 'true');
+    expect(current.length).toBe(1);
+  },
+};
+
+/**
+ * A parent re-render passing a new array literal with identical content must
+ * not blank already-loaded slides (loaded state survives identity changes).
+ */
+export const TestRerenderKeepsSlides: Story = {
+  name: 'Test: Re-render Keeps Slides Visible',
+  render: () => {
+    const [, setTick] = React.useState(0);
+    return (
+      <div style={{ width: '600px', height: '400px', margin: '0 auto' }}>
+        {/* Inline literal: new identity on every render, same content */}
+        <Carousel
+          images={[
+            { src: localImages[0].src, alt: 'Lokalt bilde 1' },
+            { src: localImages[1].src, alt: 'Lokalt bilde 2' },
+          ]}
+          showArrows
+          showDots
+        />
+        <button type="button" onClick={() => setTick((n) => n + 1)}>
+          Tving re-render
+        </button>
+      </div>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Wait until the first image has actually loaded (spinner gone, img visible)
+    const firstImage = await waitFor(() => {
+      const img = canvasElement.querySelector('img');
+      expect(img).not.toBeNull();
+      expect(img!.complete).toBe(true);
+      return img!;
+    });
+    await waitFor(() => {
+      expect(getComputedStyle(firstImage).opacity).toBe('1');
+    });
+
+    // Force two parent re-renders with fresh array identity
+    const rerenderButton = canvas.getByRole('button', { name: 'Tving re-render' });
+    await userEvent.click(rerenderButton);
+    await userEvent.click(rerenderButton);
+
+    // The slide must stay visible — no spinner, no opacity reset
+    expect(getComputedStyle(firstImage).opacity).toBe('1');
+    expect(canvas.queryByLabelText(/laster bilde/i)).not.toBeInTheDocument();
+  },
+};
+
+/**
+ * WCAG 2.2.2: autoplay exposes a pause control; pausing stops rotation and
+ * resuming starts it again.
+ */
+export const TestAutoplayPauseControl: Story = {
+  name: 'Test: Autoplay Pause Control',
+  args: {
+    images: localImages,
+    showArrows: false,
+    showDots: true,
+    autoPlay: true,
+    autoDelay: 0.4,
+  },
+  render: (args) => (
+    <div style={{ width: '600px', height: '400px', margin: '0 auto' }}>
+      <Carousel {...args} />
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    const pauseButton = await canvas.findByRole('button', { name: /pause automatisk/i });
+    expect(pauseButton).toHaveAttribute('aria-pressed', 'false');
+
+    // Pause immediately, then verify the carousel stays on slide 1
+    await userEvent.click(pauseButton);
+    expect(canvas.getByRole('button', { name: /start automatisk/i })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
+
+    const dots = canvas.getAllByRole('button', { name: /gå til bilde/i });
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    expect(dots[0]).toHaveAttribute('aria-current', 'true');
+
+    // Resume: rotation advances within a couple of delays.
+    // Move the pointer away first — hover on the carousel also pauses it.
+    const resumeButton = canvas.getByRole('button', { name: /start automatisk/i });
+    await userEvent.click(resumeButton);
+    // Focus and hover on the control also pause — release both before waiting.
+    resumeButton.blur();
+    await userEvent.unhover(resumeButton);
+    await waitFor(
+      () => {
+        expect(dots[1]).toHaveAttribute('aria-current', 'true');
+      },
+      { timeout: 3000 },
+    );
   },
 };

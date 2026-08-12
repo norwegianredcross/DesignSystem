@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import styles from './styles.module.css';
 import type { DefaultProps } from '../../types';
 import type { MergeRight } from '../../utilities';
-import { ChevronLeftIcon, ChevronRightIcon } from '@navikt/aksel-icons';
+import { ChevronLeftIcon, ChevronRightIcon, PauseIcon, PlayIcon } from '@navikt/aksel-icons';
 import { Button } from '../Button';
 import { Spinner } from '../SpinnerLoader';
 import { useLanguageOptional } from '../../context/LanguageContext';
@@ -67,14 +67,25 @@ export const Carousel: React.FC<CarouselProps> = ({
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
   const [loadedFlags, setLoadedFlags] = useState<boolean[]>([]);
+  const imageRefs = useRef<(HTMLImageElement | null)[]>([]);
 
-  // Reset loaded flags when images change
+  // Nullstill lastet-status kun når bildeINNHOLDET endres, ikke ved ny
+  // array-identitet fra en forelder-render. Allerede lastede (cachede)
+  // bilder fyrer aldri load på nytt, så statusen leses fra img.complete.
+  const imagesKey = (images ?? []).map((image) => image.src).join('\n');
   useEffect(() => {
-    setLoadedFlags(new Array(images?.length || 0).fill(false));
-  }, [images]);
+    setLoadedFlags(
+      (images ?? []).map((_, index) => {
+        const el = imageRefs.current[index];
+        return Boolean(el && el.complete && el.naturalWidth > 0);
+      }),
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [imagesKey]);
 
   const markImageLoaded = useCallback((index: number) => {
     setLoadedFlags((prev) => {
+      if (prev[index]) return prev;
       const newFlags = [...prev];
       newFlags[index] = true;
       return newFlags;
@@ -115,9 +126,16 @@ export const Carousel: React.FC<CarouselProps> = ({
     }
   }, [emblaApi, images, slidesPerView, slideSpacing]);
 
-  // Håndterer automatisk avspilling
+  // WCAG 2.2.2: automatisk avspilling kan alltid pauses. Eksplisitt
+  // pause (knappen) huskes til brukeren starter igjen; hover/fokus
+  // pauser bare midlertidig og gjenopptar når interaksjonen slutter.
+  const [userPaused, setUserPaused] = useState(false);
+  const [hoverPaused, setHoverPaused] = useState(false);
+  const [focusPaused, setFocusPaused] = useState(false);
+  const autoplayActive = autoPlay && !userPaused && !hoverPaused && !focusPaused;
+
   useEffect(() => {
-    if (!autoPlay || !emblaApi || !images || images.length <= 1) return;
+    if (!autoplayActive || !emblaApi || !images || images.length <= 1) return;
     const timer = window.setInterval(() => {
       if (emblaApi.canScrollNext()) {
         emblaApi.scrollNext();
@@ -126,7 +144,7 @@ export const Carousel: React.FC<CarouselProps> = ({
     return () => {
       window.clearInterval(timer);
     };
-  }, [autoPlay, autoDelayMs, emblaApi, images]);
+  }, [autoplayActive, autoDelayMs, emblaApi, images]);
 
   // Beregn layout
   const safeSlideCount = Math.max(1, slidesPerView);
@@ -134,11 +152,23 @@ export const Carousel: React.FC<CarouselProps> = ({
   const halfSpacing = slideSpacing / 2;
 
   return (
-    <div 
-      className={styles.carouselContainer} 
-      data-color={dataColor} 
+    <div
+      className={styles.carouselContainer}
+      data-color={dataColor}
       data-size={dataSize}
       data-variant={variant}
+      onMouseEnter={autoPlay ? () => setHoverPaused(true) : undefined}
+      onMouseLeave={autoPlay ? () => setHoverPaused(false) : undefined}
+      onFocus={autoPlay ? () => setFocusPaused(true) : undefined}
+      onBlur={
+        autoPlay
+          ? (event) => {
+              if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+                setFocusPaused(false);
+              }
+            }
+          : undefined
+      }
     >
       <div className={styles.viewport} ref={emblaRef}>
         <div 
@@ -168,6 +198,9 @@ export const Carousel: React.FC<CarouselProps> = ({
                     </div>
                   )}
                   <img
+                    ref={(el) => {
+                      imageRefs.current[index] = el;
+                    }}
                     className={`${styles.image} ${loadedFlags[index] ? styles.loaded : styles.loadingImage}`}
                     src={image.src}
                     alt={image.alt}
@@ -218,7 +251,18 @@ export const Carousel: React.FC<CarouselProps> = ({
           )}
 
           {showDots && images && images.length > 1 && (
-            <div className={styles.dots} role="tablist" aria-label={t('carousel.imagePosition')}>
+            <div className={styles.dots} role="group" aria-label={t('carousel.imagePosition')}>
+              {autoPlay && (
+                <button
+                  type="button"
+                  className={styles.playPause}
+                  onClick={() => setUserPaused((paused) => !paused)}
+                  aria-label={userPaused ? t('carousel.resumeAutoplay') : t('carousel.pauseAutoplay')}
+                  aria-pressed={userPaused}
+                >
+                  {userPaused ? <PlayIcon aria-hidden /> : <PauseIcon aria-hidden />}
+                </button>
+              )}
               {scrollSnaps.map((_, index) => {
                 const isActive = index === selectedIndex;
                 return (
@@ -228,8 +272,7 @@ export const Carousel: React.FC<CarouselProps> = ({
                     className={`${styles.dot} ${isActive ? styles.dotActive : ''}`}
                     onClick={() => scrollTo(index)}
                     aria-label={`${t('carousel.goToImage')} ${index + 1}`}
-                    aria-selected={isActive}
-                    role="tab"
+                    aria-current={isActive || undefined}
                   />
                 );
               })}
@@ -346,6 +389,7 @@ function buildCarouselInlineCss(s: Record<string, string>): string {
   transform: translateX(-50%);
   bottom: var(--ds-size-3, 12px);
   display: inline-flex;
+  align-items: center;
   gap: var(--ds-size-2, 8px);
   pointer-events: auto;
   background-color: rgba(255, 255, 255, 0.1);
@@ -363,6 +407,20 @@ function buildCarouselInlineCss(s: Record<string, string>): string {
   margin: 0;
   cursor: pointer;
   transition: all 0.2s ease;
+}
+.${s.playPause} {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--ds-size-6, 24px);
+  height: var(--ds-size-6, 24px);
+  border-radius: 999px;
+  border: var(--ds-border-width-default, 1px) solid var(--ds-color-border-subtle, #d6d6d6);
+  background-color: rgba(255, 255, 255, 0.85);
+  color: var(--ds-color-neutral-text-default, #2b2b2b);
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
 }
 .${s.dotActive} {
   background-color: var(--ds-color-primary-color-red-base-default, #D52B1E);
