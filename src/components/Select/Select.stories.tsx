@@ -15,7 +15,6 @@ const meta: Meta<typeof Select> = {
           'Select (dropdown list) allows users to choose one option from a static list.',
       },
     },
-    a11y: { test: 'todo' }, // select-name: DigDir Select component a11y issue
   },
   argTypes: {
     'aria-invalid': {
@@ -95,8 +94,8 @@ export const Default: Story = {
   render: (args) => (
     // Label outside Field
     <>
-      <Label>Velg et fjell</Label>
       <Field data-size={args['data-size']}>
+        <Label>Velg et fjell</Label>
         <Select {...args}>
           {mountainOptions.map((opt) => (
             <Select.Option key={opt.value} value={opt.value} disabled={opt.value === ''}>
@@ -120,13 +119,9 @@ export const WithError: Story = {
   render: (args) => (
     // Label outside Field
     <>
-      <Label>Velg et fjell *</Label>
       <Field data-size={args['data-size']}>
-        <Select
-          required
-          aria-describedby={args['aria-invalid'] ? 'select-error-message-story' : undefined}
-          {...args}
-        >
+        <Label>Velg et fjell *</Label>
+        <Select required {...args}>
           {mountainOptions.map((opt) => (
             <Select.Option key={opt.value} value={opt.value} disabled={opt.value === ''}>
               {opt.label}
@@ -155,8 +150,8 @@ export const WithGrouping: Story = {
     render: (args) => (
       // Label outside Field
       <>
-        <Label>Velg et fjell</Label>
         <Field data-size={args['data-size']}>
+          <Label>Velg et fjell</Label>
           <Select {...args}>
             <Select.Option value="" disabled>Velg et fjell …</Select.Option>
             {groupedMountainOptions.map((group) => (
@@ -186,8 +181,8 @@ export const Disabled: Story = {
  render: (args) => (
     // Label outside Field
     <>
-      <Label>Utilgjengelig valg</Label>
       <Field data-size={args['data-size']}>
+        <Label>Utilgjengelig valg</Label>
         <Select {...args}>
            <Select.Option value="1">Valgt (Deaktivert)</Select.Option>
         </Select>
@@ -208,8 +203,8 @@ export const ReadOnly: Story = {
  render: (args) => (
     // Label outside Field
     <>
-      <Label>Kun lesbart valg</Label>
       <Field data-size={args['data-size']}>
+        <Label>Kun lesbart valg</Label>
         <Select {...args}>
            <Select.Option value="galdhopiggen">Galdhøpiggen</Select.Option>
         </Select>
