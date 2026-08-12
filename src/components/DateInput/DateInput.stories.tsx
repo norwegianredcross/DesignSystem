@@ -23,9 +23,16 @@ const meta: Meta<typeof DateInput> = {
     },
     'data-color': {
       control: 'select',
-      options: ['accent', 'brand1', 'brand2', 'brand3', 'neutral'],
-      description: 'Color scheme',
-      defaultValue: 'accent',
+      options: [
+        'primary-color-red',
+        'secondary-color-orange',
+        'secondary-color-rust',
+        'secondary-color-pink',
+        'additional-color-ocean',
+        'additional-color-jungle',
+        'neutral',
+      ],
+      description: 'Fargepalett',
     },
     suffixIcon: { control: false },
   },
@@ -81,10 +88,10 @@ export const Disabled: Story = {
 
 export const CustomSizeAndColor: Story = {
   args: {
-    label: 'Stor Brand2 Dato',
+    label: 'Stor dato i rust',
     id: 'custom-date',
     'data-size': 'lg',
-    'data-color': 'brand2',
+    'data-color': 'secondary-color-rust',
     defaultValue: '01.01.2025',
     suffixIcon: <CalendarIcon aria-hidden />,
     onSuffixClick: () => alert('Kalender-knapp klikket!'),
@@ -123,35 +130,6 @@ export const Controlled: Story = {
 // --- INTERACTION TESTS ---
 
 /**
- * Wait for requestAnimationFrame to fire (the DateInput component schedules
- * its value updates inside rAF).
- */
-function waitForRaf(): Promise<void> {
-  return new Promise((resolve) => {
-    requestAnimationFrame(() => {
-      // Schedule a second rAF to ensure React has also flushed any
-      // state updates triggered by the first rAF callback.
-      requestAnimationFrame(() => resolve());
-    });
-  });
-}
-
-/**
- * Helper: Type digits into a DateInput one character at a time, waiting for
- * requestAnimationFrame and React re-render between each keystroke.
- */
-async function typeDateDigits(
-  input: HTMLElement,
-  digits: string,
-) {
-  for (const char of digits) {
-    await userEvent.type(input, char);
-    // Wait for the component's rAF-based value update to complete
-    await waitForRaf();
-  }
-}
-
-/**
  * Tests that input is automatically formatted with dots (dd.mm.yyyy).
  */
 export const TestAutoFormatting: Story = {
@@ -164,13 +142,9 @@ export const TestAutoFormatting: Story = {
     const canvas = within(canvasElement);
     const input = canvas.getByRole('textbox');
 
-    // Clear any existing value
     await userEvent.clear(input);
+    await userEvent.type(input, '15062025');
 
-    // Type digits one at a time to allow requestAnimationFrame to process
-    await typeDateDigits(input, '15062025');
-
-    // Verify the value is formatted with dots
     await waitFor(() => {
       expect(input).toHaveValue('15.06.2025');
     });
@@ -178,52 +152,155 @@ export const TestAutoFormatting: Story = {
 };
 
 /**
- * Tests that day values are capped at 31.
+ * Typed input is preserved as-is (no silent clamping); validity is reported
+ * through onValidationChange instead.
  */
-export const TestDayValidation: Story = {
-  name: 'Test: Day Validation (max 31)',
+export const TestPreservesInput: Story = {
+  name: 'Test: Preserves Input, Reports Validity',
   args: {
-    label: 'Test dag',
-    id: 'test-day',
+    label: 'Test bevaring',
+    id: 'test-preserve',
+    onValidationChange: fn(),
   },
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
     const input = canvas.getByRole('textbox');
 
+    // Day 45 is kept, not rewritten to 31
     await userEvent.clear(input);
+    await userEvent.type(input, '45');
+    expect(input).toHaveValue('45');
 
-    // Type a day value greater than 31, one digit at a time
-    await typeDateDigits(input, '45');
+    // Month 99 is kept, not rewritten to 12
+    await userEvent.clear(input);
+    await userEvent.type(input, '1599');
+    expect(input).toHaveValue('15.99');
 
-    // Verify the day is capped at 31
+    // Incomplete date on blur reports invalid
+    await userEvent.tab();
     await waitFor(() => {
-      expect(input).toHaveValue('31');
+      expect(args.onValidationChange).toHaveBeenLastCalledWith(false, '15.99');
     });
   },
 };
 
 /**
- * Tests that month values are capped at 12.
+ * Complete dates are validated against the real calendar: impossible dates
+ * (31.02) and non-leap-year 29.02 are invalid; leap-day 29.02.2024 is valid.
  */
-export const TestMonthValidation: Story = {
-  name: 'Test: Month Validation (max 12)',
+export const TestCalendarValidation: Story = {
+  name: 'Test: Calendar Validation',
   args: {
-    label: 'Test måned',
-    id: 'test-month',
+    label: 'Test kalender',
+    id: 'test-calendar',
+    onValidationChange: fn(),
   },
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
     const input = canvas.getByRole('textbox');
 
     await userEvent.clear(input);
-
-    // Type a valid day followed by an invalid month, one digit at a time
-    await typeDateDigits(input, '1599');
-
-    // Verify the month is capped at 12
+    await userEvent.type(input, '31022024');
+    expect(input).toHaveValue('31.02.2024');
     await waitFor(() => {
-      expect(input).toHaveValue('15.12');
+      expect(args.onValidationChange).toHaveBeenLastCalledWith(false, '31.02.2024');
     });
+
+    await userEvent.clear(input);
+    await userEvent.type(input, '29022024');
+    await waitFor(() => {
+      expect(args.onValidationChange).toHaveBeenLastCalledWith(true, '29.02.2024');
+    });
+
+    await userEvent.clear(input);
+    await userEvent.type(input, '29022023');
+    await waitFor(() => {
+      expect(args.onValidationChange).toHaveBeenLastCalledWith(false, '29.02.2023');
+    });
+  },
+};
+
+/**
+ * The event passed to onChange keeps the real input element as target, so
+ * standard form patterns (e.target.name, .id, .focus()) work.
+ */
+export const TestEventTargetIntegrity: Story = {
+  name: 'Test: Event Target Integrity',
+  args: {
+    label: 'Test hendelse',
+    id: 'test-event-target',
+    name: 'fodselsdato',
+    onChange: fn(),
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole('textbox');
+
+    await userEvent.clear(input);
+    await userEvent.type(input, '01');
+
+    await waitFor(() => {
+      expect(args.onChange).toHaveBeenCalled();
+    });
+    const mock = args.onChange as ReturnType<typeof fn>;
+    const [event, formatted] = mock.mock.lastCall!;
+    expect(formatted).toBe('01');
+    expect(event.target).toBeInstanceOf(HTMLInputElement);
+    expect(event.target.name).toBe('fodselsdato');
+    expect(event.target.id).toBe('test-event-target');
+    expect(event.target.value).toBe('01');
+  },
+};
+
+/**
+ * External aria-labelledby is honored: the input gets its accessible name
+ * from the referenced element, and that element keeps its own id.
+ */
+export const TestExternalAriaLabelledby: Story = {
+  name: 'Test: External aria-labelledby',
+  render: (args) => (
+    <div>
+      <h3 id="ekstern-overskrift">Når reiser du?</h3>
+      <DateInput {...args} />
+    </div>
+  ),
+  args: {
+    'aria-labelledby': 'ekstern-overskrift',
+    id: 'test-external-label',
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole('textbox', { name: 'Når reiser du?' });
+    expect(input).toHaveAttribute('aria-labelledby', 'ekstern-overskrift');
+
+    const heading = canvasElement.querySelector('#ekstern-overskrift');
+    expect(heading?.tagName).toBe('H3');
+  },
+};
+
+/**
+ * Without an id prop the component generates stable ids — never the literal
+ * "undefined-label"/"undefined-desc" — and label/description stay linked.
+ */
+export const TestAutoGeneratedIds: Story = {
+  name: 'Test: Auto-generated Ids',
+  args: {
+    label: 'Uten id',
+    description: 'Ingen id-prop er satt.',
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole('textbox', { name: 'Uten id' });
+
+    expect(input.id).toBeTruthy();
+    expect(input.id).not.toContain('undefined');
+
+    const label = canvasElement.querySelector('label');
+    expect(label).toHaveAttribute('for', input.id);
+
+    const describedBy = input.getAttribute('aria-describedby') ?? '';
+    expect(describedBy).not.toContain('undefined');
+    expect(canvas.getByText('Ingen id-prop er satt.').id).toBe(describedBy);
   },
 };
 
@@ -257,9 +334,7 @@ export const TestOnChangeCallback: Story = {
     const input = canvas.getByRole('textbox');
 
     await userEvent.clear(input);
-
-    // Type digits one at a time to allow requestAnimationFrame to process
-    await typeDateDigits(input, '01012025');
+    await userEvent.type(input, '01012025');
 
     // Verify onChange was called
     expect(args.onChange).toHaveBeenCalled();
