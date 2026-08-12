@@ -376,6 +376,41 @@ export const TestEscapeAndFocusReturn: Story = {
       expect(menuButton).toHaveAttribute('aria-expanded', 'false');
       expect(doc.activeElement).toBe(menuButton);
     });
+export const TestThemeSwitchSync: Story = {
+  name: 'Test: Theme Switch Follows Page Scheme',
+  args: {
+    showUser: false,
+    showSearch: false,
+    showLogin: false,
+    showHeaderExtension: true,
+    showModeToggle: true,
+  },
+  decorators: [
+    (Story) => {
+      // Simulate a page that is ALREADY dark before the Header mounts -
+      // the scenario where the hardcoded 'light' initial state desynced
+      // the switch and made the first toggle a visual no-op.
+      document.documentElement.setAttribute('data-color-scheme', 'dark');
+      return <Story />;
+    },
+  ],
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    try {
+      const toggle = canvas.getByRole('switch');
+
+      // The switch reads the real scheme: page is dark, so it starts ON.
+      expect(toggle).toBeChecked();
+
+      // First toggle now actually changes the page (dark -> light).
+      await userEvent.click(toggle);
+      await waitFor(() => {
+        expect(document.documentElement.getAttribute('data-color-scheme')).toBe('light');
+        expect(toggle).not.toBeChecked();
+      });
+    } finally {
+      document.documentElement.removeAttribute('data-color-scheme');
+    }
   },
 };
 
