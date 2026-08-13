@@ -7,13 +7,18 @@ import { Card } from '../../components/Card';
 import { Button } from '../../components/Button';
 import styles from './styles.module.css';
 
-const components = [
+// Exported so src/utils/catalogue.test.ts can verify this list against the
+// canonical component inventory - a component missing here fails the build
+// instead of silently missing from the documentation site.
+export const catalogueComponents = [
     'Alert', 'Avatar', 'Badge', 'Breadcrumbs', 'Button', 'Card', 'Carousel', 'Checkbox', 'Chip',
-    'DateInput', 'DatePicker', 'Details', 'Dialog', 'Divider', 'Dropdown', 'ErrorSummary',
-    'Field', 'Fieldset', 'GraphicElement', 'Header', 'Input', 'Link', 'List', 'Pagination', 'Popover', 'Radio',
-    'Search', 'Select', 'SkeletonLoader', 'SkipLink', 'SpinnerLoader', 'Suggestion',
-    'Switch', 'Table', 'Tabs', 'Tag', 'Textarea', 'Textfield', 'ToggleGroup', 'Tooltip'
+    'DateInput', 'DatePicker', 'Details', 'Dialog', 'Divider', 'Donor', 'Dropdown', 'ErrorSummary',
+    'Field', 'Fieldset', 'Footer', 'GraphicElement', 'Header', 'Heading', 'Input', 'Label', 'Link',
+    'List', 'Pagination', 'Paragraph', 'Popover', 'Radio', 'Search', 'Select', 'SkeletonLoader',
+    'SkipLink', 'SpinnerLoader', 'Suggestion', 'Switch', 'Table', 'Tabs', 'Tag', 'Textarea',
+    'Textfield', 'ToggleGroup', 'Tooltip', 'ValidationMessage'
 ];
+const components = catalogueComponents;
 
 const iconMap: Record<string, string> = {
     Alert: 'alert.svg',
@@ -30,15 +35,20 @@ const iconMap: Record<string, string> = {
     Details: 'details.svg',
     Dialog: 'dialog.svg',
     Divider: 'divider.svg',
+    Donor: 'donor.svg',
     Dropdown: 'dropdown.svg',
     ErrorSummary: 'errorsummary.svg',
     Field: 'field.svg',
     Fieldset: 'fieldset.svg',
+    Footer: 'footer.svg',
     GraphicElement: 'graphicelement.svg',
+    Heading: 'typography.svg',
     Input: 'textfield.svg',
+    Label: 'typography.svg',
     Link: 'link.svg',
     List: 'list.svg',
     Pagination: 'pagination.svg',
+    Paragraph: 'typography.svg',
     Popover: 'popover.svg',
     Radio: 'radio.svg',
     Search: 'search.svg',
@@ -55,6 +65,7 @@ const iconMap: Record<string, string> = {
     Textfield: 'textfield.svg',
     ToggleGroup: 'togglegroup.svg',
     Tooltip: 'tooltip.svg',
+    ValidationMessage: 'validationmessage.svg',
 };
 
 export const ComponentsPage = () => {
