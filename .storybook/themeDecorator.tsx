@@ -13,7 +13,7 @@ export const themeDecorator: Decorator = (Story, context) => {
 
   useEffect(() => {
     // Apply the data attributes to the root element
-    rootElement.setAttribute('data-color', brand || 'primary-brand');
+    rootElement.setAttribute('data-color', brand || 'primary-color-red');
     rootElement.setAttribute('data-color-scheme', mode || 'light');
 
     // Optional: Cleanup function if needed
