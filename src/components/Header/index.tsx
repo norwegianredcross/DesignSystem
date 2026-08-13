@@ -476,7 +476,11 @@ export const Header = ({
         <div className={styles.actions}>
           {/* CTA Button */}
           {showCta && (
-    <Button variant="primary" data-color="main" data-size="md"
+    // data-color="main" was removed here and on the search/menu buttons below:
+    // "main" matches no theme scope, so the buttons always inherited the
+    // ancestor scope — now they do so explicitly. data-color is
+    // compile-checked against the real scopes since 1.4.0.
+    <Button variant="primary" data-size="md"
   className={styles.ctaButton} onClick={onCtaClick}>
       {ctaIcon}
       <span className={ctaIcon ? styles.buttonText :
@@ -517,7 +521,6 @@ export const Header = ({
                 <Paragraph data-size="md" className={styles.userName}>{displayName}</Paragraph>
                 <Avatar
                   aria-label={displayName}
-                  data-color="main"
                   variant="circle"
                   initials={userAvatarSrc ? undefined : displayInitials}
                 >
@@ -547,7 +550,6 @@ export const Header = ({
                <Button
                 ref={searchButtonRef}
                 variant="secondary"
-                data-color="main"
                 data-size="md"
                 onClick={toggleSearch}
                 aria-expanded={isSearchOpen}
@@ -568,7 +570,6 @@ export const Header = ({
             <Button
               ref={menuButtonRef}
               variant="primary"
-              data-color="main"
               data-size="md"
               onClick={toggleMenu}
               aria-expanded={isOpen}

@@ -6,6 +6,13 @@ import type {
   Size,
   Color,
 } from '@digdir/designsystemet-types';
+// Side-effect type import: rk-design-tokens ships a ColorDefinitions
+// augmentation listing the real Røde Kors theme scopes. Loading it turns
+// Digdir's `Color` from `string` into the closed union of those scopes, so a
+// dead scope like data-color="accent" becomes a compile error everywhere in
+// this repo. (Consumers get the same augmentation embedded in the published
+// dist/index.d.ts by scripts/embed-color-types.mjs.)
+import type {} from 'rk-design-tokens/design-tokens-build/types';
 import type { ReactNode } from 'react';
 
 // Re-eksporterer disse slik at de er tilgjengelige fra ett sted om nødvendig

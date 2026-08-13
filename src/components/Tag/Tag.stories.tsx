@@ -104,13 +104,13 @@ export const Colors: Story = {
 export const Rounded: Story = {
   args: {
     children: 'Behov',
-    'data-color': 'main',
+    'data-color': 'primary-color-red',
     shape: 'rounded',
   },
   parameters: {
     docs: {
       description: {
-        story: 'Tinted-pink rounded tag used inside the Figma Activity Card (node 231:4732). `shape="rounded"` sets border-radius to `--ds-border-radius-xl` (12px); `data-color="main"` resolves the tinted surface to the red ramp.',
+        story: 'Tinted-pink rounded tag used inside the Figma Activity Card (node 231:4732). `shape="rounded"` sets border-radius to `--ds-border-radius-xl` (12px); `data-color="primary-color-red"` resolves the tinted surface to the red ramp ("main" was a dead scope that matched nothing).',
       },
     },
   },
@@ -122,7 +122,7 @@ export const ActivityCardTags: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
       <Tag shape="rounded" data-color="info">Behov</Tag>
-      <Tag shape="rounded" data-color="main">Categori</Tag>
+      <Tag shape="rounded" data-color="primary-color-red">Categori</Tag>
     </div>
   ),
   argTypes: {

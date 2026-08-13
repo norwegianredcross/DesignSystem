@@ -135,6 +135,18 @@ import {
 const button: ButtonProps = { children: 'Gi 250 kr' };
 const tag: TagProps = { children: 'Ny' };
 
+// data-color is compile-checked: the published d.ts embeds rk-design-tokens'
+// ColorDefinitions augmentation, so real scopes pass and dead scopes fail.
+// The expect-error directive inverts the check — if 'accent' ever compiles
+// again (augmentation lost), the unused directive itself becomes the error.
+// (NB: a comment line must not BEGIN with the directive name — TypeScript
+// treats any leading "@ts-expect-error" comment as a real directive.)
+const realScope: ButtonProps = { 'data-color': 'primary-color-red' };
+// @ts-expect-error -- 'accent' is not an RK theme scope
+const deadScope: ButtonProps = { 'data-color': 'accent' };
+void realScope;
+void deadScope;
+
 type Fixture = {
   alert: AlertProps;
   donor: DonorProps;

@@ -55,7 +55,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build && npm run copy-styles",
+    "build": "vite build && npm run copy-styles && node scripts/embed-color-types.mjs",
     "copy-styles": "node scripts/build-styles.mjs",
     "test:packaging": "node scripts/packaging-smoke.mjs",
     "clean": "rimraf dist",
