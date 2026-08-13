@@ -376,6 +376,9 @@ export const TestEscapeAndFocusReturn: Story = {
       expect(menuButton).toHaveAttribute('aria-expanded', 'false');
       expect(doc.activeElement).toBe(menuButton);
     });
+  },
+};
+
 export const TestThemeSwitchSync: Story = {
   name: 'Test: Theme Switch Follows Page Scheme',
   args: {
