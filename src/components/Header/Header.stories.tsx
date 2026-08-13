@@ -579,6 +579,35 @@ export const TestSearchSuggestionAnnouncement: Story = {
   },
 };
 
+export const TestSearchSubmit: Story = {
+  name: 'Test: Search Submit With Enter',
+  args: {
+    showUser: false,
+    showLogin: false,
+    showSearch: true,
+    showMenuButton: false,
+    setPage: fn(),
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole('button', { name: /søk/i }));
+    const input = await canvas.findByRole('searchbox', { name: /søk/i });
+
+    // Substring matching: "picker" is not a title PREFIX, but must still
+    // suggest DatePicker (previously startsWith found nothing).
+    await userEvent.type(input, 'picker');
+    expect(await canvas.findByRole('button', { name: 'DatePicker' })).toBeVisible();
+
+    // Enter runs the full search: navigates to the search page with the
+    // encoded query and closes the overlay (previously a no-op).
+    await userEvent.keyboard('{Enter}');
+    await waitFor(() => {
+      expect(args.setPage).toHaveBeenCalledWith('search/picker');
+      expect(canvas.queryByRole('searchbox', { name: /søk/i })).not.toBeInTheDocument();
+    });
+  },
+};
+
 export const TestNavigationCallbacks: Story = {
   name: 'Test: Navigation Callbacks',
   args: {

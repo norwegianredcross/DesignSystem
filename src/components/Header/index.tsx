@@ -337,10 +337,24 @@ export const Header = ({
   const filteredResults = useMemo(() => {
     if (!searchQuery.trim()) return [];
     const lowerQuery = searchQuery.toLowerCase();
-    return searchIndex.filter(item => 
-      item.title.toLowerCase().startsWith(lowerQuery)
-    );
+    return searchIndex
+      .filter((item) => item.title.toLowerCase().includes(lowerQuery))
+      .sort((a, b) => {
+        const aPrefix = a.title.toLowerCase().startsWith(lowerQuery) ? 0 : 1;
+        const bPrefix = b.title.toLowerCase().startsWith(lowerQuery) ? 0 : 1;
+        return aPrefix - bPrefix;
+      });
   }, [searchQuery]);
+
+  // Enter in the field or clicking the search button runs the full search.
+  // Neither had a handler before: typing a query and pressing Enter did
+  // nothing unless the user happened to click a suggestion.
+  const submitSearch = () => {
+    if (!setPage || !searchQuery.trim()) return;
+    setPage(`search/${encodeURIComponent(searchQuery.trim())}`);
+    setIsSearchOpen(false);
+    setSearchQuery('');
+  };
 
   const handleSearchResultClick = (path: string) => {
     if (setPage) {
@@ -666,8 +680,11 @@ export const Header = ({
                   placeholder={t('header.searchPlaceholder')} 
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') submitSearch();
+                  }}
                 />
-              <Search.Button aria-label={t('header.search')} />
+              <Search.Button aria-label={t('header.search')} onClick={submitSearch} />
               <Search.ClearButton onClick={() => setSearchQuery('')} aria-label={t('header.clearSearch')} />
             </Search>
 
