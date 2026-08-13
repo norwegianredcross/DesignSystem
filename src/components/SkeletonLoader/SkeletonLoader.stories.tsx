@@ -80,7 +80,6 @@ export const Variants: Story = {
 
 // --- Composed Layout ---
 export const ComposedLayout: Story = {
-  parameters: { a11y: { test: 'todo' } }, // heading-order: skeleton placeholder headings
   name: 'Composed Layout',
   render: () => (
     <div style={{ maxWidth: '300px' }}>
@@ -94,8 +93,13 @@ export const ComposedLayout: Story = {
         }}
       >
         <SkeletonLoader variant="circle" width="30px" height="30px" />
-        <Heading level={3} data-size="md"> 
-          <SkeletonLoader variant="text" width="80%" /> 
+        {/* The heading only exists to give the skeleton a heading's font
+            size while loading. It has no text, so it must not appear in
+            the accessibility tree: a screen reader would announce an
+            empty level-3 heading and axe flags the level jump
+            (heading-order). aria-hidden removes both problems. */}
+        <Heading level={3} data-size="md" aria-hidden>
+          <SkeletonLoader variant="text" width="80%" />
         </Heading>
       </div>
       <SkeletonLoader variant="text" width={140} />
@@ -130,20 +134,20 @@ export const SizedByChildren: Story = {
 
 // --- Mimicking Text Content ---
 export const MimickingText: Story = {
-  parameters: { a11y: { test: 'todo' } }, // heading-order: skeleton placeholder headings
   name: 'Mimicking Text Content',
   render: () => (
     
     <div style={{ display: 'flex', gap: '20px' }}>
       <div style={{ flex: '1 1 200px' }}>
-        <Heading level={4}>En tittel</Heading>
+        <Heading level={2} data-size="xs">En tittel</Heading>
         <Paragraph data-size="sm">
           Her er en paragraf som går over flere linjer
         </Paragraph>
       </div>
       <div style={{ flex: '1 1 200px' }}>
-        {/* Mimic Heading size */}
-        <Heading level={4}>
+        {/* Placeholder heading: sizing only, no text - hidden from the
+            accessibility tree (see Composed Layout). */}
+        <Heading level={2} data-size="xs" aria-hidden>
           <SkeletonLoader variant="text" width="60%" />
         </Heading>
         <Paragraph data-size="sm">
