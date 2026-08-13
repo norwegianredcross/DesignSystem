@@ -101,6 +101,11 @@ export default defineConfig({ base: './', plugins: [react()] });
     `@digdir/designsystemet-css@${dev['@digdir/designsystemet-css']}`,
     `vite@${dev.vite}`,
     `@vitejs/plugin-react@${dev['@vitejs/plugin-react']}`,
+    // For the type-check leg: the consumer compiles our published d.ts itself.
+    `typescript@${dev.typescript}`,
+    `@types/react@${dev['@types/react']}`,
+    `@types/react-dom@${dev['@types/react-dom']}`,
+    '@arethetypeswrong/cli@0.18.5',
   ].join(' ');
   console.log('Installerer tarball + avhengigheter i konsument-appen …');
   run(`npm install --no-audit --no-fund --loglevel=error ${deps}`, appDir);
@@ -108,6 +113,153 @@ export default defineConfig({ base: './', plugins: [react()] });
   // 3. Bygg konsument-appen
   console.log('Bygger konsument-appen …');
   run('npx vite build --logLevel error', appDir);
+
+  // 3b. Type-check the published declarations from the consumer's side.
+  // skipLibCheck:false is the teeth here: tsc then fully checks
+  // dist/index.d.ts INSIDE the installed tarball, so every import that file
+  // contains must resolve from the consumer's node_modules. This is exactly
+  // what broke in 1.3.0 — the rolled-up d.ts imported './components/…' paths
+  // that only exist in this repo's source tree.
+  fs.writeFileSync(
+    path.join(appDir, 'src/typecheck.tsx'),
+    `import type { ComponentProps } from 'react';
+import {
+  Alert, Badge, BadgePosition, Button, DatePicker, Donor, Footer,
+  GraphicElement, Header, Suggestion, Tag,
+  type AlertProps, type ButtonProps, type DatePickerProps, type DonorProps,
+  type SuggestionProps, type TagProps,
+} from 'rk-designsystem';
+
+// Using the prop types standalone forces tsc to resolve and expand them the
+// way a consumer's IDE does.
+const button: ButtonProps = { children: 'Gi 250 kr' };
+const tag: TagProps = { children: 'Ny' };
+
+type Fixture = {
+  alert: AlertProps;
+  donor: DonorProps;
+  date: DatePickerProps;
+  suggestion: SuggestionProps;
+  header: ComponentProps<typeof Header>;
+  footer: ComponentProps<typeof Footer>;
+  badge: ComponentProps<typeof Badge>;
+  badgePosition: ComponentProps<typeof BadgePosition>;
+  graphic: ComponentProps<typeof GraphicElement>;
+  suggestionComponent: ComponentProps<typeof Suggestion>;
+  datePicker: ComponentProps<typeof DatePicker>;
+  donorComponent: ComponentProps<typeof Donor>;
+};
+
+export function App(props: Fixture) {
+  return (
+    <main>
+      <Alert {...props.alert} />
+      <Button {...button} />
+      <Tag {...tag} />
+    </main>
+  );
+}
+`,
+  );
+  // Two resolution modes cover the two consumer families: 'bundler'
+  // (Vite/webpack/Next) and 'NodeNext' (strict Node ESM, the pickiest mode —
+  // it rejects extensionless relative imports in d.ts files).
+  const tscBase = {
+    target: 'ES2020',
+    lib: ['ES2020', 'DOM', 'DOM.Iterable'],
+    jsx: 'react-jsx',
+    strict: true,
+    noEmit: true,
+    skipLibCheck: false,
+    types: [],
+  };
+  for (const mode of ['bundler', 'NodeNext']) {
+    const configPath = path.join(appDir, `tsconfig.${mode}.json`);
+    fs.writeFileSync(
+      configPath,
+      JSON.stringify(
+        {
+          compilerOptions: {
+            ...tscBase,
+            // 'NodeNext' requires module=NodeNext; the bundler leg uses ESNext.
+            module: mode === 'NodeNext' ? 'NodeNext' : 'ESNext',
+            moduleResolution: mode,
+          },
+          include: ['src/typecheck.tsx'],
+        },
+        null,
+        2,
+      ),
+    );
+    console.log(`Type-sjekker publiserte deklarasjoner (moduleResolution: ${mode}) …`);
+    // skipLibCheck:false checks EVERY d.ts in the program, including upstream
+    // ones we can't fix (designsystemet-web and @u-elements reference optional
+    // framework types like 'preact' and 'solid-js' that aren't installed).
+    // Real consumers never see those — the tsc default skipLibCheck:true hides
+    // them — so the gate is: zero errors in OUR package and the fixture;
+    // upstream-only noise is logged but tolerated.
+    let tscOutput = '';
+    try {
+      execSync(`npx tsc -p ${JSON.stringify(configPath)}`, { cwd: appDir, stdio: 'pipe' });
+    } catch (err) {
+      tscOutput = err.stdout?.toString() ?? '';
+    }
+    const ownErrors = tscOutput
+      .split('\n')
+      .filter((line) => /error TS/.test(line))
+      .filter((line) => line.includes('rk-designsystem/dist/') || line.includes('typecheck.tsx'))
+      // Upstream limitation, not ours: @digdir/designsystemet-react's d.ts
+      // tree uses extensionless relative imports (export * from './components'),
+      // which NodeNext resolution rejects — so under NodeNext EVERY member of
+      // their package looks unexported (TS2305). No packaging choice on our
+      // side can fix that short of inlining their types (which is what
+      // produced the broken 1.3.0 d.ts). Tolerate exactly that error shape
+      // (TS2305, and its TS2724 variant with a "did you mean" suggestion);
+      // anything else in our file stays fatal.
+      .filter(
+        (line) =>
+          !(mode === 'NodeNext' && /error TS2(305|724): .*'"@digdir\/designsystemet-react"' has no exported member/.test(line)),
+      );
+    if (ownErrors.length > 0) {
+      console.error(ownErrors.join('\n'));
+      fail(`Publiserte typer feiler tsc under moduleResolution: ${mode}.`);
+    }
+    console.log(`✅ Publiserte typer kompilerer under moduleResolution: ${mode}.`);
+  }
+
+  // 3c. attw ("are the types wrong") cross-checks every resolution mode npm
+  // supports. The esm-only profile matches the package's intended contract;
+  // the legacy require/UMD entry is being removed separately.
+  console.log('Kjører attw mot tarballen …');
+  // attw exits non-zero when ANY problem exists — even ones its --profile
+  // marks as ignored — so the gate reads the JSON report instead of the exit
+  // code. The two allowed kinds only occur on the legacy require/UMD path,
+  // which the ESM-only change removes; the allowlist shrinks to [] with it.
+  // CJSResolvesToESM is reported per resolution mode; UnexpectedModuleSyntax
+  // is reported per file (the UMD bundle sits in a "type": "module" package,
+  // so Node would parse it as ESM).
+  const allowedAttwProblem = (p) =>
+    (p.kind === 'CJSResolvesToESM' && p.resolutionKind === 'node16-cjs') ||
+    (p.kind === 'UnexpectedModuleSyntax' && (p.fileName ?? '').endsWith('componentlibrary.umd.js'));
+  // The report is written to a file: when attw exits non-zero, Node's
+  // execSync only hands back a truncated stdout snapshot, which breaks
+  // JSON.parse. `|| true` keeps the shell exit code from throwing.
+  const attwReport = path.join(tmp, 'attw.json');
+  execSync(
+    `npx attw ${JSON.stringify(tarball)} --entrypoints . --format json > ${JSON.stringify(attwReport)} || true`,
+    { cwd: appDir, stdio: ['ignore', 'ignore', 'inherit'], shell: '/bin/bash' },
+  );
+  const attwJson = fs.readFileSync(attwReport, 'utf8');
+  if (!attwJson.trim().startsWith('{')) {
+    console.error(attwJson);
+    fail('attw kunne ikke analysere tarballen.');
+  }
+  const attwProblems = (JSON.parse(attwJson).analysis?.problems ?? []).filter((p) => !allowedAttwProblem(p));
+  if (attwProblems.length > 0) {
+    console.error(JSON.stringify(attwProblems, null, 2));
+    fail('attw rapporterer problemer med de publiserte typene.');
+  }
+  console.log('✅ attw: ingen problemer utenfor den kjente require/UMD-stien.');
 
   // 4a. Bundle-innhold: alle tre CSS-lag skal være med
   const assetsDir = path.join(appDir, 'dist/assets');

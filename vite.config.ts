@@ -11,7 +11,7 @@ export default defineConfig({
       outDir: 'dist',
       insertTypesEntry: true,
       rollupTypes: true,
-      bundledPackages: ['@digdir/designsystemet-react'],
+      bundledPackages: [],
       copyDtsFiles: false,
       strictOutput: false,
       compilerOptions: {
