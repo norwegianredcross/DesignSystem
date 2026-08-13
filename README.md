@@ -66,6 +66,11 @@ The design system includes the following components:
 npm install rk-designsystem
 ```
 
+> Since v2 the library declares `@digdir/designsystemet-react` and
+> `@digdir/designsystemet-css` as peer dependencies (`^1.13.2`) and requires
+> React `>=18.3.1`. npm 7+ installs peers automatically; with older
+> setups install them alongside the package.
+
 ### 2. Setup Layout with Font
 
 For Next.js projects, use `next/font` for optimal font loading:
@@ -216,6 +221,29 @@ The guide remains the main human-readable reference. The manifest is additive an
 
 This guide provides a set of standards and best practices for creating new components. Following these guidelines ensures that our component library remains consistent, accessible, and easy to maintain.
 
+## Migrating to v2
+
+v2 collects the breaking changes below. (Note: 1.2.5 already contained the
+Button prop removals, mislabeled as a patch — 1.2.5 is deprecated.)
+
+- **Peer dependencies:** `@digdir/designsystemet-react` and
+  `@digdir/designsystemet-css` (`^1.13.2`) are peers; React `>=18.3.1 || ^19`.
+- **`import 'rk-designsystem/styles'` now delivers everything:** Digdir base,
+  the Røde Kors theme, the component CSS and Source Sans 3.
+- **Button:** `shape`/`pill` and `soft` props are removed — styling comes
+  from the design tokens.
+- **CrossCorner is removed:** use `GraphicElement` with `shape="angle"`.
+- **Footer:** `showCrossCorners` is renamed `showGraphicElements`.
+- **Alert:** `title` renders visibly (previously a native tooltip); pass
+  `titleLevel` (2–6) when it should be a real heading.
+- **DateInput:** invalid input is no longer silently rewritten (45 stays 45);
+  a built-in inline validation message appears on blur (`showValidationMessage`
+  to opt out), with `minDate`/`maxDate` (default 1900–2100) and an
+  `onValidationChange` callback. A label (or `aria-label`/`aria-labelledby`)
+  is required at type level.
+- **DatePicker:** days outside the month are disabled for all input methods;
+  the calendar is a real ARIA grid with arrow-key navigation.
+
 ## Getting Started (for Contributors)
 
 Follow these steps to get the local development environment running. All commands should be run from the root of the project.
@@ -325,9 +353,9 @@ Your Storybook file is the official documentation. It must be clear and comprehe
 
 ## Using NAV/Aksel Icons
 
-This library is designed to work seamlessly with the official icon set from NAV/Aksel.
+This library is designed to work seamlessly with the official icon set from NAV/Aksel. Since v2, `@navikt/aksel-icons` ships as a regular dependency of `rk-designsystem` — no separate install needed. To use the icons directly in your own code:
 
-### Install
+### Install (only for direct use in your app)
 
 ```bash
 # npm
