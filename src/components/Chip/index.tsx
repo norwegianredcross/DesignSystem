@@ -11,7 +11,11 @@ import {
 /**
  * Chip-komponent for filtrering, valg eller handlinger.
  */
-export const Chip = DigDirChip;
+// Explicit `typeof` annotation: without it the rolled-up d.ts flattens the
+// inferred namespace object into a type literal whose members reference
+// values without `typeof` (TS2749), breaking consumers that type-check
+// the published declarations.
+export const Chip: typeof DigDirChip = DigDirChip;
 export type ChipRadioProps = DigDirChipRadioProps;
 export type ChipCheckboxProps = DigDirChipCheckboxProps;
 export type ChipRemovableProps = DigDirChipRemovableProps;

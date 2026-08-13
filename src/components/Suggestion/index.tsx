@@ -22,7 +22,12 @@ export type SuggestionClearProps = ComponentProps<typeof DigDirSuggestion.Clear>
  * Suggestion-komponent for autofullfør/søkeforslag.
  * Merk: Dette er en eksperimentell komponent fra DigDir.
  */
-export const Suggestion = DigDirSuggestion;
+// The explicit `typeof DigDirSuggestion` annotation matters for the published
+// types: without it, TypeScript expands the inferred type and the generated
+// d.ts ends up importing DSSuggestionElement from '@digdir/designsystemet-web',
+// a transitive package consumers don't have a guaranteed resolution path to.
+// With the annotation, the d.ts just references the peer's exported name.
+export const Suggestion: typeof DigDirSuggestion = DigDirSuggestion;
 
 // Sett display name for rot-komponenten
 Suggestion.displayName = 'Suggestion';

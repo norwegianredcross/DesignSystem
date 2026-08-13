@@ -1,7 +1,11 @@
+// Import from the dedicated types package, not the deprecated
+// '@digdir/designsystemet/types' CLI subpath. The published d.ts keeps this
+// import path verbatim, so it must be a path consumers can resolve —
+// '@digdir/designsystemet-types' is declared in our dependencies for that.
 import type {
   Size,
   Color,
-} from '@digdir/designsystemet/types';
+} from '@digdir/designsystemet-types';
 import type { ReactNode } from 'react';
 
 // Re-eksporterer disse slik at de er tilgjengelige fra ett sted om nødvendig
