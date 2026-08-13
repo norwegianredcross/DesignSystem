@@ -26,7 +26,7 @@ const TypographyShowcase = () => {
 
   return (
     <div style={{ fontFamily: 'var(--ds-font-family)' }}>
-      <h1>Typography Showcase (Myriad Variable)</h1>
+      <h1>Typography Showcase (Source Sans 3)</h1>
       <p>
         This story displays text styled using the defined CSS variables for
         headings and body text. Ensure your theme CSS file containing these

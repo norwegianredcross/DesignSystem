@@ -28,10 +28,20 @@ const preview: Preview = {
       description: 'Select brand color theme',
       toolbar: {
         icon: 'paintbrush',
+        // These values are stamped as data-color on the preview root and
+        // MUST match the scopes defined in rk-design-tokens' theme.css.
+        // The old names (primary-brand, secondary-hav, ...) matched no
+        // scope, so the generic --ds-color-* tokens silently fell back to
+        // theme defaults and Storybook rendered off-palette compared to
+        // the documentation platform.
         items: [
-          { value: 'primary-brand', title: 'Primary Brand' },
-          { value: 'secondary-hav', title: 'Secondary Hav' },
-          { value: 'secondary-jungel', title: 'Secondary Jungel' },
+          { value: 'primary-color-red', title: 'Primary Red' },
+          { value: 'secondary-color-orange', title: 'Secondary Orange' },
+          { value: 'secondary-color-rust', title: 'Secondary Rust' },
+          { value: 'secondary-color-pink', title: 'Secondary Pink' },
+          { value: 'additional-color-ocean', title: 'Additional Ocean' },
+          { value: 'additional-color-jungle', title: 'Additional Jungle' },
+          { value: 'neutral', title: 'Neutral' },
         ],
       },
     },
@@ -50,7 +60,7 @@ const preview: Preview = {
   },
   initialGlobals: {
     codePreview: 'react',
-    brand: 'primary-brand',
+    brand: 'primary-color-red',
     mode: 'light',
   },
   parameters: {
