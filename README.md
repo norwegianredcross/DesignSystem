@@ -230,6 +230,11 @@ Button prop removals, mislabeled as a patch — 1.2.5 is deprecated.)
 
 - **Peer dependencies (1.4.0):** `@digdir/designsystemet-react` and
   `@digdir/designsystemet-css` (`^1.13.2`) are peers; React `>=18.3.1 || ^19`.
+- **ESM-only (1.4.0):** the CommonJS/UMD entry is removed, so
+  `require('rk-designsystem')` now fails explicitly. It never actually worked:
+  the UMD file was parsed as ESM (the package is `"type": "module"`), and the
+  underlying Digdir library's own CJS entry is broken as well. Use `import`
+  (every bundler and modern Node setup).
 - **`import 'rk-designsystem/styles'` now delivers everything:** Digdir base,
   the Røde Kors theme, the component CSS and Source Sans 3.
 - **Button:** `shape`/`pill` and `soft` props are removed — styling comes

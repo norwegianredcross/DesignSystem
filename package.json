@@ -26,14 +26,12 @@
   },
   "private": false,
   "type": "module",
-  "main": "./dist/componentlibrary.umd.js",
   "module": "./dist/componentlibrary.es.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/componentlibrary.es.js",
-      "require": "./dist/componentlibrary.umd.js"
+      "import": "./dist/componentlibrary.es.js"
     },
     "./styles": "./dist/styles.css",
     "./styles.css": "./dist/styles.css",
