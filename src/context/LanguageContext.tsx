@@ -83,6 +83,7 @@ export const useLanguageOptional = (): LanguageContextType => {
           'header.suggestions': 'Forslag',
           'header.viewAll': 'Se alle',
           'header.noResults': 'Ingen resultater for',
+          'header.suggestionCount': '{count} forslag',
           // Footer translations
           'footer.shortcuts': 'Snarveier',
           'footer.shortcutsLinks.services': 'Tilbudene',

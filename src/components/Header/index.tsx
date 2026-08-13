@@ -671,6 +671,19 @@ export const Header = ({
               <Search.ClearButton onClick={() => setSearchQuery('')} aria-label={t('header.clearSearch')} />
             </Search>
 
+            {/* Live announcement for screen readers: the suggestion list
+                appears and changes purely visually below the input, so a
+                screen-reader user typing hears nothing. role="status" is a
+                polite live region - the browser announces its text content
+                whenever it changes, without stealing focus. ds-sr-only
+                keeps it visually hidden but present for AT. */}
+            {searchQuery && (
+              <div role="status" className="ds-sr-only">
+                {filteredResults.length > 0
+                  ? t('header.suggestionCount').replace('{count}', String(Math.min(filteredResults.length, 5)))
+                  : `${t('header.noResults')} ${searchQuery}`}
+              </div>
+            )}
             {searchQuery && (
               <div className={styles.searchResults}>
                 {filteredResults.length > 0 ? (
