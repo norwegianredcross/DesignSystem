@@ -106,6 +106,10 @@ const GettingStartedContent = () => {
 
       <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('code.getStarted.stylesTitle')}</Heading>
       <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
+        {t('code.getStarted.stylesSimple')}
+      </Paragraph>
+      <CodeBlock>{`import 'rk-designsystem/styles';`}</CodeBlock>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-2)' }}>
         {t('code.getStarted.stylesText1')}
       </Paragraph>
       <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
@@ -116,6 +120,7 @@ const GettingStartedContent = () => {
     <CodeBlock>
 {`import '@digdir/designsystemet-css/index.css';
 import 'rk-design-tokens/design-tokens-build/theme.css';
+import 'rk-designsystem/dist/rk-designsystem.css'; // komponentstilene
 import { Source_Sans_3 } from 'next/font/google';
 
 const sourceSans3 = Source_Sans_3({
@@ -141,6 +146,7 @@ export default function RootLayout({
     <CodeBlock>
 {`import '@digdir/designsystemet-css/index.css';
 import 'rk-design-tokens/design-tokens-build/theme.css';
+import 'rk-designsystem/dist/rk-designsystem.css'; // komponentstilene
 import { Source_Sans_3 } from 'next/font/google';
 import type { AppProps } from 'next/app';
 
@@ -170,11 +176,9 @@ export default function App({ Component, pageProps }: AppProps) {
 
 function MyComponent() {
   return (
-    <>
-      <Alert variant="info" onClose={() => console.log('Alert closed!')}>
-        Dette er en informasjonsmelding fra Røde Kors Designsystem.
-      </Alert>
-    </>
+    <Alert data-color="info" title="Til informasjon" titleLevel={2}>
+      Dette er en informasjonsmelding fra Røde Kors Designsystem.
+    </Alert>
   );
 }`}
     </CodeBlock>
@@ -194,12 +198,12 @@ export default function Home() {
       <section>
         <h2 className="text-2xl font-semibold mb-4">Varsler</h2>
         {/* Røde Kors Designsystem Varsler */}
-        <Alert variant="success">
+        <Alert data-color="success">
           <p>
             Velkommen! Denne meldingen er stylet med det offisielle Røde Kors-temaet.
           </p>
         </Alert>
-        <Alert variant="warning" className="mt-4">
+        <Alert data-color="warning" className="mt-4">
           <p>
             Viktig informasjon ved bruk av det offisielle Røde Kors-temaet.
           </p>
