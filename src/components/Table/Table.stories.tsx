@@ -144,10 +144,18 @@ export const ZebraStriped: Story = {
 
 // --- Sticky Header ---
 export const StickyHeader: Story = {
-  parameters: { a11y: { test: 'todo' } }, // scrollable-region-focusable: scroll container needs keyboard access
   render: (args) => (
-    // Need a container with fixed height to demonstrate sticky
-    <div style={{ maxHeight: '200px', overflowY: 'auto', border: '1px solid #ccc' }}>
+    // A scrollable region must be reachable by keyboard: without
+    // tabIndex={0} only mouse/touch users can scroll it, and keyboard
+    // users can never see the rows below the fold (axe rule
+    // "scrollable-region-focusable"). role="region" + aria-label give
+    // the focus stop an announced name instead of a silent tab stop.
+    <div
+      style={{ maxHeight: '200px', overflowY: 'auto', border: '1px solid var(--ds-color-neutral-border-subtle)' }}
+      tabIndex={0}
+      role="region"
+      aria-label="Tabell med rullbart innhold"
+    >
       <Table {...args}>
         <caption>Sticky Header Table (Scroll Down)</caption>
         <Table.Head>
