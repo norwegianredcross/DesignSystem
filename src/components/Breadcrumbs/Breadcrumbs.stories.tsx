@@ -27,9 +27,9 @@ const meta: Meta<typeof Breadcrumbs> = {
     },
     'data-color': {
       control: 'select',
-      options: ['accent', 'brand1', 'brand2', 'brand3', 'neutral'],
+      options: ['primary-color-red', 'secondary-color-orange', 'secondary-color-rust', 'secondary-color-pink', 'additional-color-ocean', 'additional-color-jungle', 'neutral'],
       description: 'Changes color for descendant Designsystemet components.',
-      defaultValue: 'accent',
+      defaultValue: 'primary-color-red',
     },
   } as ArgTypes<BreadcrumbsProps>,
 };
@@ -129,7 +129,7 @@ export const LargeBrand2: Story = {
   args: {
     'aria-label': 'Du er her:',
     'data-size': 'lg',
-    'data-color': 'brand2',
+    'data-color': 'additional-color-ocean',
   },
 };
 

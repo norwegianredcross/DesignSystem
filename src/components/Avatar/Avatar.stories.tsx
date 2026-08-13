@@ -22,9 +22,9 @@ const meta: Meta<typeof Avatar> = {
     },
     'data-color': {
       control: 'select',
-      options: ['accent', 'brand1', 'brand2', 'brand3', 'neutral'],
+      options: ['primary-color-red', 'secondary-color-orange', 'secondary-color-rust', 'secondary-color-pink', 'additional-color-ocean', 'additional-color-jungle', 'neutral'],
       description: 'Color variant.',
-      defaultValue: 'accent',
+      defaultValue: 'primary-color-red',
     },
     'data-size': {
       control: 'select',
@@ -110,7 +110,7 @@ export const TestInitialsAndAttributes: Story = {
         initials="AL"
         variant="square"
         data-size="lg"
-        data-color="brand1"
+        data-color="secondary-color-rust"
       />
     </div>
   ),
@@ -138,7 +138,7 @@ export const TestInitialsAndAttributes: Story = {
     // Size, color and shape are reflected as attributes
     expect(anne).toHaveAttribute('data-variant', 'square');
     expect(anne).toHaveAttribute('data-size', 'lg');
-    expect(anne).toHaveAttribute('data-color', 'brand1');
+    expect(anne).toHaveAttribute('data-color', 'secondary-color-rust');
     expect(anne).toHaveAttribute('data-initials', 'AL');
   },
 };

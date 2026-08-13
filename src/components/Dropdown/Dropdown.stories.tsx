@@ -40,7 +40,7 @@ const meta: Meta<typeof Dropdown> = {
     },
     'data-color': {
       control: 'select',
-      options: ['accent', 'brand1', 'brand2', 'brand3', 'neutral'],
+      options: ['primary-color-red', 'secondary-color-orange', 'secondary-color-rust', 'secondary-color-pink', 'additional-color-ocean', 'additional-color-jungle', 'neutral'],
       description: 'Changes color for descendant Designsystemet components.',
       defaultValue: 'neutral',
     },
@@ -139,7 +139,7 @@ export const WithoutContext: Story = {
   ),
   args: {
     id: 'my-dropdown-example', 
-    'data-color': 'brand1',
+    'data-color': 'secondary-color-rust',
   },
 };
 
@@ -162,7 +162,7 @@ export const TopPlacement: Story = {
   ),
   args: {
     placement: 'top-start',
-    'data-color': 'brand2',
+    'data-color': 'additional-color-ocean',
   },
 };
 
@@ -196,7 +196,7 @@ export const Controlled: Story = {
   },
   args: {
     placement: 'bottom',
-    'data-color': 'accent',
+    'data-color': 'primary-color-red',
   },
 };
 

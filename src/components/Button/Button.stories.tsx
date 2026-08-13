@@ -45,15 +45,17 @@ const meta: Meta<typeof Button> = {
     'data-color': {
       control: 'select',
       options: [
-        'accent',
-        'brand1',
-        'brand2',
-        'brand3',
+        'primary-color-red',
+        'secondary-color-orange',
+        'secondary-color-rust',
+        'secondary-color-pink',
+        'additional-color-ocean',
+        'additional-color-jungle',
         'neutral',
         'danger',
       ],
       description: 'Button color scheme',
-      defaultValue: 'accent',
+      defaultValue: 'primary-color-red',
     },
     loading: {
       control: 'boolean',
@@ -179,7 +181,7 @@ export const TertiaryWithIcon: Story = {
       </>
     ),
     variant: 'tertiary',
-    'data-color': 'accent',
+    'data-color': 'primary-color-red',
   },
 };
 

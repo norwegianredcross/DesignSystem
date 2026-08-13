@@ -43,7 +43,7 @@ const meta: Meta<typeof Badge> = {
         'danger', 'info', 'success', 'warning',
       ],
       description: 'Color scheme',
-      defaultValue: 'accent',
+      defaultValue: 'primary-color-red',
     },
     // Removed placement and overlap from here
   } as ArgTypes<BadgeProps>, // Use only BadgeProps
@@ -66,7 +66,7 @@ export const WithCount: Story = {
   name: 'Example with Count',
   args: {
     count: 7,
-    'data-color': 'accent',
+    'data-color': 'primary-color-red',
   },
 };
 
@@ -213,7 +213,7 @@ export const Placements: Story = {
     </div>
   ),
   args: {
-    'data-color': 'accent',
+    'data-color': 'primary-color-red',
     'data-size': 'md',
   },
   argTypes: {
@@ -235,7 +235,7 @@ export const TestCountAndMaxCount: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
       <span data-testid="badge-count">
-        <Badge count={7} data-color="accent" />
+        <Badge count={7} data-color="primary-color-red" />
       </span>
       <span data-testid="badge-capped">
         <Badge count={150} maxCount={99} data-color="danger" />
