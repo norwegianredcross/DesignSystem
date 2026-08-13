@@ -323,6 +323,66 @@ export const TestKeyboardDismissAndFocusReturn: Story = {
   },
 };
 
+export const TestLightDismiss: Story = {
+  name: 'Test: Light Dismiss (Backdrop And Close Request)',
+  render: (args) => (
+    <Dialog.TriggerContext>
+      <Dialog.Trigger>Åpne dialog</Dialog.Trigger>
+      <Dialog {...args} modal closeButton="Lukk">
+        <Dialog.Block>
+          <Heading data-size="xs">Lukk meg</Heading>
+        </Dialog.Block>
+      </Dialog>
+    </Dialog.TriggerContext>
+  ),
+  args: {
+    closedby: 'any',
+    onClose: fn(),
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: 'Åpne dialog' });
+
+    // closedby="any" must reach the native attribute: the BROWSER handles
+    // Escape (close request) from it, and Digdir's own listener handles
+    // backdrop clicks from it.
+    await userEvent.click(trigger);
+    const dialog = await within(document.body).findByRole('dialog');
+    await waitFor(() => expect(dialog).toHaveAttribute('open'));
+    expect(dialog).toHaveAttribute('closedby', 'any');
+
+    // 1. Backdrop click. The ::backdrop pseudo-element cannot be targeted,
+    // but Digdir tracks pointerdown coordinates against the dialog's box:
+    // a press+click landing on the <dialog> element OUTSIDE its content
+    // rect counts as a backdrop press and closes it. Synthetic pointer
+    // events drive that listener directly.
+    const rect = dialog.getBoundingClientRect();
+    await userEvent.pointer({
+      keys: '[MouseLeft]',
+      target: dialog,
+      coords: { x: rect.left - 40, y: rect.top - 40 },
+    });
+    await waitFor(() => {
+      expect(dialog).not.toHaveAttribute('open');
+      expect(args.onClose).toHaveBeenCalledTimes(1);
+    });
+
+    // 2. Close request - the code path Escape triggers in a real browser.
+    // Native Escape handling only reacts to TRUSTED key events, which a
+    // test cannot synthesize, so we invoke requestClose(): it dispatches
+    // 'cancel' and closes unless prevented, exactly like Escape does.
+    await userEvent.click(trigger);
+    await waitFor(() => expect(dialog).toHaveAttribute('open'));
+    // requestClose is newer than TypeScript's DOM lib; Digdir polyfills it
+    // where the browser lacks it.
+    (dialog as HTMLDialogElement & { requestClose: () => void }).requestClose();
+    await waitFor(() => {
+      expect(dialog).not.toHaveAttribute('open');
+      expect(args.onClose).toHaveBeenCalledTimes(2);
+    });
+  },
+};
+
 export const TestModalContainsTabFocus: Story = {
   name: 'Test: Modal Contains Tab Focus',
   render: () => (
