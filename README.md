@@ -66,7 +66,7 @@ The design system includes the following components:
 npm install rk-designsystem
 ```
 
-> Since v2 the library declares `@digdir/designsystemet-react` and
+> Since v1.3 the library declares `@digdir/designsystemet-react` and
 > `@digdir/designsystemet-css` as peer dependencies (`^1.13.2`) and requires
 > React `>=18.3.1`. npm 7+ installs peers automatically; with older
 > setups install them alongside the package.
@@ -221,10 +221,12 @@ The guide remains the main human-readable reference. The manifest is additive an
 
 This guide provides a set of standards and best practices for creating new components. Following these guidelines ensures that our component library remains consistent, accessible, and easy to maintain.
 
-## Migrating to v2
+## Migrating to 1.3
 
-v2 collects the breaking changes below. (Note: 1.2.5 already contained the
-Button prop removals, mislabeled as a patch — 1.2.5 is deprecated.)
+1.3.0 collects the breaking changes below. It ships as a minor because the
+package is not yet in production use; treat the list as required reading
+when upgrading. (1.2.5 already contained the Button prop removals and is
+deprecated.)
 
 - **Peer dependencies:** `@digdir/designsystemet-react` and
   `@digdir/designsystemet-css` (`^1.13.2`) are peers; React `>=18.3.1 || ^19`.
@@ -353,7 +355,7 @@ Your Storybook file is the official documentation. It must be clear and comprehe
 
 ## Using NAV/Aksel Icons
 
-This library is designed to work seamlessly with the official icon set from NAV/Aksel. Since v2, `@navikt/aksel-icons` ships as a regular dependency of `rk-designsystem` — no separate install needed. To use the icons directly in your own code:
+This library is designed to work seamlessly with the official icon set from NAV/Aksel. Since v1.3, `@navikt/aksel-icons` ships as a regular dependency of `rk-designsystem` — no separate install needed. To use the icons directly in your own code:
 
 ### Install (only for direct use in your app)
 
