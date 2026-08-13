@@ -336,6 +336,87 @@ export const TestInteraction: Story = {
   },
 };
 
+export const TestEscapeAndFocusReturn: Story = {
+  name: 'Test: Escape Closes Overlays And Returns Focus',
+  args: {
+    showUser: false,
+    showSearch: true,
+    showLogin: false,
+    showMenuButton: true,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const doc = canvasElement.ownerDocument;
+    const menuButton = canvas.getByRole('button', { name: /meny/i });
+    const searchButton = canvas.getByRole('button', { name: /søk/i });
+
+    // Opening the search moves focus into the search field, so the screen
+    // reader lands in the overlay instead of staying on the toggle button.
+    await userEvent.click(searchButton);
+    await waitFor(() => {
+      expect(doc.activeElement).toBe(canvas.getByRole('searchbox', { name: /søk/i }));
+    });
+
+    // Escape closes the overlay and hands focus BACK to the button that
+    // opened it - without this the browser drops focus to <body> and a
+    // keyboard user loses their place.
+    await userEvent.keyboard('{Escape}');
+    await waitFor(() => {
+      expect(searchButton).toHaveAttribute('aria-expanded', 'false');
+      expect(doc.activeElement).toBe(searchButton);
+    });
+
+    // Same contract for the menu overlay.
+    await userEvent.click(menuButton);
+    await waitFor(() => {
+      expect(menuButton).toHaveAttribute('aria-expanded', 'true');
+    });
+    await userEvent.keyboard('{Escape}');
+    await waitFor(() => {
+      expect(menuButton).toHaveAttribute('aria-expanded', 'false');
+      expect(doc.activeElement).toBe(menuButton);
+    });
+  },
+};
+
+export const TestThemeSwitchSync: Story = {
+  name: 'Test: Theme Switch Follows Page Scheme',
+  args: {
+    showUser: false,
+    showSearch: false,
+    showLogin: false,
+    showHeaderExtension: true,
+    showModeToggle: true,
+  },
+  decorators: [
+    (Story) => {
+      // Simulate a page that is ALREADY dark before the Header mounts -
+      // the scenario where the hardcoded 'light' initial state desynced
+      // the switch and made the first toggle a visual no-op.
+      document.documentElement.setAttribute('data-color-scheme', 'dark');
+      return <Story />;
+    },
+  ],
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    try {
+      const toggle = canvas.getByRole('switch');
+
+      // The switch reads the real scheme: page is dark, so it starts ON.
+      expect(toggle).toBeChecked();
+
+      // First toggle now actually changes the page (dark -> light).
+      await userEvent.click(toggle);
+      await waitFor(() => {
+        expect(document.documentElement.getAttribute('data-color-scheme')).toBe('light');
+        expect(toggle).not.toBeChecked();
+      });
+    } finally {
+      document.documentElement.removeAttribute('data-color-scheme');
+    }
+  },
+};
+
 export const TestUserClick: Story = {
   name: 'Test: User block click',
   args: {
