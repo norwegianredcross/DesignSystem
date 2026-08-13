@@ -24,7 +24,11 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'ComponentLibrary',
-      formats: ['es', 'umd'],
+      // ESM-only: the UMD build advertised a require() path that never worked —
+      // the file sat in a "type": "module" package (Node parsed it as ESM), and
+      // Digdir's own CJS entry is broken too, so no CJS consumer could get
+      // through even with a correct file here.
+      formats: ['es'],
       fileName: (format) => `componentlibrary.${format}.js`,
     },
     rollupOptions: {
@@ -40,18 +44,6 @@ export default defineConfig({
         'classnames',
         'embla-carousel-react',
       ],
-      output: {
-        globals: {
-          react: 'React',
-          'react/jsx-runtime': 'jsxRuntime',
-          'react-dom': 'ReactDOM',
-          '@digdir/designsystemet-react': 'designsystemetReact',
-          '@navikt/aksel-icons': 'akselIcons',
-          'date-fns': 'dateFns',
-          'classnames': 'classnames',
-          'embla-carousel-react': 'emblaCarouselReact',
-        },
-      },
     },
   },
 });

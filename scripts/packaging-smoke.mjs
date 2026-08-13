@@ -228,19 +228,14 @@ export function App(props: Fixture) {
   }
 
   // 3c. attw ("are the types wrong") cross-checks every resolution mode npm
-  // supports. The esm-only profile matches the package's intended contract;
-  // the legacy require/UMD entry is being removed separately.
+  // supports. The package is ESM-only, so problems that only exist for CJS
+  // consumers (node10 and node16-cjs resolution) are outside the contract —
+  // the same rule attw's own esm-only profile applies.
   console.log('Kjører attw mot tarballen …');
   // attw exits non-zero when ANY problem exists — even ones its --profile
   // marks as ignored — so the gate reads the JSON report instead of the exit
-  // code. The two allowed kinds only occur on the legacy require/UMD path,
-  // which the ESM-only change removes; the allowlist shrinks to [] with it.
-  // CJSResolvesToESM is reported per resolution mode; UnexpectedModuleSyntax
-  // is reported per file (the UMD bundle sits in a "type": "module" package,
-  // so Node would parse it as ESM).
-  const allowedAttwProblem = (p) =>
-    (p.kind === 'CJSResolvesToESM' && p.resolutionKind === 'node16-cjs') ||
-    (p.kind === 'UnexpectedModuleSyntax' && (p.fileName ?? '').endsWith('componentlibrary.umd.js'));
+  // code.
+  const allowedAttwProblem = (p) => p.resolutionKind === 'node10' || p.resolutionKind === 'node16-cjs';
   // The report is written to a file: when attw exits non-zero, Node's
   // execSync only hands back a truncated stdout snapshot, which breaks
   // JSON.parse. `|| true` keeps the shell exit code from throwing.
@@ -259,7 +254,31 @@ export function App(props: Fixture) {
     console.error(JSON.stringify(attwProblems, null, 2));
     fail('attw rapporterer problemer med de publiserte typene.');
   }
-  console.log('✅ attw: ingen problemer utenfor den kjente require/UMD-stien.');
+  console.log('✅ attw: ingen problemer i ESM-oppløsningene.');
+
+  // 3d. The ESM-only contract itself. The tarball must not advertise a
+  // require() path (the old UMD entry never worked — Node parsed it as ESM
+  // because the package is "type": "module"), and require() from a consumer
+  // must fail loudly instead of half-working.
+  const installedPkg = JSON.parse(
+    fs.readFileSync(path.join(appDir, 'node_modules/rk-designsystem/package.json'), 'utf8'),
+  );
+  if (installedPkg.main || installedPkg.exports?.['.']?.require) {
+    fail('Pakken averterer fortsatt en CJS-inngang (main/exports.require) — kontrakten er ESM-only.');
+  }
+  let requireRejected = false;
+  try {
+    // A .cjs script is the realistic CJS consumer: require() must throw
+    // ERR_PACKAGE_PATH_NOT_EXPORTED because no "require" condition exists.
+    fs.writeFileSync(path.join(appDir, 'require-test.cjs'), "require('rk-designsystem');\n");
+    execSync('node require-test.cjs', { cwd: appDir, stdio: 'pipe' });
+  } catch {
+    requireRejected = true;
+  }
+  if (!requireRejected) {
+    fail("require('rk-designsystem') lyktes — ESM-only-kontrakten håndheves ikke.");
+  }
+  console.log('✅ ESM-only: ingen CJS-inngang averteres, og require() feiler eksplisitt.');
 
   // 4a. Bundle-innhold: alle tre CSS-lag skal være med
   const assetsDir = path.join(appDir, 'dist/assets');
