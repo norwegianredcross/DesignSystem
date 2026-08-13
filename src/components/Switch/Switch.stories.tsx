@@ -78,7 +78,25 @@ export const Default: Story = {
 
 // --- Grouped Example ---
 export const Grouped: Story = {
-  parameters: { a11y: { test: 'todo' } }, // aria-allowed-role: DigDir Fieldset component issue
+  // The gate is ON with two rule-precise exemptions for upstream Digdir
+  // markup/styling (see TESTING.md):
+  // 1. aria-allowed-role: Digdir's Fieldset sets a redundant role="group"
+  //    on <fieldset> (a fieldset already IS a group).
+  // 2. color-contrast, ONLY on [data-field="description"]: the disabled
+  //    switch's description is styled faded by Digdir (#cecece, 1.57:1).
+  //    WCAG 1.4.3 exempts text in inactive controls, but axe cannot
+  //    associate the description div with the disabled input, so it
+  //    flags it anyway. Everything else is still contrast-checked.
+  parameters: {
+    a11y: {
+      config: {
+        rules: [
+          { id: 'aria-allowed-role', enabled: false },
+          { id: 'color-contrast', selector: '*:not([data-field="description"])' },
+        ],
+      },
+    },
+  },
   render: (args) => {
     const { 'data-size': dataSize, 'data-color': dataColor, position } = args;
     return (
@@ -132,7 +150,25 @@ export const Grouped: Story = {
 
 // --- Right Positioned Example ---
 export const RightPositioned: Story = {
-  parameters: { a11y: { test: 'todo' } }, // aria-allowed-role: DigDir Fieldset component issue
+  // The gate is ON with two rule-precise exemptions for upstream Digdir
+  // markup/styling (see TESTING.md):
+  // 1. aria-allowed-role: Digdir's Fieldset sets a redundant role="group"
+  //    on <fieldset> (a fieldset already IS a group).
+  // 2. color-contrast, ONLY on [data-field="description"]: the disabled
+  //    switch's description is styled faded by Digdir (#cecece, 1.57:1).
+  //    WCAG 1.4.3 exempts text in inactive controls, but axe cannot
+  //    associate the description div with the disabled input, so it
+  //    flags it anyway. Everything else is still contrast-checked.
+  parameters: {
+    a11y: {
+      config: {
+        rules: [
+          { id: 'aria-allowed-role', enabled: false },
+          { id: 'color-contrast', selector: '*:not([data-field="description"])' },
+        ],
+      },
+    },
+  },
   render: (args) => {
     const { 'data-size': dataSize, 'data-color': dataColor, position } = args;
     return (
