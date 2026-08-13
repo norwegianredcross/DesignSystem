@@ -1,0 +1,22 @@
+<svg width="216" height="106" viewBox="22 8 180 90" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <g clip-path="url(#clip0_footer)">
+    <rect width="180" height="90" transform="translate(22 8)" fill="#fae4e2"/>
+    <!-- link columns -->
+    <rect x="34" y="20" width="40" height="5" rx="2.5" fill="#D52B1E"/>
+    <rect x="34" y="32" width="30" height="4" rx="2" fill="#f6d2cf"/>
+    <rect x="34" y="41" width="34" height="4" rx="2" fill="#f6d2cf"/>
+    <rect x="34" y="50" width="26" height="4" rx="2" fill="#f6d2cf"/>
+    <rect x="94" y="20" width="40" height="5" rx="2.5" fill="#D52B1E"/>
+    <rect x="94" y="32" width="28" height="4" rx="2" fill="#f6d2cf"/>
+    <rect x="94" y="41" width="34" height="4" rx="2" fill="#f6d2cf"/>
+    <rect x="154" y="20" width="34" height="5" rx="2.5" fill="#D52B1E"/>
+    <rect x="154" y="32" width="30" height="4" rx="2" fill="#f6d2cf"/>
+    <!-- white logo band -->
+    <rect x="22" y="72" width="180" height="26" fill="#ffffff"/>
+    <rect x="34" y="79" width="12" height="12" fill="#D52B1E"/>
+    <rect x="52" y="82" width="44" height="6" rx="3" fill="#57110C"/>
+  </g>
+  <defs>
+    <clipPath id="clip0_footer"><rect width="180" height="90" fill="white" transform="translate(22 8)"/></clipPath>
+  </defs>
+</svg>
