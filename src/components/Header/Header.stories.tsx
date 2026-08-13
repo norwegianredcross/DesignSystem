@@ -549,6 +549,36 @@ export const TestMenuSearchAndResultFlow: Story = {
   },
 };
 
+export const TestSearchSuggestionAnnouncement: Story = {
+  name: 'Test: Search Suggestions Announced',
+  args: {
+    showUser: false,
+    showLogin: false,
+    showSearch: true,
+    showMenuButton: false,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole('button', { name: /søk/i }));
+    const input = await canvas.findByRole('searchbox', { name: /søk/i });
+
+    // The suggestion list is visual-only; the role="status" live region is
+    // what a screen reader hears. Typing must update its text with the
+    // number of suggestions...
+    await userEvent.type(input, 'Ta');
+    await waitFor(() => {
+      expect(canvas.getByRole('status')).toHaveTextContent(/forslag/);
+    });
+
+    // ...and a query without matches announces the no-results message.
+    await userEvent.clear(input);
+    await userEvent.type(input, 'xyzxyz');
+    await waitFor(() => {
+      expect(canvas.getByRole('status')).toHaveTextContent(/xyzxyz/);
+    });
+  },
+};
+
 export const TestNavigationCallbacks: Story = {
   name: 'Test: Navigation Callbacks',
   args: {

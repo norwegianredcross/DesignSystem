@@ -19,6 +19,7 @@ export const translations = {
       suggestions: "Forslag til søk",
       viewAll: "Vis alle resultater",
       noResults: "Ingen treff funnet for",
+      suggestionCount: "{count} forslag",
       selectLanguage: "Velg språk",
       homeAriaLabel: "Norges Røde Kors Hjem",
       nav: {
@@ -1063,6 +1064,7 @@ export const translations = {
       suggestions: "Search suggestions",
       viewAll: "View all results",
       noResults: "No results found for",
+      suggestionCount: "{count} suggestions",
       selectLanguage: "Select language",
       homeAriaLabel: "Norwegian Red Cross Home",
       nav: {
