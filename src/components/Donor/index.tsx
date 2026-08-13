@@ -232,7 +232,10 @@ export const Donor = ({
                 <Button
                   key={amount.value}
                   variant={isSelected ? 'primary' : 'secondary'}
-                  data-color={isSelected ? 'accent' : 'neutral'}
+                  // "accent" matches no scope in the theme, so the selected
+                  // button silently fell back to the inherited default color.
+                  // primary-color-red is the intended scope, stated explicitly.
+                  data-color={isSelected ? 'primary-color-red' : 'neutral'}
                   aria-pressed={isSelected}
                   onClick={() => handlePresetClick(amount.value)}
                 >
