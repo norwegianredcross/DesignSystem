@@ -41,7 +41,7 @@ export const HomePage = ({ setPage }: HomePageProps) => {
             {/* Notch: white step cut out of the panel's top-left corner ("krysset" cutout).
                 Holds the release badge — the system's "stamp" in the brand-mark slot. */}
             <div className={styles.heroNotch}>
-              <Tag data-color="main" data-size="sm">{versionLabel}</Tag>
+              <Tag data-size="sm">{versionLabel}</Tag>
               <span className={styles.notchMeta}>Open Source</span>
             </div>
             <span className={styles.heroKicker}>{t('home.hero.kicker')}</span>

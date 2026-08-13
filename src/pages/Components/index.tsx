@@ -162,7 +162,6 @@ export const ComponentsPage = () => {
           <Button
             asChild
             variant="secondary"
-            data-color="main"
             className={styles.ctaBannerButton}
           >
             <a
