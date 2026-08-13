@@ -43,7 +43,9 @@ const ColorSwatch: React.FC<{
   return (
     <div style={{ marginBottom: '12px' }}>
       <span style={labelStyle}>{label}</span>
-      <div style={swatchStyle}>
+      {/* data-swatch marks the tile as a color SAMPLE - the a11y config
+          excludes exactly these from the contrast rule (see Showcase). */}
+      <div style={swatchStyle} data-swatch>
         {isText ? 'Sample Text' : ''}
       </div>
       <code style={codeStyle}>{varName}</code>
@@ -77,9 +79,9 @@ const ColorCategory: React.FC<{ title: string; prefix: string }> = ({
 
   return (
     <section style={{ marginBottom: '2rem' }}>
-      <h3 style={{ borderBottom: '1px solid #ccc', paddingBottom: '0.5rem', marginBottom: '1rem' }}>
+      <h2 style={{ borderBottom: '1px solid #ccc', paddingBottom: '0.5rem', marginBottom: '1rem', fontSize: '1.17em' }}>
         {title}
-      </h3>
+      </h2>
       <div
         style={{
           display: 'grid',
@@ -121,9 +123,9 @@ const ThemeShowcase = () => {
       <ColorCategory title="Warning" prefix="warning" />
 
        <section style={{ marginBottom: '2rem' }}>
-        <h3 style={{ borderBottom: '1px solid #ccc', paddingBottom: '0.5rem', marginBottom: '1rem' }}>
+        <h2 style={{ borderBottom: '1px solid #ccc', paddingBottom: '0.5rem', marginBottom: '1rem', fontSize: '1.17em' }}>
           Focus & Link
-        </h3>
+        </h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '1rem' }}>
            <ColorSwatch varName="--ds-color-focus-inner" label="Focus Inner" />
            <ColorSwatch varName="--ds-color-focus-outer" label="Focus Outer" />
@@ -149,5 +151,16 @@ export default meta;
 type Story = StoryObj<typeof ThemeShowcase>;
 
 export const Showcase: Story = {
-  parameters: { a11y: { test: 'todo' } }, // color-contrast in decorative swatches, heading-order in showcase
+  // The gate is ON. Color swatches are DECORATIVE: the tiny label inside
+  // each swatch shows the token name on the token's own color, so many
+  // pairs legitimately fail 4.5:1 - they are color samples, not reading
+  // text. The contrast rule is therefore scoped away from the swatch
+  // tiles only; headings and body text in the showcase are still checked.
+  parameters: {
+    a11y: {
+      config: {
+        rules: [{ id: 'color-contrast', selector: '*:not([data-swatch] *):not([data-swatch])' }],
+      },
+    },
+  },
 };
