@@ -13,10 +13,15 @@ on:
           - major
 
 jobs:
+  # Verifiserer, bumper versjon og pusher commit + tag atomisk.
+  # npm-publisering skjer i egen jobb ETTER at git-push har lykkes,
+  # slik at npm og git aldri kommer ut av synk.
   release:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    outputs:
+      version: ${{ steps.version.outputs.new }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
@@ -28,7 +33,6 @@ jobs:
         with:
           node-version: "20"
           cache: 'npm'
-          registry-url: 'https://registry.npmjs.org'
 
       - name: Configure Git
         run: |
@@ -91,27 +95,52 @@ jobs:
             echo -e "# Changelog\n\n${ENTRY}" > CHANGELOG.md
           fi
 
-      - name: Commit release
+      # Annotert tag (--follow-tags hopper over lettvekts-tags) og atomisk
+      # push av commit + tag: enten lander begge, eller ingen av dem.
+      - name: Commit, tag and push atomically
         run: |
+          NEW_VERSION="${{ steps.version.outputs.new }}"
           git add package.json package-lock.json CHANGELOG.md
-          git commit -m "chore(release): v${{ steps.version.outputs.new }}"
-          git tag "v${{ steps.version.outputs.new }}"
+          git commit -m "chore(release): v${NEW_VERSION}"
+          git tag -a "v${NEW_VERSION}" -m "v${NEW_VERSION}"
+          git push --atomic origin main "refs/tags/v${NEW_VERSION}"
+
+  # Publiserer taggen som release-jobben pushet. Idempotent: en re-kjøring
+  # sjekker ut samme tag og publiserer samme artefakt. Feiler npm-publisering
+  # (tag finnes på git, ingenting på npm): re-kjør kun denne jobben.
+  # Publiser aldri en annen artefakt under et eksisterende versjonsnummer.
+  publish:
+    needs: release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout release tag
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          ref: v${{ needs.release.outputs.version }}
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: "20"
+          cache: 'npm'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: npm ci
 
       - name: Publish to npm
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Push commit and tag
-        run: |
-          git push origin main
-          git push origin "v${{ steps.version.outputs.new }}"
-
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          NEW_VERSION="${{ steps.version.outputs.new }}"
+          NEW_VERSION="${{ needs.release.outputs.version }}"
           DATE=$(date +%Y-%m-%d)
 
           # Extract this version's changelog section for the release notes
