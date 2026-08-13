@@ -210,7 +210,7 @@
   }
 }
 
-/* Panelet er bare en semantisk beholder — layouten eies av .content */
+/* The panel is only a semantic container — layout is owned by .content */
 .tabPanel {
   width: 100%;
   padding: 0;
