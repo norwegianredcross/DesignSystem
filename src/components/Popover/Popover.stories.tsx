@@ -36,7 +36,7 @@ const meta: Meta<typeof Popover> = {
     },
     'data-color': {
       control: 'select',
-      options: ['accent', 'brand1', 'brand2', 'brand3', 'neutral', 'danger', 'info', 'success', 'warning'],
+      options: ['primary-color-red', 'secondary-color-orange', 'secondary-color-rust', 'secondary-color-pink', 'additional-color-ocean', 'additional-color-jungle', 'neutral', 'danger', 'info', 'success', 'warning'],
       description: 'Changes color scheme of the popover.',
       defaultValue: 'neutral',
     },
@@ -117,7 +117,7 @@ export const WithoutContext: Story = {
     id: 'my-popover-example-no-context', 
     children: 'Content for popover without context.',
     placement: 'right',
-    'data-color': 'accent',
+    'data-color': 'primary-color-red',
   },
 };
 

@@ -23,7 +23,7 @@ const meta: Meta = {
     },
     'data-color': {
       control: 'select',
-      options: ['accent', 'brand1', 'brand2', 'brand3', 'neutral'],
+      options: ['primary-color-red', 'secondary-color-orange', 'secondary-color-rust', 'secondary-color-pink', 'additional-color-ocean', 'additional-color-jungle', 'neutral'],
       description: 'Changes color for descendant Designsystemet components.',
       defaultValue: 'neutral',
     },
@@ -148,7 +148,7 @@ export const ListOfLinks: StoryObj<typeof List.Unordered> = {
   ),
   args: {
     'data-size': 'md',
-    'data-color': 'accent',
+    'data-color': 'primary-color-red',
   },
   name: 'List of Links',
 };
@@ -162,7 +162,7 @@ export const TestListSemantics: StoryObj = {
         <List.Item>Førstehjelpsutstyr</List.Item>
         <List.Item>Vann</List.Item>
       </List.Unordered>
-      <List.Ordered aria-label="Fremgangsmåte" data-color="brand1">
+      <List.Ordered aria-label="Fremgangsmåte" data-color="secondary-color-rust">
         <List.Item>Varsle</List.Item>
         <List.Item>Hjelp</List.Item>
       </List.Ordered>
@@ -178,6 +178,6 @@ export const TestListSemantics: StoryObj = {
     await expect(within(unordered).getAllByRole('listitem')).toHaveLength(2);
     await expect(within(ordered).getAllByRole('listitem')).toHaveLength(2);
     await expect(unordered).toHaveAttribute('data-size', 'sm');
-    await expect(ordered).toHaveAttribute('data-color', 'brand1');
+    await expect(ordered).toHaveAttribute('data-color', 'secondary-color-rust');
   },
 };

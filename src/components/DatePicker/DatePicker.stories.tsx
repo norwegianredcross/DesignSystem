@@ -12,7 +12,7 @@ import { CalendarIcon } from '../../assets/images/CalendarIcon'; // Adjust path 
 
 // Storybook Meta Configuration
 const meta: Meta<typeof DatePicker> = {
-  title: 'Components/DatePicker (Calendar)',
+  title: 'Components/DatePicker',
   component: DatePicker,
   tags: ['autodocs'],
   parameters: {
@@ -42,7 +42,7 @@ const meta: Meta<typeof DatePicker> = {
     },
     'data-color': {
       control: 'select',
-      options: ['accent', 'brand1', 'brand2', 'brand3', 'neutral'],
+      options: ['primary-color-red', 'secondary-color-orange', 'secondary-color-rust', 'secondary-color-pink', 'additional-color-ocean', 'additional-color-jungle', 'neutral'],
       description: 'Color scheme',
       defaultValue: 'neutral',
     },
@@ -165,7 +165,7 @@ export const CalendarWithCustomSizeAndColor: CalendarStory = {
     initialDate: new Date(),
     selectedDate: new Date(),
     'data-size': 'lg',
-    'data-color': 'brand2',
+    'data-color': 'additional-color-ocean',
     onDateSelect: action('dateSelected'),
   },
 };

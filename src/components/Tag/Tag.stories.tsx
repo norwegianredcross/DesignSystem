@@ -85,10 +85,10 @@ export const Colors: Story = {
       <Tag data-color="warning" data-size={args['data-size']}>warning</Tag>
       <Tag data-color="danger" data-size={args['data-size']}>danger</Tag>
       <Tag data-color="info" data-size={args['data-size']}>info</Tag>
-      <Tag data-color="brand1" data-size={args['data-size']}>brand1</Tag>
-      <Tag data-color="brand2" data-size={args['data-size']}>brand2</Tag>
-      <Tag data-color="brand3" data-size={args['data-size']}>brand3</Tag>
-      <Tag data-color="accent" data-size={args['data-size']}>accent</Tag>
+      <Tag data-color="secondary-color-rust" data-size={args['data-size']}>brand1</Tag>
+      <Tag data-color="additional-color-ocean" data-size={args['data-size']}>brand2</Tag>
+      <Tag data-color="additional-color-jungle" data-size={args['data-size']}>brand3</Tag>
+      <Tag data-color="primary-color-red" data-size={args['data-size']}>accent</Tag>
     </div>
   ),
   args: {
@@ -147,7 +147,7 @@ export const WithIcon: Story = {
   ),
   args: {
     'data-size': 'md',
-    'data-color': 'accent',
+    'data-color': 'primary-color-red',
   },
   name: 'With Icon',
 };

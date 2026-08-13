@@ -55,7 +55,7 @@ const meta: Meta<typeof Input> = {
     },
     'data-color': {
       control: 'select',
-      options: ['accent', 'brand1', 'brand2', 'brand3', 'neutral'],
+      options: ['primary-color-red', 'secondary-color-orange', 'secondary-color-rust', 'secondary-color-pink', 'additional-color-ocean', 'additional-color-jungle', 'neutral'],
       description: 'Changes color for descendant Designsystemet components.',
       defaultValue: 'neutral',
     },

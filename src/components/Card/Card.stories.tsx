@@ -27,7 +27,7 @@ const meta: Meta<typeof Card> = {
     },
     'data-color': {
       control: 'select',
-      options: ['accent', 'brand1', 'brand2', 'brand3', 'neutral'],
+      options: ['primary-color-red', 'secondary-color-orange', 'secondary-color-rust', 'secondary-color-pink', 'additional-color-ocean', 'additional-color-jungle', 'neutral'],
       description: 'Changes color for descendant Designsystemet components.',
       defaultValue: 'neutral',
     },
@@ -90,7 +90,7 @@ export const Tinted: Story = {
     </Card>
   ),
   args: {
-    'data-color': 'accent',
+    'data-color': 'primary-color-red',
     variant: 'tinted',
   },
 };
@@ -132,7 +132,7 @@ export const AsLink: Story = {
         <p>This entire card is a link.</p>
       </a>
     ),
-    'data-color': 'brand1',
+    'data-color': 'secondary-color-rust',
     variant: 'tinted',
   },
 };
@@ -148,7 +148,7 @@ export const AsButton: Story = {
         <p>This entire card is a button.</p>
       </button>
     ),
-    'data-color': 'brand2',
+    'data-color': 'additional-color-ocean',
   },
 };
 
@@ -213,7 +213,7 @@ export const ComplexComposition: Story = {
             <Textfield label="Etternavn" />
           </CardBlock>
           <CardBlock>
-            <Button variant="secondary" data-color="accent" data-size="sm">
+            <Button variant="secondary" data-color="primary-color-red" data-size="sm">
               Legg til rolle
               <PlusIcon aria-hidden style={{ marginLeft: '4px' }}/>
             </Button>
@@ -237,7 +237,7 @@ export const ComplexComposition: Story = {
     );
   },
   args: {
-    'data-color': 'accent',
+    'data-color': 'primary-color-red',
     'data-size': 'md',
     variant: 'default',
   },
@@ -266,7 +266,7 @@ export const TestCardAsButton: Story = {
   ),
   args: {
     asChild: true,
-    'data-color': 'brand2',
+    'data-color': 'additional-color-ocean',
     onClick: fn(),
   },
   play: async ({ canvasElement, args }) => {

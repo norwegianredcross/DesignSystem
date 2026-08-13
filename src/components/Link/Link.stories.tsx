@@ -37,9 +37,9 @@ const meta: Meta<typeof Link> = {
     },
     'data-color': {
       control: 'select',
-      options: ['accent', 'brand1', 'brand2', 'brand3', 'neutral'],
+      options: ['primary-color-red', 'secondary-color-orange', 'secondary-color-rust', 'secondary-color-pink', 'additional-color-ocean', 'additional-color-jungle', 'neutral'],
       description: 'Changes color for descendant Designsystemet components.',
-      defaultValue: 'accent',
+      defaultValue: 'primary-color-red',
     },
     asChild: {
       control: 'boolean',
@@ -95,7 +95,7 @@ export const WithIcon: Story = {
     children: 'Kontakt oss',
     href: 'mailto:designsystem@digdir.no', // Use mailto link
     'data-size': 'md',
-    'data-color': 'accent',
+    'data-color': 'primary-color-red',
   },
 };
 
@@ -129,7 +129,7 @@ export const TestAnchorContract: Story = {
     href: 'https://www.digdir.no/',
     target: '_blank',
     rel: 'noopener noreferrer',
-    'data-color': 'accent',
+    'data-color': 'primary-color-red',
     'data-size': 'lg',
   },
   play: async ({ canvasElement }) => {
@@ -140,7 +140,7 @@ export const TestAnchorContract: Story = {
     await expect(link).toHaveAttribute('href', 'https://www.digdir.no/');
     await expect(link).toHaveAttribute('target', '_blank');
     await expect(link).toHaveAttribute('rel', 'noopener noreferrer');
-    await expect(link).toHaveAttribute('data-color', 'accent');
+    await expect(link).toHaveAttribute('data-color', 'primary-color-red');
     await expect(link).toHaveAttribute('data-size', 'lg');
   },
 };

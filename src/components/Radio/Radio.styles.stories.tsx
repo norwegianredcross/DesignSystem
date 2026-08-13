@@ -46,9 +46,9 @@ const meta: Meta<typeof Radio> = {
     },
     'data-color': {
       control: 'select',
-      options: ['accent', 'brand1', 'brand2', 'brand3', 'neutral'],
+      options: ['primary-color-red', 'secondary-color-orange', 'secondary-color-rust', 'secondary-color-pink', 'additional-color-ocean', 'additional-color-jungle', 'neutral'],
       description: 'Changes color for descendant Designsystemet components.',
-      defaultValue: 'accent',
+      defaultValue: 'primary-color-red',
     },
     error: {
       control: 'text',
@@ -135,13 +135,13 @@ export const RadioGroup: Story = {
     disabled: { control: 'boolean', defaultValue: false },
     readOnly: { control: 'boolean', defaultValue: false },
     'data-size': { control: 'select', options: ['sm', 'md', 'lg'] },
-    'data-color': { control: 'select', options: ['accent', 'neutral'] }, 
+    'data-color': { control: 'select', options: ['primary-color-red', 'neutral'] }, 
   },
   args: {
     disabled: false,
     readOnly: false,
     'data-size': 'md',
-    'data-color': 'accent',
+    'data-color': 'primary-color-red',
   },
 };
 
@@ -184,7 +184,7 @@ export const WithError: Story = {
   },
   args: {
     'data-size': 'md',
-    'data-color': 'accent',
+    'data-color': 'primary-color-red',
     error: 'Du må velge en smak!', 
   },
   name: 'Group with Error',

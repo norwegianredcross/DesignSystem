@@ -47,7 +47,7 @@ export const Checkbox: StoryObj = {
       <Chip.Checkbox name="filter-checkbox" value="nynorsk" defaultChecked>
         Nynorsk
       </Chip.Checkbox>
-      <Chip.Checkbox name="filter-checkbox" value="bokmaal" data-color="brand1">
+      <Chip.Checkbox name="filter-checkbox" value="bokmaal" data-color="secondary-color-rust">
         Bokmål (Brand1)
       </Chip.Checkbox>
       <Chip.Checkbox name="filter-checkbox" value="engelsk" data-size="sm">
@@ -101,7 +101,7 @@ export const Button: StoryObj = {
       <Chip.Button onClick={() => alert('Nynorsk clicked')}>
         Søk etter nynorsk
       </Chip.Button>
-      <Chip.Button onClick={() => alert('Bokmål clicked')} data-color="brand2">
+      <Chip.Button onClick={() => alert('Bokmål clicked')} data-color="additional-color-ocean">
         Søk etter bokmål (Brand2)
       </Chip.Button>
       <Chip.Button onClick={() => alert('Engelsk clicked')} data-size="lg">

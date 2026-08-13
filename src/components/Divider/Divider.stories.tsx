@@ -6,7 +6,7 @@ import { Paragraph, Heading } from '@digdir/designsystemet-react';
 // 1. Lag en ny type som inkluderer data-attributtene
 type ExtendedDividerProps = DividerProps & {
   'data-size'?: 'sm' | 'md' | 'lg';
-  'data-color'?: 'accent' | 'brand1' | 'brand2' | 'brand3' | 'neutral';
+  'data-color'?: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral';
 };
 
 // 2. Bruk den nye typen i Meta
@@ -31,7 +31,7 @@ const meta: Meta<ExtendedDividerProps> = {
     },
     'data-color': {
       control: 'select',
-      options: ['accent', 'brand1', 'brand2', 'brand3', 'neutral'],
+      options: ['primary-color-red', 'secondary-color-orange', 'secondary-color-rust', 'secondary-color-pink', 'additional-color-ocean', 'additional-color-jungle', 'neutral'],
       description: 'Changes the color of the divider',
       defaultValue: 'neutral',
     },
@@ -81,14 +81,14 @@ export const Colored: Story = {
   render: (args) => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       <div>
-        <Paragraph>Dette er en "brand1" skillelinje.</Paragraph>
+        <Paragraph>Dette er en "secondary-color-rust" skillelinje.</Paragraph>
         <Divider {...args} />
       </div>
       <div>
-        <Paragraph>Dette er en "brand2" skillelinje.</Paragraph>
+        <Paragraph>Dette er en "additional-color-ocean" skillelinje.</Paragraph>
         <Divider
           {...args}
-          data-color="brand2"
+          data-color="additional-color-ocean"
         />
       </div>
       <div>
@@ -102,7 +102,7 @@ export const Colored: Story = {
     </div>
   ),
   args: {
-    'data-color': 'brand1', 
+    'data-color': 'secondary-color-rust', 
     'data-size': 'md',
   },
 };
@@ -112,7 +112,7 @@ export const TestStaticContract: Story = {
   tags: ['!autodocs'],
   render: (args) => <Divider {...args} />,
   args: {
-    'data-color': 'brand1',
+    'data-color': 'secondary-color-rust',
     'data-size': 'lg',
   },
   play: async ({ canvasElement }) => {
@@ -121,7 +121,7 @@ export const TestStaticContract: Story = {
     await expect(divider).toBeInTheDocument();
     await expect(divider).toHaveClass('ds-divider');
     await expect(divider).toHaveAttribute('aria-hidden', 'true');
-    await expect(divider).toHaveAttribute('data-color', 'brand1');
+    await expect(divider).toHaveAttribute('data-color', 'secondary-color-rust');
     await expect(divider).toHaveAttribute('data-size', 'lg');
   },
 };
