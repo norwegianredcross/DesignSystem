@@ -100,7 +100,7 @@ Når testing begrenses utover dette skal det dokumenteres i PR-beskrivelsen med 
 
 **Produksjonssetting (npm-release):**
 - [ ] Release-workflow kjøres kun fra grønn `main`
-- [ ] Versjonsbump følger semver (breaking = major)
+- [ ] Versjonsbump følger semver (breaking = major). **Unntak i før-produksjonsfasen:** så lenge biblioteket ikke har reelle produksjonskonsumenter, shippes breaking changes som minor-versjoner (besluttet for 1.3.0 og 1.4.0); migrasjonsnotatene i README dokumenterer dem uansett. Regelen breaking = major trer i kraft ved produksjonsadopsjon.
 - [ ] Rollback-plan: `npm deprecate` av defekt versjon + ny patch; GitHub Pages redeployes fra forrige grønne `main`
 - [ ] Verifisering etter publisering: installer pakken i et konsumentprosjekt eller kjør `npm pack`-sjekk
 
