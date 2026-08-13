@@ -336,6 +336,59 @@ export const TestInteraction: Story = {
   },
 };
 
+export const TestMobileMenuFlow: Story = {
+  name: 'Test: Mobile Menu Flow',
+  args: {
+    // showMenuButton is OFF on purpose: below 850px the Header forces the
+    // menu button anyway ((showMenuButton || isMobile) in the component),
+    // because the nav links are hidden on small screens. This test locks
+    // that mobile-only behavior - it must fail if someone removes the
+    // isMobile forcing.
+    showMenuButton: false,
+    showNavItems: true,
+    showUser: false,
+    showSearch: false,
+    showLogin: false,
+    showLanguageSwitch: true,
+    navItems: [
+      { label: 'Design', href: 'design' },
+      { label: 'Komponenter', href: 'components' },
+    ],
+    children: (
+      <nav aria-label="Mobilmeny">
+        <a href="#design">Design</a>
+      </nav>
+    ),
+  },
+  parameters: {
+    viewport: { defaultViewport: 'mobile' },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // The 850px matchMedia listener must have kicked in for the forced
+    // menu button to exist at all.
+    const menuButton = await canvas.findByRole('button', { name: /meny/i });
+    expect(menuButton).toHaveAttribute('aria-expanded', 'false');
+
+    // Open: the slotted menu content renders, and the language switcher
+    // moves INTO the overlay (mobile places utilities inside the menu).
+    await userEvent.click(menuButton);
+    await waitFor(() => {
+      expect(menuButton).toHaveAttribute('aria-expanded', 'true');
+      expect(canvas.getByRole('navigation', { name: 'Mobilmeny' })).toBeVisible();
+      expect(canvas.getByText('Språk')).toBeVisible();
+    });
+
+    // Close via the same button; state and label flip back.
+    await userEvent.click(menuButton);
+    await waitFor(() => {
+      expect(menuButton).toHaveAttribute('aria-expanded', 'false');
+      expect(canvas.queryByRole('navigation', { name: 'Mobilmeny' })).not.toBeInTheDocument();
+    });
+  },
+};
+
 export const TestEscapeAndFocusReturn: Story = {
   name: 'Test: Escape Closes Overlays And Returns Focus',
   args: {
