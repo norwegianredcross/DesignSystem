@@ -1,0 +1,27 @@
+name: PR hygiene
+
+# Stanser stablede PR-er før de kan merges feil. Tre PR-er har blitt merget
+# inn i en annen branch i stedet for main (to av dem gikk stille tapt og
+# måtte re-landes). En PR skal alltid ha main som base; sekvenser heller
+# mergene enn å bygge PR på PR.
+on:
+  pull_request:
+    # 'edited' fires when the base branch is changed after opening,
+    # so retargeting a PR re-runs this check.
+    types: [opened, edited, reopened, synchronize]
+
+jobs:
+  base-must-be-main:
+    name: Base branch is main
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Check base branch
+        env:
+          BASE: ${{ github.base_ref }}
+        run: |
+          if [ "$BASE" != "main" ]; then
+            echo "::error::PR-en har base '$BASE', ikke 'main'. Stablede PR-er merges inn i feil branch og går tapt — endre base til main og sekvenser mergene."
+            exit 1
+          fi
+          echo "Base er main — OK."
