@@ -1,6 +1,7 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import { expect, within } from 'storybook/test';
 import { Spinner, SpinnerProps } from './index'; 
+import { Button } from '../Button';
 
 const meta: Meta<typeof Spinner> = {
   title: 'Components/SpinnerLoader',
@@ -68,13 +69,11 @@ export const Sizes: Story = {
 };
 
 // --- In Button (Best Practices) ---
+// The design system Button has a `loading` prop that renders this spinner
+// with correct styling and accessibility built in — a raw <button> with an
+// inline-styled Spinner is exactly what consumers should NOT do.
 export const InButton: Story = {
-  render: () => (
-    <button type="button" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 12px' }} aria-live="polite">
-      <Spinner aria-hidden={true} data-size="sm" />
-      Lagrer...
-    </button>
-  ),
+  render: () => <Button loading>Lagrer…</Button>,
   args: {
     'aria-label': 'Laster...',
   },
@@ -87,10 +86,7 @@ export const TestAccessibleAndDecorativeContracts: Story = {
   render: () => (
     <div>
       <Spinner aria-label="Henter aktivitetsdata" data-size="lg" />
-      <button type="button">
-        <Spinner aria-hidden="true" data-size="sm" />
-        Lagrer
-      </button>
+      <Button loading>Lagrer</Button>
     </div>
   ),
   play: async ({ canvasElement }) => {
@@ -98,13 +94,16 @@ export const TestAccessibleAndDecorativeContracts: Story = {
     const labelledSpinner = canvas.getByRole('img', {
       name: 'Henter aktivitetsdata',
     });
-    const button = canvas.getByRole('button', { name: 'Lagrer' });
+    const button = canvas.getByRole('button', { name: /Lagrer/ });
+    // Button's `loading` prop renders Digdir's built-in spinner: decorative
+    // (aria-hidden) so the accessible name stays the button text, and the
+    // button announces busy state instead of being disabled.
     const decorativeSpinner = button.querySelector('svg');
 
     await expect(labelledSpinner).toHaveAttribute('viewBox', '0 0 50 50');
     await expect(labelledSpinner).toHaveAttribute('data-size', 'lg');
     await expect(labelledSpinner.querySelectorAll('circle')).toHaveLength(2);
     await expect(decorativeSpinner).toHaveAttribute('aria-hidden', 'true');
-    await expect(button).toHaveAccessibleName('Lagrer');
+    await expect(button).toHaveAttribute('aria-busy', 'true');
   },
 };
