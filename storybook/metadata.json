@@ -1216,9 +1216,9 @@
       },
       {
         "name": "data-color",
-        "type": "enum",
-        "description": "Background color for the header extension (top bar): 'primary' uses primary-color-red-base-default, 'neutral' uses neutral-base-default",
-        "defaultValue": "primary",
+        "type": "any",
+        "description": "Theme scope for the header extension (top bar) — any real `data-color`\nscope from the design tokens. The extension background uses the scope's\nbase color with matching contrast text.",
+        "defaultValue": "primary-color-red",
         "required": false
       },
       {
