@@ -28,8 +28,8 @@ const meta: Meta<typeof Donor> = {
   argTypes: {
     'data-color': {
       control: 'select',
-      options: ['primary', 'neutral'],
-      description: 'Color theme variant',
+      options: ['primary-color-red', 'neutral', 'secondary-color-rust', 'additional-color-ocean'],
+      description: 'Theme scope for the whole component (real data-color scopes).',
     },
     amounts: {
       control: 'object',
