@@ -1165,7 +1165,7 @@ import { Header } from 'rk-designsystem';
   activePage?={string}
   ctaIcon?={<HeartIcon aria-hidden />}
   ctaLabel?={string}
-  data-color?={primary}
+  data-color?={primary-color-red}
   extensionColor?={}
   navItems?={{ label: string; href: string; }[]}
   onCtaClick?={() => void}
