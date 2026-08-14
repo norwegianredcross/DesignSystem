@@ -43,9 +43,9 @@ const meta: Meta<typeof Header> = {
     },
     'data-color': {
       control: 'select',
-      options: ['primary', 'neutral'],
-      description: 'Background color for the header extension (top bar): primary uses primary-color-red-base-default, neutral uses neutral-base-default',
-      defaultValue: 'primary',
+      options: ['primary-color-red', 'neutral', 'secondary-color-rust', 'additional-color-ocean'],
+      description: 'Theme scope for the header extension (top bar): background uses the scope base color with matching contrast text.',
+      defaultValue: 'primary-color-red',
     },
     showUser: {
       control: 'boolean',

@@ -60,15 +60,14 @@
   z-index: 20; 
 }
 
-/* Background colors based on data-color attribute */
-.header[data-color="primary"] .headerExtension {
-  background-color: var(--ds-color-primary-color-red-base-default);
-  color: white;
-}
-
-.header[data-color="neutral"] .headerExtension {
-  background-color: var(--ds-color-neutral-base-default);
-  color: var(--ds-color-neutral-text-default);
+/* Scope-generic extension colors: the tokens package defines the short-form
+   variables (--ds-color-base-default, --ds-color-base-contrast-*) inside
+   every [data-color="<scope>"] block, so one rule themes the extension
+   correctly for ANY real scope — red, rust, ocean, neutral, … The old rules
+   hardcoded per-value colors and only knew 'primary'/'neutral'. */
+.header[data-color] .headerExtension {
+  background-color: var(--ds-color-base-default);
+  color: var(--ds-color-base-contrast-default);
 }
 
 /* Tinted variant for header extension */
@@ -114,12 +113,8 @@
   font-size: var(--ds-font-size-3) !important;
 }
 
-.header[data-color="primary"] .extensionContent :global(.ds-label) {
-  color: white !important;
-}
-
-.header[data-color="neutral"] .extensionContent :global(.ds-label) {
-  color: var(--ds-color-neutral-text-default) !important;
+.header[data-color] .extensionContent :global(.ds-label) {
+  color: var(--ds-color-base-contrast-default) !important;
 }
 
 .extensionDivider {
@@ -129,13 +124,9 @@
   background-color: rgba(247, 233, 232, 1);
 }
 
-/* Divider color based on data-color */
-.header[data-color="primary"] .extensionDivider {
-  background-color: rgba(247, 233, 232, 1);
-}
-
-.header[data-color="neutral"] .extensionDivider {
-  background-color: var(--ds-color-neutral-border-subtle);
+/* Divider follows the scope's contrast-subtle (light pink on red, etc.) */
+.header[data-color] .extensionDivider {
+  background-color: var(--ds-color-base-contrast-subtle);
 }
 
 .languageSwitch {
@@ -152,13 +143,9 @@
   color: #ECECEC;
 }
 
-/* Language label color based on data-color */
-.header[data-color="primary"] .languageLabel {
-  color: #ECECEC;
-}
-
-.header[data-color="neutral"] .languageLabel {
-  color: var(--ds-color-neutral-text-default);
+/* Language label follows the scope's contrast colors */
+.header[data-color] .languageLabel {
+  color: var(--ds-color-base-contrast-subtle);
 }
 
 .languageLink {
@@ -171,13 +158,9 @@
   position: relative;
 }
 
-/* Language link color based on data-color */
-.header[data-color="primary"] .languageLink {
-  color: white !important;
-}
-
-.header[data-color="neutral"] .languageLink {
-  color: var(--ds-color-neutral-text-default) !important;
+/* Language link follows the scope's contrast color */
+.header[data-color] .languageLink {
+  color: var(--ds-color-base-contrast-default) !important;
 }
 
 /* Ensure dropdown is positioned correctly relative to trigger */
