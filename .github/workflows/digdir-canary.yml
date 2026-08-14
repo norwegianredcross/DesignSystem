@@ -1,0 +1,66 @@
+name: Digdir canary
+
+# Peer-kontrakten lover ^1.13.2, men lockfilen tester alltid nøyaktig én
+# versjon. Denne ukentlige kanarien kjører hele testsuiten mot BEGGE ender av
+# det lovede spennet: gulvet (minimumsversjonen fra peer-kontrakten) og taket
+# (nyeste publiserte i spennet). Feiler «newest», har Digdir endret noe innen
+# spennet som treffer oss (mest utsatt: EXPERIMENTAL_Suggestion, som er
+# re-eksportert som stabilt API) — da må enten koden tilpasses eller peer-
+# spennet strammes inn FØR konsumenter treffer det samme.
+on:
+  schedule:
+    - cron: '0 5 * * 1'
+  workflow_dispatch:
+
+jobs:
+  canary:
+    name: Digdir ${{ matrix.leg }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        leg: [minimum, newest]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: "20"
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      # --no-save: kanarien skal aldri endre lockfilen, bare node_modules.
+      # designsystemet-types installeres alltid i samme versjon som -react,
+      # ellers nester npm en ekstra kopi og fargeaugmenteringen mister effekt
+      # (se kommentaren i src/types.ts).
+      - name: Pin Digdir to the ${{ matrix.leg }} in-range version
+        run: |
+          RANGE=$(node -p "require('./package.json').peerDependencies['@digdir/designsystemet-react']")
+          if [ "${{ matrix.leg }}" = "minimum" ]; then
+            VERSION=$(node -p "'${RANGE}'.replace(/^[^0-9]*/, '')")
+          else
+            VERSION=$(npm view "@digdir/designsystemet-react@${RANGE}" version --json | node -p "const v=JSON.parse(require('fs').readFileSync(0,'utf8')); Array.isArray(v)?v[v.length-1]:v")
+          fi
+          echo "Tester mot @digdir/*@${VERSION}"
+          npm install --no-save \
+            "@digdir/designsystemet-react@${VERSION}" \
+            "@digdir/designsystemet-css@${VERSION}" \
+            "@digdir/designsystemet-types@${VERSION}"
+          npm ls @digdir/designsystemet-react @digdir/designsystemet-types
+
+      - name: Install Playwright browsers
+        run: npx playwright install chromium
+
+      - name: Test (full suite against pinned Digdir)
+        run: npm test
+
+      - name: Build package
+        run: npm run build
