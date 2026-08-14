@@ -16,6 +16,7 @@ export const searchIndex: SearchItem[] = [
   // Pages
   { id: 'home', title: 'Hjem', category: 'Page', path: 'home', description: 'Forsiden' },
   { id: 'components', title: 'Komponenter', category: 'Page', path: 'components', description: 'Oversikt over alle komponenter' },
+  { id: 'whats-new', title: 'Hva er nytt', category: 'Page', path: 'whats-new', description: 'Utgivelser og endringer i designsystemet' },
   { id: 'design', title: 'Design', category: 'Page', path: 'design', description: 'Designretningslinjer og prinsipper' },
   { id: 'code', title: 'Kode', category: 'Page', path: 'code', description: 'Utviklerdokumentasjon og oppsett' },
   { id: 'tokens', title: 'Tokens', category: 'Page', path: 'tokens', description: 'Design tokens: farger, størrelser og typografi' },

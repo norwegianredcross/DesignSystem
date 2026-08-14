@@ -41,7 +41,16 @@ export const HomePage = ({ setPage }: HomePageProps) => {
             {/* Notch: white step cut out of the panel's top-left corner ("krysset" cutout).
                 Holds the release badge — the system's "stamp" in the brand-mark slot. */}
             <div className={styles.heroNotch}>
-              <Tag data-size="sm">{versionLabel}</Tag>
+              {/* Versjonsmerket er inngangen til «Hva er nytt»-siden — samme
+                  tall som utledes fra package.json, aldri hardkodet. */}
+              <button
+                type="button"
+                className={styles.versionButton}
+                onClick={() => setPage('whats-new')}
+                aria-label={`${versionLabel} – ${t('whatsNew.title')}`}
+              >
+                <Tag data-size="sm">{versionLabel}</Tag>
+              </button>
               <span className={styles.notchMeta}>Open Source</span>
             </div>
             <span className={styles.heroKicker}>{t('home.hero.kicker')}</span>

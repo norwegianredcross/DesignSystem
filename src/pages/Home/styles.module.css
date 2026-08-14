@@ -583,3 +583,18 @@
     padding: var(--ds-size-8) var(--ds-size-6);
   }
 }
+
+/* Version badge as a real button (navigates to the What's new page) */
+.versionButton {
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+}
+
+.versionButton:focus-visible {
+  outline: 2px solid var(--ds-color-focus-outer, var(--ds-color-border-strong));
+  outline-offset: 2px;
+  border-radius: var(--ds-border-radius-sm);
+}
