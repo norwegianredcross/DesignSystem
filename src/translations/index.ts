@@ -128,6 +128,11 @@ export const translations = {
       status: "Status"
     },
     // Components Page
+    whatsNew: {
+      title: "Hva er nytt",
+      intro: "Alle utgivelser av rk-designsystem, hentet direkte fra changeloggen. Hver endring lenker til pull requesten der den ble innført.",
+      releaseLink: "Se utgivelsen på GitHub"
+    },
     components: {
       title: "Komponenter",
       intro: "Designsystemet inneholder grunnleggende komponenter som kan settes sammen på mange ulike måter og i forskjellige mønstre.",
@@ -1174,6 +1179,11 @@ export const translations = {
       status: "Status"
     },
     // Components Page
+    whatsNew: {
+      title: "What's new",
+      intro: "Every release of rk-designsystem, taken directly from the changelog. Each change links to the pull request that introduced it.",
+      releaseLink: "View the release on GitHub"
+    },
     components: {
       title: "Components",
       intro: "The design system contains fundamental components that can be combined in many different ways and in different patterns.",

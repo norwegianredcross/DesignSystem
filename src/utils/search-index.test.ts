@@ -19,7 +19,7 @@ const extractIds = (file: string, stateVar: string): Set<string> => {
 describe('search-index', () => {
   const designIds = extractIds('src/pages/Design/index.tsx', 'activeDesignPage');
   const codeIds = extractIds('src/pages/Code/index.tsx', 'activeCodePage');
-  const validPages = new Set(['home', 'components', 'design', 'code', 'tokens']);
+  const validPages = new Set(['home', 'components', 'design', 'code', 'tokens', 'whats-new']);
   // components/<navn>-dyplenker valideres mot katalogen: hvert søketreff må
   // peke på en komponent katalogsiden faktisk kan filtrere fram.
   const catalogueSource = readFileSync('src/pages/Components/index.tsx', 'utf8');

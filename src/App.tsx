@@ -9,6 +9,7 @@ import { DesignPage } from './pages/Design';
 import { CodePage } from './pages/Code';
 import { SearchResultsPage } from './pages/SearchResults';
 import { TokensPage } from './pages/Tokens';
+import { WhatsNewPage } from './pages/WhatsNew';
 import './App.css';
 
 // Get initial page from URL hash
@@ -95,6 +96,8 @@ function App() {
           <SearchResultsPage query={subPage ?? ''} setPage={setPage} />
         ) : mainPage === 'tokens' ? (
           <TokensPage />
+        ) : mainPage === 'whats-new' ? (
+          <WhatsNewPage />
         ) : (
           <DesignPage section={subPage} setPage={setPage} />
         )}
