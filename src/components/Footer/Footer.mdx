@@ -1,0 +1,89 @@
+import { Meta, Canvas, Controls, Primary } from '@storybook/addon-docs/blocks';
+import * as FooterStories from './Footer.stories';
+
+<Meta of={FooterStories} />
+
+# Footer
+
+#### Global bunntekst i tre varianter: `default` (nyhetsbrev + lenker + kontakt), `contact` (sosiale medier + kontaktpersoner) og `columns` (navigasjonskolonner + organisasjonsinfo).
+
+<Primary />
+
+<Controls />
+
+---
+
+## Bruk
+
+```tsx
+import { Footer } from 'rk-designsystem';
+
+const AppFooter = () => (
+  <Footer
+    variant="columns"
+    data-color="primary-color-red"
+    columns={[
+      { title: 'Snarveier', links: [{ label: 'Design', href: '#design' }] },
+      { title: 'Lenker', links: [{ label: 'GitHub', href: 'https://github.com/…' }] },
+    ]}
+    onNewsletterSubmit={(email) => subscribe(email)}
+  />
+);
+```
+
+### Varianter
+
+- **`default`**: nyhetsbrevpåmelding (med `onNewsletterSubmit`), lenkekolonner
+  (`shortcutsLinks`/`linksLinks`) og kontaktinfo (`visitingAddress`,
+  `organizationNumber`, `email`). Nyhetsbrevet kan skjules med
+  `hideNewsletter`.
+- **`contact`**: sosiale medier (`socialLinks` med ikon + tekst),
+  kontaktpersonkort (`contactPersons`) og juridiske lenker (`legalLinks`).
+- **`columns`**: N navigasjonskolonner (`columns`), organisasjonsinfo og
+  copyright-linje. Egnet som applikasjonsfooter.
+
+### Den hvite logoseksjonen
+
+Alle varianter avsluttes med en **hvit stripe med Røde Kors-logoen** nederst.
+Den er en del av merkevaresignaturen og skal alltid være med — den kan ikke
+skrus av, men innholdet ved siden av logoen kan tilpasses med
+`whiteSectionSlot`, og logoen kan byttes med `primaryLogoSrc` (behold
+`primaryLogoAlt`).
+
+### Tema og fargeskjema
+
+`data-color` tar et reelt temaskop og styrer hovedseksjonens bakgrunn (skopets
+tintede bakgrunnstoken):
+
+```tsx
+<Footer data-color="neutral" />                 {/* standard */}
+<Footer data-color="primary-color-red" />
+<Footer data-color="additional-color-ocean" />
+```
+
+De gamle verdiene `'primary'` og `'additional'` er utfasede aliaser for
+henholdsvis `'primary-color-red'` og `'additional-color-ocean'` og fjernes i
+en senere minor.
+
+`colorScheme="dark"` tvinger mørkt fargeskjema på footeren uavhengig av
+resten av siden (den hvite logoseksjonen forblir lys — det er meningen).
+
+## Gjør / ikke gjør
+
+- **Gjør:** bruk `columns`-varianten som standard applikasjonsfooter og
+  gjenbruk navigasjonsstrukturen fra headeren.
+- **Gjør:** send inn faktiske organisasjonsdata (`organizationNumber`,
+  `email`, `visitingAddress`) — standardverdiene er plassholdere.
+- **Ikke gjør:** ikke bygg egen bunnseksjon under footeren — den hvite
+  logostripen skal være sidens siste element.
+- **Ikke gjør:** ikke legg lange lenkelister i `default`-varianten; bytt til
+  `columns` når du har mer enn to grupper.
+
+## Tilgjengelighet
+
+- Footeren er et `<footer>`-landmark; lenkegrupper har overskrifter som gir
+  struktur for skjermlesere.
+- Nyhetsbrevskjemaet har koblet ledetekst og sender kun ved gyldig e-post;
+  samtykketekst settes med `newsletterConsentText`.
+- Kontrast er testet i alle tre temaer (lys, mørk, sekundærskop) av
+  axe-gaten i testsuiten.
