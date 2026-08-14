@@ -70,6 +70,32 @@ jobs:
       - name: Generated AI-context artifacts are fresh
         run: git diff --exit-code metadata.json AI_DESIGN_SYSTEM_GUIDE.md ai-context.manifest.json
 
+      # Skjermbildesammenligning av nøkkelstories mot innsjekkede baselines.
+      # Bootstrap: mangler baselines helt, genereres de i stedet for å feile —
+      # last ned artefakten «visual-screenshots» og sjekk dem inn. Ved
+      # tilsiktede visuelle endringer: kjør workflowen «Update visual
+      # baselines» på branchen.
+      - name: Visual regression (key stories)
+        run: |
+          if [ -d tests/visual/__screenshots__ ]; then
+            npm run test:visual
+          else
+            echo "::warning::Ingen baselines er sjekket inn - genererer nye. Last ned artefakten og commit tests/visual/__screenshots__."
+            npm run test:visual:update
+          fi
+
+      # Ved diff inneholder artefakten expected/actual/diff-bilder for review;
+      # ved bootstrap inneholder den de nye baselines.
+      - name: Upload visual screenshots
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: visual-screenshots
+          path: |
+            tests/visual/__screenshots__
+            test-results
+          if-no-files-found: ignore
+
       - name: Build Main Application
         run: npm run build:app
 
