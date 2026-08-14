@@ -12,6 +12,13 @@ import type {
 // dead scope like data-color="accent" becomes a compile error everywhere in
 // this repo. (Consumers get the same augmentation embedded in the published
 // dist/index.d.ts by scripts/embed-color-types.mjs.)
+//
+// NB: @digdir/designsystemet-types must stay pinned to the SAME version
+// @digdir/designsystemet-react depends on (see package.json). With two
+// versions in the tree, npm nests a second copy under designsystemet-react,
+// the augmentation only reaches ours, and every Digdir component's
+// data-color silently widens back to `string`. Bump the pin in lockstep
+// with the Digdir peer version.
 import type {} from 'rk-design-tokens/design-tokens-build/types';
 import type { ReactNode } from 'react';
 

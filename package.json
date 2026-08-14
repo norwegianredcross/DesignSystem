@@ -122,7 +122,7 @@
     ]
   },
   "dependencies": {
-    "@digdir/designsystemet-types": "^1.19.1",
+    "@digdir/designsystemet-types": "1.13.2",
     "@navikt/aksel-icons": "^7.20.0",
     "classnames": "^2.5.1",
     "date-fns": "^4.1.0",
