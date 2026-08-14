@@ -67,7 +67,7 @@ npm install rk-designsystem
 ```
 
 > Since 1.4.0 the library declares `@digdir/designsystemet-react` and
-> `@digdir/designsystemet-css` as peer dependencies (`^1.13.2`) and requires
+> `@digdir/designsystemet-css` as peer dependencies (`~1.13.2`) and requires
 > React `>=18.3.1`. npm 7+ installs peers automatically; with older
 > setups install them alongside the package.
 
@@ -229,7 +229,7 @@ until it has real production consumers. The breaking changes below landed in
 Button prop removals, mislabeled as a patch — 1.2.5 is deprecated.)
 
 - **Peer dependencies (1.4.0):** `@digdir/designsystemet-react` and
-  `@digdir/designsystemet-css` (`^1.13.2`) are peers; React `>=18.3.1 || ^19`.
+  `@digdir/designsystemet-css` (`~1.13.2`) are peers; React `>=18.3.1 || ^19`.
 - **ESM-only (1.4.0):** the CommonJS/UMD entry is removed, so
   `require('rk-designsystem')` now fails explicitly. It never actually worked:
   the UMD file was parsed as ESM (the package is `"type": "module"`), and the
