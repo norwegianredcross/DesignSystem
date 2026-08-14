@@ -76,7 +76,7 @@ export const HomePage = ({ setPage }: HomePageProps) => {
               </Chip.Radio>
               <Switch label={t('home.darkModeLabel')} position="start" data-size="sm" />
               <Avatar aria-label="" initials="RK" data-size="sm" />
-              <Badge data-color="primary" count={5} maxCount={9} />
+              <Badge data-color="primary-color-red" count={5} maxCount={9} />
               <div className={styles.specimenProgress}>
                 <div className={styles.progressBarBg}>
                   <div className={styles.progressBarFill}></div>
