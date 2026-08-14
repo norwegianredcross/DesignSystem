@@ -69,7 +69,7 @@ Testinnsatsen prioriteres der feil gjør mest skade. Vurdering per område:
 | Skjemakomponenter (Input, Select, Checkbox, Radio, DatePicker, DateInput) | Høy (brukere får ikke fullført oppgaver) | Middels | **Høy** | Interaksjonstester, negativ testing, a11y |
 | Header/Footer (alle flater) | Høy (synlig overalt) | Middels | **Høy** | Interaksjonstester, responsiv + mørk modus-verifisering |
 | Donor (donasjonsflyt) | Høy (økonomi/omdømme) | Middels | **Høy** | Interaksjonstester på beløpsvalg og callbacks |
-| Tokens-integrasjon (`rk-design-tokens`) | Høy (endrer alt visuelt) | Middels (auto-oppdateres i CI) | **Høy** | Full regresjon kjøres ved hver token-bump; visuell sjekk ved major-endringer |
+| Tokens-integrasjon (`rk-design-tokens`) | Høy (endrer alt visuelt) | Middels (bump kommer som daglig PR) | **Høy** | Token-bump er en reviewbar PR («Token bump PR»-workflowen) med full regresjon + visuell regresjon som gate |
 | Visningskomponenter (Tag, Badge, Avatar, …) | Lav–middels | Lav | Lav | Assertion-bærende kontraktstory + a11y |
 | Dokumentasjonsplattformen (`src/pages`) | Lav (publiseres ikke til npm) | Middels | Middels | Typecheck/lint + manuell verifisering |
 

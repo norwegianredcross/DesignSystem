@@ -1,0 +1,107 @@
+name: Token bump PR
+
+# Tokens er den avhengigheten med størst visuell sprengkraft — før ble den
+# auto-committet rett til main av deploy-jobben, UTEN review og uten visuell
+# gate. Nå kommer bumpen som en daglig PR: full testsuite + visuell
+# regresjon kjøres HER (i denne workflowen), og resultatet skrives i
+# PR-beskrivelsen. Grunnen til at gaten kjøres her og ikke i PR-ens vanlige
+# CI: pushes/PR-er laget med GITHUB_TOKEN starter ikke nye workflow-kjøringer
+# (GitHubs løkkevern), så PR-en får aldri egne checks.
+on:
+  schedule:
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: token-bump
+  cancel-in-progress: false
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: "20"
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Update rk-design-tokens
+        id: bump
+        run: |
+          npm update rk-design-tokens
+          if git diff --quiet package-lock.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Ingen ny tokens-versjon."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            VERSION=$(node -p "require('./node_modules/rk-design-tokens/package.json').version")
+            echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install Playwright browsers
+        if: steps.bump.outputs.changed == 'true'
+        run: npx playwright install chromium
+
+      # Full regresjon mot de nye tokens — fortsetter ved feil slik at
+      # resultatet kan rapporteres i PR-en i stedet for å forsvinne.
+      - name: Test with updated tokens
+        if: steps.bump.outputs.changed == 'true'
+        id: tests
+        continue-on-error: true
+        run: npm test
+
+      - name: Build Storybook (for visual gate)
+        if: steps.bump.outputs.changed == 'true'
+        id: build
+        continue-on-error: true
+        run: npm run build-storybook
+
+      - name: Visual regression against updated tokens
+        if: steps.bump.outputs.changed == 'true'
+        id: visual
+        continue-on-error: true
+        run: npm run test:visual
+
+      - name: Upload visual diffs
+        if: steps.bump.outputs.changed == 'true' && steps.visual.outcome == 'failure'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: token-bump-visual-diffs
+          path: test-results
+          if-no-files-found: ignore
+
+      - name: Push branch and open/update PR
+        if: steps.bump.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -B chore/token-bump
+          git add package.json package-lock.json
+          git commit -m "chore(deps): update rk-design-tokens to ${{ steps.bump.outputs.version }}"
+          git push --force origin chore/token-bump
+
+          if [ "${{ steps.tests.outcome }}" = "success" ]; then TESTS="✅ testsuite grønn"; else TESTS="❌ testsuite FEILER"; fi
+          if [ "${{ steps.visual.outcome }}" = "success" ]; then VISUAL="✅ ingen visuelle diffs"; else VISUAL="⚠️ visuelle diffs — se artefakten token-bump-visual-diffs i workflow-kjøringen, og kjør «Update visual baselines» på denne branchen hvis endringen er tilsiktet"; fi
+          BODY="rk-design-tokens → ${{ steps.bump.outputs.version }}. Verifisert i bump-workflowen (PR-en får ikke egne checks fordi den er laget av GITHUB_TOKEN): ${TESTS}; ${VISUAL}."
+
+          EXISTING=$(gh pr list --head chore/token-bump --state open --json number --jq '.[0].number // empty')
+          if [ -n "$EXISTING" ]; then
+            gh pr edit "$EXISTING" --body "$BODY"
+          else
+            gh pr create --base main --head chore/token-bump \
+              --title "chore(deps): update rk-design-tokens to ${{ steps.bump.outputs.version }}" \
+              --body "$BODY"
+          fi

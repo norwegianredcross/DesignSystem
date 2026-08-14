@@ -100,10 +100,12 @@ jobs:
         run: npm run build:app
 
   # Deploy kjøres kun på push til main, og kun når testjobben er grønn.
-  # Token-oppdateringen testes FØR den committes og deployes.
   # Bruker jobbens innebygde GITHUB_TOKEN (ingen PAT å vedlikeholde/utløpe).
+  # Token-oppdateringer auto-committes IKKE her lenger — de kommer som
+  # reviewbare PR-er fra workflowen «Token bump PR» (med full testsuite og
+  # visuell regresjon som gate). Deploy bygger alltid lockfilens tilstand.
   deploy:
-    name: Update tokens, verify & deploy
+    name: Build & deploy
     if: github.event_name == 'push'
     needs: test
     runs-on: ubuntu-latest
@@ -127,20 +129,6 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-
-      - name: Update design tokens package
-        run: npm update rk-design-tokens
-
-      - name: Install Playwright browsers
-        run: npx playwright install chromium
-
-      - name: Test with updated tokens (regression before commit/deploy)
-        run: npm test
-
-      - name: Commit and Push Dependency Updates
-        uses: stefanzweifel/git-auto-commit-action@b863ae1933cb653a53c021fe36dbb774e1fb9403 # v5.2.0
-        with:
-          commit_message: "chore(deps): update rk-design-tokens to latest [skip ci]"
 
       - name: Build package
         run: npm run build
