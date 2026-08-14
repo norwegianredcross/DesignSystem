@@ -8,6 +8,14 @@ on:
       - main
   pull_request:
 
+# One run per ref at a time. On PRs a newer push supersedes the running check
+# (cancel-in-progress), so pushed fixes don't queue behind stale runs. On main
+# the deploy job pushes a token-bump commit and publishes Pages — cancelling
+# that mid-run could leave a half-deployed state, so main runs queue instead.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   # Full kvalitetssjekk av innsendt kode — kjøres på hver PR og hver push.
   # Dette er regresjonstesten: hele suiten, ikke bare det som er endret.
@@ -54,6 +62,13 @@ jobs:
 
       - name: Build Storybook
         run: npm run build-storybook
+
+      # build-storybook regenererte nettopp metadata.json, AI-guiden og
+      # manifestet. Avviker de fra de innsjekkede filene, har PR-en endret
+      # komponent-API uten å regenerere AI-kontekstartefaktene — det stoppes
+      # her, i stedet for at utdatert kontekst publiseres nedstrøms.
+      - name: Generated AI-context artifacts are fresh
+        run: git diff --exit-code metadata.json AI_DESIGN_SYSTEM_GUIDE.md ai-context.manifest.json
 
       - name: Build Main Application
         run: npm run build:app

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useId } from 'react';
+import type { Color } from '@digdir/designsystemet-types';
 import { Tabs } from '../Tabs';
 import { Button } from '../Button';
 import { Textfield } from '../Textfield';
@@ -11,9 +12,20 @@ export interface DonorAmount {
   label: string;
 }
 
+/**
+ * @deprecated `'primary'` was a bespoke value that matched no real theme
+ * scope, so it silently inherited the surrounding theme. It now maps to
+ * `'primary-color-red'` and the alias will be removed in a later minor —
+ * pass the real scope name instead.
+ */
+export type DonorLegacyColor = 'primary';
+
 export interface DonorProps {
-  /** Color theme variant */
-  'data-color'?: 'primary' | 'neutral';
+  /**
+   * Theme scope for the whole component — any real `data-color` scope from
+   * the design tokens (same vocabulary as every other component).
+   */
+  'data-color'?: Color | DonorLegacyColor;
   /** Preset donation amounts */
   amounts?: DonorAmount[];
   /** Default selected amount (value) */
@@ -112,7 +124,7 @@ const DEFAULT_AMOUNTS: DonorAmount[] = [
 ];
 
 export const Donor = ({
-  'data-color': dataColor = 'primary',
+  'data-color': dataColor = 'primary-color-red',
   amounts = DEFAULT_AMOUNTS,
   defaultAmount = 345,
   oneTimeLabel = 'En gang',
@@ -311,8 +323,14 @@ export const Donor = ({
       </div>
   );
 
+  // The root attribute sets the Digdir theme scope for every descendant
+  // (buttons, tabs, links pick their colors from the scope's CSS variables).
+  // The legacy 'primary' value matched no scope — it silently fell through to
+  // the page theme — so it is aliased to the scope it always meant.
+  const colorScope = dataColor === 'primary' ? 'primary-color-red' : dataColor;
+
   return (
-    <div className={styles.donor} data-color={dataColor}>
+    <div className={styles.donor} data-color={colorScope}>
       {/* Tabs with real panels: each tab points at a panel that exists in
           the DOM (Digdir keeps both ds-tabpanel elements in the tree and
           hides the inactive one), so aria-controls always references a
