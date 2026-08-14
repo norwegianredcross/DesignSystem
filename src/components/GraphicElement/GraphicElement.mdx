@@ -1,0 +1,65 @@
+import { Meta, Canvas, Controls, Primary } from '@storybook/addon-docs/blocks';
+import * as GraphicElementStories from './GraphicElement.stories';
+
+<Meta of={GraphicElementStories} />
+
+# GraphicElement
+
+#### Dekorative merkevareformer fra Røde Kors-identiteten (kors, hjørne, vinkel, hjerte m.fl.) i tre stiler: `solid`, `outline` og `isometric`.
+
+<Primary />
+
+<Controls />
+
+---
+
+## Bruk
+
+GraphicElement erstatter tidligere ad hoc-grafikk (inkludert den gamle
+CrossCorner-komponenten). Alle former er avledet fra samme grid og skalerer
+konsistent.
+
+```tsx
+import { GraphicElement } from 'rk-designsystem';
+
+// Dekorativt hjørne i en seksjon
+<GraphicElement shape="angle" position="top-right" size="lg" aria-hidden />
+
+// Korset i merkevarefarge, på egen fargeflate
+<GraphicElement shape="cross" data-color="primary-color-red" aria-hidden />
+```
+
+### Form, stil og retning
+
+- `shape`: `corner`, `square`, `angle`, `heart`, `tee`, `bar`, `cross`.
+- `variant`: `solid` (fylt), `outline` (tynn strek — åpne kanter, ikke en
+  lukket kontur) og `isometric` (kun et utvalg former; TypeScript håndhever
+  gyldige kombinasjoner av `variant` + `shape` ved kompilering).
+- `position` styrer hvilket hjørne formen peker mot; for isometriske former
+  velger den mellom stående/liggende orientering.
+- `size`: `sm`/`md`/`lg` (for `corner`: 48/68/96 px).
+
+### Farge
+
+`data-color` tar et reelt temaskop; uten eksplisitt verdi arver grafikken
+skopet fra omgivelsene. Formene bruker skopets basisfarge — de er ment å
+ligge på flater der basisfargen gir mening (f.eks. rød på lys bakgrunn).
+
+## Gjør / ikke gjør
+
+- **Gjør:** bruk formene sparsomt som aksenter i hjørner og kanter — de er
+  krydder, ikke hovedinnhold.
+- **Gjør:** sett `aria-hidden` (standard) når grafikken er ren dekor.
+- **Ikke gjør:** ikke bruk `cross`-formen som erstatning for den offisielle
+  Røde Kors-logoen — logoen har egne regler og egen komponentplass i
+  Header/Footer.
+- **Ikke gjør:** ikke roter eller speilvend formene med egen CSS — bruk
+  `position`, som flytter geometrien i selve SVG-en slik at layoutboksen
+  forblir korrekt.
+
+## Tilgjengelighet
+
+- Grafikken er dekorativ og skjult for hjelpemidler som standard
+  (`aria-hidden={true}`).
+- Bærer grafikken faktisk mening et sted, sett `aria-hidden={false}` og gi
+  den en beskrivende `aria-label`.
