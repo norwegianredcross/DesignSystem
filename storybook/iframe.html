@@ -551,9 +551,20 @@
     console.warn('unable to connect to top frame for connecting dev tools');
   }
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Source Sans 3 is self-hosted (variable font, latin subset, OFL license).
+     Loading it from Google Fonts made the visual regression tests depend on
+     the network: an intermittent fetch failure meant screenshots rendered in
+     the fallback font and produced false diffs. The relative URL resolves
+     both at dev-server root and under the GitHub Pages base path. -->
+<style>
+  @font-face {
+    font-family: 'Source Sans 3';
+    font-style: normal;
+    font-weight: 200 900;
+    font-display: swap;
+    src: url('./fonts/source-sans-3-latin.woff2') format('woff2');
+  }
+</style>
 <style>
     body {
         margin: 0 !important;
@@ -561,7 +572,7 @@
     }
 </style>
 
-    <script type="module" crossorigin src="/DesignSystem/storybook/assets/iframe-CYV5oYqB.js"></script>
+    <script type="module" crossorigin src="/DesignSystem/storybook/assets/iframe-DpFVnscm.js"></script>
     <link rel="modulepreload" crossorigin href="/DesignSystem/storybook/assets/preload-helper-u0ftyAaf.js">
     <link rel="stylesheet" crossorigin href="/DesignSystem/storybook/assets/iframe-DieRbXB-.css">
   </head>
