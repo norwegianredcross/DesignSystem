@@ -6,14 +6,14 @@
     "props": [
       {
         "name": "data-size",
-        "type": "Size",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-color",
-        "type": "SeverityColors",
+        "type": "'info' | 'success' | 'warning' | 'danger'",
         "description": "Sets color and icon.",
         "defaultValue": "'danger'",
         "required": false
@@ -34,7 +34,7 @@
     "props": [
       {
         "name": "data-size",
-        "type": "Size",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
@@ -55,7 +55,7 @@
       },
       {
         "name": "placement",
-        "type": "enum",
+        "type": "'none' | 'top' | 'right' | 'bottom' | 'left' | 'top-start' | 'top-end' | 'right-start' | 'right-end' | 'bottom-start' | 'bottom-end' | 'left-start' | 'left-end'",
         "description": "Placement of the tooltip on the trigger.",
         "defaultValue": "'top'",
         "required": false
@@ -76,7 +76,7 @@
       },
       {
         "name": "type",
-        "type": "enum",
+        "type": "'describedby' | 'labelledby'",
         "description": "Override if `aria-describedby` or `aria-labelledby` is used.\nBy default, if the trigger element has no inner text, `aria-labelledby` is used.",
         "defaultValue": null,
         "required": false
@@ -90,21 +90,21 @@
     "props": [
       {
         "name": "data-color",
-        "type": "Color",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
         "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-size",
-        "type": "Size",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "variant",
-        "type": "enum",
+        "type": "'primary' | 'secondary'",
         "description": "Specify which variant to use",
         "defaultValue": "'primary'",
         "required": false
@@ -125,7 +125,7 @@
       },
       {
         "name": "onChange",
-        "type": "(value: string) => void",
+        "type": "((value: string) => void)",
         "description": "Callback with selected `ToggleGroupItem` `value`",
         "defaultValue": null,
         "required": false
@@ -223,7 +223,7 @@
       },
       {
         "name": "data-size",
-        "type": "any",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
@@ -237,7 +237,7 @@
       },
       {
         "name": "type",
-        "type": "enum",
+        "type": "'number' | 'hidden' | 'color' | 'search' | 'text' | 'tel' | 'url' | 'email' | 'date' | 'time' | 'datetime-local' | 'file' | 'month' | 'password' | 'week'",
         "description": "Supported `input` types",
         "defaultValue": "'text'",
         "required": false
@@ -265,7 +265,7 @@
     "props": [
       {
         "name": "data-size",
-        "type": "Size",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
@@ -279,28 +279,28 @@
     "props": [
       {
         "name": "data-color",
-        "type": "any",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'info' | 'success' | 'warning' | 'danger'",
         "description": "Color scheme. Follows Digdir's `data-color` cascade.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-size",
-        "type": "enum",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "variant",
-        "type": "enum",
+        "type": "'default' | 'outline'",
         "description": "Visual variant.",
         "defaultValue": "'default'",
         "required": false
       },
       {
         "name": "shape",
-        "type": "enum",
+        "type": "'squared' | 'rounded'",
         "description": "Geometry. `'rounded'` uses `--ds-border-radius-xl` (12px), matching the\nActivity-Card style in Figma. `'squared'` keeps Digdir's default radius-sm.",
         "defaultValue": "'squared'",
         "required": false
@@ -314,14 +314,14 @@
     "props": [
       {
         "name": "data-color",
-        "type": "Color",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
         "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-size",
-        "type": "Size",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
@@ -342,7 +342,7 @@
       },
       {
         "name": "onChange",
-        "type": "(value: string) => void",
+        "type": "((value: string) => void)",
         "description": "Callback with selected `TabItem` `value`",
         "defaultValue": "undefined",
         "required": false
@@ -384,14 +384,14 @@
       },
       {
         "name": "data-size",
-        "type": "Size",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-color",
-        "type": "Color",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
         "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
@@ -405,14 +405,14 @@
     "props": [
       {
         "name": "data-color",
-        "type": "Color",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
         "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-size",
-        "type": "Size",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
@@ -447,7 +447,7 @@
       },
       {
         "name": "position",
-        "type": "enum",
+        "type": "'start' | 'end'",
         "description": "Position of switch",
         "defaultValue": "start",
         "required": false
@@ -468,14 +468,14 @@
     "props": [
       {
         "name": "data-size",
-        "type": "Size",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-color",
-        "type": "Color",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
         "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
@@ -503,7 +503,7 @@
       },
       {
         "name": "onBeforeMatch",
-        "type": "(event: EventBeforeMatch) => void",
+        "type": "((event: EventBeforeMatch) => void)",
         "description": "Callback when matching input value against options",
         "defaultValue": null,
         "required": false
@@ -517,7 +517,7 @@
       },
       {
         "name": "renderSelected",
-        "type": "(args: { label: string; value: string; }) => ReactNode",
+        "type": "((args: { label: string; value: string; }) => ReactNode)",
         "description": "Change how the selected options are rendered inside the `Chip`.",
         "defaultValue": "({ label }) => label",
         "required": false
@@ -531,7 +531,7 @@
       },
       {
         "name": "selected",
-        "type": "string | SuggestionItem | (string | SuggestionItem)[]",
+        "type": "string | SuggestionItem | (string | SuggestionItem)[] | null",
         "description": "The selected item of the Suggestion.\n\nIf `label` and `value` are the same, each item can be a `string`. Otherwise, each item must be a `SuggestionItem`.\n\nUsing this makes the component controlled and it must be used in combination with `onSelectedChange`.",
         "defaultValue": null,
         "required": false
@@ -545,7 +545,7 @@
       },
       {
         "name": "onSelectedChange",
-        "type": "((value: SuggestionItem) => void) | ((value: SuggestionItem[]) => void)",
+        "type": "((value: SuggestionItem | null) => void) | ((value: SuggestionItem[]) => void)",
         "description": "Callback when selected items changes",
         "defaultValue": null,
         "required": false
@@ -566,7 +566,7 @@
       },
       {
         "name": "data-size",
-        "type": "enum",
+        "type": "'sm' | 'md' | 'lg' | '2xs' | 'xs' | 'xl'",
         "description": "Spinner size",
         "defaultValue": null,
         "required": false
@@ -580,14 +580,14 @@
     "props": [
       {
         "name": "data-color",
-        "type": "Color",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
         "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-size",
-        "type": "Size",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
@@ -629,7 +629,7 @@
       },
       {
         "name": "variant",
-        "type": "enum",
+        "type": "'text' | 'circle' | 'rectangle'",
         "description": "The shape variant",
         "defaultValue": "'rectangle'",
         "required": false
@@ -657,7 +657,7 @@
     "props": [
       {
         "name": "data-size",
-        "type": "Size",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
@@ -671,7 +671,7 @@
       },
       {
         "name": "width",
-        "type": "enum",
+        "type": "'auto' | 'full'",
         "description": "Defines the width of Select, where \"auto\" matches the content width.",
         "defaultValue": "full",
         "required": false
@@ -685,14 +685,14 @@
     "props": [
       {
         "name": "data-size",
-        "type": "Size",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-color",
-        "type": "Color",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
         "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
@@ -706,14 +706,14 @@
     "props": [
       {
         "name": "data-color",
-        "type": "any",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
         "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-size",
-        "type": "any",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
@@ -790,7 +790,7 @@
     "props": [
       {
         "name": "data-size",
-        "type": "Size",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
@@ -804,7 +804,7 @@
       },
       {
         "name": "placement",
-        "type": "enum",
+        "type": "'none' | 'top' | 'right' | 'bottom' | 'left' | 'top-start' | 'top-end' | 'right-start' | 'right-end' | 'bottom-start' | 'bottom-end' | 'left-start' | 'left-end'",
         "description": "Placement of the popover on the trigger.",
         "defaultValue": "'top'",
         "required": false
@@ -818,28 +818,28 @@
       },
       {
         "name": "variant",
-        "type": "enum",
+        "type": "'default' | 'tinted'",
         "description": "Change the background color of the popover.",
         "defaultValue": "'default'",
         "required": false
       },
       {
         "name": "data-color",
-        "type": "any",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'info' | 'success' | 'warning' | 'danger'",
         "description": "Change the color scheme of the popover",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "onOpen",
-        "type": "() => void",
+        "type": "(() => void)",
         "description": "Callback when the popover wants to open.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "onClose",
-        "type": "() => void",
+        "type": "(() => void)",
         "description": "Callback when the popover wants to close.",
         "defaultValue": null,
         "required": false
@@ -867,14 +867,14 @@
     "props": [
       {
         "name": "data-size",
-        "type": "enum",
+        "type": "'sm' | 'md' | 'lg' | 'xs' | 'xl'",
         "description": "Changes text sizing",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "variant",
-        "type": "enum",
+        "type": "'default' | 'long' | 'short'",
         "description": "Adjusts styling for paragraph length",
         "defaultValue": "'default'",
         "required": false
@@ -895,14 +895,14 @@
     "props": [
       {
         "name": "data-color",
-        "type": "Color",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
         "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-size",
-        "type": "Size",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
@@ -979,14 +979,14 @@
       },
       {
         "name": "data-color",
-        "type": "any",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'danger'",
         "description": "Change the color scheme of the button",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-size",
-        "type": "Size",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
@@ -1000,14 +1000,14 @@
       },
       {
         "name": "type",
-        "type": "enum",
+        "type": "'button' | 'submit' | 'reset'",
         "description": "Specify the type of button. Unset when `asChild` is true",
         "defaultValue": "'button'",
         "required": false
       },
       {
         "name": "variant",
-        "type": "enum",
+        "type": "'primary' | 'secondary' | 'tertiary'",
         "description": "Specify which variant to use",
         "defaultValue": "'primary'",
         "required": false
@@ -1048,14 +1048,14 @@
     "props": [
       {
         "name": "data-color",
-        "type": "Color",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
         "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-size",
-        "type": "Size",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
@@ -1083,7 +1083,7 @@
     "props": [
       {
         "name": "weight",
-        "type": "enum",
+        "type": "'regular' | 'medium' | 'semibold'",
         "description": "Adjusts font weight. Use this when you have a label hierarchy, such as checkboxes/radios in a fieldset",
         "defaultValue": "'medium'",
         "required": false
@@ -1097,14 +1097,14 @@
       },
       {
         "name": "data-size",
-        "type": "Size",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-color",
-        "type": "Color",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
         "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
@@ -1118,21 +1118,21 @@
     "props": [
       {
         "name": "data-color",
-        "type": "Color",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
         "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-size",
-        "type": "Size",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "type",
-        "type": "enum",
+        "type": "'number' | 'hidden' | 'color' | 'search' | 'checkbox' | 'radio' | 'text' | 'tel' | 'url' | 'email' | 'date' | 'time' | 'datetime-local' | 'file' | 'month' | 'password' | 'week'",
         "description": "Supported `input` types",
         "defaultValue": "'text'",
         "required": false
@@ -1181,14 +1181,14 @@
     "props": [
       {
         "name": "level",
-        "type": "enum",
+        "type": "1 | 2 | 3 | 4 | 5 | 6",
         "description": "Required: Semantic heading level (1-6)",
         "defaultValue": null,
         "required": true
       },
       {
         "name": "data-size",
-        "type": "enum",
+        "type": "'sm' | 'md' | 'lg' | '2xs' | 'xs' | 'xl' | '2xl'",
         "description": "Changes text sizing",
         "defaultValue": "'md'",
         "required": false
@@ -1209,14 +1209,14 @@
     "props": [
       {
         "name": "variant",
-        "type": "enum",
+        "type": "'default' | 'compact'",
         "description": "Layout density. 'compact' renders a slimmer header with a transparent (non-boxed) logo area and reduced height — useful for documentation sites, dashboards or any app that wants a lighter top bar. Defaults to 'default'.",
         "defaultValue": "default",
         "required": false
       },
       {
         "name": "data-color",
-        "type": "any",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'primary'",
         "description": "Theme scope for the header extension (top bar) — any real `data-color`\nscope from the design tokens. The extension background uses the scope's\nbase color with matching contrast text.",
         "defaultValue": "primary-color-red",
         "required": false
@@ -1230,7 +1230,7 @@
       },
       {
         "name": "setPage",
-        "type": "(pageName: string) => void",
+        "type": "((pageName: string) => void)",
         "description": "",
         "defaultValue": null,
         "required": false
@@ -1279,7 +1279,7 @@
       },
       {
         "name": "onCtaClick",
-        "type": "() => void",
+        "type": "(() => void)",
         "description": "",
         "defaultValue": null,
         "required": false
@@ -1363,7 +1363,7 @@
       },
       {
         "name": "extensionColor",
-        "type": "enum",
+        "type": "'neutral' | 'primary' | 'tinted'",
         "description": "Background color variant for the header extension (top bar). 'tinted' uses a soft pink/red tinted background.",
         "defaultValue": null,
         "required": false
@@ -1391,7 +1391,7 @@
       },
       {
         "name": "onUserClick",
-        "type": "() => void",
+        "type": "(() => void)",
         "description": "Optional click handler on the user block — enables future dropdown/menu integration.",
         "defaultValue": null,
         "required": false
@@ -1405,28 +1405,28 @@
     "props": [
       {
         "name": "data-size",
-        "type": "Size",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Endrer størrelse for underliggende Designsystemet-komponenter. Velg fra forhåndsdefinerte størrelser.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "position",
-        "type": "enum",
+        "type": "'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'",
         "description": "Orientation of the shape.\nFor solid and outline: which corner the graphic points to.\nFor isometric: selects between standing (top-*) and lying\n(bottom-*) orientations for corner and angle, and between\nvertical (top-left/bottom-right) and horizontal\n(top-right/bottom-left) for bar.",
         "defaultValue": "top-left",
         "required": false
       },
       {
         "name": "size",
-        "type": "enum",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Size of the graphic (base grid size).\nFor the corner shape: sm: 48px, md: 68px, lg: 96px.",
         "defaultValue": "md",
         "required": false
       },
       {
         "name": "data-color",
-        "type": "Color",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
         "description": "Color scope from the theme (rk-design-tokens). Available scopes:\n'primary-color-red' (the default resolved value when inheriting\nfrom the surrounding scope), 'secondary-color-orange',\n'secondary-color-rust', 'secondary-color-pink',\n'additional-color-ocean', 'additional-color-jungle' and 'neutral'.",
         "defaultValue": null,
         "required": false
@@ -1454,14 +1454,14 @@
       },
       {
         "name": "variant",
-        "type": "enum",
+        "type": "'outline' | 'solid' | 'isometric'",
         "description": "Visual style: filled (solid) or thin stroke (outline).\nIsometric 3D variant: the shape built from unit cubes with\nthree token-driven faces. Available for the shapes square,\ncorner, angle, heart and bar.",
         "defaultValue": "solid",
         "required": false
       },
       {
         "name": "shape",
-        "type": "enum",
+        "type": "'square' | 'corner' | 'angle' | 'heart' | 'tee' | 'bar' | 'cross'",
         "description": "Which graphic element to render. All shapes are derived from\nthe same base form: the arms of the cross.\nShapes available in the isometric variant.",
         "defaultValue": "corner",
         "required": false
@@ -1482,21 +1482,21 @@
     "props": [
       {
         "name": "data-color",
-        "type": "any",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'primary' | 'additional'",
         "description": "Theme scope for the main section — any real `data-color` scope from the\ndesign tokens. The background uses the scope's tinted background token.",
         "defaultValue": "neutral",
         "required": false
       },
       {
         "name": "variant",
-        "type": "enum",
+        "type": "'default' | 'columns' | 'contact'",
         "description": "Footer layout variant. 'columns' renders N navigation columns (from `columns`) + an organisation meta row + a legal/copyright row.",
         "defaultValue": "default",
         "required": false
       },
       {
         "name": "colorScheme",
-        "type": "enum",
+        "type": "'light' | 'dark'",
         "description": "Force a colour scheme on the footer (applies `data-color-scheme`). Lets any project render a light or dark footer from the same tokens.",
         "defaultValue": null,
         "required": false
@@ -1545,7 +1545,7 @@
       },
       {
         "name": "onNewsletterSubmit",
-        "type": "(email: string) => void",
+        "type": "((email: string) => void)",
         "description": "Callback when newsletter form is submitted",
         "defaultValue": null,
         "required": false
@@ -1678,7 +1678,7 @@
     "props": [
       {
         "name": "position",
-        "type": "enum",
+        "type": "'start' | 'end'",
         "description": "Position of toggle inputs (radio, checkbox, switch) in field",
         "defaultValue": "start",
         "required": false
@@ -1692,14 +1692,14 @@
       },
       {
         "name": "data-size",
-        "type": "Size",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-color",
-        "type": "Color",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
         "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
@@ -1726,7 +1726,7 @@
       },
       {
         "name": "data-size",
-        "type": "Size",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
@@ -1740,14 +1740,14 @@
     "props": [
       {
         "name": "data-color",
-        "type": "any",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
         "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.\nChange the color scheme of the popover",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-size",
-        "type": "any",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
@@ -1782,21 +1782,21 @@
       },
       {
         "name": "onClose",
-        "type": "() => void",
+        "type": "(() => void)",
         "description": "Callback when the popover wants to close.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "onOpen",
-        "type": "() => void",
+        "type": "(() => void)",
         "description": "Callback when the popover wants to open.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "placement",
-        "type": "enum",
+        "type": "'none' | 'top' | 'right' | 'bottom' | 'left' | 'top-start' | 'top-end' | 'right-start' | 'right-end' | 'bottom-start' | 'bottom-end' | 'left-start' | 'left-end'",
         "description": "The placement of the dropdown",
         "defaultValue": "bottom-end",
         "required": false
@@ -1824,21 +1824,21 @@
       },
       {
         "name": "data-size",
-        "type": "any",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-color",
-        "type": "any",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'danger'",
         "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.\nChange the color scheme of the button",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "variant",
-        "type": "enum",
+        "type": "'primary' | 'secondary' | 'tertiary'",
         "description": "Specify which variant to use",
         "defaultValue": "'primary'",
         "required": false
@@ -1893,14 +1893,14 @@
     "props": [
       {
         "name": "level",
-        "type": "enum",
+        "type": "1 | 2 | 3 | 4 | 5 | 6",
         "description": "",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-size",
-        "type": "enum",
+        "type": "'sm' | 'md' | 'lg' | '2xs' | 'xs' | 'xl' | '2xl'",
         "description": "",
         "defaultValue": null,
         "required": false
@@ -1933,14 +1933,14 @@
     "props": [
       {
         "name": "data-color",
-        "type": "any",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'danger'",
         "description": "Change the color scheme of the button",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-size",
-        "type": "Size",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
@@ -1954,7 +1954,7 @@
       },
       {
         "name": "type",
-        "type": "enum",
+        "type": "'button' | 'submit' | 'reset'",
         "description": "Specify the type of button. Unset when `asChild` is true",
         "defaultValue": "'button'",
         "required": false
@@ -2003,7 +2003,7 @@
     "props": [
       {
         "name": "data-color",
-        "type": "any",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'primary'",
         "description": "Theme scope for the whole component — any real `data-color` scope from\nthe design tokens (same vocabulary as every other component).",
         "defaultValue": "primary-color-red",
         "required": false
@@ -2087,21 +2087,21 @@
       },
       {
         "name": "onVippsClick",
-        "type": "(amount: number, frequency: 'one-time' | 'monthly') => void",
+        "type": "((amount: number, frequency: 'one-time' | 'monthly') => void)",
         "description": "Callback when Vipps button is clicked — receives selected amount and frequency",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "onAvtalegiroClick",
-        "type": "() => void",
+        "type": "(() => void)",
         "description": "Callback when avtalegiro link is clicked",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "onAmountChange",
-        "type": "(amount: number, frequency: 'one-time' | 'monthly') => void",
+        "type": "((amount: number, frequency: 'one-time' | 'monthly') => void)",
         "description": "Callback when amount changes",
         "defaultValue": null,
         "required": false
@@ -2129,7 +2129,7 @@
       },
       {
         "name": "heartVariant",
-        "type": "enum",
+        "type": "'filled' | 'outlined'",
         "description": "Heart icon variant for the impact message",
         "defaultValue": "outlined",
         "required": false
@@ -2149,14 +2149,14 @@
     "props": [
       {
         "name": "data-color",
-        "type": "Color",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
         "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-size",
-        "type": "Size",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
@@ -2170,14 +2170,14 @@
       },
       {
         "name": "closedby",
-        "type": "enum",
+        "type": "'none' | 'closerequest' | 'any'",
         "description": "Light dismiss behavior, allowing to close on backdrop click  by setting `closedby=\"any\"`.\n@see [mdn closedBy](https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/closedBy)",
         "defaultValue": "'closerequest'",
         "required": false
       },
       {
         "name": "placement",
-        "type": "enum",
+        "type": "'top' | 'right' | 'bottom' | 'left' | 'center'",
         "description": "When not center, displays dialog as a \"drawer\" from the specified side.",
         "defaultValue": "'center'",
         "required": false
@@ -2198,7 +2198,7 @@
       },
       {
         "name": "onClose",
-        "type": "(event: Event) => void",
+        "type": "((event: Event) => void)",
         "description": "Callback that is called when the dialog is closed.",
         "defaultValue": null,
         "required": false
@@ -2219,21 +2219,21 @@
     "props": [
       {
         "name": "data-color",
-        "type": "Color",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
         "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-size",
-        "type": "Size",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "variant",
-        "type": "enum",
+        "type": "'default' | 'tinted'",
         "description": "Change the background color of the details.",
         "defaultValue": "'default'",
         "required": false
@@ -2275,14 +2275,14 @@
     "props": [
       {
         "name": "data-color",
-        "type": "Color",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
         "description": "Endrer farge for underliggende Designsystemet-komponenter.\nVelg fra forhåndsdefinerte farger og farger definert med theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-size",
-        "type": "Size",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Endrer størrelse for underliggende Designsystemet-komponenter. Velg fra forhåndsdefinerte størrelser.",
         "defaultValue": null,
         "required": false
@@ -2296,14 +2296,14 @@
       },
       {
         "name": "selectedDate",
-        "type": "Date",
+        "type": "Date | null",
         "description": "Valgt dato. Utheves i kalenderen.",
         "defaultValue": "null",
         "required": false
       },
       {
         "name": "onDateSelect",
-        "type": "(date: Date) => void",
+        "type": "((date: Date) => void)",
         "description": "Kalles når brukeren velger en dato.",
         "defaultValue": null,
         "required": false
@@ -2317,14 +2317,14 @@
     "props": [
       {
         "name": "data-color",
-        "type": "Color",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
         "description": "Endrer farge for underliggende Designsystemet-komponenter.\nVelg fra forhåndsdefinerte farger og farger definert med theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-size",
-        "type": "Size",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Endrer størrelse for underliggende Designsystemet-komponenter. Velg fra forhåndsdefinerte størrelser.",
         "defaultValue": null,
         "required": false
@@ -2373,28 +2373,28 @@
       },
       {
         "name": "value",
-        "type": "string",
+        "type": "string | null",
         "description": "",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "defaultValue",
-        "type": "string",
+        "type": "string | null",
         "description": "",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "onChange",
-        "type": "(event: ChangeEvent<HTMLInputElement>, formattedValue: string) => void",
+        "type": "((event: ChangeEvent<HTMLInputElement>, formattedValue: string) => void)",
         "description": "Kalles ved endring med hendelsen og den formaterte verdien (dd.mm.åååå).",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "onValidationChange",
-        "type": "(valid: boolean, formattedValue: string) => void",
+        "type": "((valid: boolean | null, formattedValue: string) => void)",
         "description": "Kalles når gyldigheten endres. `true`/`false` når datoen er komplett\n(åtte sifre), `false` ved blur med ufullstendig dato, `null` når feltet\ner tomt eller under utfylling. Umulige datoer (31.02, skuddårsbrudd)\ngir `false`.",
         "defaultValue": null,
         "required": false
@@ -2435,21 +2435,21 @@
     "props": [
       {
         "name": "variant",
-        "type": "enum",
+        "type": "'primary' | 'secondary' | 'tertiary'",
         "description": "Color treatment.",
         "defaultValue": "'primary'",
         "required": false
       },
       {
         "name": "data-color",
-        "type": "any",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'danger'",
         "description": "",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-size",
-        "type": "enum",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "",
         "defaultValue": null,
         "required": false
@@ -2477,7 +2477,7 @@
       },
       {
         "name": "type",
-        "type": "enum",
+        "type": "'button' | 'submit' | 'reset'",
         "description": "",
         "defaultValue": null,
         "required": false
@@ -2512,14 +2512,14 @@
     "props": [
       {
         "name": "data-color",
-        "type": "any",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
         "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-size",
-        "type": "any",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
@@ -2596,14 +2596,14 @@
     "props": [
       {
         "name": "data-color",
-        "type": "Color",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
         "description": "Endrer farge for underliggende Designsystemet-komponenter.\nVelg fra forhåndsdefinerte farger og farger definert med theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-size",
-        "type": "Size",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Endrer størrelse for underliggende Designsystemet-komponenter. Velg fra forhåndsdefinerte størrelser.",
         "defaultValue": null,
         "required": false
@@ -2680,21 +2680,21 @@
     "props": [
       {
         "name": "data-color",
-        "type": "Color",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
         "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-size",
-        "type": "Size",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "variant",
-        "type": "enum",
+        "type": "'default' | 'tinted'",
         "description": "Change the background color of the card.",
         "defaultValue": "'default'",
         "required": false
@@ -2722,14 +2722,14 @@
     "props": [
       {
         "name": "data-color",
-        "type": "Color",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
         "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-size",
-        "type": "Size",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
@@ -2762,14 +2762,14 @@
     "props": [
       {
         "name": "data-color",
-        "type": "Color",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
         "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-size",
-        "type": "Size",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
@@ -2790,7 +2790,7 @@
     "props": [
       {
         "name": "data-size",
-        "type": "Size",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
@@ -2811,14 +2811,14 @@
       },
       {
         "name": "variant",
-        "type": "enum",
+        "type": "'base' | 'tinted'",
         "description": "Change the background color of the badge.",
         "defaultValue": "'base'",
         "required": false
       },
       {
         "name": "data-color",
-        "type": "any",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'info' | 'success' | 'warning' | 'danger'",
         "description": "Change the color scheme of the badge",
         "defaultValue": null,
         "required": false
@@ -2832,28 +2832,28 @@
     "props": [
       {
         "name": "data-color",
-        "type": "Color",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
         "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-size",
-        "type": "Size",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "placement",
-        "type": "enum",
+        "type": "'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'",
         "description": "The placement of the badge",
         "defaultValue": "top-right",
         "required": false
       },
       {
         "name": "overlap",
-        "type": "enum",
+        "type": "'circle' | 'rectangle'",
         "description": "Use when badge is floating to change the position of the badge",
         "defaultValue": "rectangle",
         "required": false
@@ -2867,7 +2867,7 @@
     "props": [
       {
         "name": "data-color",
-        "type": "Color",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
         "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
@@ -2895,14 +2895,14 @@
       },
       {
         "name": "data-size",
-        "type": "any",
+        "type": "'sm' | 'md' | 'lg' | 'xs'",
         "description": "The size of the avatar.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "variant",
-        "type": "enum",
+        "type": "'circle' | 'square'",
         "description": "The shape of the avatar.",
         "defaultValue": "'circle'",
         "required": false
@@ -2944,21 +2944,21 @@
       },
       {
         "name": "titleLevel",
-        "type": "enum",
+        "type": "2 | 3 | 4 | 5 | 6",
         "description": "Semantisk overskriftsnivå (2–6) for tittelen. Angi nivået som passer\ninn i sidens overskriftshierarki der varselet vises.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-size",
-        "type": "Size",
+        "type": "'sm' | 'md' | 'lg'",
         "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-color",
-        "type": "SeverityColors",
+        "type": "'info' | 'success' | 'warning' | 'danger'",
         "description": "Sets color and icon.",
         "defaultValue": "'info'",
         "required": false

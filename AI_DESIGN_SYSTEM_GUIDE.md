@@ -311,16 +311,16 @@ All components are exported from `rk-designsystem`. Below is a comprehensive lis
 import { Button } from 'rk-designsystem';
 
 <Button
-  asChild?={boolean}
-  command?={string}
-  commandfor?={string}
-  commandFor?={string}
-  data-color?={any}
-  data-size?={}
-  icon?={boolean}
-  loading?={ReactNode}
-  type?={}
-  variant?={"primary"}
+  asChild={false} // valgfri: boolean
+  command="…" // valgfri: string
+  commandfor="…" // valgfri: string
+  commandFor="…" // valgfri: string
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'danger'
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
+  icon={false} // valgfri: boolean
+  // loading — valgfri: ReactNode
+  type="button" // valgfri: 'button' | 'submit' | 'reset'
+  variant="primary" // valgfri, default 'primary': 'primary' | 'secondary' | 'tertiary'
  />
 ```
 
@@ -329,17 +329,17 @@ import { Button } from 'rk-designsystem';
 import { Checkbox } from 'rk-designsystem';
 
 <Checkbox
-  aria-label?={string}
-  aria-labelledby?={string}
-  data-color?={any}
-  data-indeterminate?={false}
-  data-size?={any}
-  description?={ReactNode}
-  disabled?={boolean}
-  error?={ReactNode}
-  label?={ReactNode}
-  readOnly?={boolean}
-  value?={string | number}
+  aria-label="…" // valgfri: string
+  aria-labelledby="…" // valgfri: string
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'
+  data-indeterminate={false} // valgfri, default false: boolean
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
+  // description — valgfri: ReactNode
+  disabled={false} // valgfri: boolean
+  // error — valgfri: ReactNode
+  // label — valgfri: ReactNode
+  readOnly={false} // valgfri: boolean
+  // value — valgfri: string | number | readonly string[]
  />
 ```
 
@@ -348,21 +348,21 @@ import { Checkbox } from 'rk-designsystem';
 import { DateInput } from 'rk-designsystem';
 
 <DateInput
-  aria-label?={string}
-  aria-labelledby?={string}
-  data-color?="accent" | "neutral" | "danger" | etc.
-  data-size?="sm" | "md" | "lg"
-  defaultValue?={string}
-  description?={ReactNode}
-  error?={ReactNode}
-  inputClassName?={string}
-  inputWrapperClassName?={string}
-  label?={ReactNode}
-  onChange?={(event: ChangeEvent<HTMLInputElement>, formattedValue: string) => void}
-  onSuffixClick?={MouseEventHandler<HTMLButtonElement>}
-  onValidationChange?={(valid: boolean, formattedValue: string) => void}
-  suffixIcon?={ReactNode}
-  value?={string}
+  aria-label="…" // valgfri: string
+  aria-labelledby="…" // valgfri: string
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
+  // defaultValue — valgfri: string | null
+  // description — valgfri: ReactNode
+  // error — valgfri: ReactNode
+  inputClassName="…" // valgfri: string
+  inputWrapperClassName="…" // valgfri: string
+  // label — valgfri: ReactNode
+  onChange={(event, formattedValue) => {}} // valgfri: ((event: ChangeEvent<HTMLInputElement>, formattedValue: string) => void)
+  // onSuffixClick — valgfri: MouseEventHandler<HTMLButtonElement>
+  onValidationChange={(valid, formattedValue) => {}} // valgfri: ((valid: boolean | null, formattedValue: string) => void)
+  // suffixIcon — valgfri: ReactNode
+  // value — valgfri: string | null
  />
 ```
 
@@ -371,11 +371,11 @@ import { DateInput } from 'rk-designsystem';
 import { DatePicker } from 'rk-designsystem';
 
 <DatePicker
-  data-color?="accent" | "neutral" | "danger" | etc.
-  data-size?="sm" | "md" | "lg"
-  initialDate?={new Date()}
-  onDateSelect?={(date: Date) => void}
-  selectedDate?={null}
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
+  // initialDate — valgfri, default new Date(): Date
+  onDateSelect={(date) => {}} // valgfri: ((date: Date) => void)
+  // selectedDate — valgfri, default null: Date | null
  />
 ```
 
@@ -384,14 +384,14 @@ import { DatePicker } from 'rk-designsystem';
 import { Input } from 'rk-designsystem';
 
 <Input
-  data-color?="accent" | "neutral" | "danger" | etc.
-  data-indeterminate?={false}
-  data-size?="sm" | "md" | "lg"
-  disabled?={boolean}
-  readOnly?={boolean}
-  role?={AriaRole}
-  size?={number}
-  type?={"text"}
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'
+  data-indeterminate={false} // valgfri, default false: boolean
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
+  disabled={false} // valgfri: boolean
+  readOnly={false} // valgfri: boolean
+  // role — valgfri: AriaRole
+  size={0} // valgfri: number
+  type="text" // valgfri, default 'text': 'number' | 'hidden' | 'color' | 'search' | 'checkbox' | 'radio' | 'text' | 'tel' | 'url' | 'email' | 'date' | 'time' | 'datetime-local' | 'file' | 'month' | 'password' | 'week'
  />
 ```
 
@@ -400,17 +400,17 @@ import { Input } from 'rk-designsystem';
 import { Radio } from 'rk-designsystem';
 
 <Radio
-  aria-label?={string}
-  aria-labelledby?={string}
-  data-color?={any}
-  data-indeterminate?={false}
-  data-size?={any}
-  description?={ReactNode}
-  disabled?={boolean}
-  error?={ReactNode}
-  label?={ReactNode}
-  readOnly?={boolean}
-  value?={string | number}
+  aria-label="…" // valgfri: string
+  aria-labelledby="…" // valgfri: string
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'
+  data-indeterminate={false} // valgfri, default false: boolean
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
+  // description — valgfri: ReactNode
+  disabled={false} // valgfri: boolean
+  // error — valgfri: ReactNode
+  // label — valgfri: ReactNode
+  readOnly={false} // valgfri: boolean
+  // value — valgfri: string | number | readonly string[]
  />
 ```
 
@@ -419,9 +419,9 @@ import { Radio } from 'rk-designsystem';
 import { Select } from 'rk-designsystem';
 
 <Select
-  data-size?="sm" | "md" | "lg"
-  readOnly?={false}
-  width?={full}
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
+  readOnly={false} // valgfri, default false: boolean
+  width="full" // valgfri, default full: 'auto' | 'full'
  />
 ```
 
@@ -430,14 +430,14 @@ import { Select } from 'rk-designsystem';
 import { Switch } from 'rk-designsystem';
 
 <Switch
-  aria-label?={string}
-  aria-labelledby?={string}
-  data-color?="accent" | "neutral" | "danger" | etc.
-  data-size?="sm" | "md" | "lg"
-  description?={ReactNode}
-  label?={ReactNode}
-  position?={start}
-  value?={string | number}
+  aria-label="…" // valgfri: string
+  aria-labelledby="…" // valgfri: string
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
+  // description — valgfri: ReactNode
+  // label — valgfri: ReactNode
+  position="start" // valgfri, default start: 'start' | 'end'
+  // value — valgfri: string | number | readonly string[]
  />
 ```
 
@@ -446,7 +446,7 @@ import { Switch } from 'rk-designsystem';
 import { Textarea } from 'rk-designsystem';
 
 <Textarea
-  data-size?="sm" | "md" | "lg"
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
  />
 ```
 
@@ -455,21 +455,21 @@ import { Textarea } from 'rk-designsystem';
 import { Textfield } from 'rk-designsystem';
 
 <Textfield
-  aria-label?={string}
-  aria-labelledby?={string}
-  className?={string}
-  counter?="number" | ""FieldCounterProps""
-  data-indeterminate?={false}
-  data-size?={any}
-  description?={ReactNode}
-  error?={ReactNode}
-  label?={ReactNode}
-  multiline?={boolean}
-  prefix?={string}
-  size?={number}
-  style?={undefined}
-  suffix?={string}
-  type?={"text"}
+  aria-label="…" // valgfri: string
+  aria-labelledby="…" // valgfri: string
+  className="…" // valgfri: string
+  // counter — valgfri: number | FieldCounterProps
+  data-indeterminate={false} // valgfri, default false: boolean
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
+  // description — valgfri: ReactNode
+  // error — valgfri: ReactNode
+  // label — valgfri: ReactNode
+  multiline={false} // valgfri: boolean
+  prefix="…" // valgfri: string
+  size={0} // valgfri: number
+  // style — valgfri, default undefined: CSSProperties
+  suffix="…" // valgfri: string
+  type="text" // valgfri, default 'text': 'number' | 'hidden' | 'color' | 'search' | 'text' | 'tel' | 'url' | 'email' | 'date' | 'time' | 'datetime-local' | 'file' | 'month' | 'password' | 'week'
  />
 ```
 
@@ -480,11 +480,11 @@ import { Textfield } from 'rk-designsystem';
 import { Card, CardBlock } from 'rk-designsystem';
 
 <Card
-  children={ReactNode}  // Required: Instances of `Card.Block`, `Divider` or other React nodes
-  asChild?={false}
-  data-color?="accent" | "neutral" | "danger" | etc.
-  data-size?="sm" | "md" | "lg"
-  variant?={"default"}
+  // children — PÅKREVD: ReactNode
+  asChild={false} // valgfri, default false: boolean
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
+  variant="default" // valgfri, default 'default': 'default' | 'tinted'
 >
   {/* Content */}
 </Card>
@@ -504,10 +504,10 @@ import { Divider } from 'rk-designsystem';
 import { Field, FieldDescription, FieldCounter } from 'rk-designsystem';
 
 <Field
-  asChild?={false}
-  data-color?="accent" | "neutral" | "danger" | etc.
-  data-size?="sm" | "md" | "lg"
-  position?={start}
+  asChild={false} // valgfri, default false: boolean
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
+  position="start" // valgfri, default start: 'start' | 'end'
 >
   {/* Content */}
 </Field>
@@ -520,8 +520,8 @@ Use `<FieldDescription>` and `<FieldCounter>` as children.
 import { Fieldset } from 'rk-designsystem';
 
 <Fieldset
-  data-color?="accent" | "neutral" | "danger" | etc.
-  data-size?="sm" | "md" | "lg"
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
  />
 ```
 
@@ -532,9 +532,9 @@ import { Fieldset } from 'rk-designsystem';
 import { Breadcrumbs, BreadcrumbsList, BreadcrumbsItem, BreadcrumbsLink } from 'rk-designsystem';
 
 <Breadcrumbs
-  aria-label?={"Du er her"}
-  data-color?="accent" | "neutral" | "danger" | etc.
-  data-size?="sm" | "md" | "lg"
+  aria-label="Du er her" // valgfri, default 'Du er her': string
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
 >
   {/* Content */}
 </Breadcrumbs>
@@ -547,12 +547,12 @@ Use `<BreadcrumbsList>`, `<BreadcrumbsItem>`, and `<BreadcrumbsLink>` for struct
 import { Pagination } from 'rk-designsystem';
 
 <Pagination
-  aria-label?={"Bla i sider"}
-  asChild?={false}
-  data-color?="accent" | "neutral" | "danger" | etc.
-  data-current?={string}
-  data-size?="sm" | "md" | "lg"
-  data-total?={string}
+  aria-label="Bla i sider" // valgfri, default 'Bla i sider': string
+  asChild={false} // valgfri, default false: boolean
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'
+  data-current="…" // valgfri: string
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
+  data-total="…" // valgfri: string
  />
 ```
 
@@ -561,11 +561,11 @@ import { Pagination } from 'rk-designsystem';
 import { Tabs } from 'rk-designsystem';
 
 <Tabs
-  data-color?="accent" | "neutral" | "danger" | etc.
-  data-size?="sm" | "md" | "lg"
-  defaultValue?={undefined}
-  onChange?={undefined}
-  value?={undefined}
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
+  defaultValue="undefined" // valgfri, default undefined: string
+  onChange={(value) => {}} // valgfri, default undefined: ((value: string) => void)
+  value="undefined" // valgfri, default undefined: string
  />
 ```
 
@@ -576,10 +576,10 @@ import { Tabs } from 'rk-designsystem';
 import { Alert } from 'rk-designsystem';
 
 <Alert
-  data-color?={"info"}
-  data-size?="sm" | "md" | "lg"
-  title?={string}
-  titleLevel?={}
+  data-color="info" // valgfri, default 'info': 'info' | 'success' | 'warning' | 'danger'
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
+  title="…" // valgfri: string
+  // titleLevel — valgfri: 2 | 3 | 4 | 5 | 6
  />
 ```
 
@@ -588,15 +588,15 @@ import { Alert } from 'rk-designsystem';
 import { Dialog } from 'rk-designsystem';
 
 <Dialog
-  asChild?={false}
-  closeButton?={"Lukk dialogvindu"}
-  closedby?={"closerequest"}
-  data-color?="accent" | "neutral" | "danger" | etc.
-  data-size?="sm" | "md" | "lg"
-  modal?={true}
-  onClose?={(event: Event) => void}
-  open?={boolean}
-  placement?={"center"}
+  asChild={false} // valgfri, default false: boolean
+  // closeButton — valgfri, default 'Lukk dialogvindu': string | false
+  closedby="closerequest" // valgfri, default 'closerequest': 'none' | 'closerequest' | 'any'
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
+  modal={true} // valgfri, default true: boolean
+  onClose={(event) => {}} // valgfri: ((event: Event) => void)
+  open={false} // valgfri: boolean
+  placement="center" // valgfri, default 'center': 'top' | 'right' | 'bottom' | 'left' | 'center'
  />
 ```
 
@@ -605,8 +605,8 @@ import { Dialog } from 'rk-designsystem';
 import { ErrorSummary } from 'rk-designsystem';
 
 <ErrorSummary
-  asChild?={ReactNode}
-  data-size?="sm" | "md" | "lg"
+  // asChild — valgfri: ReactNode
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
  />
 ```
 
@@ -615,16 +615,16 @@ import { ErrorSummary } from 'rk-designsystem';
 import { Popover } from 'rk-designsystem';
 
 <Popover
-  asChild?={false}
-  autoPlacement?={true}
-  data-color?={any}
-  data-size?="sm" | "md" | "lg"
-  id?={string}
-  onClose?={() => void}
-  onOpen?={() => void}
-  open?={undefined}
-  placement?={"top"}
-  variant?={"default"}
+  asChild={false} // valgfri, default false: boolean
+  autoPlacement={true} // valgfri, default true: boolean
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'info' | 'success' | 'warning' | 'danger'
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
+  id="…" // valgfri: string
+  onClose={() => {}} // valgfri: (() => void)
+  onOpen={() => {}} // valgfri: (() => void)
+  open={false} // valgfri, default undefined: boolean
+  placement="top" // valgfri, default 'top': 'none' | 'top' | 'right' | 'bottom' | 'left' | 'top-start' | 'top-end' | 'right-start' | 'right-end' | 'bottom-start' | 'bottom-end' | 'left-start' | 'left-end'
+  variant="default" // valgfri, default 'default': 'default' | 'tinted'
  />
 ```
 
@@ -633,13 +633,13 @@ import { Popover } from 'rk-designsystem';
 import { Tooltip } from 'rk-designsystem';
 
 <Tooltip
-  children={ReactNode}  // Required: The element or string that triggers the tooltip.
-  content={string}  // Required: Content of the tooltip
-  autoPlacement?={true}
-  data-size?="sm" | "md" | "lg"
-  open?={boolean}
-  placement?={"top"}
-  type?={}
+  // children — PÅKREVD: ReactNode
+  content="…" // PÅKREVD: string
+  autoPlacement={true} // valgfri, default true: boolean
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
+  open={false} // valgfri: boolean
+  placement="top" // valgfri, default 'top': 'none' | 'top' | 'right' | 'bottom' | 'left' | 'top-start' | 'top-end' | 'right-start' | 'right-end' | 'bottom-start' | 'bottom-end' | 'left-start' | 'left-end'
+  type="describedby" // valgfri: 'describedby' | 'labelledby'
  />
 ```
 
@@ -650,15 +650,15 @@ import { Tooltip } from 'rk-designsystem';
 import { Avatar } from 'rk-designsystem';
 
 <Avatar
-  aria-hidden?={Booleanish}
-  aria-label?={string}
-  asChild?={false}
-  children?={ReactNode}
-  data-color?="accent" | "neutral" | "danger" | etc.
-  data-size?={any}
-  data-tooltip?={string}
-  initials?={string}
-  variant?={"circle"}
+  // aria-hidden — valgfri: Booleanish
+  aria-label="…" // valgfri: string
+  asChild={false} // valgfri, default false: boolean
+  // children — valgfri: ReactNode
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg' | 'xs'
+  data-tooltip="…" // valgfri: string
+  initials="…" // valgfri: string
+  variant="circle" // valgfri, default 'circle': 'circle' | 'square'
  />
 ```
 
@@ -667,11 +667,11 @@ import { Avatar } from 'rk-designsystem';
 import { Badge } from 'rk-designsystem';
 
 <Badge
-  count?={number}
-  data-color?={any}
-  data-size?="sm" | "md" | "lg"
-  maxCount?={number}
-  variant?={"base"}
+  count={0} // valgfri: number
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'info' | 'success' | 'warning' | 'danger'
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
+  maxCount={0} // valgfri: number
+  variant="base" // valgfri, default 'base': 'base' | 'tinted'
  />
 ```
 
@@ -691,11 +691,11 @@ Use `<Chip.Button>`, `<Chip.Checkbox>`, or `<Chip.Radio>` for different variants
 import { SkeletonLoader } from 'rk-designsystem';
 
 <SkeletonLoader
-  asChild?={false}
-  characters?={number}
-  height?={string | number}
-  variant?={"rectangle"}
-  width?={string | number}
+  asChild={false} // valgfri, default false: boolean
+  characters={0} // valgfri: number
+  // height — valgfri: string | number
+  variant="rectangle" // valgfri, default 'rectangle': 'text' | 'circle' | 'rectangle'
+  // width — valgfri: string | number
  />
 ```
 
@@ -704,8 +704,8 @@ import { SkeletonLoader } from 'rk-designsystem';
 import { Spinner } from 'rk-designsystem';
 
 <Spinner
-  aria-label?={string}
-  data-size?={}
+  aria-label="…" // valgfri: string
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg' | '2xs' | 'xs' | 'xl'
  />
 ```
 
@@ -714,10 +714,10 @@ import { Spinner } from 'rk-designsystem';
 import { Tag } from 'rk-designsystem';
 
 <Tag
-  data-color?={any}
-  data-size?={}
-  shape?={"squared"}
-  variant?={"default"}
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'info' | 'success' | 'warning' | 'danger'
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
+  shape="squared" // valgfri, default 'squared': 'squared' | 'rounded'
+  variant="default" // valgfri, default 'default': 'default' | 'outline'
  />
 ```
 
@@ -739,12 +739,12 @@ Use `<List.Unordered>` or `<List.Ordered>` with `<List.Item>` for items.
 import { Table } from 'rk-designsystem';
 
 <Table
-  border?={false}
-  data-color?="accent" | "neutral" | "danger" | etc.
-  data-size?="sm" | "md" | "lg"
-  hover?={false}
-  stickyHeader?={false}
-  zebra?={false}
+  border={false} // valgfri, default false: boolean
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
+  hover={false} // valgfri, default false: boolean
+  stickyHeader={false} // valgfri, default false: boolean
+  zebra={false} // valgfri, default false: boolean
  />
 ```
 
@@ -755,10 +755,10 @@ import { Table } from 'rk-designsystem';
 import { BadgePosition } from 'rk-designsystem';
 
 <BadgePosition
-  data-color?="accent" | "neutral" | "danger" | etc.
-  data-size?="sm" | "md" | "lg"
-  overlap?={rectangle}
-  placement?={top-right}
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
+  overlap="rectangle" // valgfri, default rectangle: 'circle' | 'rectangle'
+  placement="top-right" // valgfri, default top-right: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
  />
 ```
 
@@ -774,9 +774,9 @@ import { BreadcrumbsItem } from 'rk-designsystem';
 import { BreadcrumbsLink } from 'rk-designsystem';
 
 <BreadcrumbsLink
-  asChild?={boolean}
-  data-color?="accent" | "neutral" | "danger" | etc.
-  data-size?="sm" | "md" | "lg"
+  asChild={false} // valgfri: boolean
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
  />
 ```
 
@@ -792,13 +792,13 @@ import { BreadcrumbsList } from 'rk-designsystem';
 import { Details, Details.Summary, Details.Content } from 'rk-designsystem';
 
 <Details
-  children?={ReactNode}
-  data-color?="accent" | "neutral" | "danger" | etc.
-  data-size?="sm" | "md" | "lg"
-  defaultOpen?={false}
-  onToggle?={(((event: Event) => void}
-  open?={undefined}
-  variant?={"default"}
+  // children — valgfri: ReactNode
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
+  defaultOpen={false} // valgfri, default false: boolean
+  onToggle={(event) => {}} // valgfri: (((event: Event) => void) & ((event: Event) => void)) | (((event: Event) => void) & ((event: Event) => void))
+  open={false} // valgfri, default undefined: boolean
+  variant="default" // valgfri, default 'default': 'default' | 'tinted'
 >
   {/* Content */}
 </Details>
@@ -806,51 +806,20 @@ import { Details, Details.Summary, Details.Content } from 'rk-designsystem';
 
 Use `<Details.Summary>` and `<Details.Content>` for accordion structure.
 
-#### Donor
-```tsx
-import { Donor } from 'rk-designsystem';
-
-<Donor
-  amountLabel?={Velg ønsket beløp:}
-  amounts?={[
-  { value: 220, label: "220 kr" },
-  { value: 345, label: "345 kr" },
-  { value: 660, label: "660 kr" },
-]}
-  avtalegiroHref?={#}
-  avtalegiroLabel?={Gi med avtalegiro}
-  currencySuffix?={kr}
-  customAmountPlaceholder?={Valgfritt beløp}
-  data-color?={primary-color-red}
-  defaultAmount?={345}
-  heartVariant?={outlined}
-  impactMessage?={En gave på {amount} bidrar til ...}
-  monthlyLabel?={Hver måned}
-  onAmountChange?={(amount: number, frequency: 'one-time' | 'monthly') => void}
-  onAvtalegiroClick?={() => void}
-  oneTimeLabel?={En gang}
-  onVippsClick?={(amount: number, frequency: 'one-time' | 'monthly') => void}
-  showAvtalegiroLink?={true}
-  showImpactMessage?={true}
-  showVippsButton?={true}
-  vippsButtonLabel?={Gi med}
- />
-```
-
 #### Dropdown
 ```tsx
 import { Dropdown } from 'rk-designsystem';
 
 <Dropdown
-  asChild?={false}
-  autoPlacement?={true}
-  data-color?={any}
-  data-size?={any}
-  id?={string}
-  onClose?={() => void}
-  onOpen?={() => void}
-  open?={undefined}
-  placement?={bottom-end}
+  asChild={false} // valgfri, default false: boolean
+  autoPlacement={true} // valgfri, default true: boolean
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
+  id="…" // valgfri: string
+  onClose={() => {}} // valgfri: (() => void)
+  onOpen={() => {}} // valgfri: (() => void)
+  open={false} // valgfri, default undefined: boolean
+  placement="bottom-end" // valgfri, default bottom-end: 'none' | 'top' | 'right' | 'bottom' | 'left' | 'top-start' | 'top-end' | 'right-start' | 'right-end' | 'bottom-start' | 'bottom-end' | 'left-start' | 'left-end'
  />
 ```
 
@@ -859,15 +828,15 @@ import { Dropdown } from 'rk-designsystem';
 import { DropdownButton } from 'rk-designsystem';
 
 <DropdownButton
-  asChild?={false}
-  command?={string}
-  commandfor?={string}
-  commandFor?={string}
-  data-color?={any}
-  data-size?="sm" | "md" | "lg"
-  icon?={false}
-  loading?={false}
-  type?={"button"}
+  asChild={false} // valgfri, default false: boolean
+  command="…" // valgfri: string
+  commandfor="…" // valgfri: string
+  commandFor="…" // valgfri: string
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'danger'
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
+  icon={false} // valgfri, default false: boolean
+  // loading — valgfri, default false: ReactNode
+  type="button" // valgfri, default 'button': 'button' | 'submit' | 'reset'
  />
 ```
 
@@ -876,9 +845,9 @@ import { DropdownButton } from 'rk-designsystem';
 import { DropdownHeading } from 'rk-designsystem';
 
 <DropdownHeading
-  asChild?={boolean}
-  data-size?={}
-  level?={}
+  asChild={false} // valgfri: boolean
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg' | '2xs' | 'xs' | 'xl' | '2xl'
+  // level — valgfri: 1 | 2 | 3 | 4 | 5 | 6
  />
 ```
 
@@ -901,18 +870,16 @@ import { DropdownList } from 'rk-designsystem';
 import { DropdownTrigger } from 'rk-designsystem';
 
 <DropdownTrigger
-  asChild?={false
-false}
-  command?={string}
-  commandfor?={string}
-  commandFor?={string}
-  data-color?={any}
-  data-size?={any}
-  icon?={false}
-  inline?={false
-false}
-  loading?={false}
-  variant?={"primary"}
+  asChild={false} // valgfri, default false false: boolean
+  command="…" // valgfri: string
+  commandfor="…" // valgfri: string
+  commandFor="…" // valgfri: string
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'danger'
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
+  icon={false} // valgfri, default false: boolean
+  inline={false} // valgfri, default false false: boolean
+  // loading — valgfri, default false: ReactNode
+  variant="primary" // valgfri, default 'primary': 'primary' | 'secondary' | 'tertiary'
  />
 ```
 
@@ -930,32 +897,14 @@ import { FieldDescription } from 'rk-designsystem';
 <FieldDescription />
 ```
 
-#### GraphicElement
-```tsx
-import { GraphicElement } from 'rk-designsystem';
-
-<GraphicElement
-  aria-hidden?={true}
-  aria-label?={string}
-  className?={string}
-  data-color?="accent" | "neutral" | "danger" | etc.
-  data-size?="sm" | "md" | "lg"
-  mirrored?={false}
-  position?={top-left}
-  shape?={corner}
-  size?={md}
-  variant?={solid}
- />
-```
-
 #### Heading
 ```tsx
 import { Heading } from 'rk-designsystem';
 
 <Heading
-  level={}  // Required: Required: Semantic heading level (1-6)
-  asChild?={false}
-  data-size?={"md"}
+  // level — PÅKREVD: 1 | 2 | 3 | 4 | 5 | 6
+  asChild={false} // valgfri, default false: boolean
+  data-size="md" // valgfri, default 'md': 'sm' | 'md' | 'lg' | '2xs' | 'xs' | 'xl' | '2xl'
  />
 ```
 
@@ -966,10 +915,10 @@ import { Heading } from 'rk-designsystem';
 import { Label } from 'rk-designsystem';
 
 <Label
-  asChild?={false}
-  data-color?="accent" | "neutral" | "danger" | etc.
-  data-size?="sm" | "md" | "lg"
-  weight?={"medium"}
+  asChild={false} // valgfri, default false: boolean
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
+  weight="medium" // valgfri, default 'medium': 'regular' | 'medium' | 'semibold'
  />
 ```
 
@@ -978,10 +927,10 @@ import { Label } from 'rk-designsystem';
 import { Link } from 'rk-designsystem';
 
 <Link
-  children={ReactNode}  // Required: The content to display inside the link.
-  asChild?={false}
-  data-color?="accent" | "neutral" | "danger" | etc.
-  data-size?="sm" | "md" | "lg"
+  // children — PÅKREVD: ReactNode
+  asChild={false} // valgfri, default false: boolean
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
  />
 ```
 
@@ -990,15 +939,15 @@ import { Link } from 'rk-designsystem';
 import { PaginationButton } from 'rk-designsystem';
 
 <PaginationButton
-  aria-current?={false}
-  asChild?={false}
-  command?={string}
-  commandfor?={string}
-  commandFor?={string}
-  data-color?={any}
-  data-size?="sm" | "md" | "lg"
-  type?={"button"}
-  variant?={"primary"}
+  aria-current="false" // valgfri, default false: boolean | 'true' | 'false' | 'page' | 'step' | 'location' | 'date' | 'time'
+  asChild={false} // valgfri, default false: boolean
+  command="…" // valgfri: string
+  commandfor="…" // valgfri: string
+  commandFor="…" // valgfri: string
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'danger'
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
+  type="button" // valgfri, default 'button': 'button' | 'submit' | 'reset'
+  variant="primary" // valgfri, default 'primary': 'primary' | 'secondary' | 'tertiary'
  />
 ```
 
@@ -1007,7 +956,7 @@ import { PaginationButton } from 'rk-designsystem';
 import { PaginationItem } from 'rk-designsystem';
 
 <PaginationItem
-  asChild?={false}
+  asChild={false} // valgfri, default false: boolean
  />
 ```
 
@@ -1016,7 +965,7 @@ import { PaginationItem } from 'rk-designsystem';
 import { PaginationList } from 'rk-designsystem';
 
 <PaginationList
-  asChild?={false}
+  asChild={false} // valgfri, default false: boolean
  />
 ```
 
@@ -1025,9 +974,9 @@ import { PaginationList } from 'rk-designsystem';
 import { Paragraph } from 'rk-designsystem';
 
 <Paragraph
-  asChild?={false}
-  data-size?={}
-  variant?={"default"}
+  asChild={false} // valgfri, default false: boolean
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg' | 'xs' | 'xl'
+  variant="default" // valgfri, default 'default': 'default' | 'long' | 'short'
  />
 ```
 
@@ -1036,8 +985,8 @@ import { Paragraph } from 'rk-designsystem';
 import { Search } from 'rk-designsystem';
 
 <Search
-  data-color?="accent" | "neutral" | "danger" | etc.
-  data-size?="sm" | "md" | "lg"
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
  />
 ```
 
@@ -1046,10 +995,10 @@ import { Search } from 'rk-designsystem';
 import { SkipLink } from 'rk-designsystem';
 
 <SkipLink
-  children={ReactNode}  // Required: The content to display inside the skiplink.
-  href={string}  // Required: Href of an element in the DOM the skiplink should skip to. E.g #main-content
-  data-color?="accent" | "neutral" | "danger" | etc.
-  data-size?="sm" | "md" | "lg"
+  // children — PÅKREVD: ReactNode
+  href="…" // PÅKREVD: string
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
  />
 ```
 
@@ -1058,15 +1007,15 @@ import { SkipLink } from 'rk-designsystem';
 import { Suggestion, Suggestion.Input, Suggestion.List, Suggestion.Option, Suggestion.Empty, Suggestion.Clear } from 'rk-designsystem';
 
 <Suggestion
-  creatable?={false}
-  defaultSelected?={string | SuggestionItem | (string | SuggestionItem)[]}
-  filter?={true}
-  multiple?={false}
-  name?={undefined}
-  onBeforeMatch?={(event: EventBeforeMatch) => void}
-  onSelectedChange?={((value: SuggestionItem) => void}
-  renderSelected?={({ label }) => label}
-  selected?={string | SuggestionItem | (string | SuggestionItem)[]}
+  creatable={false} // valgfri, default false: boolean
+  // defaultSelected — valgfri: string | SuggestionItem | (string | SuggestionItem)[]
+  // filter — valgfri, default true: boolean | Filter
+  multiple={false} // valgfri, default false: boolean
+  name="undefined" // valgfri, default undefined: string
+  onBeforeMatch={(event) => {}} // valgfri: ((event: EventBeforeMatch) => void)
+  onSelectedChange={(value) => {}} // valgfri: ((value: SuggestionItem | null) => void) | ((value: SuggestionItem[]) => void)
+  renderSelected={(args) => {}} // valgfri, default ({ label }) => label: ((args: { label: string; value: string; }) => ReactNode)
+  // selected — valgfri: string | SuggestionItem | (string | SuggestionItem)[] | null
 >
   {/* Content */}
 </Suggestion>
@@ -1079,14 +1028,14 @@ Use `<Suggestion.Input>`, `<Suggestion.List>`, `<Suggestion.Option>`, `<Suggesti
 import { ToggleGroup } from 'rk-designsystem';
 
 <ToggleGroup
-  data-color?="accent" | "neutral" | "danger" | etc.
-  data-size?="sm" | "md" | "lg"
-  data-toggle-group?={string}
-  defaultValue?={string}
-  name?={string}
-  onChange?={(value: string) => void}
-  value?={string}
-  variant?={"primary"}
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
+  data-toggle-group="…" // valgfri: string
+  defaultValue="…" // valgfri: string
+  name="…" // valgfri: string
+  onChange={(value) => {}} // valgfri: ((value: string) => void)
+  value="…" // valgfri: string
+  variant="primary" // valgfri, default 'primary': 'primary' | 'secondary'
  />
 ```
 
@@ -1095,9 +1044,9 @@ import { ToggleGroup } from 'rk-designsystem';
 import { ValidationMessage } from 'rk-designsystem';
 
 <ValidationMessage
-  asChild?={false}
-  data-color?={"danger"}
-  data-size?="sm" | "md" | "lg"
+  asChild={false} // valgfri, default false: boolean
+  data-color="danger" // valgfri, default 'danger': 'info' | 'success' | 'warning' | 'danger'
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
  />
 ```
 
@@ -1108,17 +1057,44 @@ import { ValidationMessage } from 'rk-designsystem';
 import { Carousel } from 'rk-designsystem';
 
 <Carousel
-  images={{ src: string; alt: string; }[]}
-  autoDelay?={5}
-  autoPlay?={false}
-  cornerRadius?={0}
-  data-color?="accent" | "neutral" | "danger" | etc.
-  data-size?="sm" | "md" | "lg"
-  showArrows?={true}
-  showDots?={true}
-  slideSpacing?={16}
-  slidesPerView?={1}
-  variant?={string}
+  // images — PÅKREVD: { src: string; alt: string; }[]
+  autoDelay={5} // valgfri, default 5: number
+  autoPlay={false} // valgfri, default false: boolean
+  cornerRadius={0} // valgfri, default 0: number
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
+  showArrows={true} // valgfri, default true: boolean
+  showDots={true} // valgfri, default true: boolean
+  slideSpacing={16} // valgfri, default 16: number
+  slidesPerView={1} // valgfri, default 1: number
+  variant="…" // valgfri: string
+ />
+```
+
+#### Donor
+```tsx
+import { Donor } from 'rk-designsystem';
+
+<Donor
+  amountLabel="Velg ønsket beløp:" // valgfri, default Velg ønsket beløp:: string
+  // amounts — valgfri, default [ { value: 220, label: '220 kr' }, { …: DonorAmount[]
+  avtalegiroHref="#" // valgfri, default #: string
+  avtalegiroLabel="Gi med avtalegiro" // valgfri, default Gi med avtalegiro: string
+  currencySuffix="kr" // valgfri, default kr: string
+  customAmountPlaceholder="Valgfritt beløp" // valgfri, default Valgfritt beløp: string
+  data-color="primary-color-red" // valgfri, default primary-color-red: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'primary'
+  defaultAmount={345} // valgfri, default 345: number
+  heartVariant="outlined" // valgfri, default outlined: 'filled' | 'outlined'
+  impactMessage="En gave på {amount} bidrar til ..." // valgfri, default En gave på {amount} bidrar til ...: string
+  monthlyLabel="Hver måned" // valgfri, default Hver måned: string
+  onAmountChange={(amount, frequency) => {}} // valgfri: ((amount: number, frequency: 'one-time' | 'monthly') => void)
+  onAvtalegiroClick={() => {}} // valgfri: (() => void)
+  oneTimeLabel="En gang" // valgfri, default En gang: string
+  onVippsClick={(amount, frequency) => {}} // valgfri: ((amount: number, frequency: 'one-time' | 'monthly') => void)
+  showAvtalegiroLink={true} // valgfri, default true: boolean
+  showImpactMessage={true} // valgfri, default true: boolean
+  showVippsButton={true} // valgfri, default true: boolean
+  vippsButtonLabel="Gi med" // valgfri, default Gi med: string
  />
 ```
 
@@ -1127,33 +1103,51 @@ import { Carousel } from 'rk-designsystem';
 import { Footer } from 'rk-designsystem';
 
 <Footer
-  colorScheme?={}
-  columns?={{ title: string; links: FooterLink[]; }[]}
-  contactPersons?={[]}
-  contactPersonsTitle?={string}
-  data-color?={neutral}
-  email?={post@redcross.no}
-  hideNewsletter?={false}
-  legalLinks?={[]}
-  linksLinks?={FooterLink[]}
-  linksTitle?={string}
-  newsletterButtonText?={Meld deg på}
-  newsletterConsentText?={ReactNode}
-  newsletterDescription?={Tekst om rødekors som kan være rundt 2 linjebrudd i lengde.}
-  newsletterPlaceholder?={Input tekst}
-  onNewsletterSubmit?={(email: string) => void}
-  organizationNumber?={XXX XXX XXX}
-  primaryLogoAlt?={Røde Kors Logo}
-  primaryLogoSrc?={string}
-  shortcutsLinks?={FooterLink[]}
-  shortcutsTitle?={string}
-  showGraphicElements?={false}
-  showPrimaryLogo?={true}
-  socialLinks?={[]}
-  socialLinksTitle?={string}
-  variant?={default}
-  visitingAddress?={["Hausmannsgate 7 (Korsegården)", "0186 Oslo"]}
-  whiteSectionSlot?={ReactNode}
+  colorScheme="light" // valgfri: 'light' | 'dark'
+  // columns — valgfri: { title: string; links: FooterLink[]; }[]
+  // contactPersons — valgfri, default []: ContactPerson[]
+  contactPersonsTitle="…" // valgfri: string
+  data-color="neutral" // valgfri, default neutral: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'primary' | 'additional'
+  email="post@redcross.no" // valgfri, default post@redcross.no: string
+  hideNewsletter={false} // valgfri, default false: boolean
+  // legalLinks — valgfri, default []: LegalLink[]
+  // linksLinks — valgfri: FooterLink[]
+  linksTitle="…" // valgfri: string
+  newsletterButtonText="Meld deg på" // valgfri, default Meld deg på: string
+  // newsletterConsentText — valgfri: ReactNode
+  newsletterDescription="Tekst om rødekors som kan være rundt 2 linjebrudd i lengde." // valgfri, default Tekst om rødekors som kan være rundt …: string
+  newsletterPlaceholder="Input tekst" // valgfri, default Input tekst: string
+  onNewsletterSubmit={(email) => {}} // valgfri: ((email: string) => void)
+  organizationNumber="XXX XXX XXX" // valgfri, default XXX XXX XXX: string
+  primaryLogoAlt="Røde Kors Logo" // valgfri, default Røde Kors Logo: string
+  primaryLogoSrc="…" // valgfri: string
+  // shortcutsLinks — valgfri: FooterLink[]
+  shortcutsTitle="…" // valgfri: string
+  showGraphicElements={false} // valgfri, default false: boolean
+  showPrimaryLogo={true} // valgfri, default true: boolean
+  // socialLinks — valgfri, default []: SocialLink[]
+  socialLinksTitle="…" // valgfri: string
+  variant="default" // valgfri, default default: 'default' | 'columns' | 'contact'
+  // visitingAddress — valgfri, default ['Hausmannsgate 7 (Korsegården)', '01…: string[]
+  // whiteSectionSlot — valgfri: ReactNode
+ />
+```
+
+#### GraphicElement
+```tsx
+import { GraphicElement } from 'rk-designsystem';
+
+<GraphicElement
+  aria-hidden={true} // valgfri, default true: boolean
+  aria-label="…" // valgfri: string
+  className="…" // valgfri: string
+  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
+  mirrored={false} // valgfri, default false: boolean
+  position="top-left" // valgfri, default top-left: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
+  shape="corner" // valgfri, default corner: 'square' | 'corner' | 'angle' | 'heart' | 'tee' | 'bar' | 'cross'
+  size="md" // valgfri, default md: 'sm' | 'md' | 'lg'
+  variant="solid" // valgfri, default solid: 'outline' | 'solid' | 'isometric'
  />
 ```
 
@@ -1162,33 +1156,33 @@ import { Footer } from 'rk-designsystem';
 import { Header } from 'rk-designsystem';
 
 <Header
-  activePage?={string}
-  ctaIcon?={<HeartIcon aria-hidden />}
-  ctaLabel?={string}
-  data-color?={primary-color-red}
-  extensionColor?={}
-  navItems?={{ label: string; href: string; }[]}
-  onCtaClick?={() => void}
-  onUserClick?={() => void}
-  secondaryLogo?={false}
-  secondaryLogoAlt?={Secondary Logo}
-  secondaryLogoSrc?={string}
-  secondaryLogoSrcDark?={string}
-  setPage?={(pageName: string) => void}
-  showCta?={false}
-  showHeaderExtension?={false}
-  showLanguageSwitch?={false}
-  showLogin?={true}
-  showMenuButton?={true}
-  showModeToggle?={false}
-  showNavItems?={true}
-  showSearch?={true}
-  showThemeToggle?={false}
-  showUser?={true}
-  userAvatarSrc?={string}
-  userInitials?={string}
-  userName?={string}
-  variant?={default}
+  activePage="…" // valgfri: string
+  // ctaIcon — valgfri, default <HeartIcon aria-hidden />: ReactNode
+  ctaLabel="…" // valgfri: string
+  data-color="primary-color-red" // valgfri, default primary-color-red: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'primary'
+  extensionColor="neutral" // valgfri: 'neutral' | 'primary' | 'tinted'
+  // navItems — valgfri: { label: string; href: string; }[]
+  onCtaClick={() => {}} // valgfri: (() => void)
+  onUserClick={() => {}} // valgfri: (() => void)
+  secondaryLogo={false} // valgfri, default false: boolean
+  secondaryLogoAlt="Secondary Logo" // valgfri, default Secondary Logo: string
+  secondaryLogoSrc="…" // valgfri: string
+  secondaryLogoSrcDark="…" // valgfri: string
+  setPage={(pageName) => {}} // valgfri: ((pageName: string) => void)
+  showCta={false} // valgfri, default false: boolean
+  showHeaderExtension={false} // valgfri, default false: boolean
+  showLanguageSwitch={false} // valgfri, default false: boolean
+  showLogin={true} // valgfri, default true: boolean
+  showMenuButton={true} // valgfri, default true: boolean
+  showModeToggle={false} // valgfri, default false: boolean
+  showNavItems={true} // valgfri, default true: boolean
+  showSearch={true} // valgfri, default true: boolean
+  showThemeToggle={false} // valgfri, default false: boolean
+  showUser={true} // valgfri, default true: boolean
+  userAvatarSrc="…" // valgfri: string
+  userInitials="…" // valgfri: string
+  userName="…" // valgfri: string
+  variant="default" // valgfri, default default: 'default' | 'compact'
  />
 ```
 

@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { glob } from 'glob';
-import { parse as docgenParse } from 'react-docgen-typescript';
+import { withCustomConfig } from 'react-docgen-typescript';
 
 // --- CONFIGURATION ---
 const ROOT_DIR = process.cwd();
@@ -63,7 +63,10 @@ if (componentFiles.length === 0) {
   process.exit(1);
 }
 
-// 3. Parse all found files
+// 3. Parse all found files.
+// withCustomConfig makes docgen compile with the repo's real tsconfig — that
+// loads the ColorDefinitions augmentation from rk-design-tokens, so types
+// like `Color` resolve to the actual scope union instead of `string`/`any`.
 const options = {
   savePropValueAsString: true,
   shouldExtractLiteralValuesFromEnum: true,
@@ -71,7 +74,8 @@ const options = {
   propFilter: (prop) => !prop.parent || !prop.parent.fileName.includes('node_modules'),
 };
 
-const allComponentsInfo = docgenParse(componentFiles, options);
+const parser = withCustomConfig(path.join(ROOT_DIR, 'tsconfig.app.json'), options);
+const allComponentsInfo = parser.parse(componentFiles);
 
 // 4. Filter and format the parsed data
 const parsedMetadata = allComponentsInfo
@@ -79,13 +83,22 @@ const parsedMetadata = allComponentsInfo
   .map((component) => {
     console.log(`Processing: ${component.displayName}`);
 
-    const props = Object.values(component.props).map((prop) => ({
-      name: prop.name,
-      type: prop.type.name.replace(/"/g, "'"),
-      description: prop.description,
-      defaultValue: prop.defaultValue?.value ?? null,
-      required: prop.required,
-    }));
+    const props = Object.values(component.props).map((prop) => {
+      // docgen reports literal unions as type name "enum" with the actual
+      // members in type.value — dropping them left 48 props documented as
+      // just "enum", useless to consumers and AI agents. Emit the real union.
+      const isLiteralUnion = prop.type.name === 'enum' && Array.isArray(prop.type.value);
+      const type = isLiteralUnion
+        ? prop.type.value.map((v) => String(v.value).replace(/"/g, "'")).join(' | ')
+        : prop.type.name.replace(/"/g, "'");
+      return {
+        name: prop.name,
+        type,
+        description: prop.description,
+        defaultValue: prop.defaultValue?.value ?? null,
+        required: prop.required,
+      };
+    });
 
     return {
       componentName: component.displayName,

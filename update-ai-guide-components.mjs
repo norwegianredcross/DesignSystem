@@ -21,8 +21,9 @@ const COMPONENT_CATEGORIES = {
   DataDisplay: ['Table', 'List'],
   // Other Components
   Other: ['Link', 'Heading', 'Paragraph', 'Label', 'Details', 'Dropdown', 'Search', 'Suggestion', 'ToggleGroup', 'SkipLink', 'ValidationMessage'],
-  // Custom Components
-  Custom: ['Carousel', 'Header', 'HeroSection', 'ArticleLayout', 'Footer'],
+  // Custom Components (RK-specific — HeroSection/ArticleLayout were removed
+  // from the library and must not be advertised to AI agents)
+  Custom: ['Carousel', 'Header', 'Footer', 'Donor', 'GraphicElement'],
 };
 
 // Helper function to format prop type
@@ -59,90 +60,63 @@ function formatPropType(type) {
   return formatted;
 }
 
-// Helper function to format prop value for display
-function formatPropValue(prop) {
+// Renders ONE prop as a line inside the JSX example. Every emitted line must
+// be VALID JSX an agent can copy verbatim: the old format produced attributes
+// like `data-color?="accent" | "neutral"` (invalid `?`, invalid union value,
+// dead scope names) which downstream AI agents copied into real code.
+// Strategy: give the attribute a real example value; put optionality, the
+// full type and the default in a trailing `//` comment (line comments between
+// JSX attributes are valid). Props with no sensible literal become pure
+// comment lines instead of fake attributes.
+function formatPropLine(prop) {
   const type = formatPropType(prop.type);
-  const required = prop.required ? '' : '?';
-  
-  // Handle defaultValue
+  const optional = prop.required ? 'PÅKREVD' : 'valgfri';
+  // Defaults can be multi-line object literals — collapsed and truncated so
+  // they can never break out of the single-line comment.
+  let defaultNote = '';
   if (prop.defaultValue !== null && prop.defaultValue !== undefined) {
-    const defaultValue = prop.defaultValue.replace(/'/g, '"');
-    return `${prop.name}${required}={${defaultValue}}`;
+    let d = String(prop.defaultValue).replace(/\s+/g, ' ').trim();
+    if (d.length > 40) d = `${d.slice(0, 37)}…`;
+    defaultNote = `, default ${d}`;
   }
-  
-  // Format based on type
-  if (type === 'boolean') {
-    return `${prop.name}${required}={boolean}`;
-  } else if (type === 'string') {
-    return `${prop.name}${required}={string}`;
-  } else if (type === 'number') {
-    return `${prop.name}${required}={number}`;
-  } else if (type.includes('ReactNode') || type.includes('ReactElement')) {
-    return `${prop.name}${required}={ReactNode}`;
-  } else if (type.includes('=>')) {
-    // Function type - simplify
-    const funcMatch = type.match(/\(([^)]*)\)\s*=>/);
-    if (funcMatch) {
-      const params = funcMatch[1] || '';
-      return `${prop.name}${required}={(${params}) => void}`;
-    }
-    return `${prop.name}${required}={(${type}) => void}`;
-  } else if (type.includes('|')) {
-    // Union type - show as options, clean up quotes
-    const options = type
-      .split('|')
-      .map(t => t.trim())
-      .filter(t => t && t !== 'null' && t !== 'undefined')
-      .map(t => {
-        // Remove ALL quotes (handles cases like ""readonly string[]"")
-        t = t.replace(/["']+/g, '');
-        // If it's a number or boolean, keep as is
-        if (t === 'true' || t === 'false' || !isNaN(parseFloat(t))) {
-          return t;
-        }
-        // If it's a type name (like "string", "number"), don't quote
-        if (['string', 'number', 'boolean', 'object', 'any'].includes(t)) {
-          return t;
-        }
-        // Check if it's a complex type (contains spaces or special chars)
-        if (t.includes(' ') || t.includes('<') || t.includes('[]')) {
-          // Complex type - use as is in curly braces
-          return null; // Signal to use full type
-        }
-        // Otherwise quote it
-        return `"${t}"`;
-      })
-      .filter(t => t !== null);
-    
-    if (options.length === 0) {
-      // All were complex types, use full type
-      return `${prop.name}${required}={${type}}`;
-    }
-    
-    // If all options are type names, use union syntax
-    const allTypeNames = options.every(opt => ['string', 'number', 'boolean', 'object', 'any'].includes(opt));
-    if (allTypeNames) {
-      return `${prop.name}${required}={${options.join(' | ')}}`;
-    }
-    
-    // Check if we have a mix - if so, use full type
-    const hasComplexType = type.includes('<') || type.includes('[]') || type.includes('readonly');
-    if (hasComplexType) {
-      return `${prop.name}${required}={${type}}`;
-    }
-    
-    return `${prop.name}${required}="${options.join('" | "')}"`;
-  } else if (type === 'Size' || type === 'Color') {
-    // Common design system types
-    if (prop.name === 'data-size') {
-      return `${prop.name}${required}="sm" | "md" | "lg"`;
-    } else if (prop.name === 'data-color') {
-      return `${prop.name}${required}="accent" | "neutral" | "danger" | etc.`;
-    }
-    return `${prop.name}${required}={${type}}`;
-  } else {
-    return `${prop.name}${required}={${type}}`;
+  const note = `// ${optional}${defaultNote}: ${type}`;
+
+  const value = examplePropValue(prop, type);
+  if (value === null) {
+    // No honest literal exists (ReactNode, objects, arrays, complex types) —
+    // document the prop as a comment instead of inventing invalid JSX.
+    return `  // ${prop.name} — ${optional}${defaultNote}: ${type}`;
   }
+  return `  ${prop.name}=${value} ${note}`;
+}
+
+// Picks a real, valid example value for a prop, or null if none exists.
+function examplePropValue(prop, type) {
+  const def = prop.defaultValue;
+
+  // Functions FIRST: a callback signature can itself contain string literals
+  // (e.g. `(f: 'one-time' | 'monthly') => void`) and must not be mistaken
+  // for a literal union.
+  if (type.includes('=>')) {
+    const funcMatch = type.match(/\(([^()]*)\)\s*=>/);
+    const params = funcMatch ? funcMatch[1].replace(/:\s*[^,)]+/g, '').trim() : '';
+    return `{(${params}) => {}}`;
+  }
+
+  // Literal unions ('a' | 'b' | …): use the default if it is one of the
+  // members, otherwise the first member.
+  const literals = [...type.matchAll(/'([^']*)'/g)].map((m) => m[1]);
+  if (literals.length > 0) {
+    const pick = def && literals.includes(String(def).replace(/['"]/g, '')) ? String(def).replace(/['"]/g, '') : literals[0];
+    return `"${pick}"`;
+  }
+  if (type === 'boolean') return `{${def === 'true' ? 'true' : 'false'}}`;
+  if (type === 'number') return `{${def !== null && def !== undefined && !isNaN(Number(def)) ? Number(def) : 0}}`;
+  if (type === 'string') {
+    if (def !== null && def !== undefined) return `"${String(def).replace(/^['"]|['"]$/g, '')}"`;
+    return '"…"';
+  }
+  return null;
 }
 
 // Special notes for specific components
@@ -180,14 +154,8 @@ function generateComponentDoc(component) {
     return a.name.localeCompare(b.name);
   });
   
-  // Generate props documentation
-  const propsLines = sortedProps.map(prop => {
-    const indent = '  ';
-    const formatted = formatPropValue(prop);
-    // Add comment for required props
-    const comment = prop.required && prop.description ? `  // Required: ${prop.description.split('\n')[0]}` : '';
-    return `${indent}${formatted}${comment}`;
-  });
+  // Generate props documentation — every line is valid JSX or a comment.
+  const propsLines = sortedProps.map((prop) => formatPropLine(prop));
   
   // Check for sub-components (like CardBlock, BreadcrumbsList, etc.)
   const subComponents = [];
