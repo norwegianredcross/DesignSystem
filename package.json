@@ -86,7 +86,7 @@
     "@digdir/designsystemet-css": "^1.13.2",
     "@digdir/designsystemet-react": "^1.13.2",
     "@eslint/js": "^9.21.0",
-    "@playwright/test": "~1.52.0",
+    "@playwright/test": "^1.56.1",
     "@storybook/addon-a11y": "^10.2.12",
     "@storybook/addon-docs": "^10.2.12",
     "@storybook/addon-links": "^10.2.12",
