@@ -436,6 +436,66 @@ export function App(props: Fixture) {
   typecheckPublishedTypes(app18Dir, ['bundler']);
   await verifyRenderedStyles(app18Dir, 'React 18.3');
 
+  // 7. Tree-shaking: biblioteket shippes som ÉN flat ES-fil, så ubrukte
+  // komponenter forsvinner bare hvis bundleren kan fjerne død kode fra den
+  // (krever sideEffects-feltet i package.json og sideeffekt-fri modulkode).
+  // En app som kun importerer Button skal ikke betale for Donor eller
+  // Carousel. Målt ved innføring: Button-only ≈ 431 kB total JS (mest
+  // react-dom), full import ≈ 744 kB.
+  console.log('Tree-shaking-sjekk (Button-only-app) …');
+  const libBundle = fs.readFileSync(
+    path.join(appDir, 'node_modules/rk-designsystem/dist/componentlibrary.es.js'),
+    'utf8',
+  );
+  // Vaktpost mot tomme assertions: markørene må finnes i selve biblioteket,
+  // ellers beviser fraværet deres i konsumentbundlen ingenting.
+  if (!/vipps/i.test(libBundle) || !libBundle.includes('embla')) {
+    fail('Markørene (vipps/embla) finnes ikke lenger i biblioteksbundlen — oppdater tree-shaking-sjekken.');
+  }
+  // Egen app-rot inne i konsument-appen: gjenbruker node_modules via Nodes
+  // oppslag oppover i katalogtreet, så ingen ny installasjon trengs.
+  const shakeDir = path.join(appDir, 'shake');
+  fs.mkdirSync(path.join(shakeDir, 'src'), { recursive: true });
+  fs.writeFileSync(
+    path.join(shakeDir, 'index.html'),
+    `<!doctype html><html lang="no"><head><meta charset="utf-8"><title>Shake</title></head>
+<body><div id="root"></div><script type="module" src="/src/main.jsx"></script></body></html>`,
+  );
+  fs.writeFileSync(
+    path.join(shakeDir, 'src/main.jsx'),
+    `import { createRoot } from 'react-dom/client';
+import { Button } from 'rk-designsystem';
+
+createRoot(document.getElementById('root')).render(<Button>Knapp</Button>);
+`,
+  );
+  fs.writeFileSync(
+    path.join(shakeDir, 'vite.config.js'),
+    `import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+export default defineConfig({ base: './', plugins: [react()] });
+`,
+  );
+  run('npx vite build --logLevel error', shakeDir);
+  const shakeJs = fs
+    .readdirSync(path.join(shakeDir, 'dist/assets'))
+    .filter((f) => f.endsWith('.js'))
+    .map((f) => fs.readFileSync(path.join(shakeDir, 'dist/assets', f), 'utf8'))
+    .join('\n');
+  if (/vipps/i.test(shakeJs)) {
+    fail('Button-only-bundlen inneholder Donor-kode (vipps) — tree-shaking er brutt.');
+  }
+  if (shakeJs.includes('embla')) {
+    fail('Button-only-bundlen inneholder Carousel/embla-kode — tree-shaking er brutt.');
+  }
+  // Romslig tak (~28 % over målt verdi): fanger at hele biblioteket plutselig
+  // blir med, uten å knekke på normal vekst i react-dom eller Button.
+  const SHAKE_BUDGET = 550_000;
+  if (shakeJs.length > SHAKE_BUDGET) {
+    fail(`Button-only-bundlen er ${shakeJs.length} bytes (budsjett ${SHAKE_BUDGET}) — tree-shaking er trolig brutt.`);
+  }
+  console.log(`✅ Tree-shaking OK: Button-only-bundle ${shakeJs.length} bytes, uten Donor/Carousel-markører.`);
+
   console.log('✅ Pakke-røyktest bestått.');
 } finally {
   fs.rmSync(tmp, { recursive: true, force: true });
