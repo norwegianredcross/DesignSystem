@@ -2003,9 +2003,9 @@
     "props": [
       {
         "name": "data-color",
-        "type": "enum",
-        "description": "Color theme variant",
-        "defaultValue": "primary",
+        "type": "any",
+        "description": "Theme scope for the whole component — any real `data-color` scope from\nthe design tokens (same vocabulary as every other component).",
+        "defaultValue": "primary-color-red",
         "required": false
       },
       {
