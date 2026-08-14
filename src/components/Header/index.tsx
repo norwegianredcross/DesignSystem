@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import type { Color } from '@digdir/designsystemet-types';
 import { useLanguageOptional } from '../../context/LanguageContext';
 import { Link } from '../Link';
 import { Button } from '../Button';
@@ -11,11 +12,22 @@ import styles from './styles.module.css';
 import { MenuHamburgerIcon, XMarkIcon, MagnifyingGlassIcon, HeartIcon, ChevronDownIcon } from '@navikt/aksel-icons';
 import { searchIndex } from '../../utils/search-index';
 
+/**
+ * @deprecated `'primary'` was a bespoke value; it now maps to
+ * `'primary-color-red'` and the alias will be removed in a later minor —
+ * pass the real scope name instead.
+ */
+export type HeaderLegacyColor = 'primary';
+
 export interface HeaderProps {
   /** Layout density. 'compact' renders a slimmer header with a transparent (non-boxed) logo area and reduced height — useful for documentation sites, dashboards or any app that wants a lighter top bar. Defaults to 'default'. */
   variant?: 'default' | 'compact';
-  /** Background color for the header extension (top bar): 'primary' uses primary-color-red-base-default, 'neutral' uses neutral-base-default */
-  'data-color'?: 'primary' | 'neutral';
+  /**
+   * Theme scope for the header extension (top bar) — any real `data-color`
+   * scope from the design tokens. The extension background uses the scope's
+   * base color with matching contrast text.
+   */
+  'data-color'?: Color | HeaderLegacyColor;
   activePage?: string;
   setPage?: (pageName: string) => void;
   children?: React.ReactNode;
@@ -60,7 +72,7 @@ function deriveInitials(name: string): string {
 
 export const Header = ({
   variant = 'default',
-  'data-color': dataColor = 'primary',
+  'data-color': dataColor = 'primary-color-red',
   activePage,
   setPage, 
   children,
@@ -365,7 +377,11 @@ export const Header = ({
   };
 
   return (
-    <header className={styles.header} data-open={isOpen ? 'true' : 'false'} data-color={dataColor} data-variant={variant}>
+    // The attribute sets a real Digdir theme scope, so the extension CSS can
+    // use scope-relative variables (--ds-color-base-default etc.) and any
+    // scope themes it correctly. Legacy 'primary' aliases to the scope it
+    // always meant.
+    <header className={styles.header} data-open={isOpen ? 'true' : 'false'} data-color={dataColor === 'primary' ? 'primary-color-red' : dataColor} data-variant={variant}>
       {showHeaderExtension && (
         <div className={`${styles.headerExtension}${extensionColor === 'tinted' ? ` ${styles.headerExtensionTinted}` : ''}`} data-color-scheme="light" data-extension-color={extensionColor}>
           <div className={styles.extensionContentWrapper}>
@@ -799,13 +815,9 @@ function buildInlineCss(styles: Record<string, string>): string {
   box-sizing: border-box;
   color: white;
 }
-.${s.header}[data-color="primary"] .${s.headerExtension} {
-  background-color: var(--ds-color-primary-color-red-base-default);
-  color: white;
-}
-.${s.header}[data-color="neutral"] .${s.headerExtension} {
-  background-color: var(--ds-color-neutral-base-default);
-  color: var(--ds-color-neutral-text-default);
+.${s.header}[data-color] .${s.headerExtension} {
+  background-color: var(--ds-color-base-default);
+  color: var(--ds-color-base-contrast-default);
 }
 .${s.headerExtensionTinted},
 .${s.headerExtension}[data-extension-color="tinted"] {
@@ -841,10 +853,8 @@ function buildInlineCss(styles: Record<string, string>): string {
 .${s.languageSwitch} { display: flex; align-items: center; gap: var(--ds-size-2); }
 .${s.languageLabel} { font-size: var(--ds-font-size-3); color: #ECECEC; }
 .${s.languageLink} { color: white; text-decoration: none; display: flex; align-items: center; gap: 4px; }
-.${s.header}[data-color="primary"] .${s.languageLabel} { color: #ECECEC; }
-.${s.header}[data-color="neutral"] .${s.languageLabel} { color: var(--ds-color-neutral-text-default); }
-.${s.header}[data-color="primary"] .${s.languageLink} { color: white !important; }
-.${s.header}[data-color="neutral"] .${s.languageLink} { color: var(--ds-color-neutral-text-default) !important; }
+.${s.header}[data-color] .${s.languageLabel} { color: var(--ds-color-base-contrast-subtle); }
+.${s.header}[data-color] .${s.languageLink} { color: var(--ds-color-base-contrast-default) !important; }
 .${s.languageSwitch} [popover] { margin-top: 0 !important; background-color: var(--ds-color-neutral-background-default) !important; position: fixed !important; overflow: visible; z-index: 20000 !important; }
 .${s.headerInner} {
   display: flex; align-items: center; justify-content: space-between;
