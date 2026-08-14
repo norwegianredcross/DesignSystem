@@ -12,6 +12,15 @@ on:
           - minor
           - major
 
+# Never two releases at once: a second dispatch while one runs would bump from
+# a stale version and race the atomic tag push. cancel-in-progress stays false
+# — an in-flight release must finish or fail, never be killed halfway.
+# (The CI deploy job can still push to main concurrently; that race fails
+# loudly as a non-fast-forward push, which is the safe outcome.)
+concurrency:
+  group: release
+  cancel-in-progress: false
+
 jobs:
   # Verifiserer, bumper versjon og pusher commit + tag atomisk.
   # npm-publisering skjer i egen jobb ETTER at git-push har lykkes,
