@@ -20,6 +20,13 @@ describe('search-index', () => {
   const designIds = extractIds('src/pages/Design/index.tsx', 'activeDesignPage');
   const codeIds = extractIds('src/pages/Code/index.tsx', 'activeCodePage');
   const validPages = new Set(['home', 'components', 'design', 'code', 'tokens']);
+  // components/<navn>-dyplenker valideres mot katalogen: hvert søketreff må
+  // peke på en komponent katalogsiden faktisk kan filtrere fram.
+  const catalogueSource = readFileSync('src/pages/Components/index.tsx', 'utf8');
+  const catalogueMatch = catalogueSource.match(/catalogueComponents = \[([\s\S]*?)\]/);
+  const componentIds = new Set(
+    [...(catalogueMatch?.[1] ?? '').matchAll(/'([A-Za-z]+)'/g)].map((m) => m[1].toLowerCase()),
+  );
 
   it('has unique ids', () => {
     const ids = searchIndex.map((item) => item.id);
@@ -34,7 +41,8 @@ describe('search-index', () => {
       ];
       expect(validPages, `ukjent side i path: ${item.path}`).toContain(page);
       if (article !== undefined) {
-        const valid = page === 'design' ? designIds : page === 'code' ? codeIds : new Set<string>();
+        const valid =
+          page === 'design' ? designIds : page === 'code' ? codeIds : page === 'components' ? componentIds : new Set<string>();
         expect(valid.has(article), `død artikkelsti: ${item.path}`).toBe(true);
       }
     }
