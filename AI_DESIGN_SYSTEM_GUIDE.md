@@ -821,7 +821,7 @@ import { Donor } from 'rk-designsystem';
   avtalegiroLabel?={Gi med avtalegiro}
   currencySuffix?={kr}
   customAmountPlaceholder?={Valgfritt beløp}
-  data-color?={primary}
+  data-color?={primary-color-red}
   defaultAmount?={345}
   heartVariant?={outlined}
   impactMessage?={En gave på {amount} bidrar til ...}
