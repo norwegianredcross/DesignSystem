@@ -1482,8 +1482,8 @@
     "props": [
       {
         "name": "data-color",
-        "type": "enum",
-        "description": "Background color for the main section",
+        "type": "any",
+        "description": "Theme scope for the main section — any real `data-color` scope from the\ndesign tokens. The background uses the scope's tinted background token.",
         "defaultValue": "neutral",
         "required": false
       },

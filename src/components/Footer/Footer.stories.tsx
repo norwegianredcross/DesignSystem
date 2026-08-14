@@ -17,7 +17,7 @@ const meta: Meta<typeof Footer> = {
   argTypes: {
     'data-color': {
       control: 'select',
-      options: ['primary', 'additional', 'neutral'],
+      options: ['primary-color-red', 'additional-color-ocean', 'neutral', 'secondary-color-rust'],
       description: 'Background color for the main section.',
       table: {
         defaultValue: { summary: 'neutral' },
@@ -145,7 +145,7 @@ export const WithSlotContent: Story = {
 export const PrimaryColor: Story = {
   name: 'Primary Color Background',
   args: {
-    'data-color': 'primary',
+    'data-color': 'primary-color-red',
     showGraphicElements: true,
   },
 };
@@ -154,7 +154,7 @@ export const PrimaryColor: Story = {
 export const AdditionalColor: Story = {
   name: 'Additional Color Background',
   args: {
-    'data-color': 'additional',
+    'data-color': 'additional-color-ocean',
     showGraphicElements: true,
   },
 };
@@ -277,7 +277,7 @@ export const ContactVariantPrimary: Story = {
   name: 'Contact Variant (Primary)',
   args: {
     ...ContactVariant.args,
-    'data-color': 'primary',
+    'data-color': 'primary-color-red',
   },
 };
 
@@ -286,7 +286,7 @@ export const ContactVariantAdditional: Story = {
   name: 'Contact Variant (Additional)',
   args: {
     ...ContactVariant.args,
-    'data-color': 'additional',
+    'data-color': 'additional-color-ocean',
   },
 };
 
@@ -305,7 +305,7 @@ export const ContactVariantWithGraphicElements: Story = {
   name: 'Contact Variant (With GraphicElements)',
   args: {
     ...ContactVariant.args,
-    'data-color': 'additional',
+    'data-color': 'additional-color-ocean',
     showGraphicElements: true,
   },
 };
