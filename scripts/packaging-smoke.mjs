@@ -14,6 +14,10 @@
  *     (computed styles for dette laget kan først asserters når runtime-
  *     fallback-injeksjonen i komponentene er fjernet — se FIX_PLAN fase 4)
  *
+ * Konsumentmatrise: nyeste React (19, full sjekk inkl. NodeNext-typer og
+ * attw), eldste støttede React (18.3, bygg + typer + computed styles), og
+ * React 17 som negativ test (peer-kontrakten skal avvise den).
+ *
  * Forutsetter at `npm run build` er kjørt (dist/ må finnes).
  */
 import { execSync } from 'node:child_process';
@@ -33,6 +37,130 @@ function fail(msg) {
 
 function run(cmd, cwd) {
   execSync(cmd, { cwd, stdio: ['ignore', 'inherit', 'inherit'] });
+}
+
+// Type-checks the published declarations from inside a consumer app.
+// Extracted to a function so both consumer legs (React 19 and React 18.3)
+// run the exact same gate.
+function typecheckPublishedTypes(dir, modes) {
+  // Two resolution modes cover the two consumer families: 'bundler'
+  // (Vite/webpack/Next) and 'NodeNext' (strict Node ESM, the pickiest mode —
+  // it rejects extensionless relative imports in d.ts files).
+  const tscBase = {
+    target: 'ES2020',
+    lib: ['ES2020', 'DOM', 'DOM.Iterable'],
+    jsx: 'react-jsx',
+    strict: true,
+    noEmit: true,
+    skipLibCheck: false,
+    types: [],
+  };
+  for (const mode of modes) {
+    const configPath = path.join(dir, `tsconfig.${mode}.json`);
+    fs.writeFileSync(
+      configPath,
+      JSON.stringify(
+        {
+          compilerOptions: {
+            ...tscBase,
+            // 'NodeNext' requires module=NodeNext; the bundler leg uses ESNext.
+            module: mode === 'NodeNext' ? 'NodeNext' : 'ESNext',
+            moduleResolution: mode,
+          },
+          include: ['src/typecheck.tsx'],
+        },
+        null,
+        2,
+      ),
+    );
+    console.log(`Type-sjekker publiserte deklarasjoner (moduleResolution: ${mode}) …`);
+    // skipLibCheck:false checks EVERY d.ts in the program, including upstream
+    // ones we can't fix (designsystemet-web and @u-elements reference optional
+    // framework types like 'preact' and 'solid-js' that aren't installed).
+    // Real consumers never see those — the tsc default skipLibCheck:true hides
+    // them — so the gate is: zero errors in OUR package and the fixture;
+    // upstream-only noise is logged but tolerated.
+    let tscOutput = '';
+    try {
+      execSync(`npx tsc -p ${JSON.stringify(configPath)}`, { cwd: dir, stdio: 'pipe' });
+    } catch (err) {
+      tscOutput = err.stdout?.toString() ?? '';
+    }
+    const ownErrors = tscOutput
+      .split('\n')
+      .filter((line) => /error TS/.test(line))
+      .filter((line) => line.includes('rk-designsystem/dist/') || line.includes('typecheck.tsx'))
+      // Upstream limitation, not ours: @digdir/designsystemet-react's d.ts
+      // tree uses extensionless relative imports (export * from './components'),
+      // which NodeNext resolution rejects — so under NodeNext EVERY member of
+      // their package looks unexported (TS2305). No packaging choice on our
+      // side can fix that short of inlining their types (which is what
+      // produced the broken 1.3.0 d.ts). Tolerate exactly that error shape
+      // (TS2305, and its TS2724 variant with a "did you mean" suggestion);
+      // anything else in our file stays fatal.
+      .filter(
+        (line) =>
+          !(mode === 'NodeNext' && /error TS2(305|724): .*'"@digdir\/designsystemet-react"' has no exported member/.test(line)),
+      );
+    if (ownErrors.length > 0) {
+      console.error(ownErrors.join('\n'));
+      fail(`Publiserte typer feiler tsc under moduleResolution: ${mode}.`);
+    }
+    console.log(`✅ Publiserte typer kompilerer under moduleResolution: ${mode}.`);
+  }
+}
+
+// Serves a consumer app's build output and reads computed styles in Chromium.
+// Extracted to a function so both consumer legs run the exact same assertions.
+async function verifyRenderedStyles(dir, label) {
+  const server = http.createServer((req, res) => {
+    const reqPath = req.url === '/' ? '/index.html' : req.url.split('?')[0];
+    const filePath = path.join(dir, 'dist', path.normalize(reqPath));
+    if (!filePath.startsWith(path.join(dir, 'dist')) || !fs.existsSync(filePath)) {
+      res.writeHead(404).end();
+      return;
+    }
+    const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml' };
+    res.writeHead(200, { 'content-type': types[path.extname(filePath)] ?? 'application/octet-stream' });
+    res.end(fs.readFileSync(filePath));
+  });
+  await new Promise((resolve) => server.listen(0, resolve));
+  const { port } = server.address();
+
+  const browser = await chromium.launch();
+  try {
+    const page = await browser.newPage();
+    await page.goto(`http://127.0.0.1:${port}/`, { waitUntil: 'load' });
+    await page.waitForSelector('#smoke-button');
+
+    const result = await page.evaluate(() => {
+      const rootStyles = getComputedStyle(document.documentElement);
+      const button = getComputedStyle(document.querySelector('#smoke-button'));
+      return {
+        redToken: rootStyles.getPropertyValue('--ds-color-primary-color-red-base-default').trim(),
+        buttonBackground: button.backgroundColor,
+        buttonRadius: button.borderRadius,
+        buttonFont: button.fontFamily,
+      };
+    });
+
+    if (!result.redToken) fail(`[${label}] Token --ds-color-primary-color-red-base-default resolver ikke på :root.`);
+    if (!result.buttonBackground || result.buttonBackground === 'rgba(0, 0, 0, 0)') {
+      fail(`[${label}] Button har ingen bakgrunnsfarge (fikk: ${result.buttonBackground}) — Digdir-CSS/tema er ikke i effekt.`);
+    }
+    if (parseFloat(result.buttonRadius) <= 0) {
+      fail(`[${label}] Button har ingen border-radius (fikk: ${result.buttonRadius}) — radius-tokens er ikke i effekt.`);
+    }
+    if (!result.buttonFont.includes('Source Sans 3')) {
+      fail(`[${label}] Button bruker ikke Source Sans 3 (fikk: ${result.buttonFont}).`);
+    }
+    console.log(
+      `✅ [${label}] Computed styles OK: token=${result.redToken}, bg=${result.buttonBackground}, radius=${result.buttonRadius}`,
+    );
+  } finally {
+    await browser.close();
+    server.close();
+  }
 }
 
 if (!fs.existsSync(path.join(ROOT, 'dist/componentlibrary.es.js'))) {
@@ -173,71 +301,7 @@ export function App(props: Fixture) {
 }
 `,
   );
-  // Two resolution modes cover the two consumer families: 'bundler'
-  // (Vite/webpack/Next) and 'NodeNext' (strict Node ESM, the pickiest mode —
-  // it rejects extensionless relative imports in d.ts files).
-  const tscBase = {
-    target: 'ES2020',
-    lib: ['ES2020', 'DOM', 'DOM.Iterable'],
-    jsx: 'react-jsx',
-    strict: true,
-    noEmit: true,
-    skipLibCheck: false,
-    types: [],
-  };
-  for (const mode of ['bundler', 'NodeNext']) {
-    const configPath = path.join(appDir, `tsconfig.${mode}.json`);
-    fs.writeFileSync(
-      configPath,
-      JSON.stringify(
-        {
-          compilerOptions: {
-            ...tscBase,
-            // 'NodeNext' requires module=NodeNext; the bundler leg uses ESNext.
-            module: mode === 'NodeNext' ? 'NodeNext' : 'ESNext',
-            moduleResolution: mode,
-          },
-          include: ['src/typecheck.tsx'],
-        },
-        null,
-        2,
-      ),
-    );
-    console.log(`Type-sjekker publiserte deklarasjoner (moduleResolution: ${mode}) …`);
-    // skipLibCheck:false checks EVERY d.ts in the program, including upstream
-    // ones we can't fix (designsystemet-web and @u-elements reference optional
-    // framework types like 'preact' and 'solid-js' that aren't installed).
-    // Real consumers never see those — the tsc default skipLibCheck:true hides
-    // them — so the gate is: zero errors in OUR package and the fixture;
-    // upstream-only noise is logged but tolerated.
-    let tscOutput = '';
-    try {
-      execSync(`npx tsc -p ${JSON.stringify(configPath)}`, { cwd: appDir, stdio: 'pipe' });
-    } catch (err) {
-      tscOutput = err.stdout?.toString() ?? '';
-    }
-    const ownErrors = tscOutput
-      .split('\n')
-      .filter((line) => /error TS/.test(line))
-      .filter((line) => line.includes('rk-designsystem/dist/') || line.includes('typecheck.tsx'))
-      // Upstream limitation, not ours: @digdir/designsystemet-react's d.ts
-      // tree uses extensionless relative imports (export * from './components'),
-      // which NodeNext resolution rejects — so under NodeNext EVERY member of
-      // their package looks unexported (TS2305). No packaging choice on our
-      // side can fix that short of inlining their types (which is what
-      // produced the broken 1.3.0 d.ts). Tolerate exactly that error shape
-      // (TS2305, and its TS2724 variant with a "did you mean" suggestion);
-      // anything else in our file stays fatal.
-      .filter(
-        (line) =>
-          !(mode === 'NodeNext' && /error TS2(305|724): .*'"@digdir\/designsystemet-react"' has no exported member/.test(line)),
-      );
-    if (ownErrors.length > 0) {
-      console.error(ownErrors.join('\n'));
-      fail(`Publiserte typer feiler tsc under moduleResolution: ${mode}.`);
-    }
-    console.log(`✅ Publiserte typer kompilerer under moduleResolution: ${mode}.`);
-  }
+  typecheckPublishedTypes(appDir, ['bundler', 'NodeNext']);
 
   // 3c. attw ("are the types wrong") cross-checks every resolution mode npm
   // supports. The package is ESM-only, so problems that only exist for CJS
@@ -307,54 +371,7 @@ export function App(props: Fixture) {
   console.log('✅ CSS-bundle inneholder tokens, Digdir base og komponentstiler.');
 
   // 4b. Computed styles i ekte nettleser
-  const server = http.createServer((req, res) => {
-    const reqPath = req.url === '/' ? '/index.html' : req.url.split('?')[0];
-    const filePath = path.join(appDir, 'dist', path.normalize(reqPath));
-    if (!filePath.startsWith(path.join(appDir, 'dist')) || !fs.existsSync(filePath)) {
-      res.writeHead(404).end();
-      return;
-    }
-    const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml' };
-    res.writeHead(200, { 'content-type': types[path.extname(filePath)] ?? 'application/octet-stream' });
-    res.end(fs.readFileSync(filePath));
-  });
-  await new Promise((resolve) => server.listen(0, resolve));
-  const { port } = server.address();
-
-  const browser = await chromium.launch();
-  try {
-    const page = await browser.newPage();
-    await page.goto(`http://127.0.0.1:${port}/`, { waitUntil: 'load' });
-    await page.waitForSelector('#smoke-button');
-
-    const result = await page.evaluate(() => {
-      const rootStyles = getComputedStyle(document.documentElement);
-      const button = getComputedStyle(document.querySelector('#smoke-button'));
-      return {
-        redToken: rootStyles.getPropertyValue('--ds-color-primary-color-red-base-default').trim(),
-        buttonBackground: button.backgroundColor,
-        buttonRadius: button.borderRadius,
-        buttonFont: button.fontFamily,
-      };
-    });
-
-    if (!result.redToken) fail('Token --ds-color-primary-color-red-base-default resolver ikke på :root.');
-    if (!result.buttonBackground || result.buttonBackground === 'rgba(0, 0, 0, 0)') {
-      fail(`Button har ingen bakgrunnsfarge (fikk: ${result.buttonBackground}) — Digdir-CSS/tema er ikke i effekt.`);
-    }
-    if (parseFloat(result.buttonRadius) <= 0) {
-      fail(`Button har ingen border-radius (fikk: ${result.buttonRadius}) — radius-tokens er ikke i effekt.`);
-    }
-    if (!result.buttonFont.includes('Source Sans 3')) {
-      fail(`Button bruker ikke Source Sans 3 (fikk: ${result.buttonFont}).`);
-    }
-    console.log(
-      `✅ Computed styles OK: token=${result.redToken}, bg=${result.buttonBackground}, radius=${result.buttonRadius}`,
-    );
-  } finally {
-    await browser.close();
-    server.close();
-  }
+  await verifyRenderedStyles(appDir, 'React 19');
 
   // 5. Negativ test: en fersk app på React 17 som legger til pakken skal få
   //    ERESOLVE-konflikt mot peer-kontrakten (>=18.3.1 || ^19), ikke en
@@ -384,6 +401,40 @@ export function App(props: Fixture) {
     fail('npm godtok react@17 uten konflikt — peer-kontrakten fanger ikke inkompatible verter.');
   }
   console.log('✅ Inkompatibel React (17) avvises av peer-kontrakten.');
+
+  // 6. React 18.3-konsument: peer-kontrakten lover `>=18.3.1 || ^19`, men
+  // alt over testet bare nyeste React. Samme app-kilde installeres med den
+  // ELDSTE støttede versjonen: typene må kompilere mot @types/react@18
+  // (vår d.ts skal ikke kreve React 19-typer), og appen må bygge og rendre
+  // med fulle stiler.
+  console.log('React 18.3-konsument …');
+  const app18Dir = path.join(tmp, 'app-react18');
+  fs.mkdirSync(path.join(app18Dir, 'src'), { recursive: true });
+  for (const f of ['index.html', 'vite.config.js', 'src/main.jsx', 'src/typecheck.tsx']) {
+    fs.copyFileSync(path.join(appDir, f), path.join(app18Dir, f));
+  }
+  fs.writeFileSync(
+    path.join(app18Dir, 'package.json'),
+    JSON.stringify({ name: 'rk-smoke-app-react18', private: true, type: 'module' }, null, 2),
+  );
+  const deps18 = [
+    JSON.stringify(tarball),
+    'react@18.3.1',
+    'react-dom@18.3.1',
+    '@types/react@18',
+    '@types/react-dom@18',
+    `@digdir/designsystemet-react@${dev['@digdir/designsystemet-react']}`,
+    `@digdir/designsystemet-css@${dev['@digdir/designsystemet-css']}`,
+    `vite@${dev.vite}`,
+    `@vitejs/plugin-react@${dev['@vitejs/plugin-react']}`,
+    `typescript@${dev.typescript}`,
+  ].join(' ');
+  run(`npm install --no-audit --no-fund --loglevel=error ${deps18}`, app18Dir);
+  run('npx vite build --logLevel error', app18Dir);
+  // NodeNext-legen er dekket av React 19-appen; typeforskjellen mellom
+  // React-versjonene ligger i @types/react, ikke i oppløsningsmodusen.
+  typecheckPublishedTypes(app18Dir, ['bundler']);
+  await verifyRenderedStyles(app18Dir, 'React 18.3');
 
   console.log('✅ Pakke-røyktest bestått.');
 } finally {
