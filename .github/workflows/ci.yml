@@ -8,6 +8,14 @@ on:
       - main
   pull_request:
 
+# One run per ref at a time. On PRs a newer push supersedes the running check
+# (cancel-in-progress), so pushed fixes don't queue behind stale runs. On main
+# the deploy job pushes a token-bump commit and publishes Pages — cancelling
+# that mid-run could leave a half-deployed state, so main runs queue instead.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   # Full kvalitetssjekk av innsendt kode — kjøres på hver PR og hver push.
   # Dette er regresjonstesten: hele suiten, ikke bare det som er endret.
