@@ -1,0 +1,94 @@
+import { Meta, Canvas, Controls, Primary } from '@storybook/addon-docs/blocks';
+import * as DonorStories from './Donor.stories';
+
+<Meta of={DonorStories} />
+
+# Donor
+
+#### Donasjonsmodul for Røde Kors-flater: beløpsvalg (faste beløp eller valgfritt), frekvens (én gang / månedlig), Vipps-knapp og AvtaleGiro-lenke.
+
+<Primary />
+
+<Controls />
+
+---
+
+## Bruk
+
+Donor er en selvstendig modul som eier hele beløps- og frekvensvalget. Appen
+trenger bare å reagere på callbacks — komponenten garanterer at beløpet aldri
+er 0 når en callback fyres.
+
+```tsx
+import { Donor } from 'rk-designsystem';
+
+const DonationSection = () => (
+  <Donor
+    amounts={[
+      { value: 220, label: '220 kr' },
+      { value: 345, label: '345 kr' },
+      { value: 660, label: '660 kr' },
+    ]}
+    defaultAmount={345}
+    impactMessage="En gave på {amount} bidrar til at Røde Kors kan hjelpe mennesker i nød"
+    onVippsClick={(amount, frequency) => startVippsPayment(amount, frequency)}
+    onAmountChange={(amount, frequency) => trackSelection(amount, frequency)}
+  />
+);
+```
+
+### Beløp og frekvens
+
+- **Faste beløp** (`amounts`) rendres som knapper; valgt beløp er markert med
+  `aria-pressed` og `defaultAmount` styrer startvalget.
+- **Valgfritt beløp** overstyrer det faste valget så lenge feltet har en
+  gyldig verdi; tømmes feltet, faller valget tilbake til forrige faste beløp.
+- `onAmountChange(amount, frequency)` fyres ved hvert gyldige valg —
+  `frequency` er `'one-time'` eller `'monthly'` (fanene «En gang» / «Hver
+  måned»).
+- `impactMessage` interpolerer `{amount}` med gjeldende beløp og oppdateres
+  ved hvert valg.
+
+### Vipps og AvtaleGiro
+
+- `onVippsClick(amount, frequency)` fyres kun med et beløp større enn 0 —
+  komponenten starter ikke betalingen selv.
+- Vipps-knappen bruker Vipps' offisielle oransje. Fargen er et bevisst
+  merkevareunntak fra kontrastkravet (markert
+  `data-brand-exception="vipps"`, dokumentert i TESTING.md) — ikke overstyr
+  den.
+- AvtaleGiro-lenken (`avtalegiroHref`/`onAvtalegiroClick`) kan skjules med
+  `showAvtalegiroLink={false}`.
+
+### Tema
+
+`data-color` tar et reelt temaskop fra designtokens og setter fargeskopet for
+hele modulen:
+
+```tsx
+<Donor data-color="primary-color-red" />   {/* standard */}
+<Donor data-color="neutral" />
+<Donor data-color="additional-color-ocean" />
+```
+
+Den gamle verdien `'primary'` er et utfaset alias for
+`'primary-color-red'` og fjernes i en senere minor.
+
+## Gjør / ikke gjør
+
+- **Gjør:** la `impactMessage` beskrive konkret effekt av beløpet — det er
+  modulens viktigste motivasjonstekst.
+- **Gjør:** send brukeren rett til betaling i `onVippsClick`; komponenten har
+  allerede validert beløpet.
+- **Ikke gjør:** ikke legg egne beløpsknapper eller egne valideringslag rundt
+  modulen — bruk `amounts` og callbacks.
+- **Ikke gjør:** ikke endre Vipps-knappens farger eller tekstlogo.
+
+## Tilgjengelighet
+
+- Frekvensvalget er ekte faner (Digdir Tabs) der begge panelene finnes i
+  DOM-en — `aria-controls` peker alltid på et eksisterende panel.
+- Beløpsgruppen er koblet til ledeteksten (`amountLabel`) med
+  `aria-labelledby`, og valgt beløp annonseres via `aria-pressed`.
+- Hele modulen er dekket av axe-gaten i testsuiten (med Vipps-unntaket
+  over som eneste presise unntak).
