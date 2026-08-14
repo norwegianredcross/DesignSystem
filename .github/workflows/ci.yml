@@ -55,6 +55,13 @@ jobs:
       - name: Build Storybook
         run: npm run build-storybook
 
+      # build-storybook regenererte nettopp metadata.json, AI-guiden og
+      # manifestet. Avviker de fra de innsjekkede filene, har PR-en endret
+      # komponent-API uten å regenerere AI-kontekstartefaktene — det stoppes
+      # her, i stedet for at utdatert kontekst publiseres nedstrøms.
+      - name: Generated AI-context artifacts are fresh
+        run: git diff --exit-code metadata.json AI_DESIGN_SYSTEM_GUIDE.md ai-context.manifest.json
+
       - name: Build Main Application
         run: npm run build:app
 
