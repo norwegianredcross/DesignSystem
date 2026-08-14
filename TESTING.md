@@ -42,6 +42,7 @@ Kvalitet er et felles ansvar; testing er ikke en fase til slutt, men en del av h
 - **Nivå 2 — adferd (komponenter med brukerinteraksjon):** `play`-stories verifiserer representative muse- og tastaturflyter, tilstandsendringer, fokus, callbacks og negative/boundary-tilfeller etter risiko. Det kreves ikke én test per prop eller kombinasjon; testene skal dekke meningsfulle brukerutfall.
 - **Tilgjengelighet (ikke-funksjonell):** `@storybook/addon-a11y` med `test: 'error'` — WCAG-brudd **feiler** testkjøringen. Dette er vårt viktigste ikke-funksjonelle krav (universell utforming).
 - **Visuell testing:** Manuell verifisering i Storybook (lys/mørk modus, tre brand-varianter) som del av PR-review. Skjermbilder i PR-beskrivelsen ved visuelle endringer.
+- **Tema-matrise (automatisert):** Hele story-suiten (inkl. axe-kontrastsjekk) kjøres i tre temaer per `npm test`: lys modus med standardskopet, mørk modus (`data-color-scheme="dark"`) og et sekundærskop (`data-color="secondary-color-rust"`). Se `vitest.config.ts` og `.storybook/vitest.setup.theme.ts`.
 - **Negativ testing:** Stories skal dekke feiltilstander (disabled, error, tomme verdier) der komponenten har dem.
 - **Sikkerhetstesting:** `npm audit` og Dependabot for avhengigheter; ingen egenutviklet autentisering/datalagring i biblioteket (se «avgrensninger»). Peer-avhengigheter eksternaliseres slik at konsumenter styrer sine versjoner.
 - **Typesikkerhet:** `tsc --noEmit` (strict) og publisert `.d.ts` er del av kontraktstestingen mot konsumenter.
