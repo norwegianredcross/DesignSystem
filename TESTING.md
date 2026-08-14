@@ -74,7 +74,7 @@ Testinnsatsen prioriteres der feil gjør mest skade. Vurdering per område:
 | Dokumentasjonsplattformen (`src/pages`) | Lav (publiseres ikke til npm) | Middels | Middels | Typecheck/lint + manuell verifisering |
 
 **Akseptert risiko** (bevisste valg, jf. kap. 12.3.2 E):
-- Ingen automatisert visuell regresjon (skjermbilde-diff) — kompenseres med manuell Storybook-review i PR. Begrunnelse: kost/nytte for nåværende teamstørrelse.
+- Visuell regresjon (skjermbilde-diff) dekker ~15 nøkkelstories i CI (`npm run test:visual`, baselines i `tests/visual/__screenshots__`; regenereres via workflowen «Update visual baselines»). Stories utenfor utvalget dekkes fortsatt kun av manuell Storybook-review i PR.
 - Ingen ytelsestesting av komponenter — lav last, statiske komponenter.
 - Dokumentasjonsplattformen har ikke egne automatiserte tester — lav konsekvens, dekkes av typecheck og manuell review.
 - Suggestion: axe-reglene `aria-allowed-role`, `aria-required-parent` og `aria-valid-attr-value` er unntatt (kun for denne komponenten). Bruddene ligger i Digdir sin EXPERIMENTAL_Suggestion-markup og kan ikke rettes i vår wrapper; alle øvrige axe-regler håndheves. Unntaket fjernes når Digdir retter komponenten.

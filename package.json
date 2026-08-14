@@ -76,7 +76,9 @@
     "copy-ai-context": "node -e \"require('fs').copyFileSync('ai-context.manifest.json', 'storybook-build/ai-context.manifest.json')\"",
     "deploy:storybook": "gh-pages -d storybook-build -b gh-pages -r https://github.com/norwegianredcross/DesignSystem.git --dest storybook",
     "build:app": "vite build --config vite.app.config.ts",
-    "deploy:app": "npm run build:app && gh-pages -d dist-app -b gh-pages -r https://github.com/norwegianredcross/DesignSystem.git --add"
+    "deploy:app": "npm run build:app && gh-pages -d dist-app -b gh-pages -r https://github.com/norwegianredcross/DesignSystem.git --add",
+    "test:visual": "playwright test -c playwright.visual.config.ts",
+    "test:visual:update": "playwright test -c playwright.visual.config.ts --update-snapshots"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.1.2",
@@ -84,6 +86,7 @@
     "@digdir/designsystemet-css": "^1.13.2",
     "@digdir/designsystemet-react": "^1.13.2",
     "@eslint/js": "^9.21.0",
+    "@playwright/test": "^1.56.1",
     "@storybook/addon-a11y": "^10.2.12",
     "@storybook/addon-docs": "^10.2.12",
     "@storybook/addon-links": "^10.2.12",
