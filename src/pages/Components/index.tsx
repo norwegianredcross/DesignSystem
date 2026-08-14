@@ -68,9 +68,21 @@ const iconMap: Record<string, string> = {
     ValidationMessage: 'validationmessage.svg',
 };
 
-export const ComponentsPage = () => {
+interface ComponentsPageProps {
+  /** Deep link from search: `components/<name>` pre-filters the catalogue to
+   * that component, so a search hit lands on the component instead of the
+   * full grid. */
+  section?: string;
+}
+
+export const ComponentsPage = ({ section }: ComponentsPageProps = {}) => {
   const { t } = useLanguage();
-  const [searchQuery, setSearchQuery] = useState('');
+  // Lazy init: resolve the deep-linked section to the properly cased
+  // component name so the filter shows exactly that card on arrival.
+  const [searchQuery, setSearchQuery] = useState(() => {
+    if (!section) return '';
+    return components.find((c) => c.toLowerCase() === section.toLowerCase()) ?? '';
+  });
 
   // Filter components based on search query
   const filteredComponents = useMemo(() => {

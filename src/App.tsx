@@ -85,7 +85,10 @@ function App() {
         {mainPage === 'home' ? (
           <HomePage setPage={setPage} />
         ) : mainPage === 'components' ? (
-          <ComponentsPage />
+          // key: state (herunder søkefilteret) initialiseres på nytt når
+          // dyplenken endres — uten den ville et nytt søketreff ikke
+          // oppdatere et allerede montert katalogfilter.
+          <ComponentsPage key={subPage ?? ''} section={subPage} />
         ) : mainPage === 'code' ? (
           <CodePage setPage={setPage} section={subPage} />
         ) : mainPage === 'search' ? (

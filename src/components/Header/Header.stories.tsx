@@ -541,7 +541,9 @@ export const TestMenuSearchAndResultFlow: Story = {
     await userEvent.click(result);
 
     expect(args.setPage).toHaveBeenCalledTimes(1);
-    expect(args.setPage).toHaveBeenCalledWith('components');
+    // Deep link: a component suggestion navigates to that component's spot
+    // in the catalogue, not the catalogue root.
+    expect(args.setPage).toHaveBeenCalledWith('components/dialog');
     await waitFor(() => {
       expect(searchButton).toHaveAttribute('aria-expanded', 'false');
       expect(canvas.queryByRole('searchbox', { name: /søk/i })).not.toBeInTheDocument();
