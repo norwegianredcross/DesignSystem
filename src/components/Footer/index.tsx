@@ -1,4 +1,5 @@
 import React from 'react';
+import type { Color } from '@digdir/designsystemet-types';
 import styles from './styles.module.css';
 import { Link } from '../Link';
 import { Button } from '../Button';
@@ -40,9 +41,19 @@ export interface LegalLink {
   href: string;
 }
 
+/**
+ * @deprecated `'primary'` and `'additional'` were bespoke values; they now map
+ * to `'primary-color-red'` and `'additional-color-ocean'` and the aliases will
+ * be removed in a later minor — pass the real scope name instead.
+ */
+export type FooterLegacyColor = 'primary' | 'additional';
+
 export interface FooterProps {
-  /** Background color for the main section */
-  'data-color'?: 'primary' | 'additional' | 'neutral';
+  /**
+   * Theme scope for the main section — any real `data-color` scope from the
+   * design tokens. The background uses the scope's tinted background token.
+   */
+  'data-color'?: Color | FooterLegacyColor;
   /** Footer layout variant. 'columns' renders N navigation columns (from `columns`) + an organisation meta row + a legal/copyright row. */
   variant?: 'default' | 'contact' | 'columns';
   /** Force a colour scheme on the footer (applies `data-color-scheme`). Lets any project render a light or dark footer from the same tokens. */
@@ -128,6 +139,15 @@ export const Footer = ({
 }: FooterProps = {}) => {
   const currentYear = new Date().getFullYear();
   const { t } = useLanguageOptional();
+  // Legacy aliases map to the scopes their CSS always rendered as (the old
+  // rules used the red and ocean tinted backgrounds). With a real scope on
+  // the DOM, one scope-generic CSS rule covers every theme.
+  const colorScope =
+    dataColor === 'primary'
+      ? 'primary-color-red'
+      : dataColor === 'additional'
+        ? 'additional-color-ocean'
+        : dataColor;
   const [emailValue, setEmailValue] = React.useState('');
 
   // Helper to get translation with proper fallback (avoids showing raw keys like "footer.contact.phone")
@@ -300,7 +320,7 @@ export const Footer = ({
     const dpLegal = legalLinks.length > 0 ? legalLinks : defaultLinksLinks;
 
     return (
-      <footer className={styles.footer} data-color={dataColor} data-color-scheme={colorScheme}>
+      <footer className={styles.footer} data-color={colorScope} data-color-scheme={colorScheme}>
         <div className={styles.dpMain}>
           <div className={styles.dpContainer}>
             {/* Navigation columns */}
@@ -396,7 +416,7 @@ export const Footer = ({
   // Render contact variant
   if (variant === 'contact') {
     return (
-      <footer className={styles.footer} data-color={dataColor}>
+      <footer className={styles.footer} data-color={colorScope}>
         {/* Main Section */}
         <div className={styles.mainSection}>
           <div className={styles.mainContainer}>
@@ -490,7 +510,7 @@ export const Footer = ({
 
   // Render default variant
   return (
-    <footer className={styles.footer} data-color={dataColor}>
+    <footer className={styles.footer} data-color={colorScope}>
       {/* Main Section */}
       <div className={styles.mainSection}>
         <div className={styles.mainContainer}>
@@ -645,14 +665,8 @@ function buildInlineCss(styles: Record<string, string>): string {
   background-color: var(--ds-color-neutral-background-default, #ffffff);
   width: 100%;
 }
-.${s.footer}[data-color="primary"] .${s.mainSection} {
-  background-color: var(--ds-color-primary-color-red-background-tinted);
-}
-.${s.footer}[data-color="additional"] .${s.mainSection} {
-  background-color: var(--ds-color-additional-color-ocean-background-tinted);
-}
-.${s.footer}[data-color="neutral"] .${s.mainSection} {
-  background-color: var(--ds-color-neutral-background-tinted, #f5f5f5);
+.${s.footer}[data-color] .${s.mainSection} {
+  background-color: var(--ds-color-background-tinted, #f5f5f5);
 }
 .${s.mainContainer} {
   position: relative;

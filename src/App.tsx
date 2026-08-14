@@ -99,7 +99,7 @@ function App() {
 
       <Footer
         variant="columns"
-        data-color="primary"
+        data-color="primary-color-red"
         colorScheme="dark"
         showGraphicElements={false}
         hideNewsletter={true}
