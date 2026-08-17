@@ -128,6 +128,12 @@ export const translations = {
       status: "Status"
     },
     // Components Page
+    searchResults: {
+      title: "Søkeresultater",
+      forQuery: "for \"{query}\"",
+      count: "{count} treff funnet",
+      noResults: "Ingen resultater funnet for \"{query}\". Prøv et annet søkeord."
+    },
     whatsNew: {
       title: "Hva er nytt",
       intro: "Alle utgivelser av rk-designsystem, hentet direkte fra changeloggen. Hver endring lenker til pull requesten der den ble innført.",
@@ -1179,6 +1185,12 @@ export const translations = {
       status: "Status"
     },
     // Components Page
+    searchResults: {
+      title: "Search results",
+      forQuery: "for \"{query}\"",
+      count: "{count} results found",
+      noResults: "No results found for \"{query}\". Try a different search term."
+    },
     whatsNew: {
       title: "What's new",
       intro: "Every release of rk-designsystem, taken directly from the changelog. Each change links to the pull request that introduced it.",
