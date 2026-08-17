@@ -108,8 +108,12 @@ export const CalendarWithSelectedDate: CalendarStory = {
     );
   },
   args: {
-    initialDate: new Date(),
-    selectedDate: new Date(), // Set the initial selected date via args
+    // Pinned to a fixed PAST date, not new Date(): this story is a visual
+    // regression target, and a today-based date moved the selected/today
+    // markers every day — the baseline broke three days after it was taken.
+    // A past month stays identical forever (today never re-enters it).
+    initialDate: new Date(2026, 5, 15),
+    selectedDate: new Date(2026, 5, 15),
     onDateSelect: action('dateSelected'),
   },
 };
