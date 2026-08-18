@@ -47,7 +47,9 @@ export const SearchResultsPage = ({ query, setPage }: SearchResultsPageProps) =>
             <span className={styles.query}>{t('searchResults.forQuery').replace('{query}', decodedQuery)}</span>
           </Heading>
           <Paragraph data-size="lg" className={styles.resultCount}>
-            {t('searchResults.count').replace('{count}', String(results.length))}
+            {results.length === 1
+              ? t('searchResults.countOne')
+              : t('searchResults.count').replace('{count}', String(results.length))}
           </Paragraph>
         </header>
       </div>

@@ -127,11 +127,14 @@ export const translations = {
       alerts: "Varsler",
       status: "Status"
     },
-    // Components Page
+    // Search Results Page
     searchResults: {
       title: "Søkeresultater",
       forQuery: "for \"{query}\"",
       count: "{count} treff funnet",
+      // Separate singular form: the {count} template can't inflect the
+      // sentence, so consumers pick countOne when there is exactly one hit.
+      countOne: "1 treff funnet",
       noResults: "Ingen resultater funnet for \"{query}\". Prøv et annet søkeord."
     },
     whatsNew: {
@@ -139,6 +142,7 @@ export const translations = {
       intro: "Alle utgivelser av rk-designsystem, hentet direkte fra changeloggen. Hver endring lenker til pull requesten der den ble innført.",
       releaseLink: "Se utgivelsen på GitHub"
     },
+    // Components Page
     components: {
       title: "Komponenter",
       intro: "Designsystemet inneholder grunnleggende komponenter som kan settes sammen på mange ulike måter og i forskjellige mønstre.",
@@ -1184,11 +1188,14 @@ export const translations = {
       alerts: "Alerts",
       status: "Status"
     },
-    // Components Page
+    // Search Results Page
     searchResults: {
       title: "Search results",
       forQuery: "for \"{query}\"",
       count: "{count} results found",
+      // Separate singular form: the {count} template can't inflect the
+      // sentence, so consumers pick countOne when there is exactly one hit.
+      countOne: "1 result found",
       noResults: "No results found for \"{query}\". Try a different search term."
     },
     whatsNew: {
@@ -1196,6 +1203,7 @@ export const translations = {
       intro: "Every release of rk-designsystem, taken directly from the changelog. Each change links to the pull request that introduced it.",
       releaseLink: "View the release on GitHub"
     },
+    // Components Page
     components: {
       title: "Components",
       intro: "The design system contains fundamental components that can be combined in many different ways and in different patterns.",
