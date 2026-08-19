@@ -3,6 +3,7 @@ import { ArrowRightIcon } from '@navikt/aksel-icons';
 import { Heading } from '../../components/Heading';
 import { Paragraph } from '../../components/Paragraph';
 import { Card } from '../../components/Card';
+import { useLanguage } from '../../context/LanguageContext';
 import styles from './styles.module.css';
 import { searchIndex } from '../../utils/search-index';
 
@@ -12,6 +13,7 @@ interface SearchResultsPageProps {
 }
 
 export const SearchResultsPage = ({ query, setPage }: SearchResultsPageProps) => {
+  const { t } = useLanguage();
   // Defensiv dekoding: en hash med ugyldig prosent-sekvens (f.eks. et rått
   // '%') skal ikke krasje hele appen.
   let decodedQuery: string;
@@ -41,10 +43,13 @@ export const SearchResultsPage = ({ query, setPage }: SearchResultsPageProps) =>
       <div className={styles.container}>
         <header className={styles.heroPanel}>
           <Heading level={1} className={styles.title}>
-            Søkeresultater <span className={styles.query}>for "{decodedQuery}"</span>
+            {t('searchResults.title')}{' '}
+            <span className={styles.query}>{t('searchResults.forQuery').replace('{query}', decodedQuery)}</span>
           </Heading>
           <Paragraph data-size="lg" className={styles.resultCount}>
-            {results.length} {results.length === 1 ? 'treff' : 'treff'} funnet
+            {results.length === 1
+              ? t('searchResults.countOne')
+              : t('searchResults.count').replace('{count}', String(results.length))}
           </Paragraph>
         </header>
       </div>
@@ -79,7 +84,7 @@ export const SearchResultsPage = ({ query, setPage }: SearchResultsPageProps) =>
           </ul>
         ) : (
           <div className={styles.noResults}>
-            <Paragraph data-size="lg">Ingen resultater funnet for "{decodedQuery}". Prøv et annet søkeord.</Paragraph>
+            <Paragraph data-size="lg">{t('searchResults.noResults').replace('{query}', decodedQuery)}</Paragraph>
           </div>
         )}
       </div>
