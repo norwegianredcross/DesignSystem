@@ -649,6 +649,9 @@ export const translations = {
         feel4: "Lokal og global",
         feel5: "Upartisk",
         feel6: "Handlingsorientert",
+        // {n}/{total} interpoleres manuelt med .replace, som ellers i appen.
+        chapterLabel: "Kapittel {n} av {total}",
+        chapterNavLabel: "Kapittelnavigasjon",
 
         chapterWarm: "Varm — farger og typografi",
         colorSystemTitle: "Fargesystemet",
@@ -1827,6 +1830,9 @@ export const translations = {
         feel4: "Local and global",
         feel5: "Impartial",
         feel6: "Action-oriented",
+        // {n}/{total} interpoleres manuelt med .replace, som ellers i appen.
+        chapterLabel: "Chapter {n} of {total}",
+        chapterNavLabel: "Chapter navigation",
 
         chapterWarm: "Warm — colors and typography",
         colorSystemTitle: "The color system",

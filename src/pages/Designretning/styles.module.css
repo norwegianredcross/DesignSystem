@@ -2,6 +2,56 @@
    (sidebar, article typography, figures) is reused from the Design page's
    stylesheet so the doc surfaces stay visually identical. */
 
+/* Warm hero panel (Varm): the article header sits on a soft pink surface
+   with a decorative red-thread shape — the page uses the graphic system it
+   documents. */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--ds-size-8);
+  align-items: center;
+  background: var(--ds-color-primary-color-red-background-tinted);
+  border-radius: var(--ds-border-radius-xl);
+  padding: var(--ds-size-10);
+  margin-bottom: var(--ds-size-10);
+}
+
+.kicker {
+  font-size: var(--ds-font-size-2);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: var(--ds-font-weight-semibold);
+  color: var(--ds-color-primary-color-red-text-subtle);
+  margin-bottom: var(--ds-size-2);
+}
+
+/* The shared doc typography paints h1 maroon already; restated here because
+   the hero lives outside that stylesheet's h1 rule specificity chain. */
+.hero .heroTitle {
+  color: var(--ds-color-primary-color-red-text-default);
+  margin-bottom: var(--ds-size-3);
+}
+
+.heroIntro {
+  color: var(--ds-color-primary-color-red-text-default);
+}
+
+.heroShape {
+  align-self: center;
+}
+
+/* Progression (Framdrift): previous/next chapter links in the text-button
+   pattern close every article. */
+.chapterNav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--ds-size-4);
+  margin-top: var(--ds-size-12);
+  padding-top: var(--ds-size-6);
+  border-top: 1px solid var(--ds-color-neutral-border-subtle);
+}
+
 /* Principle cards: soft pink panels, mirroring the deck's principle slide. */
 .principleGrid {
   display: grid;
@@ -81,5 +131,20 @@
 
   .meansItem {
     grid-template-columns: 1fr;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    padding: var(--ds-size-6);
+  }
+
+  /* The decorative shape yields to the text on small screens. */
+  .heroShape {
+    display: none;
+  }
+
+  .chapterNav {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
