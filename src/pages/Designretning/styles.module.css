@@ -40,18 +40,22 @@
   align-self: center;
 }
 
-/* Photo hero: image column carries the red-thread corner notch — a bite in
-   the panel's own color, with a rounded inner corner, exactly like the
-   image mask on the design direction's reference pages. */
+/* Photo hero: like the reference pages, the text sits directly on the page
+   background — no panel — next to a large photo carrying the red-thread
+   corner notch. */
 .heroWithPhoto {
-  grid-template-columns: 1.1fr 1fr;
-  align-items: stretch;
+  grid-template-columns: 1fr 1.2fr;
+  align-items: center;
+  background: none;
+  padding: var(--ds-size-4) 0 var(--ds-size-6);
 }
 
 .heroPhoto {
   position: relative;
   margin: 0;
-  min-height: 220px;
+  /* Definite height, not min-height: the img's percentage height needs it,
+     and object-fit crops the photo into the taller frame. */
+  height: 440px;
 }
 
 /* Same geometry as the Home hero's "krysset" cutout (Figma boolean
@@ -66,15 +70,15 @@
   border-bottom-right-radius: 0; /* corner is cut away by the notch */
 }
 
-/* Notch: a step cut out of the photo's bottom-right corner. The hero
-   panel's own background token keeps the "cutout" illusion in dark mode. */
+/* Notch: a step cut out of the photo's bottom-right corner. The page
+   background token keeps the "cutout" illusion in dark mode. */
 .photoNotch {
   position: absolute;
   bottom: 0;
   right: 0;
   width: 34%;
   height: 38%;
-  background-color: var(--ds-color-primary-color-red-background-tinted);
+  background-color: var(--ds-color-neutral-background-default);
   border-top-left-radius: var(--ds-border-radius-lg);
 }
 
@@ -89,7 +93,7 @@
   background: radial-gradient(
     circle at 0 0,
     transparent calc(var(--ds-border-radius-lg) - 1px),
-    var(--ds-color-primary-color-red-background-tinted) var(--ds-border-radius-lg)
+    var(--ds-color-neutral-background-default) var(--ds-border-radius-lg)
   );
 }
 
@@ -207,6 +211,10 @@
   /* The decorative shape yields to the text on small screens. */
   .heroShape {
     display: none;
+  }
+
+  .heroPhoto {
+    height: 260px;
   }
 
   .chapterNav {
