@@ -54,23 +54,55 @@
   min-height: 220px;
 }
 
+/* Same geometry as the Home hero's "krysset" cutout (Figma boolean
+   subtract, node 2277:118305): uniform radius on every corner, and the
+   cut corner has no radius of its own — the notch shapes it. */
 .heroPhoto img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: var(--ds-border-radius-xl);
+  border-radius: var(--ds-border-radius-lg);
+  border-bottom-right-radius: 0; /* corner is cut away by the notch */
 }
 
-.heroPhoto::after {
-  content: '';
+/* Notch: a step cut out of the photo's bottom-right corner. The hero
+   panel's own background token keeps the "cutout" illusion in dark mode. */
+.photoNotch {
   position: absolute;
-  right: 0;
   bottom: 0;
+  right: 0;
   width: 34%;
   height: 38%;
-  background: var(--ds-color-primary-color-red-background-tinted);
-  border-top-left-radius: var(--ds-border-radius-xl);
+  background-color: var(--ds-color-primary-color-red-background-tinted);
+  border-top-left-radius: var(--ds-border-radius-lg);
+}
+
+/* Inverted fillets: concave transitions where the step meets the photo's
+   bottom and right edges (same radius as every other corner). */
+.photoNotch::before,
+.photoNotch::after {
+  content: '';
+  position: absolute;
+  width: var(--ds-border-radius-lg);
+  height: var(--ds-border-radius-lg);
+  background: radial-gradient(
+    circle at 0 0,
+    transparent calc(var(--ds-border-radius-lg) - 1px),
+    var(--ds-color-primary-color-red-background-tinted) var(--ds-border-radius-lg)
+  );
+}
+
+/* Fillet on the photo's bottom edge, left of the step */
+.photoNotch::before {
+  bottom: 0;
+  left: calc(-1 * var(--ds-border-radius-lg));
+}
+
+/* Fillet on the photo's right edge, above the step */
+.photoNotch::after {
+  right: 0;
+  top: calc(-1 * var(--ds-border-radius-lg));
 }
 
 /* Progression (Framdrift): previous/next chapter links in the text-button

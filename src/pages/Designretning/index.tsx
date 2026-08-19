@@ -62,6 +62,9 @@ const DirectionArticle = ({ chapterId, title, intro, nav, photo, children }: {
         {photo ? (
           <figure className={styles.heroPhoto}>
             <img src={photo.src} alt={photo.alt} />
+            {/* The "krysset" corner cutout, mirrored from the Home hero:
+                a panel-colored step plus two concave fillets. */}
+            <span className={styles.photoNotch} aria-hidden="true" />
           </figure>
         ) : (
           <GraphicElement shape={CHAPTERS[Math.max(idx, 0)].shape} size="lg" aria-hidden className={styles.heroShape} />
