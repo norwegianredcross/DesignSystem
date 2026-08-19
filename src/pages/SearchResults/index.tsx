@@ -13,7 +13,7 @@ interface SearchResultsPageProps {
 }
 
 export const SearchResultsPage = ({ query, setPage }: SearchResultsPageProps) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   // Defensiv dekoding: en hash med ugyldig prosent-sekvens (f.eks. et rått
   // '%') skal ikke krasje hele appen.
   let decodedQuery: string;
@@ -26,9 +26,12 @@ export const SearchResultsPage = ({ query, setPage }: SearchResultsPageProps) =>
   const results = useMemo(() => {
     if (!decodedQuery.trim()) return [];
     const lowerQuery = decodedQuery.toLowerCase();
+    // Descriptions are matched in both languages so a query typed in either
+    // one finds the item; the result card then shows the active language.
     return searchIndex.filter(item =>
       item.title.toLowerCase().includes(lowerQuery) ||
-      item.description?.toLowerCase().includes(lowerQuery)
+      item.description?.NO.toLowerCase().includes(lowerQuery) ||
+      item.description?.EN.toLowerCase().includes(lowerQuery)
     );
   }, [decodedQuery]);
 
@@ -65,7 +68,7 @@ export const SearchResultsPage = ({ query, setPage }: SearchResultsPageProps) =>
                     className={styles.resultLink}
                     onClick={(e) => handleResultClick(e, result.path)}
                   >
-                    <span className={styles.resultCategory}>{result.category}</span>
+                    <span className={styles.resultCategory}>{t(`searchResults.categories.${result.category}`)}</span>
                     <Heading level={2} data-size="md" className={styles.resultTitle}>
                       <span className={styles.resultAction}>
                         {result.title}
@@ -74,7 +77,7 @@ export const SearchResultsPage = ({ query, setPage }: SearchResultsPageProps) =>
                     </Heading>
                     {result.description && (
                       <Paragraph data-size="sm" className={styles.resultDescription}>
-                        {result.description}
+                        {result.description[language]}
                       </Paragraph>
                     )}
                   </a>

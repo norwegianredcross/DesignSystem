@@ -135,7 +135,15 @@ export const translations = {
       // Separate singular form: the {count} template can't inflect the
       // sentence, so consumers pick countOne when there is exactly one hit.
       countOne: "1 treff funnet",
-      noResults: "Ingen resultater funnet for \"{query}\". Prøv et annet søkeord."
+      noResults: "Ingen resultater funnet for \"{query}\". Prøv et annet søkeord.",
+      // Keys mirror SearchItem['category'] so the page can look up the
+      // label directly from the raw category value.
+      categories: {
+        Component: "Komponent",
+        Page: "Side",
+        Design: "Design",
+        Code: "Kode"
+      }
     },
     whatsNew: {
       title: "Hva er nytt",
@@ -1196,7 +1204,15 @@ export const translations = {
       // Separate singular form: the {count} template can't inflect the
       // sentence, so consumers pick countOne when there is exactly one hit.
       countOne: "1 result found",
-      noResults: "No results found for \"{query}\". Try a different search term."
+      noResults: "No results found for \"{query}\". Try a different search term.",
+      // Keys mirror SearchItem['category'] so the page can look up the
+      // label directly from the raw category value.
+      categories: {
+        Component: "Component",
+        Page: "Page",
+        Design: "Design",
+        Code: "Code"
+      }
     },
     whatsNew: {
       title: "What's new",
