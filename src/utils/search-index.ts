@@ -22,6 +22,7 @@ export const searchIndex: SearchItem[] = [
   { id: 'components', title: 'Komponenter', category: 'Page', path: 'components', description: { NO: 'Oversikt over alle komponenter', EN: 'Overview of all components' } },
   { id: 'whats-new', title: 'Hva er nytt', category: 'Page', path: 'whats-new', description: { NO: 'Utgivelser og endringer i designsystemet', EN: 'Releases and changes in the design system' } },
   { id: 'design', title: 'Design', category: 'Page', path: 'design', description: { NO: 'Designretningslinjer og prinsipper', EN: 'Design guidelines and principles' } },
+  { id: 'designretning', title: 'Designretning', category: 'Page', path: 'designretning', description: { NO: 'Prinsipper og virkemidler for digitale flater', EN: 'Principles and approaches for digital surfaces' } },
   { id: 'code', title: 'Kode', category: 'Page', path: 'code', description: { NO: 'Utviklerdokumentasjon og oppsett', EN: 'Developer documentation and setup' } },
   { id: 'tokens', title: 'Tokens', category: 'Page', path: 'tokens', description: { NO: 'Design tokens: farger, størrelser og typografi', EN: 'Design tokens: colors, sizes and typography' } },
 
@@ -73,9 +74,6 @@ export const searchIndex: SearchItem[] = [
   { id: 'tooltip', title: 'Tooltip', category: 'Component', path: 'components/tooltip', description: { NO: 'Hjelpetekster ved hover', EN: 'Help text on hover' } },
 
   { id: 'validationmessage', title: 'ValidationMessage', category: 'Component', path: 'components/validationmessage', description: { NO: 'Feilmeldinger for skjemafelt', EN: 'Error messages for form fields' } },
-
-  // Design — Designretning
-  { id: 'designretning', title: 'Designretning', category: 'Design', path: 'design/designretning', description: { NO: 'Prinsipper og virkemidler for digitale flater', EN: 'Principles and approaches for digital surfaces' } },
 
   // Design — For designere
   { id: 'figma-oppkobling', title: 'Figma tilkobling', category: 'Design', path: 'design/figma-oppkobling', description: { NO: 'Hvordan koble til Figma-biblioteket', EN: 'How to connect to the Figma library' } },

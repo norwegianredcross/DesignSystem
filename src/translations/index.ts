@@ -24,6 +24,7 @@ export const translations = {
       homeAriaLabel: "Norges Røde Kors Hjem",
       nav: {
         design: "Design",
+        designDirection: "Designretning",
         components: "Komponenter",
         code: "Kode",
         tokens: "Tokens",
@@ -1124,6 +1125,7 @@ export const translations = {
       homeAriaLabel: "Norwegian Red Cross Home",
       nav: {
         design: "Design",
+        designDirection: "Design Direction",
         components: "Components",
         code: "Code",
         tokens: "Tokens",

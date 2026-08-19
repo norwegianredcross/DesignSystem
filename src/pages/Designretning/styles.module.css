@@ -1,0 +1,53 @@
+/* Page-specific additions for the Designretning page. The shared doc layout
+   (sidebar, article typography, figures) is reused from the Design page's
+   stylesheet so both doc sections stay visually identical. */
+
+/* Principle cards: soft pink panels, mirroring the deck's principle slide. */
+.principleGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--ds-size-6);
+}
+
+.principleCard {
+  border: none;
+  border-radius: var(--ds-border-radius-xl);
+  background: var(--ds-color-primary-color-red-background-tinted);
+}
+
+.principleCard h3 {
+  color: var(--ds-color-primary-color-red-text-default);
+}
+
+/* Each virkemiddel: text and its slide illustration side by side on desktop. */
+.meansItem {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--ds-size-6);
+  align-items: start;
+  margin-bottom: var(--ds-size-8);
+}
+
+.meansIllustration {
+  margin: 0;
+  background: var(--ds-color-neutral-background-tinted);
+  border-radius: var(--ds-border-radius-xl);
+  padding: var(--ds-size-4);
+}
+
+.meansIllustration img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--ds-border-radius-lg);
+}
+
+@media (max-width: 768px) {
+  .principleGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .meansItem {
+    grid-template-columns: 1fr;
+  }
+}

@@ -6,6 +6,7 @@ import { Footer } from './components/Footer';
 import { HomePage } from './pages/Home';
 import { ComponentsPage } from './pages/Components';
 import { DesignPage } from './pages/Design';
+import { DesignretningPage } from './pages/Designretning';
 import { CodePage } from './pages/Code';
 import { SearchResultsPage } from './pages/SearchResults';
 import { TokensPage } from './pages/Tokens';
@@ -75,6 +76,7 @@ function App() {
         showMenuButton={false}
         showNavItems={true}
         navItems={[
+          { label: t('header.nav.designDirection'), href: "designretning" },
           { label: t('header.nav.design'), href: "design" },
           { label: t('header.nav.components'), href: "components" },
           { label: t('header.nav.code'), href: "code" },
@@ -98,6 +100,8 @@ function App() {
           <TokensPage />
         ) : mainPage === 'whats-new' ? (
           <WhatsNewPage />
+        ) : mainPage === 'designretning' ? (
+          <DesignretningPage section={subPage} setPage={setPage} />
         ) : (
           <DesignPage section={subPage} setPage={setPage} />
         )}
@@ -113,6 +117,7 @@ function App() {
           {
             title: t('footer.shortcuts'),
             links: [
+              { label: t('header.nav.designDirection'), href: '#designretning' },
               { label: t('header.nav.design'), href: '#design' },
               { label: t('header.nav.components'), href: '#components' },
               { label: t('header.nav.code'), href: '#code' },
