@@ -1,12 +1,23 @@
-/* Page-specific additions for the Designretning page. The shared doc layout
-   (sidebar, article typography, figures) is reused from the Design page's
-   stylesheet so both doc sections stay visually identical. */
+/* Page-specific additions for the Designretning page. The shared article
+   typography is reused from the Design page's stylesheet; this page has no
+   sidebar, so the doc-content padding is neutralized and the column centered.
+   (Doubled selector beats the shared .docContent rule at equal cascade
+   position.) */
+
+.pageContent.pageContent {
+  padding-left: 0;
+  padding-top: var(--ds-size-12);
+  padding-bottom: var(--ds-size-12);
+  max-width: 860px;
+  margin: 0 auto;
+}
 
 /* Principle cards: soft pink panels, mirroring the deck's principle slide. */
 .principleGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--ds-size-6);
+  margin-bottom: var(--ds-size-10);
 }
 
 .principleCard {
@@ -19,7 +30,8 @@
   color: var(--ds-color-primary-color-red-text-default);
 }
 
-/* Each virkemiddel: text and its slide illustration side by side on desktop. */
+/* Each virkemiddel in the overview: text and its slide illustration side by
+   side on desktop. */
 .meansItem {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -28,18 +40,40 @@
   margin-bottom: var(--ds-size-8);
 }
 
-.meansIllustration {
+.meansIllustration,
+.illustration {
   margin: 0;
   background: var(--ds-color-neutral-background-tinted);
   border-radius: var(--ds-border-radius-xl);
   padding: var(--ds-size-4);
 }
 
-.meansIllustration img {
+.meansIllustration img,
+.illustration img {
   display: block;
   width: 100%;
   height: auto;
   border-radius: var(--ds-border-radius-lg);
+}
+
+.illustration {
+  margin-bottom: var(--ds-size-6);
+}
+
+/* Chapters mirror the deck's divider slides: generous space and a red rule. */
+.chapter {
+  margin-top: var(--ds-size-14);
+  padding-top: var(--ds-size-10);
+  border-top: 2px solid var(--ds-color-primary-color-red-base-default);
+}
+
+.chapterTitle {
+  color: var(--ds-color-primary-color-red-text-default);
+  margin-bottom: var(--ds-size-6);
+}
+
+.subSection {
+  margin-bottom: var(--ds-size-8);
 }
 
 @media (max-width: 768px) {

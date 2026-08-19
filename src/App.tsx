@@ -101,7 +101,7 @@ function App() {
         ) : mainPage === 'whats-new' ? (
           <WhatsNewPage />
         ) : mainPage === 'designretning' ? (
-          <DesignretningPage section={subPage} setPage={setPage} />
+          <DesignretningPage />
         ) : (
           <DesignPage section={subPage} setPage={setPage} />
         )}
