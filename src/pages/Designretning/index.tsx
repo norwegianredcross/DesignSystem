@@ -47,6 +47,10 @@ const PrinsipperContent = () => {
       intro={t('design.direction.intro')}
       category={t('design.sidebar.designDirection')}
     >
+      <Paragraph data-size="sm" style={{ marginBottom: 'var(--ds-size-8)', color: 'var(--ds-color-neutral-text-subtle)' }}>
+        {t('design.direction.approvalNote')}
+      </Paragraph>
+
       <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.direction.principlesTitle')}</Heading>
       <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>{t('design.direction.principlesIntro')}</Paragraph>
       <div className={styles.principleGrid}>
@@ -57,6 +61,13 @@ const PrinsipperContent = () => {
               <Paragraph data-size="sm">{principle.text}</Paragraph>
             </CardBlock>
           </Card>
+        ))}
+      </div>
+
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.direction.feelsTitle')}</Heading>
+      <div className={styles.feelsRow}>
+        {(['feel1', 'feel2', 'feel3', 'feel4', 'feel5', 'feel6'] as const).map((key) => (
+          <span key={key} className={styles.feelPill}>{t(`design.direction.${key}`)}</span>
         ))}
       </div>
 
@@ -77,6 +88,7 @@ const PrinsipperContent = () => {
       <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)', marginTop: 'var(--ds-size-6)' }}>{t('design.direction.stableTitle')}</Heading>
       <Paragraph style={p}>{t('design.direction.stableText1')}</Paragraph>
       <Paragraph style={p}>{t('design.direction.stableText2')}</Paragraph>
+      <Fig src="/DesignretningUendredeElementer.png" alt={t('design.direction.stableTitle')} />
     </ArticleLayout>
   );
 };
@@ -128,6 +140,10 @@ const VarmContent = () => {
         <Paragraph style={p}>{t('design.direction.typographyText2')}</Paragraph>
         <Fig src="/DesignretningTypografiSans.png" alt={t('design.direction.typographyTitle')} />
         <Paragraph style={p}>{t('design.direction.typographyText3')}</Paragraph>
+      </Sub>
+      <Sub title={t('design.direction.adaptTitle')}>
+        <Paragraph style={p}>{t('design.direction.adaptText')}</Paragraph>
+        <Fig src="/DesignretningTilpasninger.png" alt={t('design.direction.adaptTitle')} />
       </Sub>
     </ArticleLayout>
   );
@@ -199,6 +215,7 @@ const SosialContent = () => {
       </Sub>
       <Sub title={t('design.direction.noDuplicateTitle')}>
         <Paragraph style={p}>{t('design.direction.noDuplicateText')}</Paragraph>
+        <Fig src="/DesignretningDistribusjon.png" alt={t('design.direction.noDuplicateTitle')} />
       </Sub>
     </ArticleLayout>
   );
