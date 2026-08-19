@@ -75,6 +75,13 @@ export const searchIndex: SearchItem[] = [
 
   { id: 'validationmessage', title: 'ValidationMessage', category: 'Component', path: 'components/validationmessage', description: { NO: 'Feilmeldinger for skjemafelt', EN: 'Error messages for form fields' } },
 
+  // Designretning — kapitler
+  { id: 'designretning-varm', title: 'Varm — farger og typografi', category: 'Design', path: 'designretning/varm', description: { NO: 'Utvidet fargepalett, fargehierarki og typografi', EN: 'Extended color palette, color hierarchy and typography' } },
+  { id: 'designretning-rod-trad', title: 'Rød tråd (kors)', category: 'Design', path: 'designretning/rod-trad', description: { NO: 'Grafisk formspråk avledet av korset', EN: 'Graphic language derived from the cross' } },
+  { id: 'designretning-mennesker', title: 'Mennesker i fokus', category: 'Design', path: 'designretning/mennesker-i-fokus', description: { NO: 'Ekte historier og mennesker som bærende element', EN: 'Real stories and people as a load-bearing element' } },
+  { id: 'designretning-sosial', title: 'Sosial tilstedeværelse', category: 'Design', path: 'designretning/sosial-tilstedevaerelse', description: { NO: 'Deling og distribusjon uten dobbeltarbeid', EN: 'Sharing and distribution without duplicate work' } },
+  { id: 'designretning-framdrift', title: 'Framdrift og effekt', category: 'Design', path: 'designretning/framdrift-og-effekt', description: { NO: 'Vise at handling skaper effekt', EN: 'Showing that action creates impact' } },
+
   // Design — For designere
   { id: 'figma-oppkobling', title: 'Figma tilkobling', category: 'Design', path: 'design/figma-oppkobling', description: { NO: 'Hvordan koble til Figma-biblioteket', EN: 'How to connect to the Figma library' } },
   { id: 'oppstart', title: 'Oppstart', category: 'Design', path: 'design/oppstart', description: { NO: 'Oppsett av arbeidsområde', EN: 'Setting up your workspace' } },

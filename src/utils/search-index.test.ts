@@ -18,6 +18,7 @@ const extractIds = (file: string, stateVar: string): Set<string> => {
 
 describe('search-index', () => {
   const designIds = extractIds('src/pages/Design/index.tsx', 'activeDesignPage');
+  const directionIds = extractIds('src/pages/Designretning/index.tsx', 'activeDirectionPage');
   const codeIds = extractIds('src/pages/Code/index.tsx', 'activeCodePage');
   const validPages = new Set(['home', 'components', 'design', 'designretning', 'code', 'tokens', 'whats-new']);
   // components/<navn>-dyplenker valideres mot katalogen: hvert søketreff må
@@ -42,7 +43,7 @@ describe('search-index', () => {
       expect(validPages, `ukjent side i path: ${item.path}`).toContain(page);
       if (article !== undefined) {
         const valid =
-          page === 'design' ? designIds : page === 'code' ? codeIds : page === 'components' ? componentIds : new Set<string>();
+          page === 'design' ? designIds : page === 'designretning' ? directionIds : page === 'code' ? codeIds : page === 'components' ? componentIds : new Set<string>();
         expect(valid.has(article), `død artikkelsti: ${item.path}`).toBe(true);
       }
     }
@@ -59,6 +60,10 @@ describe('search-index', () => {
     for (const id of codeIds) {
       if (id === 'intro') continue; // dekkes av 'code'-sideoppføringen
       expect(indexed.has(id), `code-artikkel mangler i indeksen: ${id}`).toBe(true);
+    }
+    for (const id of directionIds) {
+      if (id === 'intro') continue; // dekkes av 'designretning'-sideoppføringen
+      expect(indexed.has(id), `designretning-artikkel mangler i indeksen: ${id}`).toBe(true);
     }
   });
 });

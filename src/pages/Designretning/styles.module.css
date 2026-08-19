@@ -1,16 +1,6 @@
-/* Page-specific additions for the Designretning page. The shared article
-   typography is reused from the Design page's stylesheet; this page has no
-   sidebar, so the doc-content padding is neutralized and the column centered.
-   (Doubled selector beats the shared .docContent rule at equal cascade
-   position.) */
-
-.pageContent.pageContent {
-  padding-left: 0;
-  padding-top: var(--ds-size-12);
-  padding-bottom: var(--ds-size-12);
-  max-width: 860px;
-  margin: 0 auto;
-}
+/* Page-specific additions for the Designretning page. The shared doc layout
+   (sidebar, article typography, figures) is reused from the Design page's
+   stylesheet so the doc surfaces stay visually identical. */
 
 /* Principle cards: soft pink panels, mirroring the deck's principle slide. */
 .principleGrid {
@@ -26,6 +16,7 @@
   background: var(--ds-color-primary-color-red-background-tinted);
 }
 
+.principleCard h2,
 .principleCard h3 {
   color: var(--ds-color-primary-color-red-text-default);
 }
@@ -40,6 +31,8 @@
   margin-bottom: var(--ds-size-8);
 }
 
+/* Illustrations exported from the deck sit in cream panels like the other
+   doc figures. */
 .meansIllustration,
 .illustration {
   margin: 0;
@@ -57,18 +50,6 @@
 }
 
 .illustration {
-  margin-bottom: var(--ds-size-6);
-}
-
-/* Chapters mirror the deck's divider slides: generous space and a red rule. */
-.chapter {
-  margin-top: var(--ds-size-14);
-  padding-top: var(--ds-size-10);
-  border-top: 2px solid var(--ds-color-primary-color-red-base-default);
-}
-
-.chapterTitle {
-  color: var(--ds-color-primary-color-red-text-default);
   margin-bottom: var(--ds-size-6);
 }
 
