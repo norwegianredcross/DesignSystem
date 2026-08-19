@@ -600,7 +600,9 @@ export const translations = {
         componentSizes: "Komponentstørrelser",
         sizeTokens: "Størrelse-tokens",
         fontFamily: "Font-family",
-        typoTokens: "Typografi-tokens"
+        typoTokens: "Typografi-tokens",
+        designDirection: "Designretning",
+        directionOverview: "Prinsipper og virkemidler"
       },
       intro: {
         title: "Design i Røde Kors",
@@ -609,6 +611,35 @@ export const translations = {
         goToGuide: "Gå til guide",
         colors: "Farger",
         seeColors: "Se farger"
+      },
+      direction: {
+        title: "Designretning",
+        intro: "Digitale produkter fra Røde Kors skal kommunisere i tråd med den digitale designprofilen. Designretningen samler prinsippene og virkemidlene som gir rk.no og resten av det digitale økosystemet et helhetlig uttrykk.",
+        principlesTitle: "Prinsippene",
+        principlesIntro: "Tre prinsipper ligger til grunn for alle designvalg i digitale flater:",
+        trustworthyTitle: "Troverdig",
+        trustworthyText: "Brukeren skal oppleve Røde Kors som trygg, ærlig og til å stole på.",
+        clearTitle: "Tydelig",
+        clearText: "Brukeren skal raskt forstå hva innholdet er, hvor de er, hva de kan gjøre, og hvordan de kommer videre.",
+        humanTitle: "Medmenneskelig",
+        humanText: "Brukeren skal møte en varm, nær og inkluderende digital opplevelse i tråd med vårt prinsipp om humanitet.",
+        meansTitle: "Virkemidlene",
+        meansIntro: "Prinsippene omsettes i praksis gjennom seks virkemidler. Hvert virkemiddel dokumenteres i egne artikler i denne seksjonen.",
+        warmTitle: "Varm",
+        warmText: "Avrundede former, varme nøytrale farger og vennlig typografi skaper et uttrykk som oppleves nært, menneskelig og trygt.",
+        scaleTitle: "Skala",
+        scaleText: "Designet skal vise at Røde Kors er til stede både nært brukeren og som en global bevegelse — lokalt, nasjonalt og internasjonalt.",
+        redThreadTitle: "Rød tråd (kors)",
+        redThreadText: "Et grafisk formspråk avledet av korsets ytterpunkter binder flatene sammen uten å konkurrere med logoen.",
+        storytellingTitle: "Mennesker i fokus",
+        storytellingText: "Ekte historier fra virkelige situasjoner, med ekte mennesker og ekte bilder, løftes frem som et bærende element.",
+        socialTitle: "Sosial tilstedeværelse",
+        socialText: "Innhold skal være enkelt å dele og kunne distribueres til flere kanaler uten dobbeltarbeid.",
+        progressTitle: "Framdrift og effekt",
+        progressText: "Handling skal synlig skape effekt — gjennom framdriftsindikatorer, konkrete resultater og tydelige eksempler på hva bidrag muliggjør.",
+        stableTitle: "Det som ikke endres",
+        stableText1: "Ikke alt endres. Noen elementer er kjernen i Røde Kors sin visuelle identitet og skal forbli stabile på tvers av konsept, tema og kanal.",
+        stableText2: "Bilder og tekst er de viktigste — de bærer historiene og menneskene. Klarspråkprinsippene for Røde Kors gjelder fortsatt for all tekst."
       },
       tokens: {
         whatIsTitle: "Hva er design tokens",
@@ -1671,7 +1702,9 @@ export const translations = {
         componentSizes: "Component Sizes",
         sizeTokens: "Size Tokens",
         fontFamily: "Font Family",
-        typoTokens: "Typography Tokens"
+        typoTokens: "Typography Tokens",
+        designDirection: "Design Direction",
+        directionOverview: "Principles and approaches"
       },
       intro: {
         title: "Design in Red Cross",
@@ -1680,6 +1713,35 @@ export const translations = {
         goToGuide: "Go to guide",
         colors: "Colors",
         seeColors: "See colors"
+      },
+      direction: {
+        title: "Design Direction",
+        intro: "Digital products from the Red Cross should communicate in line with the digital design profile. The design direction gathers the principles and approaches that give rk.no and the rest of the digital ecosystem a coherent expression.",
+        principlesTitle: "The Principles",
+        principlesIntro: "Three principles underpin every design decision on digital surfaces:",
+        trustworthyTitle: "Trustworthy",
+        trustworthyText: "Users should experience the Red Cross as safe, honest and reliable.",
+        clearTitle: "Clear",
+        clearText: "Users should quickly understand what the content is, where they are, what they can do, and how to move on.",
+        humanTitle: "Humane",
+        humanText: "Users should meet a warm, close and inclusive digital experience, in line with our principle of humanity.",
+        meansTitle: "The Approaches",
+        meansIntro: "The principles are put into practice through six approaches. Each approach is documented in its own article in this section.",
+        warmTitle: "Warm",
+        warmText: "Rounded shapes, warm neutral colors and friendly typography create an expression that feels close, human and safe.",
+        scaleTitle: "Scale",
+        scaleText: "The design should show that the Red Cross is present both close to the user and as a global movement — locally, nationally and internationally.",
+        redThreadTitle: "Red thread (cross)",
+        redThreadText: "A graphic language derived from the outer points of the cross ties the surfaces together without competing with the logo.",
+        storytellingTitle: "People in focus",
+        storytellingText: "Real stories from real situations, with real people and real photos, are lifted forward as a load-bearing element.",
+        socialTitle: "Social presence",
+        socialText: "Content should be easy to share and possible to distribute to several channels without duplicate work.",
+        progressTitle: "Progress and impact",
+        progressText: "Action should visibly create impact — through progress indicators, concrete results and clear examples of what contributions make possible.",
+        stableTitle: "What does not change",
+        stableText1: "Not everything changes. Some elements are the core of the Red Cross visual identity and should stay stable across concepts, themes and channels.",
+        stableText2: "Photos and text are the most important — they carry the stories and the people. The Red Cross plain-language principles still apply to all text."
       },
       tokens: {
         whatIsTitle: "What are Design Tokens",

@@ -1305,6 +1305,63 @@ const ForeslaDesignContent = () => {
   );
 };
 
+// --- DESIGNRETNING ---
+
+/**
+ * Overview article for the design direction: the three principles and the six
+ * visual means from the approved "Rodekors.no Designretning" deck. Each means
+ * gets its own in-depth article in this sidebar group as they are written.
+ */
+const DesignretningContent = () => {
+  const { t } = useLanguage();
+  const principles = [
+    { title: t('design.direction.trustworthyTitle'), text: t('design.direction.trustworthyText') },
+    { title: t('design.direction.clearTitle'), text: t('design.direction.clearText') },
+    { title: t('design.direction.humanTitle'), text: t('design.direction.humanText') },
+  ];
+  const means = [
+    { title: t('design.direction.warmTitle'), text: t('design.direction.warmText') },
+    { title: t('design.direction.scaleTitle'), text: t('design.direction.scaleText') },
+    { title: t('design.direction.redThreadTitle'), text: t('design.direction.redThreadText') },
+    { title: t('design.direction.storytellingTitle'), text: t('design.direction.storytellingText') },
+    { title: t('design.direction.socialTitle'), text: t('design.direction.socialText') },
+    { title: t('design.direction.progressTitle'), text: t('design.direction.progressText') },
+  ];
+  return (
+    <ArticleLayout
+      title={t('design.direction.title')}
+      intro={t('design.direction.intro')}
+      category={t('design.sidebar.designDirection')}
+    >
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.direction.principlesTitle')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>{t('design.direction.principlesIntro')}</Paragraph>
+      <div className={styles.introGrid} style={{ marginBottom: 'var(--ds-size-10)' }}>
+        {principles.map((principle) => (
+          <Card key={principle.title} variant="tinted" data-color="neutral" className={styles.introCard}>
+            <CardBlock>
+              <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>{principle.title}</Heading>
+              <Paragraph data-size="sm">{principle.text}</Paragraph>
+            </CardBlock>
+          </Card>
+        ))}
+      </div>
+
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.direction.meansTitle')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>{t('design.direction.meansIntro')}</Paragraph>
+      {means.map((item) => (
+        <div key={item.title} style={{ marginBottom: 'var(--ds-size-6)' }}>
+          <Heading level={3} data-size="sm" style={{ marginBottom: 'var(--ds-size-2)' }}>{item.title}</Heading>
+          <Paragraph>{item.text}</Paragraph>
+        </div>
+      ))}
+
+      <Heading level={2} data-size="md" style={{ marginBottom: 'var(--ds-size-4)', marginTop: 'var(--ds-size-6)' }}>{t('design.direction.stableTitle')}</Heading>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.direction.stableText1')}</Paragraph>
+      <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>{t('design.direction.stableText2')}</Paragraph>
+    </ArticleLayout>
+  );
+};
+
 // --- MAIN EXPORT ---
 
 type MenuItem = {
@@ -1345,6 +1402,12 @@ export const DesignPage = ({ section, setPage }: DesignPageProps) => {
 
   // Menu Data Structure
   const menuItems: { title: string; items: MenuItem[] }[] = [
+    {
+      title: t('design.sidebar.designDirection'),
+      items: [
+        { label: t('design.sidebar.directionOverview'), id: 'designretning' },
+      ]
+    },
     {
       title: t('design.sidebar.forDesigners'),
       items: [
@@ -1526,6 +1589,7 @@ export const DesignPage = ({ section, setPage }: DesignPageProps) => {
       {/* --- MAIN CONTENT AREA --- */}
       <div className={styles.docContent}>
         {activeDesignPage === 'intro' ? <DefaultDesignContent /> :
+         activeDesignPage === 'designretning' ? <DesignretningContent /> :
          activeDesignPage === 'figma-oppkobling' ? <FigmaOppkoblingContent /> :
          activeDesignPage === 'oppstart' ? <OppstartContent /> :
          activeDesignPage === 'lage-komponenter' ? <LageKomponenterContent /> :

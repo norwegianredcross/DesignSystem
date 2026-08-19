@@ -74,6 +74,9 @@ export const searchIndex: SearchItem[] = [
 
   { id: 'validationmessage', title: 'ValidationMessage', category: 'Component', path: 'components/validationmessage', description: { NO: 'Feilmeldinger for skjemafelt', EN: 'Error messages for form fields' } },
 
+  // Design — Designretning
+  { id: 'designretning', title: 'Designretning', category: 'Design', path: 'design/designretning', description: { NO: 'Prinsipper og virkemidler for digitale flater', EN: 'Principles and approaches for digital surfaces' } },
+
   // Design — For designere
   { id: 'figma-oppkobling', title: 'Figma tilkobling', category: 'Design', path: 'design/figma-oppkobling', description: { NO: 'Hvordan koble til Figma-biblioteket', EN: 'How to connect to the Figma library' } },
   { id: 'oppstart', title: 'Oppstart', category: 'Design', path: 'design/oppstart', description: { NO: 'Oppsett av arbeidsområde', EN: 'Setting up your workspace' } },
