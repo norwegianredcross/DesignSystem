@@ -652,6 +652,7 @@ export const translations = {
         // {n}/{total} interpoleres manuelt med .replace, som ellers i appen.
         chapterLabel: "Kapittel {n} av {total}",
         chapterNavLabel: "Kapittelnavigasjon",
+        heroPhotoAlt: "Frivillige fra Røde Kors Hjelpekorps i aksjon i fjellet",
 
         chapterWarm: "Varm — farger og typografi",
         colorSystemTitle: "Fargesystemet",
@@ -1833,6 +1834,7 @@ export const translations = {
         // {n}/{total} interpoleres manuelt med .replace, som ellers i appen.
         chapterLabel: "Chapter {n} of {total}",
         chapterNavLabel: "Chapter navigation",
+        heroPhotoAlt: "Red Cross search and rescue volunteers in action in the mountains",
 
         chapterWarm: "Warm — colors and typography",
         colorSystemTitle: "The color system",

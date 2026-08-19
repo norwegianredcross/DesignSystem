@@ -35,11 +35,13 @@ const CHAPTERS: { id: string; shape: GraphicElementShape; labelKey: string }[] =
  * the text-button pattern so reading the direction has visible progression
  * (Framdrift).
  */
-const DirectionArticle = ({ chapterId, title, intro, nav, children }: {
+const DirectionArticle = ({ chapterId, title, intro, nav, photo, children }: {
   chapterId: string;
   title: string;
   intro: string;
   nav: Nav;
+  /** Hero photo with the red-thread corner notch (the deck's image mask). */
+  photo?: { src: string; alt: string };
   children: ReactNode;
 }) => {
   const { t } = useLanguage();
@@ -51,13 +53,19 @@ const DirectionArticle = ({ chapterId, title, intro, nav, children }: {
     : t('design.direction.chapterLabel').replace('{n}', String(idx)).replace('{total}', String(CHAPTERS.length - 1));
   return (
     <div className="article-max-width animate-fade-in">
-      <header className={styles.hero}>
+      <header className={`${styles.hero} ${photo ? styles.heroWithPhoto : ''}`}>
         <div>
           <div className={styles.kicker}>{kicker}</div>
           <Heading level={1} data-size="xl" className={styles.heroTitle}>{title}</Heading>
           <Paragraph data-size="lg" className={styles.heroIntro}>{intro}</Paragraph>
         </div>
-        <GraphicElement shape={CHAPTERS[Math.max(idx, 0)].shape} size="lg" aria-hidden className={styles.heroShape} />
+        {photo ? (
+          <figure className={styles.heroPhoto}>
+            <img src={photo.src} alt={photo.alt} />
+          </figure>
+        ) : (
+          <GraphicElement shape={CHAPTERS[Math.max(idx, 0)].shape} size="lg" aria-hidden className={styles.heroShape} />
+        )}
       </header>
       {children}
       <nav className={styles.chapterNav} aria-label={t('design.direction.chapterNavLabel')}>
@@ -114,6 +122,7 @@ const PrinsipperContent = ({ nav }: { nav: Nav }) => {
       title={t('design.direction.title')}
       intro={t('design.direction.intro')}
       nav={nav}
+      photo={{ src: '/DesignretningHeroFoto.png', alt: t('design.direction.heroPhotoAlt') }}
     >
       <Paragraph data-size="sm" style={{ marginBottom: 'var(--ds-size-8)', color: 'var(--ds-color-neutral-text-subtle)' }}>
         {t('design.direction.approvalNote')}
