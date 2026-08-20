@@ -6,6 +6,7 @@ import { Paragraph } from '../../components/Paragraph';
 import { List } from '../../components/List';
 import { Link } from '../../components/Link';
 import { Card, CardBlock } from '../../components/Card';
+import { GraphicElement } from '../../components/GraphicElement';
 import { ArticleLayout, ArticleImage } from '../../components/ArticleLayout';
 import styles from './styles.module.css';
 
@@ -1427,6 +1428,16 @@ export const DesignPage = ({ section, setPage }: DesignPageProps) => {
 
   const DefaultDesignContent = () => (
     <ArticleLayout title={t('design.intro.title')} intro={t('design.intro.welcome')} category="Intro">
+      {/* Red-thread composition (designretning: grafiske elementer) — the
+          cross-derived shapes in the extended palette. Decorative only; the
+          guideline forbids using them as interactive elements. */}
+      <div className={styles.brandBand} aria-hidden="true">
+        <GraphicElement shape="corner" size="lg" data-color="primary-color-red" position="bottom-left" />
+        <GraphicElement shape="heart" size="md" data-color="secondary-color-pink" className={styles.brandRaised} />
+        <GraphicElement shape="angle" size="md" data-color="additional-color-jungle" position="top-right" />
+        <GraphicElement shape="square" size="sm" data-color="neutral" className={styles.brandRaised} />
+        <GraphicElement shape="tee" size="md" data-color="secondary-color-rust" position="bottom-right" />
+      </div>
       <div className={styles.introGrid}>
         <Card variant="tinted" data-color="neutral" className={styles.introCard}>
           <CardBlock>

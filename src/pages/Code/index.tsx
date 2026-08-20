@@ -6,6 +6,7 @@ import { Paragraph } from '../../components/Paragraph';
 import { List } from '../../components/List';
 import { Link } from '../../components/Link';
 import { Card, CardBlock } from '../../components/Card';
+import { GraphicElement } from '../../components/GraphicElement';
 import { ArticleImage } from '../../components/ArticleLayout';
 import styles from './styles.module.css';
 
@@ -58,6 +59,16 @@ const OverviewContent = ({ setActivePage }: { setActivePage: (page: string) => v
       <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
         {t('code.overview.text3')}
       </Paragraph>
+
+      {/* Red-thread composition (designretning: grafiske elementer) — the
+          cross-derived shapes in the extended palette. Decorative only; the
+          guideline forbids using them as interactive elements. */}
+      <div className={styles.brandBand} aria-hidden="true">
+        <GraphicElement shape="bar" size="md" data-color="primary-color-red" position="bottom-left" />
+        <GraphicElement shape="square" size="sm" data-color="additional-color-ocean" className={styles.brandRaised} />
+        <GraphicElement shape="angle" size="lg" data-color="secondary-color-rust" position="top-right" />
+        <GraphicElement shape="corner" size="md" data-color="neutral" position="bottom-right" className={styles.brandRaised} />
+      </div>
 
       <div className={styles.introGrid}>
         <Card variant="tinted" data-color="neutral" className={styles.introCard}>
