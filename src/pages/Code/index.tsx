@@ -6,7 +6,6 @@ import { Paragraph } from '../../components/Paragraph';
 import { List } from '../../components/List';
 import { Link } from '../../components/Link';
 import { Card, CardBlock } from '../../components/Card';
-import { GraphicElement } from '../../components/GraphicElement';
 import { ArticleImage } from '../../components/ArticleLayout';
 import styles from './styles.module.css';
 
@@ -49,7 +48,16 @@ const DocArticle = ({ title, intro, category, children }: { title: string; intro
 const OverviewContent = ({ setActivePage }: { setActivePage: (page: string) => void }) => {
   const { t } = useLanguage();
   return (
-    <DocArticle title={t('code.overview.title')} intro={t('code.overview.intro')} category={t('code.sidebar.overview')}>
+    <article className="article-max-width animate-fade-in">
+      {/* Cream panel with the "krysset" corner cutout — the same notched
+          form as the Home hero and the Designretning page. */}
+      <header className={styles.introHero}>
+        <div className={styles.introHeroNotch}>
+          <span className={styles.introNotchMeta}>{t('code.sidebar.overview')}</span>
+        </div>
+        <Heading level={1} data-size="xl" className={styles.introHeroTitle}>{t('code.overview.title')}</Heading>
+        <Paragraph data-size="lg" className={styles.introHeroLead}>{t('code.overview.intro')}</Paragraph>
+      </header>
       <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
         {t('code.overview.text1')}
       </Paragraph>
@@ -59,16 +67,6 @@ const OverviewContent = ({ setActivePage }: { setActivePage: (page: string) => v
       <Paragraph style={{ marginBottom: 'var(--ds-size-6)' }}>
         {t('code.overview.text3')}
       </Paragraph>
-
-      {/* Red-thread composition (designretning: grafiske elementer) — the
-          cross-derived shapes in the extended palette. Decorative only; the
-          guideline forbids using them as interactive elements. */}
-      <div className={styles.brandBand} aria-hidden="true">
-        <GraphicElement shape="bar" size="md" data-color="primary-color-red" position="bottom-left" />
-        <GraphicElement shape="square" size="sm" data-color="additional-color-ocean" className={styles.brandRaised} />
-        <GraphicElement shape="angle" size="lg" data-color="secondary-color-rust" position="top-right" />
-        <GraphicElement shape="corner" size="md" data-color="neutral" position="bottom-right" className={styles.brandRaised} />
-      </div>
 
       <div className={styles.introGrid}>
         <Card variant="tinted" data-color="neutral" className={styles.introCard}>
@@ -93,7 +91,7 @@ const OverviewContent = ({ setActivePage }: { setActivePage: (page: string) => v
           </CardBlock>
         </Card>
       </div>
-    </DocArticle>
+    </article>
   );
 };
 

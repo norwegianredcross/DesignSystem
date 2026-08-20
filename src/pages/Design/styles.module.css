@@ -382,24 +382,72 @@
 .hidden { display: none; }
 .block { display: block; }
 
-/* Red-thread shape band (designretning: grafiske elementer). Sits between
-   the intro text and the cards as a quiet brand signature. */
-.brandBand {
-  display: flex;
-  align-items: flex-end;
-  gap: var(--ds-size-6);
-  margin: var(--ds-size-2) 0 var(--ds-size-10);
-}
-
-/* Staggered baseline: every other shape floats up so the band reads as a
-   composition, not a row of icons. */
-.brandRaised {
+/* Intro hero: cream panel with the "krysset" corner cutout — the same
+   notched form as the Home hero (geometry from the Figma boolean subtract). */
+.introHero {
+  position: relative;
+  background-color: var(--ds-color-neutral-background-tinted);
+  border-radius: var(--ds-border-radius-lg);
+  border-top-left-radius: 0; /* corner is cut away by the notch */
+  padding: calc(var(--ds-size-15) + var(--ds-size-6)) var(--ds-size-8) var(--ds-size-8);
   margin-bottom: var(--ds-size-8);
+  overflow: hidden;
 }
 
-@media (max-width: 768px) {
-  .brandBand {
-    gap: var(--ds-size-4);
-    overflow: hidden;
-  }
+/* Notch: page-background block over the panel's top-left corner. */
+.introHeroNotch {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: var(--ds-size-12);
+  min-width: var(--ds-size-30);
+  background-color: var(--ds-color-neutral-background-default);
+  border-bottom-right-radius: var(--ds-border-radius-lg);
+  display: flex;
+  align-items: center;
+  padding-right: var(--ds-size-8);
+}
+
+.introNotchMeta {
+  font-size: var(--ds-font-size-2);
+  font-weight: var(--ds-font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ds-color-neutral-text-subtle);
+}
+
+/* Inverted fillets: concave transitions where the step meets the panel's
+   top and left edges (same radius as every other corner). */
+.introHeroNotch::before,
+.introHeroNotch::after {
+  content: '';
+  position: absolute;
+  width: var(--ds-border-radius-lg);
+  height: var(--ds-border-radius-lg);
+  background: radial-gradient(
+    circle at 100% 100%,
+    transparent calc(var(--ds-border-radius-lg) - 1px),
+    var(--ds-color-neutral-background-default) var(--ds-border-radius-lg)
+  );
+}
+
+/* Fillet on the panel's top edge, right of the step */
+.introHeroNotch::before {
+  top: 0;
+  right: calc(-1 * var(--ds-border-radius-lg));
+}
+
+/* Fillet on the panel's left edge, below the step */
+.introHeroNotch::after {
+  left: 0;
+  bottom: calc(-1 * var(--ds-border-radius-lg));
+}
+
+.introHeroTitle.introHeroTitle {
+  color: var(--ds-color-primary-color-red-text-default);
+  margin-bottom: var(--ds-size-3);
+}
+
+.introHeroLead {
+  color: var(--ds-color-primary-color-red-text-default);
 }
