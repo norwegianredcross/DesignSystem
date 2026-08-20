@@ -66,11 +66,11 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Keep the group of people in the left/center of the crop so the corner
+  /* Keep the group of people in the right/center of the crop so the corner
      notch lands on the terrain, not on a person. */
-  object-position: 32% center;
+  object-position: 62% center;
   border-radius: var(--ds-border-radius-lg);
-  border-bottom-right-radius: 0; /* corner is cut away by the notch */
+  border-bottom-left-radius: 0; /* corner is cut away by the notch */
 }
 
 /* Notch: a step cut out of the photo's bottom-right corner. The page
@@ -78,11 +78,11 @@
 .photoNotch {
   position: absolute;
   bottom: 0;
-  right: 0;
+  left: 0;
   width: 30%;
   height: 24%;
   background-color: var(--ds-color-neutral-background-default);
-  border-top-left-radius: var(--ds-border-radius-lg);
+  border-top-right-radius: var(--ds-border-radius-lg);
 }
 
 /* Inverted fillets: concave transitions where the step meets the photo's
@@ -94,21 +94,21 @@
   width: var(--ds-border-radius-lg);
   height: var(--ds-border-radius-lg);
   background: radial-gradient(
-    circle at 0 0,
+    circle at 100% 0,
     transparent calc(var(--ds-border-radius-lg) - 1px),
     var(--ds-color-neutral-background-default) var(--ds-border-radius-lg)
   );
 }
 
-/* Fillet on the photo's bottom edge, left of the step */
+/* Fillet on the photo's bottom edge, right of the step */
 .photoNotch::before {
   bottom: 0;
-  left: calc(-1 * var(--ds-border-radius-lg));
+  right: calc(-1 * var(--ds-border-radius-lg));
 }
 
-/* Fillet on the photo's right edge, above the step */
+/* Fillet on the photo's left edge, above the step */
 .photoNotch::after {
-  right: 0;
+  left: 0;
   top: calc(-1 * var(--ds-border-radius-lg));
 }
 
