@@ -66,6 +66,9 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* Keep the group of people in the left/center of the crop so the corner
+     notch lands on the terrain, not on a person. */
+  object-position: 32% center;
   border-radius: var(--ds-border-radius-lg);
   border-bottom-right-radius: 0; /* corner is cut away by the notch */
 }
@@ -76,8 +79,8 @@
   position: absolute;
   bottom: 0;
   right: 0;
-  width: 34%;
-  height: 38%;
+  width: 30%;
+  height: 24%;
   background-color: var(--ds-color-neutral-background-default);
   border-top-left-radius: var(--ds-border-radius-lg);
 }
