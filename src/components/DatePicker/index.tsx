@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback, useEffect, useId, useRef } from 'react';
 import { Button as DigDirButton } from '@digdir/designsystemet-react';
 import {
-  format, startOfMonth, startOfWeek, endOfWeek, eachDayOfInterval,
+  format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, eachDayOfInterval,
   addMonths, subMonths, isSameMonth, isSameDay, isToday, addDays,
   isValid, setDate, getDaysInMonth,
 } from 'date-fns';
@@ -29,7 +29,10 @@ export type DatePickerProps = MergeRight<
 const generateCalendarDays = (date: Date): Date[] => {
   const monthStart = startOfMonth(date);
   const startDate = startOfWeek(monthStart, { locale: nb });
-  const endDate = addDays(startDate, 41);
+  // End at the last week that contains a day of the month (5 or 6 rows).
+  // A fixed 42-cell grid rendered an entire extra week of next-month days
+  // whenever the month fit in 5 rows.
+  const endDate = endOfWeek(endOfMonth(date), { locale: nb });
   return eachDayOfInterval({ start: startDate, end: endDate });
 };
 
@@ -408,11 +411,14 @@ function buildDatePickerInlineCss(s: Record<string, string>): string {
   z-index: 1;
 }
 .${s.otherMonth} {
-  color: var(--ds-color-text-subtle, #aaa);
+  /* Neutral-scoped tokens on purpose: under the red color scope the
+     scope-relative tints turn pink, which emphasized the outside days
+     instead of muting them. */
+  color: var(--ds-color-neutral-text-subtle, #aaa);
   cursor: default;
   pointer-events: none;
-  background-color: var(--ds-color-surface-tinted, #e8e8e8);
-  border: var(--ds-border-width-default, 1px) solid var(--ds-color-border-subtle, #bcbcbc);
+  background-color: var(--ds-color-neutral-surface-tinted, #e8e8e8);
+  border: var(--ds-border-width-default, 1px) solid var(--ds-color-neutral-border-subtle, #bcbcbc);
   margin: -0.5px;
 }
 .${s.selectedDate} {
