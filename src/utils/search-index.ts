@@ -22,6 +22,7 @@ export const searchIndex: SearchItem[] = [
   { id: 'components', title: 'Komponenter', category: 'Page', path: 'components', description: { NO: 'Oversikt over alle komponenter', EN: 'Overview of all components' } },
   { id: 'whats-new', title: 'Hva er nytt', category: 'Page', path: 'whats-new', description: { NO: 'Utgivelser og endringer i designsystemet', EN: 'Releases and changes in the design system' } },
   { id: 'design', title: 'Design', category: 'Page', path: 'design', description: { NO: 'Designretningslinjer og prinsipper', EN: 'Design guidelines and principles' } },
+  { id: 'designretning', title: 'Designretning', category: 'Page', path: 'designretning', description: { NO: 'Prinsipper og virkemidler for digitale flater', EN: 'Principles and approaches for digital surfaces' } },
   { id: 'code', title: 'Kode', category: 'Page', path: 'code', description: { NO: 'Utviklerdokumentasjon og oppsett', EN: 'Developer documentation and setup' } },
   { id: 'tokens', title: 'Tokens', category: 'Page', path: 'tokens', description: { NO: 'Design tokens: farger, størrelser og typografi', EN: 'Design tokens: colors, sizes and typography' } },
 
@@ -73,6 +74,13 @@ export const searchIndex: SearchItem[] = [
   { id: 'tooltip', title: 'Tooltip', category: 'Component', path: 'components/tooltip', description: { NO: 'Hjelpetekster ved hover', EN: 'Help text on hover' } },
 
   { id: 'validationmessage', title: 'ValidationMessage', category: 'Component', path: 'components/validationmessage', description: { NO: 'Feilmeldinger for skjemafelt', EN: 'Error messages for form fields' } },
+
+  // Designretning — kapitler
+  { id: 'designretning-varm', title: 'Varm — farger og typografi', category: 'Design', path: 'designretning/varm', description: { NO: 'Utvidet fargepalett, fargehierarki og typografi', EN: 'Extended color palette, color hierarchy and typography' } },
+  { id: 'designretning-rod-trad', title: 'Rød tråd (kors)', category: 'Design', path: 'designretning/rod-trad', description: { NO: 'Grafisk formspråk avledet av korset', EN: 'Graphic language derived from the cross' } },
+  { id: 'designretning-mennesker', title: 'Mennesker i fokus', category: 'Design', path: 'designretning/mennesker-i-fokus', description: { NO: 'Ekte historier og mennesker som bærende element', EN: 'Real stories and people as a load-bearing element' } },
+  { id: 'designretning-sosial', title: 'Sosial tilstedeværelse', category: 'Design', path: 'designretning/sosial-tilstedevaerelse', description: { NO: 'Deling og distribusjon uten dobbeltarbeid', EN: 'Sharing and distribution without duplicate work' } },
+  { id: 'designretning-framdrift', title: 'Framdrift og effekt', category: 'Design', path: 'designretning/framdrift-og-effekt', description: { NO: 'Vise at handling skaper effekt', EN: 'Showing that action creates impact' } },
 
   // Design — For designere
   { id: 'figma-oppkobling', title: 'Figma tilkobling', category: 'Design', path: 'design/figma-oppkobling', description: { NO: 'Hvordan koble til Figma-biblioteket', EN: 'How to connect to the Figma library' } },

@@ -1,0 +1,227 @@
+/* Page-specific additions for the Designretning page. The shared doc layout
+   (sidebar, article typography, figures) is reused from the Design page's
+   stylesheet so the doc surfaces stay visually identical. */
+
+/* Warm hero panel (Varm): the article header sits on a soft pink surface
+   with a decorative red-thread shape — the page uses the graphic system it
+   documents. */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--ds-size-8);
+  align-items: center;
+  background: var(--ds-color-primary-color-red-background-tinted);
+  border-radius: var(--ds-border-radius-xl);
+  padding: var(--ds-size-10);
+  margin-bottom: var(--ds-size-10);
+}
+
+.kicker {
+  font-size: var(--ds-font-size-2);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: var(--ds-font-weight-semibold);
+  color: var(--ds-color-primary-color-red-text-subtle);
+  margin-bottom: var(--ds-size-2);
+}
+
+/* The shared doc typography paints h1 maroon already; restated here because
+   the hero lives outside that stylesheet's h1 rule specificity chain. */
+.hero .heroTitle {
+  color: var(--ds-color-primary-color-red-text-default);
+  margin-bottom: var(--ds-size-3);
+}
+
+.heroIntro {
+  color: var(--ds-color-primary-color-red-text-default);
+}
+
+.heroShape {
+  align-self: center;
+}
+
+/* Photo hero: like the reference pages, the text sits directly on the page
+   background — no panel — next to a large photo carrying the red-thread
+   corner notch. */
+.heroWithPhoto {
+  grid-template-columns: 1fr 1.2fr;
+  align-items: center;
+  background: none;
+  padding: var(--ds-size-4) 0 var(--ds-size-6);
+}
+
+.heroPhoto {
+  position: relative;
+  margin: 0;
+  /* Definite height, not min-height: the img's percentage height needs it,
+     and object-fit crops the photo into the taller frame. */
+  height: 440px;
+}
+
+/* Same geometry as the Home hero's "krysset" cutout (Figma boolean
+   subtract, node 2277:118305): uniform radius on every corner, and the
+   cut corner has no radius of its own — the notch shapes it. */
+.heroPhoto img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Keep the group of people in the right/center of the crop so the corner
+     notch lands on the terrain, not on a person. */
+  object-position: 62% center;
+  border-radius: var(--ds-border-radius-lg);
+  border-bottom-left-radius: 0; /* corner is cut away by the notch */
+}
+
+/* Notch: a step cut out of the photo's bottom-right corner. The page
+   background token keeps the "cutout" illusion in dark mode. */
+.photoNotch {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 30%;
+  height: 24%;
+  background-color: var(--ds-color-neutral-background-default);
+  border-top-right-radius: var(--ds-border-radius-lg);
+}
+
+/* Inverted fillets: concave transitions where the step meets the photo's
+   bottom and right edges (same radius as every other corner). */
+.photoNotch::before,
+.photoNotch::after {
+  content: '';
+  position: absolute;
+  width: var(--ds-border-radius-lg);
+  height: var(--ds-border-radius-lg);
+  background: radial-gradient(
+    circle at 100% 0,
+    transparent calc(var(--ds-border-radius-lg) - 1px),
+    var(--ds-color-neutral-background-default) var(--ds-border-radius-lg)
+  );
+}
+
+/* Fillet on the photo's bottom edge, right of the step */
+.photoNotch::before {
+  bottom: 0;
+  right: calc(-1 * var(--ds-border-radius-lg));
+}
+
+/* Fillet on the photo's left edge, above the step */
+.photoNotch::after {
+  left: 0;
+  top: calc(-1 * var(--ds-border-radius-lg));
+}
+
+/* Progression (Framdrift): previous/next chapter links in the text-button
+   pattern close every article. */
+.chapterNav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--ds-size-4);
+  margin-top: var(--ds-size-12);
+  padding-top: var(--ds-size-6);
+  border-top: 1px solid var(--ds-color-neutral-border-subtle);
+}
+
+/* Principle cards: soft pink panels, mirroring the deck's principle slide. */
+.principleGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--ds-size-6);
+  margin-bottom: var(--ds-size-10);
+}
+
+.principleCard {
+  border: none;
+  border-radius: var(--ds-border-radius-xl);
+  background: var(--ds-color-primary-color-red-background-tinted);
+}
+
+.principleCard h2,
+.principleCard h3 {
+  color: var(--ds-color-primary-color-red-text-default);
+}
+
+/* Each virkemiddel in the overview: text and its slide illustration side by
+   side on desktop. */
+.meansItem {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--ds-size-6);
+  align-items: start;
+  margin-bottom: var(--ds-size-8);
+}
+
+/* Illustrations exported from the deck sit in cream panels like the other
+   doc figures. */
+.meansIllustration,
+.illustration {
+  margin: 0;
+  background: var(--ds-color-neutral-background-tinted);
+  border-radius: var(--ds-border-radius-xl);
+  padding: var(--ds-size-4);
+}
+
+.meansIllustration img,
+.illustration img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--ds-border-radius-lg);
+}
+
+.illustration {
+  margin-bottom: var(--ds-size-6);
+}
+
+.subSection {
+  margin-bottom: var(--ds-size-8);
+}
+
+/* The six qualities from the deck's approval slide, as soft pink pills. */
+.feelsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ds-size-2);
+  margin-bottom: var(--ds-size-6);
+}
+
+.feelPill {
+  padding: var(--ds-size-1) var(--ds-size-3);
+  border-radius: var(--ds-border-radius-full);
+  background: var(--ds-color-primary-color-red-background-tinted);
+  color: var(--ds-color-primary-color-red-text-default);
+  font-size: var(--ds-font-size-2);
+  font-weight: var(--ds-font-weight-medium);
+}
+
+@media (max-width: 768px) {
+  .principleGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .meansItem {
+    grid-template-columns: 1fr;
+  }
+
+  .hero,
+  .heroWithPhoto {
+    grid-template-columns: 1fr;
+    padding: var(--ds-size-6);
+  }
+
+  /* The decorative shape yields to the text on small screens. */
+  .heroShape {
+    display: none;
+  }
+
+  .heroPhoto {
+    height: 260px;
+  }
+
+  .chapterNav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
