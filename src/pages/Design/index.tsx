@@ -1426,7 +1426,16 @@ export const DesignPage = ({ section, setPage }: DesignPageProps) => {
   ];
 
   const DefaultDesignContent = () => (
-    <ArticleLayout title={t('design.intro.title')} intro={t('design.intro.welcome')} category="Intro">
+    <div className="article-max-width animate-fade-in">
+      {/* Cream panel with the "krysset" corner cutout — the same notched
+          form as the Home hero and the Designretning page. */}
+      <header className={styles.introHero}>
+        <div className={styles.introHeroNotch}>
+          <span className={styles.introNotchMeta}>Design</span>
+        </div>
+        <Heading level={1} data-size="xl" className={styles.introHeroTitle}>{t('design.intro.title')}</Heading>
+        <Paragraph data-size="lg" className={styles.introHeroLead}>{t('design.intro.welcome')}</Paragraph>
+      </header>
       <div className={styles.introGrid}>
         <Card variant="tinted" data-color="neutral" className={styles.introCard}>
           <CardBlock>
@@ -1447,7 +1456,7 @@ export const DesignPage = ({ section, setPage }: DesignPageProps) => {
           </CardBlock>
         </Card>
       </div>
-    </ArticleLayout>
+    </div>
   );
 
   return (

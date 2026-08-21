@@ -48,7 +48,16 @@ const DocArticle = ({ title, intro, category, children }: { title: string; intro
 const OverviewContent = ({ setActivePage }: { setActivePage: (page: string) => void }) => {
   const { t } = useLanguage();
   return (
-    <DocArticle title={t('code.overview.title')} intro={t('code.overview.intro')} category={t('code.sidebar.overview')}>
+    <article className="article-max-width animate-fade-in">
+      {/* Cream panel with the "krysset" corner cutout — the same notched
+          form as the Home hero and the Designretning page. */}
+      <header className={styles.introHero}>
+        <div className={styles.introHeroNotch}>
+          <span className={styles.introNotchMeta}>{t('code.sidebar.overview')}</span>
+        </div>
+        <Heading level={1} data-size="xl" className={styles.introHeroTitle}>{t('code.overview.title')}</Heading>
+        <Paragraph data-size="lg" className={styles.introHeroLead}>{t('code.overview.intro')}</Paragraph>
+      </header>
       <Paragraph style={{ marginBottom: 'var(--ds-size-4)' }}>
         {t('code.overview.text1')}
       </Paragraph>
@@ -82,7 +91,7 @@ const OverviewContent = ({ setActivePage }: { setActivePage: (page: string) => v
           </CardBlock>
         </Card>
       </div>
-    </DocArticle>
+    </article>
   );
 };
 
