@@ -126,15 +126,18 @@
 }
 
 .otherMonth {
-  color: var(--ds-color-text-subtle, #aaa); /* Use global token */
+  /* Neutral-scoped tokens on purpose: under the red color scope the
+     scope-relative tints turn pink, which emphasized the outside days
+     instead of muting them. */
+  color: var(--ds-color-neutral-text-subtle, #aaa);
   cursor: default;
   pointer-events: none;
-  background-color: var(--ds-color-surface-tinted, #e8e8e8); /* Use global token */
-  border: var(--ds-border-width-default, 1px) solid var(--ds-color-border-subtle, #bcbcbc); /* Use global token */
+  background-color: var(--ds-color-neutral-surface-tinted, #e8e8e8);
+  border: var(--ds-border-width-default, 1px) solid var(--ds-color-neutral-border-subtle, #bcbcbc);
   margin: -0.5px;
 }
 .otherMonth .dateNumberContainer {
-  color: var(--ds-color-text-subtle, #aaa); /* Use global token */
+  color: var(--ds-color-neutral-text-subtle, #aaa);
   background-color: transparent;
   box-shadow: none;
 }
