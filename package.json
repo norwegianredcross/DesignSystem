@@ -26,12 +26,12 @@
   },
   "private": false,
   "type": "module",
-  "module": "./dist/componentlibrary.es.js",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/componentlibrary.es.js"
+      "import": "./dist/index.js"
     },
     "./styles": "./dist/styles.css",
     "./styles.css": "./dist/styles.css",
@@ -41,9 +41,7 @@
     "*.css"
   ],
   "files": [
-    "dist/*.js",
-    "dist/*.css",
-    "dist/*.d.ts",
+    "dist/**",
     "README.md",
     "LICENSE"
   ],
