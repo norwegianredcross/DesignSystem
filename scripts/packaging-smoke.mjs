@@ -163,8 +163,36 @@ async function verifyRenderedStyles(dir, label) {
   }
 }
 
-if (!fs.existsSync(path.join(ROOT, 'dist/componentlibrary.es.js'))) {
+if (!fs.existsSync(path.join(ROOT, 'dist/index.js'))) {
   fail('dist/ mangler — kjør `npm run build` før røyktesten.');
+}
+// Unbundlet dist (én fil per modul, som oppstrøms Digdir): hver publisert
+// JS-fil skal starte med 'use client', slik at Next.js App Router kan
+// importere komponentene direkte i server components uten egne wrappere.
+// Den flate bundlen strippet direktivene, og da feilet ALLE importer under
+// react-server-betingelsen.
+const distJsFiles = [];
+(function walk(dir) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) walk(full);
+    else if (entry.name.endsWith('.js')) distJsFiles.push(full);
+  }
+})(path.join(ROOT, 'dist'));
+if (distJsFiles.length < 40) {
+  fail(`dist inneholder bare ${distJsFiles.length} JS-filer — preserveModules-bygget er trolig brutt.`);
+}
+for (const file of distJsFiles) {
+  if (!fs.readFileSync(file, 'utf8').trimStart().startsWith('"use client"')) {
+    fail(`${path.relative(ROOT, file)} mangler 'use client'-banneret.`);
+  }
+}
+if (fs.existsSync(path.join(ROOT, 'dist/node_modules'))) {
+  fail('dist/node_modules finnes — en avhengighet ble bundlet i stedet for å være external (sjekk subpath-imports).');
+}
+// publicDir-vakt: dokumentasjonsappens bilder skal ikke publiseres til npm.
+if (fs.readdirSync(path.join(ROOT, 'dist')).some((f) => /\.(png|svg|jpe?g)$/.test(f))) {
+  fail('dist inneholder bilder fra public/ — publicDir er ikke slått av i bibliotekbygget.');
 }
 if (!fs.readFileSync(path.join(ROOT, 'dist/styles.css'), 'utf8').includes('rk-designsystem.css')) {
   fail('dist/styles.css importerer ikke rk-designsystem.css — komponentstiler leveres ikke.');
@@ -443,10 +471,18 @@ export function App(props: Fixture) {
   // Carousel. Målt ved innføring: Button-only ≈ 431 kB total JS (mest
   // react-dom), full import ≈ 744 kB.
   console.log('Tree-shaking-sjekk (Button-only-app) …');
-  const libBundle = fs.readFileSync(
-    path.join(appDir, 'node_modules/rk-designsystem/dist/componentlibrary.es.js'),
-    'utf8',
-  );
+  // Unbundlet dist: markørene ligger nå i hver sin modulfil, så hele
+  // dist-treet leses samlet.
+  const libDistDir = path.join(appDir, 'node_modules/rk-designsystem/dist');
+  const libFiles = [];
+  (function walkLib(dir) {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) walkLib(full);
+      else if (entry.name.endsWith('.js')) libFiles.push(full);
+    }
+  })(libDistDir);
+  const libBundle = libFiles.map((f) => fs.readFileSync(f, 'utf8')).join('\n');
   // Vaktpost mot tomme assertions: markørene må finnes i selve biblioteket,
   // ellers beviser fraværet deres i konsumentbundlen ingenting.
   if (!/vipps/i.test(libBundle) || !libBundle.includes('embla')) {
