@@ -11,15 +11,11 @@ const config: StorybookConfig = {
   stories: [
     '../src/**/*.mdx',
     '../src/**/*.stories.@(ts|tsx)',
-    '../src/**/*.chromatic.@(ts|tsx)',
   ],
 
   addons: [
-    '@storybook/addon-onboarding',
-    '@storybook/addon-links',
     '@storybook/addon-a11y',
     '@storybook/addon-docs',
-    '@chromatic-com/storybook',
     '@storybook/addon-vitest',
   ],
 
