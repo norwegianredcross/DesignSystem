@@ -59,7 +59,10 @@ jobs:
           # that intentional mismatch (ELSPROBLEMS). Read what is actually on
           # disk instead, and assert it matches the requested version.
           for pkg in designsystemet-react designsystemet-types designsystemet-css; do
-            INSTALLED=$(node -p "require('@digdir/${pkg}/package.json').version")
+            # Read by file path: the Digdir exports maps do not expose
+            # ./package.json, so require('@digdir/…/package.json') throws
+            # ERR_PACKAGE_PATH_NOT_EXPORTED.
+            INSTALLED=$(node -p "JSON.parse(require('fs').readFileSync('node_modules/@digdir/${pkg}/package.json','utf8')).version")
             echo "@digdir/${pkg}: ${INSTALLED}"
             if [ "${INSTALLED}" != "${VERSION}" ]; then
               echo "::error::@digdir/${pkg} er ${INSTALLED}, forventet ${VERSION}"
