@@ -54,7 +54,18 @@ jobs:
             "@digdir/designsystemet-react@${VERSION}" \
             "@digdir/designsystemet-css@${VERSION}" \
             "@digdir/designsystemet-types@${VERSION}"
-          npm ls @digdir/designsystemet-react @digdir/designsystemet-types
+          # Not `npm ls`: the leg deliberately installs a version that differs
+          # from the root manifest's pin, and npm ls fails the whole job on
+          # that intentional mismatch (ELSPROBLEMS). Read what is actually on
+          # disk instead, and assert it matches the requested version.
+          for pkg in designsystemet-react designsystemet-types designsystemet-css; do
+            INSTALLED=$(node -p "require('@digdir/${pkg}/package.json').version")
+            echo "@digdir/${pkg}: ${INSTALLED}"
+            if [ "${INSTALLED}" != "${VERSION}" ]; then
+              echo "::error::@digdir/${pkg} er ${INSTALLED}, forventet ${VERSION}"
+              exit 1
+            fi
+          done
 
       - name: Install Playwright browsers
         run: npx playwright install chromium
