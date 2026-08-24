@@ -371,7 +371,10 @@ export const TestGridSemantics: CalendarStory = {
     const grid = canvas.getByRole('grid', { name: /januar 2025/i });
     expect(grid).toBeInTheDocument();
     expect(canvas.getAllByRole('columnheader').length).toBe(7);
-    expect(canvas.getAllByRole('row').length).toBe(7); // 1 header + 6 uker
+    // 1 header + 5 uker: januar 2025 (on 1. jan – fre 31. jan) fyller
+    // nøyaktig fem rader — gridet slutter nå ved månedens siste uke i
+    // stedet for å alltid rendre 42 celler.
+    expect(canvas.getAllByRole('row').length).toBe(6);
 
     // Nøyaktig ett tabstopp i hele gridet
     const tabStops = grid.querySelectorAll('[tabindex="0"]');
