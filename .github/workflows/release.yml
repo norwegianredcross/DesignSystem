@@ -109,7 +109,13 @@ jobs:
       - name: Commit, tag and push atomically
         run: |
           NEW_VERSION="${{ steps.version.outputs.new }}"
-          git add package.json package-lock.json CHANGELOG.md
+          # The AI-context artifacts embed the package version; without this
+          # regeneration every branch cut from main after a release failed the
+          # artifact-freshness gate until someone refreshed them by hand.
+          npm run generate-metadata
+          npm run update-ai-guide-components
+          npm run generate-ai-context-manifest
+          git add package.json package-lock.json CHANGELOG.md metadata.json AI_DESIGN_SYSTEM_GUIDE.md ai-context.manifest.json
           git commit -m "chore(release): v${NEW_VERSION}"
           git tag -a "v${NEW_VERSION}" -m "v${NEW_VERSION}"
           git push --atomic origin main "refs/tags/v${NEW_VERSION}"
