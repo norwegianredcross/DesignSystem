@@ -15,17 +15,30 @@
   z-index: 20000 !important; /* Lift above header without altering positioning */
 }
 
-/* White background section on the left side of header (from viewport left to end of logo + gutter) */
+/* White background section on the left side of header (from viewport left to
+   end of logo + gutter) — it continues the logo panel's white out to the
+   viewport edge, so it must cover exactly the header's INNER row and nothing
+   else. Anchored top-and-bottom rather than given a fixed height: the inner
+   row's 119px is only a min-height, and the row starts at the top of the
+   header unless the extension bar sits above it. Hardcoding top: 44px (the
+   extension's height) left the slab 44px too low and hanging 44px below the
+   header whenever showHeaderExtension was false — invisible on a light page,
+   glaring on a dark one. */
 .header::before {
   content: '';
   position: absolute;
   left: 0;
-  top: 44px; /* Start below header extension on desktop */
+  top: 0;
+  bottom: 0;
   width: max(241px, calc((100vw - 1364px) / 2 + 242px));
-  height: 119px; /* Match header inner height */
   background-color: white;
   z-index: 0;
   pointer-events: none;
+}
+
+/* With the extension bar present, start below it. */
+.header[data-header-extension='true']::before {
+  top: 44px;
 }
 
 /* Hide white background on mobile */

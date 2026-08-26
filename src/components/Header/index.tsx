@@ -381,7 +381,7 @@ export const Header = ({
     // use scope-relative variables (--ds-color-base-default etc.) and any
     // scope themes it correctly. Legacy 'primary' aliases to the scope it
     // always meant.
-    <header className={styles.header} data-open={isOpen ? 'true' : 'false'} data-color={dataColor === 'primary' ? 'primary-color-red' : dataColor} data-variant={variant}>
+    <header className={styles.header} data-open={isOpen ? 'true' : 'false'} data-color={dataColor === 'primary' ? 'primary-color-red' : dataColor} data-variant={variant} data-header-extension={showHeaderExtension ? 'true' : 'false'}>
       {showHeaderExtension && (
         <div className={`${styles.headerExtension}${extensionColor === 'tinted' ? ` ${styles.headerExtensionTinted}` : ''}`} data-color-scheme="light" data-extension-color={extensionColor}>
           <div className={styles.extensionContentWrapper}>
@@ -804,6 +804,19 @@ function buildInlineCss(styles: Record<string, string>): string {
   flex-direction: column;
   font-family: 'Source Sans 3', sans-serif;
 }
+.${s.header}::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: max(241px, calc((100vw - 1364px) / 2 + 242px));
+  background-color: white;
+  z-index: 0;
+  pointer-events: none;
+}
+.${s.header}[data-header-extension="true"]::before { top: 44px; }
+.${s.header}[data-variant="compact"]::before { display: none; }
 .${s.headerExtension} {
   background-color: var(--ds-color-primary-color-red-base-default, #D52B1E);
   width: 100%;
@@ -918,6 +931,7 @@ function buildInlineCss(styles: Record<string, string>): string {
 .${s.noResults} { padding: var(--ds-size-4); text-align: center; color: var(--ds-color-neutral-text-subtle); }
 @media (max-width: 850px) {
   .${s.header} { z-index: 10000; position: relative; }
+  .${s.header}::before { display: none; }
   .${s.headerExtension} { display: none; }
   .${s.headerInner} { padding: var(--ds-size-5) var(--ds-size-6); min-height: auto; }
   .${s.navItems} { display: none; }

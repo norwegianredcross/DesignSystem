@@ -633,3 +633,94 @@ export const TestNavigationCallbacks: Story = {
     expect(args.setPage).toHaveBeenCalledTimes(2);
   },
 };
+
+export const TestLogoPanelGeometry: Story = {
+  name: 'Test: Logo Panel Covers Exactly The Inner Row',
+  parameters: {
+    // Two headers side by side is a measurement harness, not a page: the
+    // duplicate-banner rules fire on the arrangement itself, not on either
+    // Header. Every other axe rule stays on.
+    a11y: {
+      config: {
+        rules: [
+          { id: 'landmark-no-duplicate-banner', enabled: false },
+          { id: 'landmark-unique', enabled: false },
+        ],
+      },
+    },
+  },
+  render: () => (
+    <>
+      <div data-testid="plain">
+        <Header showUser={false} showSearch={false} showLogin={false} />
+      </div>
+      <div data-testid="extended">
+        <Header
+          showUser={false}
+          showSearch={false}
+          showLogin={false}
+          showHeaderExtension
+          showModeToggle
+        />
+      </div>
+    </>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Below the mobile breakpoint the slab is display:none — nothing to measure.
+    if (window.innerWidth <= 850) return;
+
+    const inner = 119; // .headerInner min-height
+    const extension = 44; // .headerExtension height
+
+    // The white slab that continues the logo panel out to the viewport edge
+    // is a ::before on the header. It must cover the inner row EXACTLY: drift
+    // is invisible against a light page but hangs a white rectangle into a
+    // dark one (the bug this guards — the slab was offset by the extension
+    // bar's 44px even when no extension rendered). Computed top/height are
+    // the only observables a pseudo-element gives us.
+    const measure = (testId: string) => {
+      const header = canvas.getByTestId(testId).querySelector('header');
+      expect(header).not.toBeNull();
+      const el = header as HTMLElement;
+      const slab = getComputedStyle(el, '::before');
+      const top = Number.parseFloat(slab.top);
+      const height = Number.parseFloat(slab.height);
+      return { headerHeight: el.getBoundingClientRect().height, top, height, bottom: top + height };
+    };
+
+    const assertGeometry = (source: string) => {
+      // No extension: the inner row starts at the top of the header, so the
+      // slab must too — and end flush with the header, not below it.
+      const plain = measure('plain');
+      expect(plain.headerHeight, source).toBeCloseTo(inner, 0);
+      expect(plain.top, source).toBeCloseTo(0, 0);
+      expect(plain.height, source).toBeCloseTo(inner, 0);
+      expect(plain.bottom, source).toBeCloseTo(plain.headerHeight, 0);
+
+      // With the extension bar, the slab starts below it and still ends flush.
+      const extended = measure('extended');
+      expect(extended.headerHeight, source).toBeCloseTo(inner + extension, 0);
+      expect(extended.top, source).toBeCloseTo(extension, 0);
+      expect(extended.height, source).toBeCloseTo(inner, 0);
+      expect(extended.bottom, source).toBeCloseTo(extended.headerHeight, 0);
+    };
+
+    // Header ships its styles TWICE: the bundled stylesheet and the
+    // runtime-injected fallback, which lands last in <head> and therefore
+    // wins at equal specificity. Consumers see the bundled copy on the
+    // server-rendered first paint and the injected copy after hydration, so
+    // both must agree — assert against each in turn.
+    assertGeometry('runtime-injected fallback');
+
+    const injected = document.getElementById('rk-header-inline-styles');
+    expect(injected).not.toBeNull();
+    (injected as HTMLElement).remove();
+    try {
+      assertGeometry('bundled stylesheet');
+    } finally {
+      document.head.appendChild(injected as HTMLElement);
+    }
+  },
+};
