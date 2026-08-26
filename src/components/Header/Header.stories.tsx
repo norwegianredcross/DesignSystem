@@ -765,6 +765,25 @@ export const TestLogoPanelGeometry: Story = {
         Number.parseInt(rowStyle.zIndex, 10),
         'fallback-only: inner row must out-paint the slab',
       ).toBeGreaterThan(Number.parseInt(slabStyle.zIndex, 10) || 0);
+
+      // Re-run the geometry here too. Checking it only with both sheets loaded
+      // lets the bundled copy supply anything the injected copy forgot — drop
+      // --rk-header-extension-height from buildInlineCss alone and every other
+      // assertion in this file still passes, while a real inline-only consumer
+      // gets an invalid var() and an auto-sized bar.
+      assertGeometry('inline-only fallback');
+      const fallbackProperty = getComputedStyle(
+        canvas.getByTestId('extended').querySelector('header') as HTMLElement,
+      )
+        .getPropertyValue('--rk-header-extension-height')
+        .trim();
+      expect(fallbackProperty, 'inline-only: --rk-header-extension-height must resolve').toMatch(
+        /^\d+px$/,
+      );
+      expect(barHeight('extended'), 'inline-only: bar must be sized by the property').toBeCloseTo(
+        Number.parseFloat(fallbackProperty),
+        0,
+      );
     } finally {
       for (const sheet of bundled) sheet.disabled = false;
     }
