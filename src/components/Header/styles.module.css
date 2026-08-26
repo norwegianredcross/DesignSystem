@@ -635,6 +635,13 @@
   .logoWrapper {
     gap: var(--ds-size-2);
     background-color: transparent; /* Remove white background on mobile */
+    /* The desktop wrapper is a fixed 119px white panel sized to hold the
+       primary logo. On mobile that logo is display:none and the panel is
+       transparent, so the fixed height is 119px of empty masthead that
+       .headerInner's `height: auto` above cannot shrink — the child pins the
+       row. Let it size to whatever it actually contains (the secondary logo,
+       or nothing). */
+    height: auto;
   }
 
   .logo {
