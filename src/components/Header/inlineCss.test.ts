@@ -9,20 +9,30 @@ import { describe, expect, it } from 'vitest';
  * a useEffect injects into <head> on every mount.
  *
  * That injected <style> lands AFTER the bundled stylesheet, so at equal
- * specificity IT WINS. It is not a fallback — it is an override. Consumers
- * therefore see the bundled copy on the server-rendered first paint and the
- * injected copy from hydration onward, and any property the two disagree on
- * is a visible flip.
+ * specificity IT WINS. It is not a fallback — it is an override. Consumers see
+ * the bundled copy on the server-rendered first paint and the injected copy
+ * from hydration onward, so any property the two resolve differently is a
+ * visible flip.
  *
- * Three shipped bugs came from exactly this drift: the injected copy repainted
+ * Four shipped bugs came from exactly this drift: the injected copy repainted
  * the white logo panel that the bundled sheet removes below 850px, widened the
- * menu's spacer column by 48px, and stripped the search overlay's separator.
- * None were visible in light mode, which is why they survived review.
+ * menu's spacer column by 48px, stripped the search overlay's separator, and
+ * forced the mobile search label to `inline`. None were visible in light mode,
+ * which is why they survived review.
  *
- * The invariant this test pins: for any selector both copies define, they must
- * not give the same property different values. The injected copy staying
- * SILENT about a property is fine — the bundled value then survives, which is
- * the intended "minimal fallback" behaviour. Only contradictions are bugs.
+ * WHAT THIS TEST MODELS: declarations are resolved per media context, in
+ * source order, a rule applying whenever its conditions are a subset of the
+ * context. That suffices here, where a given selector's rules all carry the
+ * same specificity and only media queries separate them.
+ *
+ * WHAT IT DOES NOT MODEL, and therefore cannot catch:
+ *   - specificity, `!important`, and inheritance
+ *   - two DIFFERENT selectors matching the same element (only identical
+ *     selector text is compared)
+ *   - source order between distinct selectors of equal specificity
+ * A browser-level check of the same invariant lives in Header.stories.tsx
+ * (TestLogoPanelGeometry), which measures computed styles with the injected
+ * sheet present, absent, and alone.
  */
 
 const dir = path.dirname(fileURLToPath(import.meta.url));
@@ -40,155 +50,169 @@ function extractInlineCss(source: string): string {
   return source.slice(open, close).replace(/\$\{s\.([A-Za-z0-9_]+)\}/g, '$1');
 }
 
-type Rules = Map<string, Map<string, string>>;
+type Decl = {
+  /** Media conditions in force, e.g. ['(max-width: 850px)', '(prefers-color-scheme: light)']. */
+  conditions: string[];
+  selector: string;
+  prop: string;
+  value: string;
+  /** Position in the sheet — later wins among equally-conditioned rules. */
+  order: number;
+};
 
-/**
- * Flattens a stylesheet to `selector -> property -> value`, keying rules inside
- * an @media block by their query so a mobile rule never compares against a
- * desktop one. Values are whitespace-normalised, since the two copies are
- * hand-formatted differently.
- */
-function parse(css: string): Rules {
-  const withoutComments = css.replace(/\/\*[\s\S]*?\*\//g, '');
-  const out: Rules = new Map();
-
-  const add = (scope: string, selectorList: string, body: string) => {
-    // A grouped selector is just shorthand for one rule per selector; the two
-    // copies group differently, so compare them one selector at a time. CSS
-    // Modules' :global(x) is plain x once emitted.
-    for (const raw of selectorList.split(',')) {
-      const selector = raw
-        .replace(/:global\(([^)]*)\)/g, '$1')
-        // [a='b'], [a="b"] and [a=b] are the same selector; the two copies are
-        // not consistent about quoting, and an unnormalised mismatch here reads
-        // as "the bundled sheet never declared this" — a false pass.
-        .replace(/\[\s*([^\]=\s]+)\s*=\s*["']?([^\]"']*)["']?\s*\]/g, '[$1="$2"]')
-        // Combinators likewise: `.a>.b` and `.a > .b` are one selector.
-        .replace(/\s*([>+~])\s*/g, ' $1 ')
-        .replace(/\s+/g, ' ')
-        .trim();
-      if (!selector) continue;
-      const key = scope + selector;
-      const decls = out.get(key) ?? new Map<string, string>();
-      for (const decl of body.split(';')) {
-        const at = decl.indexOf(':');
-        if (at === -1) continue;
-        const prop = decl.slice(0, at).trim();
-        // Normalise formatting only — `rgba(1, 2, 3, 1)` and `rgba(1,2,3,1)`
-        // are the same declaration written by two different hands.
-        const value = decl
-          .slice(at + 1)
-          .replace(/\s+/g, ' ')
-          .replace(/\s*,\s*/g, ',')
-          .trim();
-        if (prop && value) decls.set(prop, value);
-      }
-      out.set(key, decls);
+/** Splits a selector list on commas that are not inside brackets, parens or quotes. */
+function splitSelectors(list: string): string[] {
+  const out: string[] = [];
+  let depth = 0;
+  let quote: string | null = null;
+  let current = '';
+  for (const ch of list) {
+    if (quote) {
+      if (ch === quote) quote = null;
+    } else if (ch === '"' || ch === "'") quote = ch;
+    else if (ch === '[' || ch === '(') depth++;
+    else if (ch === ']' || ch === ')') depth--;
+    else if (ch === ',' && depth === 0) {
+      out.push(current);
+      current = '';
+      continue;
     }
-  };
-
-  // Lift @media blocks out first so the leftover text is only top-level rules.
-  const media: [string, string][] = [];
-  let base = '';
-  let i = 0;
-  while (i < withoutComments.length) {
-    const at = withoutComments.indexOf('@media', i);
-    if (at === -1) {
-      base += withoutComments.slice(i);
-      break;
-    }
-    base += withoutComments.slice(i, at);
-    const braceAt = withoutComments.indexOf('{', at);
-    let depth = 0;
-    let end = braceAt;
-    for (; end < withoutComments.length; end++) {
-      if (withoutComments[end] === '{') depth++;
-      else if (withoutComments[end] === '}' && --depth === 0) break;
-    }
-    media.push([
-      withoutComments.slice(at, braceAt).replace(/\s+/g, ' ').trim(),
-      withoutComments.slice(braceAt + 1, end),
-    ]);
-    i = end + 1;
+    current += ch;
   }
-
-  const ruleRe = /([^{}]+)\{([^{}]*)\}/g;
-  let m: RegExpExecArray | null;
-  while ((m = ruleRe.exec(base))) add('', m[1], m[2]);
-  for (const [query, body] of media) {
-    const inner = /([^{}]+)\{([^{}]*)\}/g;
-    let r: RegExpExecArray | null;
-    while ((r = inner.exec(body))) add(`${query} | `, r[1], r[2]);
-  }
+  out.push(current);
   return out;
 }
 
 /**
- * Resolves what a selector's property actually computes to in one context.
- * "mobile" means the max-width: 850px block is in play, so a mobile
- * declaration beats the base one — which is exactly the cascade step the
- * white-logo-panel bug slipped through: the bundled sheet turned the panel
- * transparent in the mobile block, and the injected copy's BASE rule, landing
- * later in <head>, painted it white again.
+ * Canonicalises selector text so the two hand-written copies compare equal:
+ * :global(x) is plain x once emitted, [a='b'] / [a="b"] / [a=b] are one
+ * selector, and combinator spacing is cosmetic. Quoted attribute VALUES are
+ * left alone, so [data-x="a > b"] keeps its spacing.
  */
-function effective(rules: Rules, selector: string, prop: string, mobile: boolean): string | undefined {
-  if (mobile) {
-    for (const [key, decls] of rules) {
-      if (!key.startsWith('@media') || !key.includes('850px')) continue;
-      if (key.slice(key.indexOf('| ') + 2) !== selector) continue;
-      const hit = decls.get(prop);
-      if (hit !== undefined) return hit;
-    }
-  }
-  return rules.get(selector)?.get(prop);
+function normaliseSelector(selector: string): string {
+  return selector
+    .replace(/:global\(([^)]*)\)/g, '$1')
+    .replace(/\[\s*([^\]=\s]+)\s*=\s*"([^"]*)"\s*\]/g, '[$1="$2"]')
+    .replace(/\[\s*([^\]=\s]+)\s*=\s*'([^']*)'\s*\]/g, '[$1="$2"]')
+    .replace(/\[\s*([^\]=\s"']+)\s*=\s*([^\]"']*?)\s*\]/g, '[$1="$2"]')
+    .replace(/("[^"]*")|(\s*([>+~])\s*)/g, (_m, quoted, _combi, op) => quoted ?? ` ${op} `)
+    .replace(/("[^"]*")|\s+/g, (_m, quoted) => quoted ?? ' ')
+    .trim();
 }
 
-/** Every selector either copy defines, ignoring the @media prefix. */
-function selectors(...sets: Rules[]): string[] {
-  const all = new Set<string>();
-  for (const rules of sets)
-    for (const key of rules.keys()) all.add(key.startsWith('@media') ? key.slice(key.indexOf('| ') + 2) : key);
-  return [...all];
+/** Flattens a stylesheet into declarations, keeping media nesting and source order. */
+function parse(css: string): Decl[] {
+  const source = css.replace(/\/\*[\s\S]*?\*\//g, '');
+  const out: Decl[] = [];
+  let order = 0;
+
+  const walk = (text: string, conditions: string[]) => {
+    let i = 0;
+    while (i < text.length) {
+      const brace = text.indexOf('{', i);
+      if (brace === -1) break;
+      const head = text.slice(i, brace).trim();
+      let depth = 0;
+      let end = brace;
+      for (; end < text.length; end++) {
+        if (text[end] === '{') depth++;
+        else if (text[end] === '}' && --depth === 0) break;
+      }
+      const body = text.slice(brace + 1, end);
+
+      if (head.startsWith('@media')) {
+        // Recurse so a nested condition NARROWS rather than disappears. Flatten
+        // it and two copies could target opposite colour schemes while their
+        // selector and value still compare equal — a hollow pass.
+        const nested = head
+          .slice('@media'.length)
+          .split(/\s+and\s+/)
+          .map((c) => c.replace(/\s+/g, ' ').trim())
+          .filter(Boolean);
+        walk(body, [...conditions, ...nested]);
+      } else if (!head.startsWith('@')) {
+        for (const raw of splitSelectors(head)) {
+          const selector = normaliseSelector(raw);
+          if (!selector) continue;
+          for (const decl of body.split(';')) {
+            const at = decl.indexOf(':');
+            if (at === -1) continue;
+            const prop = decl.slice(0, at).trim();
+            // Formatting only — `rgba(1, 2, 3, 1)` and `rgba(1,2,3,1)` are the
+            // same declaration written by two different hands.
+            const value = decl
+              .slice(at + 1)
+              .replace(/\s+/g, ' ')
+              .replace(/\s*,\s*/g, ',')
+              .trim();
+            if (prop && value) out.push({ conditions, selector, prop, value, order: order++ });
+          }
+        }
+      }
+      i = end + 1;
+    }
+  };
+
+  walk(source, []);
+  return out;
+}
+
+const bundled = parse(moduleCss);
+const injected = parse(extractInlineCss(indexTsx));
+
+const appliesIn = (conditions: string[], context: string[]) => conditions.every((c) => context.includes(c));
+
+/** What a property resolves to in one media context: the last rule that applies. */
+function effective(decls: Decl[], selector: string, prop: string, context: string[]): string | undefined {
+  let winner: Decl | undefined;
+  for (const d of decls) {
+    if (d.selector !== selector || d.prop !== prop) continue;
+    if (!appliesIn(d.conditions, context)) continue;
+    if (!winner || d.order > winner.order) winner = d;
+  }
+  return winner?.value;
+}
+
+/** Every media context either sheet can actually render in. */
+function contexts(): string[][] {
+  const seen = new Map<string, string[]>();
+  seen.set('', []);
+  for (const d of [...bundled, ...injected]) seen.set([...d.conditions].sort().join(' and '), d.conditions);
+  return [...seen.values()];
 }
 
 describe('Header inline CSS fallback', () => {
-  const bundled = parse(moduleCss);
-  const injected = parse(extractInlineCss(indexTsx));
-
-  it('parses both copies', () => {
-    expect(bundled.size).toBeGreaterThan(40);
-    expect(injected.size).toBeGreaterThan(40);
+  it('parses both copies, keeping nested media conditions', () => {
+    expect(bundled.length).toBeGreaterThan(150);
+    expect(injected.length).toBeGreaterThan(150);
+    // A nested prefers-color-scheme block must survive as a narrower context
+    // rather than collapse into an unconditional mobile rule.
+    expect(contexts().some((c) => c.length > 1)).toBe(true);
   });
 
-  for (const mobile of [false, true]) {
-    it(`never changes what the bundled stylesheet computes to (${mobile ? 'mobile' : 'desktop'})`, () => {
+  for (const context of contexts()) {
+    const label = context.length ? context.join(' and ') : 'no media query';
+    it(`never changes what the bundled stylesheet computes to — ${label}`, () => {
       const conflicts: string[] = [];
-      for (const selector of selectors(bundled, injected)) {
-        // Which properties does the injected copy have an opinion about here?
-        const props = new Set<string>();
-        for (const [key, decls] of injected) {
-          const bare = key.startsWith('@media') ? key.slice(key.indexOf('| ') + 2) : key;
-          if (bare !== selector) continue;
-          if (key.startsWith('@media') && !mobile) continue;
-          for (const prop of decls.keys()) props.add(prop);
-        }
-        for (const prop of props) {
-          const mine = effective(injected, selector, prop, mobile);
-          if (mine === undefined) continue;
-          const theirs = effective(bundled, selector, prop, mobile);
-          if (theirs === mine) continue;
-          conflicts.push(
-            `  ${selector} { ${prop} }\n` +
-              `      styles.module.css : ${theirs ?? '(not declared — browser default applies)'}\n` +
-              `      buildInlineCss    : ${mine}`,
-          );
-        }
+      const pairs = new Map<string, [string, string]>();
+      for (const d of injected) {
+        if (appliesIn(d.conditions, context)) pairs.set(`${d.selector} ${d.prop}`, [d.selector, d.prop]);
+      }
+      for (const [selector, prop] of pairs.values()) {
+        const mine = effective(injected, selector, prop, context);
+        const theirs = effective(bundled, selector, prop, context);
+        if (mine === undefined || mine === theirs) continue;
+        conflicts.push(
+          `  ${selector} { ${prop} }\n` +
+            `      styles.module.css : ${theirs ?? '(not declared — browser default applies)'}\n` +
+            `      buildInlineCss    : ${mine}`,
+        );
       }
       expect(
-        conflicts.join('\n\n'),
+        conflicts.sort().join('\n\n'),
         'buildInlineCss is injected into <head> AFTER the bundled stylesheet, so at equal ' +
-          'specificity it wins. Each line below is a property that renders differently before ' +
-          'and after hydration. Either match the bundled value or drop the declaration.',
+          'specificity it wins. Each entry below renders differently before and after ' +
+          'hydration. Either match the bundled value or drop the declaration.',
       ).toBe('');
     });
   }
