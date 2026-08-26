@@ -680,6 +680,18 @@ export const TestLogoPanelGeometry: Story = {
       return bar ? bar.getBoundingClientRect().height : 0;
     };
 
+    // Measuring alone is not enough: `height: var(--typo)` is invalid at
+    // computed-value time, so the bar would silently fall back to auto and
+    // every measured assertion below would still agree with itself. Pin that
+    // the property resolves and that the bar is actually sized by it.
+    const extensionHeight = getComputedStyle(
+      canvas.getByTestId('extended').querySelector('header') as HTMLElement,
+    )
+      .getPropertyValue('--rk-header-extension-height')
+      .trim();
+    expect(extensionHeight, '--rk-header-extension-height must resolve').toMatch(/^\d+px$/);
+    expect(barHeight('extended')).toBeCloseTo(Number.parseFloat(extensionHeight), 0);
+
     // The white slab that continues the logo panel out to the viewport edge
     // is a ::before on the header. It must cover the inner row EXACTLY: drift
     // is invisible against a light page but hangs a white rectangle into a
