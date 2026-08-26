@@ -1,4 +1,10 @@
 .header {
+  /* Single source of truth for the extension bar's height. The slab below is
+     offset by exactly this much when the bar renders; when the two were
+     written out independently they drifted, which is how the slab ended up
+     44px too low on every header without an extension bar. */
+  --rk-header-extension-height: 44px;
+
   width: 100%;
   background-color: var(--ds-color-neutral-background-default);
   border-bottom: none; /* No border between header and content */
@@ -38,7 +44,7 @@
 
 /* With the extension bar present, start below it. */
 .header[data-header-extension='true']::before {
-  top: 44px;
+  top: var(--rk-header-extension-height);
 }
 
 /* Hide white background on mobile */
@@ -60,7 +66,7 @@
   /* Default fallback */
   background-color: var(--ds-color-primary-color-red-base-default, #D52B1E);
   width: 100%;
-  height: 44px;
+  height: var(--rk-header-extension-height);
   padding: 0 var(--ds-size-6);
   display: flex;
   justify-content: center; /* Center the content wrapper */

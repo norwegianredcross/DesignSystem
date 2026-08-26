@@ -672,7 +672,13 @@ export const TestLogoPanelGeometry: Story = {
     if (window.innerWidth <= 850) return;
 
     const inner = 119; // .headerInner min-height
-    const extension = 44; // .headerExtension height
+
+    // Measured, not hardcoded: the bar's height is a CSS custom property, and
+    // a test that restates the number cannot notice the two drifting apart.
+    const barHeight = (testId: string) => {
+      const bar = canvas.getByTestId(testId).querySelector('[class*="headerExtension"]');
+      return bar ? bar.getBoundingClientRect().height : 0;
+    };
 
     // The white slab that continues the logo panel out to the viewport edge
     // is a ::before on the header. It must cover the inner row EXACTLY: drift
@@ -694,6 +700,7 @@ export const TestLogoPanelGeometry: Story = {
       // No extension: the inner row starts at the top of the header, so the
       // slab must too — and end flush with the header, not below it.
       const plain = measure('plain');
+      expect(barHeight('plain'), source).toBe(0);
       expect(plain.headerHeight, source).toBeCloseTo(inner, 0);
       expect(plain.top, source).toBeCloseTo(0, 0);
       expect(plain.height, source).toBeCloseTo(inner, 0);
@@ -701,8 +708,10 @@ export const TestLogoPanelGeometry: Story = {
 
       // With the extension bar, the slab starts below it and still ends flush.
       const extended = measure('extended');
-      expect(extended.headerHeight, source).toBeCloseTo(inner + extension, 0);
-      expect(extended.top, source).toBeCloseTo(extension, 0);
+      const bar = barHeight('extended');
+      expect(bar, source).toBeGreaterThan(0);
+      expect(extended.headerHeight, source).toBeCloseTo(inner + bar, 0);
+      expect(extended.top, source).toBeCloseTo(bar, 0);
       expect(extended.height, source).toBeCloseTo(inner, 0);
       expect(extended.bottom, source).toBeCloseTo(extended.headerHeight, 0);
     };
@@ -721,6 +730,31 @@ export const TestLogoPanelGeometry: Story = {
       assertGeometry('bundled stylesheet');
     } finally {
       document.head.appendChild(injected as HTMLElement);
+    }
+
+    // Third case: the genuine fallback — a consumer that never imports
+    // rk-designsystem/styles, so ONLY the injected copy applies. The slab is
+    // an absolutely positioned ::before at z-index 0, and a positioned box
+    // paints after ordinary in-flow content, so the inner row must be lifted
+    // into its own stack level or the opaque slab covers the logo outright.
+    const bundled = [...document.styleSheets].filter(
+      (sheet) => sheet.ownerNode !== injected && !(sheet.ownerNode as Element)?.id?.startsWith('rk-header'),
+    );
+    for (const sheet of bundled) sheet.disabled = true;
+    try {
+      const inner = canvas.getByTestId('plain').querySelector('[class*="headerInner"]') as HTMLElement;
+      const rowStyle = getComputedStyle(inner);
+      const slabStyle = getComputedStyle(
+        canvas.getByTestId('plain').querySelector('header') as HTMLElement,
+        '::before',
+      );
+      expect(rowStyle.position, 'fallback-only: inner row must be positioned').toBe('relative');
+      expect(
+        Number.parseInt(rowStyle.zIndex, 10),
+        'fallback-only: inner row must out-paint the slab',
+      ).toBeGreaterThan(Number.parseInt(slabStyle.zIndex, 10) || 0);
+    } finally {
+      for (const sheet of bundled) sheet.disabled = false;
     }
   },
 };
