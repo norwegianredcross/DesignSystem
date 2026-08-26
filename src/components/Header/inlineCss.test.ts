@@ -59,6 +59,12 @@ function parse(css: string): Rules {
     for (const raw of selectorList.split(',')) {
       const selector = raw
         .replace(/:global\(([^)]*)\)/g, '$1')
+        // [a='b'], [a="b"] and [a=b] are the same selector; the two copies are
+        // not consistent about quoting, and an unnormalised mismatch here reads
+        // as "the bundled sheet never declared this" — a false pass.
+        .replace(/\[\s*([^\]=\s]+)\s*=\s*["']?([^\]"']*)["']?\s*\]/g, '[$1="$2"]')
+        // Combinators likewise: `.a>.b` and `.a > .b` are one selector.
+        .replace(/\s*([>+~])\s*/g, ' $1 ')
         .replace(/\s+/g, ' ')
         .trim();
       if (!selector) continue;
