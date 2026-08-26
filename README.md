@@ -137,6 +137,14 @@ import 'rk-designsystem/styles';
 
 This single import includes base styles, theme, and loads the font via Google Fonts.
 
+For editorial HTML that is not built from components (CMS rich text, rendered
+markdown), wrap the output in the `rk-prose` class to get design-system styling
+on plain elements — links first and foremost:
+
+```html
+<div class="rk-prose"><!-- HTML from the CMS --></div>
+```
+
 ### 3. Use Components
 
 ```tsx

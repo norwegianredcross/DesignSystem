@@ -1,0 +1,53 @@
+/**
+ * Prose: stiler for redaksjonell HTML (CMS-riktekst, markdown) som ikke
+ * består av bibliotekets komponenter. Digdir styler bevisst ingenting
+ * globalt — alt ligger bak klasser — så rå HTML fra f.eks. Enonic ender
+ * med nettleserens standardutseende (blå lenker). Konsumenter wrapper
+ * riktekst-utdata i én container:
+ *
+ *   <div class="rk-prose">{...html fra CMS...}</div>
+ *
+ * Deklarasjonene under speiler Digdirs .ds-link (samme --dsc-variabler og
+ * verdier, @digdir/designsystemet-css v1.13) slik at en anker i prose ser
+ * ut som bibliotekets Link-komponent. Holdes i synk her i biblioteket når
+ * Digdir-versjonen bumpes — det er hele poenget med at dette bor i
+ * rk-designsystem og ikke i hver konsument.
+ */
+
+.rk-prose a {
+  --dsc-link-color: var(--ds-color-text-subtle);
+  --dsc-link-color--hover: var(--ds-color-text-default);
+  --dsc-link-color--active: var(--ds-color-text-default);
+  --dsc-link-color--visited: var(--dsc-link-color);
+  --dsc-link-background--active: transparent;
+  --dsc-link-text-decoration-thickness--hover: 0.125em;
+  --dsc-link-text-decoration-thickness: 0.0625em;
+
+  color: var(--dsc-link-color);
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-thickness: var(--dsc-link-text-decoration-thickness);
+  text-underline-offset: 0.27em;
+}
+
+.rk-prose a:where(:visited) {
+  color: var(--dsc-link-color--visited);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .rk-prose a:where(:hover) {
+    color: var(--dsc-link-color--hover);
+    text-decoration-thickness: var(--dsc-link-text-decoration-thickness--hover);
+  }
+}
+
+.rk-prose a:focus-visible {
+  box-shadow: var(--dsc-focus-boxShadow);
+  outline: var(--dsc-focus-outline);
+  outline-offset: var(--ds-border-width-focus);
+}
+
+.rk-prose a:where(:active) {
+  background: var(--dsc-link-background--active);
+  color: var(--dsc-link-color--active);
+}

@@ -3,6 +3,11 @@
  * Eksporterer alle komponenter og typer.
  */
 
+// Global prose-stil for redaksjonell HTML (CMS/markdown) — se filens
+// header. Importeres for sideeffekten: Vite tar den med i
+// dist/rk-designsystem.css sammen med komponentstilene.
+import './styles/prose.css';
+
 // Alert
 export { Alert } from './components/Alert';
 export type { AlertProps } from './components/Alert';
