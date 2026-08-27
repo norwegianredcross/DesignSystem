@@ -30,6 +30,9 @@ import { describe, expect, it } from 'vitest';
  *   - two DIFFERENT selectors matching the same element (only identical
  *     selector text is compared)
  *   - source order between distinct selectors of equal specificity
+ *   - comma-separated media lists (`@media (a), (b)`), which are treated as one
+ *     opaque condition rather than an OR, so contexts where an OR-list rule and
+ *     a narrower rule both apply are not enumerated
  * A browser-level check of the same invariant lives in Header.stories.tsx
  * (TestLogoPanelGeometry), which measures computed styles with the injected
  * sheet present, absent, and alone.
@@ -94,15 +97,95 @@ function normaliseSelector(selector: string): string {
     .replace(/:global\(([^)]*)\)/g, '$1')
     .replace(/\[\s*([^\]=\s]+)\s*=\s*"([^"]*)"\s*\]/g, '[$1="$2"]')
     .replace(/\[\s*([^\]=\s]+)\s*=\s*'([^']*)'\s*\]/g, '[$1="$2"]')
-    .replace(/\[\s*([^\]=\s"']+)\s*=\s*([^\]"']*?)\s*\]/g, '[$1="$2"]')
+    // Only an unquoted value with NO whitespace is safe to quote: `[a=b i]`
+    // carries a case-insensitivity flag and is not the value `b i`.
+    .replace(/\[\s*([^\]=\s"']+)\s*=\s*([^\]"'\s]+)\s*\]/g, '[$1="$2"]')
     .replace(/("[^"]*")|(\s*([>+~])\s*)/g, (_m, quoted, _combi, op) => quoted ?? ` ${op} `)
     .replace(/("[^"]*")|\s+/g, (_m, quoted) => quoted ?? ' ')
     .trim();
 }
 
+/**
+ * Strips comments without touching quoted text, so `content: "/* x *\/"` keeps
+ * its value. A regex sweep would eat the string's insides and make two copies
+ * with different content values compare equal.
+ */
+function stripComments(css: string): string {
+  let out = '';
+  let quote: string | null = null;
+  for (let i = 0; i < css.length; i++) {
+    const ch = css[i];
+    if (quote) {
+      out += ch;
+      if (ch === '\\') {
+        out += css[++i] ?? '';
+      } else if (ch === quote) quote = null;
+      continue;
+    }
+    if (ch === '"' || ch === "'") {
+      quote = ch;
+      out += ch;
+      continue;
+    }
+    if (ch === '/' && css[i + 1] === '*') {
+      const end = css.indexOf('*/', i + 2);
+      i = end === -1 ? css.length : end + 1;
+      continue;
+    }
+    out += ch;
+  }
+  return out;
+}
+
+/** Index of the `}` closing the block that opens at `from`, ignoring quoted braces. */
+function closingBrace(text: string, from: number): number {
+  let depth = 0;
+  let quote: string | null = null;
+  for (let i = from; i < text.length; i++) {
+    const ch = text[i];
+    if (quote) {
+      if (ch === '\\') i++;
+      else if (ch === quote) quote = null;
+      continue;
+    }
+    if (ch === '"' || ch === "'") quote = ch;
+    else if (ch === '{') depth++;
+    else if (ch === '}' && --depth === 0) return i;
+  }
+  return text.length;
+}
+
+/** Splits a declaration block on semicolons that are not inside quotes or parens. */
+function splitDeclarations(body: string): string[] {
+  const out: string[] = [];
+  let quote: string | null = null;
+  let depth = 0;
+  let current = '';
+  for (let i = 0; i < body.length; i++) {
+    const ch = body[i];
+    if (quote) {
+      current += ch;
+      if (ch === '\\') current += body[++i] ?? '';
+      else if (ch === quote) quote = null;
+      continue;
+    }
+    if (ch === '"' || ch === "'") quote = ch;
+    else if (ch === '(') depth++;
+    else if (ch === ')') depth--;
+    else if (ch === ';' && depth === 0) {
+      out.push(current);
+      current = '';
+      continue;
+    }
+    current += ch;
+  }
+  out.push(current);
+  return out;
+}
+
 /** Flattens a stylesheet into declarations, keeping media nesting and source order. */
 function parse(css: string): Decl[] {
-  const source = css.replace(/\/\*[\s\S]*?\*\//g, '');
+  const source = stripComments(css);
   const out: Decl[] = [];
   let order = 0;
 
@@ -112,12 +195,7 @@ function parse(css: string): Decl[] {
       const brace = text.indexOf('{', i);
       if (brace === -1) break;
       const head = text.slice(i, brace).trim();
-      let depth = 0;
-      let end = brace;
-      for (; end < text.length; end++) {
-        if (text[end] === '{') depth++;
-        else if (text[end] === '}' && --depth === 0) break;
-      }
+      const end = closingBrace(text, brace);
       const body = text.slice(brace + 1, end);
 
       if (head.startsWith('@media')) {
@@ -134,7 +212,7 @@ function parse(css: string): Decl[] {
         for (const raw of splitSelectors(head)) {
           const selector = normaliseSelector(raw);
           if (!selector) continue;
-          for (const decl of body.split(';')) {
+          for (const decl of splitDeclarations(body)) {
             const at = decl.indexOf(':');
             if (at === -1) continue;
             const prop = decl.slice(0, at).trim();
@@ -181,6 +259,29 @@ function contexts(): string[][] {
   return [...seen.values()];
 }
 
+/**
+ * Properties the injected copy has an opinion about in this context that
+ * resolve differently from the bundled copy.
+ */
+function conflictsIn(bundledDecls: Decl[], injectedDecls: Decl[], context: string[]): string[] {
+  const conflicts: string[] = [];
+  const pairs = new Map<string, [string, string]>();
+  for (const d of injectedDecls) {
+    if (appliesIn(d.conditions, context)) pairs.set(`${d.selector} ${d.prop}`, [d.selector, d.prop]);
+  }
+  for (const [selector, prop] of pairs.values()) {
+    const mine = effective(injectedDecls, selector, prop, context);
+    const theirs = effective(bundledDecls, selector, prop, context);
+    if (mine === undefined || mine === theirs) continue;
+    conflicts.push(
+      `  ${selector} { ${prop} }\n` +
+        `      styles.module.css : ${theirs ?? '(not declared — browser default applies)'}\n` +
+        `      buildInlineCss    : ${mine}`,
+    );
+  }
+  return conflicts;
+}
+
 describe('Header inline CSS fallback', () => {
   it('parses both copies, keeping nested media conditions', () => {
     expect(bundled.length).toBeGreaterThan(150);
@@ -190,30 +291,105 @@ describe('Header inline CSS fallback', () => {
     expect(contexts().some((c) => c.length > 1)).toBe(true);
   });
 
+  /**
+   * contexts() enumerates only the condition sets literally written, and the
+   * @media prelude is split on ' and '. A comma-separated list is an OR, so
+   * `@media (a), (b)` would be stored as one opaque condition and two queries
+   * that are simultaneously active would never be evaluated together — the
+   * copies could then resolve differently at a real viewport while every
+   * context above compares equal.
+   *
+   * No such list exists in either copy today. Rather than model OR (which
+   * means enumerating the powerset of active queries), assert the assumption
+   * and fail loudly if someone adds one. If this fires, teach parse/contexts
+   * about media lists — do not delete the check.
+   */
+  it('contains no comma-separated media list, which the context model cannot express', () => {
+    const offenders: string[] = [];
+    for (const [name, css] of [
+      ['styles.module.css', moduleCss],
+      ['buildInlineCss', extractInlineCss(indexTsx)],
+    ] as const) {
+      for (const [, prelude] of stripComments(css).matchAll(/@media([^{]*)\{/g)) {
+        let depth = 0;
+        for (const ch of prelude) {
+          if (ch === '(') depth++;
+          else if (ch === ')') depth--;
+          else if (ch === ',' && depth === 0) {
+            offenders.push(`  ${name}: @media${prelude.replace(/\s+/g, ' ').trimEnd()}`);
+            break;
+          }
+        }
+      }
+    }
+    expect(offenders.join('\n')).toBe('');
+  });
+
+  // Agreement between the copies is not the same as being RIGHT. Below 850px
+  // the primary logo is hidden, so the desktop panel's fixed 119px would be an
+  // empty masthead — this pins the intent both copies must express, which the
+  // drift comparison alone would happily let them agree to lose.
+  it('drops the desktop logo panel geometry on mobile in both copies', () => {
+    const mobile = ['(max-width: 850px)'];
+    for (const [name, sheet] of [
+      ['styles.module.css', bundled],
+      ['buildInlineCss', injected],
+    ] as const) {
+      expect(effective(sheet, '.logoWrapper', 'height', mobile), name).toBe('auto');
+      expect(effective(sheet, '.logoWrapper', 'background-color', mobile), name).toBe('transparent');
+    }
+  });
+
   for (const context of contexts()) {
     const label = context.length ? context.join(' and ') : 'no media query';
     it(`never changes what the bundled stylesheet computes to — ${label}`, () => {
-      const conflicts: string[] = [];
-      const pairs = new Map<string, [string, string]>();
-      for (const d of injected) {
-        if (appliesIn(d.conditions, context)) pairs.set(`${d.selector} ${d.prop}`, [d.selector, d.prop]);
-      }
-      for (const [selector, prop] of pairs.values()) {
-        const mine = effective(injected, selector, prop, context);
-        const theirs = effective(bundled, selector, prop, context);
-        if (mine === undefined || mine === theirs) continue;
-        conflicts.push(
-          `  ${selector} { ${prop} }\n` +
-            `      styles.module.css : ${theirs ?? '(not declared — browser default applies)'}\n` +
-            `      buildInlineCss    : ${mine}`,
-        );
-      }
       expect(
-        conflicts.sort().join('\n\n'),
+        conflictsIn(bundled, injected, context).sort().join('\n\n'),
         'buildInlineCss is injected into <head> AFTER the bundled stylesheet, so at equal ' +
           'specificity it wins. Each entry below renders differently before and after ' +
           'hydration. Either match the bundled value or drop the declaration.',
       ).toBe('');
     });
   }
+});
+
+/**
+ * The guard above is worth only as much as this parser, and a parser bug shows
+ * up as a PASS rather than a failure. These feed it divergences it has missed
+ * before and assert it now reports them.
+ */
+describe('inline CSS parser', () => {
+  const diverges = (a: string, b: string) => {
+    const left = parse(a);
+    const right = parse(b);
+    const seen = new Map<string, string[]>([['', []]]);
+    for (const d of [...left, ...right]) seen.set([...d.conditions].sort().join(' and '), d.conditions);
+    return [...seen.values()].flatMap((ctx) => conflictsIn(left, right, ctx)).length > 0;
+  };
+
+  it('does not let a quoted brace hide the rest of the sheet', () => {
+    expect(diverges('.x { content: "}"; color: red; }', '.x { content: "}"; color: blue; }')).toBe(true);
+  });
+
+  it('does not treat comment markers inside a string as a comment', () => {
+    expect(diverges('.x { content: "/* red */"; }', '.x { content: "/* blue */"; }')).toBe(true);
+  });
+
+  it('keeps an attribute case-insensitivity flag distinct from the value', () => {
+    // [data-x=foo i] matches `foo` case-insensitively; [data-x="foo i"] matches
+    // the literal string `foo i` — different elements, so not comparable.
+    expect(parse('[data-x=foo i] { color: red; }')[0].selector).not.toBe(
+      parse('[data-x="foo i"] { color: red; }')[0].selector,
+    );
+  });
+
+  it('sees a nested media condition as narrowing, not as an unconditional rule', () => {
+    const light = '@media (max-width: 1px) { @media (prefers-color-scheme: light) { .x { color: red; } } }';
+    const dark = '@media (max-width: 1px) { @media (prefers-color-scheme: dark) { .x { color: red; } } }';
+    expect(diverges(light, dark)).toBe(true);
+  });
+
+  it('treats differently-quoted attribute selectors as one selector', () => {
+    expect(diverges(".x[data-a='b'] { color: red; }", '.x[data-a="b"] { color: red; }')).toBe(false);
+  });
 });
