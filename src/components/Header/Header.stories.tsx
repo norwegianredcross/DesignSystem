@@ -732,28 +732,48 @@ export const TestLogoPanelGeometry: Story = {
     // runtime-injected fallback, which lands last in <head> and therefore
     // wins at equal specificity. Consumers see the bundled copy on the
     // server-rendered first paint and the injected copy after hydration, so
-    // both must agree — assert against each in turn.
+    // each of the three resulting states has to hold on its own.
+    //
+    // Sheets are toggled via CSSStyleSheet.disabled rather than by detaching
+    // the <style> node: re-appending would move it to the end of <head> and
+    // permanently change cascade order for every later story in this file.
+    const injectedNode = document.getElementById('rk-header-inline-styles');
+    expect(injectedNode).not.toBeNull();
+    const injectedSheet = [...document.styleSheets].find((sheet) => sheet.ownerNode === injectedNode);
+    expect(injectedSheet, 'injected stylesheet not found').toBeDefined();
+    const bundledSheets = [...document.styleSheets].filter((sheet) => sheet !== injectedSheet);
+
+    /**
+     * Disables `sheets` for the duration of `body`. Only sheets that were
+     * ENABLED are touched, so a sheet another story left disabled is not
+     * silently switched back on, and the restore covers a mid-run throw.
+     */
+    const withDisabled = (sheets: CSSStyleSheet[], body: () => void) => {
+      const toggled: CSSStyleSheet[] = [];
+      try {
+        for (const sheet of sheets) {
+          if (sheet.disabled) continue;
+          sheet.disabled = true;
+          toggled.push(sheet);
+        }
+        body();
+      } finally {
+        for (const sheet of toggled) sheet.disabled = false;
+      }
+    };
+
+    // 1. As a hydrated consumer sees it: both sheets, injected copy winning.
     assertGeometry('runtime-injected fallback');
 
-    const injected = document.getElementById('rk-header-inline-styles');
-    expect(injected).not.toBeNull();
-    (injected as HTMLElement).remove();
-    try {
-      assertGeometry('bundled stylesheet');
-    } finally {
-      document.head.appendChild(injected as HTMLElement);
-    }
+    // 2. As the server-rendered first paint looks: bundled sheet alone.
+    withDisabled([injectedSheet as CSSStyleSheet], () => assertGeometry('bundled stylesheet'));
 
-    // Third case: the genuine fallback — a consumer that never imports
-    // rk-designsystem/styles, so ONLY the injected copy applies. The slab is
-    // an absolutely positioned ::before at z-index 0, and a positioned box
-    // paints after ordinary in-flow content, so the inner row must be lifted
-    // into its own stack level or the opaque slab covers the logo outright.
-    const bundled = [...document.styleSheets].filter(
-      (sheet) => sheet.ownerNode !== injected && !(sheet.ownerNode as Element)?.id?.startsWith('rk-header'),
-    );
-    for (const sheet of bundled) sheet.disabled = true;
-    try {
+    // 3. The genuine fallback — a consumer that never imports
+    //    rk-designsystem/styles, so ONLY the injected copy applies. The slab is
+    //    an absolutely positioned ::before at z-index 0, and a positioned box
+    //    paints after ordinary in-flow content, so the inner row must be lifted
+    //    into its own stack level or the opaque slab covers the logo outright.
+    withDisabled(bundledSheets, () => {
       const inner = canvas.getByTestId('plain').querySelector('[class*="headerInner"]') as HTMLElement;
       const rowStyle = getComputedStyle(inner);
       const slabStyle = getComputedStyle(
@@ -784,8 +804,6 @@ export const TestLogoPanelGeometry: Story = {
         Number.parseFloat(fallbackProperty),
         0,
       );
-    } finally {
-      for (const sheet of bundled) sheet.disabled = false;
-    }
+    });
   },
 };
