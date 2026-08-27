@@ -143,9 +143,14 @@ function closingBrace(text: string, from: number): number {
   let quote: string | null = null;
   for (let i = from; i < text.length; i++) {
     const ch = text[i];
+    if (ch === '\\') {
+      // A CSS escape hides the next character, quoted or not: url(foo\\}bar)
+      // contains no structural brace.
+      i++;
+      continue;
+    }
     if (quote) {
-      if (ch === '\\') i++;
-      else if (ch === quote) quote = null;
+      if (ch === quote) quote = null;
       continue;
     }
     if (ch === '"' || ch === "'") quote = ch;
@@ -163,15 +168,21 @@ function splitDeclarations(body: string): string[] {
   let current = '';
   for (let i = 0; i < body.length; i++) {
     const ch = body[i];
+    if (ch === '\\') {
+      // Escaped semicolons are part of the value, not separators.
+      current += ch + (body[++i] ?? '');
+      continue;
+    }
     if (quote) {
       current += ch;
-      if (ch === '\\') current += body[++i] ?? '';
-      else if (ch === quote) quote = null;
+      if (ch === quote) quote = null;
       continue;
     }
     if (ch === '"' || ch === "'") quote = ch;
-    else if (ch === '(') depth++;
-    else if (ch === ')') depth--;
+    // Brackets and braces nest too: a custom property may hold a whole block,
+    // e.g. --theme: { a; b }, whose semicolons are not separators either.
+    else if (ch === '(' || ch === '[' || ch === '{') depth++;
+    else if (ch === ')' || ch === ']' || ch === '}') depth--;
     else if (ch === ';' && depth === 0) {
       out.push(current);
       current = '';
@@ -251,13 +262,55 @@ function effective(decls: Decl[], selector: string, prop: string, context: strin
   return winner?.value;
 }
 
-/** Every media context either sheet can actually render in. */
-function contexts(): string[][] {
+/**
+ * A media condition, reduced to something we can evaluate at a concrete
+ * viewport. Returns null for any form the model cannot express, so unknown
+ * query types fail loudly instead of being silently mis-modelled.
+ */
+function parseCondition(raw: string): ((width: number, scheme: 'light' | 'dark') => boolean) | null {
+  const min = /^\(\s*min-width:\s*(\d+)px\s*\)$/.exec(raw);
+  if (min) return (width) => width >= Number(min[1]);
+  const max = /^\(\s*max-width:\s*(\d+)px\s*\)$/.exec(raw);
+  if (max) return (width) => width <= Number(max[1]);
+  const prefers = /^\(\s*prefers-color-scheme:\s*(light|dark)\s*\)$/.exec(raw);
+  if (prefers) return (_width, scheme) => scheme === prefers[1];
+  return null;
+}
+
+const atomicConditions = (decls: Decl[]) => [...new Set(decls.flatMap((d) => d.conditions))];
+
+/**
+ * Every media context that can actually occur, found by SAMPLING rather than
+ * by listing the condition sets that happen to be written down.
+ *
+ * Listing them is unsound: `(min-width: 768px)` and `(max-width: 850px)` are
+ * both live at 800px, so two copies could order those blocks differently and
+ * resolve to different values at a real viewport while each written-down set
+ * compared equal on its own.
+ *
+ * Sampling each breakpoint boundary (and just either side of it) crossed with
+ * both colour schemes covers every distinct combination the sheets can produce.
+ */
+function contexts(decls: Decl[]): string[][] {
+  const atomics = atomicConditions(decls);
+  const breakpoints = atomics
+    .map((c) => /(\d+)px/.exec(c)?.[1])
+    .filter((n): n is string => n !== undefined)
+    .map(Number);
+  const widths = [...new Set([0, ...breakpoints.flatMap((b) => [b - 1, b, b + 1]), 10_000])].filter(
+    (w) => w >= 0,
+  );
   const seen = new Map<string, string[]>();
-  seen.set('', []);
-  for (const d of [...bundled, ...injected]) seen.set([...d.conditions].sort().join(' and '), d.conditions);
+  for (const width of widths) {
+    for (const scheme of ['light', 'dark'] as const) {
+      const active = atomics.filter((raw) => parseCondition(raw)?.(width, scheme));
+      seen.set([...active].sort().join(' and '), active);
+    }
+  }
   return [...seen.values()];
 }
+
+const headerContexts = contexts([...bundled, ...injected]);
 
 /**
  * Properties the injected copy has an opinion about in this context that
@@ -288,7 +341,7 @@ describe('Header inline CSS fallback', () => {
     expect(injected.length).toBeGreaterThan(150);
     // A nested prefers-color-scheme block must survive as a narrower context
     // rather than collapse into an unconditional mobile rule.
-    expect(contexts().some((c) => c.length > 1)).toBe(true);
+    expect(headerContexts.some((c) => c.length > 1)).toBe(true);
   });
 
   /**
@@ -325,6 +378,18 @@ describe('Header inline CSS fallback', () => {
     expect(offenders.join('\n')).toBe('');
   });
 
+  it('uses only media conditions the context model can evaluate', () => {
+    const unsupported = atomicConditions([...bundled, ...injected]).filter(
+      (raw) => parseCondition(raw) === null,
+    );
+    expect(
+      unsupported.join(', '),
+      'contexts() samples concrete viewports, so every condition must be a min-width, ' +
+        'max-width or prefers-color-scheme query. Teach parseCondition about any new form ' +
+        'rather than letting it be sampled as never-true.',
+    ).toBe('');
+  });
+
   // Agreement between the copies is not the same as being RIGHT. Below 850px
   // the primary logo is hidden, so the desktop panel's fixed 119px would be an
   // empty masthead — this pins the intent both copies must express, which the
@@ -340,7 +405,7 @@ describe('Header inline CSS fallback', () => {
     }
   });
 
-  for (const context of contexts()) {
+  for (const context of headerContexts) {
     const label = context.length ? context.join(' and ') : 'no media query';
     it(`never changes what the bundled stylesheet computes to — ${label}`, () => {
       expect(
@@ -362,9 +427,9 @@ describe('inline CSS parser', () => {
   const diverges = (a: string, b: string) => {
     const left = parse(a);
     const right = parse(b);
-    const seen = new Map<string, string[]>([['', []]]);
-    for (const d of [...left, ...right]) seen.set([...d.conditions].sort().join(' and '), d.conditions);
-    return [...seen.values()].flatMap((ctx) => conflictsIn(left, right, ctx)).length > 0;
+    // Same sampling model the real guard uses, so these cases exercise it
+    // rather than a simplified stand-in.
+    return contexts([...left, ...right]).flatMap((ctx) => conflictsIn(left, right, ctx)).length > 0;
   };
 
   it('does not let a quoted brace hide the rest of the sheet', () => {
@@ -387,6 +452,28 @@ describe('inline CSS parser', () => {
     const light = '@media (max-width: 1px) { @media (prefers-color-scheme: light) { .x { color: red; } } }';
     const dark = '@media (max-width: 1px) { @media (prefers-color-scheme: dark) { .x { color: red; } } }';
     expect(diverges(light, dark)).toBe(true);
+  });
+
+  it('evaluates two separately-written media queries that overlap', () => {
+    // At 800px both are live. Each query on its own agrees between the copies;
+    // only their combination reveals that source order flips the winner.
+    const a = '@media (min-width: 768px) { .x { color: red } } @media (max-width: 850px) { .x { color: blue } }';
+    const b = '@media (max-width: 850px) { .x { color: blue } } @media (min-width: 768px) { .x { color: red } }';
+    expect(diverges(a, b)).toBe(true);
+  });
+
+  it('does not treat an escaped brace as structural', () => {
+    expect(
+      diverges('.x { background: url(foo\\}bar); color: red; }', '.x { background: url(foo\\}bar); color: blue; }'),
+    ).toBe(true);
+  });
+
+  it('does not split a value on an escaped semicolon', () => {
+    expect(diverges('.x { --theme: foo\\;one; }', '.x { --theme: foo\\;two; }')).toBe(true);
+  });
+
+  it('does not split a custom property whose value is a block', () => {
+    expect(diverges('.x { --theme: {a;one}; }', '.x { --theme: {a;two}; }')).toBe(true);
   });
 
   it('treats differently-quoted attribute selectors as one selector', () => {
