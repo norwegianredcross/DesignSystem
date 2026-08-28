@@ -132,7 +132,13 @@ export const Header = ({
     const tag = document.createElement('style');
     tag.id = styleId;
     tag.textContent = css;
-    document.head.appendChild(tag);
+    // prepend, NOT appendChild: this copy is a FALLBACK for consumers who never
+    // import 'rk-designsystem/styles', and it must lose to the real stylesheet
+    // whenever that is present. Appending put it last in <head>, so at equal
+    // specificity it beat the bundled sheet for EVERY consumer — silently
+    // replacing responsive @media values it does not reproduce with its own
+    // desktop base values. Placing it first keeps it a safety net instead.
+    document.head.prepend(tag);
   }, []);
 
   const RedCrossLogo = () => (
