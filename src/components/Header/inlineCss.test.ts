@@ -8,11 +8,11 @@ import { describe, expect, it } from 'vitest';
  * dist/rk-designsystem.css) and the buildInlineCss() copy in index.tsx, which
  * a useEffect injects into <head> on every mount.
  *
- * That injected <style> lands AFTER the bundled stylesheet, so at equal
- * specificity IT WINS. It is not a fallback — it is an override. Consumers see
- * the bundled copy on the server-rendered first paint and the injected copy
- * from hydration onward, so any property the two resolve differently is a
- * visible flip.
+ * The injected copy is now prepended, so the bundled stylesheet wins wherever
+ * it declares something (see src/components/injectedCss.test.ts for why). It
+ * still has to be FAITHFUL: it is the only stylesheet a consumer who never
+ * imports 'rk-designsystem/styles' ever gets, so wherever the two disagree,
+ * that consumer is shown a design the library does not actually specify.
  *
  * Four shipped bugs came from exactly this drift: the injected copy repainted
  * the white logo panel that the bundled sheet removes below 850px, widened the
@@ -410,9 +410,10 @@ describe('Header inline CSS fallback', () => {
     it(`never changes what the bundled stylesheet computes to — ${label}`, () => {
       expect(
         conflictsIn(bundled, injected, context).sort().join('\n\n'),
-        'buildInlineCss is injected into <head> AFTER the bundled stylesheet, so at equal ' +
-          'specificity it wins. Each entry below renders differently before and after ' +
-          'hydration. Either match the bundled value or drop the declaration.',
+        'buildInlineCss is the only stylesheet a consumer who does not import ' +
+          "'rk-designsystem/styles' receives. Each entry below is a property where it " +
+          'shows them something different from the real design. Either match the bundled ' +
+          'value or drop the declaration.',
       ).toBe('');
     });
   }

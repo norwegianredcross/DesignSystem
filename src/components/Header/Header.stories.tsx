@@ -729,10 +729,10 @@ export const TestLogoPanelGeometry: Story = {
     };
 
     // Header ships its styles TWICE: the bundled stylesheet and the
-    // runtime-injected fallback, which lands last in <head> and therefore
-    // wins at equal specificity. Consumers see the bundled copy on the
-    // server-rendered first paint and the injected copy after hydration, so
-    // each of the three resulting states has to hold on its own.
+    // runtime-injected fallback. The fallback is prepended so the bundled
+    // sheet wins wherever it declares something, but a consumer who never
+    // imports 'rk-designsystem/styles' sees the fallback alone — so each of
+    // the three resulting states has to hold on its own.
     //
     // Sheets are toggled via CSSStyleSheet.disabled rather than by detaching
     // the <style> node: re-appending would move it to the end of <head> and

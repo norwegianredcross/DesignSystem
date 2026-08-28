@@ -56,7 +56,14 @@
 .newsletterSection {
   display: flex;
   flex-direction: column;
-  gap: var(--ds-size-8, 32px);
+  /* 24px, not the 32px this rule used to say. The runtime fallback in
+     index.tsx has always declared --ds-size-6 here and, until the fallback was
+     re-ordered, it won — so 24px is what every Storybook review, the docs site
+     and the visual baseline have actually shown. The 32px never rendered.
+     Aligning the two on the shipped value keeps the cascade fix from silently
+     restyling the footer; if 32px was the real intent, changing it is a
+     deliberate design decision, not a side effect. */
+  gap: var(--ds-size-6, 24px);
   max-width: 440px;
 }
 
