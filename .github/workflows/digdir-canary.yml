@@ -1,12 +1,22 @@
 name: Digdir canary
 
-# Peer-kontrakten lover ^1.13.2, men lockfilen tester alltid nøyaktig én
-# versjon. Denne ukentlige kanarien kjører hele testsuiten mot BEGGE ender av
-# det lovede spennet: gulvet (minimumsversjonen fra peer-kontrakten) og taket
-# (nyeste publiserte i spennet). Feiler «newest», har Digdir endret noe innen
-# spennet som treffer oss (mest utsatt: EXPERIMENTAL_Suggestion, som er
-# re-eksportert som stabilt API) — da må enten koden tilpasses eller peer-
-# spennet strammes inn FØR konsumenter treffer det samme.
+# Peer-kontrakten er ~1.13.2, men lockfilen tester alltid nøyaktig én versjon.
+# Denne ukentlige kanarien kjører hele testsuiten mot tre punkter:
+#
+#   minimum          gulvet i peer-spennet
+#   newest           taket i peer-spennet
+#   upstream-latest  nyeste 1.x uansett spenn — informativ, blokkerer ikke
+#
+# De to første vokter spennet vi lover. Den tredje finnes fordi de to første
+# ikke kan se forbi det: med ~1.13.2 kjørte kanarien 1.13.2 mot 1.13.3 mens
+# Digdir stod på 1.21.0, så avstanden vokste uten at noe sa fra. Nå rapporterer
+# upstream-legget hver uke hva som skal til for å heve taket.
+#
+# Feiler «newest», har Digdir endret noe INNENFOR spennet som treffer oss (mest
+# utsatt: EXPERIMENTAL_Suggestion, som er re-eksportert som stabilt API) — da må
+# enten koden tilpasses eller spennet strammes inn FØR konsumenter treffer det
+# samme. Feiler «upstream-latest», er det ventet inntil taket heves; se
+# jobbsammendraget for hvilke komponenter som står i veien.
 on:
   schedule:
     - cron: '0 5 * * 1'
@@ -18,10 +28,13 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    # Det informative legget skal ikke gjøre den ukentlige kjøringen rød; et
+    # permanent rødt kryss blir ignorert. Resultatet står i jobbsammendraget.
+    continue-on-error: ${{ matrix.leg == 'upstream-latest' }}
     strategy:
       fail-fast: false
       matrix:
-        leg: [minimum, newest]
+        leg: [minimum, newest, upstream-latest]
     steps:
       - name: Checkout repository
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
@@ -44,6 +57,11 @@ jobs:
       - name: Pin Digdir to the ${{ matrix.leg }} in-range version
         run: |
           RANGE=$(node -p "require('./package.json').peerDependencies['@digdir/designsystemet-react']")
+          if [ "${{ matrix.leg }}" = "upstream-latest" ]; then
+            # Bevisst utenfor peer-spennet: dette legget måler avstanden til
+            # oppstrøms, som spennet per definisjon ikke kan vise.
+            RANGE="^1.0.0"
+          fi
           if [ "${{ matrix.leg }}" = "minimum" ]; then
             VERSION=$(node -p "'${RANGE}'.replace(/^[^0-9]*/, '')")
           else
@@ -74,7 +92,25 @@ jobs:
         run: npx playwright install chromium
 
       - name: Test (full suite against pinned Digdir)
+        id: suite
         run: npm test
+
+      - name: Report to the job summary
+        if: always()
+        run: |
+          VERSION=$(node -p "JSON.parse(require('fs').readFileSync('node_modules/@digdir/designsystemet-react/package.json','utf8')).version")
+          PEER=$(node -p "require('./package.json').peerDependencies['@digdir/designsystemet-react']")
+          if [ "${{ steps.suite.outcome }}" = "success" ]; then RESULT="passed"; else RESULT="FAILED"; fi
+          {
+            echo "### Digdir ${{ matrix.leg }}: \`${VERSION}\` — ${RESULT}"
+            echo ""
+            echo "Peer-spenn i dag: \`${PEER}\`"
+            if [ "${{ matrix.leg }}" = "upstream-latest" ] && [ "${RESULT}" = "FAILED" ]; then
+              echo ""
+              echo "Oppstrøms har gått videre og suiten feiler der. Taket kan ikke heves"
+              echo "før de feilende testene slutter å hevde Digdirs interne ARIA-struktur."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Build package
         run: npm run build

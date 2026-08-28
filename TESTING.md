@@ -84,6 +84,33 @@ Statiske komponenter er ikke akseptert risiko: de skal oppfylle nivå 1. Nivå 2
 
 Når testing begrenses utover dette skal det dokumenteres i PR-beskrivelsen med begrunnelse.
 
+## 8b. Digdir-versjonstaket
+
+Peer-spennet er `~1.13.2` — altså bare 1.13.x. Det er ikke forsiktighet, det er
+målt: suiten er grønn på 1.13.3 og feiler fra og med 1.14.0.
+
+| Digdir | Utfall |
+| --- | --- |
+| 1.13.3 | grønn |
+| 1.14.0 | Suggestion (4) — Digdir fjernet `role="combobox"` fra input |
+| 1.16.1 | + Tooltip (2) — utløseren har ikke lenger tilgjengelig navn |
+| 1.21.0 | + Avatar, og typefeil i ToggleGroup og Link |
+
+Alle bruddene har samme form: testene våre hevder Digdirs INTERNE ARIA-struktur
+(`role="combobox"`, `role="option"`, utløserens tilgjengelige navn) i stedet for
+vår egen oppførsel. Det er derfor spennet er lavt — vi tester leverandøren.
+
+Å heve taket er ikke en strengendring. Rekkefølgen er:
+
+1. Skriv om de feilende testene til å hevde oppførsel (skriving filtrerer, valg
+   virker) framfor Digdirs attributter.
+2. Kjør kanarien mot ønsket versjon og bekreft grønt.
+3. Utvid peer-spennet til den bekreftede versjonen, og la kanariens
+   `newest`-legg vokte det nye taket.
+
+`upstream-latest`-legget i kanarien rapporterer avstanden ukentlig, slik at
+avviket er synlig i stedet for å vokse i stillhet. Det blokkerer ingenting.
+
 ## 9. Kriterier
 
 **«Klar til test» (før PR åpnes):**
