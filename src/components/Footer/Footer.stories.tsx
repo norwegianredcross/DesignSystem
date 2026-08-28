@@ -135,7 +135,7 @@ export const WithSlotContent: Story = {
     whiteSectionSlot: (
       <div style={{ textAlign: 'center' }}>
         <p style={{ margin: 0, fontWeight: 'bold' }}>SLOT</p>
-        <p style={{ margin: 0, color: '#5d5d5d', fontSize: '14px' }}>Erstatt med eget innhold</p>
+        <p style={{ margin: 0, color: 'var(--ds-color-neutral-text-subtle)', fontSize: '14px' }}>Erstatt med eget innhold</p>
       </div>
     ),
   },

@@ -31,7 +31,7 @@ const IconDisplay: React.FC<{
         style={{
           fontSize: '0.70em', // Smaller font size for potentially long names
           marginTop: '0.5rem',
-          color: '#555',
+          color: 'var(--ds-color-neutral-text-subtle)',
           wordBreak: 'break-all',
         }}
       >

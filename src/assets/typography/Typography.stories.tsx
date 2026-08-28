@@ -38,38 +38,38 @@ const TypographyShowcase = () => {
       <h2>Headings</h2>
       {/* --- Heading Examples --- */}
       <h1 style={getStyle('heading', '2xl')}>Heading 2XL</h1>
-      <p style={{ fontSize: '0.8em', color: '#555', marginTop: '-0.5em', marginBottom: '1.5em' }}>
+      <p style={{ fontSize: '0.8em', color: 'var(--ds-color-neutral-text-subtle)', marginTop: '-0.5em', marginBottom: '1.5em' }}>
         Size: var(--ds-heading-2xl-font-size) | Weight: var(--ds-heading-2xl-font-weight)
       </p>
 
       <h2 style={getStyle('heading', 'xl')}>Heading XL</h2>
-      <p style={{ fontSize: '0.8em', color: '#555', marginTop: '-0.5em', marginBottom: '1.5em' }}>
+      <p style={{ fontSize: '0.8em', color: 'var(--ds-color-neutral-text-subtle)', marginTop: '-0.5em', marginBottom: '1.5em' }}>
         Size: var(--ds-heading-xl-font-size) | Weight: var(--ds-heading-xl-font-weight)
       </p>
 
       <h3 style={getStyle('heading', 'lg')}>Heading LG</h3>
-      <p style={{ fontSize: '0.8em', color: '#555', marginTop: '-0.5em', marginBottom: '1.5em' }}>
+      <p style={{ fontSize: '0.8em', color: 'var(--ds-color-neutral-text-subtle)', marginTop: '-0.5em', marginBottom: '1.5em' }}>
         Size: var(--ds-heading-lg-font-size) | Weight: var(--ds-heading-lg-font-weight)
       </p>
 
       <h4 style={getStyle('heading', 'md')}>Heading MD</h4>
-      <p style={{ fontSize: '0.8em', color: '#555', marginTop: '-0.5em', marginBottom: '1.5em' }}>
+      <p style={{ fontSize: '0.8em', color: 'var(--ds-color-neutral-text-subtle)', marginTop: '-0.5em', marginBottom: '1.5em' }}>
         Size: var(--ds-heading-md-font-size) | Weight: var(--ds-heading-md-font-weight)
       </p>
 
       <h5 style={getStyle('heading', 'sm')}>Heading SM</h5>
-      <p style={{ fontSize: '0.8em', color: '#555', marginTop: '-0.5em', marginBottom: '1.5em' }}>
+      <p style={{ fontSize: '0.8em', color: 'var(--ds-color-neutral-text-subtle)', marginTop: '-0.5em', marginBottom: '1.5em' }}>
         Size: var(--ds-heading-sm-font-size) | Weight: var(--ds-heading-sm-font-weight)
       </p>
 
       <h6 style={getStyle('heading', 'xs')}>Heading XS</h6>
-      <p style={{ fontSize: '0.8em', color: '#555', marginTop: '-0.5em', marginBottom: '1.5em' }}>
+      <p style={{ fontSize: '0.8em', color: 'var(--ds-color-neutral-text-subtle)', marginTop: '-0.5em', marginBottom: '1.5em' }}>
         Size: var(--ds-heading-xs-font-size) | Weight: var(--ds-heading-xs-font-weight)
       </p>
 
       {/* Using a p tag for the smallest heading visually */}
       <p style={getStyle('heading', '2xs')}>Heading 2XS (rendered as p)</p>
-      <p style={{ fontSize: '0.8em', color: '#555', marginTop: '-0.5em', marginBottom: '1.5em' }}>
+      <p style={{ fontSize: '0.8em', color: 'var(--ds-color-neutral-text-subtle)', marginTop: '-0.5em', marginBottom: '1.5em' }}>
         Size: var(--ds-heading-2xs-font-size) | Weight: var(--ds-heading-2xs-font-weight)
       </p>
 
