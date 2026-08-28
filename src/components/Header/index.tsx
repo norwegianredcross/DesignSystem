@@ -381,7 +381,7 @@ export const Header = ({
     // use scope-relative variables (--ds-color-base-default etc.) and any
     // scope themes it correctly. Legacy 'primary' aliases to the scope it
     // always meant.
-    <header className={styles.header} data-open={isOpen ? 'true' : 'false'} data-color={dataColor === 'primary' ? 'primary-color-red' : dataColor} data-variant={variant}>
+    <header className={styles.header} data-open={isOpen ? 'true' : 'false'} data-color={dataColor === 'primary' ? 'primary-color-red' : dataColor} data-variant={variant} data-header-extension={showHeaderExtension ? 'true' : 'false'}>
       {showHeaderExtension && (
         <div className={`${styles.headerExtension}${extensionColor === 'tinted' ? ` ${styles.headerExtensionTinted}` : ''}`} data-color-scheme="light" data-extension-color={extensionColor}>
           <div className={styles.extensionContentWrapper}>
@@ -795,6 +795,7 @@ function buildInlineCss(styles: Record<string, string>): string {
   const s = styles;
   return `
 .${s.header} {
+  --rk-header-extension-height: 44px;
   width: 100%;
   background-color: var(--ds-color-neutral-background-default);
   border-bottom: none;
@@ -804,10 +805,23 @@ function buildInlineCss(styles: Record<string, string>): string {
   flex-direction: column;
   font-family: 'Source Sans 3', sans-serif;
 }
+.${s.header}::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: max(241px, calc((100vw - 1364px) / 2 + 242px));
+  background-color: white;
+  z-index: 0;
+  pointer-events: none;
+}
+.${s.header}[data-header-extension="true"]::before { top: var(--rk-header-extension-height); }
+.${s.header}[data-variant="compact"]::before { display: none; }
 .${s.headerExtension} {
   background-color: var(--ds-color-primary-color-red-base-default, #D52B1E);
   width: 100%;
-  height: 44px;
+  height: var(--rk-header-extension-height);
   padding: 0 var(--ds-size-6);
   display: flex;
   justify-content: center;
@@ -860,6 +874,12 @@ function buildInlineCss(styles: Record<string, string>): string {
   display: flex; align-items: center; justify-content: space-between;
   min-height: 119px; width: 100%; max-width: 1364px;
   margin: 0 auto; padding: 0 var(--ds-size-6); box-sizing: border-box; gap: var(--ds-size-6);
+  /* Load-bearing for the slab above, not decoration. The slab is an absolutely
+     positioned ::before with z-index: 0, and a positioned box paints AFTER
+     ordinary in-flow content — so without lifting this row into its own stack
+     level the opaque white slab covers the logo. The bundled stylesheet pairs
+     the two rules; a consumer relying only on this fallback needs them both. */
+  position: relative; z-index: 10;
 }
 .${s.logoWrapper} { display: flex; align-items: center; height: 119px; flex-shrink: 0; background-color: white; }
 .${s.logo} { display: flex; align-items: center; justify-content: center; width: 217px; height: 100%; text-decoration: none; color: inherit; flex-shrink: 0; }
@@ -918,6 +938,7 @@ function buildInlineCss(styles: Record<string, string>): string {
 .${s.noResults} { padding: var(--ds-size-4); text-align: center; color: var(--ds-color-neutral-text-subtle); }
 @media (max-width: 850px) {
   .${s.header} { z-index: 10000; position: relative; }
+  .${s.header}::before { display: none; }
   .${s.headerExtension} { display: none; }
   .${s.headerInner} { padding: var(--ds-size-5) var(--ds-size-6); min-height: auto; }
   .${s.navItems} { display: none; }

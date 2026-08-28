@@ -1,4 +1,10 @@
 .header {
+  /* Single source of truth for the extension bar's height. The slab below is
+     offset by exactly this much when the bar renders; when the two were
+     written out independently they drifted, which is how the slab ended up
+     44px too low on every header without an extension bar. */
+  --rk-header-extension-height: 44px;
+
   width: 100%;
   background-color: var(--ds-color-neutral-background-default);
   border-bottom: none; /* No border between header and content */
@@ -15,17 +21,30 @@
   z-index: 20000 !important; /* Lift above header without altering positioning */
 }
 
-/* White background section on the left side of header (from viewport left to end of logo + gutter) */
+/* White background section on the left side of header (from viewport left to
+   end of logo + gutter) — it continues the logo panel's white out to the
+   viewport edge, so it must cover exactly the header's INNER row and nothing
+   else. Anchored top-and-bottom rather than given a fixed height: the inner
+   row's 119px is only a min-height, and the row starts at the top of the
+   header unless the extension bar sits above it. Hardcoding top: 44px (the
+   extension's height) left the slab 44px too low and hanging 44px below the
+   header whenever showHeaderExtension was false — invisible on a light page,
+   glaring on a dark one. */
 .header::before {
   content: '';
   position: absolute;
   left: 0;
-  top: 44px; /* Start below header extension on desktop */
+  top: 0;
+  bottom: 0;
   width: max(241px, calc((100vw - 1364px) / 2 + 242px));
-  height: 119px; /* Match header inner height */
   background-color: white;
   z-index: 0;
   pointer-events: none;
+}
+
+/* With the extension bar present, start below it. */
+.header[data-header-extension='true']::before {
+  top: var(--rk-header-extension-height);
 }
 
 /* Hide white background on mobile */
@@ -47,7 +66,7 @@
   /* Default fallback */
   background-color: var(--ds-color-primary-color-red-base-default, #D52B1E);
   width: 100%;
-  height: 44px;
+  height: var(--rk-header-extension-height);
   padding: 0 var(--ds-size-6);
   display: flex;
   justify-content: center; /* Center the content wrapper */

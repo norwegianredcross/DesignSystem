@@ -633,3 +633,177 @@ export const TestNavigationCallbacks: Story = {
     expect(args.setPage).toHaveBeenCalledTimes(2);
   },
 };
+
+export const TestLogoPanelGeometry: Story = {
+  name: 'Test: Logo Panel Covers Exactly The Inner Row',
+  parameters: {
+    // Two headers side by side is a measurement harness, not a page: the
+    // duplicate-banner rules fire on the arrangement itself, not on either
+    // Header. Every other axe rule stays on.
+    a11y: {
+      config: {
+        rules: [
+          { id: 'landmark-no-duplicate-banner', enabled: false },
+          { id: 'landmark-unique', enabled: false },
+        ],
+      },
+    },
+  },
+  render: () => (
+    <>
+      <div data-testid="plain">
+        <Header showUser={false} showSearch={false} showLogin={false} />
+      </div>
+      <div data-testid="extended">
+        <Header
+          showUser={false}
+          showSearch={false}
+          showLogin={false}
+          showHeaderExtension
+          showModeToggle
+        />
+      </div>
+    </>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Below the mobile breakpoint the slab is display:none — nothing to measure.
+    if (window.innerWidth <= 850) return;
+
+    const inner = 119; // .headerInner min-height
+
+    // Measured, not hardcoded: the bar's height is a CSS custom property, and
+    // a test that restates the number cannot notice the two drifting apart.
+    const barHeight = (testId: string) => {
+      const bar = canvas.getByTestId(testId).querySelector('[class*="headerExtension"]');
+      return bar ? bar.getBoundingClientRect().height : 0;
+    };
+
+    // Measuring alone is not enough: `height: var(--typo)` is invalid at
+    // computed-value time, so the bar would silently fall back to auto and
+    // every measured assertion below would still agree with itself. Pin that
+    // the property resolves and that the bar is actually sized by it.
+    const extensionHeight = getComputedStyle(
+      canvas.getByTestId('extended').querySelector('header') as HTMLElement,
+    )
+      .getPropertyValue('--rk-header-extension-height')
+      .trim();
+    expect(extensionHeight, '--rk-header-extension-height must resolve').toMatch(/^\d+px$/);
+    expect(barHeight('extended')).toBeCloseTo(Number.parseFloat(extensionHeight), 0);
+
+    // The white slab that continues the logo panel out to the viewport edge
+    // is a ::before on the header. It must cover the inner row EXACTLY: drift
+    // is invisible against a light page but hangs a white rectangle into a
+    // dark one (the bug this guards — the slab was offset by the extension
+    // bar's 44px even when no extension rendered). Computed top/height are
+    // the only observables a pseudo-element gives us.
+    const measure = (testId: string) => {
+      const header = canvas.getByTestId(testId).querySelector('header');
+      expect(header).not.toBeNull();
+      const el = header as HTMLElement;
+      const slab = getComputedStyle(el, '::before');
+      const top = Number.parseFloat(slab.top);
+      const height = Number.parseFloat(slab.height);
+      return { headerHeight: el.getBoundingClientRect().height, top, height, bottom: top + height };
+    };
+
+    const assertGeometry = (source: string) => {
+      // No extension: the inner row starts at the top of the header, so the
+      // slab must too — and end flush with the header, not below it.
+      const plain = measure('plain');
+      expect(barHeight('plain'), source).toBe(0);
+      expect(plain.headerHeight, source).toBeCloseTo(inner, 0);
+      expect(plain.top, source).toBeCloseTo(0, 0);
+      expect(plain.height, source).toBeCloseTo(inner, 0);
+      expect(plain.bottom, source).toBeCloseTo(plain.headerHeight, 0);
+
+      // With the extension bar, the slab starts below it and still ends flush.
+      const extended = measure('extended');
+      const bar = barHeight('extended');
+      expect(bar, source).toBeGreaterThan(0);
+      expect(extended.headerHeight, source).toBeCloseTo(inner + bar, 0);
+      expect(extended.top, source).toBeCloseTo(bar, 0);
+      expect(extended.height, source).toBeCloseTo(inner, 0);
+      expect(extended.bottom, source).toBeCloseTo(extended.headerHeight, 0);
+    };
+
+    // Header ships its styles TWICE: the bundled stylesheet and the
+    // runtime-injected fallback, which lands last in <head> and therefore
+    // wins at equal specificity. Consumers see the bundled copy on the
+    // server-rendered first paint and the injected copy after hydration, so
+    // each of the three resulting states has to hold on its own.
+    //
+    // Sheets are toggled via CSSStyleSheet.disabled rather than by detaching
+    // the <style> node: re-appending would move it to the end of <head> and
+    // permanently change cascade order for every later story in this file.
+    const injectedNode = document.getElementById('rk-header-inline-styles');
+    expect(injectedNode).not.toBeNull();
+    const injectedSheet = [...document.styleSheets].find((sheet) => sheet.ownerNode === injectedNode);
+    expect(injectedSheet, 'injected stylesheet not found').toBeDefined();
+    const bundledSheets = [...document.styleSheets].filter((sheet) => sheet !== injectedSheet);
+
+    /**
+     * Disables `sheets` for the duration of `body`. Only sheets that were
+     * ENABLED are touched, so a sheet another story left disabled is not
+     * silently switched back on, and the restore covers a mid-run throw.
+     */
+    const withDisabled = (sheets: CSSStyleSheet[], body: () => void) => {
+      const toggled: CSSStyleSheet[] = [];
+      try {
+        for (const sheet of sheets) {
+          if (sheet.disabled) continue;
+          sheet.disabled = true;
+          toggled.push(sheet);
+        }
+        body();
+      } finally {
+        for (const sheet of toggled) sheet.disabled = false;
+      }
+    };
+
+    // 1. As a hydrated consumer sees it: both sheets, injected copy winning.
+    assertGeometry('runtime-injected fallback');
+
+    // 2. As the server-rendered first paint looks: bundled sheet alone.
+    withDisabled([injectedSheet as CSSStyleSheet], () => assertGeometry('bundled stylesheet'));
+
+    // 3. The genuine fallback — a consumer that never imports
+    //    rk-designsystem/styles, so ONLY the injected copy applies. The slab is
+    //    an absolutely positioned ::before at z-index 0, and a positioned box
+    //    paints after ordinary in-flow content, so the inner row must be lifted
+    //    into its own stack level or the opaque slab covers the logo outright.
+    withDisabled(bundledSheets, () => {
+      const inner = canvas.getByTestId('plain').querySelector('[class*="headerInner"]') as HTMLElement;
+      const rowStyle = getComputedStyle(inner);
+      const slabStyle = getComputedStyle(
+        canvas.getByTestId('plain').querySelector('header') as HTMLElement,
+        '::before',
+      );
+      expect(rowStyle.position, 'fallback-only: inner row must be positioned').toBe('relative');
+      expect(
+        Number.parseInt(rowStyle.zIndex, 10),
+        'fallback-only: inner row must out-paint the slab',
+      ).toBeGreaterThan(Number.parseInt(slabStyle.zIndex, 10) || 0);
+
+      // Re-run the geometry here too. Checking it only with both sheets loaded
+      // lets the bundled copy supply anything the injected copy forgot — drop
+      // --rk-header-extension-height from buildInlineCss alone and every other
+      // assertion in this file still passes, while a real inline-only consumer
+      // gets an invalid var() and an auto-sized bar.
+      assertGeometry('inline-only fallback');
+      const fallbackProperty = getComputedStyle(
+        canvas.getByTestId('extended').querySelector('header') as HTMLElement,
+      )
+        .getPropertyValue('--rk-header-extension-height')
+        .trim();
+      expect(fallbackProperty, 'inline-only: --rk-header-extension-height must resolve').toMatch(
+        /^\d+px$/,
+      );
+      expect(barHeight('extended'), 'inline-only: bar must be sized by the property').toBeCloseTo(
+        Number.parseFloat(fallbackProperty),
+        0,
+      );
+    });
+  },
+};
