@@ -296,6 +296,11 @@
   width: 169px;
   height: auto;
   display: block;
+  /* The wordmark paths are currentColor. Default and mobile-menu placements sit
+     on a hardcoded white panel, so the wordmark is hardcoded dark to match it —
+     the pair has to stay in step, and neither follows the colour scheme. The
+     red cross keeps its brand red in every theme. */
+  color: #1e1e1e;
 }
 
 .primaryLogo {
@@ -826,4 +831,12 @@
   background-color: transparent;
   margin-left: 0;
   padding-left: 0;
+}
+
+/* Compact drops the white panel, so the wordmark sits directly on the header
+   and must follow the colour scheme instead. Hardcoded dark, it rendered
+   #1e1e1e on the dark header's #181818 — the cross stayed visible and the
+   words vanished. */
+.header[data-variant="compact"] .redCrossLogo {
+  color: var(--ds-color-neutral-text-default);
 }

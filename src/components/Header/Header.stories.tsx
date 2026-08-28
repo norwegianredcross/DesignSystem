@@ -807,3 +807,49 @@ export const TestLogoPanelGeometry: Story = {
     });
   },
 };
+
+export const TestCompactWordmarkContrast: Story = {
+  name: 'Test: Compact Wordmark Stays Legible In Dark Mode',
+  args: { variant: 'compact', showUser: false, showSearch: false, showLogin: false },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    // Set the scheme HERE rather than in a decorator: themeDecorator writes
+    // data-color-scheme in a useEffect during render and would overwrite it.
+    // play runs after that effect, so this is the value that survives.
+    document.documentElement.setAttribute('data-color-scheme', 'dark');
+    try {
+      await waitFor(() => {
+        const header = canvas.getByRole('banner');
+        expect(getComputedStyle(header).backgroundColor).not.toBe('rgb(255, 255, 255)');
+      });
+      const header = canvas.getByRole('banner');
+      const svg = header.querySelector('svg') as SVGElement;
+      expect(svg, 'wordmark svg not found').not.toBeNull();
+
+      const parse = (colour: string) => colour.match(/[\d.]+/g)!.slice(0, 3).map(Number);
+      // WCAG relative luminance, then the standard contrast ratio.
+      const luminance = ([r, g, b]: number[]) => {
+        const f = (c: number) => {
+          const v = c / 255;
+          return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+        };
+        return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+      };
+      const ratio = (a: number[], b: number[]) => {
+        const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+        return (hi + 0.05) / (lo + 0.05);
+      };
+
+      const ink = getComputedStyle(svg).color;
+      const backdrop = getComputedStyle(header).backgroundColor;
+      const contrast = ratio(parse(ink), parse(backdrop));
+
+      // Compact drops the white logo panel, so the wordmark sits straight on
+      // the header. 3:1 is the WCAG AA floor for non-text graphics; the
+      // hardcoded #1e1e1e fill scored about 1.02 against the dark header.
+      expect(contrast, `compact dark: wordmark ${ink} on ${backdrop} is ${contrast.toFixed(2)}:1`).toBeGreaterThan(3);
+    } finally {
+      document.documentElement.removeAttribute('data-color-scheme');
+    }
+  },
+};
