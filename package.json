@@ -62,7 +62,7 @@
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
     "test": "vitest run --config vitest.config.ts",
     "preview": "vite preview",
-    "prepublishOnly": "npm run build",
+    "prepack": "npm run build",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "npm run generate-metadata && npm run update-ai-guide-components && npm run generate-ai-context-manifest && storybook build --output-dir storybook-build",
     "generate-metadata": "node generate-metadata.mjs",

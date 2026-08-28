@@ -146,10 +146,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # dist/ er gitignored og finnes ikke etter checkout — prepublishOnly-
-      # hooken i package.json bygger den automatisk under npm publish.
+      # dist/ er gitignored og finnes ikke etter checkout — prepack-hooken i
+      # package.json bygger den automatisk under npm publish.
       # (1.3.0 ble publisert av den gamle én-jobbs-workflowen som bygde selv;
       # uten hooken ville denne jobben publisert en tarball uten dist/.)
+      # Hooken var prepublishOnly, som IKKE kjører for `npm pack`: en manuell
+      # pakking av et rent tre ga en tarball på tre filer uten kode. prepack
+      # kjører for begge, så pakking og publisering nå alltid bygger.
       - name: Publish to npm
         run: npm publish
         env:
