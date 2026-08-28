@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.3.2 (2026-08-28)
+
+- ci(digdir): canary can see past the peer range (#121) (3dadf589)
+- test: the theme matrix never actually changed the theme (#120) (08639293)
+- fix(Header): compact wordmark follows the colour scheme (#119) (47f95c20)
+- fix(pkg): npm pack builds dist, same as npm publish (#118) (8faad8a4)
+- fix: runtime CSS fallbacks must not override the bundled stylesheet (#117) (48474d10)
+- fix(Header): injected CSS no longer overrides the bundled stylesheet (#116) (9831c0be)
+- fix(Header): white logo panel no longer offset when the extension bar is hidden (#115) (4f4b716d)
+- fix(ci): release regenerates AI-context artifacts (#113) (5f9a0d83)
+- chore: remove six unused devDependencies and dead Storybook addons (#112) (fc6fff5e)
+- chore: remove stale root docs and helper scripts (#111) (1c2c36a1)
+- chore: Digdir 1.13.3 lockstep bump (#110) (b69f63b7)
+- fix(DatePicker): grid ends at the month's last week and outside days are muted (#109) (5a791bce)
+
+
 ## 1.3.1 (2026-08-21)
 
 - chore: unbundled dist with use client banners like upstream Digdir (#108) (976171f2)
