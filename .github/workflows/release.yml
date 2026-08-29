@@ -141,6 +141,12 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      # Trusted publishing: npm verifies a short-lived OIDC token minted by
+      # GitHub for this repo and workflow, so no npm secret is involved at all.
+      # Token publishing kept failing with EOTP because the account requires a
+      # 2FA code on writes and a CI runner has no authenticator; OIDC is exempt
+      # by design, and there is no secret left to expire or rotate.
+      id-token: write
     steps:
       - name: Resolve the tag to publish
         id: target
@@ -190,6 +196,13 @@ jobs:
           cache: 'npm'
           registry-url: 'https://registry.npmjs.org'
 
+      # Trusted publishing landed in npm 11.5.1; Node 20 ships npm 10.x, which
+      # would silently fall back to token auth and fail the same way again.
+      - name: Use an npm that supports trusted publishing
+        run: |
+          npm install -g npm@latest
+          npm --version
+
       - name: Install dependencies
         run: npm ci
 
@@ -200,11 +213,12 @@ jobs:
       # Hooken var prepublishOnly, som IKKE kjører for `npm pack`: en manuell
       # pakking av et rent tre ga en tarball på tre filer uten kode. prepack
       # kjører for begge, så pakking og publisering nå alltid bygger.
+      # No NODE_AUTH_TOKEN: with a trusted publisher registered on npmjs.com
+      # for this repo + workflow, npm exchanges the OIDC token itself. Leaving a
+      # token in place would let it fall back to the credential that fails.
       - name: Publish to npm
         if: steps.exists.outputs.already == 'false'
         run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create GitHub Release
         env:
