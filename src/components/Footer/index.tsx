@@ -1077,5 +1077,21 @@ function buildInlineCss(styles: Record<string, string>): string {
     gap: var(--ds-size-2, 8px);
   }
 }
+
+/* Mobil: fallback-kopien hadde 1024- og 768-blokkene, men ikke denne. En
+   konsument uten stilarket fikk derfor skrivebordsverdiene på telefon —
+   logoen på 169px, overskriftene på 30px. Speiler @media (max-width: 480px)
+   i styles.module.css. */
+@media (max-width: 480px) {
+  .${s.mainContainer} { padding: var(--ds-size-10, 40px) var(--ds-size-4, 16px); }
+  .${s.whiteContainer} { padding: var(--ds-size-4) var(--ds-size-4); }
+  .${s.linksTitle},
+  .${s.socialLinksTitle} { font-size: var(--ds-font-size-5, 21px); }
+  .${s.linksColumn},
+  .${s.contactColumn} { min-width: 0; }
+  .${s.logo} img,
+  .${s.redCrossLogo} { width: 130px; }
+  .${s.newsletterInputGroup} { flex-direction: column; }
+}
 `;
 }

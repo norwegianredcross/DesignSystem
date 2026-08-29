@@ -207,3 +207,10 @@
     height: 16px;
   }
 }
+
+/* Today's date. This lived only in the runtime fallback in index.tsx, so the
+   stylesheet — the copy that is supposed to be authoritative — said nothing
+   about it, and the emphasis survived purely because nothing competed. */
+.todayDate .dateNumberContainer {
+  font-weight: var(--ds-font-weight-semibold, 600);
+}
