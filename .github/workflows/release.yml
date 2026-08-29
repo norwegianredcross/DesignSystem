@@ -4,13 +4,18 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version bump type'
+        description: 'Version bump type (ignored when publish_tag is set)'
         required: true
         type: choice
         options:
           - patch
           - minor
           - major
+      publish_tag:
+        description: 'Publish an EXISTING tag instead of cutting a new release, e.g. v1.3.2. Use this when a release tagged and pushed but npm publishing failed.'
+        required: false
+        type: string
+        default: ''
 
 # Never two releases at once: a second dispatch while one runs would bump from
 # a stale version and race the atomic tag push. cancel-in-progress stays false
@@ -26,6 +31,10 @@ jobs:
   # npm-publisering skjer i egen jobb ETTER at git-push har lykkes,
   # slik at npm og git aldri kommer ut av synk.
   release:
+    # Skipped entirely when republishing an existing tag: the version is
+    # already bumped, committed and tagged, and re-running this job would try
+    # to create a tag that exists and fail.
+    if: inputs.publish_tag == ''
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -126,15 +135,53 @@ jobs:
   # Publiser aldri en annen artefakt under et eksisterende versjonsnummer.
   publish:
     needs: release
+    # always(): `needs` would otherwise skip this job whenever release is
+    # skipped, which is exactly the republish case.
+    if: always() && (inputs.publish_tag != '' || needs.release.result == 'success')
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
+      - name: Resolve the tag to publish
+        id: target
+        run: |
+          if [ -n "${{ inputs.publish_tag }}" ]; then
+            TAG="${{ inputs.publish_tag }}"
+          else
+            TAG="v${{ needs.release.outputs.version }}"
+          fi
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+          echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
+          echo "Publiserer ${TAG}"
+
       - name: Checkout release tag
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
-          ref: v${{ needs.release.outputs.version }}
+          ref: ${{ steps.target.outputs.tag }}
           fetch-depth: 0
+
+      # Publiser aldri en annen artefakt under et eksisterende versjonsnummer:
+      # taggen og manifestet må være enige om versjonen.
+      - name: Verify the tag matches package.json
+        run: |
+          MANIFEST=$(node -p "require('./package.json').version")
+          if [ "${MANIFEST}" != "${{ steps.target.outputs.version }}" ]; then
+            echo "::error::Tag ${{ steps.target.outputs.tag }} peker på package.json ${MANIFEST}"
+            exit 1
+          fi
+          echo "package.json ${MANIFEST} stemmer med taggen."
+
+      # Idempotent republisering: hopp ut hvis versjonen allerede ligger på npm,
+      # i stedet for å feile på E403/EPUBLISHCONFLICT.
+      - name: Skip if the version is already on npm
+        id: exists
+        run: |
+          if npm view "rk-designsystem@${{ steps.target.outputs.version }}" version >/dev/null 2>&1; then
+            echo "already=true" >> "$GITHUB_OUTPUT"
+            echo "::notice::rk-designsystem@${{ steps.target.outputs.version }} finnes allerede på npm — hopper over publisering."
+          else
+            echo "already=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Setup Node.js
         uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
@@ -154,6 +201,7 @@ jobs:
       # pakking av et rent tre ga en tarball på tre filer uten kode. prepack
       # kjører for begge, så pakking og publisering nå alltid bygger.
       - name: Publish to npm
+        if: steps.exists.outputs.already == 'false'
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -162,7 +210,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          NEW_VERSION="${{ needs.release.outputs.version }}"
+          NEW_VERSION="${{ steps.target.outputs.version }}"
           DATE=$(date +%Y-%m-%d)
 
           # Extract this version's changelog section for the release notes
@@ -173,6 +221,12 @@ jobs:
             NOTES=$(git log --pretty=format:"- %s (%h)" --no-merges -50)
           fi
 
-          gh release create "v${NEW_VERSION}" \
-            --title "v${NEW_VERSION} (${DATE})" \
-            --notes "$NOTES"
+          # Idempotent: en republisering skal ikke feile på at GitHub-releasen
+          # allerede finnes.
+          if gh release view "v${NEW_VERSION}" >/dev/null 2>&1; then
+            echo "::notice::GitHub-release v${NEW_VERSION} finnes allerede — hopper over."
+          else
+            gh release create "v${NEW_VERSION}" \
+              --title "v${NEW_VERSION} (${DATE})" \
+              --notes "$NOTES"
+          fi
