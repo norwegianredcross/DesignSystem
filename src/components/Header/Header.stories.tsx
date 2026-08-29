@@ -853,3 +853,45 @@ export const TestCompactWordmarkContrast: Story = {
     }
   },
 };
+
+export const TestCompactIsActuallyShorter: Story = {
+  name: 'Test: Compact Is Shorter Than Default',
+  render: () => (
+    <>
+      <div data-testid="default-variant">
+        <Header showUser={false} showSearch={false} showLogin={false} />
+      </div>
+      <div data-testid="compact-variant">
+        <Header variant="compact" showUser={false} showSearch={false} showLogin={false} />
+      </div>
+    </>
+  ),
+  parameters: {
+    // Two headers side by side is a measurement harness, not a page.
+    a11y: {
+      config: {
+        rules: [
+          { id: 'landmark-no-duplicate-banner', enabled: false },
+          { id: 'landmark-unique', enabled: false },
+        ],
+      },
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    if (window.innerWidth <= 850) return; // compact rules are desktop-only
+
+    const height = (testId: string) =>
+      (canvas.getByTestId(testId).querySelector('header') as HTMLElement).getBoundingClientRect()
+        .height;
+
+    const standard = height('default-variant');
+    const compact = height('compact-variant');
+
+    // The variant declares min-height 72px on its inner row. That was
+    // unreachable while .logoWrapper stayed a fixed 119px, so compact rendered
+    // at exactly the default's height and the prop did nothing.
+    expect(standard, 'default header').toBeCloseTo(119, 0);
+    expect(compact, `compact header is ${compact}px`).toBeCloseTo(72, 0);
+  },
+};
