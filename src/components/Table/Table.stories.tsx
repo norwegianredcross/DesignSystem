@@ -242,7 +242,9 @@ export const Sortable: Story = {
         });
       }
       return sortableItems;
-    }, [sortableData, sortConfig]); // Corrected dependency
+    // sortableData is a module constant, so listing it says nothing: it can
+    // never change and mutating it would not re-render.
+    }, [sortConfig]);
 
     const handleSort = (key: SortKey) => {
       let direction: SortDirection = 'ascending';

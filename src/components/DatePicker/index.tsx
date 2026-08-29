@@ -100,7 +100,6 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         isSameMonth(selectedMonthStart, prev) ? prev : selectedMonthStart,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDate]);
 
   // Flytt DOM-fokus til riktig celle etter tastaturnavigasjon
