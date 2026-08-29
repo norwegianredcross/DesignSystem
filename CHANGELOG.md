@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.3 (2026-08-29)
+
+- ci(release): allow publishing an existing tag (#122) (05d80780)
+
+
 ## 1.3.2 (2026-08-28)
 
 - ci(digdir): canary can see past the peer range (#121) (3dadf589)
