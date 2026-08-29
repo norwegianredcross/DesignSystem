@@ -697,3 +697,55 @@ export const TestAutoplayPauseControl: Story = {
     );
   },
 };
+
+export const TestControlContrastInDarkMode: Story = {
+  name: 'Test: Play/Pause Control Stays Legible In Dark Mode',
+  args: {
+    images: localImages,
+    showArrows: false,
+    showDots: true,
+    autoPlay: true,
+    autoDelay: 0.4,
+  },
+  render: (args) => (
+    <div style={{ width: '600px', height: '400px', margin: '0 auto' }}>
+      <Carousel {...args} />
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    // Set the scheme here rather than in a decorator: themeDecorator writes
+    // data-color-scheme during render and would overwrite it. play runs after.
+    document.documentElement.setAttribute('data-color-scheme', 'dark');
+    try {
+      const control = await waitFor(() => {
+        const el = canvasElement.querySelector('[class*="playPause"]');
+        expect(el, 'play/pause control not found').not.toBeNull();
+        return el as HTMLElement;
+      });
+
+      const parse = (colour: string) => colour.match(/[\d.]+/g)!.slice(0, 3).map(Number);
+      const luminance = ([r, g, b]: number[]) => {
+        const f = (c: number) => {
+          const v = c / 255;
+          return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+        };
+        return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+      };
+      const style = getComputedStyle(control);
+      const [hi, lo] = [luminance(parse(style.color)), luminance(parse(style.backgroundColor))].sort(
+        (a, b) => b - a,
+      );
+      const contrast = (hi + 0.05) / (lo + 0.05);
+
+      // The pill is a hardcoded translucent white because it overlays the
+      // slides, so the icon must be pinned dark to match. On the neutral text
+      // token it went light in dark mode: 1.18:1.
+      expect(
+        contrast,
+        `dark: icon ${style.color} on pill ${style.backgroundColor} is ${contrast.toFixed(2)}:1`,
+      ).toBeGreaterThan(3);
+    } finally {
+      document.documentElement.removeAttribute('data-color-scheme');
+    }
+  },
+};
