@@ -853,3 +853,54 @@ export const TestCompactWordmarkContrast: Story = {
     }
   },
 };
+
+export const TestThemeToggleAlwaysReachable: Story = {
+  name: 'Test: A Requested Theme Toggle Is Always Reachable',
+  parameters: {
+    a11y: {
+      config: {
+        rules: [
+          { id: 'landmark-no-duplicate-banner', enabled: false },
+          { id: 'landmark-unique', enabled: false },
+        ],
+      },
+    },
+  },
+  render: () => (
+    <>
+      {/* The extension carries a switch only when showModeToggle is set. */}
+      <div data-testid="extension-without-mode-toggle">
+        <Header showHeaderExtension showThemeToggle showUser={false} showSearch={false} showLogin={false} />
+      </div>
+      <div data-testid="extension-with-mode-toggle">
+        <Header
+          showHeaderExtension
+          showModeToggle
+          showThemeToggle
+          showUser={false}
+          showSearch={false}
+          showLogin={false}
+        />
+      </div>
+      <div data-testid="no-extension">
+        <Header showThemeToggle showUser={false} showSearch={false} showLogin={false} />
+      </div>
+    </>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    // Asking for a theme toggle must yield exactly one, whichever surface
+    // provides it. Gating the main row on showHeaderExtension alone produced
+    // NONE in the first case — the extension renders but holds no switch
+    // unless showModeToggle is set, and below 850px CSS hides it outright.
+    for (const testId of [
+      'extension-without-mode-toggle',
+      'extension-with-mode-toggle',
+      'no-extension',
+    ]) {
+      const switches = within(canvas.getByTestId(testId)).queryAllByRole('switch');
+      expect(switches.length, `${testId}: exactly one reachable toggle`).toBe(1);
+      expect(switches[0].closest('header'), `${testId}: inside the header`).not.toBeNull();
+    }
+  },
+};

@@ -123,6 +123,11 @@ export const Header = ({
   const { language, setLanguage, t } = useLanguageOptional();
   const [isMobile, setIsMobile] = useState(false);
 
+  // showModeToggle puts a switch in the extension bar (desktop) and in the
+  // mobile menu's utilities row. Anywhere else, the main row has to carry it.
+  const themeToggleRendersElsewhere =
+    showModeToggle && ((showHeaderExtension && !isMobile) || isMobile);
+
   // Fallback: inject minimal header styles if consumer did not import the CSS bundle.
   useEffect(() => {
     const styleId = 'rk-header-inline-styles';
@@ -511,7 +516,13 @@ export const Header = ({
   )}
 
           {/* Theme Toggle - Only show if extension is NOT shown, or if specifically requested via old prop and extension is hidden */}
-          {!showHeaderExtension && showThemeToggle && (
+          {/* Render the main-row toggle unless one actually appears elsewhere.
+              Gating on showHeaderExtension alone was wrong twice over: the
+              extension only contains a switch when showModeToggle is set, and
+              CSS hides the extension below 850px. So asking for the extension
+              and a theme toggle, without showModeToggle, produced no toggle at
+              all — at any width. */}
+          {showThemeToggle && !themeToggleRendersElsewhere && (
             <div className={styles.themeToggle}>
                <Switch 
                  checked={theme === 'dark'} 
@@ -588,6 +599,10 @@ export const Header = ({
           )}
 
         {/* Menu Button */}
+          {/* Deliberate: below 850px the nav links are hidden, so the menu
+              button is forced on regardless of showMenuButton — without it a
+              mobile visitor would have no navigation at all. Locked by
+              TestMobileMenuFlow. */}
           {(showMenuButton || isMobile) && (
             <Button
               ref={menuButtonRef}
