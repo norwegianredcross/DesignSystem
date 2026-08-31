@@ -456,21 +456,27 @@ export const Header = ({
           </Link>
           
           {/* Added Design System Logo - Now via Props */}
+          {/* Rendered only when there IS a secondary logo: the wrapper carries
+              horizontal padding, so an empty one still reserved 48px and pushed
+              the nav and actions right for every consumer using the default
+              secondaryLogo={false}. */}
+          {secondaryLogo && (
           <div className={styles.secondaryLogoWrapper}>
-            {secondaryLogo && secondaryLogoSrc ? (
+            {secondaryLogoSrc ? (
               <img 
                 src={theme === 'dark' && secondaryLogoSrcDark ? secondaryLogoSrcDark : secondaryLogoSrc} 
                 alt={secondaryLogoAlt} 
                 className={styles.secondaryLogo} 
               />
-            ) : secondaryLogo ? (
+            ) : (
               <div className={styles.slotComponent}>
                 <div className={styles.slotContainer}>
                   <p className={styles.slotText}>SLOT</p>
                 </div>
               </div>
-            ) : null}
+            )}
           </div>
+          )}
         </div>
 
         {/* Nav (desktop only) */}
@@ -824,6 +830,10 @@ function buildInlineCss(styles: Record<string, string>): string {
 }
 .${s.header}[data-header-extension="true"]::before { top: var(--rk-header-extension-height); }
 .${s.header}[data-variant="compact"]::before { display: none; }
+.${s.header}[data-variant="compact"] .${s.headerInner} { min-height: var(--ds-size-18, 72px); }
+.${s.header}[data-variant="compact"] .${s.logoWrapper} { background-color: transparent; margin-left: 0; padding-left: 0; height: auto; }
+.${s.header}[data-variant="compact"] .${s.logo} { width: auto; height: auto; }
+.${s.header}[data-variant="compact"] .${s.redCrossLogo} { width: auto; height: 44px; }
 .${s.headerExtension} {
   background-color: var(--ds-color-primary-color-red-base-default, #D52B1E);
   width: 100%;
