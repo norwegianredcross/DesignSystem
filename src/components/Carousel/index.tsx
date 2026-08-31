@@ -423,7 +423,8 @@ function buildCarouselInlineCss(s: Record<string, string>): string {
   border-radius: 999px;
   border: var(--ds-border-width-default, 1px) solid var(--ds-color-border-subtle, #d6d6d6);
   background-color: rgba(255, 255, 255, 0.85);
-  color: var(--ds-color-neutral-text-default, #2b2b2b);
+  /* Pinned to match the hardcoded pill — see styles.module.css. */
+  color: #1e1e1e;
   padding: 0;
   margin: 0;
   cursor: pointer;

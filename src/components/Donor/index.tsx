@@ -539,5 +539,16 @@ function buildInlineCss(s: Record<string, string>): string {
   width: 16px;
   height: 15px;
 }
+
+/* Mobil: uten disse fikk en konsument som ikke importerer stilarket
+   skrivebordsbreddene på telefon — kortet låst til 344px på en 390px-skjerm.
+   Speiler @media-blokken i styles.module.css. */
+@media (max-width: 480px) {
+  .${s.donor} { max-width: 100%; }
+  .${s.amountSection},
+  .${s.impactRow},
+  .${s.actionsSection} { width: 100%; }
+  .${s.vippsButton} { width: 100%; max-width: 300px; }
+}
 `;
 }

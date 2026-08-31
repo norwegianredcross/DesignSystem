@@ -127,8 +127,13 @@
   height: var(--ds-size-6, 24px);
   border-radius: 999px;
   border: var(--ds-border-width-default, 1px) solid var(--ds-color-border-subtle, #d6d6d6);
+  /* The control overlays the slides (.controls is inset: 0 over the imagery),
+     so the pill stays a translucent white in every theme — it has to read over
+     an arbitrary photo, not over the page. A hardcoded backdrop needs a
+     hardcoded foreground: with the icon on --ds-color-neutral-text-default it
+     turned light in dark mode and sat at 1.18:1 on the white pill. */
   background-color: rgba(255, 255, 255, 0.85);
-  color: var(--ds-color-neutral-text-default, #2b2b2b);
+  color: #1e1e1e;
   padding: 0;
   margin: 0;
   cursor: pointer;

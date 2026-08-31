@@ -335,7 +335,7 @@ function buildDatePickerInlineCss(s: Record<string, string>): string {
 }
 .${s.monthYear} {
   color: var(--ds-color-text-default, #2b2b2b);
-  font-family: var(--ds-font-family, sans-serif);
+  font-family: var(--ds-font-family, 'Myriad VF', sans-serif);
   font-size: var(--ds-heading-sm-font-size, 1.5rem);
   font-weight: var(--ds-heading-sm-font-weight, 500);
   line-height: var(--ds-heading-sm-line-height, 1.3);
@@ -366,7 +366,7 @@ function buildDatePickerInlineCss(s: Record<string, string>): string {
   align-items: center;
   color: var(--ds-color-text-default, #2b2b2b);
   text-align: center;
-  font-family: var(--ds-font-family, sans-serif);
+  font-family: var(--ds-font-family, 'Myriad VF', sans-serif);
   font-size: var(--ds-body-xs-font-size, 14px);
   font-weight: var(--ds-font-weight-semibold, 600);
   line-height: var(--ds-body-short-xs-line-height, 1.3);
@@ -382,7 +382,7 @@ function buildDatePickerInlineCss(s: Record<string, string>): string {
   border: var(--ds-border-width-default, 1px) solid var(--ds-color-border-subtle, #bcbcbc);
   box-sizing: border-box;
   margin: -0.5px;
-  font-family: var(--ds-font-family, sans-serif);
+  font-family: var(--ds-font-family, 'Myriad VF', sans-serif);
   color: var(--ds-color-text-default, #2b2b2b);
   text-align: center;
   font-size: var(--ds-body-xs-font-size, 14px);

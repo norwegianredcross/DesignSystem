@@ -832,6 +832,28 @@
   margin-left: 0;
   padding-left: 0;
 }
+/* The 72px above was never reachable: .logoWrapper is a fixed 119px and .logo
+   fills it, so the child pinned the row and compact rendered at exactly the
+   same height as the default. Release the wrapper and scale the wordmark to
+   fit, so the variant delivers the reduced height it declares.
+
+   44px is the largest wordmark that clears 72px with room to breathe; it is a
+   derived value, not a brand decision, so revisit it if design specifies a
+   compact logo size. */
+.header[data-variant="compact"] .logoWrapper {
+  height: auto;
+}
+
+.header[data-variant="compact"] .logo {
+  width: auto;
+  height: auto;
+}
+
+.header[data-variant="compact"] .redCrossLogo {
+  width: auto;
+  height: 44px;
+}
+
 
 /* Compact drops the white panel, so the wordmark sits directly on the header
    and must follow the colour scheme instead. Hardcoded dark, it rendered
