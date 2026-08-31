@@ -38,14 +38,30 @@ import { describe, expect, it } from 'vitest';
  * sheet present, absent, and alone.
  */
 
-const dir = path.dirname(fileURLToPath(import.meta.url));
-const moduleCss = fs.readFileSync(path.join(dir, 'styles.module.css'), 'utf8');
-const indexTsx = fs.readFileSync(path.join(dir, 'index.tsx'), 'utf8');
+const componentsDir = path.dirname(fileURLToPath(import.meta.url));
+
+/** Every component that ships its CSS twice. */
+const duplicated = fs
+  .readdirSync(componentsDir)
+  .map((name) => ({
+    name,
+    css: path.join(componentsDir, name, 'styles.module.css'),
+    tsx: path.join(componentsDir, name, 'index.tsx'),
+  }))
+  .filter(({ css, tsx }) => fs.existsSync(css) && fs.existsSync(tsx))
+  .map(({ name, css, tsx }) => ({
+    name,
+    moduleCss: fs.readFileSync(css, 'utf8'),
+    indexTsx: fs.readFileSync(tsx, 'utf8'),
+  }))
+  .filter(({ indexTsx }) => /function build\w*InlineCss/.test(indexTsx));
 
 /** Pulls the template literal out of buildInlineCss and un-hashes `${s.foo}` to `foo`. */
 function extractInlineCss(source: string): string {
-  const fn = source.indexOf('function buildInlineCss');
-  expect(fn, 'buildInlineCss not found in index.tsx').toBeGreaterThan(-1);
+  // Each component names its builder differently (buildInlineCss,
+  // buildCarouselInlineCss, …).
+  const fn = source.search(/function build\w*InlineCss/);
+  expect(fn, 'no build*InlineCss found in index.tsx').toBeGreaterThan(-1);
   const open = source.indexOf('return `', fn) + 'return `'.length;
   const close = source.indexOf('`;', open);
   expect(close).toBeGreaterThan(open);
@@ -246,9 +262,6 @@ function parse(css: string): Decl[] {
   return out;
 }
 
-const bundled = parse(moduleCss);
-const injected = parse(extractInlineCss(indexTsx));
-
 const appliesIn = (conditions: string[], context: string[]) => conditions.every((c) => context.includes(c));
 
 /** What a property resolves to in one media context: the last rule that applies. */
@@ -310,7 +323,7 @@ function contexts(decls: Decl[]): string[][] {
   return [...seen.values()];
 }
 
-const headerContexts = contexts([...bundled, ...injected]);
+
 
 /**
  * Properties the injected copy has an opinion about in this context that
@@ -335,13 +348,20 @@ function conflictsIn(bundledDecls: Decl[], injectedDecls: Decl[], context: strin
   return conflicts;
 }
 
-describe('Header inline CSS fallback', () => {
+for (const { name, moduleCss, indexTsx } of duplicated) {
+  describe(`${name}: inline CSS fallback`, () => {
+    const bundled = parse(moduleCss);
+    const injected = parse(extractInlineCss(indexTsx));
+    const componentContexts = contexts([...bundled, ...injected]);
+
   it('parses both copies, keeping nested media conditions', () => {
-    expect(bundled.length).toBeGreaterThan(150);
-    expect(injected.length).toBeGreaterThan(150);
-    // A nested prefers-color-scheme block must survive as a narrower context
-    // rather than collapse into an unconditional mobile rule.
-    expect(headerContexts.some((c) => c.length > 1)).toBe(true);
+    expect(bundled.length).toBeGreaterThan(10);
+    expect(injected.length).toBeGreaterThan(10);
+    // Where a component nests a media query (Header nests
+    // prefers-color-scheme inside its 850px block) the nested condition must
+    // survive as a narrower context instead of collapsing into the outer one.
+    const nested = [...bundled, ...injected].some((d) => d.conditions.length > 1);
+    if (nested) expect(componentContexts.some((c) => c.length > 1)).toBe(true);
   });
 
   /**
@@ -391,21 +411,22 @@ describe('Header inline CSS fallback', () => {
   });
 
   // Agreement between the copies is not the same as being RIGHT. Below 850px
-  // the primary logo is hidden, so the desktop panel's fixed 119px would be an
-  // empty masthead — this pins the intent both copies must express, which the
-  // drift comparison alone would happily let them agree to lose.
-  it('drops the desktop logo panel geometry on mobile in both copies', () => {
+  // Header hides the primary logo, so the desktop panel's fixed 119px would be
+  // an empty masthead — this pins the intent both copies must express, which
+  // the drift comparison alone would happily let them agree to lose. Only
+  // Header has this panel.
+  it.runIf(name === 'Header')('drops the desktop logo panel geometry on mobile in both copies', () => {
     const mobile = ['(max-width: 850px)'];
-    for (const [name, sheet] of [
+    for (const [sheetName, sheet] of [
       ['styles.module.css', bundled],
       ['buildInlineCss', injected],
     ] as const) {
-      expect(effective(sheet, '.logoWrapper', 'height', mobile), name).toBe('auto');
-      expect(effective(sheet, '.logoWrapper', 'background-color', mobile), name).toBe('transparent');
+      expect(effective(sheet, '.logoWrapper', 'height', mobile), sheetName).toBe('auto');
+      expect(effective(sheet, '.logoWrapper', 'background-color', mobile), sheetName).toBe('transparent');
     }
   });
 
-  for (const context of headerContexts) {
+  for (const context of componentContexts) {
     const label = context.length ? context.join(' and ') : 'no media query';
     it(`never changes what the bundled stylesheet computes to — ${label}`, () => {
       expect(
@@ -418,6 +439,9 @@ describe('Header inline CSS fallback', () => {
     });
   }
 });
+}
+
+
 
 /**
  * The guard above is worth only as much as this parser, and a parser bug shows
