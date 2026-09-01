@@ -352,11 +352,11 @@ function buildDateInputInlineCss(s: Record<string, string>): string {
   display: block;
   margin-bottom: var(--ds-size-1, 4px);
   font-weight: var(--ds-font-weight-medium, 500);
-  color: var(--ds-color-text-default, #2b2b2b);
+  color: var(--ds-color-neutral-text-default, #2b2b2b);
 }
 .${s.description} {
   font-size: var(--ds-font-size-2, 14px);
-  color: var(--ds-color-text-subtle, #5d5d5d);
+  color: var(--ds-color-neutral-text-subtle, #5d5d5d);
   margin-top: var(--ds-size-1, 4px);
   margin-bottom: var(--ds-size-2, 8px);
 }
@@ -370,7 +370,7 @@ function buildDateInputInlineCss(s: Record<string, string>): string {
   align-items: stretch;
   width: 100%;
   position: relative;
-  border: var(--ds-border-width-default, 1px) solid var(--ds-color-border-default, #797979);
+  border: var(--ds-border-width-default, 1px) solid var(--ds-color-neutral-border-default, #797979);
   border-radius: var(--ds-border-radius-md, 4px);
   overflow: hidden;
   transition: border-color 0.1s ease-out, outline 0.1s ease-out;
@@ -387,8 +387,8 @@ function buildDateInputInlineCss(s: Record<string, string>): string {
   flex-grow: 1;
   width: auto;
   min-width: 0;
-  background-color: var(--ds-color-background-default, #fff);
-  color: var(--ds-color-text-default, #2b2b2b);
+  background-color: var(--ds-color-neutral-background-default, #fff);
+  color: var(--ds-color-neutral-text-default, #2b2b2b);
   border: none;
   border-radius: 0;
   outline: none;
@@ -413,9 +413,9 @@ function buildDateInputInlineCss(s: Record<string, string>): string {
   margin: 0;
   border: none;
   border-radius: 0;
-  border-left: var(--ds-border-width-default, 1px) solid var(--ds-color-border-default, #797979);
-  background-color: var(--ds-color-surface-tinted, #e8e8e8);
-  color: var(--ds-color-text-subtle, #5d5d5d);
+  border-left: var(--ds-border-width-default, 1px) solid var(--ds-color-neutral-border-default, #797979);
+  background-color: var(--ds-color-neutral-surface-tinted, #e8e8e8);
+  color: var(--ds-color-neutral-text-subtle, #5d5d5d);
   font-size: 1.25rem;
   box-sizing: border-box;
   cursor: default;
@@ -425,8 +425,8 @@ function buildDateInputInlineCss(s: Record<string, string>): string {
   cursor: pointer;
 }
 .${s.suffixButtonInteractive}:hover:not(:disabled) {
-  color: var(--ds-color-text-default, #2b2b2b);
-  background-color: var(--ds-color-surface-hover, #dadada);
+  color: var(--ds-color-neutral-text-default, #2b2b2b);
+  background-color: var(--ds-color-neutral-surface-hover, #dadada);
 }
 .${s.suffixButton}:disabled {
   opacity: var(--ds-opacity-disabled, 0.3);

@@ -301,8 +301,8 @@ function buildCarouselInlineCss(s: Record<string, string>): string {
   width: 100%;
   height: 100%;
   min-height: 200px;
-  background-color: var(--ds-color-background-default, #fff);
-  color: var(--ds-color-text-default, #2b2b2b);
+  background-color: var(--ds-color-neutral-background-default, #fff);
+  color: var(--ds-color-neutral-text-default, #2b2b2b);
   border-radius: var(--ds-border-radius-md, 4px);
   box-sizing: border-box;
   max-width: 100%;
@@ -363,11 +363,11 @@ function buildCarouselInlineCss(s: Record<string, string>): string {
   display: inline-flex;
   align-items: center;
   gap: var(--ds-size-2, 8px);
-  color: var(--ds-color-text-subtle, #5d5d5d);
+  color: var(--ds-color-neutral-text-subtle, #5d5d5d);
   font-size: var(--ds-font-size-2, 14px);
 }
 .${s.empty} {
-  color: var(--ds-color-text-subtle, #5d5d5d);
+  color: var(--ds-color-neutral-text-subtle, #5d5d5d);
   font-size: var(--ds-font-size-2, 14px);
   text-align: center;
 }
@@ -407,7 +407,7 @@ function buildCarouselInlineCss(s: Record<string, string>): string {
   width: 12px;
   height: 12px;
   border-radius: 999px;
-  border: var(--ds-border-width-default, 1px) solid var(--ds-color-border-subtle, #d6d6d6);
+  border: var(--ds-border-width-default, 1px) solid var(--ds-color-neutral-border-subtle, #d6d6d6);
   background-color: rgba(255, 255, 255, 0.6);
   padding: 0;
   margin: 0;
@@ -421,7 +421,7 @@ function buildCarouselInlineCss(s: Record<string, string>): string {
   width: var(--ds-size-6, 24px);
   height: var(--ds-size-6, 24px);
   border-radius: 999px;
-  border: var(--ds-border-width-default, 1px) solid var(--ds-color-border-subtle, #d6d6d6);
+  border: var(--ds-border-width-default, 1px) solid var(--ds-color-neutral-border-subtle, #d6d6d6);
   background-color: rgba(255, 255, 255, 0.85);
   /* Pinned to match the hardcoded pill — see styles.module.css. */
   color: #1e1e1e;
