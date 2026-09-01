@@ -440,3 +440,46 @@ export const TestColumnsSemanticContract: Story = {
     ).toBeVisible();
   },
 };
+
+export const TestWordmarkLegibleInDarkMode: Story = {
+  name: 'Test: Wordmark Legible On Its White Band In Dark Mode',
+  play: async ({ canvasElement }) => {
+    document.documentElement.setAttribute('data-color-scheme', 'dark');
+    try {
+      const logo = canvasElement.querySelector('[class*="redCrossLogo"]') as SVGElement;
+      expect(logo, 'wordmark not found').not.toBeNull();
+
+      // Walk up for the first non-transparent background: the wordmark is
+      // currentColor, so it only reads if its colour and the surface behind it
+      // are chosen together. This logo sits in the hardcoded white band, so it
+      // is pinned dark rather than following the scheme — Header and Footer
+      // shared these paths but not that pairing, and drifted apart once.
+      let node: HTMLElement | null = logo.parentElement;
+      let backdrop = 'rgba(0, 0, 0, 0)';
+      while (node && (backdrop === 'rgba(0, 0, 0, 0)' || backdrop === 'transparent')) {
+        backdrop = getComputedStyle(node).backgroundColor;
+        node = node.parentElement;
+      }
+
+      const parse = (c: string) => c.match(/[\d.]+/g)!.slice(0, 3).map(Number);
+      const luminance = ([r, g, b]: number[]) => {
+        const f = (c: number) => {
+          const v = c / 255;
+          return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+        };
+        return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+      };
+      const [hi, lo] = [luminance(parse(getComputedStyle(logo).color)), luminance(parse(backdrop))].sort(
+        (a, b) => b - a,
+      );
+      const contrast = (hi + 0.05) / (lo + 0.05);
+
+      expect(
+        contrast,
+        `wordmark ${getComputedStyle(logo).color} on ${backdrop} is ${contrast.toFixed(2)}:1`,
+      ).toBeGreaterThan(3);
+    } finally {
+      document.documentElement.removeAttribute('data-color-scheme');
+    }
+  },
+};

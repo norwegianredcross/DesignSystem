@@ -258,6 +258,10 @@
   width: 169px;
   height: auto;
   display: block;
+  /* The wordmark is currentColor. This logo sits in .whiteContainer, a
+     hardcoded white band, so it is pinned dark to match — the pair has to stay
+     in step and neither follows the colour scheme. */
+  color: #1e1e1e;
 }
 
 .slotLarge {
