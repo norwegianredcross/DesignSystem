@@ -313,13 +313,17 @@ DatePicker.displayName = 'DatePicker';
 function buildDatePickerInlineCss(s: Record<string, string>): string {
   return `
 .${s.calendarContainer} {
+  /* Half a cell border. The cells overlap each other by this much so two
+     adjacent 1px borders land on top of each other and read as one line; the
+     grid wrapper pays the same amount back as padding so the outermost edges
+     are not clipped. Both sides of that bargain must use the same number. */
+  --rk-calendar-border-overlap: 0.5px;
   display: inline-flex;
   padding: var(--ds-size-7, 28px);
   flex-direction: column;
   align-items: flex-start;
   gap: var(--ds-size-3, 12px);
-  border: 1px solid var(--ds-color-neutral-border-subtle, #ccc);
-  border-radius: var(--ds-border-radius-md, 4px);
+  /* No outer card — see styles.module.css. */
   background-color: var(--ds-color-neutral-background-default, #fff);
   font-family: var(--ds-font-family, sans-serif);
   color: var(--ds-color-neutral-text-default, #2b2b2b);
@@ -349,7 +353,13 @@ function buildDatePickerInlineCss(s: Record<string, string>): string {
 }
 .${s.gridWrapper} {
   width: 100%;
+  /* Give back the half pixel the cells hang outside the grid by. Without it
+     overflow:hidden cuts the last row's bottom border and the last column's
+     right border, leaving the grid open on two sides — the container border
+     used to cover that up, so removing the border exposed it. */
+  padding: var(--rk-calendar-border-overlap, 0.5px);
   overflow: hidden;
+  box-sizing: border-box;
 }
 .${s.gridRow} {
   display: grid;
@@ -383,7 +393,10 @@ function buildDatePickerInlineCss(s: Record<string, string>): string {
   align-items: center;
   border: var(--ds-border-width-default, 1px) solid var(--ds-color-neutral-border-subtle, #bcbcbc);
   box-sizing: border-box;
-  margin: -0.5px;
+  /* Pull each cell half a border width up and left so its top/left border
+     coincides with the neighbour's bottom/right one instead of stacking into
+     a 2px line. Paid back by the grid wrapper's padding. */
+  margin: calc(-1 * var(--rk-calendar-border-overlap, 0.5px));
   font-family: var(--ds-font-family, 'Myriad VF', sans-serif);
   color: var(--ds-color-neutral-text-default, #2b2b2b);
   text-align: center;
@@ -427,7 +440,7 @@ function buildDatePickerInlineCss(s: Record<string, string>): string {
   pointer-events: none;
   background-color: var(--ds-color-neutral-surface-tinted, #e8e8e8);
   border: var(--ds-border-width-default, 1px) solid var(--ds-color-neutral-border-subtle, #bcbcbc);
-  margin: -0.5px;
+  margin: calc(-1 * var(--rk-calendar-border-overlap, 0.5px));
 }
 .${s.selectedDate} {
   background-color: var(--ds-color-base-default, #C30000);
