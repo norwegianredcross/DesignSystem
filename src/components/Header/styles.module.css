@@ -173,7 +173,7 @@
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--ds-size-1, 4px);
   position: relative;
 }
 
@@ -254,7 +254,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 24px;
+  padding: var(--ds-size-3, 12px) var(--ds-size-6, 24px);
 }
 
 .slotContainer {
@@ -262,7 +262,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: var(--ds-size-2, 8px);
 }
 
 .slotText {
@@ -305,7 +305,7 @@
   display: flex;
   gap: 40px; /* Matches Figma design */
   align-items: center;
-  margin-left: 24px; /* Space from logo */
+  margin-left: var(--ds-size-6, 24px); /* Space from logo */
   flex-grow: 1; /* Pushes actions to the right */
   justify-content: center ; /* Align nav links to center */
 }
@@ -453,8 +453,8 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 48px 24px 80px 24px;
-  gap: 24px;
+  padding: var(--ds-size-12, 48px) var(--ds-size-6, 24px) 80px var(--ds-size-6, 24px);
+  gap: var(--ds-size-6, 24px);
 }
 
 
@@ -780,7 +780,7 @@
   }
 
   .slotComponent {
-    padding: 8px 12px;
+    padding: var(--ds-size-2, 8px) var(--ds-size-3, 12px);
   }
 }
 

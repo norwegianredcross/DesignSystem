@@ -489,7 +489,7 @@ function buildInlineCss(s: Record<string, string>): string {
   justify-content: center;
   width: 300px;
   height: 44px;
-  padding: 12px 16px;
+  padding: var(--ds-size-3, 12px) var(--ds-size-4, 16px);
   background-color: #ff5b24;
   border: none;
   border-radius: var(--ds-border-radius-xl, 12px);
@@ -532,7 +532,7 @@ function buildInlineCss(s: Record<string, string>): string {
 .${s.tabHeartIcon} {
   display: inline-flex;
   align-items: center;
-  margin-right: 4px;
+  margin-right: var(--ds-size-1, 4px);
   vertical-align: middle;
 }
 .${s.tabHeartIcon} svg {

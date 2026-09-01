@@ -875,7 +875,7 @@ function buildInlineCss(styles: Record<string, string>): string {
 .${s.extensionDivider} { width: 1px; height: 18px; background-color: rgba(247,233,232,1); }
 .${s.languageSwitch} { display: flex; align-items: center; gap: var(--ds-size-2); }
 .${s.languageLabel} { font-size: var(--ds-font-size-3); color: #ECECEC; }
-.${s.languageLink} { color: white !important; text-decoration: none; display: flex; align-items: center; gap: 4px; }
+.${s.languageLink} { color: white !important; text-decoration: none; display: flex; align-items: center; gap: var(--ds-size-1, 4px); }
 .${s.header}[data-color] .${s.languageLabel} { color: var(--ds-color-base-contrast-subtle); }
 .${s.header}[data-color] .${s.languageLink} { color: var(--ds-color-base-contrast-default) !important; }
 .${s.languageSwitch} [popover] { margin-top: 0 !important; background-color: var(--ds-color-neutral-background-default) !important; position: fixed !important; overflow: visible; z-index: 20000 !important; }
@@ -896,7 +896,7 @@ function buildInlineCss(styles: Record<string, string>): string {
 .${s.header}[data-variant="compact"] .${s.redCrossLogo} { color: var(--ds-color-neutral-text-default); }
 .${s.secondaryLogoWrapper} { display: flex; align-items: center; justify-content: center; height: 100%; padding: 0 var(--ds-size-6); background-color: var(--ds-color-neutral-background-default); }
 .${s.secondaryLogo} { height: 24px; width: auto; display: block; }
-.${s.navItems} { display: flex; gap: 40px; align-items: center; margin-left: 24px; flex-grow: 1; justify-content: center; }
+.${s.navItems} { display: flex; gap: 40px; align-items: center; margin-left: var(--ds-size-6, 24px); flex-grow: 1; justify-content: center; }
 .${s.navLink} { color: var(--ds-color-primary-color-red-text-default); font-family: inherit; font-size: var(--ds-font-size-3); text-decoration: none; font-weight: var(--ds-font-weight-regular); letter-spacing: 0.09px; }
 .${s.navLink}:hover { text-decoration: underline; }
 .${s.actions} { display: flex; align-items: center; gap: var(--ds-size-6); flex-shrink: 0; margin-left: auto; }
@@ -929,7 +929,7 @@ function buildInlineCss(styles: Record<string, string>): string {
 }
 .${s.menuContent} { max-width: 1364px; margin: 0 auto; display: flex; flex-direction: row; align-items: stretch; box-sizing: border-box; }
 .${s.menuLeftColumn} { width: calc(217px + var(--ds-size-6)); flex-shrink: 0; display: flex; }
-.${s.menuRightColumn} { flex: 1; display: flex; flex-direction: column; padding: 48px 24px 80px 24px; gap: 24px; }
+.${s.menuRightColumn} { flex: 1; display: flex; flex-direction: column; padding: var(--ds-size-12, 48px) var(--ds-size-6, 24px) 80px var(--ds-size-6, 24px); gap: var(--ds-size-6, 24px); }
 .${s.slotContent} { width: 100%; padding: var(--ds-size-10) 0; text-align: left; color: var(--ds-color-neutral-text-subtle); font-size: var(--ds-font-size-3); border-radius: var(--ds-border-radius-md); display: flex; flex-direction: column; gap: var(--ds-size-4); align-items: flex-start; }
 .${s.navList} { display: flex; flex-direction: column; gap: var(--ds-size-3); align-items: flex-start; }
 .${s.menuBrand} { display: none; }
