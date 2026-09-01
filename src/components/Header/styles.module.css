@@ -273,12 +273,6 @@
   margin: 0;
 }
 
-.divider {
-  width: 1px;
-  height: 40px;
-  background-color: var(--ds-color-neutral-border-subtle);
-  display: none; /* Hide divider for now as layout changed */
-}
 
 .secondaryLogo {
   height: 24px;
@@ -463,11 +457,6 @@
   gap: 24px;
 }
 
-.menuThemeToggleWrapper {
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-}
 
 .slotContent {
   width: 100%;
@@ -602,25 +591,8 @@
   background-color: var(--ds-color-neutral-surface-hover);
 }
 
-.resultTitle {
-  font-weight: var(--ds-font-weight-medium);
-  font-size: var(--ds-font-size-3);
-  color: var(--ds-color-neutral-text-default);
-}
 
-.resultCategory {
-  font-size: var(--ds-font-size-2);
-  color: var(--ds-color-neutral-text-subtle);
-  margin-bottom: var(--ds-size-1);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
 
-.resultDescription {
-  font-size: var(--ds-font-size-2);
-  color: var(--ds-color-neutral-text-subtle);
-  margin-top: var(--ds-size-1);
-}
 
 .noResults {
   padding: var(--ds-size-4);
@@ -675,10 +647,6 @@
   /* Mobile: always hide primary logo in header; it will appear inside menu */
   .primaryLogo {
     display: none;
-  }
-
-  .divider {
-    height: 24px;
   }
 
   .secondaryLogo {
