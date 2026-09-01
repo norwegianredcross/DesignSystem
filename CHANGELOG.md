@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.3.4 (2026-09-01)
+
+- chore: move the build off end-of-life Node 20 (#133) (be6bb623)
+- ci: restore the npm credential and cap every job (#132) (6950888a)
+- chore: drop dead CSS rules and orphaned assets (#131) (d5e5d29b)
+- refactor: one Red Cross logo instead of two copies (#130) (c732f0b1)
+- chore: clear the two lint warnings that meant something (#129) (c56f3b78)
+- fix(Header): a requested theme toggle is always reachable (#128) (a453715f)
+- fix(Header): compact honours its reduced height, and the empty logo slot goes (#127) (7924dd59)
+- fix: runtime fallbacks reproduce the stylesheet's responsive rules (#126) (648e830c)
+- test(visual): screenshot every key story in dark mode too (#125) (95424dba)
+- ci(release): publish to npm with trusted publishing instead of a token (#124) (d4da0194)
+- fix(Carousel): play/pause control legible in dark mode (#123) (b6dd594f)
+
+
 ## 1.3.3 (2026-08-29)
 
 - ci(release): allow publishing an existing tag (#122) (05d80780)
