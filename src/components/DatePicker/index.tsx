@@ -318,8 +318,7 @@ function buildDatePickerInlineCss(s: Record<string, string>): string {
   flex-direction: column;
   align-items: flex-start;
   gap: var(--ds-size-3, 12px);
-  border: 1px solid var(--ds-color-neutral-border-subtle, #ccc);
-  border-radius: var(--ds-border-radius-md, 4px);
+  /* No outer card — see styles.module.css. */
   background-color: var(--ds-color-neutral-background-default, #fff);
   font-family: var(--ds-font-family, sans-serif);
   color: var(--ds-color-neutral-text-default, #2b2b2b);
