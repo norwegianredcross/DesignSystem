@@ -318,12 +318,14 @@ function buildDatePickerInlineCss(s: Record<string, string>): string {
   flex-direction: column;
   align-items: flex-start;
   gap: var(--ds-size-3, 12px);
-  border: 1px solid var(--ds-color-border-subtle, #ccc);
+  border: 1px solid var(--ds-color-neutral-border-subtle, #ccc);
   border-radius: var(--ds-border-radius-md, 4px);
-  background-color: var(--ds-color-background-default, #fff);
+  background-color: var(--ds-color-neutral-background-default, #fff);
   font-family: var(--ds-font-family, sans-serif);
-  color: var(--ds-color-text-default, #2b2b2b);
-  max-width: 100%;
+  color: var(--ds-color-neutral-text-default, #2b2b2b);
+  /* See styles.module.css: inline-flex + a width:100% grid child made the
+     calendar fill whatever container it was placed in. */
+  max-width: min(100%, 24rem);
   box-sizing: border-box;
 }
 .${s.calendarHeader} {
@@ -333,7 +335,7 @@ function buildDatePickerInlineCss(s: Record<string, string>): string {
   align-self: stretch;
 }
 .${s.monthYear} {
-  color: var(--ds-color-text-default, #2b2b2b);
+  color: var(--ds-color-neutral-text-default, #2b2b2b);
   font-family: var(--ds-font-family, 'Myriad VF', sans-serif);
   font-size: var(--ds-heading-sm-font-size, 1.5rem);
   font-weight: var(--ds-heading-sm-font-weight, 500);
@@ -363,7 +365,7 @@ function buildDatePickerInlineCss(s: Record<string, string>): string {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: var(--ds-color-text-default, #2b2b2b);
+  color: var(--ds-color-neutral-text-default, #2b2b2b);
   text-align: center;
   font-family: var(--ds-font-family, 'Myriad VF', sans-serif);
   font-size: var(--ds-body-xs-font-size, 14px);
@@ -378,11 +380,11 @@ function buildDatePickerInlineCss(s: Record<string, string>): string {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: var(--ds-border-width-default, 1px) solid var(--ds-color-border-subtle, #bcbcbc);
+  border: var(--ds-border-width-default, 1px) solid var(--ds-color-neutral-border-subtle, #bcbcbc);
   box-sizing: border-box;
   margin: -0.5px;
   font-family: var(--ds-font-family, 'Myriad VF', sans-serif);
-  color: var(--ds-color-text-default, #2b2b2b);
+  color: var(--ds-color-neutral-text-default, #2b2b2b);
   text-align: center;
   font-size: var(--ds-body-xs-font-size, 14px);
   font-weight: var(--ds-body-xs-font-weight, 400);
@@ -411,7 +413,7 @@ function buildDatePickerInlineCss(s: Record<string, string>): string {
   background-color: transparent;
 }
 .${s.dateCell}:hover:not(.${s.otherMonth}):not(.${s.disabled}) {
-  background-color: var(--ds-color-surface-hover, #eee);
+  background-color: var(--ds-color-neutral-surface-hover, #eee);
   position: relative;
   z-index: 1;
 }
