@@ -7,7 +7,7 @@
 
 .calendarContainer {
   display: inline-flex;
-  padding: var(--ds-size-8, 32px);
+  padding: var(--ds-size-7, 28px);
   flex-direction: column;
   align-items: flex-start;
   gap: var(--ds-size-3, 12px);
@@ -16,12 +16,7 @@
   background-color: var(--ds-color-neutral-background-default, #fff);
   font-family: var(--ds-font-family, sans-serif);
   color: var(--ds-color-neutral-text-default, #2b2b2b);
-  /* The container is inline-flex, i.e. shrink-to-fit, but .gridRow inside is
-     width: 100%. A percentage width inside a shrink-to-fit parent resolves
-     against the AVAILABLE space, so the calendar grew to fill whatever it was
-     placed in — full-page width gave 285px-wide day cells. Cap it at its
-     natural size while still shrinking below that on narrow screens. */
-  max-width: min(100%, 24rem);
+  max-width: 100%;
   box-sizing: border-box;
 }
 
@@ -59,8 +54,17 @@
 
 .gridRow {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  width: 100%;
+  /* The design gives every cell — weekday header and date alike — a fixed 64px
+     box. repeat(7, 1fr) with width:100% threw that away and stretched cells to
+     whatever the container offered, so the grid drove the calendar's width
+     instead of the other way round. A fixed track restores the design's cell
+     and gives the calendar an intrinsic width, so no arbitrary cap is needed.
+     It also keeps the two rows aligned: the weekday cell has less padding than
+     a date cell, so content-sized tracks would size the header row narrower
+     than the grid below it. Mobile overrides this to 1fr to fill the screen. */
+  grid-template-columns: repeat(7, var(--rk-calendar-cell, 64px));
+  width: max-content;
+  max-width: 100%;
   text-align: center;
 }
 
@@ -84,7 +88,7 @@
 
 .dateCell {
   display: flex;
-  padding: var(--ds-size-5, 22px);
+  padding: var(--ds-size-5, 20px);
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -172,6 +176,17 @@
 }
 
 /* --- Mobile responsiveness --- */
+/* The fixed 64px track gives the calendar a natural 506px. Below roughly that
+   plus page margins it would overflow its container, and the mobile rules do
+   not start until 480px — so go fluid here. Both rows switch together, which
+   is what keeps the weekday header aligned with the dates. */
+@media (max-width: 600px) {
+  .gridRow {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    width: 100%;
+  }
+}
+
 @media (max-width: 480px) {
   .calendarContainer {
     padding: var(--ds-size-4, 16px);

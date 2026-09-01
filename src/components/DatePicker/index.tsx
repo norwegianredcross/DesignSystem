@@ -314,7 +314,7 @@ function buildDatePickerInlineCss(s: Record<string, string>): string {
   return `
 .${s.calendarContainer} {
   display: inline-flex;
-  padding: var(--ds-size-8, 32px);
+  padding: var(--ds-size-7, 28px);
   flex-direction: column;
   align-items: flex-start;
   gap: var(--ds-size-3, 12px);
@@ -323,9 +323,7 @@ function buildDatePickerInlineCss(s: Record<string, string>): string {
   background-color: var(--ds-color-neutral-background-default, #fff);
   font-family: var(--ds-font-family, sans-serif);
   color: var(--ds-color-neutral-text-default, #2b2b2b);
-  /* See styles.module.css: inline-flex + a width:100% grid child made the
-     calendar fill whatever container it was placed in. */
-  max-width: min(100%, 24rem);
+  max-width: 100%;
   box-sizing: border-box;
 }
 .${s.calendarHeader} {
@@ -355,8 +353,11 @@ function buildDatePickerInlineCss(s: Record<string, string>): string {
 }
 .${s.gridRow} {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  width: 100%;
+  /* See styles.module.css: a fixed track keeps the design's 64px cell and
+     keeps the weekday row aligned with the dates. */
+  grid-template-columns: repeat(7, var(--rk-calendar-cell, 64px));
+  width: max-content;
+  max-width: 100%;
   text-align: center;
 }
 .${s.dayNameCell} {
@@ -376,7 +377,7 @@ function buildDatePickerInlineCss(s: Record<string, string>): string {
 }
 .${s.dateCell} {
   display: flex;
-  padding: var(--ds-size-5, 22px);
+  padding: var(--ds-size-5, 20px);
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -442,6 +443,9 @@ function buildDatePickerInlineCss(s: Record<string, string>): string {
 }
 .${s.todayDate} .${s.dateNumberContainer} {
   font-weight: var(--ds-font-weight-semibold, 600);
+}
+@media (max-width: 600px) {
+  .${s.gridRow} { grid-template-columns: repeat(7, minmax(0, 1fr)); width: 100%; }
 }
 @media (max-width: 480px) {
   .${s.calendarContainer} {
