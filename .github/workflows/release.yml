@@ -36,6 +36,7 @@ jobs:
     # to create a tag that exists and fail.
     if: inputs.publish_tag == ''
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: write
     outputs:
@@ -139,6 +140,7 @@ jobs:
     # skipped, which is exactly the republish case.
     if: always() && (inputs.publish_tag != '' || needs.release.result == 'success')
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: write
       # Trusted publishing: npm verifies a short-lived OIDC token minted by
@@ -213,12 +215,16 @@ jobs:
       # Hooken var prepublishOnly, som IKKE kjører for `npm pack`: en manuell
       # pakking av et rent tre ga en tarball på tre filer uten kode. prepack
       # kjører for begge, så pakking og publisering nå alltid bygger.
-      # No NODE_AUTH_TOKEN: with a trusted publisher registered on npmjs.com
-      # for this repo + workflow, npm exchanges the OIDC token itself. Leaving a
-      # token in place would let it fall back to the credential that fails.
+      # Both credentials on purpose. npm prefers the OIDC exchange when a
+      # trusted publisher is registered for this repo and workflow, and falls
+      # back to NODE_AUTH_TOKEN when one is not — so the release works either
+      # way. Dropping the token left the job with NO credential at all, which
+      # only surfaces AFTER the release job has bumped, tagged and pushed.
       - name: Publish to npm
         if: steps.exists.outputs.already == 'false'
         run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create GitHub Release
         env:
