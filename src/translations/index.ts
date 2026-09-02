@@ -1167,7 +1167,10 @@ export const translations = {
       imagePosition: "Bildeposisjon",
       goToImage: "Gå til bilde",
       pauseAutoplay: "Pause automatisk avspilling",
-      resumeAutoplay: "Start automatisk avspilling"
+      resumeAutoplay: "Start automatisk avspilling",
+      label: "Bildekarusell",
+      slideOf: "Bilde {index} av {total}",
+      empty: "Ingen bilder"
     },
     // DatePicker
     datePicker: {
@@ -2349,7 +2352,10 @@ export const translations = {
       imagePosition: "Image position",
       goToImage: "Go to image",
       pauseAutoplay: "Pause autoplay",
-      resumeAutoplay: "Resume autoplay"
+      resumeAutoplay: "Resume autoplay",
+      label: "Image carousel",
+      slideOf: "Image {index} of {total}",
+      empty: "No images"
     },
     // DatePicker
     datePicker: {

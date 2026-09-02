@@ -112,6 +112,9 @@ export const useLanguageOptional = (): LanguageContextType => {
           'carousel.goToImage': 'Gå til bilde',
           'carousel.pauseAutoplay': 'Pause automatisk avspilling',
           'carousel.resumeAutoplay': 'Start automatisk avspilling',
+          'carousel.label': 'Bildekarusell',
+          'carousel.slideOf': 'Bilde {index} av {total}',
+          'carousel.empty': 'Ingen bilder',
           // DatePicker translations
           'datePicker.previousMonth': 'Forrige måned',
           'datePicker.nextMonth': 'Neste måned',

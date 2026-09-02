@@ -2670,6 +2670,20 @@
         "description": "",
         "defaultValue": "0",
         "required": false
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "description": "Accessible name for the carousel region (APG carousel pattern).\nFalls back to the translated \"Bildekarusell\"; pass something specific\nwhen a page has more than one carousel.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "crossOrigin",
+        "type": "'anonymous' | 'use-credentials'",
+        "description": "Forwarded to every <img>. OFF by default: it used to be forced to\n\"anonymous\", which makes the browser send a CORS request — and images\nfrom any host that does not answer with CORS headers then fail to\nload entirely, even though a plain <img> would have shown them. Opt in\nonly when the images are known to be CORS-enabled (e.g. for canvas\nreadback).",
+        "defaultValue": null,
+        "required": false
       }
     ]
   },
