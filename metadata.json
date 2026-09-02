@@ -6,16 +6,16 @@
     "props": [
       {
         "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-color",
-        "type": "'info' | 'success' | 'warning' | 'danger'",
-        "description": "Sets color and icon.",
-        "defaultValue": "'danger'",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
+        "defaultValue": null,
         "required": false
       },
       {
@@ -34,8 +34,15 @@
     "props": [
       {
         "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       },
@@ -77,7 +84,7 @@
       {
         "name": "type",
         "type": "'describedby' | 'labelledby'",
-        "description": "Override if `aria-describedby` or `aria-labelledby` is used.\nBy default, if the trigger element has no inner text, `aria-labelledby` is used.",
+        "description": "@deprecated This prop has no effect. The tooltip will be set as `aria-description`\nif the component already contains accessible text, and `aria-label` otherwise.",
         "defaultValue": null,
         "required": false
       }
@@ -89,16 +96,16 @@
     "description": "",
     "props": [
       {
-        "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       },
@@ -140,7 +147,21 @@
       {
         "name": "data-toggle-group",
         "type": "string",
-        "description": "Toggle group label for accessibility",
+        "description": "Toggle group label for accessibility\n@deprecated Use aria-label or aria-labelledby instead.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "aria-labelledby",
+        "type": "string",
+        "description": "",
         "defaultValue": null,
         "required": false
       }
@@ -223,8 +244,15 @@
       },
       {
         "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       },
@@ -265,8 +293,15 @@
     "props": [
       {
         "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       }
@@ -313,16 +348,16 @@
     "description": "",
     "props": [
       {
-        "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       },
@@ -384,15 +419,15 @@
       },
       {
         "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       }
@@ -404,16 +439,16 @@
     "description": "",
     "props": [
       {
-        "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       },
@@ -453,6 +488,13 @@
         "required": false
       },
       {
+        "name": "variant",
+        "type": "'outline'",
+        "description": "If outline, the switch will have a border.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
         "name": "aria-labelledby",
         "type": "string",
         "description": "",
@@ -468,15 +510,15 @@
     "props": [
       {
         "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       }
@@ -579,16 +621,16 @@
     "description": "",
     "props": [
       {
-        "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       },
@@ -657,8 +699,15 @@
     "props": [
       {
         "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       },
@@ -685,15 +734,15 @@
     "props": [
       {
         "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       }
@@ -705,16 +754,16 @@
     "description": "",
     "props": [
       {
-        "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       },
@@ -775,6 +824,20 @@
         "required": false
       },
       {
+        "name": "variant",
+        "type": "'outline'",
+        "description": "If outline, the radio will have a border.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "position",
+        "type": "'start' | 'end'",
+        "description": "Position of radio",
+        "defaultValue": "start",
+        "required": false
+      },
+      {
         "name": "aria-labelledby",
         "type": "string",
         "description": "",
@@ -790,8 +853,15 @@
     "props": [
       {
         "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       },
@@ -821,13 +891,6 @@
         "type": "'default' | 'tinted'",
         "description": "Change the background color of the popover.",
         "defaultValue": "'default'",
-        "required": false
-      },
-      {
-        "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'info' | 'success' | 'warning' | 'danger'",
-        "description": "Change the color scheme of the popover",
-        "defaultValue": null,
         "required": false
       },
       {
@@ -894,16 +957,16 @@
     "description": "",
     "props": [
       {
-        "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       },
@@ -978,16 +1041,16 @@
         "required": false
       },
       {
-        "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'danger'",
-        "description": "Change the color scheme of the button",
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       },
@@ -1047,16 +1110,16 @@
     "description": "",
     "props": [
       {
-        "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       },
@@ -1085,7 +1148,7 @@
         "name": "weight",
         "type": "'regular' | 'medium' | 'semibold'",
         "description": "Adjusts font weight. Use this when you have a label hierarchy, such as checkboxes/radios in a fieldset",
-        "defaultValue": "'medium'",
+        "defaultValue": null,
         "required": false
       },
       {
@@ -1097,15 +1160,15 @@
       },
       {
         "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       }
@@ -1117,16 +1180,16 @@
     "description": "",
     "props": [
       {
-        "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       },
@@ -1190,7 +1253,7 @@
         "name": "data-size",
         "type": "'sm' | 'md' | 'lg' | '2xs' | 'xs' | 'xl' | '2xl'",
         "description": "Changes text sizing",
-        "defaultValue": "'md'",
+        "defaultValue": null,
         "required": false
       },
       {
@@ -1720,15 +1783,15 @@
       },
       {
         "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       }
@@ -1754,8 +1817,15 @@
       },
       {
         "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       }
@@ -1767,16 +1837,16 @@
     "description": "",
     "props": [
       {
-        "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.\nChange the color scheme of the popover",
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       },
@@ -1809,16 +1879,16 @@
         "required": false
       },
       {
-        "name": "onClose",
+        "name": "onOpen",
         "type": "(() => void)",
-        "description": "Callback when the popover wants to close.",
+        "description": "Callback when the popover wants to open.",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "onOpen",
+        "name": "onClose",
         "type": "(() => void)",
-        "description": "Callback when the popover wants to open.",
+        "description": "Callback when the popover wants to close.",
         "defaultValue": null,
         "required": false
       },
@@ -1852,15 +1922,15 @@
       },
       {
         "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'danger'",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.\nChange the color scheme of the button",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       },
@@ -1960,16 +2030,16 @@
     "description": "",
     "props": [
       {
-        "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'danger'",
-        "description": "Change the color scheme of the button",
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       },
@@ -2176,16 +2246,16 @@
     "description": "",
     "props": [
       {
-        "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       },
@@ -2246,16 +2316,16 @@
     "description": "",
     "props": [
       {
-        "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       },
@@ -2302,16 +2372,16 @@
     "description": "DatePicker-komponent for å velge en dato fra en kalender.\nKalenderen følger ARIA-grid-mønsteret: ett tabstopp, piltaster mellom\ndager (på tvers av måneder), Home/End til start/slutt av uken og\nPageUp/PageDown mellom måneder.",
     "props": [
       {
-        "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
-        "description": "Endrer farge for underliggende Designsystemet-komponenter.\nVelg fra forhåndsdefinerte farger og farger definert med theme.designsystemet.no.",
+        "name": "data-size",
+        "type": "'sm' | 'md' | 'lg'",
+        "description": "Endrer størrelse for underliggende Designsystemet-komponenter. Velg fra forhåndsdefinerte størrelser.",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Endrer størrelse for underliggende Designsystemet-komponenter. Velg fra forhåndsdefinerte størrelser.",
+        "name": "data-color",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
+        "description": "Endrer farge for underliggende Designsystemet-komponenter.\nVelg fra forhåndsdefinerte farger og farger definert med theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
       },
@@ -2344,16 +2414,16 @@
     "description": "DateInput-komponent for inntasting av datoer i norsk format (dd.mm.åååå).\nHåndterer automatisk formatering og validering av datoer.",
     "props": [
       {
-        "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
-        "description": "Endrer farge for underliggende Designsystemet-komponenter.\nVelg fra forhåndsdefinerte farger og farger definert med theme.designsystemet.no.",
+        "name": "data-size",
+        "type": "'sm' | 'md' | 'lg'",
+        "description": "Endrer størrelse for underliggende Designsystemet-komponenter. Velg fra forhåndsdefinerte størrelser.",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Endrer størrelse for underliggende Designsystemet-komponenter. Velg fra forhåndsdefinerte størrelser.",
+        "name": "data-color",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
+        "description": "Endrer farge for underliggende Designsystemet-komponenter.\nVelg fra forhåndsdefinerte farger og farger definert med theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
       },
@@ -2539,16 +2609,16 @@
     "description": "",
     "props": [
       {
-        "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       },
@@ -2609,6 +2679,20 @@
         "required": false
       },
       {
+        "name": "variant",
+        "type": "'outline'",
+        "description": "If outline, the checkbox will have a border.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "position",
+        "type": "'start' | 'end'",
+        "description": "Position of checkbox",
+        "defaultValue": "start",
+        "required": false
+      },
+      {
         "name": "aria-labelledby",
         "type": "string",
         "description": "",
@@ -2623,16 +2707,16 @@
     "description": "Carousel-komponent for å vise en bildeserie.\nBruker embla-carousel-react for funksjonalitet.",
     "props": [
       {
-        "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
-        "description": "Endrer farge for underliggende Designsystemet-komponenter.\nVelg fra forhåndsdefinerte farger og farger definert med theme.designsystemet.no.",
+        "name": "data-size",
+        "type": "'sm' | 'md' | 'lg'",
+        "description": "Endrer størrelse for underliggende Designsystemet-komponenter. Velg fra forhåndsdefinerte størrelser.",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Endrer størrelse for underliggende Designsystemet-komponenter. Velg fra forhåndsdefinerte størrelser.",
+        "name": "data-color",
+        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
+        "description": "Endrer farge for underliggende Designsystemet-komponenter.\nVelg fra forhåndsdefinerte farger og farger definert med theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
       },
@@ -2721,16 +2805,16 @@
     "description": "",
     "props": [
       {
-        "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       },
@@ -2763,16 +2847,16 @@
     "description": "",
     "props": [
       {
-        "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       },
@@ -2803,16 +2887,16 @@
     "description": "",
     "props": [
       {
-        "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       },
@@ -2832,8 +2916,15 @@
     "props": [
       {
         "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       },
@@ -2857,13 +2948,6 @@
         "description": "Change the background color of the badge.",
         "defaultValue": "'base'",
         "required": false
-      },
-      {
-        "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'info' | 'success' | 'warning' | 'danger'",
-        "description": "Change the color scheme of the badge",
-        "defaultValue": null,
-        "required": false
       }
     ]
   },
@@ -2873,16 +2957,16 @@
     "description": "",
     "props": [
       {
-        "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       },
@@ -2909,8 +2993,8 @@
     "props": [
       {
         "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
-        "description": "Changes color for descendant Designsystemet components.\nSelect from predefined colors and colors defined using theme.designsystemet.no.",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       },
@@ -2945,7 +3029,7 @@
       {
         "name": "variant",
         "type": "'circle' | 'square'",
-        "description": "The shape of the avatar.",
+        "description": "The shape of the avatar.\n@deprecated Please use `style={{ '--dsc-avatar-radius': VALUE }}` instead",
         "defaultValue": "'circle'",
         "required": false
       },
@@ -2993,16 +3077,16 @@
       },
       {
         "name": "data-size",
-        "type": "'sm' | 'md' | 'lg'",
-        "description": "Changes size for descendant Designsystemet components. Select from predefined sizes.",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
         "defaultValue": null,
         "required": false
       },
       {
         "name": "data-color",
-        "type": "'info' | 'success' | 'warning' | 'danger'",
-        "description": "Sets color and icon.",
-        "defaultValue": "'info'",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
+        "defaultValue": null,
         "required": false
       }
     ]

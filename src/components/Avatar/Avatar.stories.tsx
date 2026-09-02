@@ -125,7 +125,8 @@ export const TestInitialsAndAttributes: Story = {
 
     // Initials are exposed on data-initials (visualized by CSS)
     expect(kari).toHaveAttribute('data-initials', 'KN');
-    expect(kari).toHaveAttribute('data-variant', 'circle'); // default shape
+    // The default (circle) shape is CSS, not an attribute - only an explicit
+    // variant is reflected (see anne below).
 
     // String children render as visible text inside the avatar
     expect(within(ola).getByText('ON')).toBeVisible();

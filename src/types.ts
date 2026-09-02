@@ -13,12 +13,14 @@ import type {
 // this repo. (Consumers get the same augmentation embedded in the published
 // dist/index.d.ts by scripts/embed-color-types.mjs.)
 //
-// NB: @digdir/designsystemet-types must stay pinned to the SAME version
-// @digdir/designsystemet-react depends on (see package.json). With two
-// versions in the tree, npm nests a second copy under designsystemet-react,
-// the augmentation only reaches ours, and every Digdir component's
-// data-color silently widens back to `string`. Bump the pin in lockstep
-// with the Digdir peer version.
+// NB: @digdir/designsystemet-types must resolve to the SAME copy
+// @digdir/designsystemet-react depends on. With two versions in the tree,
+// npm nests a second copy under designsystemet-react, the augmentation only
+// reaches ours, and every Digdir component's data-color silently widens
+// back to `string`. It therefore carries the same caret range as the Digdir
+// peers (package.json) so npm dedupes them to one copy - the lockfile holds
+// a single entry, and the weekly canary pins the types package to whichever
+// Digdir version each leg installs.
 import type {} from 'rk-design-tokens/design-tokens-build/types';
 import type { ReactNode } from 'react';
 

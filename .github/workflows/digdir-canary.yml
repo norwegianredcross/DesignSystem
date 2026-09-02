@@ -1,6 +1,6 @@
 name: Digdir canary
 
-# Peer-kontrakten er ~1.13.3, men lockfilen tester alltid nøyaktig én versjon.
+# Peer-kontrakten er ^1.21.0 (nyeste 1.x), men lockfilen tester alltid nøyaktig én versjon.
 # Denne ukentlige kanarien kjører hele testsuiten mot tre punkter:
 #
 #   minimum          gulvet i peer-spennet

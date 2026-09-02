@@ -119,9 +119,11 @@ export const TestInteraction: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    // Trigger button should exist (aria-label is set to tooltip content by designsystemet)
-    const trigger = canvas.getByRole('button', { name: /tooltip message/i });
-    expect(trigger).toBeInTheDocument();
+    // The trigger keeps its own accessible NAME; the tooltip text is its
+    // accessible DESCRIPTION (aria-description). Digdir <1.21 overwrote the
+    // name with aria-label, which the old assertion encoded.
+    const trigger = canvas.getByRole('button', { name: 'Hover me' });
+    expect(trigger).toHaveAccessibleDescription('Tooltip message');
 
     // Tooltip content is rendered via CSS (data-tooltip attribute + pseudo-elements)
     expect(trigger).toHaveAttribute('data-tooltip', 'Tooltip message');
@@ -140,14 +142,14 @@ export const TestKeyboardFocusContract: Story = {
   ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const trigger = canvas.getByRole('button', { name: 'Forklaring av lagring' });
+    const trigger = canvas.getByRole('button', { name: 'Lagre' });
 
     await userEvent.tab();
     expect(canvas.getByRole('button', { name: 'Før' })).toHaveFocus();
     await userEvent.tab();
 
     expect(trigger).toHaveFocus();
-    expect(trigger).toHaveAttribute('aria-label', 'Forklaring av lagring');
+    expect(trigger).toHaveAccessibleDescription('Forklaring av lagring');
     expect(trigger).toHaveAttribute('data-tooltip', 'Forklaring av lagring');
     expect(trigger).toHaveAttribute('data-placement', 'bottom');
     expect(trigger).toHaveAttribute('data-autoplacement', 'false');
