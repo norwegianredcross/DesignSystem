@@ -7,17 +7,7 @@ import { Card } from '../../components/Card';
 import { Button } from '../../components/Button';
 import styles from './styles.module.css';
 
-// Exported so src/utils/catalogue.test.ts can verify this list against the
-// canonical component inventory - a component missing here fails the build
-// instead of silently missing from the documentation site.
-export const catalogueComponents = [
-    'Alert', 'Avatar', 'Badge', 'Breadcrumbs', 'Button', 'Card', 'Carousel', 'Checkbox', 'Chip',
-    'DateInput', 'DatePicker', 'Details', 'Dialog', 'Divider', 'Donor', 'Dropdown', 'ErrorSummary',
-    'Field', 'Fieldset', 'Footer', 'GraphicElement', 'Header', 'Heading', 'Input', 'Label', 'Link',
-    'List', 'Pagination', 'Paragraph', 'Popover', 'Radio', 'Search', 'Select', 'SkeletonLoader',
-    'SkipLink', 'SpinnerLoader', 'Suggestion', 'Switch', 'Table', 'Tabs', 'Tag', 'Textarea',
-    'Textfield', 'ToggleGroup', 'Tooltip', 'ValidationMessage'
-];
+import { catalogueComponents } from './catalogue';
 const components = catalogueComponents;
 
 const iconMap: Record<string, string> = {

@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { searchIndex } from './search-index';
+import { catalogueComponents } from '../pages/Components/catalogue';
 
 /**
  * Indeksvalidering: hver design/- og code/-sti i søkeindeksen må peke på en
@@ -23,11 +24,7 @@ describe('search-index', () => {
   const validPages = new Set(['home', 'components', 'design', 'designretning', 'code', 'tokens', 'whats-new']);
   // components/<navn>-dyplenker valideres mot katalogen: hvert søketreff må
   // peke på en komponent katalogsiden faktisk kan filtrere fram.
-  const catalogueSource = readFileSync('src/pages/Components/index.tsx', 'utf8');
-  const catalogueMatch = catalogueSource.match(/catalogueComponents = \[([\s\S]*?)\]/);
-  const componentIds = new Set(
-    [...(catalogueMatch?.[1] ?? '').matchAll(/'([A-Za-z]+)'/g)].map((m) => m[1].toLowerCase()),
-  );
+  const componentIds = new Set(catalogueComponents.map((name) => name.toLowerCase()));
 
   it('has unique ids', () => {
     const ids = searchIndex.map((item) => item.id);

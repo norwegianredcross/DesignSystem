@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import inventory from '../component-inventory.json';
-import { catalogueComponents } from '../pages/Components/index';
+import { catalogueComponents } from '../pages/Components/catalogue';
 import { searchIndex } from './search-index';
 
 /**

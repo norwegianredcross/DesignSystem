@@ -1,0 +1,24 @@
+# Dependabot covers everything the token-bump workflow does not: npm
+# dependencies (grouped so a week of patch/minor bumps is one reviewable PR)
+# and the SHA-pinned actions. rk-design-tokens stays with token-bump.yml,
+# which also runs the visual gate the tokens need.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    ignore:
+      - dependency-name: rk-design-tokens
+    groups:
+      minor-and-patch:
+        update-types:
+          - minor
+          - patch
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday

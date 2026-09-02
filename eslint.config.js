@@ -19,10 +19,22 @@ export default tseslint.config(
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
+      // Warnings fail CI (lint runs with --max-warnings=0), so every rule
+      // here is effectively an error; keep the level as a signal of intent.
       'react-refresh/only-export-components': [
         'warn',
         { allowConstantExport: true },
       ],
+    },
+  },
+  {
+    // The library's entry files legitimately export hooks next to their
+    // components (useRadioGroup beside Radio, useLanguage beside the
+    // provider) - that IS the public API. Fast Refresh is a dev-server
+    // concern for the docs app under src/pages, which keeps the rule.
+    files: ['src/components/**/*.{ts,tsx}', 'src/context/**/*.{ts,tsx}'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
     },
   },
   {
