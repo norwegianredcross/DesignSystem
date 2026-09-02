@@ -30,8 +30,10 @@ const MyApp = () => {
       <Header 
         activePage={page} 
         setPage={setPage} 
-        showUser={true} 
-        showSearch={true} 
+        showUser={true}
+        userName="Kari Nordmann"
+        showSearch={true}
+        searchItems={mySearchItems}
         showLogin={false}
       >
         {/* Innholdet i den utvidbare menyen */}
@@ -94,5 +96,9 @@ Headeren har en `children`-prop som rendres inne i den utvidbare menyen (burgerm
 ## Tilgjengelighet (A11y)
 - **ARIA-labels:** Alle knapper har beskrivende `aria-label` attributter.
 - **Tastaturnavigasjon:** Menyer og søk kan åpnes og lukkes med tastatur.
-- **Fokus-styring:** Fokus holdes innenfor menyen når den er åpen (krever ekstern implementasjon for full "focus trap", men komponentet støtter naturlig tab-rekkefølge).
+- **Fokus-styring:** På mobil, der menyen dekker hele skjermen, sykler Tab/Shift+Tab mellom menyknappen og menyens egne kontroller (fokusfelle). På desktop er menyen et panel under toppraden, og toppradens kontroller forblir tilgjengelige. Escape lukker og returnerer fokus til knappen som åpnet; lukkes menyen på annen måte, hentes fokus tilbake til menyknappen.
+
+## Bruker, innlogging og søk
+
+Alle tre er av som standard. `showUser` viser brukerblokken bare når `userName` er satt; `showLogin` trenger `loginHref` og/eller `onLoginClick`; `showSearch` matcher forslag mot `searchItems` (`{ id, title, path }`) og sender `setPage('search/<søk>')` ved innsending. Headeren har ingen egen data.
 

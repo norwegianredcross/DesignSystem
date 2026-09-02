@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { searchIndex } from '../../utils/search-index';
 import { expect, within, userEvent, waitFor, fn } from 'storybook/test';
 import { Header } from './index';
 import avatarPlaceholder from '../../assets/images/person2.jpg';
@@ -86,7 +87,7 @@ const meta: Meta<typeof Header> = {
     },
     userName: {
       control: 'text',
-      description: 'Display name shown next to the avatar. Falls back to "Frodo Baggins" if omitted.',
+      description: 'Display name shown next to the avatar. The user block renders only when this is set.',
     },
     userInitials: {
       control: 'text',
@@ -109,7 +110,9 @@ type Story = StoryObj<typeof Header>;
 export const Default: Story = {
   args: {
     showUser: true,
+    userName: 'Kari Nordmann',
     showSearch: true,
+    searchItems: searchIndex,
     showLogin: false,
   },
 };
@@ -118,6 +121,7 @@ export const Guest: Story = {
   args: {
     showUser: false,
     showSearch: true,
+    searchItems: searchIndex,
     showLogin: true,
   },
   parameters: {
@@ -132,6 +136,7 @@ export const Guest: Story = {
 export const NoSearch: Story = {
   args: {
     showUser: true,
+    userName: 'Kari Nordmann',
     showSearch: false,
     showLogin: false,
   },
@@ -139,8 +144,10 @@ export const NoSearch: Story = {
 
 export const Mobile: Story = {
   args: {
-    showUser: true, // On mobile, name is hidden via CSS, only avatar shown
+    showUser: true,
+    userName: 'Kari Nordmann', // On mobile the name is hidden via CSS; only the avatar shows
     showSearch: true,
+    searchItems: searchIndex,
     showLogin: false,
   },
   parameters: {
@@ -153,7 +160,9 @@ export const Mobile: Story = {
 export const WithSecondaryLogo: Story = {
   args: {
     showUser: true,
+    userName: 'Kari Nordmann',
     showSearch: true,
+    searchItems: searchIndex,
     showLogin: false,
     secondaryLogo: true,
     secondaryLogoSrc: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Figma-1-logo.png/640px-Figma-1-logo.png',
@@ -171,7 +180,9 @@ export const WithSecondaryLogo: Story = {
 export const WithMenuContent: Story = {
   args: {
     showUser: true,
+    userName: 'Kari Nordmann',
     showSearch: true,
+    searchItems: searchIndex,
     showLogin: false,
     children: (
       <div style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -187,6 +198,7 @@ export const WithRealUser: Story = {
   args: {
     showUser: true,
     showSearch: true,
+    searchItems: searchIndex,
     showLogin: false,
     userName: 'Daniel Barlag',
   },
@@ -203,6 +215,7 @@ export const WithExplicitInitials: Story = {
   args: {
     showUser: true,
     showSearch: true,
+    searchItems: searchIndex,
     showLogin: false,
     userName: 'Ola',
     userInitials: 'ON',
@@ -220,6 +233,7 @@ export const WithAvatarImage: Story = {
   args: {
     showUser: true,
     showSearch: true,
+    searchItems: searchIndex,
     showLogin: false,
     userName: 'Kari Hansen',
     userAvatarSrc: avatarPlaceholder,
@@ -237,6 +251,7 @@ export const ClickableUser: Story = {
   args: {
     showUser: true,
     showSearch: true,
+    searchItems: searchIndex,
     showLogin: false,
     userName: 'Daniel Barlag',
     onUserClick: fn(),
@@ -254,7 +269,9 @@ export const NeutralColor: Story = {
   args: {
     'data-color': 'neutral',
     showUser: true,
+    userName: 'Kari Nordmann',
     showSearch: true,
+    searchItems: searchIndex,
     showLogin: false,
   },
   parameters: {
@@ -271,6 +288,7 @@ export const Compact: Story = {
     variant: 'compact',
     showUser: false,
     showSearch: true,
+    searchItems: searchIndex,
     showLogin: false,
     showMenuButton: false,
     showNavItems: true,
@@ -295,7 +313,9 @@ export const TestInteraction: Story = {
   name: 'Test: Interaction',
   args: {
     showUser: true,
+    userName: 'Kari Nordmann',
     showSearch: true,
+    searchItems: searchIndex,
     showLogin: false,
   },
   play: async ({ canvasElement }) => {
@@ -394,6 +414,7 @@ export const TestEscapeAndFocusReturn: Story = {
   args: {
     showUser: false,
     showSearch: true,
+    searchItems: searchIndex,
     showLogin: false,
     showMenuButton: true,
   },
@@ -509,6 +530,7 @@ export const TestMenuSearchAndResultFlow: Story = {
     showUser: false,
     showLogin: false,
     showSearch: true,
+    searchItems: searchIndex,
     showMenuButton: true,
     setPage: fn(),
     children: (
@@ -557,6 +579,7 @@ export const TestSearchSuggestionAnnouncement: Story = {
     showUser: false,
     showLogin: false,
     showSearch: true,
+    searchItems: searchIndex,
     showMenuButton: false,
   },
   play: async ({ canvasElement }) => {
@@ -587,6 +610,7 @@ export const TestSearchSubmit: Story = {
     showUser: false,
     showLogin: false,
     showSearch: true,
+    searchItems: searchIndex,
     showMenuButton: false,
     setPage: fn(),
   },
@@ -944,5 +968,108 @@ export const TestThemeToggleAlwaysReachable: Story = {
       expect(switches.length, `${testId}: exactly one reachable toggle`).toBe(1);
       expect(switches[0].closest('header'), `${testId}: inside the header`).not.toBeNull();
     }
+  },
+};
+
+/**
+ * Contract: a bare <Header /> shows chrome only. It used to render a
+ * placeholder user ("Frodo Baggins"), a dead login link and a search box
+ * over the documentation site's own index for every consumer.
+ */
+export const TestBareHeaderHasNoPlaceholders: Story = {
+  name: 'Test: Bare Header Has No Placeholder User, Login Or Search',
+  args: {},
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    expect(canvas.queryByText(/frodo/i)).not.toBeInTheDocument();
+    expect(canvas.queryByRole('link', { name: /logg inn/i })).not.toBeInTheDocument();
+    expect(canvas.queryByRole('button', { name: /søk/i })).not.toBeInTheDocument();
+    // Opting in without a userName still shows no invented identity
+    expect(canvasElement.querySelector('[class*="userInfo"]')).toBeNull();
+  },
+};
+
+/**
+ * The login link goes where the consumer says. With only a handler, the
+ * default "#" navigation is suppressed so the page does not jump to top.
+ */
+export const TestLoginDestination: Story = {
+  name: 'Test: Login Link Destination',
+  args: {
+    showLogin: true,
+    onLoginClick: fn(),
+    showMenuButton: false,
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const link = canvas.getByRole('link', { name: /logg inn/i });
+    expect(link).toHaveAttribute('href', '#');
+    await userEvent.click(link);
+    expect(args.onLoginClick).toHaveBeenCalledTimes(1);
+    // preventDefault held: no "#" fragment navigation happened
+    expect(window.location.hash).toBe('');
+  },
+};
+
+/**
+ * Tests the mobile menu focus trap: with the full-screen menu open, Tab from
+ * the last control wraps to the menu button, Shift+Tab from the menu button
+ * wraps to the last control, and focus never reaches the page behind.
+ */
+export const TestMenuFocusTrap: Story = {
+  name: 'Test: Menu Focus Trap',
+  parameters: {
+    viewport: { defaultViewport: 'mobile' },
+  },
+  args: {
+    showUser: false,
+    showSearch: false,
+    showLogin: false,
+    showMenuButton: true,
+    children: (
+      <nav style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <a href="#one">Første lenke</a>
+        <a href="#two">Andre lenke</a>
+      </nav>
+    ),
+  },
+  render: (args) => (
+    <div>
+      <Header {...args} />
+      <main>
+        <button type="button">Bak overlegget</button>
+      </main>
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const doc = canvasElement.ownerDocument;
+    const menuButton = canvas.getByRole('button', { name: /meny/i });
+    const behind = canvas.getByRole('button', { name: /bak overlegget/i });
+
+    await userEvent.click(menuButton);
+    const first = await canvas.findByRole('link', { name: 'Første lenke' });
+    const last = canvas.getByRole('link', { name: 'Andre lenke' });
+    await waitFor(() => {
+      expect(doc.activeElement).toBe(first);
+    });
+
+    // Forward: last control wraps to the menu (close) button
+    await userEvent.tab();
+    expect(doc.activeElement).toBe(last);
+    await userEvent.tab();
+    expect(doc.activeElement).toBe(menuButton);
+    expect(doc.activeElement).not.toBe(behind);
+
+    // Backward: menu button wraps to the last control
+    await userEvent.tab({ shift: true });
+    expect(doc.activeElement).toBe(last);
+
+    // Closing restores focus to the menu button
+    await userEvent.keyboard('{Escape}');
+    await waitFor(() => {
+      expect(menuButton).toHaveAttribute('aria-expanded', 'false');
+      expect(doc.activeElement).toBe(menuButton);
+    });
   },
 };

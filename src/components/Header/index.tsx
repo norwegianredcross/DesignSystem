@@ -11,7 +11,19 @@ import { Switch } from '../Switch';
 import { Dropdown } from '../Dropdown';
 import styles from './styles.module.css';
 import { MenuHamburgerIcon, XMarkIcon, MagnifyingGlassIcon, HeartIcon, ChevronDownIcon } from '@navikt/aksel-icons';
-import { searchIndex } from '../../utils/search-index';
+
+/**
+ * One entry in the header's search suggestions. The header owns no data
+ * of its own: it used to import the documentation site's search index,
+ * which shipped that site's pages to every consumer and searched THEM.
+ * Consumers pass their own items; `path` is what `setPage` receives when
+ * a suggestion is chosen.
+ */
+export interface HeaderSearchItem {
+  id: string;
+  title: string;
+  path: string;
+}
 
 /**
  * @deprecated `'primary'` was a bespoke value; it now maps to
@@ -32,9 +44,18 @@ export interface HeaderProps {
   activePage?: string;
   setPage?: (pageName: string) => void;
   children?: React.ReactNode;
+  /** Show the signed-in user block. Renders only when `userName` is also given — there is no placeholder user. Off by default. */
   showUser?: boolean;
+  /** Show the search toggle. Suggestions come from `searchItems`; submit navigates via `setPage('search/<query>')`. Off by default. */
   showSearch?: boolean;
+  /** Show the login link. Give it a destination with `loginHref` and/or `onLoginClick`. Off by default. */
   showLogin?: boolean;
+  /** Where the login link goes. Without it (and without `onLoginClick`) the link is inert. */
+  loginHref?: string;
+  /** Called when the login link is activated; with no `loginHref`, the default navigation is suppressed. */
+  onLoginClick?: () => void;
+  /** Items the search suggestions are matched against (substring on `title`). Empty by default. */
+  searchItems?: HeaderSearchItem[];
   showCta?: boolean;
   ctaLabel?: string;
   ctaIcon?: React.ReactNode;
@@ -52,7 +73,7 @@ export interface HeaderProps {
   showLanguageSwitch?: boolean;
   /** Background color variant for the header extension (top bar). 'tinted' uses a soft pink/red tinted background. */
   extensionColor?: 'primary' | 'neutral' | 'tinted';
-  /** Display name shown next to the avatar. Falls back to current placeholder if omitted. */
+  /** Display name shown next to the avatar. Required for the user block to render at all. */
   userName?: string;
   /** Initials rendered inside the avatar circle. Auto-derived from userName if omitted. */
   userInitials?: string;
@@ -61,6 +82,8 @@ export interface HeaderProps {
   /** Optional click handler on the user block — enables future dropdown/menu integration. */
   onUserClick?: () => void;
 }
+
+const FOCUSABLE_SELECTOR = 'a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
 function deriveInitials(name: string): string {
   return name
@@ -71,15 +94,23 @@ function deriveInitials(name: string): string {
     .toUpperCase();
 }
 
+const EMPTY_SEARCH_ITEMS: HeaderSearchItem[] = [];
+
 export const Header = ({
   variant = 'default',
   'data-color': dataColor = 'primary-color-red',
   activePage,
   setPage, 
   children,
-  showUser = true,
-  showSearch = true,
-  showLogin = true,
+  // All three OFF by default: the old defaults showed a placeholder user,
+  // a dead login link and a search box over data the consumer never
+  // provided, on every page that dropped in a bare <Header />.
+  showUser = false,
+  showSearch = false,
+  showLogin = false,
+  loginHref,
+  onLoginClick,
+  searchItems = EMPTY_SEARCH_ITEMS,
   showCta = false,
   ctaLabel,
   ctaIcon = <HeartIcon aria-hidden />,
@@ -292,11 +323,65 @@ export const Header = ({
     if (isSearchOpen) {
       searchInputRef.current?.focus();
     } else if (isOpen) {
-      menuOverlayRef.current
-        ?.querySelector<HTMLElement>('a[href], button, input, select, [tabindex]:not([tabindex="-1"])')
-        ?.focus();
+      menuOverlayRef.current?.querySelector<HTMLElement>(FOCUSABLE_SELECTOR)?.focus();
     }
   }, [isOpen, isSearchOpen]);
+
+  // Focus trap for the open menu — on mobile only, where the overlay is
+  // full-screen and covers everything: Tab cycles through the menu button
+  // and the overlay's own controls and never wanders into the covered page.
+  // On desktop the overlay is a panel below the header bar, whose logo,
+  // nav links and search stay visible and clickable, so trapping there
+  // would lock keyboard users out of controls a mouse user can reach. The
+  // docs used to promise a trap and rely on "an external implementation".
+  useEffect(() => {
+    if (!isOpen || !isMobile) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'Tab') return;
+      const overlay = menuOverlayRef.current;
+      if (!overlay) return;
+      // Only what a sighted keyboard user could actually reach: the language
+      // Dropdown keeps its closed popover's buttons in the DOM (display:none),
+      // and a hidden "last" element would let one Tab slip out of the cycle.
+      const isVisible = (el: HTMLElement) =>
+        typeof el.checkVisibility === 'function' ? el.checkVisibility() : el.offsetParent !== null;
+      const inside = Array.from(overlay.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(
+        (el) => !el.hasAttribute('disabled') && el.getAttribute('aria-hidden') !== 'true' && isVisible(el),
+      );
+      // The close button lives in the header bar, outside the overlay, so it
+      // is part of the cycle - otherwise the menu could never be closed by
+      // keyboard without Escape.
+      const cycle = [menuButtonRef.current, ...inside].filter((el): el is HTMLElement => Boolean(el));
+      if (cycle.length === 0) return;
+      const first = cycle[0];
+      const last = cycle[cycle.length - 1];
+      const active = document.activeElement as HTMLElement | null;
+      if (event.shiftKey ? active === first : active === last) {
+        event.preventDefault();
+        (event.shiftKey ? last : first).focus();
+      } else if (!active || !cycle.includes(active)) {
+        // Focus escaped (e.g. a control unmounted): pull it back in.
+        event.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [isOpen, isMobile]);
+
+  // Every close path returns focus somewhere sensible. Escape and the menu
+  // button handle their own; this covers the rest (a link inside the menu
+  // closing it, the logo) where the focused element unmounts with the
+  // overlay and the browser would drop focus to <body>.
+  const wasOpenRef = React.useRef(false);
+  useEffect(() => {
+    if (wasOpenRef.current && !isOpen && typeof document !== 'undefined') {
+      if (!document.activeElement || document.activeElement === document.body) {
+        menuButtonRef.current?.focus();
+      }
+    }
+    wasOpenRef.current = isOpen;
+  }, [isOpen]);
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
@@ -338,14 +423,14 @@ export const Header = ({
   const filteredResults = useMemo(() => {
     if (!searchQuery.trim()) return [];
     const lowerQuery = searchQuery.toLowerCase();
-    return searchIndex
+    return searchItems
       .filter((item) => item.title.toLowerCase().includes(lowerQuery))
       .sort((a, b) => {
         const aPrefix = a.title.toLowerCase().startsWith(lowerQuery) ? 0 : 1;
         const bPrefix = b.title.toLowerCase().startsWith(lowerQuery) ? 0 : 1;
         return aPrefix - bPrefix;
       });
-  }, [searchQuery]);
+  }, [searchQuery, searchItems]);
 
   // Enter in the field or clicking the search button runs the full search.
   // Neither had a handler before: typing a query and pressing Enter did
@@ -517,9 +602,11 @@ export const Header = ({
           )}
 
           {/* User Info - Desktop shows Name + Avatar, Mobile shows Avatar */}
-          {showUser && (() => {
-            const displayName = userName ?? 'Frodo Baggins';
-            const displayInitials = userInitials ?? (userName ? deriveInitials(userName) : 'FB');
+          {/* No placeholder identity: without a real userName there is
+              nothing truthful to show, so the block stays out entirely. */}
+          {showUser && userName && (() => {
+            const displayName = userName;
+            const displayInitials = userInitials ?? deriveInitials(userName);
             const isClickable = Boolean(onUserClick);
             return (
               <div
@@ -555,7 +642,20 @@ export const Header = ({
 
           {/* Login Link */}
           {showLogin && (
-            <a href="#" className={styles.loginLink}>
+            <a
+              href={loginHref ?? '#'}
+              className={styles.loginLink}
+              onClick={
+                onLoginClick
+                  ? (event) => {
+                      // A handler without a destination is the whole
+                      // navigation; with one, both run (handler first).
+                      if (!loginHref) event.preventDefault();
+                      onLoginClick();
+                    }
+                  : undefined
+              }
+            >
               <Paragraph data-size="md" className={styles.loginText}>{t('header.login')}</Paragraph>
               <div className={styles.underline}></div>
             </a>
