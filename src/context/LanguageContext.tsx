@@ -98,6 +98,7 @@ export const useLanguageOptional = (): LanguageContextType => {
           'footer.contact.phone': 'Telefon',
           'footer.contact.title': 'Kontakt',
           'footer.followUs': 'Følg oss',
+          'footer.newsletterEmailLabel': 'E-postadresse',
           'footer.links': 'Lenker',
           'footer.copyright': 'Rødekors',
           'footer.legal.privacy': 'Personvern',

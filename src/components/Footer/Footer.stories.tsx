@@ -483,3 +483,39 @@ export const TestWordmarkLegibleInDarkMode: Story = {
     }
   },
 };
+
+/**
+ * The newsletter e-mail field has a real accessible name. It used to carry
+ * only a placeholder, which is not a label: it disappears on input and some
+ * assistive technology skips it.
+ */
+export const TestNewsletterInputHasAccessibleName: Story = {
+  name: 'Test: Newsletter Input Has Accessible Name',
+  args: { variant: 'default' },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    expect(canvas.getByRole('textbox', { name: 'E-postadresse' })).toBeInTheDocument();
+  },
+};
+
+/**
+ * `colorScheme` reaches every variant's root. It used to be wired only on
+ * the columns variant and silently dropped on default and contact. One
+ * footer per story: several contentinfo landmarks on one page would be
+ * an axe violation of the story, not of the component.
+ */
+export const TestColorSchemeOnDefaultVariant: Story = {
+  name: 'Test: colorScheme Applies To The Default Variant',
+  args: { variant: 'default', colorScheme: 'dark' },
+  play: async ({ canvasElement }) => {
+    expect(canvasElement.querySelector('footer')).toHaveAttribute('data-color-scheme', 'dark');
+  },
+};
+
+export const TestColorSchemeOnContactVariant: Story = {
+  name: 'Test: colorScheme Applies To The Contact Variant',
+  args: { variant: 'contact', colorScheme: 'dark' },
+  play: async ({ canvasElement }) => {
+    expect(canvasElement.querySelector('footer')).toHaveAttribute('data-color-scheme', 'dark');
+  },
+};

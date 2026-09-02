@@ -262,7 +262,10 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
     // den interne etiketten.
     const autoId = useId();
     const inputId = id ?? `dateinput${autoId}`;
-    const labelId = label && typeof label === 'string' ? `${inputId}-label` : undefined;
+    // Any label CONTENT gets the association, not only plain strings: a
+    // ReactNode label (e.g. text with a "(valgfritt)" hint) used to be
+    // rendered bare, leaving the input with no accessible name at all.
+    const labelId = label ? `${inputId}-label` : undefined;
     const descriptionId = description ? `${inputId}-desc` : undefined;
     const errorId = error ? `${inputId}-err` : undefined;
     const describedByIds = [descriptionId, errorId].filter(Boolean).join(' ') || undefined;
@@ -275,13 +278,11 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
         data-color={dataColor} // <-- Bruk
         data-size={dataSize}   // <-- Bruk
       >
-        {label && typeof label === 'string' ? (
+        {label ? (
           <label id={labelId} htmlFor={inputId}>
             {label}
           </label>
-        ) : (
-          label
-        )}
+        ) : null}
 
         {description && (
           <p id={descriptionId} className={styles.description}>

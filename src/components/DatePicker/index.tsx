@@ -5,7 +5,8 @@ import {
   addMonths, subMonths, isSameMonth, isSameDay, isToday, addDays,
   isValid, setDate, getDaysInMonth,
 } from 'date-fns';
-import { nb } from 'date-fns/locale';
+import { nb, enGB } from 'date-fns/locale';
+import type { Locale } from 'date-fns';
 import { ChevronLeftIcon } from '../../assets/images/ChevronLeftIcon';
 import { ChevronRightIcon } from '../../assets/images/ChevronRightIcon';
 
@@ -26,13 +27,13 @@ export type DatePickerProps = MergeRight<
   }
 >;
 
-const generateCalendarDays = (date: Date): Date[] => {
+const generateCalendarDays = (date: Date, locale: Locale): Date[] => {
   const monthStart = startOfMonth(date);
-  const startDate = startOfWeek(monthStart, { locale: nb });
+  const startDate = startOfWeek(monthStart, { locale });
   // End at the last week that contains a day of the month (5 or 6 rows).
   // A fixed 42-cell grid rendered an entire extra week of next-month days
   // whenever the month fit in 5 rows.
-  const endDate = endOfWeek(endOfMonth(date), { locale: nb });
+  const endDate = endOfWeek(endOfMonth(date), { locale });
   return eachDayOfInterval({ start: startDate, end: endDate });
 };
 
@@ -60,7 +61,11 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   'data-color': dataColor,
   'data-size': dataSize,
 }) => {
-  const { t } = useLanguageOptional();
+  const { t, language } = useLanguageOptional();
+  // Month names, weekday headers and the cells' accessible names follow the
+  // active UI language; nb was hardcoded, so an English page still read
+  // "15. januar 2025" to screen readers. en-GB keeps Monday as first day.
+  const locale = language === 'EN' ? enGB : nb;
 
   // Fallback: inject minimal DatePicker styles if consumer did not import the CSS bundle.
   useEffect(() => {
@@ -113,8 +118,8 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   }, [focusedDate, currentMonthDate]);
 
   const calendarDays = useMemo(
-    () => generateCalendarDays(currentMonthDate),
-    [currentMonthDate],
+    () => generateCalendarDays(currentMonthDate, locale),
+    [currentMonthDate, locale],
   );
 
   const calendarWeeks = useMemo(() => {
@@ -126,12 +131,14 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   }, [calendarDays]);
 
   const dayNames = useMemo(() => {
-    const firstDayOfWeek = startOfWeek(new Date(), { locale: nb });
+    const firstDayOfWeek = startOfWeek(new Date(), { locale });
     return Array.from({ length: 7 }).map((_, i) => {
-      const dayName = format(addDays(firstDayOfWeek, i), 'EEEEEE', { locale: nb });
+      const dayName = format(addDays(firstDayOfWeek, i), 'EEEEEE', { locale });
       return capitalizeFirstLetter(dayName);
     });
-  }, []);
+    // Recomputed on language change - with [] the headers stayed Norwegian
+    // while the heading and cell names switched.
+  }, [locale]);
 
   const handlePrevMonth = useCallback(() => {
     setCurrentMonthDate((prevDate) => {
@@ -192,11 +199,11 @@ export const DatePicker: React.FC<DatePickerProps> = ({
           return;
         case 'Home':
           event.preventDefault();
-          moveFocus(startOfWeek(day, { locale: nb }));
+          moveFocus(startOfWeek(day, { locale }));
           return;
         case 'End':
           event.preventDefault();
-          moveFocus(endOfWeek(day, { locale: nb }));
+          moveFocus(endOfWeek(day, { locale }));
           return;
         case 'PageUp':
           event.preventDefault();
@@ -208,11 +215,11 @@ export const DatePicker: React.FC<DatePickerProps> = ({
           return;
       }
     },
-    [handleDateClick, moveFocus],
+    [handleDateClick, moveFocus, locale],
   );
 
-  const monthName = format(currentMonthDate, 'MMMM', { locale: nb });
-  const year = format(currentMonthDate, 'yyyy', { locale: nb });
+  const monthName = format(currentMonthDate, 'MMMM', { locale });
+  const year = format(currentMonthDate, 'yyyy', { locale });
   const monthYearHeader = `${capitalizeFirstLetter(monthName)} ${year}`;
   const headerId = useId();
 
@@ -292,7 +299,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
                   aria-selected={isCurrentMonth ? Boolean(isSelectedDay) : undefined}
                   aria-disabled={!isCurrentMonth || undefined}
                   aria-current={isTodayDate ? 'date' : undefined}
-                  aria-label={format(day, 'PPP', { locale: nb })}
+                  aria-label={format(day, 'PPP', { locale })}
                 >
                   <span className={styles.dateNumberContainer}>
                     {format(day, 'd')}
