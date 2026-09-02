@@ -47,7 +47,6 @@ export default defineConfig({
           '@digdir/designsystemet-react',
           '@navikt/aksel-icons',
           'date-fns',
-          'classnames',
           'embla-carousel-react',
         ].some((pkg) => id === pkg || id.startsWith(`${pkg}/`)),
       output: {
