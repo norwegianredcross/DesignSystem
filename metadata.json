@@ -1238,22 +1238,43 @@
       {
         "name": "showUser",
         "type": "boolean",
-        "description": "",
-        "defaultValue": "true",
+        "description": "Show the signed-in user block. Renders only when `userName` is also given — there is no placeholder user. Off by default.",
+        "defaultValue": "false",
         "required": false
       },
       {
         "name": "showSearch",
         "type": "boolean",
-        "description": "",
-        "defaultValue": "true",
+        "description": "Show the search toggle. Suggestions come from `searchItems`; submit navigates via `setPage('search/<query>')`. Off by default.",
+        "defaultValue": "false",
         "required": false
       },
       {
         "name": "showLogin",
         "type": "boolean",
-        "description": "",
-        "defaultValue": "true",
+        "description": "Show the login link. Give it a destination with `loginHref` and/or `onLoginClick`. Off by default.",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "loginHref",
+        "type": "string",
+        "description": "Where the login link goes. Without it (and without `onLoginClick`) the link is inert.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "onLoginClick",
+        "type": "(() => void)",
+        "description": "Called when the login link is activated; with no `loginHref`, the default navigation is suppressed.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "searchItems",
+        "type": "HeaderSearchItem[]",
+        "description": "Items the search suggestions are matched against (substring on `title`). Empty by default.",
+        "defaultValue": "[]",
         "required": false
       },
       {
@@ -1371,7 +1392,7 @@
       {
         "name": "userName",
         "type": "string",
-        "description": "Display name shown next to the avatar. Falls back to current placeholder if omitted.",
+        "description": "Display name shown next to the avatar. Required for the user block to render at all.",
         "defaultValue": null,
         "required": false
       },

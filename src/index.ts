@@ -204,7 +204,7 @@ export type { ValidationMessageProps } from './components/ValidationMessage';
 
 // Header
 export { Header } from './components/Header';
-export type { HeaderProps } from './components/Header';
+export type { HeaderProps, HeaderSearchItem } from './components/Header';
 
 // Footer
 export { Footer } from './components/Footer';

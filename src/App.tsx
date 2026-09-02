@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useLanguage } from './context/LanguageContext';
 import { Header } from './components/Header';
+import { searchIndex } from './utils/search-index';
 import { SkipLink } from './components/SkipLink';
 import { Footer } from './components/Footer';
 import { HomePage } from './pages/Home';
@@ -64,6 +65,8 @@ function App() {
         setPage={setPage} 
         showUser={false} 
         showLogin={false} 
+        showSearch={true}
+        searchItems={searchIndex}
         showThemeToggle={false}
         showHeaderExtension={true}
         showModeToggle={true}
