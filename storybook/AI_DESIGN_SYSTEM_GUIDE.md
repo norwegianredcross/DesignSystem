@@ -1163,9 +1163,12 @@ import { Header } from 'rk-designsystem';
   ctaLabel="…" // valgfri: string
   data-color="primary-color-red" // valgfri, default primary-color-red: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'primary'
   extensionColor="neutral" // valgfri: 'neutral' | 'primary' | 'tinted'
+  loginHref="…" // valgfri: string
   // navItems — valgfri: { label: string; href: string; }[]
   onCtaClick={() => {}} // valgfri: (() => void)
+  onLoginClick={() => {}} // valgfri: (() => void)
   onUserClick={() => {}} // valgfri: (() => void)
+  // searchItems — valgfri, default []: HeaderSearchItem[]
   secondaryLogo={false} // valgfri, default false: boolean
   secondaryLogoAlt="Secondary Logo" // valgfri, default Secondary Logo: string
   secondaryLogoSrc="…" // valgfri: string
@@ -1174,13 +1177,13 @@ import { Header } from 'rk-designsystem';
   showCta={false} // valgfri, default false: boolean
   showHeaderExtension={false} // valgfri, default false: boolean
   showLanguageSwitch={false} // valgfri, default false: boolean
-  showLogin={true} // valgfri, default true: boolean
+  showLogin={false} // valgfri, default false: boolean
   showMenuButton={true} // valgfri, default true: boolean
   showModeToggle={false} // valgfri, default false: boolean
   showNavItems={true} // valgfri, default true: boolean
-  showSearch={true} // valgfri, default true: boolean
+  showSearch={false} // valgfri, default false: boolean
   showThemeToggle={false} // valgfri, default false: boolean
-  showUser={true} // valgfri, default true: boolean
+  showUser={false} // valgfri, default false: boolean
   userAvatarSrc="…" // valgfri: string
   userInitials="…" // valgfri: string
   userName="…" // valgfri: string
