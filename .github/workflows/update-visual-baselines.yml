@@ -8,9 +8,6 @@ name: Update visual baselines
 on:
   workflow_dispatch:
 
-permissions:
-  contents: write
-
 concurrency:
   group: visual-baselines-${{ github.ref }}
   cancel-in-progress: false
@@ -19,7 +16,20 @@ jobs:
   update:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    permissions:
+      contents: write
     steps:
+      # Baselines er fasiten den visuelle gaten dømmer etter. Å regenerere
+      # dem rett på main normaliserer enhver regresjon uten review — kjør
+      # workflowen på PR-branchen i stedet, så blir baseline-diffen en del
+      # av PR-en. Feiler høylytt i stedet for å skippe stille, slik at en
+      # feildispatch ikke ser ut som en vellykket kjøring.
+      - name: Refuse to run on the default branch
+        if: github.ref_name == github.event.repository.default_branch
+        run: |
+          echo "::error::Baselines regenereres aldri direkte på ${GITHUB_REF_NAME} — dispatch workflowen på PR-branchen."
+          exit 1
+
       - name: Checkout branch
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:

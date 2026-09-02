@@ -12,10 +12,6 @@ on:
     - cron: '0 4 * * *'
   workflow_dispatch:
 
-permissions:
-  contents: write
-  pull-requests: write
-
 concurrency:
   group: token-bump
   cancel-in-progress: false
@@ -24,6 +20,9 @@ jobs:
   bump:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
@@ -82,27 +81,46 @@ jobs:
           path: test-results
           if-no-files-found: ignore
 
+      # Versjonsstrengen leses fra den OPPDATERTE pakkens package.json — altså
+      # fra registryet, ikke fra dette repoet. Den når shellet via env og
+      # aldri via interpolering, så en kompromittert oppstrøm-utgivelse ikke
+      # kan injisere kommandoer i en jobb med contents: write.
       - name: Push branch and open/update PR
         if: steps.bump.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.bump.outputs.version }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git checkout -B chore/token-bump
           git add package.json package-lock.json
-          git commit -m "chore(deps): update rk-design-tokens to ${{ steps.bump.outputs.version }}"
+          git commit -m "chore(deps): update rk-design-tokens to ${VERSION}"
           git push --force origin chore/token-bump
 
           if [ "${{ steps.tests.outcome }}" = "success" ]; then TESTS="✅ testsuite grønn"; else TESTS="❌ testsuite FEILER"; fi
           if [ "${{ steps.visual.outcome }}" = "success" ]; then VISUAL="✅ ingen visuelle diffs"; else VISUAL="⚠️ visuelle diffs — se artefakten token-bump-visual-diffs i workflow-kjøringen, og kjør «Update visual baselines» på denne branchen hvis endringen er tilsiktet"; fi
-          BODY="rk-design-tokens → ${{ steps.bump.outputs.version }}. Verifisert i bump-workflowen (PR-en får ikke egne checks fordi den er laget av GITHUB_TOKEN): ${TESTS}; ${VISUAL}."
+          BODY="rk-design-tokens → ${VERSION}. Verifisert i bump-workflowen (PR-en får ikke egne checks fordi den er laget av GITHUB_TOKEN): ${TESTS}; ${VISUAL}."
 
           EXISTING=$(gh pr list --head chore/token-bump --state open --json number --jq '.[0].number // empty')
           if [ -n "$EXISTING" ]; then
             gh pr edit "$EXISTING" --body "$BODY"
           else
             gh pr create --base main --head chore/token-bump \
-              --title "chore(deps): update rk-design-tokens to ${{ steps.bump.outputs.version }}" \
+              --title "chore(deps): update rk-design-tokens to ${VERSION}" \
               --body "$BODY"
           fi
+
+      # Gatene kjører med continue-on-error slik at resultatet alltid når
+      # PR-beskrivelsen — men kjøringen skal likevel ende RØD når en gate
+      # feilet, ellers er eneste signal en setning i en PR ingen behøver å
+      # lese. PR-en er allerede opprettet/oppdatert i steget over.
+      - name: Fail the run when a gate failed
+        if: >-
+          steps.bump.outputs.changed == 'true' &&
+          (steps.tests.outcome == 'failure' ||
+           steps.build.outcome == 'failure' ||
+           steps.visual.outcome == 'failure')
+        run: |
+          echo "::error::Token-bumpen feiler minst én gate — se PR-beskrivelsen og artefaktene."
+          exit 1
