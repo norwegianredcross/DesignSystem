@@ -462,14 +462,14 @@ export const TestWordmarkLegibleInDarkMode: Story = {
       }
 
       const parse = (c: string) => c.match(/[\d.]+/g)!.slice(0, 3).map(Number);
-      const luminance = ([r, g, b]: number[]) => {
+      const luminance = ([r = 0, g = 0, b = 0]: number[]) => {
         const f = (c: number) => {
           const v = c / 255;
           return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
         };
         return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
       };
-      const [hi, lo] = [luminance(parse(getComputedStyle(logo).color)), luminance(parse(backdrop))].sort(
+      const [hi = 0, lo = 0] = [luminance(parse(getComputedStyle(logo).color)), luminance(parse(backdrop))].sort(
         (a, b) => b - a,
       );
       const contrast = (hi + 0.05) / (lo + 0.05);

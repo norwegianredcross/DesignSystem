@@ -31,7 +31,7 @@ function parseChangelog(raw: string): Release[] {
   for (const line of raw.split('\n')) {
     const heading = line.match(/^## (\d+\.\d+\.\d+) \(([^)]+)\)/);
     if (heading) {
-      current = { version: heading[1], date: heading[2], items: [] };
+      current = { version: heading[1] ?? '', date: heading[2] ?? '', items: [] };
       releases.push(current);
       continue;
     }
@@ -39,11 +39,11 @@ function parseChangelog(raw: string): Release[] {
     if (bullet && current) {
       // Formen er «type(scope): melding (#PR) (commit)» — commit-hashen er
       // støy her, PR-nummeret blir en lenke.
-      let text = bullet[1].replace(/\s*\([0-9a-f]{7,40}\)\s*$/, '');
+      let text = (bullet[1] ?? '').replace(/\s*\([0-9a-f]{7,40}\)\s*$/, '');
       const pr = text.match(/\s*\(#(\d+)\)\s*$/);
       if (pr) text = text.slice(0, pr.index);
       const kindMatch = text.match(/^([a-z]+)(?:\([^)]*\))?!?:\s*/);
-      const kind = kindMatch ? kindMatch[1] : 'annet';
+      const kind = kindMatch?.[1] ?? 'annet';
       if (kindMatch) text = text.slice(kindMatch[0].length);
       current.items.push({ kind, text, prNumber: pr?.[1] });
     }

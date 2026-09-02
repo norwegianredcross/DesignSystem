@@ -852,7 +852,7 @@ export const TestCompactWordmarkContrast: Story = {
 
       const parse = (colour: string) => colour.match(/[\d.]+/g)!.slice(0, 3).map(Number);
       // WCAG relative luminance, then the standard contrast ratio.
-      const luminance = ([r, g, b]: number[]) => {
+      const luminance = ([r = 0, g = 0, b = 0]: number[]) => {
         const f = (c: number) => {
           const v = c / 255;
           return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
@@ -860,7 +860,7 @@ export const TestCompactWordmarkContrast: Story = {
         return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
       };
       const ratio = (a: number[], b: number[]) => {
-        const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+        const [hi = 0, lo = 0] = [luminance(a), luminance(b)].sort((x, y) => y - x);
         return (hi + 0.05) / (lo + 0.05);
       };
 
@@ -966,7 +966,7 @@ export const TestThemeToggleAlwaysReachable: Story = {
     ]) {
       const switches = within(canvas.getByTestId(testId)).queryAllByRole('switch');
       expect(switches.length, `${testId}: exactly one reachable toggle`).toBe(1);
-      expect(switches[0].closest('header'), `${testId}: inside the header`).not.toBeNull();
+      expect(switches[0]!.closest('header'), `${testId}: inside the header`).not.toBeNull();
     }
   },
 };

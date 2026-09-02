@@ -67,7 +67,7 @@ const DirectionArticle = ({ chapterId, title, intro, nav, photo, children }: {
             <span className={styles.photoNotch} aria-hidden="true" />
           </figure>
         ) : (
-          <GraphicElement shape={CHAPTERS[Math.max(idx, 0)].shape} size="lg" aria-hidden className={styles.heroShape} />
+          <GraphicElement shape={CHAPTERS[Math.max(idx, 0)]?.shape ?? 'angle'} size="lg" aria-hidden className={styles.heroShape} />
         )}
       </header>
       {children}

@@ -41,7 +41,7 @@ export const TokensPage = () => {
 
     for (let i = 0; i < rootStyles.length; i++) {
       const property = rootStyles[i];
-      if (property.startsWith('--ds-')) {
+      if (property?.startsWith('--ds-')) {
         const value = rootStyles.getPropertyValue(property).trim();
         if (value) {
           const parts = property.replace('--ds-', '').split('-');
@@ -56,16 +56,16 @@ export const TokensPage = () => {
               const knownSubGroups = ['base', 'text', 'background', 'border', 'surface', 'focus', 'link', 'hover', 'active', 'visited', 'subtle', 'default', 'strong', 'inner', 'outer'];
               let subGroupIndex = -1;
               for (let j = 1; j < parts.length; j++) {
-                if (knownSubGroups.includes(parts[j])) {
+                if (knownSubGroups.includes(parts[j] ?? '')) {
                   subGroupIndex = j;
                   break;
                 }
               }
               if (subGroupIndex > 0) {
                 group = parts.slice(1, subGroupIndex).join('-');
-                subGroup = parts[subGroupIndex];
+                subGroup = parts[subGroupIndex] ?? '';
               } else {
-                group = parts[1];
+                group = parts[1] ?? '';
                 subGroup = parts[2] || '';
               }
             }
@@ -76,12 +76,12 @@ export const TokensPage = () => {
             category = 'typography';
             group = parts[0];
             if (parts.length > 1) {
-              subGroup = parts[1];
+              subGroup = parts[1] ?? '';
             }
           } else if (parts[0] === 'border') {
             category = 'borders';
             if (parts.length > 1) {
-              group = parts[1];
+              group = parts[1] ?? '';
             }
           } else if (parts[0] === 'shadow') {
             category = 'shadows';
@@ -125,25 +125,17 @@ export const TokensPage = () => {
     const categoryGroups: Record<string, Record<string, TokenGroup>> = {};
 
     tokens.forEach(token => {
-      if (!categoryGroups[token.category]) {
-        categoryGroups[token.category] = {};
-      }
-
+      const groupsInCategory = (categoryGroups[token.category] ??= {});
       const groupKey = token.group;
-      if (!categoryGroups[token.category][groupKey]) {
-        categoryGroups[token.category][groupKey] = {
-          name: groupKey,
-          tokens: []
-        };
-      }
-
-      categoryGroups[token.category][groupKey].tokens.push(token);
+      const group = (groupsInCategory[groupKey] ??= { name: groupKey, tokens: [] });
+      group.tokens.push(token);
     });
 
     // Sort tokens within each group
     Object.keys(categoryGroups).forEach(category => {
-      Object.keys(categoryGroups[category]).forEach(groupKey => {
-        const group = categoryGroups[category][groupKey];
+      Object.keys(categoryGroups[category] ?? {}).forEach(groupKey => {
+        const group = categoryGroups[category]?.[groupKey];
+        if (!group) return;
         group.tokens.sort((a, b) => {
           const getVariant = (token: Token): string => {
             if (!token.subGroup) return '';
@@ -249,8 +241,8 @@ export const TokensPage = () => {
         const indexB = priorityOrder.indexOf(b);
         if (indexA === -1 && indexB === -1) {
           if (category === 'colors') {
-            const groupA = structuredGroups[category][a];
-            const groupB = structuredGroups[category][b];
+            const groupA = structuredGroups[category]?.[a];
+            const groupB = structuredGroups[category]?.[b];
             const aHasBase = groupA?.tokens.some(t => t.subGroup === 'base') || false;
             const bHasBase = groupB?.tokens.some(t => t.subGroup === 'base') || false;
 
@@ -290,8 +282,9 @@ export const TokensPage = () => {
 
   // If the initial active category isn't in the available list once tokens load, fall back to the first one.
   useEffect(() => {
-    if (sortedCategories.length > 0 && !sortedCategories.includes(activeCategory)) {
-      setActiveCategory(sortedCategories[0]);
+    const firstCategory = sortedCategories[0];
+    if (firstCategory !== undefined && !sortedCategories.includes(activeCategory)) {
+      setActiveCategory(firstCategory);
     }
   }, [sortedCategories, activeCategory]);
 
@@ -402,7 +395,8 @@ export const TokensPage = () => {
               </Heading>
 
               {currentGroupKeys.map(groupKey => {
-                const group = structuredGroups[activeCategory][groupKey];
+                const group = structuredGroups[activeCategory]?.[groupKey];
+                if (!group) return null;
                 return (
                   <section key={groupKey} className={styles.tokenGroup}>
                     <Heading level={3} data-size="sm" className={styles.groupHeading}>

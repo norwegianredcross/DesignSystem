@@ -560,7 +560,7 @@ export const TestTodayHighlight: CalendarStory = {
     const todayCells = canvasElement.querySelectorAll('[aria-current="date"]');
     expect(todayCells.length).toBe(1);
 
-    const todayCell = todayCells[0];
+    const todayCell = todayCells[0]!;
     expect(todayCell.textContent?.trim()).toBe(new Date().getDate().toString());
     expect(todayCell).not.toHaveAttribute('aria-disabled');
   },

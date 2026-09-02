@@ -136,7 +136,8 @@ export const DesignAnimation = ({ labels }: DesignAnimationProps) => {
     return () => window.clearInterval(id);
   }, []);
 
-  const phase = timeline[phaseIndex];
+  // phaseIndex is always kept inside the timeline (modulo / clamped above).
+  const phase = timeline[phaseIndex]!;
 
   const cursorCoords: Coords | null = (() => {
     if (phase.target.kind === 'center') {

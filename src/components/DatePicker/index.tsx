@@ -260,8 +260,8 @@ export const DatePicker: React.FC<DatePickerProps> = ({
           ))}
         </div>
 
-        {calendarWeeks.map((week) => (
-          <div role="row" className={styles.gridRow} key={week[0].toISOString()}>
+        {calendarWeeks.map((week, weekIndex) => (
+          <div role="row" className={styles.gridRow} key={week[0]?.toISOString() ?? weekIndex}>
             {week.map((day) => {
               const isCurrentMonth = isSameMonth(day, currentMonthDate);
               const isSelectedDay =

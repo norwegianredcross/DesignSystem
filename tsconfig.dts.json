@@ -17,6 +17,7 @@
     "outDir": "./dist",
     "jsx": "react-jsx",
     "strict": true,
+    "noUncheckedIndexedAccess": true,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,

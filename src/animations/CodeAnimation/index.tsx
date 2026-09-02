@@ -93,7 +93,7 @@ export const CodeAnimation = ({
     let remaining = charCount;
     let fullyTyped = 0;
     for (let i = 0; i < CODE_LINES.length; i++) {
-      const lineLen = CODE_LINES[i].length + 1; // include newline
+      const lineLen = (CODE_LINES[i]?.length ?? 0) + 1; // include newline
       if (remaining >= lineLen) {
         fullyTyped++;
         remaining -= lineLen;
