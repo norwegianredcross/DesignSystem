@@ -146,20 +146,10 @@ jobs:
       - name: Build package
         run: npm run build
 
+      # build-storybook also copies the AI-context artifacts (metadata, guide,
+      # manifest) into storybook-build/ - see scripts/copy-ai-artifacts.mjs.
       - name: Build Storybook
         run: npm run build-storybook
-
-      - name: Copy Metadata
-        run: cp metadata.json storybook-build/metadata.json
-
-      - name: Copy AI Design System Guide
-        run: cp AI_DESIGN_SYSTEM_GUIDE.md storybook-build/AI_DESIGN_SYSTEM_GUIDE.md
-
-      # The manifest advertises its own URL under /storybook/ — without this
-      # copy the deployed manifestUrl 404s. `build-storybook` regenerated the
-      # file at the repo root two steps earlier, so this copy is always fresh.
-      - name: Copy AI Context Manifest
-        run: cp ai-context.manifest.json storybook-build/ai-context.manifest.json
 
       - name: Build Main Application
         run: npm run build:app
