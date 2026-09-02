@@ -111,15 +111,9 @@
     "vite-plugin-dts": "^4.5.4",
     "vitest": "^3.1.2"
   },
-  "eslintConfig": {
-    "extends": [
-      "plugin:storybook/recommended"
-    ]
-  },
   "dependencies": {
     "@digdir/designsystemet-types": "1.13.3",
     "@navikt/aksel-icons": "^7.20.0",
-    "classnames": "^2.5.1",
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.6.0",
     "rk-design-tokens": "^1.0.49"

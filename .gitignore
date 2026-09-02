@@ -47,3 +47,9 @@ FIGMA_UI_KIT_SYNC.md
 # Playwright visual test runtime output (baselines in tests/visual/__screenshots__ ARE committed)
 test-results/
 playwright-report/
+
+# npm pack output — a stale committed tarball masquerades as a release artifact
+*.tgz
+
+# Machine-local agent permissions must never be inherited by other clones
+.claude/settings.local.json
