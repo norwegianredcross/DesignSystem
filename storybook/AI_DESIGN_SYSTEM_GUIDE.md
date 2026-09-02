@@ -1118,6 +1118,7 @@ import { Footer } from 'rk-designsystem';
   newsletterButtonText="Meld deg på" // valgfri, default Meld deg på: string
   // newsletterConsentText — valgfri: ReactNode
   newsletterDescription="Tekst om rødekors som kan være rundt 2 linjebrudd i lengde." // valgfri, default Tekst om rødekors som kan være rundt …: string
+  newsletterInputLabel="…" // valgfri: string
   newsletterPlaceholder="Input tekst" // valgfri, default Input tekst: string
   onNewsletterSubmit={(email) => {}} // valgfri: ((email: string) => void)
   organizationNumber="XXX XXX XXX" // valgfri, default XXX XXX XXX: string
