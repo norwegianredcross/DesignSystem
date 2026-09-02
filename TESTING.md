@@ -86,7 +86,7 @@ Når testing begrenses utover dette skal det dokumenteres i PR-beskrivelsen med 
 
 ## 8b. Digdir-versjonstaket
 
-Peer-spennet er `~1.13.2` — altså bare 1.13.x. Det er ikke forsiktighet, det er
+Peer-spennet er `~1.13.3` — altså bare 1.13.x. Det er ikke forsiktighet, det er
 målt: suiten er grønn på 1.13.3 og feiler fra og med 1.14.0.
 
 | Digdir | Utfall |

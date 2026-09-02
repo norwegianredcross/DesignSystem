@@ -33,6 +33,7 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
+    "./package.json": "./package.json",
     "./styles": "./dist/styles.css",
     "./styles.css": "./dist/styles.css",
     "./dist/rk-designsystem.css": "./dist/rk-designsystem.css"
@@ -46,10 +47,10 @@
     "LICENSE"
   ],
   "peerDependencies": {
-    "@digdir/designsystemet-css": "~1.13.2",
-    "@digdir/designsystemet-react": "~1.13.2",
-    "react": ">=18.3.1 || ^19.0.0",
-    "react-dom": ">=18.3.1 || ^19.0.0"
+    "@digdir/designsystemet-css": "~1.13.3",
+    "@digdir/designsystemet-react": "~1.13.3",
+    "react": "^18.3.1 || ^19.0.0",
+    "react-dom": "^18.3.1 || ^19.0.0"
   },
   "scripts": {
     "dev": "vite",
@@ -113,7 +114,7 @@
   },
   "dependencies": {
     "@digdir/designsystemet-types": "1.13.3",
-    "@navikt/aksel-icons": "^7.20.0",
+    "@navikt/aksel-icons": "^8.16.1",
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.6.0",
     "rk-design-tokens": "^1.0.49"

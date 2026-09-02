@@ -402,7 +402,7 @@ export function App(props: Fixture) {
   await verifyRenderedStyles(appDir, 'React 19');
 
   // 5. Negativ test: en fersk app på React 17 som legger til pakken skal få
-  //    ERESOLVE-konflikt mot peer-kontrakten (>=18.3.1 || ^19), ikke en
+  //    ERESOLVE-konflikt mot peer-kontrakten (^18.3.1 || ^19), ikke en
   //    stille installasjon. (I et eksisterende tre nedgraderer npm og merker
   //    bare treet «invalid» — derfor testes fersk oppløsning uten lockfile.)
   const freshDir = path.join(tmp, 'fresh-react17');
@@ -430,7 +430,7 @@ export function App(props: Fixture) {
   }
   console.log('✅ Inkompatibel React (17) avvises av peer-kontrakten.');
 
-  // 6. React 18.3-konsument: peer-kontrakten lover `>=18.3.1 || ^19`, men
+  // 6. React 18.3-konsument: peer-kontrakten lover `^18.3.1 || ^19`, men
   // alt over testet bare nyeste React. Samme app-kilde installeres med den
   // ELDSTE støttede versjonen: typene må kompilere mot @types/react@18
   // (vår d.ts skal ikke kreve React 19-typer), og appen må bygge og rendre
