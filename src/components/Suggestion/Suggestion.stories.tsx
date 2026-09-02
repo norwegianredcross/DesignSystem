@@ -1,13 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import { expect, within, userEvent, waitFor, fn } from 'storybook/test';
-import {
-  useState,
-  useRef,
-  useEffect,
-  useCallback,
-  ChangeEvent,
-} from 'react';
+import { useState, useRef, useEffect, useCallback, FormEvent } from 'react';
 import {
   Suggestion,
   SuggestionProps,
@@ -302,8 +296,10 @@ export const AsyncLoading: Story = {
 
     const debounced = useDebounceCallback(apiCall, 500);
 
-    const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
-      const inputValue = event.target.value;
+    // onInput carries a FormEvent (Digdir's InputEventHandler); typing it as a
+    // ChangeEvent was wrong and TypeScript 5.9 finally rejects the mismatch.
+    const handleInput = (event: FormEvent<HTMLInputElement>) => {
+      const inputValue = event.currentTarget.value;
       setValue(inputValue);
       setOptions(null); // Clear options on new input
       const trimmedValue = inputValue.trim();
