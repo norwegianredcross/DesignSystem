@@ -2415,7 +2415,7 @@
       },
       {
         "name": "onChange",
-        "type": "((event: ChangeEvent<HTMLInputElement>, formattedValue: string) => void)",
+        "type": "((event: ChangeEvent<HTMLInputElement, Element>, formattedValue: string) => void)",
         "description": "Kalles ved endring med hendelsen og den formaterte verdien (dd.mm.åååå).",
         "defaultValue": null,
         "required": false

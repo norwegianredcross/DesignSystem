@@ -358,7 +358,7 @@ import { DateInput } from 'rk-designsystem';
   inputClassName="…" // valgfri: string
   inputWrapperClassName="…" // valgfri: string
   // label — valgfri: ReactNode
-  onChange={(event, formattedValue) => {}} // valgfri: ((event: ChangeEvent<HTMLInputElement>, formattedValue: string) => void)
+  onChange={(event, Element>, formattedValue) => {}} // valgfri: ((event: ChangeEvent<HTMLInputElement, Element>, formattedValue: string) => void)
   // onSuffixClick — valgfri: MouseEventHandler<HTMLButtonElement>
   onValidationChange={(valid, formattedValue) => {}} // valgfri: ((valid: boolean | null, formattedValue: string) => void)
   // suffixIcon — valgfri: ReactNode
