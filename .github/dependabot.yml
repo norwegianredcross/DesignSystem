@@ -1,7 +1,13 @@
 # Dependabot covers everything the token-bump workflow does not: npm
-# dependencies (grouped so a week of patch/minor bumps is one reviewable PR)
-# and the SHA-pinned actions. rk-design-tokens stays with token-bump.yml,
-# which also runs the visual gate the tokens need.
+# dependencies and the SHA-pinned actions. rk-design-tokens stays with
+# token-bump.yml, which also runs the visual gate the tokens need.
+#
+# Cadence is deliberately low. The first run opened eight PRs at once, four
+# of them red: majors for the build toolchain (vite, vite-plugin-dts,
+# eslint-plugin-react-hooks) each need real migration work and Storybook's
+# own peer range decides when vite can move. So: one grouped minor/patch PR
+# a week, at most two npm PRs open, toolchain majors ignored here and taken
+# deliberately by hand, and the actions bumped together in one PR.
 version: 2
 updates:
   - package-ecosystem: npm
@@ -9,9 +15,36 @@ updates:
     schedule:
       interval: weekly
       day: monday
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 2
     ignore:
       - dependency-name: rk-design-tokens
+      # Toolchain majors are migrations, not bumps - taken by hand.
+      - dependency-name: vite
+        update-types: ["version-update:semver-major"]
+      - dependency-name: vite-plugin-dts
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@vitejs/*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "vitest"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@vitest/*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "storybook"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@storybook/*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "eslint*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript-eslint"
+        update-types: ["version-update:semver-major"]
+      # Digdir Designsystemet is the foundation this library re-exports, its
+      # types package is pinned in lockstep, and the PEER range is a contract
+      # every consumer must satisfy. Any bump - a "minor" 1.13 -> 1.21 included -
+      # is a reviewed migration with a visual pass; digdir-canary.yml tracks
+      # upstream so nobody has to guess when one is due.
+      - dependency-name: "@digdir/*"
     groups:
       minor-and-patch:
         update-types:
@@ -22,3 +55,7 @@ updates:
     schedule:
       interval: weekly
       day: monday
+    open-pull-requests-limit: 1
+    groups:
+      actions:
+        patterns: ["*"]
