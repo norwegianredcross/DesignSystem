@@ -448,8 +448,10 @@ const SingleSelectTestRender = (args: SuggestionProps) => {
 };
 
 /** Wait for the async label/field wiring, then return the combobox input. */
+// By role, not by label text: since Digdir 1.21 the listbox carries the
+// field's label as well, so getByLabelText resolves to two elements.
 const findSuggestionInput = async (canvas: ReturnType<typeof within>) =>
-  await waitFor(() => canvas.getByLabelText('Velg en destinasjon'));
+  await waitFor(() => canvas.getByRole('combobox', { name: 'Velg en destinasjon' }));
 
 /**
  * Tests combobox ARIA wiring on the input: role, aria-autocomplete,
@@ -461,24 +463,32 @@ export const TestComboboxAria: Story = {
   args: { onSelectedChange: fn() as any },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    // Semantics, not Digdir's wiring: the field IS a combobox (that is how
+    // findSuggestionInput finds it), it controls a listbox, and opening it
+    // is reflected in aria-expanded. Which element carries which attribute,
+    // and when the web component upgrades it, is Digdir's business.
     const input = await findSuggestionInput(canvas);
-    const list = canvasElement.querySelector('u-datalist');
+    // Single-select only: in `multiple` mode the hidden <select multiple>
+    // is a second listbox, so this lookup would be ambiguous there.
+    const list = await canvas.findByRole('listbox', { hidden: true });
 
-    // The u-combobox/u-datalist elements upgrade the plain input to a combobox
-    await waitFor(() => {
-      expect(input).toHaveAttribute('role', 'combobox');
-      expect(input).toHaveAttribute('aria-autocomplete', 'list');
-      expect(list).toHaveAttribute('id');
-      expect(input).toHaveAttribute('aria-controls', list?.id);
-    });
-    expect(list).toHaveAttribute('role', 'listbox');
-
-    // Focusing the input opens the suggestion list
+    // Opening the field exposes the controlled list: the combobox points at
+    // the listbox, reports expanded, and the list shows. Since Digdir 1.21
+    // the wiring happens on first interaction and the list opens on input
+    // (typing / arrow keys) rather than on bare focus - the standard
+    // combobox pattern - so nothing is asserted before the user types.
     await userEvent.click(input);
-    await waitFor(() => {
-      expect(list).not.toHaveAttribute('hidden');
-    });
-    expect(input).toHaveAttribute('aria-expanded', 'true');
+    await userEvent.type(input, 'o');
+    // The web component opens the popover asynchronously; under a full
+    // parallel suite run the default 1 s wait is occasionally too short.
+    await waitFor(
+      () => {
+        expect(input).toHaveAttribute('aria-controls', list.id);
+        expect(input).toHaveAttribute('aria-expanded', 'true');
+        expect(list).toBeVisible();
+      },
+      { timeout: 4000 },
+    );
   },
 };
 
@@ -534,12 +544,16 @@ export const TestKeyboardSelection: Story = {
     await userEvent.click(input);
     await userEvent.type(input, 'osl');
 
-    // ArrowDown moves focus to the first visible option
+    // ArrowDown makes the first visible option the active descendant. Focus
+    // stays in the combobox (the WAI-ARIA combobox pattern); asserting on
+    // document.activeElement was asserting Digdir's pre-1.21 internals.
     await userEvent.keyboard('{ArrowDown}');
     await waitFor(() => {
-      const focused = canvasElement.ownerDocument.activeElement;
-      expect(focused?.textContent).toBe('Oslo');
-      expect(focused).toHaveAttribute('role', 'option');
+      const activeId = input.getAttribute('aria-activedescendant');
+      expect(activeId).toBeTruthy();
+      const active = canvasElement.ownerDocument.getElementById(activeId ?? '');
+      expect(active).toHaveAttribute('role', 'option');
+      expect(active?.textContent).toBe('Oslo');
     });
 
     // Enter selects the focused option
@@ -672,12 +686,9 @@ export const TestClearSelection: Story = {
       expect(input).toHaveValue('Sogndal');
     });
 
-    // Clear the selection via the clear button
-    const clearButton = await waitFor(() => {
-      const el = canvasElement.querySelector<HTMLElement>('del[aria-label="Tøm"]');
-      expect(el).toBeTruthy();
-      return el as HTMLElement;
-    });
+    // Clear the selection via the clear control - found by its accessible
+    // name, whatever element Digdir renders it as.
+    const clearButton = await canvas.findByRole('button', { name: 'Tøm' });
     await userEvent.click(clearButton);
 
     // The input is emptied and refocused immediately...
@@ -739,7 +750,7 @@ export const TestMultiSelect: Story = {
   },
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
-    const input = await waitFor(() => canvas.getByLabelText('Velg destinasjoner'));
+    const input = await waitFor(() => canvas.getByRole('combobox', { name: 'Velg destinasjoner' }));
 
     const clickOption = async (label: string) => {
       await userEvent.click(input);
@@ -768,10 +779,13 @@ export const TestMultiSelect: Story = {
       ]);
     });
 
-    // Selected items are rendered as chips (data elements marked selected)
+    // Selected items are rendered as <data value> elements (the chips); the
+    // values, not any state attribute, are the contract.
     await waitFor(() => {
-      const chips = canvasElement.querySelectorAll('data[aria-selected="true"]');
-      expect(chips).toHaveLength(2);
+      const values = Array.from(canvasElement.querySelectorAll('data[value]')).map((el) =>
+        el.getAttribute('value'),
+      );
+      expect(values).toEqual(['oslo', 'bergen']);
     });
   },
 };

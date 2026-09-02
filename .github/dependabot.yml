@@ -45,12 +45,12 @@ updates:
         update-types: ["version-update:semver-major"]
       - dependency-name: "typescript-eslint"
         update-types: ["version-update:semver-major"]
-      # Digdir Designsystemet is the foundation this library re-exports, its
-      # types package is pinned in lockstep, and the PEER range is a contract
-      # every consumer must satisfy. Any bump - a "minor" 1.13 -> 1.21 included -
-      # is a reviewed migration with a visual pass; digdir-canary.yml tracks
-      # upstream so nobody has to guess when one is due.
+      # Digdir minors DO flow through the weekly group: the policy is to track
+      # the newest 1.x (peer range ^1.21.0), and the full suite plus the visual
+      # gate on every PR is what makes that safe. Majors stay a deliberate
+      # migration; digdir-canary.yml keeps reporting upstream distance.
       - dependency-name: "@digdir/*"
+        update-types: ["version-update:semver-major"]
     groups:
       minor-and-patch:
         update-types:

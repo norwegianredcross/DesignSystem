@@ -40,9 +40,9 @@ const meta: Meta<typeof ToggleGroup> = {
       description: 'Form element name for the group.',
       defaultValue: 'toggle-group-story',
     },
-    'data-toggle-group': {
+    'aria-label': {
       control: 'text',
-      description: 'Accessible label used by the keyboard-navigation helper.',
+      description: 'Accessible name of the group (the data-toggle-group attribute is deprecated since Digdir 1.21).',
     },
     'data-size': {
       control: 'select',
@@ -88,7 +88,7 @@ export const Default: Story = {
   args: {
     defaultValue: 'innboks',
     name: 'folder-toggle',
-    'data-toggle-group': 'Mapper',
+    'aria-label': 'Mapper',
     'data-size': 'md',
     'data-color': 'neutral',
   },
@@ -119,7 +119,7 @@ export const IconOnlyWithTooltip: Story = {
   args: {
     defaultValue: 'option-1',
     name: 'alignment-icon-toggle',
-    'data-toggle-group': 'Tekstjustering',
+    'aria-label': 'Tekstjustering',
     'data-size': 'md', // Example size
     'data-color': 'primary-color-red', // Example color
   },
@@ -164,7 +164,7 @@ export const ControlledWithIcons: Story = {
   },
   args: {
     name: 'controlled-folder-toggle-icons',
-    'data-toggle-group': 'Mapper',
+    'aria-label': 'Mapper',
     'data-size': 'md',
     'data-color': 'secondary-color-rust',
   },
@@ -182,7 +182,7 @@ export const LargeSize: Story = {
   args: {
     defaultValue: 'large1',
     name: 'large-toggle',
-    'data-toggle-group': 'Størrelse',
+    'aria-label': 'Størrelse',
     'data-size': 'lg',
     'data-color': 'neutral',
   },
@@ -196,7 +196,7 @@ export const TestInteraction: Story = {
     <ToggleGroup
       defaultValue="innboks"
       name="test-toggle"
-      data-toggle-group="Mapper"
+      aria-label="Mapper"
     >
       <ToggleGroup.Item value="innboks">Innboks</ToggleGroup.Item>
       <ToggleGroup.Item value="utkast">Utkast</ToggleGroup.Item>
@@ -235,13 +235,15 @@ export const TestInteraction: Story = {
 
 export const TestKeyboardNavigationAndCallback: Story = {
   name: 'Test: Keyboard Navigation And Callback',
-  render: (args) => (
+  // Only the callback comes from args: spreading the whole (three-way
+  // labelled) props union next to an explicit aria-label is not assignable
+  // since Digdir 1.21 made the label variants mutually exclusive.
+  render: ({ onChange }) => (
     <ToggleGroup
-      {...args}
+      onChange={onChange}
       defaultValue="left"
       name="alignment-test"
       aria-label="Tekstjustering"
-      data-toggle-group="Tekstjustering"
     >
       <ToggleGroup.Item value="left">Venstre</ToggleGroup.Item>
       <ToggleGroup.Item value="center">Midten</ToggleGroup.Item>
@@ -296,7 +298,6 @@ export const TestDisabledItemIsSkipped: Story = {
       defaultValue="first"
       name="disabled-test"
       aria-label="Visning"
-      data-toggle-group="Visning"
     >
       <ToggleGroup.Item value="first">Liste</ToggleGroup.Item>
       <ToggleGroup.Item value="second" disabled>Detaljer</ToggleGroup.Item>

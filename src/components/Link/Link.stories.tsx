@@ -64,11 +64,16 @@ export const Default: Story = {
   },
 };
 
+// Paragraph's data-size is a strict literal union since Digdir 1.21 while the
+// story args are our wider Size type; only the shared members pass through.
+const paragraphSizeOf = (size: unknown) =>
+  size === 'sm' || size === 'md' || size === 'lg' ? size : undefined;
+
 // --- Example Link within Text ---
 export const InText: Story = {
   name: 'Example Link within Text',
   render: (args) => (
-    <Paragraph data-size={args['data-size']} data-color={args['data-color']}>
+    <Paragraph data-size={paragraphSizeOf(args['data-size'])} data-color={args['data-color']}>
       Vi bruker komponenter fra et{' '}
       <Link {...args}>fantastisk designsystem</Link>.
     </Paragraph>
