@@ -123,6 +123,19 @@ const DEFAULT_AMOUNTS: DonorAmount[] = [
   { value: 660, label: '660 kr' },
 ];
 
+// Number(), not parseInt: parseInt reads up to the first non-digit, so the
+// scientific notation a number input legitimately accepts ("1e2") became
+// 1 kr and decimals silently truncated ("12.7" -> 12) - wrong amounts on a
+// payment path. Number() reads the whole string ("1e2" -> 100), and
+// requiring a safe positive integer rejects fractions and astronomically
+// large values outright instead of reshaping them. Invalid input returns
+// null, which keeps the last selected preset active (the existing
+// contract from issues #22/#23).
+const parseDonationAmount = (raw: string): number | null => {
+  const parsed = Number(raw);
+  return Number.isSafeInteger(parsed) && parsed > 0 ? parsed : null;
+};
+
 export const Donor = ({
   'data-color': dataColor = 'primary-color-red',
   amounts = DEFAULT_AMOUNTS,
@@ -172,9 +185,8 @@ export const Donor = ({
   // invalid or empty value, the last selected preset stays active. This is
   // what the impact copy, tab switching and the Vipps callback all read,
   // so none of them can see a zero amount (issues #22/#23).
-  const parsedCustom = parseInt(customAmount, 10);
-  const activeAmount =
-    isCustom && customAmount && parsedCustom > 0 ? parsedCustom : selectedAmount;
+  const parsedCustom = parseDonationAmount(customAmount);
+  const activeAmount = isCustom && parsedCustom !== null ? parsedCustom : selectedAmount;
 
   const handlePresetClick = (value: number) => {
     setSelectedAmount(value);
@@ -187,8 +199,8 @@ export const Donor = ({
     const val = e.target.value;
     setCustomAmount(val);
     setIsCustom(true);
-    const parsed = parseInt(val, 10);
-    if (parsed > 0) {
+    const parsed = parseDonationAmount(val);
+    if (parsed !== null) {
       onAmountChange?.(parsed, frequency);
     }
   };
