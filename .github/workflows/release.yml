@@ -150,13 +150,23 @@ jobs:
       # by design, and there is no secret left to expire or rotate.
       id-token: write
     steps:
+      # Fritekst-inputen når aldri shellet som interpolert kode: den kommer
+      # inn via env og formatvalideres her, så alt nedstrøms som interpolerer
+      # de resolvede outputs jobber med en verdi som er garantert vX.Y.Z.
       - name: Resolve the tag to publish
         id: target
+        env:
+          PUBLISH_TAG: ${{ inputs.publish_tag }}
+          RELEASE_VERSION: ${{ needs.release.outputs.version }}
         run: |
-          if [ -n "${{ inputs.publish_tag }}" ]; then
-            TAG="${{ inputs.publish_tag }}"
+          if [ -n "$PUBLISH_TAG" ]; then
+            TAG="$PUBLISH_TAG"
           else
-            TAG="v${{ needs.release.outputs.version }}"
+            TAG="v${RELEASE_VERSION}"
+          fi
+          if ! printf '%s' "$TAG" | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "::error::Ugyldig tag «${TAG}» — forventer vMAJOR.MINOR.PATCH."
+            exit 1
           fi
           echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
           echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
@@ -167,6 +177,9 @@ jobs:
         with:
           ref: ${{ steps.target.outputs.tag }}
           fetch-depth: 0
+          # Denne jobben pusher aldri git; ingen grunn til at credentials
+          # ligger på disk mens npm ci og prepack-bygget kjører.
+          persist-credentials: false
 
       # Publiser aldri en annen artefakt under et eksisterende versjonsnummer:
       # taggen og manifestet må være enige om versjonen.
@@ -200,13 +213,38 @@ jobs:
 
       # Trusted publishing landed in npm 11.5.1; Node 20 ships npm 10.x, which
       # would silently fall back to token auth and fail the same way again.
+      # Pinnet, ikke @latest: publiseringsjobben holder id-token: write, og
+      # en kompromittert npm-utgivelse i publiseringsløypa er verst tenkelige
+      # sted for en upinnet avhengighet. Bump versjonen bevisst.
       - name: Use an npm that supports trusted publishing
         run: |
-          npm install -g npm@latest
+          npm install -g npm@12.0.2
           npm --version
 
       - name: Install dependencies
         run: npm ci
+
+      # Republiseringsstien (publish_tag satt) hopper over release-jobben og
+      # dermed hele kvalitetsgaten — men taggen den publiserer kan være laget
+      # utenfor denne workflowen. Kjør derfor gaten her i det tilfellet, mot
+      # nøyaktig treet som publiseres. (Den vanlige stien er allerede gatet i
+      # release-jobben; å gjenta den her ville doblet kjøretiden for hver
+      # release uten å teste noe nytt.)
+      - name: Lint (republish path)
+        if: inputs.publish_tag != '' && steps.exists.outputs.already == 'false'
+        run: npm run lint
+
+      - name: Typecheck (republish path)
+        if: inputs.publish_tag != '' && steps.exists.outputs.already == 'false'
+        run: npm run typecheck
+
+      - name: Install Playwright browsers (republish path)
+        if: inputs.publish_tag != '' && steps.exists.outputs.already == 'false'
+        run: npx playwright install chromium
+
+      - name: Test (republish path)
+        if: inputs.publish_tag != '' && steps.exists.outputs.already == 'false'
+        run: npm test
 
       # dist/ er gitignored og finnes ikke etter checkout — prepack-hooken i
       # package.json bygger den automatisk under npm publish.

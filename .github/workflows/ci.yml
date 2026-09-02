@@ -116,6 +116,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          # Jobben har contents: write, men gh-pages-pushen får tokenet
+          # eksplisitt — ingen grunn til at credentials ligger på disk
+          # mens npm ci og byggene kjører.
+          persist-credentials: false
 
       - name: Setup Node.js
         uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
