@@ -35,6 +35,12 @@ updates:
         update-types: ["version-update:semver-major"]
       - dependency-name: "eslint*"
         update-types: ["version-update:semver-major"]
+      # Scoped packages need their own patterns: "eslint*" does not match
+      # "@eslint/js" or "@typescript-eslint/*" (that gap let ESLint 10 through).
+      - dependency-name: "@eslint/*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@typescript-eslint/*"
+        update-types: ["version-update:semver-major"]
       - dependency-name: "typescript"
         update-types: ["version-update:semver-major"]
       - dependency-name: "typescript-eslint"
