@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.4.0 (2026-09-02)
+
+- chore(deps-dev): bump glob from 11.1.0 to 13.0.6 (#163) (28b583b9)
+- chore(deps-dev): bump @eslint/js in the minor-and-patch group (#162) (da6f636d)
+- chore(digdir): track the newest Designsystemet 1.x - peer ^1.21.0, tests assert behaviour instead of Digdir internals (#161) (82765fe7)
+- ci: Dependabot ignores scoped ESLint majors too (#160) (f1bf9e95)
+- chore(deps): bump the minor-and-patch group with 17 updates (#158) (587c85d7)
+
+
 ## 1.3.5 (2026-09-02)
 
 - ci: calmer Dependabot cadence, toolchain majors taken by hand (#157) (b450ccc3)
