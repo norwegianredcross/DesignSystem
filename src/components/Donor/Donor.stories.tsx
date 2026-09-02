@@ -262,9 +262,50 @@ export const TestInvalidCustomAmount: Story = {
     // The impact copy falls back to the default preset instead of "0 kr"
     expect(impact).toHaveTextContent('En gave på 345 kr bidrar til');
 
-    // Vipps submits the fallback amount, never 0
+    // A fractional amount is rejected outright, never truncated: typing
+    // "12.7" fires only the valid intermediates 1 and 12 - under the old
+    // parseInt code the final keystroke fired a third call with the
+    // truncated 12. The preset stays the active amount throughout.
+    await userEvent.clear(customInput);
+    await userEvent.type(customInput, '12.7');
+    expect(args.onAmountChange).toHaveBeenCalledTimes(2);
+    expect(args.onAmountChange).toHaveBeenLastCalledWith(12, 'monthly');
+    expect(impact).toHaveTextContent('En gave på 345 kr bidrar til');
+
+    // With the invalid "12.7" still in the field, Vipps submits the active
+    // preset - the old code submitted the truncated 12 here.
     await userEvent.click(canvas.getByRole('button', { name: 'Gi med Vipps' }));
     expect(args.onVippsClick).toHaveBeenCalledWith(345, 'monthly');
+  },
+};
+
+/**
+ * Regression test: number inputs accept scientific notation, and "1e2" once
+ * reached the payment callback as 1 kr (parseInt stops at the "e"). It must
+ * parse as 100 - what the donor meant - everywhere the amount is read.
+ */
+export const TestScientificNotationAmount: Story = {
+  name: 'Test: Scientific Notation Amount',
+  args: {
+    impactMessage: IMPACT_MESSAGE,
+    onAmountChange: fn(),
+    onVippsClick: fn(),
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const impact = canvas.getByText(/bidrar til at Røde Kors/);
+    const customInput = canvas.getByRole('spinbutton', { name: 'Valgfritt beløp' });
+
+    await userEvent.type(customInput, '1e2');
+    // The full string parses as 100 - never the truncated 1
+    expect(args.onAmountChange).toHaveBeenLastCalledWith(100, 'monthly');
+    await waitFor(() => {
+      expect(impact).toHaveTextContent('En gave på 100 kr bidrar til');
+    });
+
+    // And 100 - not 1 - is what payment receives
+    await userEvent.click(canvas.getByRole('button', { name: 'Gi med Vipps' }));
+    expect(args.onVippsClick).toHaveBeenCalledWith(100, 'monthly');
   },
 };
 /**
