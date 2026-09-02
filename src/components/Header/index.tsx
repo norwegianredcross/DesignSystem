@@ -352,9 +352,9 @@ export const Header = ({
       // is part of the cycle - otherwise the menu could never be closed by
       // keyboard without Escape.
       const cycle = [menuButtonRef.current, ...inside].filter((el): el is HTMLElement => Boolean(el));
-      if (cycle.length === 0) return;
       const first = cycle[0];
       const last = cycle[cycle.length - 1];
+      if (!first || !last) return;
       const active = document.activeElement as HTMLElement | null;
       if (event.shiftKey ? active === first : active === last) {
         event.preventDefault();

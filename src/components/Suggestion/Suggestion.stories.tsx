@@ -174,7 +174,7 @@ export const Default: Story = {
 export const MultiSelect: Story = {
   render: (args) => {
     const [selected, setSelected] = useState<StorySuggestionItem[]>([
-      defaultOptions[1], // Pre-select 'Oslo'
+      defaultOptions[1]!, // Pre-select 'Oslo'
     ]);
     return (
       <Field>

@@ -451,10 +451,12 @@ const ISO_MAP: Record<GraphicElementIsoShape, Record<GraphicElementPosition, Iso
 const VIEWBOX_UNIT = 34;
 
 /** CSS module class per isometric face. */
+// CSS-module lookups are typed as possibly undefined; a missing class is a
+// build defect, and an empty class keeps the markup valid rather than "undefined".
 const FACE_CLASS: Record<GraphicElementIsoFace, string> = {
-  front: styles.faceFront,
-  top: styles.faceTop,
-  right: styles.faceRight,
+  front: styles.faceFront ?? '',
+  top: styles.faceTop ?? '',
+  right: styles.faceRight ?? '',
 };
 
 /** Type guard: does the shape exist in the isometric variant? */

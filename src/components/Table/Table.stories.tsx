@@ -502,10 +502,10 @@ export const TestSortableColumns: Story = {
 
     const getBodyRows = () => {
       const [, tbody] = within(table).getAllByRole('rowgroup');
-      return within(tbody).getAllByRole('row');
+      return within(tbody!).getAllByRole('row');
     };
     const firstRowText = (cellIndex: number) =>
-      within(getBodyRows()[0]).getAllByRole('cell')[cellIndex].textContent;
+      within(getBodyRows()[0]!).getAllByRole('cell')[cellIndex]!.textContent;
 
     // Initial state: sortable columns expose aria-sort="none", the
     // non-sortable column has no aria-sort and no sort button
