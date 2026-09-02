@@ -7,6 +7,7 @@ import { action } from 'storybook/actions';
 import { expect, within, userEvent, fn } from 'storybook/test';
 
 import { DatePicker, DatePickerProps } from './index'; // Assuming index exports DatePicker
+import { LanguageProvider, useLanguage } from '../../context/LanguageContext';
 import { DateInput } from '../DateInput';
 import { CalendarIcon } from '../../assets/images/CalendarIcon'; // Adjust path if needed
 
@@ -563,5 +564,47 @@ export const TestTodayHighlight: CalendarStory = {
     const todayCell = todayCells[0];
     expect(todayCell.textContent?.trim()).toBe(new Date().getDate().toString());
     expect(todayCell).not.toHaveAttribute('aria-disabled');
+  },
+};
+/**
+ * The calendar follows the active UI language, also while mounted: the
+ * picker renders under Norwegian first, the language is switched to
+ * English, and the month heading, weekday headers AND the cells' accessible
+ * names must all follow. Norwegian was hardcoded before; a later fix left
+ * the weekday headers on a stale memo.
+ */
+const LanguageSwitcher = () => {
+  const { setLanguage } = useLanguage();
+  return (
+    <button type="button" onClick={() => setLanguage('EN')}>
+      Switch to English
+    </button>
+  );
+};
+
+export const TestFollowsUiLanguage: CalendarStory = {
+  name: 'Test: Follows UI Language',
+  render: (args) => (
+    <LanguageProvider>
+      <LanguageSwitcher />
+      <DatePicker {...args} />
+    </LanguageProvider>
+  ),
+  args: {
+    initialDate: new Date(2025, 0, 15),
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    // Mounted in Norwegian
+    expect(canvas.getByRole('grid', { name: /januar 2025/i })).toBeInTheDocument();
+    expect(canvas.getAllByRole('columnheader')[0]).toHaveTextContent(/^Ma/);
+
+    await userEvent.click(canvas.getByRole('button', { name: 'Switch to English' }));
+
+    const grid = await canvas.findByRole('grid', { name: /january 2025/i });
+    expect(grid).toBeInTheDocument();
+    expect(canvas.getByRole('gridcell', { name: '15 January 2025' })).toBeInTheDocument();
+    // Weekday headers follow too, and the week still starts on Monday (en-GB)
+    expect(canvas.getAllByRole('columnheader')[0]).toHaveTextContent(/^Mo/);
   },
 };

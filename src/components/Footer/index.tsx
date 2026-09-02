@@ -67,6 +67,8 @@ export interface FooterProps {
   newsletterDescription?: string;
   /** Newsletter input placeholder text */
   newsletterPlaceholder?: string;
+  /** Accessible name of the newsletter e-mail field. A placeholder is not a label: it vanishes on input and is skipped by some assistive technology. Defaults to the translated "E-postadresse". */
+  newsletterInputLabel?: string;
   /** Newsletter button text */
   newsletterButtonText?: string;
   /** Newsletter consent text */
@@ -117,6 +119,7 @@ export const Footer = ({
   showGraphicElements = false,
   newsletterDescription = 'Tekst om rødekors som kan være rundt 2 linjebrudd i lengde.',
   newsletterPlaceholder = 'Input tekst',
+  newsletterInputLabel,
   newsletterButtonText = 'Meld deg på',
   newsletterConsentText,
   onNewsletterSubmit,
@@ -399,7 +402,7 @@ export const Footer = ({
   // Render contact variant
   if (variant === 'contact') {
     return (
-      <footer className={styles.footer} data-color={colorScope}>
+      <footer className={styles.footer} data-color={colorScope} data-color-scheme={colorScheme}>
         {/* Main Section */}
         <div className={styles.mainSection}>
           <div className={styles.mainContainer}>
@@ -493,7 +496,7 @@ export const Footer = ({
 
   // Render default variant
   return (
-    <footer className={styles.footer} data-color={colorScope}>
+    <footer className={styles.footer} data-color={colorScope} data-color-scheme={colorScheme}>
       {/* Main Section */}
       <div className={styles.mainSection}>
         <div className={styles.mainContainer}>
@@ -514,6 +517,7 @@ export const Footer = ({
                   <div className={styles.newsletterInputGroup}>
                     <Input
                       type="email"
+                      aria-label={newsletterInputLabel ?? tWithFallback('footer.newsletterEmailLabel', 'E-postadresse')}
                       placeholder={newsletterPlaceholder}
                       value={emailValue}
                       onChange={(e) => setEmailValue(e.target.value)}

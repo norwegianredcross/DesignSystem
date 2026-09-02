@@ -465,3 +465,26 @@ export const TestControlledMode: Story = {
     expect(input).toHaveValue('25.12.2025');
   },
 };
+/**
+ * A ReactNode label is label CONTENT and gets the same <label>/htmlFor
+ * association as a string. It used to render bare, so an input labelled
+ * with rich text had no accessible name.
+ */
+export const TestRichLabelIsAssociated: Story = {
+  name: 'Test: Rich Label Is Associated',
+  args: {
+    label: (
+      <span>
+        Dato <em>(valgfritt)</em>
+      </span>
+    ),
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole('textbox', { name: 'Dato (valgfritt)' });
+    expect(input).toHaveAccessibleName('Dato (valgfritt)');
+    // Clicking the label text focuses the field, proving the htmlFor link
+    await userEvent.click(canvas.getByText('(valgfritt)'));
+    expect(canvasElement.ownerDocument.activeElement).toBe(input);
+  },
+};

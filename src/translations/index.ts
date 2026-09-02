@@ -1137,6 +1137,7 @@ export const translations = {
     },
     // Footer
     footer: {
+      newsletterEmailLabel: "E-postadresse",
       shortcuts: "Snarveier",
       shortcutsLinks: {
         services: "Tilbudene",
@@ -2322,6 +2323,7 @@ export const translations = {
     },
     // Footer
     footer: {
+      newsletterEmailLabel: "Email address",
       shortcuts: "Shortcuts",
       shortcutsLinks: {
         services: "Services",
