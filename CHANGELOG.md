@@ -1,5 +1,29 @@
 # Changelog
 
+## 1.3.5 (2026-09-02)
+
+- ci: calmer Dependabot cadence, toolchain majors taken by hand (#157) (b450ccc3)
+- chore(deps-dev): bump globals from 15.15.0 to 17.11.0 (#156) (4215c8a7)
+- chore(deps): bump actions/setup-node from 5.0.0 to 7.0.0 (#151) (5bc76ca8)
+- chore(deps): bump actions/checkout from 5.1.0 to 7.0.1 (#150) (a621e36e)
+- chore(deps): bump actions/upload-artifact from 4.6.2 to 7.0.1 (#149) (5b2611b4)
+- chore(ts): noUncheckedIndexedAccess on, every indexed read guarded (#148) (4301f0f5)
+- chore: dev-only console warnings, dead code in the published bundle (#147) (521726f3)
+- chore(build): build-storybook ships the AI-context artifacts itself; the types build covers only the library (#146) (f3245ec6)
+- chore(packaging): bounded React peer range, peer floor matching the types pin, Aksel icons on Digdir's major, package.json export (#145) (600b342d)
+- ci: audit gate for runtime deps, Dependabot, lint warnings fail the build (#144) (8c952714)
+- fix(a11y): label the newsletter field, associate rich DateInput labels, localise DatePicker, colorScheme on every Footer variant (#143) (2a2ed0e3)
+- fix(Header): no docs data or placeholder identity in the library, real login target, mobile menu focus trap (#142) (03fbe9e4)
+- fix(Carousel): APG carousel semantics, opt-in crossOrigin, pause control without dots, 24px dot targets (#141) (37aaf926)
+- chore(deps): update rk-design-tokens to 1.0.49 (#140) (55aee958)
+- chore: purge stale tarball, local agent settings, dead config and unused dep (#139) (fdce5336)
+- ci: harden release, token-bump, baselines and deploy workflows (#138) (f131048c)
+- fix(Donor): parse custom amounts as whole numbers, not parseInt prefixes (#137) (29732dc7)
+- fix(DatePicker): the calendar grid is a closed frame, with no outer card (#136) (d7ab553e)
+- chore: spacing uses the size scale instead of raw pixels (#135) (dbec3dc9)
+- fix(DatePicker): neutral chrome and cell geometry matching the design (#134) (b2de959a)
+
+
 ## 1.3.4 (2026-09-01)
 
 - chore: move the build off end-of-life Node 20 (#133) (be6bb623)
