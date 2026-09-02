@@ -749,3 +749,156 @@ export const TestControlContrastInDarkMode: Story = {
     }
   },
 };
+
+/**
+ * Regression test: the pause control is a requirement of autoplay itself
+ * (WCAG 2.2.2), not of the dots. It used to render inside the dots branch,
+ * so autoPlay with showDots={false} produced motion nobody could stop.
+ */
+export const TestPauseControlWithoutDots: Story = {
+  name: 'Test: Pause Control Renders Without Dots',
+  args: {
+    images: localImages,
+    showArrows: false,
+    showDots: false,
+    autoPlay: true,
+    autoDelay: 0.4,
+  },
+  render: (args) => (
+    <div style={{ width: '600px', height: '400px', margin: '0 auto' }}>
+      <Carousel {...args} />
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    const pauseButton = await canvas.findByRole('button', { name: /pause automatisk/i });
+    expect(pauseButton).toBeInTheDocument();
+    // No dots, and no empty "Bildeposisjon" group wrapping the pause button
+    expect(canvas.queryAllByRole('button', { name: /gå til bilde/i })).toHaveLength(0);
+    expect(canvas.queryByRole('group', { name: /bildeposisjon/i })).not.toBeInTheDocument();
+
+    // And it is wired to the explicit-pause state (aria-pressed mirrors
+    // userPaused; hover/focus pauses do not touch it). The rotation
+    // mechanics themselves are covered by "Test: Autoplay Pause Control".
+    await userEvent.click(pauseButton);
+    expect(canvas.getByRole('button', { name: /start automatisk/i })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
+  },
+};
+
+/**
+ * Tests the APG carousel semantics: a labelled region with the carousel role
+ * description, each slide a labelled "slide" group, only the visible slide
+ * exposed to assistive technology, and a polite position status that
+ * follows navigation.
+ */
+export const TestCarouselSemantics: Story = {
+  name: 'Test: Carousel ARIA Semantics',
+  args: {
+    images: localImages,
+    showArrows: true,
+    showDots: true,
+    autoPlay: false,
+  },
+  render: (args) => (
+    <div style={{ width: '600px', height: '400px', margin: '0 auto' }}>
+      <Carousel {...args} />
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    const region = canvas.getByRole('region', { name: /bildekarusell/i });
+    expect(region).toHaveAttribute('aria-roledescription', 'carousel');
+
+    // Wait for Embla to report what is in view
+    await waitFor(() => {
+      expect(canvas.getAllByRole('button', { name: /gå til bilde/i }).length).toBe(3);
+    });
+
+    // Slides are groups labelled by position; hidden slides leave the tree,
+    // so the accessible query only finds the visible one.
+    const slideNodes = Array.from(canvasElement.querySelectorAll('[aria-roledescription="slide"]'));
+    expect(slideNodes).toHaveLength(3);
+    expect(slideNodes[0]).toHaveAttribute('aria-label', 'Bilde 1 av 3');
+    expect(slideNodes[0]).not.toHaveAttribute('aria-hidden', 'true');
+    expect(slideNodes[1]).toHaveAttribute('aria-hidden', 'true');
+    expect(slideNodes[2]).toHaveAttribute('aria-hidden', 'true');
+    expect(canvas.getAllByRole('group', { name: /bilde \d av 3/i })).toHaveLength(1);
+
+    // The status region announces the position (polite when not autoplaying)
+    const status = canvas.getByRole('status');
+    expect(status).toHaveAttribute('aria-live', 'polite');
+    expect(status).toHaveTextContent('Bilde 1 av 3');
+
+    // Navigating moves both the exposed slide and the announcement
+    await userEvent.click(canvas.getByRole('button', { name: /neste/i }));
+    await waitFor(() => {
+      expect(status).toHaveTextContent('Bilde 2 av 3');
+    });
+    await waitFor(() => {
+      expect(slideNodes[1]).not.toHaveAttribute('aria-hidden', 'true');
+      expect(slideNodes[0]).toHaveAttribute('aria-hidden', 'true');
+    });
+  },
+};
+
+/**
+ * Regression test: images are plain <img> requests unless the consumer opts
+ * in. crossOrigin="anonymous" used to be forced, which made every image from
+ * a host without CORS headers fail to load.
+ */
+export const TestNoForcedCrossOrigin: Story = {
+  name: 'Test: crossOrigin Is Opt-In',
+  args: {
+    images: localImages,
+    showArrows: false,
+    showDots: false,
+  },
+  render: (args) => (
+    <div style={{ width: '600px', height: '400px', margin: '0 auto' }}>
+      <Carousel {...args} />
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const imgs = Array.from(canvasElement.querySelectorAll('img'));
+    expect(imgs.length).toBeGreaterThan(0);
+    imgs.forEach((img) => {
+      expect(img).not.toHaveAttribute('crossorigin');
+    });
+  },
+};
+
+/**
+ * Tests the WCAG 2.5.8 target size of the dots: the visible dot stays small,
+ * but each button's hit area is at least 24x24 CSS pixels.
+ */
+export const TestDotTargetSize: Story = {
+  name: 'Test: Dot Targets Are 24px',
+  args: {
+    images: localImages,
+    showArrows: false,
+    showDots: true,
+  },
+  render: (args) => (
+    <div style={{ width: '600px', height: '400px', margin: '0 auto' }}>
+      <Carousel {...args} />
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const dots = await waitFor(() => {
+      const found = canvas.getAllByRole('button', { name: /gå til bilde/i });
+      expect(found.length).toBe(3);
+      return found;
+    });
+    dots.forEach((dot) => {
+      const rect = dot.getBoundingClientRect();
+      expect(rect.width, 'dot target width').toBeGreaterThanOrEqual(24);
+      expect(rect.height, 'dot target height').toBeGreaterThanOrEqual(24);
+    });
+  },
+};

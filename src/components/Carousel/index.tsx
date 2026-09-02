@@ -21,6 +21,21 @@ export type CarouselProps = MergeRight<
     slidesPerView?: number;
     slideSpacing?: number; // px
     cornerRadius?: number; // px
+    /**
+     * Accessible name for the carousel region (APG carousel pattern).
+     * Falls back to the translated "Bildekarusell"; pass something specific
+     * when a page has more than one carousel.
+     */
+    'aria-label'?: string;
+    /**
+     * Forwarded to every <img>. OFF by default: it used to be forced to
+     * "anonymous", which makes the browser send a CORS request — and images
+     * from any host that does not answer with CORS headers then fail to
+     * load entirely, even though a plain <img> would have shown them. Opt in
+     * only when the images are known to be CORS-enabled (e.g. for canvas
+     * readback).
+     */
+    crossOrigin?: 'anonymous' | 'use-credentials';
   }
 >;
 
@@ -38,6 +53,8 @@ export const Carousel: React.FC<CarouselProps> = ({
   slidesPerView = 1,
   slideSpacing = 16,
   cornerRadius = 0,
+  'aria-label': ariaLabel,
+  crossOrigin,
   'data-color': dataColor,
   'data-size': dataSize,
 }) => {
@@ -72,6 +89,12 @@ export const Carousel: React.FC<CarouselProps> = ({
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
+  // Which slides are actually visible, straight from Embla — with
+  // slidesPerView > 1 and loop that is not derivable from selectedIndex
+  // alone. Everything else is hidden from assistive technology (see the
+  // slide markup), otherwise a screen reader reads all N images as one
+  // long list regardless of what is on screen.
+  const [slidesInView, setSlidesInView] = useState<number[]>([]);
   const [loadedFlags, setLoadedFlags] = useState<boolean[]>([]);
   const imageRefs = useRef<(HTMLImageElement | null)[]>([]);
 
@@ -105,6 +128,7 @@ export const Carousel: React.FC<CarouselProps> = ({
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
     setSelectedIndex(emblaApi.selectedScrollSnap());
+    setSlidesInView(emblaApi.slidesInView());
   }, [emblaApi]);
 
   // Hjelpefunksjoner for navigering
@@ -117,10 +141,15 @@ export const Carousel: React.FC<CarouselProps> = ({
     if (!emblaApi) return;
     emblaApi.on('select', onSelect);
     emblaApi.on('reInit', onSelect);
+    // Fires as slides scroll into/out of view (also mid-drag), so the
+    // hidden-from-AT set tracks what is on screen, not just the snap.
+    emblaApi.on('slidesInView', onSelect);
     setScrollSnaps(emblaApi.scrollSnapList());
+    setSlidesInView(emblaApi.slidesInView());
     return () => {
       emblaApi.off('select', onSelect);
       emblaApi.off('reInit', onSelect);
+      emblaApi.off('slidesInView', onSelect);
     };
   }, [emblaApi, onSelect]);
 
@@ -157,9 +186,29 @@ export const Carousel: React.FC<CarouselProps> = ({
   const slideFlexBasis = `${100 / safeSlideCount}%`;
   const halfSpacing = slideSpacing / 2;
 
+  // Before Embla has reported anything (first paint, SSR) the first
+  // slidesPerView slides are the ones on screen; after that Embla is the
+  // source of truth.
+  const isSlideVisible = (index: number) =>
+    slidesInView.length > 0 ? slidesInView.includes(index) : index < safeSlideCount;
+  const imageCount = images?.length ?? 0;
+  const slideOf = (index: number) =>
+    t('carousel.slideOf').replace('{index}', String(index + 1)).replace('{total}', String(imageCount));
+  const hasMultiple = imageCount > 1;
+  // The pause control is a WCAG 2.2.2 requirement of autoplay itself, so
+  // it renders whenever autoplay is on — it used to live inside the dots
+  // branch, which made autoPlay + showDots={false} an unstoppable rotation.
+  const showPauseControl = autoPlay && hasMultiple;
+  const showDotControls = showDots && hasMultiple;
+
   return (
+    // APG carousel pattern: a labelled region with the "carousel" role
+    // description, slides as labelled groups, and a live position status.
     <div
       className={styles.carouselContainer}
+      role="region"
+      aria-roledescription="carousel"
+      aria-label={ariaLabel ?? t('carousel.label')}
       data-color={dataColor}
       data-size={dataSize}
       data-variant={variant}
@@ -186,9 +235,16 @@ export const Carousel: React.FC<CarouselProps> = ({
         >
           {images && images.length > 0 ? (
             images.map((image, index) => (
-              <div 
-                className={styles.slide} 
+              <div
+                className={styles.slide}
                 key={`image-${index}-${image.src}`}
+                role="group"
+                aria-roledescription="slide"
+                aria-label={slideOf(index)}
+                // Off-screen slides leave the accessibility tree. aria-hidden
+                // is sufficient here (no `inert` needed) because a slide holds
+                // only an <img> and a spinner — nothing focusable.
+                aria-hidden={isSlideVisible(index) ? undefined : true}
                 style={{
                   flex: `0 0 ${slideFlexBasis}`,
                   paddingLeft: `${halfSpacing}px`,
@@ -211,7 +267,7 @@ export const Carousel: React.FC<CarouselProps> = ({
                     src={image.src}
                     alt={image.alt}
                     loading={index < safeSlideCount ? 'eager' : 'lazy'}
-                    crossOrigin="anonymous"
+                    crossOrigin={crossOrigin}
                     onLoad={() => markImageLoaded(index)}
                     onError={(e) => {
                       (e.target as HTMLImageElement).style.display = 'none';
@@ -223,15 +279,24 @@ export const Carousel: React.FC<CarouselProps> = ({
             ))
           ) : (
             <div className={styles.slide} style={{ flex: '0 0 100%' }}>
-              <div className={styles.empty}>
-                Ingen bilder
-              </div>
+              <div className={styles.empty}>{t('carousel.empty')}</div>
             </div>
           )}
         </div>
       </div>
 
-      {(showArrows || (showDots && images && images.length > 1)) && (
+      {/* Position announcements for screen readers. Polite while the user
+          drives the carousel; switched OFF while autoplay is rotating, as the
+          APG pattern requires — a live region that fires every few seconds
+          on its own would talk over everything else on the page. */}
+      {hasMultiple && (
+        <div role="status" aria-live={autoplayActive ? 'off' : 'polite'} className={styles.srOnly}>
+          {slideOf(selectedIndex)}
+          {images[selectedIndex]?.alt ? `: ${images[selectedIndex].alt}` : ''}
+        </div>
+      )}
+
+      {(showArrows || showDotControls || showPauseControl) && (
         <div className={styles.controls} aria-hidden="false">
           {showArrows && (
             <div className={styles.arrows}>
@@ -240,7 +305,7 @@ export const Carousel: React.FC<CarouselProps> = ({
                 icon={true}
                 aria-label={t('carousel.previousImage')}
                 onClick={scrollPrev}
-                disabled={!images || images.length <= 1}
+                disabled={!hasMultiple}
               >
                 <ChevronLeftIcon aria-hidden />
               </Button>
@@ -249,16 +314,19 @@ export const Carousel: React.FC<CarouselProps> = ({
                 icon={true}
                 aria-label={t('carousel.nextImage')}
                 onClick={scrollNext}
-                disabled={!images || images.length <= 1}
+                disabled={!hasMultiple}
               >
                 <ChevronRightIcon aria-hidden />
               </Button>
             </div>
           )}
 
-          {showDots && images && images.length > 1 && (
-            <div className={styles.dots} role="group" aria-label={t('carousel.imagePosition')}>
-              {autoPlay && (
+          {(showDotControls || showPauseControl) && (
+            // One translucent pill holds the pause control and the dots; the
+            // dots alone form the labelled "Bildeposisjon" group so the
+            // pause button is not announced as part of the position picker.
+            <div className={styles.dots}>
+              {showPauseControl && (
                 <button
                   type="button"
                   className={styles.playPause}
@@ -269,19 +337,23 @@ export const Carousel: React.FC<CarouselProps> = ({
                   {userPaused ? <PlayIcon aria-hidden /> : <PauseIcon aria-hidden />}
                 </button>
               )}
-              {scrollSnaps.map((_, index) => {
-                const isActive = index === selectedIndex;
-                return (
-                  <button
-                    key={`dot-${index}`}
-                    type="button"
-                    className={`${styles.dot} ${isActive ? styles.dotActive : ''}`}
-                    onClick={() => scrollTo(index)}
-                    aria-label={`${t('carousel.goToImage')} ${index + 1}`}
-                    aria-current={isActive || undefined}
-                  />
-                );
-              })}
+              {showDotControls && (
+                <div className={styles.dotGroup} role="group" aria-label={t('carousel.imagePosition')}>
+                  {scrollSnaps.map((_, index) => {
+                    const isActive = index === selectedIndex;
+                    return (
+                      <button
+                        key={`dot-${index}`}
+                        type="button"
+                        className={`${styles.dot} ${isActive ? styles.dotActive : ''}`}
+                        onClick={() => scrollTo(index)}
+                        aria-label={`${t('carousel.goToImage')} ${index + 1}`}
+                        aria-current={isActive || undefined}
+                      />
+                    );
+                  })}
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -371,6 +443,17 @@ function buildCarouselInlineCss(s: Record<string, string>): string {
   font-size: var(--ds-font-size-2, 14px);
   text-align: center;
 }
+.${s.srOnly} {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 .${s.controls} {
   position: absolute;
   inset: 0;
@@ -403,15 +486,32 @@ function buildCarouselInlineCss(s: Record<string, string>): string {
   padding: var(--ds-size-1, 4px) var(--ds-size-2, 8px);
   border-radius: 999px;
 }
+.${s.dotGroup} {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-size-1, 4px);
+}
 .${s.dot} {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--ds-size-6, 24px);
+  height: var(--ds-size-6, 24px);
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+.${s.dot}::before {
+  content: "";
   width: 12px;
   height: 12px;
   border-radius: 999px;
   border: var(--ds-border-width-default, 1px) solid var(--ds-color-neutral-border-subtle, #d6d6d6);
   background-color: rgba(255, 255, 255, 0.6);
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
+  box-sizing: border-box;
   transition: all 0.2s ease;
 }
 .${s.playPause} {
@@ -429,7 +529,7 @@ function buildCarouselInlineCss(s: Record<string, string>): string {
   margin: 0;
   cursor: pointer;
 }
-.${s.dotActive} {
+.${s.dotActive}::before {
   background-color: var(--ds-color-primary-color-red-base-default, #D52B1E);
   border-color: var(--ds-color-primary-color-red-base-default, #D52B1E);
   transform: scale(1.1);
@@ -463,7 +563,7 @@ function buildCarouselInlineCss(s: Record<string, string>): string {
     bottom: var(--ds-size-2, 8px);
     gap: var(--ds-size-1, 4px);
   }
-  .${s.dot} {
+  .${s.dot}::before {
     width: 10px;
     height: 10px;
   }

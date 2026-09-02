@@ -1058,9 +1058,11 @@ import { Carousel } from 'rk-designsystem';
 
 <Carousel
   // images — PÅKREVD: { src: string; alt: string; }[]
+  aria-label="…" // valgfri: string
   autoDelay={5} // valgfri, default 5: number
   autoPlay={false} // valgfri, default false: boolean
   cornerRadius={0} // valgfri, default 0: number
+  crossOrigin="anonymous" // valgfri: 'anonymous' | 'use-credentials'
   data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'
   data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
   showArrows={true} // valgfri, default true: boolean
