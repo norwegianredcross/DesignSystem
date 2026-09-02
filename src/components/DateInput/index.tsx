@@ -254,7 +254,10 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
     ].filter(Boolean).join(' ');
 
 
-    if (!label && !ariaLabel && !ariaLabelledby) {
+    // Dev-only guidance, same guard as GraphicElement: Vite folds
+    // import.meta.env.DEV to false in the library build, so the warning is
+    // dead code in consumers' production bundles instead of console noise.
+    if (import.meta.env.DEV && !label && !ariaLabel && !ariaLabelledby) {
       console.warn('Advarsel: DateInput-komponenten bør ha label, aria-label, eller aria-labelledby for tilgjengelighet.');
     }
     // Stabile id-er også når konsumenten ikke oppgir id. En ekstern

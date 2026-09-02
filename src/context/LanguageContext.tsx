@@ -22,7 +22,10 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
 
     for (const key of keys) {
       if (current[key] === undefined) {
-        console.warn(`Translation missing for key: ${path} in language: ${language}`);
+        // Dev-only: a missing key still falls back to the key text in
+        // production, it just stops announcing itself in every consumer's
+        // console (see GraphicElement for the same import.meta.env.DEV guard).
+        if (import.meta.env.DEV) console.warn(`Translation missing for key: ${path} in language: ${language}`);
         return path;
       }
       current = current[key] as Record<string, unknown>;
@@ -58,7 +61,7 @@ export const useLanguageOptional = (): LanguageContextType => {
     return {
       language: 'NO' as Language,
       setLanguage: () => {
-        console.warn('LanguageProvider is not available. Language changes will not work.');
+        if (import.meta.env.DEV) console.warn('LanguageProvider is not available. Language changes will not work.');
       },
       t: (key: string) => {
         // Return a readable fallback based on the key
