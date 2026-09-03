@@ -207,11 +207,12 @@ Invoke-WebRequest -Uri "https://norwegianredcross.github.io/DesignSystem/storybo
 
 ### Published Context Bundle
 
-The Storybook publish step ships three downstream-facing artifacts together:
+The Storybook publish step ships four downstream-facing artifacts together:
 
 - `AI_DESIGN_SYSTEM_GUIDE.md`
 - `metadata.json`
 - `ai-context.manifest.json`
+- `CHANGELOG.md` (rendered as "Hva er nytt" by the documentation site)
 
 The guide remains the main human-readable reference. The manifest is additive and exists so downstream repos can refresh local rules and detect drift without scraping the full guide.
 
