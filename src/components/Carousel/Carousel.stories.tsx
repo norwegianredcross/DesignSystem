@@ -213,20 +213,19 @@ async function discoverImagesForPage(storageBaseUrl: string, page: Page) {
   const expectedCount = 6;
   for (let i = 1; i <= expectedCount; i++) {
     const num = i.toString().padStart(2, '0');
-    let found = false;
+    // First extension/casing that resolves wins; the break ends the search
+    // for this slide number.
     for (const ext of IMG_EXT) {
       const filename = `${page}_${num}.${ext}`;
       const url = getImageUrl(storageBaseUrl, page, filename);
-      if (!found && (await checkImageUrl(url))) {
+      if (await checkImageUrl(url)) {
         results.push({ src: url, alt: formatAltText(filename) });
-        found = true;
         break;
       }
       const lowerFilename = `${page.toLowerCase()}_${num}.${ext}`;
       const lowerUrl = getImageUrl(storageBaseUrl, page, lowerFilename);
-      if (!found && (await checkImageUrl(lowerUrl))) {
+      if (await checkImageUrl(lowerUrl)) {
         results.push({ src: lowerUrl, alt: formatAltText(lowerFilename) });
-        found = true;
         break;
       }
     }

@@ -19,6 +19,9 @@ export default tseslint.config(
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
+      // Part of eslint:recommended from ESLint 10; enabled ahead of that
+      // upgrade so the codebase is already clean when it lands.
+      'no-useless-assignment': 'error',
       // Warnings fail CI (lint runs with --max-warnings=0), so every rule
       // here is effectively an error; keep the level as a signal of intent.
       'react-refresh/only-export-components': [
