@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.1 (2026-09-03)
+
+- chore(lint): fjern fire døde tilordninger og slå på no-useless-assignment (#164) (4e9cd3ad)
+
+
 ## 1.4.0 (2026-09-02)
 
 - chore(deps-dev): bump glob from 11.1.0 to 13.0.6 (#163) (28b583b9)
