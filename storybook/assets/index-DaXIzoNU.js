@@ -1,1 +1,0 @@
-import{r as s,j as n}from"./iframe-BYyDdLVI.js";import{B as a}from"./tooltip-D949qbH_.js";const u=s.forwardRef(function({variant:t,...o},r){return n.jsx(a,{ref:r,variant:t,...o})});u.displayName="Button";export{u as B};
