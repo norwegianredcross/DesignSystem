@@ -13,7 +13,9 @@ if (!existsSync(outDir)) {
   console.error(`${outDir}/ finnes ikke - kjør storybook build først.`);
   process.exit(1);
 }
-for (const file of ['metadata.json', 'AI_DESIGN_SYSTEM_GUIDE.md', 'ai-context.manifest.json']) {
+// CHANGELOG.md rides along so the docs platform (designportal) can render
+// "Hva er nytt" from the published release notes instead of keeping a copy.
+for (const file of ['metadata.json', 'AI_DESIGN_SYSTEM_GUIDE.md', 'ai-context.manifest.json', 'CHANGELOG.md']) {
   copyFileSync(file, join(outDir, file));
   console.log(`✅ ${file} -> ${outDir}/`);
 }
