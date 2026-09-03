@@ -196,12 +196,12 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
         const currentDigits = getDigits(input.value);
         const formatted = formatNorwegianDate(currentDigits);
 
-        let cursorPos = 0;
+        // Caret lands after the last typed digit, skipping the dots the
+        // formatter inserted after day (>2 digits) and month (>4 digits).
         const numDigits = currentDigits.length;
-        if (numDigits <= 2) cursorPos = numDigits;
-        else if (numDigits <= 4) cursorPos = numDigits + 1;
-        else cursorPos = numDigits + 2;
-        cursorPos = Math.min(cursorPos, formatted.length);
+        const rawCursorPos =
+          numDigits <= 2 ? numDigits : numDigits <= 4 ? numDigits + 1 : numDigits + 2;
+        const cursorPos = Math.min(rawCursorPos, formatted.length);
 
         setDisplayValue(formatted);
         input.value = formatted;

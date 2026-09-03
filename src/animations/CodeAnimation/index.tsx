@@ -134,11 +134,14 @@ export const CodeAnimation = ({
           <pre className={styles.codeBlock} aria-label={labels.fileName}>
             <code>
               {CODE_LINES.map((line, i) => {
-                let text = '';
-                if (i < currentLineIndex) text = line;
-                else if (i === currentLineIndex) text = line.slice(0, currentLineChars);
-                else if (i < fullyTypedLines) text = line; // when all typing is done
-                else text = '';
+                const text =
+                  i < currentLineIndex
+                    ? line
+                    : i === currentLineIndex
+                      ? line.slice(0, currentLineChars)
+                      : i < fullyTypedLines
+                        ? line // when all typing is done
+                        : '';
 
                 const isActive = i === currentLineIndex;
                 const isTyped = i < fullyTypedLines || (isHolding && i < CODE_LINES.length);
