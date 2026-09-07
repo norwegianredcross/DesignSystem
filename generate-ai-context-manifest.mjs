@@ -38,6 +38,11 @@ const manifest = {
   },
   summary: {
     componentCount: primaryComponents.length,
+    // The stand-alone components by name (parts like CardBlock or
+    // DropdownItem excluded). exportedComponents below mixes both, and a
+    // consumer cannot tell them apart from metadata.json either - the docs
+    // platform renders its component catalogue from this list.
+    primaryComponents: primaryComponents.map((e) => e.name).sort(),
     documentedComponentCount: metadata.length,
     exportedComponents: componentExports.map((e) => e.name).sort(),
     hooks: inventory.exports.filter((e) => e.kind === "hook").map((e) => e.name).sort(),
