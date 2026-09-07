@@ -1376,6 +1376,20 @@
         "required": false
       },
       {
+        "name": "colorScheme",
+        "type": "'light' | 'dark'",
+        "description": "Controlled colour scheme. When set, the Header renders the theme switch\nfrom this value and never touches the document itself: the consumer owns\nthe scheme, applies `data-color-scheme` where it wants (a server-rendered\npage can do so from a cookie, so the switch starts in the right position\ninstead of animating after mount) and hears about changes through\n`onColorSchemeChange`. When absent, the Header is self-contained as\nbefore: it reads `data-color-scheme` (falling back to the OS preference)\nand sets it on `<html>` when toggled.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "onColorSchemeChange",
+        "type": "((scheme: 'light' | 'dark') => void)",
+        "description": "The toggle's request to change the scheme. Required to make a controlled Header interactive; optional otherwise.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
         "name": "secondaryLogo",
         "type": "boolean",
         "description": "",
@@ -2485,7 +2499,7 @@
       },
       {
         "name": "onChange",
-        "type": "((event: ChangeEvent<HTMLInputElement, Element>, formattedValue: string) => void)",
+        "type": "((event: ChangeEvent<HTMLInputElement>, formattedValue: string) => void)",
         "description": "Kalles ved endring med hendelsen og den formaterte verdien (dd.mm.åååå).",
         "defaultValue": null,
         "required": false
