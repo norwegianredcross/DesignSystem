@@ -263,15 +263,17 @@ Button prop removals, mislabeled as a patch — 1.2.5 is deprecated.)
 Follow these steps to get the local development environment running. All commands should be run from the root of the project.
 
 ```bash
-# 1. Install dependencies
-pnpm i
+# 1. Install dependencies (npm; the lockfile is package-lock.json)
+npm ci
 
-# 2. Build all packages
-pnpm build
+# 2. Build the library
+npm run build
 
-# 3. Start the local Storybook server
-pnpm storybook
+# 3. Start Storybook, the component workbench and documentation
+npm run storybook
 ```
+
+Node 24 (see `.nvmrc`). The browser tests need Chromium once: `npx playwright install chromium`.
 
 ## Testing
 

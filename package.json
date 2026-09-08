@@ -53,7 +53,6 @@
     "react-dom": "^18.3.1 || ^19.0.0"
   },
   "scripts": {
-    "dev": "vite",
     "build": "vite build && npm run copy-styles && node scripts/embed-color-types.mjs",
     "copy-styles": "node scripts/build-styles.mjs",
     "test:packaging": "node scripts/packaging-smoke.mjs",
@@ -62,8 +61,8 @@
     "check:tokens": "node scripts/check-tokens.mjs",
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
     "test": "vitest run --config vitest.config.ts",
-    "preview": "vite preview",
     "prepack": "npm run build",
+    "dev": "storybook dev -p 6006",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "npm run generate-metadata && npm run update-ai-guide-components && npm run generate-ai-context-manifest && storybook build --output-dir storybook-build && node scripts/copy-ai-artifacts.mjs",
     "generate-metadata": "node generate-metadata.mjs",
@@ -71,8 +70,6 @@
     "generate-ai-context-manifest": "node generate-ai-context-manifest.mjs",
     "predeploy:storybook": "npm run build-storybook",
     "deploy:storybook": "gh-pages -d storybook-build -b gh-pages -r https://github.com/norwegianredcross/DesignSystem.git --dest storybook",
-    "build:app": "vite build --config vite.app.config.ts",
-    "deploy:app": "npm run build:app && gh-pages -d dist-app -b gh-pages -r https://github.com/norwegianredcross/DesignSystem.git --add",
     "test:visual": "playwright test -c playwright.visual.config.ts",
     "test:visual:update": "playwright test -c playwright.visual.config.ts --update-snapshots"
   },
