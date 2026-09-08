@@ -194,8 +194,18 @@ if (fs.existsSync(path.join(ROOT, 'dist/node_modules'))) {
 if (fs.readdirSync(path.join(ROOT, 'dist')).some((f) => /\.(png|svg|jpe?g)$/.test(f))) {
   fail('dist inneholder bilder fra public/ — publicDir er ikke slått av i bibliotekbygget.');
 }
-if (!fs.readFileSync(path.join(ROOT, 'dist/styles.css'), 'utf8').includes('rk-designsystem.css')) {
-  fail('dist/styles.css importerer ikke rk-designsystem.css — komponentstiler leveres ikke.');
+// Begge stilinngangene skal levere komponentstilene; bare styles.css skal
+// be om fonten fra Google (no-font-varianten er til for next/font).
+const stylesCss = fs.readFileSync(path.join(ROOT, 'dist/styles.css'), 'utf8');
+const stylesNoFontCss = fs.readFileSync(path.join(ROOT, 'dist/styles-no-font.css'), 'utf8');
+if (!stylesNoFontCss.includes('rk-designsystem.css')) {
+  fail('dist/styles-no-font.css importerer ikke rk-designsystem.css — komponentstiler leveres ikke.');
+}
+if (!stylesCss.includes('styles-no-font.css') || !stylesCss.includes('fonts.googleapis.com')) {
+  fail('dist/styles.css skal importere fonten fra Google og deretter styles-no-font.css.');
+}
+if (stylesNoFontCss.includes('fonts.googleapis.com')) {
+  fail('dist/styles-no-font.css ber om fonten fra Google — det er hele poenget med varianten at den ikke gjør det.');
 }
 
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'rk-pack-smoke-'));
@@ -265,6 +275,31 @@ export default defineConfig({ base: './', plugins: [react()] });
   ].join(' ');
   console.log('Installerer tarball + avhengigheter i konsument-appen …');
   run(`npm install --no-audit --no-fund --loglevel=error ${deps}`, appDir);
+
+  // 2b. README-ens importstier må finnes i den PAKKEDE pakken, ikke bare i
+  // repoet: exports-kartet er det som avgjør om `rk-designsystem/styles/no-font`
+  // resolver hos en konsument. Next-oppskriften i README bruker den stien, og
+  // en Vite-app her bygger bare med `styles`, så no-font sjekkes via Node's
+  // egen ESM-oppløsning fra konsumentens node_modules.
+  for (const specifier of ['rk-designsystem/styles', 'rk-designsystem/styles/no-font']) {
+    // A file rather than `node -e`: the specifier contains quotes, and a
+    // script in the app dir resolves exactly like the app's own imports.
+    fs.writeFileSync(
+      path.join(appDir, 'resolve-test.mjs'),
+      `import { fileURLToPath } from 'node:url';
+console.log(fileURLToPath(import.meta.resolve(${JSON.stringify(specifier)})));
+`,
+    );
+    let resolved;
+    try {
+      resolved = execSync('node resolve-test.mjs', { cwd: appDir, stdio: 'pipe' }).toString().trim();
+    } catch (error) {
+      console.error(String(error.stderr ?? error));
+      fail(`'${specifier}' resolver ikke fra konsumentens node_modules — sjekk "exports" i package.json.`);
+    }
+    if (!fs.existsSync(resolved)) fail(`'${specifier}' peker på ${resolved}, som ikke finnes i tarballen.`);
+  }
+  console.log('✅ README-ens stilimporter resolver fra den pakkede pakken.');
 
   // 3. Bygg konsument-appen
   console.log('Bygger konsument-appen …');

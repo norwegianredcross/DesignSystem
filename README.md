@@ -77,8 +77,7 @@ For Next.js projects, use `next/font` for optimal font loading:
 
 ```tsx
 // src/app/layout.tsx (App Router)
-import '@digdir/designsystemet-css/index.css';
-import 'rk-design-tokens/design-tokens-build/theme.css';
+import 'rk-designsystem/styles/no-font';
 import { Source_Sans_3 } from 'next/font/google';
 
 const sourceSans3 = Source_Sans_3({
@@ -94,11 +93,25 @@ export default function RootLayout({
 }) {
   return (
     <html lang="no">
-      <body className={sourceSans3.className}>{children}</body>
+      <body
+        className={sourceSans3.className}
+        // DatePicker and Header read the font from this variable, so it must
+        // name the self-hosted family next/font generated, not 'Source Sans 3'.
+        style={{ '--ds-font-family': sourceSans3.style.fontFamily } as React.CSSProperties}
+      >
+        {children}
+      </body>
     </html>
   );
 }
 ```
+
+`rk-designsystem/styles/no-font` is the complete stylesheet (Digdir base, the
+Røde Kors theme and the component CSS) without the Google Fonts request, since
+`next/font` self-hosts Source Sans 3. Importing only the Digdir and token CSS
+is not enough: Header, Footer, DateInput, DatePicker, Carousel and Donor get
+their styles from the component CSS, and without it they render unstyled on
+the server.
 
 **Important:** Use `className`, NOT `variable`. The `variable` option only creates a CSS custom property without actually applying the font.
 
@@ -135,7 +148,9 @@ npm install rk-designsystem
 import 'rk-designsystem/styles';
 ```
 
-This single import includes base styles, theme, and loads the font via Google Fonts.
+This single import includes base styles, theme, component CSS, and loads the
+font via Google Fonts. Use `rk-designsystem/styles/no-font` instead if the app
+loads Source Sans 3 itself.
 
 ### 3. Use Components
 
@@ -157,8 +172,7 @@ function App() {
 
 ```tsx
 // pages/_app.tsx
-import '@digdir/designsystemet-css/index.css';
-import 'rk-design-tokens/design-tokens-build/theme.css';
+import 'rk-designsystem/styles/no-font';
 import { Source_Sans_3 } from 'next/font/google';
 import type { AppProps } from 'next/app';
 
@@ -170,7 +184,10 @@ const sourceSans3 = Source_Sans_3({
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <main className={sourceSans3.className}>
+    <main
+      className={sourceSans3.className}
+      style={{ '--ds-font-family': sourceSans3.style.fontFamily } as React.CSSProperties}
+    >
       <Component {...pageProps} />
     </main>
   );

@@ -35,6 +35,7 @@
     },
     "./package.json": "./package.json",
     "./styles": "./dist/styles.css",
+    "./styles/no-font": "./dist/styles-no-font.css",
     "./styles.css": "./dist/styles.css",
     "./dist/rk-designsystem.css": "./dist/rk-designsystem.css"
   },

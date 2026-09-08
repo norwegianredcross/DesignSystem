@@ -1,13 +1,13 @@
 /**
  * Røde Kors Design System - Combined Styles
  *
- * This file imports all required CSS in the correct order,
- * including the Source Sans 3 font.
+ * Source for the two published stylesheets (see scripts/build-styles.mjs):
+ *   import 'rk-designsystem/styles'          - everything, incl. Source Sans 3 from Google Fonts
+ *   import 'rk-designsystem/styles/no-font'  - everything except the font request,
+ *                                              for apps that host the font themselves (next/font)
  *
- * Usage:
- *   import 'rk-designsystem/styles';
- *
- * That's it! No need to manually add font links or multiple CSS imports.
+ * The build appends the component CSS and the font rules; only the Google
+ * Fonts line below is dropped from the no-font variant.
  */
 
 /* Source Sans 3 font from Google Fonts */
