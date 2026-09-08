@@ -168,6 +168,41 @@
     ]
   },
   {
+    "componentName": "ToggleGroupItem",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "value",
+        "type": "string | (string & readonly string[])",
+        "description": "The value of the ToggleGroupItem.\nGenerates a random value if not set.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "icon",
+        "type": "boolean",
+        "description": "@deprecated Icon prop is deprecated",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
     "componentName": "Textfield",
     "importPath": "rk-designsystem",
     "description": "",
@@ -385,6 +420,40 @@
     ]
   },
   {
+    "componentName": "TabsList",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": []
+  },
+  {
+    "componentName": "TabsPanel",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "value",
+        "type": "string",
+        "description": "When this value is selected as the current state, render this `TabsPanel` component.\nMust match the `value` of a `Tabs.Tab` component.",
+        "defaultValue": null,
+        "required": true
+      }
+    ]
+  },
+  {
+    "componentName": "TabsTab",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "value",
+        "type": "string",
+        "description": "Unique value that will be set in the `Tabs` components state when the tab is activated",
+        "defaultValue": null,
+        "required": true
+      }
+    ]
+  },
+  {
     "componentName": "Table",
     "importPath": "rk-designsystem",
     "description": "",
@@ -432,6 +501,50 @@
         "required": false
       }
     ]
+  },
+  {
+    "componentName": "TableBody",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": []
+  },
+  {
+    "componentName": "TableCell",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": []
+  },
+  {
+    "componentName": "TableFoot",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": []
+  },
+  {
+    "componentName": "TableHead",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": []
+  },
+  {
+    "componentName": "TableHeaderCell",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "sort",
+        "type": "'none' | 'ascending' | 'descending' | 'other'",
+        "description": "If 'none' | 'ascending' | 'descending' | 'other' will add a button to the header cell and change aria-sort and icon",
+        "defaultValue": "undefined",
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "TableRow",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": []
   },
   {
     "componentName": "Switch",
@@ -728,6 +841,34 @@
     ]
   },
   {
+    "componentName": "SelectOptgroup",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "SelectOption",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      }
+    ]
+  },
+  {
     "componentName": "Search",
     "importPath": "rk-designsystem",
     "description": "",
@@ -744,6 +885,181 @@
         "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
         "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "SearchButton",
+    "importPath": "rk-designsystem",
+    "description": "SearchButton component, used to display a search button within a Search component.",
+    "props": [
+      {
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "variant",
+        "type": "'primary' | 'secondary' | 'tertiary'",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "icon",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "loading",
+        "type": "ReactNode",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "type",
+        "type": "'button' | 'submit' | 'reset'",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "command",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "commandfor",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "commandFor",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "SearchClear",
+    "importPath": "rk-designsystem",
+    "description": "SearchClear component, used to display a clear button when the search input is not empty.",
+    "props": [
+      {
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "type",
+        "type": "'button' | 'submit' | 'reset'",
+        "description": "Specify the type of button. Unset when `asChild` is true",
+        "defaultValue": "'button'",
+        "required": false
+      },
+      {
+        "name": "icon",
+        "type": "boolean",
+        "description": "Toggle icon only styling, pass icon as children\nWhen combined with loading, the loading-icon will be shown instead of the icon.",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "command",
+        "type": "string",
+        "description": "Native invoker commands. Specifies actions to perform on an element specified by commandfor. Polyfilled by designsystemet-web and includes a custom --show-non-modal command.\n\"show-modal\", \"close\", \"request-close\", \"show-popover\", \"hide-popover\", \"toggle-popover\", \"--show-non-modal\"",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "commandfor",
+        "type": "string",
+        "description": "Specifies the target element for \"command\".\nvalue is ID of target",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "commandFor",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "loading",
+        "type": "ReactNode",
+        "description": "Toggle loading state.\nPass an element if you want to display a custom loader.",
+        "defaultValue": "false",
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "SearchInput",
+    "importPath": "rk-designsystem",
+    "description": "SearchInput component, used to display a search input within the Search component.",
+    "props": [
+      {
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "type",
+        "type": "'search' | 'text'",
+        "description": "Type of input, affects if magnifying glass is shown or not. Use 'text' to hide magnifying glass.",
+        "defaultValue": "'search'",
         "required": false
       }
     ]
@@ -922,6 +1238,89 @@
         "required": false
       }
     ]
+  },
+  {
+    "componentName": "PopoverTrigger",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "inline",
+        "type": "boolean",
+        "description": "Will render the trigger as inline text.",
+        "defaultValue": "false\nfalse",
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false\nfalse",
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "variant",
+        "type": "'primary' | 'secondary' | 'tertiary'",
+        "description": "Specify which variant to use",
+        "defaultValue": "'primary'",
+        "required": false
+      },
+      {
+        "name": "icon",
+        "type": "boolean",
+        "description": "Toggle icon only styling, pass icon as children\nWhen combined with loading, the loading-icon will be shown instead of the icon.",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "loading",
+        "type": "ReactNode",
+        "description": "Toggle loading state.\nPass an element if you want to display a custom loader.",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "command",
+        "type": "string",
+        "description": "Native invoker commands. Specifies actions to perform on an element specified by commandfor. Polyfilled by designsystemet-web and includes a custom --show-non-modal command.\n\"show-modal\", \"close\", \"request-close\", \"show-popover\", \"hide-popover\", \"toggle-popover\", \"--show-non-modal\"",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "commandfor",
+        "type": "string",
+        "description": "Specifies the target element for \"command\".\nvalue is ID of target",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "commandFor",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "PopoverTriggerContext",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": []
   },
   {
     "componentName": "Paragraph",
@@ -1103,6 +1502,76 @@
     "importPath": "rk-designsystem",
     "description": "List-komponent for punktlister (ul) og nummererte lister (ol).",
     "props": []
+  },
+  {
+    "componentName": "ListItem",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "ListOrdered",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "ListUnordered",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
   },
   {
     "componentName": "Link",
@@ -1777,6 +2246,55 @@
     ]
   },
   {
+    "componentName": "FieldsetDescription",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-size",
+        "type": "'sm' | 'md' | 'lg' | 'xs' | 'xl'",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "variant",
+        "type": "'default' | 'long' | 'short'",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "FieldsetLegend",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
     "componentName": "Field",
     "importPath": "rk-designsystem",
     "description": "Field-komponent for å omslutte skjemafelter.\nInkluderer støtte for beskrivelse og tegn-teller.",
@@ -1818,6 +2336,18 @@
     "props": []
   },
   {
+    "componentName": "FieldAffix",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": []
+  },
+  {
+    "componentName": "FieldAffixes",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": []
+  },
+  {
     "componentName": "ErrorSummary",
     "importPath": "rk-designsystem",
     "description": "",
@@ -1826,6 +2356,104 @@
         "name": "asChild",
         "type": "ReactNode",
         "description": "@deprecated This is not supported anymore, as the element needs to be `ds-error-summary`",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "ErrorSummaryHeading",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "level",
+        "type": "1 | 2 | 3 | 4 | 5 | 6",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-size",
+        "type": "'sm' | 'md' | 'lg' | '2xs' | 'xs' | 'xl' | '2xl'",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "ErrorSummaryItem",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "ErrorSummaryLink",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "ErrorSummaryList",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "",
         "defaultValue": null,
         "required": false
       },
@@ -2072,6 +2700,13 @@
         "required": false
       },
       {
+        "name": "icon",
+        "type": "boolean",
+        "description": "Toggle icon only styling, pass icon as children\nWhen combined with loading, the loading-icon will be shown instead of the icon.",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
         "name": "command",
         "type": "string",
         "description": "Native invoker commands. Specifies actions to perform on an element specified by commandfor. Polyfilled by designsystemet-web and includes a custom --show-non-modal command.\n\"show-modal\", \"close\", \"request-close\", \"show-popover\", \"hide-popover\", \"toggle-popover\", \"--show-non-modal\"",
@@ -2090,13 +2725,6 @@
         "type": "string",
         "description": "",
         "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "icon",
-        "type": "boolean",
-        "description": "Toggle icon only styling, pass icon as children\nWhen combined with loading, the loading-icon will be shown instead of the icon.",
-        "defaultValue": "false",
         "required": false
       },
       {
@@ -2325,6 +2953,103 @@
     ]
   },
   {
+    "componentName": "DialogBlock",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "DialogTrigger",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "type",
+        "type": "'button' | 'submit' | 'reset'",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "variant",
+        "type": "'primary' | 'secondary' | 'tertiary'",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "icon",
+        "type": "boolean",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "command",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "commandfor",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "commandFor",
+        "type": "string",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "loading",
+        "type": "ReactNode",
+        "description": "",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "DialogTriggerContext",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": []
+  },
+  {
     "componentName": "Details",
     "importPath": "rk-designsystem",
     "description": "",
@@ -2375,6 +3100,26 @@
         "name": "children",
         "type": "ReactNode",
         "description": "Content should be one `<Details.Summary>` and `<Details.Content>`",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "DetailsContent",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": []
+  },
+  {
+    "componentName": "DetailsSummary",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "description": "Heading text",
         "defaultValue": null,
         "required": false
       }
@@ -2711,6 +3456,146 @@
         "type": "string",
         "description": "",
         "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "ChipButton",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "data-wrap",
+        "type": "'wrap' | 'nowrap'",
+        "description": "Change the text wrapping behavior of the chip. Use `wrap` to allow the chip to wrap text, and `nowrap` to prevent it from wrapping.",
+        "defaultValue": "'nowrap'",
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "ChipCheckbox",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "data-wrap",
+        "type": "'wrap' | 'nowrap'",
+        "description": "Change the text wrapping behavior of the chip. Use `wrap` to allow the chip to wrap text, and `nowrap` to prevent it from wrapping.",
+        "defaultValue": "'nowrap'",
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "ChipRadio",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "data-wrap",
+        "type": "'wrap' | 'nowrap'",
+        "description": "Change the text wrapping behavior of the chip. Use `wrap` to allow the chip to wrap text, and `nowrap` to prevent it from wrapping.",
+        "defaultValue": "'nowrap'",
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "ChipRemovable",
+    "importPath": "rk-designsystem",
+    "description": "",
+    "props": [
+      {
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "asChild",
+        "type": "boolean",
+        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "data-wrap",
+        "type": "'wrap' | 'nowrap'",
+        "description": "Change the text wrapping behavior of the chip. Use `wrap` to allow the chip to wrap text, and `nowrap` to prevent it from wrapping.",
+        "defaultValue": "'nowrap'",
         "required": false
       }
     ]
