@@ -54,6 +54,11 @@ function typecheckPublishedTypes(dir, modes) {
     noEmit: true,
     skipLibCheck: false,
     types: [],
+    // The README's `import 'rk-designsystem/styles'` must type-check under
+    // the strictest setting: this flag (on in VS Code's TS server) rejects a
+    // side-effect import whose module has no declaration. Guards the
+    // "types" condition on the styles exports.
+    noUncheckedSideEffectImports: true,
   };
   for (const mode of modes) {
     const configPath = path.join(dir, `tsconfig.${mode}.json`);
@@ -336,7 +341,8 @@ console.log(fileURLToPath(import.meta.resolve('rk-designsystem/styles')));
   // that only exist in this repo's source tree.
   fs.writeFileSync(
     path.join(appDir, 'src/typecheck.tsx'),
-    `import type { ComponentProps } from 'react';
+    `import 'rk-designsystem/styles';
+import type { ComponentProps } from 'react';
 import {
   Alert, Badge, BadgePosition, Button, DatePicker, Donor, Footer,
   GraphicElement, Header, Suggestion, Tag,

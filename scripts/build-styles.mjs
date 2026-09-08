@@ -84,4 +84,20 @@ body {
 `;
 
 fs.writeFileSync(OUTPUT, output, 'utf8');
+
+// Typedeklarasjon for stilinngangen. TypeScript med
+// noUncheckedSideEffectImports (og VS Code, som slår det på i sin
+// TS-server) krever at også en side-effect-import som
+// `import 'rk-designsystem/styles'` resolver til en modul med typer; en
+// ren CSS-fil gjør ikke det, og importen rødmerkes med TS2882/TS2307.
+// En tom modul bak "types"-betingelsen i exports er alt som trengs —
+// samme løsning som @digdir/designsystemet-css bruker.
+fs.writeFileSync(
+  'dist/styles.d.ts',
+  `// Type declaration for the side-effect import \`import 'rk-designsystem/styles'\`.
+// The stylesheet exports nothing; this file only lets TypeScript resolve it.
+export {};
+`,
+  'utf8',
+);
 console.log(`✅ Skrev ${OUTPUT} og kopierte ${fontFiles.length} fontfil(er) til ${FONT_OUTPUT_DIR}.`);
