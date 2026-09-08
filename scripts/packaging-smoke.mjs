@@ -120,7 +120,13 @@ async function verifyRenderedStyles(dir, label) {
       res.writeHead(404).end();
       return;
     }
-    const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml' };
+    const types = {
+      '.html': 'text/html',
+      '.js': 'text/javascript',
+      '.css': 'text/css',
+      '.svg': 'image/svg+xml',
+      '.woff2': 'font/woff2',
+    };
     res.writeHead(200, { 'content-type': types[path.extname(filePath)] ?? 'application/octet-stream' });
     res.end(fs.readFileSync(filePath));
   });
@@ -133,14 +139,26 @@ async function verifyRenderedStyles(dir, label) {
     await page.goto(`http://127.0.0.1:${port}/`, { waitUntil: 'load' });
     await page.waitForSelector('#smoke-button');
 
-    const result = await page.evaluate(() => {
+    const result = await page.evaluate(async () => {
       const rootStyles = getComputedStyle(document.documentElement);
       const button = getComputedStyle(document.querySelector('#smoke-button'));
+      // Prove the font FILES load, not just that the name is declared:
+      // computed font-family reports the declared family even when the
+      // file 404s, and document.fonts.check() is true for unknown families
+      // too. fonts.load() fetches the matching faces (the italic one is
+      // otherwise lazy — nothing on the page is italic), and each face's
+      // status must then be 'loaded'.
+      await document.fonts.load("400 16px 'Source Sans 3'");
+      await document.fonts.load("italic 400 16px 'Source Sans 3'");
+      const faces = [...document.fonts]
+        .filter((face) => face.family.replace(/["']/g, '') === 'Source Sans 3')
+        .map((face) => `${face.style}:${face.status}`);
       return {
         redToken: rootStyles.getPropertyValue('--ds-color-primary-color-red-base-default').trim(),
         buttonBackground: button.backgroundColor,
         buttonRadius: button.borderRadius,
         buttonFont: button.fontFamily,
+        faces,
       };
     });
 
@@ -153,6 +171,11 @@ async function verifyRenderedStyles(dir, label) {
     }
     if (!result.buttonFont.includes('Source Sans 3')) {
       fail(`[${label}] Button bruker ikke Source Sans 3 (fikk: ${result.buttonFont}).`);
+    }
+    for (const style of ['normal', 'italic']) {
+      if (!result.faces.includes(`${style}:loaded`)) {
+        fail(`[${label}] Source Sans 3 (${style}) er ikke lastet i nettleseren (faces: ${result.faces.join(', ') || 'ingen'}) — fontfilen fra pakken nås ikke.`);
+      }
     }
     console.log(
       `✅ [${label}] Computed styles OK: token=${result.redToken}, bg=${result.buttonBackground}, radius=${result.buttonRadius}`,
@@ -194,8 +217,21 @@ if (fs.existsSync(path.join(ROOT, 'dist/node_modules'))) {
 if (fs.readdirSync(path.join(ROOT, 'dist')).some((f) => /\.(png|svg|jpe?g)$/.test(f))) {
   fail('dist inneholder bilder fra public/ — publicDir er ikke slått av i bibliotekbygget.');
 }
-if (!fs.readFileSync(path.join(ROOT, 'dist/styles.css'), 'utf8').includes('rk-designsystem.css')) {
+// Stilfilen skal levere komponentstilene OG fonten fra pakken selv:
+// @font-face med relative URL-er til dist/fonts, ingen Google Fonts-import.
+const stylesCss = fs.readFileSync(path.join(ROOT, 'dist/styles.css'), 'utf8');
+if (!stylesCss.includes('rk-designsystem.css')) {
   fail('dist/styles.css importerer ikke rk-designsystem.css — komponentstiler leveres ikke.');
+}
+if (stylesCss.includes('fonts.googleapis.com')) {
+  fail('dist/styles.css ber om fonten fra Google — fonten skal leveres fra pakken (dist/fonts).');
+}
+if (!fs.existsSync(path.join(ROOT, 'dist/fonts/LICENSE.txt'))) {
+  fail('dist/fonts/LICENSE.txt mangler — OFL krever at lisensteksten følger fontfilene.');
+}
+for (const font of ['source-sans-3-latin.woff2', 'source-sans-3-latin-italic.woff2']) {
+  if (!stylesCss.includes(`./fonts/${font}`)) fail(`dist/styles.css har ingen @font-face for ./fonts/${font}.`);
+  if (!fs.existsSync(path.join(ROOT, 'dist/fonts', font))) fail(`dist/fonts/${font} mangler — build-styles kopierte den ikke.`);
 }
 
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'rk-pack-smoke-'));
@@ -265,6 +301,28 @@ export default defineConfig({ base: './', plugins: [react()] });
   ].join(' ');
   console.log('Installerer tarball + avhengigheter i konsument-appen …');
   run(`npm install --no-audit --no-fund --loglevel=error ${deps}`, appDir);
+
+  // 2b. README-ens importsti må finnes i den PAKKEDE pakken, ikke bare i
+  // repoet: exports-kartet er det som avgjør om `rk-designsystem/styles`
+  // resolver hos en konsument. Sjekkes via Node's egen ESM-oppløsning fra
+  // konsumentens node_modules, med en fil (spesifikatoren inneholder
+  // anførselstegn, og en fil i app-katalogen resolver som appens egne
+  // importer).
+  fs.writeFileSync(
+    path.join(appDir, 'resolve-test.mjs'),
+    `import { fileURLToPath } from 'node:url';
+console.log(fileURLToPath(import.meta.resolve('rk-designsystem/styles')));
+`,
+  );
+  let resolvedStyles;
+  try {
+    resolvedStyles = execSync('node resolve-test.mjs', { cwd: appDir, stdio: 'pipe' }).toString().trim();
+  } catch (error) {
+    console.error(String(error.stderr ?? error));
+    fail("'rk-designsystem/styles' resolver ikke fra konsumentens node_modules — sjekk \"exports\" i package.json.");
+  }
+  if (!fs.existsSync(resolvedStyles)) fail(`'rk-designsystem/styles' peker på ${resolvedStyles}, som ikke finnes i tarballen.`);
+  console.log('✅ README-ens stilimport resolver fra den pakkede pakken.');
 
   // 3. Bygg konsument-appen
   console.log('Bygger konsument-appen …');
@@ -396,7 +454,15 @@ export function App(props: Fixture) {
   if (!cssBundle.includes('--graphic-element-color')) {
     fail('Komponentstilene fra rk-designsystem.css mangler i konsumentens CSS-bundle.');
   }
-  console.log('✅ CSS-bundle inneholder tokens, Digdir base og komponentstiler.');
+  // Fonten: bundleren skal ha kopiert woff2-filene fra dist/fonts inn i
+  // konsumentens build og skrevet om @font-face-URL-ene til dem.
+  const fontAssets = fs.readdirSync(assetsDir).filter((f) => f.endsWith('.woff2'));
+  if (fontAssets.length < 2) fail(`Forventet to woff2-filer i konsumentens build, fant ${fontAssets.length}.`);
+  if (!cssBundle.includes('@font-face') || !fontAssets.every((f) => cssBundle.includes(f))) {
+    fail('@font-face i konsumentens CSS-bundle peker ikke på de kopierte fontfilene.');
+  }
+  if (cssBundle.includes('fonts.googleapis.com')) fail('Konsumentens CSS-bundle ber fortsatt om fonten fra Google.');
+  console.log('✅ CSS-bundle inneholder tokens, Digdir base, komponentstiler og pakkens egne fontfiler.');
 
   // 4b. Computed styles i ekte nettleser
   await verifyRenderedStyles(appDir, 'React 19');

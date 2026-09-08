@@ -71,21 +71,11 @@ npm install rk-designsystem
 > React `^18.3.1`. npm 7+ installs peers automatically; with older
 > setups install them alongside the package.
 
-### 2. Setup Layout with Font
-
-For Next.js projects, use `next/font` for optimal font loading:
+### 2. Import Styles
 
 ```tsx
 // src/app/layout.tsx (App Router)
-import '@digdir/designsystemet-css/index.css';
-import 'rk-design-tokens/design-tokens-build/theme.css';
-import { Source_Sans_3 } from 'next/font/google';
-
-const sourceSans3 = Source_Sans_3({
-  subsets: ['latin'],
-  weight: ['200', '300', '400', '500', '600', '700', '800', '900'],
-  style: ['normal', 'italic'],
-});
+import 'rk-designsystem/styles';
 
 export default function RootLayout({
   children,
@@ -94,13 +84,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="no">
-      <body className={sourceSans3.className}>{children}</body>
+      <body>{children}</body>
     </html>
   );
 }
 ```
 
-**Important:** Use `className`, NOT `variable`. The `variable` option only creates a CSS custom property without actually applying the font.
+That one import is everything: Digdir base styles, the Røde Kors theme, the
+component CSS and Source Sans 3. The font ships inside the package and Next
+copies it into the build, so there is no Google Fonts request and nothing to
+configure with `next/font`.
 
 ### 3. Use Components
 
@@ -135,7 +128,8 @@ npm install rk-designsystem
 import 'rk-designsystem/styles';
 ```
 
-This single import includes base styles, theme, and loads the font via Google Fonts.
+This single import includes base styles, theme, component CSS and Source Sans 3
+(shipped with the package, no Google Fonts request).
 
 ### 3. Use Components
 
@@ -157,23 +151,11 @@ function App() {
 
 ```tsx
 // pages/_app.tsx
-import '@digdir/designsystemet-css/index.css';
-import 'rk-design-tokens/design-tokens-build/theme.css';
-import { Source_Sans_3 } from 'next/font/google';
+import 'rk-designsystem/styles';
 import type { AppProps } from 'next/app';
 
-const sourceSans3 = Source_Sans_3({
-  subsets: ['latin'],
-  weight: ['200', '300', '400', '500', '600', '700', '800', '900'],
-  style: ['normal', 'italic'],
-});
-
 export default function App({ Component, pageProps }: AppProps) {
-  return (
-    <main className={sourceSans3.className}>
-      <Component {...pageProps} />
-    </main>
-  );
+  return <Component {...pageProps} />;
 }
 ```
 

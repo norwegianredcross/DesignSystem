@@ -1,17 +1,18 @@
 /**
  * Røde Kors Design System - Combined Styles
  *
- * This file imports all required CSS in the correct order,
- * including the Source Sans 3 font.
+ * Source for dist/styles.css (see scripts/build-styles.mjs), the one file a
+ * consumer imports:
  *
- * Usage:
  *   import 'rk-designsystem/styles';
  *
- * That's it! No need to manually add font links or multiple CSS imports.
+ * Digdir base, the Røde Kors theme, the component CSS and Source Sans 3
+ * itself (src/fonts.css). This file holds only @import rules: CSS requires
+ * every @import to come before any other rule, so the build appends the
+ * component import, the @font-face rules and the font-family defaults AFTER
+ * these, in that order. Putting @font-face here would make the file invalid
+ * CSS — Vite tolerates it, Next's Turbopack refuses to build.
  */
-
-/* Source Sans 3 font from Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
 
 /* Base design system styles (must be first) */
 @import '@digdir/designsystemet-css/index.css';
