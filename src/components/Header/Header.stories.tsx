@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { searchIndex } from '../../utils/search-index';
+import { searchItemsFixture } from './searchItems.fixture';
 import { expect, within, userEvent, waitFor, fn } from 'storybook/test';
 import { Header } from './index';
 import avatarPlaceholder from '../../assets/images/person2.jpg';
@@ -112,7 +112,7 @@ export const Default: Story = {
     showUser: true,
     userName: 'Kari Nordmann',
     showSearch: true,
-    searchItems: searchIndex,
+    searchItems: searchItemsFixture,
     showLogin: false,
   },
 };
@@ -121,7 +121,7 @@ export const Guest: Story = {
   args: {
     showUser: false,
     showSearch: true,
-    searchItems: searchIndex,
+    searchItems: searchItemsFixture,
     showLogin: true,
   },
   parameters: {
@@ -147,7 +147,7 @@ export const Mobile: Story = {
     showUser: true,
     userName: 'Kari Nordmann', // On mobile the name is hidden via CSS; only the avatar shows
     showSearch: true,
-    searchItems: searchIndex,
+    searchItems: searchItemsFixture,
     showLogin: false,
   },
   parameters: {
@@ -162,7 +162,7 @@ export const WithSecondaryLogo: Story = {
     showUser: true,
     userName: 'Kari Nordmann',
     showSearch: true,
-    searchItems: searchIndex,
+    searchItems: searchItemsFixture,
     showLogin: false,
     secondaryLogo: true,
     secondaryLogoSrc: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Figma-1-logo.png/640px-Figma-1-logo.png',
@@ -182,7 +182,7 @@ export const WithMenuContent: Story = {
     showUser: true,
     userName: 'Kari Nordmann',
     showSearch: true,
-    searchItems: searchIndex,
+    searchItems: searchItemsFixture,
     showLogin: false,
     children: (
       <div style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -198,7 +198,7 @@ export const WithRealUser: Story = {
   args: {
     showUser: true,
     showSearch: true,
-    searchItems: searchIndex,
+    searchItems: searchItemsFixture,
     showLogin: false,
     userName: 'Daniel Barlag',
   },
@@ -215,7 +215,7 @@ export const WithExplicitInitials: Story = {
   args: {
     showUser: true,
     showSearch: true,
-    searchItems: searchIndex,
+    searchItems: searchItemsFixture,
     showLogin: false,
     userName: 'Ola',
     userInitials: 'ON',
@@ -233,7 +233,7 @@ export const WithAvatarImage: Story = {
   args: {
     showUser: true,
     showSearch: true,
-    searchItems: searchIndex,
+    searchItems: searchItemsFixture,
     showLogin: false,
     userName: 'Kari Hansen',
     userAvatarSrc: avatarPlaceholder,
@@ -251,7 +251,7 @@ export const ClickableUser: Story = {
   args: {
     showUser: true,
     showSearch: true,
-    searchItems: searchIndex,
+    searchItems: searchItemsFixture,
     showLogin: false,
     userName: 'Daniel Barlag',
     onUserClick: fn(),
@@ -271,7 +271,7 @@ export const NeutralColor: Story = {
     showUser: true,
     userName: 'Kari Nordmann',
     showSearch: true,
-    searchItems: searchIndex,
+    searchItems: searchItemsFixture,
     showLogin: false,
   },
   parameters: {
@@ -288,7 +288,7 @@ export const Compact: Story = {
     variant: 'compact',
     showUser: false,
     showSearch: true,
-    searchItems: searchIndex,
+    searchItems: searchItemsFixture,
     showLogin: false,
     showMenuButton: false,
     showNavItems: true,
@@ -315,7 +315,7 @@ export const TestInteraction: Story = {
     showUser: true,
     userName: 'Kari Nordmann',
     showSearch: true,
-    searchItems: searchIndex,
+    searchItems: searchItemsFixture,
     showLogin: false,
   },
   play: async ({ canvasElement }) => {
@@ -414,7 +414,7 @@ export const TestEscapeAndFocusReturn: Story = {
   args: {
     showUser: false,
     showSearch: true,
-    searchItems: searchIndex,
+    searchItems: searchItemsFixture,
     showLogin: false,
     showMenuButton: true,
   },
@@ -530,7 +530,7 @@ export const TestMenuSearchAndResultFlow: Story = {
     showUser: false,
     showLogin: false,
     showSearch: true,
-    searchItems: searchIndex,
+    searchItems: searchItemsFixture,
     showMenuButton: true,
     setPage: fn(),
     children: (
@@ -579,7 +579,7 @@ export const TestSearchSuggestionAnnouncement: Story = {
     showUser: false,
     showLogin: false,
     showSearch: true,
-    searchItems: searchIndex,
+    searchItems: searchItemsFixture,
     showMenuButton: false,
   },
   play: async ({ canvasElement }) => {
@@ -610,7 +610,7 @@ export const TestSearchSubmit: Story = {
     showUser: false,
     showLogin: false,
     showSearch: true,
-    searchItems: searchIndex,
+    searchItems: searchItemsFixture,
     showMenuButton: false,
     setPage: fn(),
   },
