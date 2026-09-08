@@ -32,10 +32,5 @@
     "dist",
     "src/story-utils/**/*",
     "src/assets/types/**/*",
-    "src/components/ArticleLayout/**/*",
-    "src/pages/**/*",
-    "src/animations/**/*",
-    "src/App.tsx",
-    "src/main.tsx"
   ]
 }

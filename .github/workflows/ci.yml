@@ -103,8 +103,6 @@ jobs:
             test-results
           if-no-files-found: ignore
 
-      - name: Build Main Application
-        run: npm run build:app
 
   # Deploy kjøres kun på push til main, og kun når testjobben er grønn.
   # Bruker jobbens innebygde GITHUB_TOKEN (ingen PAT å vedlikeholde/utløpe).
@@ -151,14 +149,25 @@ jobs:
       - name: Build Storybook
         run: npm run build-storybook
 
-      - name: Build Main Application
-        run: npm run build:app
 
-      - name: Prepare combined deploy directory
+      # Storybook stays at /storybook/ so every published link (npm README,
+      # the AI-context manifest, the docs platform's catalogue) keeps working.
+      # The site root used to hold the documentation app; that moved to the
+      # docs platform (norwegianredcross/designportal), so the root is a
+      # redirect to Storybook until the platform has its public address.
+      - name: Prepare deploy directory
         run: |
           mkdir -p deploy-output/storybook
-          cp -r dist-app/* deploy-output/
           cp -r storybook-build/* deploy-output/storybook/
+          cat > deploy-output/index.html <<'HTML'
+          <!doctype html>
+          <meta charset="utf-8">
+          <title>Røde Kors Designsystem</title>
+          <meta http-equiv="refresh" content="0; url=/DesignSystem/storybook/">
+          <link rel="canonical" href="https://norwegianredcross.github.io/DesignSystem/storybook/">
+          <p>Dokumentasjonen ligger i <a href="/DesignSystem/storybook/">Storybook</a>.</p>
+          HTML
+          touch deploy-output/.nojekyll
 
       - name: Deploy to GitHub Pages
         run: |

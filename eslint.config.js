@@ -5,7 +5,7 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
-  { ignores: ['dist', 'dist-app', 'storybook-build', 'storybook-static'] },
+  { ignores: ['dist', 'storybook-build', 'storybook-static'] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ['**/*.{ts,tsx}'],
@@ -33,8 +33,8 @@ export default tseslint.config(
   {
     // The library's entry files legitimately export hooks next to their
     // components (useRadioGroup beside Radio, useLanguage beside the
-    // provider) - that IS the public API. Fast Refresh is a dev-server
-    // concern for the docs app under src/pages, which keeps the rule.
+    // provider) - that IS the public API. Fast Refresh only matters for
+    // Storybook's dev server, which handles these files fine.
     files: ['src/components/**/*.{ts,tsx}', 'src/context/**/*.{ts,tsx}'],
     rules: {
       'react-refresh/only-export-components': 'off',
