@@ -12,7 +12,6 @@ node_modules/
 
 # Build outputs
 dist/
-dist-app/
 dist-ssr/
 storybook-build/
 storybook-static/
