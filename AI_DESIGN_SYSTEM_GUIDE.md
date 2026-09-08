@@ -1659,7 +1659,7 @@ import { Header } from 'rk-designsystem';
 
   1. Open Chat in Cursor (Cmd/Ctrl + L)
   2. Type `@Docs` and select "Add new doc"
-  3. Paste: `https://norwegianredcross.github.io/DesignSystem/`
+  3. Paste: `https://norwegianredcross.github.io/DesignSystem/storybook/`
   4. Name it: `RødeKors` (or similar)
   5. Confirm
 
