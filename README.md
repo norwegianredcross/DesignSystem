@@ -1,8 +1,19 @@
 # Røde Kors Design System Component Library (Norwegian Red Cross)
 
-## Live Documentation URL
+## Documentation and development tools
 
-[https://norwegianredcross.github.io/DesignSystem/#](https://norwegianredcross.github.io/DesignSystem/#)
+- **Public documentation** belongs in [norwegianredcross/designportal](https://github.com/norwegianredcross/designportal) (local checkout: `Desktop/designsystem-docs`), public address to come. It owns authored component guidance, design direction, guides, tokens documentation and release-note presentation.
+- **[Storybook workbench](https://norwegianredcross.github.io/DesignSystem/storybook/)** is a development and test tool: component states, controls, interaction tests and accessibility checks.
+- **[Legacy documentation app](https://norwegianredcross.github.io/DesignSystem/#)** remains available while the portal migration is in progress.
+
+Existing app pages, MDX references and published context URLs remain available until the portal can serve their replacements. Component source comments and generated metadata stay tied to the library; the portal consumes that contract.
+
+### Build ownership
+
+- `npm run build` uses the root `vite.config.ts` to produce the npm package, declarations and styles in `dist/`.
+- Storybook and its three browser-test projects share `.storybook/vite.config.ts`, which contains React tooling only. They must not run the package's declaration generator or change its build output.
+- `npm run build-storybook` continues publishing the guide, metadata and manifest together for existing consumers. This compatibility endpoint is separate from ownership of authored portal content.
+- `npm run build:app` continues building the legacy documentation app until its removal is complete.
 
 ## Overview
 
@@ -269,7 +280,7 @@ pnpm i
 # 2. Build all packages
 pnpm build
 
-# 3. Start the local Storybook server
+# 3. Start Storybook, the component development and test workbench
 pnpm storybook
 ```
 
@@ -288,7 +299,7 @@ Every component we build should adhere to these core principles:
 1.  **Accessibility (A11y):** Components must be usable by everyone, including people with disabilities. This means proper ARIA attributes, keyboard navigation, and semantic HTML.
 2.  **Reusability:** Components should be generic enough to be used in multiple contexts without modification.
 3.  **Consistency:** Components should follow our established design tokens (colors, spacing, typography) and have a consistent API and structure.
-4.  **Documentation:** Every component must be documented in Storybook to make it discoverable and easy for other developers to use.
+4.  **Documentation:** Public usage guidance belongs in the documentation portal. Every component must also have executable Storybook examples for development and testing; retain existing MDX references until their portal replacements are available.
 
 ## When to Create a New Component
 
@@ -319,7 +330,7 @@ src/
     └── MyNewComponent/
         ├── index.ts                 // Public API - exports the component and props
         ├── MyNewComponent.tsx       // The React component logic and JSX
-        ├── MyNewComponent.stories.tsx // Storybook stories for documentation
+        ├── MyNewComponent.stories.tsx // Executable examples and interaction tests
         ├── styles.module.css        // Scoped CSS (only for custom components)
         └── MyNewComponent.test.tsx  // (Optional but Recommended) Unit tests
 ```
@@ -344,9 +355,9 @@ src/
 *   **Design Tokens:** Always use our design system tokens (`var(--ds-...)`) for colors, spacing, fonts, etc. Do not use hardcoded values (e.g., `#FFF`, `16px`).
 *   **Overriding Wrapped Components:** For **wrapped components**, use a standard CSS file. Use the `@layer` and `composes` keywords to extend base Digdir styles without increasing CSS specificity unnecessarily.
 
-### 3. Documentation (`MyNewComponent.stories.tsx`)
+### 3. Workbench stories (`MyNewComponent.stories.tsx`)
 
-Your Storybook file is the official documentation. It must be clear and comprehensive.
+Your Storybook file is the executable development and test reference. Keep its examples clear and representative; maintain authored public guidance in the documentation portal.
 
 *   **`meta` Object:** Define the component's title, component reference, and `tags: ['autodocs']` to enable automatic documentation.
 *   **`argTypes`:** Document every single prop. Provide a `description`, `control` type (e.g., `select`, `boolean`, `text`), and `options` if applicable. This powers the interactive controls in Storybook.
