@@ -1,8 +1,9 @@
 # Røde Kors Design System Component Library (Norwegian Red Cross)
 
-## Live Documentation URL
+## Live Documentation
 
-[https://norwegianredcross.github.io/DesignSystem/#](https://norwegianredcross.github.io/DesignSystem/#)
+- **Storybook** (every component, with examples, props and guidelines): [https://norwegianredcross.github.io/DesignSystem/storybook/](https://norwegianredcross.github.io/DesignSystem/storybook/)
+- **Documentation platform** (design direction, guides, tokens, release notes): [norwegianredcross/designportal](https://github.com/norwegianredcross/designportal), public address to come. The documentation app that used to live in this repo moved there in September 2026.
 
 ## Overview
 
