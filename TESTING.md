@@ -6,7 +6,7 @@
 
 ## 1. Omfang
 
-Testplanen gjelder komponentbiblioteket (`src/components`), designtokens-integrasjonen, Storybook-dokumentasjonen og dokumentasjonsplattformen (`src/pages`). Den dekker all endring som skal publiseres til npm eller deployes til GitHub Pages.
+Testplanen gjelder komponentbiblioteket (`src/components`), designtokens-integrasjonen, Storybook som utviklings- og testverktøy og den eksisterende dokumentasjonsappen (`src/pages`). Den dekker all endring som skal publiseres til npm eller deployes til GitHub Pages. Forfattet offentlig dokumentasjon tilhører dokumentasjonsplattformen i eget repo (norwegianredcross/designportal, lokalt `Desktop/designsystem-docs`), med egen testplan. Den eksisterende appen og dens testdekning beholdes til migreringen er fullført.
 
 ## 2. Roller og ansvar
 
@@ -31,8 +31,8 @@ Kvalitet er et felles ansvar; testing er ikke en fase til slutt, men en del av h
 | Nivå | Slik gjør vi det | Verktøy |
 |---|---|---|
 | **Enhetstest** | Hver offentlig komponent har minst én assertion-bærende kontraktstory; komponenter med brukeradferd har i tillegg risikobaserte interaksjonstester | Vitest + Storybook addon, headless Chromium (Playwright) |
-| **Integrasjonstest** | Sammensatte komponenter (Header, Footer, Donor, skjema-komposisjoner) testes gjennom sine stories; dokumentasjonsplattformen bygger mot biblioteket | Samme suite + `vite build` |
-| **Systemtest** | Full bygg av npm-pakke, Storybook og docs-app i CI ved hver endring | GitHub Actions |
+| **Integrasjonstest** | Sammensatte komponenter (Header, Footer, Donor, skjema-komposisjoner) testes gjennom sine stories; den eksisterende dokumentasjonsappen bygger mot biblioteket | Samme suite + `vite build` |
+| **Systemtest** | Full bygg av npm-pakke, Storybook-verktøyet og eksisterende docs-app i CI ved hver endring | GitHub Actions |
 | **Akseptansetest (UAT)** | PR-review: reviewer verifiserer endringen i Storybook/localhost før merge. Merge til `main` = godkjenning. Nye komponenter demonstreres for konsumerende team ved behov | GitHub PR + Storybook |
 | **Regresjonstest** | Hele testsuite (alle stories, alle komponenter) kjøres på **hver PR** og hver push til `main` — ikke bare det som er endret | GitHub Actions |
 
@@ -46,6 +46,7 @@ Kvalitet er et felles ansvar; testing er ikke en fase til slutt, men en del av h
 - **Negativ testing:** Stories skal dekke feiltilstander (disabled, error, tomme verdier) der komponenten har dem.
 - **Sikkerhetstesting:** `npm audit` og Dependabot for avhengigheter; ingen egenutviklet autentisering/datalagring i biblioteket (se «avgrensninger»). Peer-avhengigheter eksternaliseres slik at konsumenter styrer sine versjoner.
 - **Typesikkerhet:** `tsc --noEmit` (strict) og publisert `.d.ts` er del av kontraktstestingen mot konsumenter.
+- **Byggisolasjon:** Tester i `tests/tooling/` verifiserer at Storybook og browser-testene bruker egen Vite-konfigurasjon uten bibliotekets deklarasjonsgenerator. Pakke-konfigurasjonen beholder ESM-/klientmoduler og deklarasjonsbygg.
 
 ## 6. Testmiljøer
 
