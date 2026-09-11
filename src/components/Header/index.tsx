@@ -61,6 +61,19 @@ export interface HeaderProps {
   ctaIcon?: React.ReactNode;
   onCtaClick?: () => void;
   showThemeToggle?: boolean;
+  /**
+   * Controlled colour scheme. When set, the Header renders the theme switch
+   * from this value and never touches the document itself: the consumer owns
+   * the scheme, applies `data-color-scheme` where it wants (a server-rendered
+   * page can do so from a cookie, so the switch starts in the right position
+   * instead of animating after mount) and hears about changes through
+   * `onColorSchemeChange`. When absent, the Header is self-contained as
+   * before: it reads `data-color-scheme` (falling back to the OS preference)
+   * and sets it on `<html>` when toggled.
+   */
+  colorScheme?: 'light' | 'dark';
+  /** The toggle's request to change the scheme. Required to make a controlled Header interactive; optional otherwise. */
+  onColorSchemeChange?: (scheme: 'light' | 'dark') => void;
   secondaryLogo?: boolean;
   secondaryLogoSrc?: string;
   secondaryLogoSrcDark?: string;
@@ -116,6 +129,8 @@ export const Header = ({
   ctaIcon = <HeartIcon aria-hidden />,
   onCtaClick,
   showThemeToggle = false,
+  colorScheme,
+  onColorSchemeChange,
   secondaryLogo = false,
   secondaryLogoSrc,
   secondaryLogoSrcDark,
@@ -144,7 +159,10 @@ export const Header = ({
   // the first toggle then set 'dark' on an already-dark page - a no-op
   // from the user's point of view. Lazy init reads the actual attribute,
   // falling back to the OS preference.
-  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+  // Controlled when the consumer passes colorScheme (see the prop's JSDoc);
+  // the internal state below is only the uncontrolled fallback.
+  const isColorSchemeControlled = colorScheme !== undefined;
+  const [uncontrolledTheme, setUncontrolledTheme] = useState<'light' | 'dark'>(() => {
     if (typeof document !== 'undefined') {
       const current = document.documentElement.getAttribute('data-color-scheme');
       if (current === 'dark' || current === 'light') return current;
@@ -152,6 +170,7 @@ export const Header = ({
     }
     return 'light';
   });
+  const theme = isColorSchemeControlled ? colorScheme : uncontrolledTheme;
   const { language, setLanguage, t } = useLanguageOptional();
   const [isMobile, setIsMobile] = useState(false);
 
@@ -385,8 +404,13 @@ export const Header = ({
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    document.documentElement.setAttribute('data-color-scheme', newTheme);
+    // Controlled: only report; the consumer decides what happens to the
+    // document. Uncontrolled: apply it here, the consumer may not even know.
+    if (!isColorSchemeControlled) {
+      setUncontrolledTheme(newTheme);
+      document.documentElement.setAttribute('data-color-scheme', newTheme);
+    }
+    onColorSchemeChange?.(newTheme);
   };
 
   const handleLogoClick = (e: React.MouseEvent) => {
