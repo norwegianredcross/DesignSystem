@@ -797,6 +797,54 @@ import { BreadcrumbsList } from 'rk-designsystem';
 <BreadcrumbsList />
 ```
 
+#### ChipButton
+```tsx
+import { ChipButton } from 'rk-designsystem';
+
+<ChipButton
+  asChild={false} // valgfri, default false: boolean
+  // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
+  // data-size — valgfri: Size | (string & {})
+  data-wrap="nowrap" // valgfri, default 'nowrap': 'wrap' | 'nowrap'
+ />
+```
+
+#### ChipCheckbox
+```tsx
+import { ChipCheckbox } from 'rk-designsystem';
+
+<ChipCheckbox
+  asChild={false} // valgfri, default false: boolean
+  // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
+  // data-size — valgfri: Size | (string & {})
+  data-wrap="nowrap" // valgfri, default 'nowrap': 'wrap' | 'nowrap'
+ />
+```
+
+#### ChipRadio
+```tsx
+import { ChipRadio } from 'rk-designsystem';
+
+<ChipRadio
+  asChild={false} // valgfri, default false: boolean
+  // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
+  // data-size — valgfri: Size | (string & {})
+  data-wrap="nowrap" // valgfri, default 'nowrap': 'wrap' | 'nowrap'
+ />
+```
+
+#### ChipRemovable
+```tsx
+import { ChipRemovable } from 'rk-designsystem';
+
+<ChipRemovable
+  asChild={false} // valgfri, default false: boolean
+  // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
+  // data-size — valgfri: Size | (string & {})
+  data-wrap="nowrap" // valgfri, default 'nowrap': 'wrap' | 'nowrap'
+ />
+```
+
 #### Details
 ```tsx
 import { Details, Details.Summary, Details.Content } from 'rk-designsystem';
@@ -815,6 +863,56 @@ import { Details, Details.Summary, Details.Content } from 'rk-designsystem';
 ```
 
 Use `<Details.Summary>` and `<Details.Content>` for accordion structure.
+
+#### DetailsContent
+```tsx
+import { DetailsContent } from 'rk-designsystem';
+
+<DetailsContent />
+```
+
+#### DetailsSummary
+```tsx
+import { DetailsSummary } from 'rk-designsystem';
+
+<DetailsSummary
+  // children — valgfri: ReactNode
+ />
+```
+
+#### DialogBlock
+```tsx
+import { DialogBlock } from 'rk-designsystem';
+
+<DialogBlock
+  asChild={false} // valgfri, default false: boolean
+ />
+```
+
+#### DialogTrigger
+```tsx
+import { DialogTrigger } from 'rk-designsystem';
+
+<DialogTrigger
+  asChild={false} // valgfri: boolean
+  command="…" // valgfri: string
+  commandfor="…" // valgfri: string
+  commandFor="…" // valgfri: string
+  // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
+  // data-size — valgfri: Size | (string & {})
+  icon={false} // valgfri: boolean
+  // loading — valgfri: ReactNode
+  type="button" // valgfri: 'button' | 'submit' | 'reset'
+  variant="primary" // valgfri: 'primary' | 'secondary' | 'tertiary'
+ />
+```
+
+#### DialogTriggerContext
+```tsx
+import { DialogTriggerContext } from 'rk-designsystem';
+
+<DialogTriggerContext />
+```
 
 #### Dropdown
 ```tsx
@@ -900,11 +998,88 @@ import { DropdownTriggerContext } from 'rk-designsystem';
 <DropdownTriggerContext />
 ```
 
+#### ErrorSummaryHeading
+```tsx
+import { ErrorSummaryHeading } from 'rk-designsystem';
+
+<ErrorSummaryHeading
+  asChild={false} // valgfri: boolean
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg' | '2xs' | 'xs' | 'xl' | '2xl'
+  // level — valgfri: 1 | 2 | 3 | 4 | 5 | 6
+ />
+```
+
+#### ErrorSummaryItem
+```tsx
+import { ErrorSummaryItem } from 'rk-designsystem';
+
+<ErrorSummaryItem
+  asChild={false} // valgfri: boolean
+ />
+```
+
+#### ErrorSummaryLink
+```tsx
+import { ErrorSummaryLink } from 'rk-designsystem';
+
+<ErrorSummaryLink
+  asChild={false} // valgfri: boolean
+  // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
+  // data-size — valgfri: Size | (string & {})
+ />
+```
+
+#### ErrorSummaryList
+```tsx
+import { ErrorSummaryList } from 'rk-designsystem';
+
+<ErrorSummaryList
+  asChild={false} // valgfri: boolean
+  // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
+  // data-size — valgfri: Size | (string & {})
+ />
+```
+
+#### FieldAffix
+```tsx
+import { FieldAffix } from 'rk-designsystem';
+
+<FieldAffix />
+```
+
+#### FieldAffixes
+```tsx
+import { FieldAffixes } from 'rk-designsystem';
+
+<FieldAffixes />
+```
+
 #### FieldDescription
 ```tsx
 import { FieldDescription } from 'rk-designsystem';
 
 <FieldDescription />
+```
+
+#### FieldsetDescription
+```tsx
+import { FieldsetDescription } from 'rk-designsystem';
+
+<FieldsetDescription
+  asChild={false} // valgfri: boolean
+  data-size="sm" // valgfri: 'sm' | 'md' | 'lg' | 'xs' | 'xl'
+  variant="default" // valgfri: 'default' | 'long' | 'short'
+ />
+```
+
+#### FieldsetLegend
+```tsx
+import { FieldsetLegend } from 'rk-designsystem';
+
+<FieldsetLegend
+  // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
+  // data-size — valgfri: Size | (string & {})
+ />
 ```
 
 #### Heading
@@ -938,6 +1113,37 @@ import { Link } from 'rk-designsystem';
 
 <Link
   // children — PÅKREVD: ReactNode
+  asChild={false} // valgfri, default false: boolean
+  // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
+  // data-size — valgfri: Size | (string & {})
+ />
+```
+
+#### ListItem
+```tsx
+import { ListItem } from 'rk-designsystem';
+
+<ListItem
+  asChild={false} // valgfri, default false: boolean
+ />
+```
+
+#### ListOrdered
+```tsx
+import { ListOrdered } from 'rk-designsystem';
+
+<ListOrdered
+  asChild={false} // valgfri, default false: boolean
+  // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
+  // data-size — valgfri: Size | (string & {})
+ />
+```
+
+#### ListUnordered
+```tsx
+import { ListUnordered } from 'rk-designsystem';
+
+<ListUnordered
   asChild={false} // valgfri, default false: boolean
   // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
   // data-size — valgfri: Size | (string & {})
@@ -990,6 +1196,31 @@ import { Paragraph } from 'rk-designsystem';
  />
 ```
 
+#### PopoverTrigger
+```tsx
+import { PopoverTrigger } from 'rk-designsystem';
+
+<PopoverTrigger
+  asChild={false} // valgfri, default false false: boolean
+  command="…" // valgfri: string
+  commandfor="…" // valgfri: string
+  commandFor="…" // valgfri: string
+  // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
+  // data-size — valgfri: Size | (string & {})
+  icon={false} // valgfri, default false: boolean
+  inline={false} // valgfri, default false false: boolean
+  // loading — valgfri, default false: ReactNode
+  variant="primary" // valgfri, default 'primary': 'primary' | 'secondary' | 'tertiary'
+ />
+```
+
+#### PopoverTriggerContext
+```tsx
+import { PopoverTriggerContext } from 'rk-designsystem';
+
+<PopoverTriggerContext />
+```
+
 #### Search
 ```tsx
 import { Search } from 'rk-designsystem';
@@ -997,6 +1228,70 @@ import { Search } from 'rk-designsystem';
 <Search
   // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
   // data-size — valgfri: Size | (string & {})
+ />
+```
+
+#### SearchButton
+```tsx
+import { SearchButton } from 'rk-designsystem';
+
+<SearchButton
+  asChild={false} // valgfri: boolean
+  command="…" // valgfri: string
+  commandfor="…" // valgfri: string
+  commandFor="…" // valgfri: string
+  // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
+  // data-size — valgfri: Size | (string & {})
+  icon={false} // valgfri: boolean
+  // loading — valgfri: ReactNode
+  type="button" // valgfri: 'button' | 'submit' | 'reset'
+  variant="primary" // valgfri: 'primary' | 'secondary' | 'tertiary'
+ />
+```
+
+#### SearchClear
+```tsx
+import { SearchClear } from 'rk-designsystem';
+
+<SearchClear
+  asChild={false} // valgfri, default false: boolean
+  command="…" // valgfri: string
+  commandfor="…" // valgfri: string
+  commandFor="…" // valgfri: string
+  // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
+  // data-size — valgfri: Size | (string & {})
+  icon={false} // valgfri, default false: boolean
+  // loading — valgfri, default false: ReactNode
+  type="button" // valgfri, default 'button': 'button' | 'submit' | 'reset'
+ />
+```
+
+#### SearchInput
+```tsx
+import { SearchInput } from 'rk-designsystem';
+
+<SearchInput
+  // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
+  // data-size — valgfri: Size | (string & {})
+  type="search" // valgfri, default 'search': 'search' | 'text'
+ />
+```
+
+#### SelectOptgroup
+```tsx
+import { SelectOptgroup } from 'rk-designsystem';
+
+<SelectOptgroup
+  asChild={false} // valgfri, default false: boolean
+ />
+```
+
+#### SelectOption
+```tsx
+import { SelectOption } from 'rk-designsystem';
+
+<SelectOption
+  asChild={false} // valgfri, default false: boolean
  />
 ```
 
@@ -1033,6 +1328,75 @@ import { Suggestion, Suggestion.Input, Suggestion.List, Suggestion.Option, Sugge
 
 Use `<Suggestion.Input>`, `<Suggestion.List>`, `<Suggestion.Option>`, `<Suggestion.Empty>`, and `<Suggestion.Clear>` for autocomplete structure.
 
+#### TableBody
+```tsx
+import { TableBody } from 'rk-designsystem';
+
+<TableBody />
+```
+
+#### TableCell
+```tsx
+import { TableCell } from 'rk-designsystem';
+
+<TableCell />
+```
+
+#### TableFoot
+```tsx
+import { TableFoot } from 'rk-designsystem';
+
+<TableFoot />
+```
+
+#### TableHead
+```tsx
+import { TableHead } from 'rk-designsystem';
+
+<TableHead />
+```
+
+#### TableHeaderCell
+```tsx
+import { TableHeaderCell } from 'rk-designsystem';
+
+<TableHeaderCell
+  sort="none" // valgfri, default undefined: 'none' | 'ascending' | 'descending' | 'other'
+ />
+```
+
+#### TableRow
+```tsx
+import { TableRow } from 'rk-designsystem';
+
+<TableRow />
+```
+
+#### TabsList
+```tsx
+import { TabsList } from 'rk-designsystem';
+
+<TabsList />
+```
+
+#### TabsPanel
+```tsx
+import { TabsPanel } from 'rk-designsystem';
+
+<TabsPanel
+  value="…" // PÅKREVD: string
+ />
+```
+
+#### TabsTab
+```tsx
+import { TabsTab } from 'rk-designsystem';
+
+<TabsTab
+  value="…" // PÅKREVD: string
+ />
+```
+
 #### ToggleGroup
 ```tsx
 import { ToggleGroup } from 'rk-designsystem';
@@ -1048,6 +1412,18 @@ import { ToggleGroup } from 'rk-designsystem';
   onChange={(value) => {}} // valgfri: ((value: string) => void)
   value="…" // valgfri: string
   variant="primary" // valgfri, default 'primary': 'primary' | 'secondary'
+ />
+```
+
+#### ToggleGroupItem
+```tsx
+import { ToggleGroupItem } from 'rk-designsystem';
+
+<ToggleGroupItem
+  // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
+  // data-size — valgfri: Size | (string & {})
+  icon={false} // valgfri: boolean
+  // value — valgfri: string | (string & readonly string[])
  />
 ```
 
