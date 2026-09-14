@@ -34,8 +34,14 @@
       "import": "./dist/index.js"
     },
     "./package.json": "./package.json",
-    "./styles": "./dist/styles.css",
-    "./styles.css": "./dist/styles.css",
+    "./styles": {
+      "types": "./dist/styles.d.ts",
+      "default": "./dist/styles.css"
+    },
+    "./styles.css": {
+      "types": "./dist/styles.d.ts",
+      "default": "./dist/styles.css"
+    },
     "./dist/rk-designsystem.css": "./dist/rk-designsystem.css"
   },
   "sideEffects": [
