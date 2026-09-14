@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { useState } from 'react';
 import { searchIndex } from '../../utils/search-index';
 import { expect, within, userEvent, waitFor, fn } from 'storybook/test';
 import { Header } from './index';
@@ -488,6 +489,48 @@ export const TestThemeSwitchSync: Story = {
     } finally {
       document.documentElement.removeAttribute('data-color-scheme');
     }
+  },
+};
+
+export const TestColorSchemeControlled: Story = {
+  name: 'Test: controlled colorScheme',
+  args: {
+    showUser: false,
+    showSearch: false,
+    showLogin: false,
+    showHeaderExtension: true,
+    showModeToggle: true,
+    onColorSchemeChange: fn(),
+  },
+  // The consumer owns the scheme: it holds the value, hands it to the
+  // Header and applies it wherever it wants (here: nowhere on purpose, to
+  // prove the Header itself no longer touches the document when controlled).
+  render: (args) => {
+    const [scheme, setScheme] = useState<'light' | 'dark'>('dark');
+    return (
+      <Header
+        {...args}
+        colorScheme={scheme}
+        onColorSchemeChange={(next) => {
+          setScheme(next);
+          args.onColorSchemeChange?.(next);
+        }}
+      />
+    );
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const toggle = canvas.getByRole('switch');
+    // Starts where the consumer says, whatever the page's attribute is
+    // (Storybook's theme projects set one; the Header must not care).
+    expect(toggle).toBeChecked();
+    const pageSchemeBefore = document.documentElement.getAttribute('data-color-scheme');
+
+    await userEvent.click(toggle);
+    await waitFor(() => expect(toggle).not.toBeChecked());
+    expect(args.onColorSchemeChange).toHaveBeenCalledWith('light');
+    // Controlled: the Header reported the change and left the document alone.
+    expect(document.documentElement.getAttribute('data-color-scheme')).toBe(pageSchemeBefore);
   },
 };
 
