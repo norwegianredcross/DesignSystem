@@ -1,0 +1,29 @@
+/**
+ * Source Sans 3, shipped inside the package under the SIL Open Font License
+ * (public/fonts/LICENSE.txt travels with the files to dist/fonts). Latin subset as a
+ * variable font: one file per style covers weights 200-900. The URLs are
+ * relative to dist/styles.css, where the build appends this file; consumers'
+ * bundlers (Vite, Next/webpack, Turbopack) copy the files from dist/fonts
+ * into their own build like any other CSS asset. No Google Fonts request,
+ * no font loader to configure, and the server-rendered HTML links a
+ * stylesheet that already declares the font.
+ *
+ * Same files Storybook self-hosts from public/fonts, so the library and the
+ * documentation never show different fonts.
+ */
+
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url('./fonts/source-sans-3-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: italic;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url('./fonts/source-sans-3-latin-italic.woff2') format('woff2');
+}
