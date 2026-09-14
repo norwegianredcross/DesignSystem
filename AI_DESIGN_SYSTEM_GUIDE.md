@@ -1172,12 +1172,14 @@ import { Header } from 'rk-designsystem';
 
 <Header
   activePage="…" // valgfri: string
+  colorScheme="light" // valgfri: 'light' | 'dark'
   // ctaIcon — valgfri, default <HeartIcon aria-hidden />: ReactNode
   ctaLabel="…" // valgfri: string
   data-color="primary-color-red" // valgfri, default primary-color-red: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'primary'
   extensionColor="neutral" // valgfri: 'neutral' | 'primary' | 'tinted'
   loginHref="…" // valgfri: string
   // navItems — valgfri: { label: string; href: string; }[]
+  onColorSchemeChange={(scheme) => {}} // valgfri: ((scheme: 'light' | 'dark') => void)
   onCtaClick={() => {}} // valgfri: (() => void)
   onLoginClick={() => {}} // valgfri: (() => void)
   onUserClick={() => {}} // valgfri: (() => void)
