@@ -258,7 +258,7 @@ const config: StorybookConfig = {
                     margin-left: -24px;
                     padding-left: 24px;
                 ">
-                    <a href="/DesignSystem/" aria-label="Norges Røde Kors Hjem" style="
+                    <a href="/DesignSystem/storybook/" aria-label="Norges Røde Kors Designsystem" style="
                         display: flex;
                         align-items: center;
                         justify-content: center;
@@ -293,14 +293,6 @@ const config: StorybookConfig = {
                     flex-grow: 1;
                     justify-content: flex-end;
                 ">
-                    <a href="/DesignSystem/#design" class="sb-nav-link" style="
-                        color: var(--ds-color-primary-color-red-text-default, #D52B1E);
-                        font-family: var(--ds-font-family, 'Source Sans 3', sans-serif);
-                        font-size: var(--ds-font-size-md, 16px);
-                        text-decoration: none;
-                        font-weight: var(--ds-font-weight-regular, 400);
-                        letter-spacing: 0.09px;
-                    ">Design</a>
                     <a href="/DesignSystem/storybook/" class="sb-nav-link" style="
                         color: var(--ds-color-primary-color-red-text-default, #D52B1E);
                         font-family: var(--ds-font-family, 'Source Sans 3', sans-serif);
@@ -309,22 +301,6 @@ const config: StorybookConfig = {
                         font-weight: var(--ds-font-weight-regular, 400);
                         letter-spacing: 0.09px;
                     ">Komponenter</a>
-                    <a href="/DesignSystem/#code" class="sb-nav-link" style="
-                        color: var(--ds-color-primary-color-red-text-default, #D52B1E);
-                        font-family: var(--ds-font-family, 'Source Sans 3', sans-serif);
-                        font-size: var(--ds-font-size-md, 16px);
-                        text-decoration: none;
-                        font-weight: var(--ds-font-weight-regular, 400);
-                        letter-spacing: 0.09px;
-                    ">Kode</a>
-                    <a href="/DesignSystem/#tokens" class="sb-nav-link" style="
-                        color: var(--ds-color-primary-color-red-text-default, #D52B1E);
-                        font-family: var(--ds-font-family, 'Source Sans 3', sans-serif);
-                        font-size: var(--ds-font-size-md, 16px);
-                        text-decoration: none;
-                        font-weight: var(--ds-font-weight-regular, 400);
-                        letter-spacing: 0.09px;
-                    ">Tokens</a>
                 </nav>
                 
                 <!-- Actions -->
@@ -369,11 +345,12 @@ const config: StorybookConfig = {
                     margin: 0 auto; 
                     padding: 0 24px; 
                 ">
+                     <!-- Design, Kode and Tokens used to link into the docs app that
+                          lived at the Pages root. Those sections are on the docs
+                          platform (norwegianredcross/designportal); link them here
+                          again once it has a public address. -->
                      <nav class="header-menu-nav" aria-label="Hovedmeny">
-                        <a href="/DesignSystem/#design" class="header-menu-link">Design</a>
                         <a href="/DesignSystem/storybook/" class="header-menu-link">Komponenter</a>
-                        <a href="/DesignSystem/#code" class="header-menu-link">Kode</a>
-                        <a href="/DesignSystem/#tokens" class="header-menu-link">Tokens</a>
                      </nav>
                 </div>
             </div>
