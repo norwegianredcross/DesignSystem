@@ -52,7 +52,7 @@ Kvalitet er et felles ansvar; testing er ikke en fase til slutt, men en del av h
 
 | Miljø | Bruk |
 |---|---|
-| Lokalt (`npm run storybook` / `npm run dev`) | Utvikling og utforskende testing |
+| Lokalt (`npm run storybook`) | Utvikling og utforskende testing |
 | CI (GitHub Actions, headless Chromium) | Automatisert kjøring av hele suiten |
 | GitHub Pages (Storybook + docs) | «Staging»/demonstrasjon — alltid siste `main` |
 | npm-pakken | Produksjon — kun publisert via release-workflow |
@@ -72,7 +72,6 @@ Testinnsatsen prioriteres der feil gjør mest skade. Vurdering per område:
 | Donor (donasjonsflyt) | Høy (økonomi/omdømme) | Middels | **Høy** | Interaksjonstester på beløpsvalg og callbacks |
 | Tokens-integrasjon (`rk-design-tokens`) | Høy (endrer alt visuelt) | Middels (bump kommer som daglig PR) | **Høy** | Token-bump er en reviewbar PR («Token bump PR»-workflowen) med full regresjon + visuell regresjon som gate |
 | Visningskomponenter (Tag, Badge, Avatar, …) | Lav–middels | Lav | Lav | Assertion-bærende kontraktstory + a11y |
-| Dokumentasjonsplattformen (`src/pages`) | Lav (publiseres ikke til npm) | Middels | Middels | Typecheck/lint + manuell verifisering |
 
 **Akseptert risiko** (bevisste valg, jf. kap. 12.3.2 E):
 - Visuell regresjon (skjermbilde-diff) dekker ~15 nøkkelstories i CI (`npm run test:visual`, baselines i `tests/visual/__screenshots__`; regenereres via workflowen «Update visual baselines»). Stories utenfor utvalget dekkes fortsatt kun av manuell Storybook-review i PR.
