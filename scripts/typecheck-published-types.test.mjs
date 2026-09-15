@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -60,6 +61,37 @@ test('rejects stderr output even when the compiler exits successfully', (t) => {
   compiler(dir, "console.error('Compiler bootstrap failed');");
   assert.throws(() => typecheckPublishedTypes(dir, ['bundler']), /Compiler bootstrap failed/);
 });
+
+for (const [name, source, expected] of [
+  ['missing compiler', null, /Cannot find module/],
+  [
+    'configuration error',
+    `console.log("error TS5023: Unknown compiler option 'invalidOption'."); process.exit(1);`,
+    /TS5023/,
+  ],
+  ['compiler crash', "console.error('compiler crashed'); process.exit(1);", /compiler crashed/],
+]) {
+  test(`exits unsuccessfully without a success message after ${name}`, (t) => {
+    const dir = consumer(t);
+    if (source) compiler(dir, source);
+    const moduleUrl = new URL('./typecheck-published-types.mjs', import.meta.url).href;
+    const result = spawnSync(
+      process.execPath,
+      [
+        '--input-type=module',
+        '-e',
+        `
+      import { typecheckPublishedTypes } from ${JSON.stringify(moduleUrl)};
+      typecheckPublishedTypes(${JSON.stringify(dir)}, ['bundler']);
+    `,
+      ],
+      { encoding: 'utf8' }
+    );
+    assert.equal(result.status, 1);
+    assert.doesNotMatch(result.stdout, /✅/);
+    assert.match(result.stderr, expected);
+  });
+}
 
 test('tolerates Digdir 1.21.1 optional framework imports', (t) => {
   const dir = consumer(t);
