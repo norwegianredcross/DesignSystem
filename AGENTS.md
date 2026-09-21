@@ -5,7 +5,8 @@ Shared guidance for AI coding agents working in the Røde Kors Design System rep
 ## Repo At A Glance
 
 - React component library built on top of Digdir Designsystemet.
-- Storybook is the main documentation and publishing surface.
+- Storybook is a component development and test workbench, not the public documentation portal.
+- Authored public documentation belongs in `norwegianredcross/designportal` (local checkout: `/Users/daniel/Desktop/designsystem-docs`).
 - `AI_DESIGN_SYSTEM_GUIDE.md` and `metadata.json` are published artifacts used downstream by application templates and agent workflows.
 
 ## Non-Negotiables
@@ -13,6 +14,8 @@ Shared guidance for AI coding agents working in the Røde Kors Design System rep
 - Keep the guide and metadata workflow usable for engineers who are not relying on agent tooling.
 - Prefer additive changes to the AI context publishing pipeline over risky rewrites of the existing documentation flow.
 - Surface terminology drift and policy conflicts instead of silently folding them into unrelated component work.
+- Keep runtime code independent of portal content and Storybook tooling. The package build uses `vite.config.ts`; Storybook and browser tests use `.storybook/vite.config.ts`.
+- Preserve existing documentation links and context artifact URLs until their portal replacements are working. Moving files alone does not migrate the CMS-backed portal's content.
 
 ## Upstream Context Publishing
 
