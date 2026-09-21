@@ -4,7 +4,7 @@
  * komponenter — ikke bare at importene lar seg løse.
  *
  * Flyt: npm pack → installer tarball i en midlertidig Vite-app (samme
- * avhengighetsversjoner som repoet) → bygg → åpne i Chromium og les
+ * avhengighetsspenn som repoet, uten repoets lockfil) → bygg → åpne i Chromium og les
  * computed styles.
  *
  * Verifiserer tre lag:
@@ -61,42 +61,52 @@ function verifySuggestionDependencies(dir) {
 async function verifySuggestionInteractions(page, label) {
   page.setDefaultTimeout(10000);
   const single = page.locator('#smoke-single');
-  await expect(single.locator('ds-suggestion')).toHaveAttribute('data-smoke-ref', 'connected');
+  await expect(single.getByTestId('suggestion-root')).toHaveAttribute('data-smoke-ref', 'connected');
   // u-datalist assigns the combobox role when this standalone input gains focus.
   const singleInput = single.getByLabel('smoke-single');
   await singleInput.click();
   await singleInput.fill('sogn');
   await expect(singleInput).toHaveAttribute('role', 'combobox');
-  await single.locator('u-option').filter({ hasText: /^Sogndal$/ }).click();
+  await expect(singleInput).toHaveAttribute('aria-expanded', 'true');
+  await expect(single.getByTestId('suggestion-options')).toBeVisible();
+  await single.getByRole('option', { name: 'Sogndal', exact: true }).click();
   await expect(singleInput).toHaveValue('Sogndal');
   await expect.poll(() => single.evaluate(form => new FormData(form).getAll('destination')))
     .toEqual(['sogndal']);
-  await single.getByRole('button', { name: 'Tøm' }).click();
+  await single.getByRole('button', { name: 'Clear selection', exact: true }).click();
   await expect(singleInput).toHaveValue('');
+  await expect(singleInput).toBeFocused();
   await singleInput.press('Tab');
   await expect.poll(() => single.evaluate(form => new FormData(form).getAll('destination')))
     .toEqual([]);
   await expect(singleInput).toHaveValue('');
+  await singleInput.click();
+  await expect(singleInput).toHaveValue('');
+  await singleInput.press('Escape');
+  await expect(single.getByTestId('suggestion-options')).not.toBeVisible();
 
   for (const [id, query, nextLabel, nextValue] of [
     ['smoke-multi-empty', '', 'Bergen', 'bergen'],
     ['smoke-multi-query', 'o', 'Trondheim', 'trondheim'],
   ]) {
     const form = page.locator(`#${id}`);
-    await expect(form.locator('ds-suggestion')).toHaveAttribute('data-smoke-ref', 'connected');
+    await expect(form.getByTestId('suggestion-root')).toHaveAttribute('data-smoke-ref', 'connected');
     const input = form.getByLabel(id);
     await input.click();
     await expect(input).toHaveAttribute('role', 'combobox');
     if (query) await input.fill(query);
-    await form.locator('u-option').filter({ hasText: /^Oslo$/ }).click();
+    await form.getByRole('option', { name: 'Oslo', exact: true }).click();
     await expect(input).toHaveValue(query);
-    await form.locator('u-option').filter({ hasText: new RegExp(`^${nextLabel}$`) }).click();
+    await expect.poll(() => form.evaluate(el => new FormData(el).getAll('destination')))
+      .toEqual(['oslo']);
+    await input.click();
+    await form.getByRole('option', { name: nextLabel, exact: true }).click();
     await expect(input).toHaveValue(query);
     await expect.poll(() => form.evaluate(el => new FormData(el).getAll('destination')))
       .toEqual(['oslo', nextValue]);
     // Close the list so it doesn't cover the next fixture's input.
     await input.press('Escape');
-    await expect(form.locator('u-datalist')).not.toBeVisible();
+    await expect(form.getByTestId('suggestion-options')).not.toBeVisible();
   }
   console.log(`✅ [${label}] Packed Suggestion clears selection and preserves empty/typed multi-select queries.`);
 }
@@ -351,15 +361,18 @@ const options = [
   { label: 'Trondheim', value: 'trondheim' },
 ];
 
+// Set both clear labels: 1.21 uses aria-label; 1.22 applies data-sr-clear.
 function SuggestionFixture({ id, multiple = false }) {
   const [selected, setSelected] = useState(multiple ? [] : null);
   return (
     <form id={id}>
       <Suggestion multiple={multiple} selected={selected} onSelectedChange={setSelected} name="destination"
+        data-testid="suggestion-root"
+        data-sr-clear="Clear selection"
         ref={node => { if (node) node.dataset.smokeRef = 'connected'; }}>
         <Suggestion.Input aria-label={id} />
-        <Suggestion.Clear />
-        <Suggestion.List>
+        <Suggestion.Clear aria-label="Clear selection" />
+        <Suggestion.List data-testid="suggestion-options">
           {options.map(option => (
             <Suggestion.Option key={option.value} value={option.value} label={option.label}>
               {option.label}

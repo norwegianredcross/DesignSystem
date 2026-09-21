@@ -252,14 +252,14 @@ export const TestInteraction: Story = {
   render: () => {
     const [value, setValue] = useState('');
     return (
-      <Search data-size="md">
+      <Search data-size="md" data-sr-clear="Fjern søketekst">
         <Search.Input
           aria-label="Søk"
           placeholder="Søk her..."
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />
-        <Search.Clear onClick={() => setValue('')} />
+        <Search.Clear aria-label="Fjern søketekst" onClick={() => setValue('')} />
         <Search.Button variant="primary" />
       </Search>
     );
@@ -275,7 +275,7 @@ export const TestInteraction: Story = {
     expect(input).toHaveValue('test query');
 
     // Clear button should reset value
-    const clearButton = canvas.getByRole('button', { name: /tøm/i });
+    const clearButton = canvas.getByRole('button', { name: 'Fjern søketekst' });
     await userEvent.click(clearButton);
 
     await waitFor(() => {

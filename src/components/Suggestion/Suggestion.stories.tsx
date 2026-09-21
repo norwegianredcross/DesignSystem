@@ -409,6 +409,13 @@ export const NoFilter: Story = {
 
 // --- INTERACTION TESTS ---
 
+// The fixture owns the wording and selected-item markup; Digdir may change its defaults.
+// Set both aria-label (1.21) and data-sr-clear (1.22's screen-reader text setting).
+const clearSelectionLabel = 'Fjern valgt destinasjon';
+const renderSelectedDestination = ({ label, value }: StorySuggestionItem) => (
+  <span data-testid="selected-destination" data-value={value}>{label}</span>
+);
+
 /** Controlled single-select fixture with forwarded selection callbacks. */
 const SingleSelectTestRender = (args: SuggestionProps) => {
   // null is an empty controlled selection; undefined switches to uncontrolled.
@@ -420,6 +427,8 @@ const SingleSelectTestRender = (args: SuggestionProps) => {
         <Suggestion
           {...args}
           selected={selected as any}
+          renderSelected={renderSelectedDestination}
+          data-sr-clear={clearSelectionLabel}
           onSelectedChange={((item: unknown) => {
             (args.onSelectedChange as any)?.(item);
             if (!Array.isArray(item)) {
@@ -429,7 +438,7 @@ const SingleSelectTestRender = (args: SuggestionProps) => {
           name="test-destination"
         >
           <Suggestion.Input />
-          <Suggestion.Clear />
+          <Suggestion.Clear aria-label={clearSelectionLabel} />
           <Suggestion.List>
             <Suggestion.Empty>Ingen treff</Suggestion.Empty>
             {defaultOptions.map((opt) => (
@@ -459,6 +468,8 @@ const MultiSelectTestRender = ({
           // Both regression modes start empty, regardless of Storybook args.
           defaultSelected={undefined}
           selected={controlled ? selected : undefined}
+          renderSelected={renderSelectedDestination}
+          data-sr-clear={clearSelectionLabel}
           onSelectedChange={(items: StorySuggestionItem[]) => {
             (args.onSelectedChange as any)?.(items);
             if (controlled) setSelected(items);
@@ -466,7 +477,7 @@ const MultiSelectTestRender = ({
           name="test-multi-destination"
         >
           <Suggestion.Input />
-          <Suggestion.Clear />
+          <Suggestion.Clear aria-label={clearSelectionLabel} />
           <Suggestion.List>
             <Suggestion.Empty>Ingen treff</Suggestion.Empty>
             {defaultOptions.map((opt) => (
@@ -483,19 +494,16 @@ const MultiSelectTestRender = ({
 
 const findVisibleSuggestionOption = async (canvasElement: HTMLElement, label: string) =>
   await waitFor(() => {
-    const option = Array.from(
-      canvasElement.querySelectorAll<HTMLElement>('u-option:not([data-empty])'),
-    ).find((el) => el.textContent === label);
-    expect(option).toHaveAttribute('aria-hidden', 'false');
-    expect(option).not.toHaveAttribute('disabled');
-    return option!;
+    const option = within(canvasElement).getByRole('option', { name: label });
+    expect(option).toBeVisible();
+    expect(option).not.toHaveAttribute('aria-disabled', 'true');
+    return option;
   });
 
 // Verify rendered and submitted state, not just callbacks.
 const expectSuggestionSelection = (canvasElement: HTMLElement, name: string, values: string[]) => {
-  const selectedValues = Array.from(
-    canvasElement.querySelectorAll('data[value]'), (el) => el.getAttribute('value'),
-  );
+  const selectedValues = within(canvasElement).queryAllByTestId('selected-destination')
+    .map((el) => el.getAttribute('data-value'));
   expect(selectedValues).toEqual(values);
   const form = canvasElement.querySelector('form');
   expect(form).not.toBeNull();
@@ -510,7 +518,7 @@ const findSuggestionInput = async (canvas: ReturnType<typeof within>) =>
 
 /**
  * Tests combobox ARIA wiring on the input: role, aria-autocomplete,
- * aria-controls pointing at the listbox, and expanded state on focus.
+ * aria-controls pointing at the listbox, and expanded state when opened.
  */
 export const TestComboboxAria: Story = {
   name: 'Test: Combobox Aria Attributes',
@@ -527,13 +535,13 @@ export const TestComboboxAria: Story = {
     // is a second listbox, so this lookup would be ambiguous there.
     const list = await canvas.findByRole('listbox', { hidden: true });
 
-    // Opening the field exposes the controlled list: the combobox points at
-    // the listbox, reports expanded, and the list shows. Since Digdir 1.21
-    // the wiring happens on first interaction and the list opens on input
-    // (typing / arrow keys) rather than on bare focus - the standard
-    // combobox pattern - so nothing is asserted before the user types.
-    await userEvent.click(input);
-    await userEvent.type(input, 'o');
+    // Native popover state needs real focus/key events in the browser test.
+    // Keep the story playable in Storybook, where Vitest's provider is absent.
+    const interactions = import.meta.env.MODE === 'test'
+      ? (await import('@vitest/browser/context')).userEvent
+      : userEvent;
+    await interactions.click(input);
+    await interactions.keyboard('{ArrowDown}');
     // The web component opens the popover asynchronously; under a full
     // parallel suite run the default 1 s wait is occasionally too short.
     await waitFor(
@@ -560,26 +568,20 @@ export const TestFilterOnTyping: Story = {
 
     await userEvent.click(input);
 
-    // All five options are available before typing
-    const options = Array.from(
-      canvasElement.querySelectorAll('u-option:not([data-empty])'),
-    );
-    expect(options).toHaveLength(defaultOptions.length);
+    // Check what users can reach, independent of the tags or hiding attributes.
     await waitFor(() => {
-      for (const option of options) {
-        expect(option).toHaveAttribute('aria-hidden', 'false');
+      expect(canvas.getAllByRole('option')).toHaveLength(defaultOptions.length);
+      for (const { label } of defaultOptions) {
+        expect(canvas.getByRole('option', { name: label })).toBeVisible();
       }
     });
 
     // Typing narrows the list down to the single match ("Bergen")
     await userEvent.type(input, 'berg');
     await waitFor(() => {
-      const bergen = options.find((o) => o.textContent === 'Bergen');
-      const oslo = options.find((o) => o.textContent === 'Oslo');
-      expect(bergen).toHaveAttribute('aria-hidden', 'false');
-      expect(bergen).not.toHaveAttribute('disabled');
-      expect(oslo).toHaveAttribute('aria-hidden', 'true');
-      expect(oslo).toHaveAttribute('disabled');
+      expect(canvas.getAllByRole('option')).toHaveLength(1);
+      expect(canvas.getByRole('option', { name: 'Bergen' })).toBeVisible();
+      expect(canvas.queryByRole('option', { name: 'Oslo' })).not.toBeInTheDocument();
     });
   },
 };
@@ -634,18 +636,12 @@ export const TestMouseSelection: Story = {
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
     const input = await findSuggestionInput(canvas);
-    const list = canvasElement.querySelector('u-datalist');
+    const list = await canvas.findByRole('listbox', { hidden: true });
 
     await userEvent.click(input);
     await userEvent.type(input, 'trond');
 
-    const trondheim = await waitFor(() => {
-      const option = Array.from(
-        canvasElement.querySelectorAll('u-option:not([data-empty])'),
-      ).find((o) => o.textContent === 'Trondheim');
-      expect(option).toHaveAttribute('aria-hidden', 'false');
-      return option as HTMLElement;
-    });
+    const trondheim = await findVisibleSuggestionOption(canvasElement, 'Trondheim');
 
     await userEvent.click(trondheim);
     await waitFor(() => {
@@ -654,7 +650,7 @@ export const TestMouseSelection: Story = {
         value: 'trondheim',
       });
       expect(input).toHaveValue('Trondheim');
-      expect(list).toHaveAttribute('hidden');
+      expect(list).not.toBeVisible();
     });
   },
 };
@@ -669,16 +665,17 @@ export const TestEscapeClosesList: Story = {
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
     const input = await findSuggestionInput(canvas);
-    const list = canvasElement.querySelector('u-datalist');
+    const list = await canvas.findByRole('listbox', { hidden: true });
 
     await userEvent.click(input);
+    await userEvent.keyboard('{ArrowDown}');
     await waitFor(() => {
-      expect(list).not.toHaveAttribute('hidden');
+      expect(list).toBeVisible();
     });
 
     await userEvent.keyboard('{Escape}');
     await waitFor(() => {
-      expect(list).toHaveAttribute('hidden');
+      expect(list).not.toBeVisible();
     });
     // Known issue #24: aria-expanded stays "true" on desktop even when the
     // list is closed (upstream u-datalist behavior).
@@ -705,10 +702,8 @@ export const TestEmptyState: Story = {
     const empty = await waitFor(() => canvas.getByText('Ingen treff'));
     expect(empty).toBeVisible();
     await waitFor(() => {
-      for (const option of canvasElement.querySelectorAll(
-        'u-option:not([data-empty])',
-      )) {
-        expect(option).toHaveAttribute('aria-hidden', 'true');
+      for (const { label } of defaultOptions) {
+        expect(canvas.queryByRole('option', { name: label })).not.toBeInTheDocument();
       }
     });
   },
@@ -729,13 +724,7 @@ export const TestClearSelection: Story = {
     // Select "Sogndal" first
     await userEvent.click(input);
     await userEvent.type(input, 'sogn');
-    const sogndal = await waitFor(() => {
-      const option = Array.from(
-        canvasElement.querySelectorAll('u-option:not([data-empty])'),
-      ).find((o) => o.textContent === 'Sogndal');
-      expect(option).toHaveAttribute('aria-hidden', 'false');
-      return option as HTMLElement;
-    });
+    const sogndal = await findVisibleSuggestionOption(canvasElement, 'Sogndal');
     await userEvent.click(sogndal);
     await waitFor(() => {
       expect(args.onSelectedChange).toHaveBeenLastCalledWith({ label: 'Sogndal', value: 'sogndal' });
@@ -744,7 +733,7 @@ export const TestClearSelection: Story = {
     });
 
     // Find the clear control by its accessible name.
-    const clearButton = await canvas.findByRole('button', { name: 'Tøm' });
+    const clearButton = await canvas.findByRole('button', { name: clearSelectionLabel });
     await userEvent.click(clearButton);
 
     // The input is emptied and refocused immediately...
