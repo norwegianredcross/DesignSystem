@@ -110,6 +110,21 @@ normen: en Digdir-bump skal ikke feile på hvordan Digdir bygger DOM-en.
 Kanariens `upstream-latest`-legg rapporterer fortsatt ukentlig hva nyeste
 1.x gjør med suiten, slik at en kommende bump aldri overrasker.
 
+### Midlertidig avhengighetspinning (PR #177)
+
+`package.json` overstyrer `@u-elements/u-combobox` til `2.1.3`. Versjon
+`2.1.4`, hentet transitivt via Digdir, gir regresjoner i Suggestion:
+tøm-knappen beholder valgt tekst, og flervalg feiler ved neste valg.
+Begge feilene er reprodusert med både Storybooks simulerte hendelser og
+Playwrights native nettleserinput. Bare tilbakeføring av denne pakken til
+`2.1.3` gjør de eksisterende testene grønne med resten av PR-oppdateringene.
+
+Fjern overstyringen når en nyere versjon består `Test: Clear Selection` og
+`Test: Multi-Select Interaction` i alle tre temaer, samt full regresjon.
+Overstyringen gjelder installasjoner i dette repoet; den følger ikke med
+som en versjonsbegrensning hos konsumenter av npm-pakken. Konsumenter som
+rammes, må midlertidig låse samme transitive avhengighet i eget prosjekt.
+
 ## 9. Kriterier
 
 **«Klar til test» (før PR åpnes):**

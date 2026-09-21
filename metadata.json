@@ -2521,16 +2521,16 @@
         "required": false
       },
       {
-        "name": "onOpen",
+        "name": "onClose",
         "type": "(() => void)",
-        "description": "Callback when the popover wants to open.",
+        "description": "Callback when the popover wants to close.",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "onClose",
+        "name": "onOpen",
         "type": "(() => void)",
-        "description": "Callback when the popover wants to close.",
+        "description": "Callback when the popover wants to open.",
         "defaultValue": null,
         "required": false
       },
