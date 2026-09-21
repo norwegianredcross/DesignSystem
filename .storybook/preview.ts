@@ -65,7 +65,7 @@ const preview: Preview = {
   },
   parameters: {
     layout: 'padded', // Changed from 'centered' to allow padding control
-    viewMode: 'docs',
+    viewMode: 'story',
     docs: {
       codePanel: true,
       source: {
