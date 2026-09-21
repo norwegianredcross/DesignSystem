@@ -15,7 +15,7 @@ const dirname =
 // primary-color-red.
 function storybookProject(name: string, env?: Record<string, string>) {
   return {
-    extends: './vite.config.ts',
+    extends: './.storybook/vite.config.ts',
     plugins: [storybookTest({ configDir: path.join(dirname, '.storybook') })],
     test: {
       name,
@@ -44,7 +44,7 @@ export default defineConfig({
       {
         test: {
           name: 'unit',
-          include: ['src/**/*.test.ts'],
+          include: ['src/**/*.test.ts', 'tests/tooling/**/*.test.ts'],
           environment: 'node',
         },
       },
