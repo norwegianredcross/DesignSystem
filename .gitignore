@@ -50,5 +50,8 @@ playwright-report/
 # npm pack output — a stale committed tarball masquerades as a release artifact
 *.tgz
 
-# Machine-local agent permissions must never be inherited by other clones
-.claude/settings.local.json
+# Agent tooling is per-developer, the same call as .idea/ and .vscode/ above.
+# settings.local.json carries machine-local permissions that must never be
+# inherited by other clones; launch.json is one developer's run setup, not a
+# repo contract. Ignoring the directory covers whatever the tool adds next.
+.claude/
