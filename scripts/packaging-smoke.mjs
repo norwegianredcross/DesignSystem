@@ -28,6 +28,7 @@ import http from 'node:http';
 import { createRequire } from 'node:module';
 import { chromium } from 'playwright';
 import { expect } from '@playwright/test';
+import { typecheckPublishedTypes } from './typecheck-published-types.mjs';
 
 const ROOT = process.cwd();
 const repoPkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
