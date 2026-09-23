@@ -146,8 +146,7 @@ export const TestInitialsAndAttributes: Story = {
 
 /**
  * Tests image mode: the avatar wrapper keeps the accessible name while the
- * inner img is automatically hidden from assistive technology (aria-hidden)
- * so the name is not announced twice.
+ * inner img is decorative so the name is not announced twice.
  */
 export const TestImageMode: Story = {
   name: 'Test: Image Mode Accessibility',
@@ -165,16 +164,15 @@ export const TestImageMode: Story = {
 
     // The avatar wrapper is the accessible img, named by aria-label
     const avatar = canvas.getByRole('img', { name: 'Ola Nordmann' });
-    expect(avatar.tagName).toBe('SPAN');
+    expect(avatar).toBeVisible();
 
-    // The actual photo is decorative: hidden from AT by the component
-    const photo = avatar.querySelector('img') as HTMLImageElement;
-    expect(photo).toHaveAttribute('aria-hidden', 'true');
+    // Empty alt makes our photo decorative; no specific wrapper tag or
+    // redundant aria-hidden attribute is required for that accessible result.
+    const photo = within(avatar).getByAltText('');
     expect(photo).toHaveAttribute('alt', '');
-    expect(photo.src).toContain('person2');
+    expect(photo).toHaveAttribute('src', avatarPlaceholder);
 
     // Exactly one accessible img is exposed (no double announcement)
     expect(canvas.getAllByRole('img')).toHaveLength(1);
   },
 };
-

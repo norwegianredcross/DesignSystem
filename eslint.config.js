@@ -7,6 +7,16 @@ import tseslint from 'typescript-eslint'
 export default tseslint.config(
   { ignores: ['dist', 'storybook-build', 'storybook-static'] },
   {
+    files: ['scripts/**/*.mjs'],
+    languageOptions: { globals: globals.node },
+    rules: { 'no-undef': 'error' },
+  },
+  {
+    // Playwright evaluate callbacks in the packaging test run in the browser.
+    files: ['scripts/packaging-smoke.mjs'],
+    languageOptions: { globals: globals.browser },
+  },
+  {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
