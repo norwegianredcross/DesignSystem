@@ -46,7 +46,7 @@ export interface HeaderProps {
   children?: React.ReactNode;
   /** Show the signed-in user block. Renders only when `userName` is also given — there is no placeholder user. Off by default. */
   showUser?: boolean;
-  /** Show the search toggle. Suggestions come from `searchItems`; submit navigates via `setPage('search/<query>')`. Off by default. */
+  /** Show the search toggle after hydration. Suggestions come from `searchItems`; submit navigates via `setPage('search/<query>')`. Provide a normal link to a search page when search is essential without JavaScript. Off by default. */
   showSearch?: boolean;
   /** Show the login link. Give it a destination with `loginHref` and/or `onLoginClick`. Off by default. */
   showLogin?: boolean;
@@ -68,7 +68,7 @@ export interface HeaderProps {
    * page can do so from a cookie, so the switch starts in the right position
    * instead of animating after mount) and hears about changes through
    * `onColorSchemeChange`. When absent, the Header is self-contained as
-   * before: it reads `data-color-scheme` (falling back to the OS preference)
+   * before: after hydration it reads `data-color-scheme` (falling back to the OS preference)
    * and sets it on `<html>` when toggled.
    */
   colorScheme?: 'light' | 'dark';
@@ -78,8 +78,10 @@ export interface HeaderProps {
   secondaryLogoSrc?: string;
   secondaryLogoSrcDark?: string;
   secondaryLogoAlt?: string;
+  /** Navigation destinations must be real URLs. Rendered on the server; CSS selects the desktop row or native mobile menu. `setPage` is an optional client enhancement. */
   navItems?: { label: string; href: string }[];
   showNavItems?: boolean;
+  /** Show the menu toggle on desktop. Always available on mobile, where the desktop navigation is hidden. */
   showMenuButton?: boolean;
   showHeaderExtension?: boolean;
   showModeToggle?: boolean;
@@ -95,8 +97,6 @@ export interface HeaderProps {
   /** Optional click handler on the user block — enables future dropdown/menu integration. */
   onUserClick?: () => void;
 }
-
-const FOCUSABLE_SELECTOR = 'a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
 function deriveInitials(name: string): string {
   return name
@@ -147,260 +147,51 @@ export const Header = ({
   userAvatarSrc,
   onUserClick,
 }: HeaderProps) => {
-  const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const menuButtonRef = React.useRef<HTMLButtonElement>(null);
   const searchButtonRef = React.useRef<HTMLButtonElement>(null);
   const menuOverlayRef = React.useRef<HTMLDivElement>(null);
   const searchInputRef = React.useRef<HTMLInputElement>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  // The switch must reflect the page's REAL color scheme on mount.
-  // Hardcoding 'light' desynced it whenever the page was already dark:
-  // the first toggle then set 'dark' on an already-dark page - a no-op
-  // from the user's point of view. Lazy init reads the actual attribute,
-  // falling back to the OS preference.
-  // Controlled when the consumer passes colorScheme (see the prop's JSDoc);
-  // the internal state below is only the uncontrolled fallback.
+  const menuId = React.useId();
+  const anchorName = `--rk-header-${menuId.replace(/[^a-zA-Z0-9_-]/g, '')}`;
+  const [isEnhanced, setIsEnhanced] = useState(false);
   const isColorSchemeControlled = colorScheme !== undefined;
-  const [uncontrolledTheme, setUncontrolledTheme] = useState<'light' | 'dark'>(() => {
-    if (typeof document !== 'undefined') {
-      const current = document.documentElement.getAttribute('data-color-scheme');
-      if (current === 'dark' || current === 'light') return current;
-      if (window.matchMedia?.('(prefers-color-scheme: dark)').matches) return 'dark';
-    }
-    return 'light';
-  });
-  const theme = isColorSchemeControlled ? colorScheme : uncontrolledTheme;
+  // Identical initial HTML on server and client. Consumers can provide the
+  // initial scheme from a cookie; browser preferences are read after hydration.
+  const [uncontrolledTheme, setUncontrolledTheme] = useState<'light' | 'dark'>('light');
+  const theme = colorScheme ?? uncontrolledTheme;
   const { language, setLanguage, t } = useLanguageOptional();
-  const [isMobile, setIsMobile] = useState(false);
 
-  // showModeToggle puts a switch in the extension bar (desktop) and in the
-  // mobile menu's utilities row. Anywhere else, the main row has to carry it.
-  const themeToggleRendersElsewhere =
-    showModeToggle && ((showHeaderExtension && !isMobile) || isMobile);
-
-  // Fallback: inject minimal header styles if consumer did not import the CSS bundle.
   useEffect(() => {
-    const styleId = 'rk-header-inline-styles';
-    if (typeof document === 'undefined') return;
-    if (document.getElementById(styleId)) return;
-    const css = buildInlineCss(styles);
-    const tag = document.createElement('style');
-    tag.id = styleId;
-    tag.textContent = css;
-    // prepend, NOT appendChild: this copy is a FALLBACK for consumers who never
-    // import 'rk-designsystem/styles', and it must lose to the real stylesheet
-    // whenever that is present. Appending put it last in <head>, so at equal
-    // specificity it beat the bundled sheet for EVERY consumer — silently
-    // replacing responsive @media values it does not reproduce with its own
-    // desktop base values. Placing it first keeps it a safety net instead.
-    document.head.prepend(tag);
+    setIsEnhanced(true);
+    const current = document.documentElement.getAttribute('data-color-scheme');
+    setUncontrolledTheme(current === 'light' || current === 'dark'
+      ? current
+      : window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
   }, []);
 
-
-  // Close menu when active page changes
+  const closeMenu = () => menuOverlayRef.current?.hidePopover?.();
+  const previousPage = React.useRef(activePage);
   useEffect(() => {
-    setIsOpen(false);
+    if (previousPage.current === activePage) return;
+    previousPage.current = activePage;
+    menuOverlayRef.current?.hidePopover?.();
     setIsSearchOpen(false);
     setSearchQuery('');
   }, [activePage]);
 
-  // Prevent body scroll when mobile menu is open
+  // Search is a client enhancement; menu keyboard behaviour is native.
   useEffect(() => {
-    if (typeof document === 'undefined') return;
-    
-    if (isOpen && isMobile) {
-      // Store original overflow value
-      const originalOverflow = document.body.style.overflow;
-      // Prevent scrolling
-      document.body.style.overflow = 'hidden';
-
-      return () => {
-        // Restore original overflow when menu closes
-        document.body.style.overflow = originalOverflow;
-      };
-    }
-    return undefined;
-  }, [isOpen, isMobile]);
-
-  // Track viewport to force menu button on mobile (<850px)
-  useEffect(() => {
-    if (typeof window === 'undefined' || typeof window.matchMedia === 'undefined') return;
-    const mq = window.matchMedia('(max-width: 850px)');
-    const handler = (e: MediaQueryList | MediaQueryListEvent) => setIsMobile('matches' in e ? e.matches : mq.matches);
-    handler(mq);
-    if (mq.addEventListener) {
-      mq.addEventListener('change', handler);
-    } else {
-      mq.addListener(handler);
-    }
-    return () => {
-      if (mq.removeEventListener) {
-        mq.removeEventListener('change', handler);
-      } else {
-        mq.removeListener(handler);
-      }
-    };
-  }, []);
-
-  // Measure header height and set as CSS variable for menu positioning
-  useEffect(() => {
-    if (typeof document === 'undefined') return;
-    const header = document.querySelector(`.${styles.header}`) as HTMLElement;
-    if (!header) return;
-    
-    const updateHeaderHeight = () => {
-      const height = header.offsetHeight;
-      document.documentElement.style.setProperty('--header-height-mobile', `${height}px`);
-    };
-    
-    updateHeaderHeight();
-    
-    // Update on resize
-    window.addEventListener('resize', updateHeaderHeight);
-    
-    // Use ResizeObserver to detect header size changes (e.g., when content changes)
-    const resizeObserver = new ResizeObserver(() => {
-      updateHeaderHeight();
-    });
-    resizeObserver.observe(header);
-    
-    return () => {
-      window.removeEventListener('resize', updateHeaderHeight);
-      resizeObserver.disconnect();
-    };
-  }, [isMobile]);
-
-  // Measure logo width to drive left-side white background width (desktop overlays)
-  useEffect(() => {
-    if (typeof document === 'undefined') return;
-    const logoWrapper = document.querySelector(`.${styles.logoWrapper}`) as HTMLElement;
-    if (!logoWrapper) return;
-    const setLogoWidth = () => {
-      const width = logoWrapper.offsetWidth;
-      document.documentElement.style.setProperty('--rk-logo-width', `${width}px`);
-    };
-    setLogoWidth();
-    window.addEventListener('resize', setLogoWidth);
-    return () => window.removeEventListener('resize', setLogoWidth);
-  }, [isMobile]);
-
-  // Measure search overlay height when open to constrain white background height
-  useEffect(() => {
-    if (typeof document === 'undefined' || !isSearchOpen) {
-      document.documentElement.style.setProperty('--rk-search-overlay-height', '0px');
-      return;
-    }
-    const searchOverlay = document.querySelector(`.${styles.searchOverlay}`) as HTMLElement;
-    if (!searchOverlay) return;
-    
-    const updateSearchHeight = () => {
-      const height = searchOverlay.offsetHeight;
-      document.documentElement.style.setProperty('--rk-search-overlay-height', `${height}px`);
-    };
-    
-    // Use requestAnimationFrame to ensure layout is complete
-    requestAnimationFrame(updateSearchHeight);
-    
-    // Update on resize
-    window.addEventListener('resize', updateSearchHeight);
-    const resizeObserver = new ResizeObserver(updateSearchHeight);
-    resizeObserver.observe(searchOverlay);
-    
-    return () => {
-      window.removeEventListener('resize', updateSearchHeight);
-      resizeObserver.disconnect();
-    };
-  }, [isSearchOpen]);
-
-  // Escape closes an open overlay and returns focus to the button that
-  // opened it. Without the focus return, keyboard focus would be left on
-  // an element that just disappeared, and the browser silently drops it
-  // to <body> - a keyboard user loses their place on the page.
-  useEffect(() => {
-    if (!isOpen && !isSearchOpen) return;
+    if (!isSearchOpen) return;
+    searchInputRef.current?.focus();
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key !== 'Escape') return;
-      if (isOpen) {
-        setIsOpen(false);
-        menuButtonRef.current?.focus();
-      }
-      if (isSearchOpen) {
-        setIsSearchOpen(false);
-        searchButtonRef.current?.focus();
-      }
+      setIsSearchOpen(false);
+      searchButtonRef.current?.focus();
     };
     document.addEventListener('keydown', onKeyDown);
     return () => document.removeEventListener('keydown', onKeyDown);
-  }, [isOpen, isSearchOpen]);
-
-  // When an overlay opens, move focus into it: the search field for the
-  // search overlay, the first focusable element for the menu. Screen
-  // readers then announce the overlay content instead of staying on the
-  // toggle button as if nothing happened.
-  useEffect(() => {
-    if (isSearchOpen) {
-      searchInputRef.current?.focus();
-    } else if (isOpen) {
-      menuOverlayRef.current?.querySelector<HTMLElement>(FOCUSABLE_SELECTOR)?.focus();
-    }
-  }, [isOpen, isSearchOpen]);
-
-  // Focus trap for the open menu — on mobile only, where the overlay is
-  // full-screen and covers everything: Tab cycles through the menu button
-  // and the overlay's own controls and never wanders into the covered page.
-  // On desktop the overlay is a panel below the header bar, whose logo,
-  // nav links and search stay visible and clickable, so trapping there
-  // would lock keyboard users out of controls a mouse user can reach. The
-  // docs used to promise a trap and rely on "an external implementation".
-  useEffect(() => {
-    if (!isOpen || !isMobile) return;
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key !== 'Tab') return;
-      const overlay = menuOverlayRef.current;
-      if (!overlay) return;
-      // Only what a sighted keyboard user could actually reach: the language
-      // Dropdown keeps its closed popover's buttons in the DOM (display:none),
-      // and a hidden "last" element would let one Tab slip out of the cycle.
-      const isVisible = (el: HTMLElement) =>
-        typeof el.checkVisibility === 'function' ? el.checkVisibility() : el.offsetParent !== null;
-      const inside = Array.from(overlay.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(
-        (el) => !el.hasAttribute('disabled') && el.getAttribute('aria-hidden') !== 'true' && isVisible(el),
-      );
-      // The close button lives in the header bar, outside the overlay, so it
-      // is part of the cycle - otherwise the menu could never be closed by
-      // keyboard without Escape.
-      const cycle = [menuButtonRef.current, ...inside].filter((el): el is HTMLElement => Boolean(el));
-      const first = cycle[0];
-      const last = cycle[cycle.length - 1];
-      if (!first || !last) return;
-      const active = document.activeElement as HTMLElement | null;
-      if (event.shiftKey ? active === first : active === last) {
-        event.preventDefault();
-        (event.shiftKey ? last : first).focus();
-      } else if (!active || !cycle.includes(active)) {
-        // Focus escaped (e.g. a control unmounted): pull it back in.
-        event.preventDefault();
-        first.focus();
-      }
-    };
-    document.addEventListener('keydown', onKeyDown);
-    return () => document.removeEventListener('keydown', onKeyDown);
-  }, [isOpen, isMobile]);
-
-  // Every close path returns focus somewhere sensible. Escape and the menu
-  // button handle their own; this covers the rest (a link inside the menu
-  // closing it, the logo) where the focused element unmounts with the
-  // overlay and the browser would drop focus to <body>.
-  const wasOpenRef = React.useRef(false);
-  useEffect(() => {
-    if (wasOpenRef.current && !isOpen && typeof document !== 'undefined') {
-      if (!document.activeElement || document.activeElement === document.body) {
-        menuButtonRef.current?.focus();
-      }
-    }
-    wasOpenRef.current = isOpen;
-  }, [isOpen]);
+  }, [isSearchOpen]);
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
@@ -414,34 +205,27 @@ export const Header = ({
   };
 
   const handleLogoClick = (e: React.MouseEvent) => {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     if (setPage) {
       e.preventDefault();
       setPage('home');
     }
-    setIsOpen(false);
+    closeMenu();
     setIsSearchOpen(false);
-  };
-
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-    if (isSearchOpen) setIsSearchOpen(false);
-    
-    // Force recalculation of header height when menu opens
-    if (!isOpen && typeof document !== 'undefined') {
-      requestAnimationFrame(() => {
-        const header = document.querySelector(`.${styles.header}`) as HTMLElement;
-        if (header) {
-          const height = header.offsetHeight;
-          document.documentElement.style.setProperty('--header-height-mobile', `${height}px`);
-        }
-      });
-    }
   };
 
   const toggleSearch = () => {
     setIsSearchOpen(!isSearchOpen);
-    if (isOpen) setIsOpen(false);
-    // Focus input logic could go here if we had a ref
+    closeMenu();
+  };
+
+  const handleNavigation = (event: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    if (setPage) {
+      event.preventDefault();
+      setPage(href);
+    }
+    closeMenu();
   };
 
   const filteredResults = useMemo(() => {
@@ -479,11 +263,18 @@ export const Header = ({
     // use scope-relative variables (--ds-color-base-default etc.) and any
     // scope themes it correctly. Legacy 'primary' aliases to the scope it
     // always meant.
-    <header className={styles.header} data-open={isOpen ? 'true' : 'false'} data-color={dataColor === 'primary' ? 'primary-color-red' : dataColor} data-variant={variant} data-header-extension={showHeaderExtension ? 'true' : 'false'}>
+    <header
+      className={styles.header}
+      data-enhanced={isEnhanced}
+      style={{ '--rk-header-anchor': anchorName } as React.CSSProperties}
+      data-color={dataColor === 'primary' ? 'primary-color-red' : dataColor}
+      data-variant={variant}
+      data-header-extension={showHeaderExtension ? 'true' : 'false'}
+    >
       {showHeaderExtension && (
         <div className={`${styles.headerExtension}${extensionColor === 'tinted' ? ` ${styles.headerExtensionTinted}` : ''}`} data-color-scheme="light" data-extension-color={extensionColor}>
           <div className={styles.extensionContentWrapper}>
-            {showModeToggle && (
+            {showModeToggle && isEnhanced && (
               <div className={styles.extensionContent}>
                 <Switch 
                   data-size="sm" 
@@ -496,11 +287,11 @@ export const Header = ({
               </div>
             )}
             
-            {showModeToggle && showLanguageSwitch && (
+            {showModeToggle && showLanguageSwitch && isEnhanced && (
               <div className={styles.extensionDivider} />
             )}
 
-            {showLanguageSwitch && (
+            {showLanguageSwitch && isEnhanced && (
               <div className={styles.languageSwitch}>
                 <span className={styles.languageLabel}>{t('header.language')}</span>
                 <Dropdown.TriggerContext>
@@ -572,19 +363,14 @@ export const Header = ({
         </div>
 
         {/* Nav (desktop only) */}
-        {showNavItems && navItems && navItems.length > 0 && !isMobile && (
-          <nav className={styles.navItems}>
+        {showNavItems && navItems && navItems.length > 0 && (
+          <nav className={styles.navItems} aria-label={t('header.navigation')}>
             {navItems.map((item, index) => (
               <Link
                 key={index}
                 href={item.href}
                 className={styles.navLink}
-                onClick={(e) => {
-                  if (setPage) {
-                    e.preventDefault();
-                    setPage(item.href);
-                  }
-                }}
+                onClick={(event) => handleNavigation(event, item.href)}
               >
                 {item.label}
               </Link>
@@ -595,7 +381,7 @@ export const Header = ({
         {/* Actions Section */}
         <div className={styles.actions}>
           {/* CTA Button */}
-          {showCta && (
+          {showCta && isEnhanced && (
     // data-color="main" was removed here and on the search/menu buttons below:
     // "main" matches no theme scope, so the buttons always inherited the
     // ancestor scope — now they do so explicitly. data-color is
@@ -615,8 +401,8 @@ export const Header = ({
               CSS hides the extension below 850px. So asking for the extension
               and a theme toggle, without showModeToggle, produced no toggle at
               all — at any width. */}
-          {showThemeToggle && !themeToggleRendersElsewhere && (
-            <div className={styles.themeToggle}>
+          {showThemeToggle && isEnhanced && !(showModeToggle && showHeaderExtension) && (
+            <div className={`${styles.themeToggle} ${showModeToggle ? styles.desktopOnly : ''}`}>
                <Switch 
                  checked={theme === 'dark'} 
                  onChange={toggleTheme}
@@ -631,7 +417,7 @@ export const Header = ({
           {showUser && userName && (() => {
             const displayName = userName;
             const displayInitials = userInitials ?? deriveInitials(userName);
-            const isClickable = Boolean(onUserClick);
+            const isClickable = isEnhanced && Boolean(onUserClick);
             return (
               <div
                 className={styles.userInfo}
@@ -665,7 +451,7 @@ export const Header = ({
           })()}
 
           {/* Login Link */}
-          {showLogin && (
+          {showLogin && (loginHref || isEnhanced) && (
             <a
               href={loginHref ?? '#'}
               className={styles.loginLink}
@@ -686,7 +472,7 @@ export const Header = ({
           )}
 
           {/* Search Button */}
-          {showSearch && (
+          {showSearch && isEnhanced && (
             <div className={styles.searchButtonWrapper}>
                <Button
                 ref={searchButtonRef}
@@ -707,35 +493,39 @@ export const Header = ({
           )}
 
         {/* Menu Button */}
-          {/* Deliberate: below 850px the nav links are hidden, so the menu
-              button is forced on regardless of showMenuButton — without it a
-              mobile visitor would have no navigation at all. Locked by
-              TestMobileMenuFlow. */}
-          {(showMenuButton || isMobile) && (
-            <Button
-              ref={menuButtonRef}
-              variant="primary"
-              data-size="md"
-              onClick={toggleMenu}
-              aria-expanded={isOpen}
-              aria-label={isOpen ? t('header.closeMenu') : t('header.openMenu')}
-              className={styles.menuButton}
-            >
-              {isOpen ? <XMarkIcon aria-hidden /> : <MenuHamburgerIcon aria-hidden />}
-              <span className={styles.buttonText}>{isOpen ? t('header.close') : t('header.menu')}</span>
-            </Button>
-          )}
+          <Button
+            variant="primary"
+            data-size="md"
+            popovertarget={menuId}
+            onClick={() => setIsSearchOpen(false)}
+            aria-label={t('header.menu')}
+            className={`${styles.menuButton} ${showMenuButton ? '' : styles.mobileOnly}`}
+          >
+            <MenuHamburgerIcon aria-hidden />
+            <span className={styles.buttonText}>{t('header.menu')}</span>
+          </Button>
         </div>
       </div>
 
       {/* Slottable Menu Area */}
-      {isOpen && (
-        <div className={styles.menuOverlay} ref={menuOverlayRef}>
+      <div
+        id={menuId}
+        popover="auto"
+        role="region"
+        aria-label={t('header.menu')}
+        tabIndex={-1}
+        autoFocus
+        className={styles.menuOverlay}
+        ref={menuOverlayRef}
+      >
+          <Button variant="tertiary" popovertarget={menuId} className={styles.menuClose}>
+            <XMarkIcon aria-hidden /> {t('header.closeMenu')}
+          </Button>
           <div className={styles.menuContent}>
             <div className={styles.menuLeftColumn} />
             <div className={styles.menuRightColumn}>
               {/* Language and Mode Toggle - Above slot component on mobile */}
-              {isMobile && (showLanguageSwitch || showModeToggle) && (
+              {isEnhanced && (showLanguageSwitch || showModeToggle) && (
                 <div className={styles.menuUtilities}>
                   {showLanguageSwitch && (
                     <div className={styles.languageSwitch}>
@@ -782,22 +572,16 @@ export const Header = ({
                   )}
                 </div>
               )}
-              {/* REMOVED THEME TOGGLE FROM HERE AS REQUESTED */}
               <div className={styles.slotContent}>
                 {children}
-                {isMobile && showNavItems && navItems && navItems.length > 0 && (
-                  <nav className={styles.navList}>
+                {showNavItems && navItems && navItems.length > 0 && (
+                  <nav className={`${styles.navList} ${styles.mobileOnly}`} aria-label={t('header.menuNavigation')}>
                     {navItems.map((item, index) => (
                       <Link 
                         key={index} 
                         href={item.href} 
                         className={styles.navLink}
-                        onClick={(e) => {
-                          if (setPage) {
-                            e.preventDefault();
-                            setPage(item.href);
-                          }
-                        }}
+                        onClick={(event) => handleNavigation(event, item.href)}
                       >
                         {item.label}
                       </Link>
@@ -805,15 +589,12 @@ export const Header = ({
                   </nav>
                 )}
               </div>
-              {isMobile && (
-                <div className={styles.menuBrand}>
+              <div className={styles.menuBrand}>
                   <RedCrossLogo className={styles.redCrossLogo} />
-                </div>
-              )}
+              </div>
             </div>
           </div>
-        </div>
-      )}
+      </div>
 
       {/* Search Overlay */}
       {isSearchOpen && (
@@ -916,194 +697,3 @@ export const Header = ({
     </header>
   );
 };
-
-// Build a minimal CSS fallback using the hashed class names from the CSS module.
-// This is not a full replacement for the emitted CSS bundle, but it ensures sane
-// layout and spacing if the consumer forgets to import the library CSS.
-function buildInlineCss(styles: Record<string, string>): string {
-  const s = styles;
-  return `
-.${s.header} {
-  --rk-header-extension-height: 44px;
-  width: 100%;
-  background-color: var(--ds-color-neutral-background-default);
-  border-bottom: none;
-  position: relative;
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  font-family: 'Source Sans 3', sans-serif;
-}
-.${s.header}::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: max(241px, calc((100vw - 1364px) / 2 + 242px));
-  background-color: white;
-  z-index: 0;
-  pointer-events: none;
-}
-.${s.header}[data-header-extension="true"]::before { top: var(--rk-header-extension-height); }
-.${s.header}[data-variant="compact"]::before { display: none; }
-.${s.header}[data-variant="compact"] .${s.headerInner} { min-height: var(--ds-size-18, 72px); }
-.${s.header}[data-variant="compact"] .${s.logoWrapper} { background-color: transparent; margin-left: 0; padding-left: 0; height: auto; }
-.${s.header}[data-variant="compact"] .${s.logo} { width: auto; height: auto; }
-.${s.header}[data-variant="compact"] .${s.redCrossLogo} { width: auto; height: 44px; }
-.${s.headerExtension} {
-  background-color: var(--ds-color-primary-color-red-base-default, #D52B1E);
-  width: 100%;
-  height: var(--rk-header-extension-height);
-  padding: 0 var(--ds-size-6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-sizing: border-box;
-  color: white;
-}
-.${s.header}[data-color] .${s.headerExtension} {
-  background-color: var(--ds-color-base-default);
-  color: var(--ds-color-base-contrast-default);
-}
-.${s.headerExtensionTinted},
-.${s.headerExtension}[data-extension-color="tinted"] {
-  background: var(--ds-color-primary-color-red-surface-tinted, #FAE4E2) !important;
-  color: var(--ds-color-neutral-text-default, #2b2b2b);
-}
-.${s.header} .${s.headerExtensionTinted} .${s.languageLabel},
-.${s.header} .${s.headerExtension}[data-extension-color="tinted"] .${s.languageLabel} {
-  color: var(--ds-color-neutral-text-default, #2B2B2B) !important;
-}
-.${s.header} .${s.headerExtensionTinted} .${s.languageLink},
-.${s.header} .${s.headerExtension}[data-extension-color="tinted"] .${s.languageLink} {
-  color: var(--ds-color-neutral-text-default, #2B2B2B) !important;
-}
-.${s.header} .${s.headerExtensionTinted} .${s.extensionContent} .ds-label,
-.${s.header} .${s.headerExtension}[data-extension-color="tinted"] .${s.extensionContent} .ds-label {
-  color: var(--ds-color-neutral-text-default, #2B2B2B) !important;
-}
-.${s.header} .${s.headerExtensionTinted} .${s.extensionDivider},
-.${s.header} .${s.headerExtension}[data-extension-color="tinted"] .${s.extensionDivider} {
-  background-color: var(--ds-color-neutral-border-subtle, #bcbcbc);
-}
-.${s.extensionContentWrapper} {
-  width: 100%;
-  max-width: 1364px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: var(--ds-size-4);
-}
-.${s.extensionContent} .ds-label { font-size: var(--ds-font-size-3) !important; }
-.${s.extensionDivider} { width: 1px; height: 18px; background-color: rgba(247,233,232,1); }
-.${s.languageSwitch} { display: flex; align-items: center; gap: var(--ds-size-2); }
-.${s.languageLabel} { font-size: var(--ds-font-size-3); color: #ECECEC; }
-.${s.languageLink} { color: white !important; text-decoration: none; display: flex; align-items: center; gap: var(--ds-size-1, 4px); }
-.${s.header}[data-color] .${s.languageLabel} { color: var(--ds-color-base-contrast-subtle); }
-.${s.header}[data-color] .${s.languageLink} { color: var(--ds-color-base-contrast-default) !important; }
-.${s.languageSwitch} [popover] { margin-top: 0 !important; background-color: var(--ds-color-neutral-background-default) !important; position: fixed !important; overflow: visible; z-index: 20000 !important; }
-.${s.headerInner} {
-  display: flex; align-items: center; justify-content: space-between;
-  min-height: 119px; width: 100%; max-width: 1364px;
-  margin: 0 auto; padding: 0 var(--ds-size-6); box-sizing: border-box; gap: var(--ds-size-6);
-  /* Load-bearing for the slab above, not decoration. The slab is an absolutely
-     positioned ::before with z-index: 0, and a positioned box paints AFTER
-     ordinary in-flow content — so without lifting this row into its own stack
-     level the opaque white slab covers the logo. The bundled stylesheet pairs
-     the two rules; a consumer relying only on this fallback needs them both. */
-  position: relative; z-index: 10;
-}
-.${s.logoWrapper} { display: flex; align-items: center; height: 119px; flex-shrink: 0; background-color: white; }
-.${s.logo} { display: flex; align-items: center; justify-content: center; width: 217px; height: 100%; text-decoration: none; color: inherit; flex-shrink: 0; }
-.${s.redCrossLogo} { width: 169px; height: auto; display: block; color: #1e1e1e; }
-.${s.header}[data-variant="compact"] .${s.redCrossLogo} { color: var(--ds-color-neutral-text-default); }
-.${s.secondaryLogoWrapper} { display: flex; align-items: center; justify-content: center; height: 100%; padding: 0 var(--ds-size-6); background-color: var(--ds-color-neutral-background-default); }
-.${s.secondaryLogo} { height: 24px; width: auto; display: block; }
-.${s.navItems} { display: flex; gap: 40px; align-items: center; margin-left: var(--ds-size-6, 24px); flex-grow: 1; justify-content: center; }
-.${s.navLink} { color: var(--ds-color-primary-color-red-text-default); font-family: inherit; font-size: var(--ds-font-size-3); text-decoration: none; font-weight: var(--ds-font-weight-regular); letter-spacing: 0.09px; }
-.${s.navLink}:hover { text-decoration: underline; }
-.${s.actions} { display: flex; align-items: center; gap: var(--ds-size-6); flex-shrink: 0; margin-left: auto; }
-.${s.ctaButton} { display: flex; align-items: center; }
-.${s.themeToggle} { display: flex; align-items: center; }
-.${s.userInfo} { display: flex; align-items: center; gap: var(--ds-size-3); }
-.${s.userName} { display: block; font-family: inherit; font-size: var(--ds-font-size-3); color: var(--ds-color-neutral-text-default); }
-.${s.loginLink} { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--ds-color-primary-color-red-text-subtle); gap: 2px; }
-.${s.loginText} { font-family: inherit; font-size: var(--ds-font-size-3); font-weight: var(--ds-font-weight-regular); line-height: 1.5; }
-.${s.underline} { width: 100%; height: 1px; background-color: var(--ds-color-primary-color-red-border-strong); }
-.${s.searchButtonWrapper} { display: flex; }
-.${s.buttonText} { display: inline-block; margin-left: var(--ds-size-2); }
-.${s.menuButton} { display: flex; align-items: center; }
-.${s.menuOverlay}, .${s.searchOverlay} {
-  position: absolute; top: 100%; left: 0; width: 100%;
-  background-color: var(--ds-color-neutral-background-default);
-  z-index: 999;
-}
-.${s.menuOverlay} { border-bottom: none; box-shadow: none; }
-.${s.searchOverlay} {
-  padding: var(--ds-size-10) 0;
-  border-bottom: 1px solid var(--ds-color-neutral-border-subtle);
-  box-shadow: var(--ds-shadow-lg);
-}
-.${s.searchOverlay}::before { display: none; }
-.${s.searchContent} {
-  max-width: 1364px; margin: 0 auto;
-  padding: var(--ds-size-6) var(--ds-size-6) var(--ds-size-6) calc(217px + var(--ds-size-6) + var(--ds-size-4));
-  display: flex; flex-direction: column; align-items: stretch; box-sizing: border-box;
-}
-.${s.menuContent} { max-width: 1364px; margin: 0 auto; display: flex; flex-direction: row; align-items: stretch; box-sizing: border-box; }
-.${s.menuLeftColumn} { width: calc(217px + var(--ds-size-6)); flex-shrink: 0; display: flex; }
-.${s.menuRightColumn} { flex: 1; display: flex; flex-direction: column; padding: var(--ds-size-12, 48px) var(--ds-size-6, 24px) 80px var(--ds-size-6, 24px); gap: var(--ds-size-6, 24px); }
-.${s.slotContent} { width: 100%; padding: var(--ds-size-10) 0; text-align: left; color: var(--ds-color-neutral-text-subtle); font-size: var(--ds-font-size-3); border-radius: var(--ds-border-radius-md); display: flex; flex-direction: column; gap: var(--ds-size-4); align-items: flex-start; }
-.${s.navList} { display: flex; flex-direction: column; gap: var(--ds-size-3); align-items: flex-start; }
-.${s.menuBrand} { display: none; }
-.${s.menuUtilities} { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-.${s.suggestionsSection} { display: flex; flex-direction: column; gap: var(--ds-size-4); }
-.${s.suggestionsTitle} { font-family: inherit; font-size: var(--ds-font-size-3); color: var(--ds-color-neutral-text-subtle); font-weight: var(--ds-font-weight-regular); margin: 0; letter-spacing: 0.09px; }
-.${s.searchResults} { margin-top: var(--ds-size-4); max-height: 400px; overflow-y: auto; }
-.${s.resultList} { list-style: none; padding: 0; margin: 0; }
-.${s.resultItem} { border-bottom: none; }
-.${s.resultLink} {
-  display: flex; flex-direction: row; align-items: center; width: 100%;
-  padding: var(--ds-size-2) 0; background: none; border: none;
-  text-align: left; cursor: pointer; gap: var(--ds-size-4); text-decoration: none;
-}
-.${s.suggestionIcon} { font-size: 20px; color: var(--ds-color-neutral-text-subtle); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.${s.suggestionText} { font-family: inherit; font-size: var(--ds-font-size-3); color: var(--ds-color-neutral-text-default); line-height: 1.5; }
-.${s.highlightedText} { color: var(--ds-color-primary-color-red-text-default); font-weight: var(--ds-font-weight-medium); }
-.${s.remainingText} { color: var(--ds-color-neutral-border-subtle); }
-.${s.viewAllLink} { display: block; padding: var(--ds-size-3); text-align: left; font-size: var(--ds-font-size-2); font-weight: var(--ds-font-weight-medium); color: var(--ds-color-neutral-text-default); text-decoration: none; }
-.${s.noResults} { padding: var(--ds-size-4); text-align: center; color: var(--ds-color-neutral-text-subtle); }
-@media (max-width: 850px) {
-  .${s.header} { z-index: 10000; position: relative; }
-  .${s.header}::before { display: none; }
-  .${s.headerExtension} { display: none; }
-  .${s.headerInner} { padding: var(--ds-size-5) var(--ds-size-6); min-height: auto; }
-  .${s.navItems} { display: none; }
-  .${s.logoWrapper} { gap: var(--ds-size-2); background-color: transparent; height: auto; }
-  .${s.logo} { height: 40px; }
-  /* Mobile: always hide primary logo in header */
-  .${s.primaryLogo} { display: none; }
-  .${s.secondaryLogo} { height: 28px; }
-  .${s.secondaryLogoWrapper} { padding: 0; }
-  .${s.actions} { gap: var(--ds-size-4); }
-  .${s.userName} { display: none; }
-  .${s.menuButton} .${s.buttonText} { display: none; }
-  .${s.menuOverlay} { position: fixed; top: var(--header-height-mobile, 70px); left: 0; right: 0; bottom: 0; width: 100vw; height: calc(100vh - var(--header-height-mobile, 70px)); z-index: 9999; border-radius: 0; border: none; overflow-y: auto; }
-  .${s.searchOverlay} { width: 100%; right: 0; left: 0; border-radius: 0; border: none; }
-  .${s.searchContent} { padding: var(--ds-size-6); }
-  .${s.menuContent} { flex-direction: column; padding: 0; min-height: 100%; }
-  .${s.menuRightColumn} { padding: var(--ds-size-4) var(--ds-size-6) var(--ds-size-6) var(--ds-size-6); gap: var(--ds-size-4); flex: 1; display: flex; flex-direction: column; min-height: 0; }
-  .${s.slotContent} { padding: 0; }
-  .${s.menuBrand} { display: flex; justify-content: flex-start; margin-top: auto; padding: var(--ds-size-6); margin-left: calc(-1 * var(--ds-size-6)); margin-right: calc(-1 * var(--ds-size-6)); margin-bottom: calc(-1 * var(--ds-size-6)); background-color: white; }
-  .${s.menuUtilities} .${s.languageSwitch} [popover] { background-color: var(--ds-color-neutral-background-default) !important; margin-top: 0 !important; position: fixed !important; overflow: visible; z-index: 20000 !important; }
-  @media (prefers-color-scheme: light) {
-    .${s.menuUtilities} .${s.languageLabel} { color: var(--ds-color-neutral-text-default, #2B2B2B); }
-    .${s.menuUtilities} .${s.languageLink} { color: var(--ds-color-neutral-text-default, #2B2B2B) !important; }
-  }
-  [data-color-scheme="light"] .${s.menuUtilities} .${s.languageLabel} { color: var(--ds-color-neutral-text-default, #2B2B2B); }
-  [data-color-scheme="light"] .${s.menuUtilities} .${s.languageLink} { color: var(--ds-color-neutral-text-default, #2B2B2B) !important; }
-  .${s.searchOverlay}::before { display: none; }
-}
-`;
-}
