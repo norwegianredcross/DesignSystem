@@ -1,3 +1,4 @@
+import type { FormEvent } from 'react';
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
 import { expect, within, userEvent, fn } from 'storybook/test';
 import { Footer, FooterProps } from './index';
@@ -53,6 +54,21 @@ const meta: Meta<typeof Footer> = {
       table: {
         defaultValue: { summary: 'false' },
       },
+    },
+    newsletterAction: {
+      control: 'text',
+      description: 'Consumer-owned endpoint for native newsletter submission, including without JavaScript.',
+    },
+    newsletterMethod: {
+      control: 'select',
+      options: ['post', 'get'],
+      description: 'Native form method.',
+      table: { defaultValue: { summary: 'post' } },
+    },
+    newsletterInputName: {
+      control: 'text',
+      description: 'Email field name expected by the endpoint.',
+      table: { defaultValue: { summary: 'email' } },
     },
     newsletterDescription: {
       control: 'text',
@@ -114,6 +130,32 @@ export const Default: Story = {
   args: {
     'data-color': 'neutral',
     showGraphicElements: true,
+  },
+};
+
+// Storybook intercepts navigation so the workbench does not leave the preview.
+// Browser baseline tests exercise the actual native request against a local endpoint.
+export const NativeNewsletter: Story = {
+  name: 'Native Newsletter',
+  args: {
+    newsletterAction: '/newsletter',
+    newsletterDescription: 'Motta nyheter fra Røde Kors',
+    newsletterPlaceholder: 'navn@eksempel.no',
+    onSubmit: fn((event: FormEvent<HTMLElement>) => event.preventDefault()),
+  },
+  parameters: {
+    docs: { description: { story: 'The consumer provides /newsletter. This preview stops navigation; no subscription is created. Without the preview handler, the browser submits the form with or without JavaScript.' } },
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole('textbox', { name: 'E-postadresse' });
+    expect(input).toBeEnabled();
+    expect(input).toHaveAttribute('name', 'email');
+    expect(input.closest('form')).toHaveAttribute('action', '/newsletter');
+    expect(input.closest('form')).toHaveAttribute('method', 'post');
+    await userEvent.type(input, 'reader@example.test');
+    await userEvent.click(canvas.getByRole('button', { name: 'Meld deg på' }));
+    expect(args.onSubmit).toHaveBeenCalledTimes(1);
   },
 };
 

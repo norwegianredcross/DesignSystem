@@ -1503,10 +1503,13 @@ import { Footer } from 'rk-designsystem';
   // legalLinks — valgfri, default []: LegalLink[]
   // linksLinks — valgfri: FooterLink[]
   linksTitle="…" // valgfri: string
+  newsletterAction="…" // valgfri: string
   newsletterButtonText="Meld deg på" // valgfri, default Meld deg på: string
   // newsletterConsentText — valgfri: ReactNode
   newsletterDescription="Tekst om rødekors som kan være rundt 2 linjebrudd i lengde." // valgfri, default Tekst om rødekors som kan være rundt …: string
   newsletterInputLabel="…" // valgfri: string
+  newsletterInputName="email" // valgfri, default email: string
+  newsletterMethod="post" // valgfri, default post: 'get' | 'post'
   newsletterPlaceholder="Input tekst" // valgfri, default Input tekst: string
   onNewsletterSubmit={(email) => {}} // valgfri: ((email: string) => void)
   organizationNumber="XXX XXX XXX" // valgfri, default XXX XXX XXX: string

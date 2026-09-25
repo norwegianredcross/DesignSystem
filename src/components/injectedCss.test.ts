@@ -45,7 +45,6 @@ describe('runtime-injected CSS fallbacks', () => {
       'DateInput',
       'DatePicker',
       'Donor',
-      'Footer',
       'GraphicElement',
       'Header',
     ]);
