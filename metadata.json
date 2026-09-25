@@ -1777,7 +1777,7 @@
       {
         "name": "showSearch",
         "type": "boolean",
-        "description": "Show the search toggle. Suggestions come from `searchItems`; submit navigates via `setPage('search/<query>')`. Off by default.",
+        "description": "Show the search toggle after hydration. Suggestions come from `searchItems`; submit navigates via `setPage('search/<query>')`. Provide a normal link to a search page when search is essential without JavaScript. Off by default.",
         "defaultValue": "false",
         "required": false
       },
@@ -1847,7 +1847,7 @@
       {
         "name": "colorScheme",
         "type": "'light' | 'dark'",
-        "description": "Controlled colour scheme. When set, the Header renders the theme switch\nfrom this value and never touches the document itself: the consumer owns\nthe scheme, applies `data-color-scheme` where it wants (a server-rendered\npage can do so from a cookie, so the switch starts in the right position\ninstead of animating after mount) and hears about changes through\n`onColorSchemeChange`. When absent, the Header is self-contained as\nbefore: it reads `data-color-scheme` (falling back to the OS preference)\nand sets it on `<html>` when toggled.",
+        "description": "Controlled colour scheme. When set, the Header renders the theme switch\nfrom this value and never touches the document itself: the consumer owns\nthe scheme, applies `data-color-scheme` where it wants (a server-rendered\npage can do so from a cookie, so the switch starts in the right position\ninstead of animating after mount) and hears about changes through\n`onColorSchemeChange`. When absent, the Header is self-contained as\nbefore: after hydration it reads `data-color-scheme` (falling back to the OS preference)\nand sets it on `<html>` when toggled.",
         "defaultValue": null,
         "required": false
       },
@@ -1889,7 +1889,7 @@
       {
         "name": "navItems",
         "type": "{ label: string; href: string; }[]",
-        "description": "",
+        "description": "Navigation destinations must be real URLs. Rendered on the server; CSS selects the desktop row or native mobile menu. `setPage` is an optional client enhancement.",
         "defaultValue": null,
         "required": false
       },
@@ -1903,7 +1903,7 @@
       {
         "name": "showMenuButton",
         "type": "boolean",
-        "description": "",
+        "description": "Show the menu toggle on desktop. Always available on mobile, where the desktop navigation is hidden.",
         "defaultValue": "true",
         "required": false
       },

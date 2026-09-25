@@ -329,19 +329,19 @@ export const TestInteraction: Story = {
     // Menu button should be present and toggle
     const menuButton = canvas.getByRole('button', { name: /meny/i });
     expect(menuButton).toBeInTheDocument();
-    expect(menuButton).toHaveAttribute('aria-expanded', 'false');
+    expect(canvas.queryByRole('region', { name: 'Meny' })).not.toBeInTheDocument();
 
     await userEvent.click(menuButton);
 
     await waitFor(() => {
-      expect(menuButton).toHaveAttribute('aria-expanded', 'true');
+      expect(canvas.getByRole('region', { name: 'Meny' })).toBeVisible();
     });
 
     // Close menu
     await userEvent.click(menuButton);
 
     await waitFor(() => {
-      expect(menuButton).toHaveAttribute('aria-expanded', 'false');
+      expect(canvas.queryByRole('region', { name: 'Meny' })).not.toBeInTheDocument();
     });
 
     // Search button should be present and toggle
@@ -361,10 +361,7 @@ export const TestMobileMenuFlow: Story = {
   name: 'Test: Mobile Menu Flow',
   args: {
     // showMenuButton is OFF on purpose: below 850px the Header forces the
-    // menu button anyway ((showMenuButton || isMobile) in the component),
-    // because the nav links are hidden on small screens. This test locks
-    // that mobile-only behavior - it must fail if someone removes the
-    // isMobile forcing.
+    // menu button through CSS because desktop navigation is hidden.
     showMenuButton: false,
     showNavItems: true,
     showUser: false,
@@ -387,24 +384,23 @@ export const TestMobileMenuFlow: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    // The 850px matchMedia listener must have kicked in for the forced
-    // menu button to exist at all.
+    // CSS exposes the menu toggle at the mobile breakpoint.
     const menuButton = await canvas.findByRole('button', { name: /meny/i });
-    expect(menuButton).toHaveAttribute('aria-expanded', 'false');
+    expect(canvas.queryByRole('region', { name: 'Meny' })).not.toBeInTheDocument();
 
     // Open: the slotted menu content renders, and the language switcher
     // moves INTO the overlay (mobile places utilities inside the menu).
     await userEvent.click(menuButton);
     await waitFor(() => {
-      expect(menuButton).toHaveAttribute('aria-expanded', 'true');
+      expect(canvas.getByRole('region', { name: 'Meny' })).toBeVisible();
       expect(canvas.getByRole('navigation', { name: 'Mobilmeny' })).toBeVisible();
       expect(canvas.getByText('Språk')).toBeVisible();
     });
 
-    // Close via the same button; state and label flip back.
+    // Close via the same native toggle.
     await userEvent.click(menuButton);
     await waitFor(() => {
-      expect(menuButton).toHaveAttribute('aria-expanded', 'false');
+      expect(canvas.queryByRole('region', { name: 'Meny' })).not.toBeInTheDocument();
       expect(canvas.queryByRole('navigation', { name: 'Mobilmeny' })).not.toBeInTheDocument();
     });
   },
@@ -422,7 +418,6 @@ export const TestEscapeAndFocusReturn: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const doc = canvasElement.ownerDocument;
-    const menuButton = canvas.getByRole('button', { name: /meny/i });
     const searchButton = canvas.getByRole('button', { name: /søk/i });
 
     // Opening the search moves focus into the search field, so the screen
@@ -441,16 +436,9 @@ export const TestEscapeAndFocusReturn: Story = {
       expect(doc.activeElement).toBe(searchButton);
     });
 
-    // Same contract for the menu overlay.
-    await userEvent.click(menuButton);
-    await waitFor(() => {
-      expect(menuButton).toHaveAttribute('aria-expanded', 'true');
-    });
-    await userEvent.keyboard('{Escape}');
-    await waitFor(() => {
-      expect(menuButton).toHaveAttribute('aria-expanded', 'false');
-      expect(doc.activeElement).toBe(menuButton);
-    });
+    // Native menu Escape/focus behaviour is covered with real keyboard input
+    // in progressiveEnhancement.test.ts (storybook userEvent is synthetic).
+
   },
 };
 
@@ -589,13 +577,13 @@ export const TestMenuSearchAndResultFlow: Story = {
 
     await userEvent.click(menuButton);
     await waitFor(() => {
-      expect(menuButton).toHaveAttribute('aria-expanded', 'true');
+      expect(canvas.getByRole('region', { name: 'Meny' })).toBeVisible();
       expect(canvas.getByRole('navigation', { name: 'Utvidet meny' })).toBeVisible();
     });
 
     await userEvent.click(searchButton);
     await waitFor(() => {
-      expect(menuButton).toHaveAttribute('aria-expanded', 'false');
+      expect(canvas.queryByRole('region', { name: 'Meny' })).not.toBeInTheDocument();
       expect(searchButton).toHaveAttribute('aria-expanded', 'true');
       expect(canvas.queryByRole('navigation', { name: 'Utvidet meny' })).not.toBeInTheDocument();
     });
@@ -795,83 +783,8 @@ export const TestLogoPanelGeometry: Story = {
       expect(extended.bottom, source).toBeCloseTo(extended.headerHeight, 0);
     };
 
-    // Header ships its styles TWICE: the bundled stylesheet and the
-    // runtime-injected fallback. The fallback is prepended so the bundled
-    // sheet wins wherever it declares something, but a consumer who never
-    // imports 'rk-designsystem/styles' sees the fallback alone — so each of
-    // the three resulting states has to hold on its own.
-    //
-    // Sheets are toggled via CSSStyleSheet.disabled rather than by detaching
-    // the <style> node: re-appending would move it to the end of <head> and
-    // permanently change cascade order for every later story in this file.
-    const injectedNode = document.getElementById('rk-header-inline-styles');
-    expect(injectedNode).not.toBeNull();
-    const injectedSheet = [...document.styleSheets].find((sheet) => sheet.ownerNode === injectedNode);
-    expect(injectedSheet, 'injected stylesheet not found').toBeDefined();
-    const bundledSheets = [...document.styleSheets].filter((sheet) => sheet !== injectedSheet);
+    assertGeometry('bundled stylesheet');
 
-    /**
-     * Disables `sheets` for the duration of `body`. Only sheets that were
-     * ENABLED are touched, so a sheet another story left disabled is not
-     * silently switched back on, and the restore covers a mid-run throw.
-     */
-    const withDisabled = (sheets: CSSStyleSheet[], body: () => void) => {
-      const toggled: CSSStyleSheet[] = [];
-      try {
-        for (const sheet of sheets) {
-          if (sheet.disabled) continue;
-          sheet.disabled = true;
-          toggled.push(sheet);
-        }
-        body();
-      } finally {
-        for (const sheet of toggled) sheet.disabled = false;
-      }
-    };
-
-    // 1. As a hydrated consumer sees it: both sheets, injected copy winning.
-    assertGeometry('runtime-injected fallback');
-
-    // 2. As the server-rendered first paint looks: bundled sheet alone.
-    withDisabled([injectedSheet as CSSStyleSheet], () => assertGeometry('bundled stylesheet'));
-
-    // 3. The genuine fallback — a consumer that never imports
-    //    rk-designsystem/styles, so ONLY the injected copy applies. The slab is
-    //    an absolutely positioned ::before at z-index 0, and a positioned box
-    //    paints after ordinary in-flow content, so the inner row must be lifted
-    //    into its own stack level or the opaque slab covers the logo outright.
-    withDisabled(bundledSheets, () => {
-      const inner = canvas.getByTestId('plain').querySelector('[class*="headerInner"]') as HTMLElement;
-      const rowStyle = getComputedStyle(inner);
-      const slabStyle = getComputedStyle(
-        canvas.getByTestId('plain').querySelector('header') as HTMLElement,
-        '::before',
-      );
-      expect(rowStyle.position, 'fallback-only: inner row must be positioned').toBe('relative');
-      expect(
-        Number.parseInt(rowStyle.zIndex, 10),
-        'fallback-only: inner row must out-paint the slab',
-      ).toBeGreaterThan(Number.parseInt(slabStyle.zIndex, 10) || 0);
-
-      // Re-run the geometry here too. Checking it only with both sheets loaded
-      // lets the bundled copy supply anything the injected copy forgot — drop
-      // --rk-header-extension-height from buildInlineCss alone and every other
-      // assertion in this file still passes, while a real inline-only consumer
-      // gets an invalid var() and an auto-sized bar.
-      assertGeometry('inline-only fallback');
-      const fallbackProperty = getComputedStyle(
-        canvas.getByTestId('extended').querySelector('header') as HTMLElement,
-      )
-        .getPropertyValue('--rk-header-extension-height')
-        .trim();
-      expect(fallbackProperty, 'inline-only: --rk-header-extension-height must resolve').toMatch(
-        /^\d+px$/,
-      );
-      expect(barHeight('extended'), 'inline-only: bar must be sized by the property').toBeCloseTo(
-        Number.parseFloat(fallbackProperty),
-        0,
-      );
-    });
   },
 };
 
@@ -1054,65 +967,5 @@ export const TestLoginDestination: Story = {
   },
 };
 
-/**
- * Tests the mobile menu focus trap: with the full-screen menu open, Tab from
- * the last control wraps to the menu button, Shift+Tab from the menu button
- * wraps to the last control, and focus never reaches the page behind.
- */
-export const TestMenuFocusTrap: Story = {
-  name: 'Test: Menu Focus Trap',
-  parameters: {
-    viewport: { defaultViewport: 'mobile' },
-  },
-  args: {
-    showUser: false,
-    showSearch: false,
-    showLogin: false,
-    showMenuButton: true,
-    children: (
-      <nav style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <a href="#one">Første lenke</a>
-        <a href="#two">Andre lenke</a>
-      </nav>
-    ),
-  },
-  render: (args) => (
-    <div>
-      <Header {...args} />
-      <main>
-        <button type="button">Bak overlegget</button>
-      </main>
-    </div>
-  ),
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    const doc = canvasElement.ownerDocument;
-    const menuButton = canvas.getByRole('button', { name: /meny/i });
-    const behind = canvas.getByRole('button', { name: /bak overlegget/i });
-
-    await userEvent.click(menuButton);
-    const first = await canvas.findByRole('link', { name: 'Første lenke' });
-    const last = canvas.getByRole('link', { name: 'Andre lenke' });
-    await waitFor(() => {
-      expect(doc.activeElement).toBe(first);
-    });
-
-    // Forward: last control wraps to the menu (close) button
-    await userEvent.tab();
-    expect(doc.activeElement).toBe(last);
-    await userEvent.tab();
-    expect(doc.activeElement).toBe(menuButton);
-    expect(doc.activeElement).not.toBe(behind);
-
-    // Backward: menu button wraps to the last control
-    await userEvent.tab({ shift: true });
-    expect(doc.activeElement).toBe(last);
-
-    // Closing restores focus to the menu button
-    await userEvent.keyboard('{Escape}');
-    await waitFor(() => {
-      expect(menuButton).toHaveAttribute('aria-expanded', 'false');
-      expect(doc.activeElement).toBe(menuButton);
-    });
-  },
-};
+// Native menu keyboard navigation, Escape and pre-hydration interaction are
+// exercised in progressiveEnhancement.test.ts using real browser input.
