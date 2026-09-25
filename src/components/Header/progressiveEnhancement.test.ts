@@ -5,7 +5,9 @@ import { createServer, type ViteDevServer } from 'vite';
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 import type { HeaderProps } from './index';
 
-describe.each([chromium, firefox, webkit].map((engine) => ({ engine, name: engine.name() })))('Header baseline: $name', ({ engine }) => {
+// Browser startup and cold Vite transforms need the same budget as the
+// Storybook browser projects. Readiness is asserted separately below.
+describe.each([chromium, firefox, webkit].map((engine) => ({ engine, name: engine.name() })))('Header baseline: $name', { timeout: 30000 }, ({ engine }) => {
   let browser: Browser;
   let server: ViteDevServer;
   let context: BrowserContext;
@@ -25,7 +27,7 @@ describe.each([chromium, firefox, webkit].map((engine) => ({ engine, name: engin
     await server.listen();
     ({ renderHeader } = await server.ssrLoadModule('/tests/fixtures/header-hydration.ts'));
     browser = await engine.launch();
-  });
+  }, 30000);
   afterEach(async () => { await context?.close(); });
   afterAll(async () => { await browser?.close(); await server?.close(); });
 
@@ -81,7 +83,7 @@ describe.each([chromium, firefox, webkit].map((engine) => ({ engine, name: engin
     await render({ styled: false, javaScriptEnabled });
     if (javaScriptEnabled) {
       await page.addScriptTag({ type: 'module', content: `import { hydrateHeader } from '/tests/fixtures/header-hydration.ts'; hydrateHeader();` });
-      await expect.poll(() => page.locator('header').getAttribute('data-enhanced')).toBe('true');
+      await browserExpect(page.locator('header')).toHaveAttribute('data-enhanced', 'true', { timeout: 10000 });
       // Vite injects CSS-module styles while loading source modules. Disable
       // these too so the hydrated case really represents failed styles.
       await page.evaluate(() => { for (const sheet of document.styleSheets) sheet.disabled = true; });
@@ -182,7 +184,7 @@ describe.each([chromium, firefox, webkit].map((engine) => ({ engine, name: engin
     await page.getByRole('button', { name: /meny/i }).click();
     await page.getByRole('link', { name: 'Contact' }).focus();
     await page.addScriptTag({ type: 'module', content: `import { hydrateHeader } from '/tests/fixtures/header-hydration.ts'; hydrateHeader(${JSON.stringify(props)});` });
-    await expect.poll(() => page.locator('header').getAttribute('data-enhanced')).toBe('true');
+    await browserExpect(page.locator('header')).toHaveAttribute('data-enhanced', 'true', { timeout: 10000 });
     await browserExpect(page.getByRole('link', { name: 'Contact' })).toBeVisible();
     await browserExpect(page.getByRole('link', { name: 'Contact' })).toBeFocused();
     await browserExpect(page.getByRole('img', { name: 'Partner' })).toHaveAttribute('src', `${picture}#dark`);

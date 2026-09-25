@@ -82,6 +82,29 @@ npm install rk-designsystem
 > React `^18.3.1`. npm 7+ installs peers automatically; with older
 > setups install them alongside the package.
 
+### Temporary workaround for Aksel 8.17.1
+
+The `@navikt/aksel-icons@8.17.1` release is missing compiled icon files. If a fresh
+install fails to resolve `Airplane.js` (or another icon), add this to the consuming
+application's root `package.json`, then run `npm install`:
+
+```json
+{
+  "overrides": {
+    "@navikt/aksel-icons@8.17.1": "^8.16.1 <8.17.1 || ^8.17.2"
+  }
+}
+```
+
+If the application also declares `@navikt/aksel-icons` directly, use the same
+allowed range for that dependency to avoid npm's `EOVERRIDE` error.
+
+This also covers Digdir's dependency on the icons. Overrides in a library's own
+manifest do not propagate to consuming applications. The replacement range excludes
+only `8.17.1` from the supported 8.x range; newer releases remain eligible. Remove the workaround once a fixed
+release is available. Our fresh consumer tests use the same temporary exception
+and report it in their output; they do not validate the broken release.
+
 ### 2. Import Styles
 
 ```tsx
