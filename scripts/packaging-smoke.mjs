@@ -27,6 +27,7 @@ import path from 'node:path';
 import http from 'node:http';
 import { createRequire } from 'node:module';
 import { chromium } from 'playwright';
+import { verifyNextFooter } from './footer-next-smoke.mjs';
 import { expect } from '@playwright/test';
 import { typecheckPublishedTypes } from './typecheck-published-types.mjs';
 
@@ -669,6 +670,8 @@ export default defineConfig({ base: './', plugins: [react()] });
     fail(`Button-only-bundlen er ${shakeJs.length} bytes (budsjett ${SHAKE_BUDGET}) — tree-shaking er trolig brutt.`);
   }
   console.log(`✅ Tree-shaking OK: Button-only-bundle ${shakeJs.length} bytes, uten Donor/Carousel-markører.`);
+
+  await verifyNextFooter(tarball, path.join(tmp, 'next-footer'), dev);
 
   console.log('✅ Pakke-røyktest bestått.');
 } finally {

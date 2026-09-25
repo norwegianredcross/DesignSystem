@@ -266,7 +266,7 @@ npm run build
 pnpm storybook
 ```
 
-Node 24 (see `.nvmrc`). The browser tests need Chromium once: `npx playwright install chromium`.
+Node 24 (see `.nvmrc`). The browser tests need Chromium, Firefox and WebKit: `npx playwright install chromium firefox webkit`. On Linux, add `--with-deps` to install their system dependencies.
 
 ## Testing
 

@@ -56,13 +56,6 @@
 .newsletterSection {
   display: flex;
   flex-direction: column;
-  /* 24px, not the 32px this rule used to say. The runtime fallback in
-     index.tsx has always declared --ds-size-6 here and, until the fallback was
-     re-ordered, it won — so 24px is what every Storybook review, the docs site
-     and the visual baseline have actually shown. The 32px never rendered.
-     Aligning the two on the shipped value keeps the cascade fix from silently
-     restyling the footer; if 32px was the real intent, changing it is a
-     deliberate design decision, not a side effect. */
   gap: var(--ds-size-6, 24px);
   max-width: 440px;
 }
@@ -86,11 +79,12 @@
   display: flex;
   gap: var(--ds-size-2, 8px);
   align-items: flex-end;
+  flex-wrap: wrap;
 }
 
 .newsletterInput {
   flex: 1;
-  min-width: 200px;
+  min-width: 0;
 }
 
 .consentText {
@@ -144,11 +138,12 @@
   color: var(--ds-color-neutral-text-default, #2b2b2b);
   text-decoration: underline;
   text-underline-offset: 2px;
-  transition: opacity 0.2s ease;
 }
 
-.footerLink:hover {
-  opacity: 0.8;
+@media (hover: hover) and (pointer: fine) {
+  .footerLink:hover {
+    opacity: 0.8;
+  }
 }
 
 .footerLink:focus {
@@ -367,11 +362,12 @@
   color: var(--ds-color-neutral-text-default, #2b2b2b);
   text-decoration: underline;
   text-underline-offset: 2px;
-  transition: opacity 0.2s ease;
 }
 
-.socialLink:hover {
-  opacity: 0.8;
+@media (hover: hover) and (pointer: fine) {
+  .socialLink:hover {
+    opacity: 0.8;
+  }
 }
 
 .socialLink:focus {
@@ -473,8 +469,10 @@
   text-underline-offset: 2px;
 }
 
-.contactPersonEmail a:hover {
-  opacity: 0.8;
+@media (hover: hover) and (pointer: fine) {
+  .contactPersonEmail a:hover {
+    opacity: 0.8;
+  }
 }
 
 /* Bottom Row for Contact Variant */
@@ -504,11 +502,12 @@
   color: var(--ds-color-neutral-text-default, #2b2b2b);
   text-decoration: underline;
   text-underline-offset: 2px;
-  transition: opacity 0.2s ease;
 }
 
-.legalLink:hover {
-  opacity: 0.8;
+@media (hover: hover) and (pointer: fine) {
+  .legalLink:hover {
+    opacity: 0.8;
+  }
 }
 
 .legalLink:focus {
@@ -616,11 +615,12 @@
   color: var(--ds-color-neutral-text-default);
   text-decoration: underline;
   text-underline-offset: 2px;
-  transition: opacity 0.2s ease;
 }
 
-.dpLink:hover {
-  opacity: 0.75;
+@media (hover: hover) and (pointer: fine) {
+  .dpLink:hover {
+    opacity: 0.75;
+  }
 }
 
 .dpDivider {
@@ -683,11 +683,12 @@
   color: var(--ds-color-neutral-text-default);
   text-decoration: underline;
   text-underline-offset: 2px;
-  transition: opacity 0.2s ease;
 }
 
-.dpLegalLink:hover {
-  opacity: 0.75;
+@media (hover: hover) and (pointer: fine) {
+  .dpLegalLink:hover {
+    opacity: 0.75;
+  }
 }
 
 .dpCopyright {
@@ -747,5 +748,15 @@
 
   .newsletterInputGroup {
     flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .footerLink,
+  .socialLink,
+  .legalLink,
+  .dpLink,
+  .dpLegalLink {
+    transition: opacity 0.2s ease;
   }
 }
