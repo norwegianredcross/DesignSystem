@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { consumerOverrides } from './consumer-overrides.mjs';
 import { execFileSync } from 'node:child_process';
 import { cp, readFile, writeFile } from 'node:fs/promises';
 import http from 'node:http';
@@ -12,6 +13,7 @@ export async function verifyNextFooter(tarball, appDir, dependencies) {
   await cp(new URL('../tests/fixtures/next-footer/', import.meta.url), appDir, { recursive: true });
   await writeFile(path.join(appDir, 'package.json'), JSON.stringify({
     name: 'rk-footer-next-smoke', private: true, type: 'module',
+    overrides: consumerOverrides,
     dependencies: {
       next: '16.2.6', 'server-only': '0.0.1',
       react: dependencies.react, 'react-dom': dependencies['react-dom'],

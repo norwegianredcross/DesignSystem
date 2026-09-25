@@ -30,6 +30,7 @@ import { chromium } from 'playwright';
 import { verifyNextFooter } from './footer-next-smoke.mjs';
 import { expect } from '@playwright/test';
 import { typecheckPublishedTypes } from './typecheck-published-types.mjs';
+import { consumerOverrides } from './consumer-overrides.mjs';
 
 const ROOT = process.cwd();
 const repoPkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
@@ -260,13 +261,15 @@ try {
   const tarball = path.join(tmp, packOutput);
   console.log(`Pakket: ${packOutput}`);
 
+  console.warn('Consumer dependency exception: exclude Aksel 8.17.1 (missing compiled icons; see README).');
+
   // 2. Konsument-app med samme avhengighetsversjoner som repoet
   const dev = repoPkg.devDependencies;
   const appDir = path.join(tmp, 'app');
   fs.mkdirSync(path.join(appDir, 'src'), { recursive: true });
   fs.writeFileSync(
     path.join(appDir, 'package.json'),
-    JSON.stringify({ name: 'rk-smoke-app', private: true, type: 'module' }, null, 2),
+    JSON.stringify({ name: 'rk-smoke-app', private: true, type: 'module', overrides: consumerOverrides }, null, 2),
   );
   fs.writeFileSync(
     path.join(appDir, 'index.html'),
@@ -580,7 +583,7 @@ export function App(props: Fixture) {
   }
   fs.writeFileSync(
     path.join(app18Dir, 'package.json'),
-    JSON.stringify({ name: 'rk-smoke-app-react18', private: true, type: 'module' }, null, 2),
+    JSON.stringify({ name: 'rk-smoke-app-react18', private: true, type: 'module', overrides: consumerOverrides }, null, 2),
   );
   const deps18 = [
     JSON.stringify(tarball),
