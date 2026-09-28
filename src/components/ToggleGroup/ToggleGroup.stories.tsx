@@ -14,9 +14,6 @@ import {
   ArchiveIcon,
   PaperplaneIcon,
 } from '@navikt/aksel-icons';
-// --- Import Tooltip ---
-import { Tooltip } from '../Tooltip'; // Adjust path if necessary
-
 const meta: Meta<typeof ToggleGroup> = {
   title: 'Components/ToggleGroup',
   component: ToggleGroup,
@@ -94,26 +91,30 @@ export const Default: Story = {
   },
 };
 
-// --- Example Icon Only with Tooltip ---
-export const IconOnlyWithTooltip: Story = {
-  name: 'Example Icon Only with Tooltip',
+// --- Example Icon Only ---
+// Each item used to be wrapped in a Tooltip. Digdir's Tooltip puts data-tooltip
+// on the element it is given, and ToggleGroup.Item renders as a <label> holding
+// the focusable <input type="radio">. A <label> is not focusable itself, so the
+// tooltip never opened on keyboard focus and designsystemet-web logged
+// 'Missing tabindex="0"' for every item — nine blocks of HTML per run, once per
+// item per theme. Adding tabindex to the label would have created a second tab
+// stop for one control, which is worse. The names are already exposed through
+// each icon's <title> and the group's aria-label, so the tooltips carried no
+// information that was not already there. The portal uses ToggleGroup the same
+// way, without Tooltip.
+export const IconOnly: Story = {
+  name: 'Example Icon Only',
   render: (args) => (
     <ToggleGroup {...args}>
-      <Tooltip content="Venstrestilt">
-        <ToggleGroup.Item value="option-1">
-          <AlignLeftIcon title="Venstrestilt" fontSize="1.5rem" />
-        </ToggleGroup.Item>
-      </Tooltip>
-      <Tooltip content="Midtstilt">
-        <ToggleGroup.Item value="option-2">
-          <AlignCenterIcon title="Midtstilt" fontSize="1.5rem" />
-        </ToggleGroup.Item>
-      </Tooltip>
-      <Tooltip content="Høyrestilt">
-        <ToggleGroup.Item value="option-3">
-          <AlignRightIcon title="Høyrestilt" fontSize="1.5rem" />
-        </ToggleGroup.Item>
-      </Tooltip>
+      <ToggleGroup.Item value="option-1">
+        <AlignLeftIcon title="Venstrestilt" fontSize="1.5rem" />
+      </ToggleGroup.Item>
+      <ToggleGroup.Item value="option-2">
+        <AlignCenterIcon title="Midtstilt" fontSize="1.5rem" />
+      </ToggleGroup.Item>
+      <ToggleGroup.Item value="option-3">
+        <AlignRightIcon title="Høyrestilt" fontSize="1.5rem" />
+      </ToggleGroup.Item>
     </ToggleGroup>
   ),
   args: {

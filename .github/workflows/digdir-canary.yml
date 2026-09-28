@@ -90,7 +90,7 @@ jobs:
           done
 
       - name: Install Playwright browsers
-        run: npx playwright install chromium
+        run: npx playwright install --with-deps chromium firefox webkit
 
       - name: Test (full suite against pinned Digdir)
         id: suite

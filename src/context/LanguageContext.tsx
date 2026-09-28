@@ -77,6 +77,8 @@ export const useLanguageOptional = (): LanguageContextType => {
           'header.closeSearch': 'Lukk søk',
           'header.openSearch': 'Åpne søk',
           'header.menu': 'Meny',
+          'header.navigation': 'Hovednavigasjon',
+          'header.menuNavigation': 'Menynavigasjon',
           'header.closeMenu': 'Lukk meny',
           'header.openMenu': 'Åpne meny',
           'header.supportUs': 'Støtt oss',

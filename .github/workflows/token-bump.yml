@@ -51,7 +51,7 @@ jobs:
 
       - name: Install Playwright browsers
         if: steps.bump.outputs.changed == 'true'
-        run: npx playwright install chromium
+        run: npx playwright install --with-deps chromium firefox webkit
 
       # Full regresjon mot de nye tokens — fortsetter ved feil slik at
       # resultatet kan rapporteres i PR-en i stedet for å forsvinne.

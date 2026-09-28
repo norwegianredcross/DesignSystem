@@ -49,7 +49,7 @@ export interface LegalLink {
  */
 export type FooterLegacyColor = 'primary' | 'additional';
 
-export interface FooterProps {
+export interface FooterProps extends React.ComponentPropsWithoutRef<'footer'> {
   /**
    * Theme scope for the main section — any real `data-color` scope from the
    * design tokens. The background uses the scope's tinted background token.
@@ -73,7 +73,13 @@ export interface FooterProps {
   newsletterButtonText?: string;
   /** Newsletter consent text */
   newsletterConsentText?: React.ReactNode;
-  /** Callback when newsletter form is submitted */
+  /** Native newsletter endpoint. Receives the email field without JavaScript; the consuming application handles validation, subscription and the response. */
+  newsletterAction?: string;
+  /** Native form method. Defaults to POST so email addresses are not put in the URL. */
+  newsletterMethod?: 'get' | 'post';
+  /** Field name expected by the newsletter endpoint. Defaults to "email". */
+  newsletterInputName?: string;
+  /** Optional client enhancement. Overrides native submission after hydration; provide newsletterAction for a working no-JavaScript baseline. */
   onNewsletterSubmit?: (email: string) => void;
   /** Hide the newsletter section */
   hideNewsletter?: boolean;
@@ -111,7 +117,7 @@ export interface FooterProps {
   contactPersonsTitle?: string;
 }
 
-export const Footer = ({
+export const Footer = React.forwardRef<HTMLElement, FooterProps>(({
   'data-color': dataColor = 'neutral',
   variant = 'default',
   colorScheme,
@@ -123,6 +129,9 @@ export const Footer = ({
   newsletterButtonText = 'Meld deg på',
   newsletterConsentText,
   onNewsletterSubmit,
+  newsletterAction,
+  newsletterMethod = 'post',
+  newsletterInputName = 'email',
   hideNewsletter = false,
   shortcutsLinks,
   linksLinks,
@@ -140,7 +149,9 @@ export const Footer = ({
   legalLinks = [],
   socialLinksTitle,
   contactPersonsTitle,
-}: FooterProps = {}) => {
+  className,
+  ...rest
+}, ref) => {
   const currentYear = new Date().getFullYear();
   const { t } = useLanguageOptional();
   // Legacy aliases map to the scopes their CSS always rendered as (the old
@@ -152,7 +163,9 @@ export const Footer = ({
       : dataColor === 'additional'
         ? 'additional-color-ocean'
         : dataColor;
-  const [emailValue, setEmailValue] = React.useState('');
+  const [isEnhanced, setIsEnhanced] = React.useState(false);
+  React.useEffect(() => setIsEnhanced(true), []);
+  const canSubmitNewsletter = Boolean(newsletterAction || (isEnhanced && onNewsletterSubmit));
 
   // Helper to get translation with proper fallback (avoids showing raw keys like "footer.contact.phone")
   const tWithFallback = (key: string, fallback: string): string => {
@@ -160,29 +173,15 @@ export const Footer = ({
     return result === key ? fallback : result;
   };
 
-  // Fallback: inject minimal footer styles if consumer did not import the CSS bundle.
-  React.useEffect(() => {
-    const styleId = 'rk-footer-inline-styles';
-    if (typeof document === 'undefined') return;
-    if (document.getElementById(styleId)) return;
-    const css = buildInlineCss(styles);
-    const tag = document.createElement('style');
-    tag.id = styleId;
-    tag.textContent = css;
-    // prepend, NOT appendChild: this copy is a FALLBACK for consumers who never
-    // import 'rk-designsystem/styles', and it must lose to the real stylesheet
-    // whenever that is present. Appending put it last in <head>, so at equal
-    // specificity it beat the bundled sheet for EVERY consumer — silently
-    // replacing responsive @media values it does not reproduce with its own
-    // desktop base values. Placing it first keeps it a safety net instead.
-    document.head.prepend(tag);
-  }, []);
-
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onNewsletterSubmit?.(emailValue);
+  const handleNewsletterSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    if (onNewsletterSubmit) {
+      event.preventDefault();
+      const email = new FormData(event.currentTarget).get(newsletterInputName);
+      if (typeof email === 'string') onNewsletterSubmit(email);
+    } else if (!newsletterAction) {
+      event.preventDefault();
+    }
   };
-
 
   // Default shortcut links
   const defaultShortcutsLinks: FooterLink[] = [
@@ -206,15 +205,15 @@ export const Footer = ({
     <>
       Ved å trykke "{newsletterButtonText}" samtykker du til å motta nyhetsbrev.
       <br />
-      Du kan når som helst <Link href="#">melde deg av</Link> nyhetsbrevet uten kostnad.
+      Du kan når som helst melde deg av nyhetsbrevet uten kostnad.
     </>
   );
 
   const shortcuts = shortcutsLinks || defaultShortcutsLinks;
   const links = linksLinks || defaultLinksLinks;
 
-  // Internal component: Social Links Section
-  const SocialLinksSection = () => (
+  // Render helpers keep the same DOM nodes through hydration and rerenders.
+  const renderSocialLinks = () => (
     <div className={styles.socialLinksSection}>
       {socialLinksTitle && (
         <h3 className={styles.socialLinksTitle}>
@@ -234,9 +233,8 @@ export const Footer = ({
     </div>
   );
 
-  // Internal component: Contact Person Card
-  const ContactPersonCard = ({ person }: { person: ContactPerson }) => (
-    <div className={styles.contactPersonCard}>
+  const renderContactPerson = (person: ContactPerson, index: number) => (
+    <div key={index} className={styles.contactPersonCard}>
       <p className={styles.contactPersonName}>{person.name}</p>
       <p className={styles.contactPersonRole}>{person.role}</p>
       <div className={styles.contactPersonDetails}>
@@ -257,8 +255,7 @@ export const Footer = ({
     </div>
   );
 
-  // Internal component: Contact Persons Section
-  const ContactPersonsSection = () => (
+  const renderContactPersons = () => (
     <div className={styles.contactPersonsSection}>
       {contactPersonsTitle && (
         <h3 className={styles.contactPersonsTitle}>
@@ -266,15 +263,12 @@ export const Footer = ({
         </h3>
       )}
       <div className={styles.contactPersonsGrid}>
-        {contactPersons.map((person, index) => (
-          <ContactPersonCard key={index} person={person} />
-        ))}
+        {contactPersons.map(renderContactPerson)}
       </div>
     </div>
   );
 
-  // Internal component: Legal Links Row
-  const LegalLinksRow = () => (
+  const renderLegalLinks = () => (
     <ul className={styles.legalLinksRow}>
       {legalLinks.map((link, index) => (
         <li key={index}>
@@ -306,7 +300,7 @@ export const Footer = ({
     const dpLegal = legalLinks.length > 0 ? legalLinks : defaultLinksLinks;
 
     return (
-      <footer className={styles.footer} data-color={colorScope} data-color-scheme={colorScheme}>
+      <footer {...rest} ref={ref} className={[styles.footer, className].filter(Boolean).join(' ')} data-color={colorScope} data-color-scheme={colorScheme}>
         <div className={styles.dpMain}>
           <div className={styles.dpContainer}>
             {/* Navigation columns */}
@@ -402,7 +396,7 @@ export const Footer = ({
   // Render contact variant
   if (variant === 'contact') {
     return (
-      <footer className={styles.footer} data-color={colorScope} data-color-scheme={colorScheme}>
+      <footer {...rest} ref={ref} className={[styles.footer, className].filter(Boolean).join(' ')} data-color={colorScope} data-color-scheme={colorScheme}>
         {/* Main Section */}
         <div className={styles.mainSection}>
           <div className={styles.mainContainer}>
@@ -415,8 +409,8 @@ export const Footer = ({
 
             {/* Content Row: Social Links + Contact Persons */}
             <div className={styles.contentRowContact}>
-              {socialLinks.length > 0 && <SocialLinksSection />}
-              {contactPersons.length > 0 && <ContactPersonsSection />}
+              {socialLinks.length > 0 && renderSocialLinks()}
+              {contactPersons.length > 0 && renderContactPersons()}
             </div>
 
             {/* Divider */}
@@ -449,7 +443,7 @@ export const Footer = ({
 
             {/* Bottom Row: Legal Links + Copyright */}
             <div className={styles.bottomRowContact}>
-              {legalLinks.length > 0 && <LegalLinksRow />}
+              {legalLinks.length > 0 && renderLegalLinks()}
               <p className={styles.copyrightText}>
                 © {currentYear} {tWithFallback('footer.copyright', 'Rødekors')}
               </p>
@@ -496,7 +490,7 @@ export const Footer = ({
 
   // Render default variant
   return (
-    <footer className={styles.footer} data-color={colorScope} data-color-scheme={colorScheme}>
+    <footer {...rest} ref={ref} className={[styles.footer, className].filter(Boolean).join(' ')} data-color={colorScope} data-color-scheme={colorScheme}>
       {/* Main Section */}
       <div className={styles.mainSection}>
         <div className={styles.mainContainer}>
@@ -513,17 +507,24 @@ export const Footer = ({
             {!hideNewsletter && (
               <div className={styles.newsletterSection}>
                 <p className={styles.newsletterDescription}>{newsletterDescription}</p>
-                <form className={styles.newsletterForm} onSubmit={handleNewsletterSubmit}>
+                <form
+                  className={styles.newsletterForm}
+                  action={newsletterAction}
+                  method={newsletterMethod}
+                  onSubmit={handleNewsletterSubmit}
+                >
                   <div className={styles.newsletterInputGroup}>
                     <Input
                       type="email"
                       aria-label={newsletterInputLabel ?? tWithFallback('footer.newsletterEmailLabel', 'E-postadresse')}
                       placeholder={newsletterPlaceholder}
-                      value={emailValue}
-                      onChange={(e) => setEmailValue(e.target.value)}
+                      name={newsletterInputName}
+                      autoComplete="email"
+                      required
+                      disabled={!canSubmitNewsletter}
                       className={styles.newsletterInput}
                     />
-                    <Button type="submit" variant="primary" data-color="neutral">
+                    <Button type="submit" variant="primary" data-color="neutral" disabled={!canSubmitNewsletter}>
                       {newsletterButtonText}
                     </Button>
                   </div>
@@ -638,443 +639,6 @@ export const Footer = ({
       </div>
     </footer>
   );
-};
+});
 
-// Fallback CSS injection function
-function buildInlineCss(styles: Record<string, string>): string {
-  const s = styles;
-  return `
-.${s.footer} {
-  margin-top: auto;
-  width: 100%;
-}
-.${s.mainSection} {
-  background-color: var(--ds-color-neutral-background-default, #ffffff);
-  width: 100%;
-}
-.${s.footer}[data-color] .${s.mainSection} {
-  background-color: var(--ds-color-background-tinted, #f5f5f5);
-}
-.${s.mainContainer} {
-  position: relative;
-  width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: var(--ds-size-30, 120px) 175px;
-  box-sizing: border-box;
-}
-.${s.graphicElementTopRight} {
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-  margin-bottom: var(--ds-size-6, 24px);
-}
-.${s.graphicElementBottomLeft} {
-  display: flex;
-  justify-content: flex-start;
-  width: 100%;
-  margin-top: var(--ds-size-6, 24px);
-}
-.${s.contentRow} {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: var(--ds-size-12, 48px);
-  padding: var(--ds-size-8, 32px) 0;
-  flex-wrap: wrap;
-}
-.${s.newsletterSection} {
-  display: flex;
-  flex-direction: column;
-  gap: var(--ds-size-6, 24px);
-  max-width: 440px;
-}
-.${s.newsletterDescription} {
-  font-size: var(--ds-font-size-5, 21px);
-  font-weight: var(--ds-font-weight-regular);
-  line-height: 1.5;
-  letter-spacing: 0.105px;
-  color: var(--ds-color-neutral-text-default, #2b2b2b);
-  margin: 0;
-}
-.${s.newsletterForm} {
-  display: flex;
-  flex-direction: column;
-  gap: var(--ds-size-6, 24px);
-}
-.${s.newsletterInputGroup} {
-  display: flex;
-  gap: var(--ds-size-2, 8px);
-  align-items: flex-end;
-}
-.${s.newsletterInput} {
-  flex: 1;
-  min-width: 200px;
-}
-.${s.consentText} {
-  font-size: var(--ds-font-size-3, 16px);
-  font-weight: var(--ds-font-weight-regular);
-  line-height: 1.3;
-  letter-spacing: 0.04px;
-  color: var(--ds-color-neutral-text-default, #2b2b2b);
-  margin: 0;
-}
-.${s.linksSection} {
-  display: flex;
-  gap: var(--ds-size-12, 48px);
-  flex-wrap: wrap;
-}
-.${s.linksColumn} {
-  display: flex;
-  flex-direction: column;
-  gap: var(--ds-size-2, 8px);
-  min-width: 150px;
-}
-.${s.linksTitle} {
-  font-size: var(--ds-font-size-7, 30px);
-  font-weight: var(--ds-font-weight-regular);
-  line-height: 1.3;
-  letter-spacing: -0.075px;
-  color: var(--ds-color-primary-color-red-text-subtle, #b42419);
-  margin: 0;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
-.${s.linksList} {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--ds-size-2, 8px);
-}
-.${s.footerLink} {
-  font-size: var(--ds-font-size-4, 18px);
-  font-weight: var(--ds-font-weight-regular);
-  line-height: 1.5;
-  letter-spacing: 0.09px;
-  color: var(--ds-color-neutral-text-default, #2b2b2b);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-.${s.divider} {
-  width: 100%;
-  height: 1px;
-  background-color: var(--ds-color-neutral-border-subtle, #bcbcbc);
-  margin: var(--ds-size-6, 24px) 0;
-}
-.${s.contactSection} {
-  display: flex;
-  gap: var(--ds-size-6, 24px);
-  align-items: flex-start;
-  flex-wrap: wrap;
-}
-.${s.contactColumn} {
-  display: flex;
-  flex-direction: column;
-  gap: var(--ds-size-1, 4px);
-  flex: 1;
-  min-width: 200px;
-}
-.${s.contactTitle} {
-  font-size: var(--ds-font-size-3, 16px);
-  font-weight: var(--ds-font-weight-semibold);
-  line-height: 1.5;
-  letter-spacing: 0.04px;
-  color: var(--ds-color-neutral-text-default, #2b2b2b);
-  margin: 0;
-}
-.${s.contactContent} {
-  font-size: var(--ds-font-size-3, 16px);
-  font-weight: var(--ds-font-weight-regular);
-  line-height: 1.5;
-  letter-spacing: 0.04px;
-  color: var(--ds-color-neutral-text-default, #2b2b2b);
-  margin: 0;
-}
-.${s.contactContent} p {
-  margin: 0;
-}
-.${s.copyrightSection} {
-  display: flex;
-  align-items: center;
-}
-.${s.copyrightText} {
-  font-size: var(--ds-font-size-2, 14px);
-  font-weight: var(--ds-font-weight-regular);
-  line-height: 1.3;
-  letter-spacing: 0.021px;
-  color: var(--ds-color-neutral-text-subtle, #5d5d5d);
-  margin: 0;
-}
-.${s.whiteSection} {
-  background-color: white;
-  width: 100%;
-}
-.${s.whiteContainer} {
-  width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: var(--ds-size-6, 24px) 175px;
-  box-sizing: border-box;
-}
-.${s.whiteContent} {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--ds-size-10, 40px);
-  flex-wrap: wrap;
-}
-.${s.logo} {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 43px;
-  flex-shrink: 0;
-}
-.${s.redCrossLogo} {
-  width: 169px;
-  height: auto;
-  display: block;
-  /* Pinned dark: this logo sits in the hardcoded white band. */
-  color: #1e1e1e;
-}
-.${s.slotLarge} {
-  background-color: var(--ds-color-neutral-surface-default, #ffffff);
-  border: 2px dashed var(--ds-color-neutral-border-default, #797979);
-  border-radius: var(--ds-border-radius-lg, 8px);
-  padding: var(--ds-size-6, 24px) var(--ds-size-3, 12px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-  max-width: 596px;
-  min-width: 200px;
-}
-@media (max-width: 1024px) {
-  .${s.mainContainer} {
-    padding: var(--ds-size-15, 64px) var(--ds-size-8, 32px);
-  }
-  .${s.whiteContainer} {
-    padding: var(--ds-size-6, 24px) var(--ds-size-8, 32px);
-  }
-}
-@media (max-width: 768px) {
-  .${s.contentRow} {
-    flex-direction: column;
-  }
-  .${s.newsletterSection} {
-    max-width: 100%;
-  }
-  .${s.linksSection} {
-    width: 100%;
-  }
-  .${s.contactSection} {
-    flex-direction: column;
-  }
-  .${s.whiteContent} {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .${s.slotLarge} {
-    width: 100%;
-    max-width: none;
-  }
-}
-/* Contact Variant Styles */
-.${s.contentRowContact} {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: var(--ds-size-12, 48px);
-  padding: var(--ds-size-8, 32px) 0;
-  flex-wrap: wrap;
-}
-.${s.socialLinksSection} {
-  display: flex;
-  flex-direction: column;
-  gap: var(--ds-size-4, 16px);
-  min-width: 200px;
-}
-.${s.socialLinksTitle} {
-  font-size: var(--ds-font-size-7, 30px);
-  font-weight: var(--ds-font-weight-regular);
-  line-height: 1.3;
-  letter-spacing: -0.075px;
-  color: var(--ds-color-primary-color-red-text-subtle, #b42419);
-  margin: 0;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
-.${s.socialLinksList} {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--ds-size-2, 8px);
-}
-.${s.socialLink} {
-  display: flex;
-  align-items: center;
-  gap: var(--ds-size-2, 8px);
-  font-size: var(--ds-font-size-4, 18px);
-  font-weight: var(--ds-font-weight-regular);
-  line-height: 1.5;
-  letter-spacing: 0.09px;
-  color: var(--ds-color-neutral-text-default, #2b2b2b);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-.${s.socialLinkIcon} {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  flex-shrink: 0;
-}
-.${s.contactPersonsSection} {
-  display: flex;
-  flex-direction: column;
-  gap: var(--ds-size-4, 16px);
-  flex: 1;
-}
-.${s.contactPersonsTitle} {
-  font-size: var(--ds-font-size-7, 30px);
-  font-weight: var(--ds-font-weight-regular);
-  line-height: 1.3;
-  letter-spacing: -0.075px;
-  color: var(--ds-color-primary-color-red-text-subtle, #b42419);
-  margin: 0;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
-.${s.contactPersonsGrid} {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--ds-size-12, 48px);
-}
-.${s.contactPersonCard} {
-  display: flex;
-  flex-direction: column;
-  gap: var(--ds-size-1, 4px);
-  min-width: 0;
-}
-.${s.contactPersonName} {
-  font-size: var(--ds-font-size-4, 18px);
-  font-weight: var(--ds-font-weight-semibold);
-  line-height: 1.5;
-  letter-spacing: 0.09px;
-  color: var(--ds-color-neutral-text-default, #2b2b2b);
-  margin: 0;
-}
-.${s.contactPersonRole} {
-  font-size: var(--ds-font-size-3, 16px);
-  font-weight: var(--ds-font-weight-regular);
-  line-height: 1.5;
-  letter-spacing: 0.04px;
-  color: var(--ds-color-neutral-text-subtle, #5d5d5d);
-  margin: 0;
-}
-.${s.contactPersonDetails} {
-  display: flex;
-  flex-direction: column;
-  gap: var(--ds-size-1, 4px);
-  margin-top: var(--ds-size-2, 8px);
-}
-.${s.contactPersonLabel} {
-  font-weight: var(--ds-font-weight-regular);
-}
-.${s.contactPersonEmail},
-.${s.contactPersonPhone},
-.${s.contactPersonAddress} {
-  font-size: var(--ds-font-size-3, 16px);
-  font-weight: var(--ds-font-weight-regular);
-  line-height: 1.5;
-  letter-spacing: 0.04px;
-  color: var(--ds-color-neutral-text-default, #2b2b2b);
-  margin: 0;
-  word-break: break-word;
-}
-.${s.contactPersonEmail} a {
-  color: var(--ds-color-neutral-text-default, #2b2b2b);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-.${s.bottomRowContact} {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--ds-size-4, 16px);
-}
-.${s.legalLinksRow} {
-  display: flex;
-  gap: var(--ds-size-6, 24px);
-  flex-wrap: wrap;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.${s.legalLink} {
-  font-size: var(--ds-font-size-3, 16px);
-  font-weight: var(--ds-font-weight-regular);
-  line-height: 1.5;
-  letter-spacing: 0.04px;
-  color: var(--ds-color-neutral-text-default, #2b2b2b);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-@media (max-width: 1024px) {
-  .${s.contentRowContact} {
-    gap: var(--ds-size-8, 32px);
-  }
-  .${s.contactPersonsGrid} {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--ds-size-6, 24px);
-  }
-}
-@media (max-width: 768px) {
-  .${s.contentRowContact} {
-    flex-direction: column;
-  }
-  .${s.socialLinksSection} {
-    width: 100%;
-  }
-  .${s.contactPersonsSection} {
-    width: 100%;
-  }
-  .${s.contactPersonsGrid} {
-    grid-template-columns: 1fr;
-  }
-  .${s.contactPersonCard} {
-    max-width: none;
-  }
-  .${s.bottomRowContact} {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .${s.legalLinksRow} {
-    flex-direction: column;
-    gap: var(--ds-size-2, 8px);
-  }
-}
-
-/* Mobil: fallback-kopien hadde 1024- og 768-blokkene, men ikke denne. En
-   konsument uten stilarket fikk derfor skrivebordsverdiene på telefon —
-   logoen på 169px, overskriftene på 30px. Speiler @media (max-width: 480px)
-   i styles.module.css. */
-@media (max-width: 480px) {
-  .${s.mainContainer} { padding: var(--ds-size-10, 40px) var(--ds-size-4, 16px); }
-  .${s.whiteContainer} { padding: var(--ds-size-4) var(--ds-size-4); }
-  .${s.linksTitle},
-  .${s.socialLinksTitle} { font-size: var(--ds-font-size-5, 21px); }
-  .${s.linksColumn},
-  .${s.contactColumn} { min-width: 0; }
-  .${s.logo} img,
-  .${s.redCrossLogo} { width: 130px; }
-  .${s.newsletterInputGroup} { flex-direction: column; }
-}
-`;
-}
+Footer.displayName = 'Footer';

@@ -4,6 +4,7 @@
      written out independently they drifted, which is how the slab ended up
      44px too low on every header without an extension bar. */
   --rk-header-extension-height: 44px;
+  anchor-name: var(--rk-header-anchor);
 
   width: 100%;
   background-color: var(--ds-color-neutral-background-default);
@@ -16,8 +17,8 @@
 }
 
 /* Ensure dropdown popover always sits above header content */
-:global(.ds-popover),
-:global(.ds-dropdown) {
+.header :global(.ds-popover),
+.header :global(.ds-dropdown) {
   z-index: 20000 !important; /* Lift above header without altering positioning */
 }
 
@@ -391,15 +392,32 @@
 }
 
 .menuOverlay {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
+  position: fixed;
+  inset: 0 0 auto;
+  /* Stay below the Header when space allows. Otherwise move up so the
+     entire scrollable panel fits, including in short/embedded viewports. */
+  top: clamp(0px, anchor(bottom, 0px), 20dvh);
+  left: anchor(left, 0px);
+  right: anchor(right, 0px);
+  position-anchor: var(--rk-header-anchor);
+  width: auto;
+  max-height: 80dvh;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: auto;
+  color: var(--ds-color-neutral-text-default);
   background-color: var(--ds-color-neutral-background-default);
-  border-bottom: none;
-  box-shadow: none;
-  z-index: 999;
-  animation: slideDown 0.2s ease-out;
+}
+
+.menuClose {
+  margin: var(--ds-size-4);
+}
+
+.mobileOnly,
+.navList.mobileOnly,
+.menuUtilities {
+  display: none;
 }
 
 .searchOverlay {
@@ -479,7 +497,7 @@
 }
 
 .menuUtilities {
-  display: flex;
+  display: none;
   justify-content: space-between;
   align-items: center;
   width: 100%;
@@ -677,18 +695,17 @@
 
   /* "Søk" button text stays visible as per mobile design */
   
-  .menuOverlay {
-    position: fixed;
-    top: var(--header-height-mobile, 70px); /* Start below header */
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100vw;
-    height: calc(100vh - var(--header-height-mobile, 70px)); /* Fill remaining viewport */
-    z-index: 9999;
-    border-radius: 0;
-    border: none;
-    overflow-y: auto;
+  .mobileOnly,
+  .navList.mobileOnly {
+    display: flex;
+  }
+
+  .desktopOnly {
+    display: none;
+  }
+
+  .menuUtilities {
+    display: flex;
   }
 
   .searchOverlay {
@@ -829,4 +846,15 @@
    words vanished. */
 .header[data-variant="compact"] .redCrossLogo {
   color: var(--ds-color-neutral-text-default);
+}
+/* Older browsers expose the links in the document instead of a dead toggle. */
+@supports not selector(:popover-open) {
+  .menuOverlay {
+    position: static;
+    max-height: none;
+  }
+  .menuButton,
+  .menuClose {
+    display: none;
+  }
 }

@@ -69,7 +69,7 @@ jobs:
         run: npm run typecheck
 
       - name: Install Playwright browsers
-        run: npx playwright install chromium
+        run: npx playwright install --with-deps chromium firefox webkit
 
       - name: Test (full regression before release)
         run: npm test
@@ -240,7 +240,7 @@ jobs:
 
       - name: Install Playwright browsers (republish path)
         if: inputs.publish_tag != '' && steps.exists.outputs.already == 'false'
-        run: npx playwright install chromium
+        run: npx playwright install --with-deps chromium firefox webkit
 
       - name: Test (republish path)
         if: inputs.publish_tag != '' && steps.exists.outputs.already == 'false'
