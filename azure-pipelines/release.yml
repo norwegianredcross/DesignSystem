@@ -1,0 +1,201 @@
+# Release av rk-designsystem fra Azure DevOps.
+#
+# Tre moduser, valgt ved manuell kjøring:
+#   dry-run    – hele kvalitetsgaten, versjonsbump og `npm publish --dry-run`.
+#                Pusher ingenting og publiserer ingenting. Trenger ikke token.
+#   prerelease – publiserer X.Y.Z-azure.<build>.0 med dist-tag `next`.
+#                `latest` flyttes ikke, og ^-ranges plukker ikke opp
+#                prerelease-versjoner, så ingen forbrukere får den.
+#                Pusher ingenting til git.
+#   release    – som .github/workflows/release.yml: bump, changelog,
+#                AI-artefakter, atomisk push av commit + tag til main,
+#                og først deretter publisering, slik at git og npm aldri
+#                kommer ut av synk.
+#
+# Publisering skjer med et granular npm-token fra variable group
+# `npm-publish` (secret `NPM_TOKEN`), begrenset til rk-designsystem.
+# Azure Pipelines støttes ikke som trusted publisher, og npm fjerner direkte
+# publisering med bypass-2FA-tokens fra januar 2027 – da må release-modusen
+# over på `npm stage publish`, der en maintainer godkjenner med 2FA.
+
+trigger: none
+pr: none
+
+parameters:
+  - name: mode
+    displayName: Modus
+    type: string
+    default: dry-run
+    values:
+      - dry-run
+      - prerelease
+      - release
+  - name: bump
+    displayName: Versjonsbump
+    type: string
+    default: patch
+    values:
+      - patch
+      - minor
+      - major
+
+# Organisasjonens delte pool. Aldri `vmImage:` – se rkdotno sin
+# azure-pipelines-skill.
+pool:
+  name: mdp-prod-devopspool-azdo-shared-euw
+
+variables:
+  # dry-run skal kunne kjøres før tokenet finnes.
+  - ${{ if ne(parameters.mode, 'dry-run') }}:
+      - group: npm-publish
+
+jobs:
+  - job: release
+    displayName: ${{ parameters.mode }} (${{ parameters.bump }})
+    timeoutInMinutes: 45
+    # Den delte poolen beholder arbeidsmappen mellom kjøringer. En release
+    # som leser forrige tag må aldri se gamle brancher, tags eller filer.
+    workspace:
+      clean: all
+    steps:
+      - checkout: self
+        clean: true
+        fetchDepth: 0
+        fetchTags: true
+        # Bare release pusher til git; de andre modusene trenger ikke
+        # credentials på disk mens npm ci og byggene kjører.
+        persistCredentials: ${{ eq(parameters.mode, 'release') }}
+
+      - ${{ if eq(parameters.mode, 'release') }}:
+          - bash: |
+              if [ "$(Build.SourceBranch)" != "refs/heads/main" ]; then
+                echo "##vso[task.logissue type=error]Release kjøres kun fra main, ikke fra $(Build.SourceBranch)."
+                exit 1
+              fi
+            displayName: Release kun fra main
+
+      - task: NodeTool@0
+        displayName: Node 24
+        inputs:
+          versionSpec: '24.x'
+
+      - script: npm ci
+        displayName: Installer avhengigheter
+
+      # Testpolicy: ingenting publiseres utestet (se TESTING.md). Til Azure
+      # har sin egen CI-pipeline tar release med packaging-testen og
+      # token-sjekken, som på GitHub bare kjørte i CI.
+      - script: npm run lint
+        displayName: Lint
+
+      - script: npm run check:tokens
+        displayName: Token-sjekk (alle --ds-* referanser må finnes)
+
+      - script: npm run typecheck
+        displayName: Typecheck
+
+      - script: npx playwright install chromium
+        displayName: Installer Playwright-nettlesere
+
+      - script: npm test
+        displayName: Test (full regresjon)
+
+      - script: npm run build
+        displayName: Bygg pakken
+
+      - script: npm run test:packaging
+        displayName: Packaging smoke test
+
+      - bash: |
+          set -euo pipefail
+          OLD=$(node -p "require('./package.json').version")
+          if [ "${{ parameters.mode }}" = "prerelease" ]; then
+            npm version "pre${{ parameters.bump }}" --preid "azure.$(Build.BuildId)" --no-git-tag-version >/dev/null
+          else
+            npm version "${{ parameters.bump }}" --no-git-tag-version >/dev/null
+          fi
+          NEW=$(node -p "require('./package.json').version")
+          echo "rk-designsystem $OLD → $NEW"
+          echo "##vso[task.setvariable variable=NEW_VERSION]$NEW"
+        displayName: Versjonsbump
+
+      - ${{ if eq(parameters.mode, 'release') }}:
+          - bash: |
+              set -euo pipefail
+              DATE=$(date +%Y-%m-%d)
+              PREV_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+              if [ -n "$PREV_TAG" ]; then
+                COMMITS=$(git log "${PREV_TAG}..HEAD" --pretty=format:"- %s (%h)" --no-merges)
+              else
+                COMMITS=$(git log --pretty=format:"- %s (%h)" --no-merges -50)
+              fi
+              ENTRY="## $(NEW_VERSION) (${DATE})"$'\n\n'"${COMMITS}"
+              if [ -f CHANGELOG.md ]; then
+                BODY=$(sed '1{/^# /d;}' CHANGELOG.md)
+                printf '# Changelog\n\n%s\n\n%s\n' "$ENTRY" "$BODY" > CHANGELOG.md
+              else
+                printf '# Changelog\n\n%s\n' "$ENTRY" > CHANGELOG.md
+              fi
+            displayName: Changelog
+
+          # AI-artefaktene bærer pakkeversjonen; uten regenerering feiler
+          # artefakt-sjekken på hver branch kuttet fra main etter en release.
+          # Annotert tag og atomisk push: enten lander commit og tag, eller
+          # ingen av dem. Har main flyttet seg siden kjøringen startet, avvises
+          # pushen som non-fast-forward – det trygge utfallet.
+          - bash: |
+              set -euo pipefail
+              git config user.name "$(Build.RequestedFor)"
+              git config user.email "$(Build.RequestedForEmail)"
+              npm run generate-metadata
+              npm run update-ai-guide-components
+              npm run generate-ai-context-manifest
+              git add package.json package-lock.json CHANGELOG.md metadata.json AI_DESIGN_SYSTEM_GUIDE.md ai-context.manifest.json
+              git commit -m "chore(release): v$(NEW_VERSION)"
+              git tag -a "v$(NEW_VERSION)" -m "v$(NEW_VERSION)"
+              git push --atomic origin HEAD:refs/heads/main "refs/tags/v$(NEW_VERSION)"
+            displayName: Commit, tag og push atomisk
+
+      # Idempotent: finnes versjonen allerede, hoppes publiseringen over i
+      # stedet for å feile på EPUBLISHCONFLICT. Tokenet skrives til en
+      # midlertidig .npmrc utenfor repoet og slettes når steget er ferdig.
+      - bash: |
+          set -euo pipefail
+          if npm view "rk-designsystem@$(NEW_VERSION)" version >/dev/null 2>&1; then
+            echo "##vso[task.logissue type=warning]rk-designsystem@$(NEW_VERSION) finnes allerede på npm – hopper over."
+            exit 0
+          fi
+          case "${{ parameters.mode }}" in
+            dry-run)
+              npm publish --dry-run
+              ;;
+            prerelease|release)
+              NPMRC="$(Agent.TempDirectory)/publish.npmrc"
+              trap 'rm -f "$NPMRC"' EXIT
+              printf '//registry.npmjs.org/:_authToken=%s\n' "$NPM_TOKEN" > "$NPMRC"
+              if [ "${{ parameters.mode }}" = "prerelease" ]; then
+                npm publish --tag next --userconfig "$NPMRC"
+              else
+                npm publish --userconfig "$NPMRC"
+              fi
+              ;;
+          esac
+        displayName: Publiser til npm (${{ parameters.mode }})
+        ${{ if ne(parameters.mode, 'dry-run') }}:
+          env:
+            NPM_TOKEN: $(NPM_TOKEN)
+
+      - ${{ if ne(parameters.mode, 'dry-run') }}:
+          - bash: |
+              set -euo pipefail
+              for attempt in 1 2 3 4 5 6; do
+                if npm view "rk-designsystem@$(NEW_VERSION)" version >/dev/null 2>&1; then
+                  echo "rk-designsystem@$(NEW_VERSION) er på npm."
+                  npm view rk-designsystem dist-tags
+                  exit 0
+                fi
+                sleep 10
+              done
+              echo "##vso[task.logissue type=error]rk-designsystem@$(NEW_VERSION) dukket ikke opp på npm."
+              exit 1
+            displayName: Bekreft på npm
