@@ -1,0 +1,131 @@
+# Kvalitetssjekk av rk-designsystem i Azure DevOps.
+#
+# Testpolicy: test tidlig og kontinuerlig, full regresjon på hver endring,
+# ingenting produksjonssettes utestet (se TESTING.md). Samme sjekker som
+# test-jobben i .github/workflows/ci.yml.
+#
+# Kjører på push til main. PR-er valideres gjennom branch policyen «Build
+# validation» på main: for Azure Repos Git styres PR-kjøringer der, ikke av en
+# `pr:`-trigger i YAML.
+#
+# Publisering til GitHub Pages er ikke med. Storybook og AI-konteksten blir
+# liggende på dagens adresse til designportalen overtar dem.
+
+trigger:
+  branches:
+    include:
+      - main
+pr: none
+
+# Organisasjonens delte pool. Aldri `vmImage:` – se rkdotno sin
+# azure-pipelines-skill.
+pool:
+  name: mdp-prod-devopspool-azdo-shared-euw
+
+variables:
+  # Nettleserne legges i arbeidsmappen, som tømmes før hver kjøring. I
+  # hjemmemappen ville hver Playwright-versjon hope seg opp på en delt agent
+  # som allerede har lite diskplass.
+  - name: PLAYWRIGHT_BROWSERS_PATH
+    value: $(Pipeline.Workspace)/ms-playwright
+
+jobs:
+  - job: test
+    displayName: Lint, typecheck, test og bygg
+    timeoutInMinutes: 45
+    # Den delte poolen beholder arbeidsmappen mellom kjøringer.
+    workspace:
+      clean: all
+    steps:
+      - checkout: self
+        clean: true
+        fetchDepth: 1
+        persistCredentials: false
+
+      - task: UseNode@1
+        displayName: Node 24
+        inputs:
+          version: '24.x'
+
+      - script: npm ci
+        displayName: Installer avhengigheter
+
+      # Bare det som sendes til forbrukerne: en high/critical-advisory i en
+      # runtime-avhengighet skal stoppe mergen. Utviklerverktøy håndteres av
+      # avhengighetsoppdateringene.
+      - script: npm audit --omit=dev --audit-level=high
+        displayName: Audit av produksjonsavhengigheter
+
+      - script: npm run lint
+        displayName: Lint
+
+      - script: npm run check:tokens
+        displayName: Token-sjekk (alle --ds-* referanser må finnes)
+
+      - script: npm run typecheck
+        displayName: Typecheck
+
+      - script: npx playwright install --with-deps chromium firefox webkit
+        displayName: Installer Playwright-nettlesere
+
+      # En grønn kjøring bruker rundt fire minutter. Grensen gjør at en
+      # nettleser som henger på en overfylt agent feiler i løpet av 20
+      # minutter, i stedet for å holde agenten til jobben tar slutt.
+      - script: npm test
+        displayName: Test (full regresjon, alle stories + a11y)
+        timeoutInMinutes: 20
+
+      - script: npm run build
+        displayName: Bygg pakken
+
+      - script: npm run test:packaging
+        displayName: Packaging smoke test (pack → install → computed styles)
+
+      - script: npm run build-storybook
+        displayName: Bygg Storybook
+
+      # build-storybook regenererte nettopp metadata.json, AI-guiden og
+      # manifestet. Avviker de fra de innsjekkede filene, har endringen
+      # endret komponent-API uten å regenerere AI-kontekstartefaktene – det
+      # stoppes her, i stedet for at utdatert kontekst publiseres nedstrøms.
+      - script: git diff --exit-code metadata.json AI_DESIGN_SYSTEM_GUIDE.md ai-context.manifest.json
+        displayName: AI-kontekstartefaktene er oppdaterte
+
+      # Baselines er tatt på GitHubs agenter. Fonter og rendering kan avvike på
+      # den delte poolen, så sjekken er foreløpig ikke blokkerende: den kjører
+      # og laster opp bildene, men stopper ikke PR-en. Gjør den blokkerende når
+      # baselines er tatt på nytt i Azure.
+      - bash: |
+          set -euo pipefail
+          if [ -d tests/visual/__screenshots__ ]; then
+            npm run test:visual
+          else
+            echo "##vso[task.logissue type=warning]Ingen baselines er sjekket inn – genererer nye."
+            npm run test:visual:update
+          fi
+        displayName: Visuell regresjon (nøkkel-stories)
+        continueOnError: true
+
+      # Ved avvik ligger expected/actual/diff-bildene her til review.
+      - bash: |
+          mkdir -p "$(Build.ArtifactStagingDirectory)/visual"
+          for dir in tests/visual/__screenshots__ test-results; do
+            [ -d "$dir" ] && cp -r "$dir" "$(Build.ArtifactStagingDirectory)/visual/"
+          done
+          true
+        displayName: Samle skjermbilder
+        condition: always()
+
+      - task: PublishPipelineArtifact@1
+        displayName: Last opp skjermbilder
+        condition: always()
+        inputs:
+          targetPath: $(Build.ArtifactStagingDirectory)/visual
+          artifact: visual-screenshots-$(System.JobAttempt)
+
+      # Agentene er delte og har lite diskplass, og arbeidsmappen tømmes først
+      # ved neste kjøring. Rydd derfor bort nettleserne og node_modules med en
+      # gang, også når en tidligere steg feilet.
+      - bash: rm -rf "$PLAYWRIGHT_BROWSERS_PATH" node_modules
+        displayName: Rydd opp nettlesere og node_modules
+        condition: always()
