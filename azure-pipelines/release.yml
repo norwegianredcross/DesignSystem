@@ -74,10 +74,10 @@ jobs:
               fi
             displayName: Release kun fra main
 
-      - task: NodeTool@0
+      - task: UseNode@1
         displayName: Node 24
         inputs:
-          versionSpec: '24.x'
+          version: '24.x'
 
       - script: npm ci
         displayName: Installer avhengigheter
