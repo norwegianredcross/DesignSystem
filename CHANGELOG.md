@@ -1,5 +1,35 @@
 # Changelog
 
+## 1.5.0 (2026-09-28)
+
+- ci: push main and the release tag separately (7e4f5bc2)
+- ci: read npm fresh when checking for the published version (df9f9ab9)
+- ci: remove browsers and node_modules when the job ends (4c91867e)
+- test(footer): give first hydration the same budget as the Header test (f5510c34)
+- ci: install every Playwright engine the tests launch, inside the workspace (959eea0b)
+- ci: use UseNode@1 instead of the deprecated NodeTool@0 (cc9f4990)
+- ci: release pipeline for Azure DevOps with dry-run and prerelease modes (c8128c83)
+- chore(deps): bump the minor-and-patch group across 1 directory with 13 updates (#180) (cfadafd2)
+- feat(footer): support progressive enhancement and server consumers (#185) (e0274386)
+- feat(header): support progressive enhancement and server consumers (#184) (ceb67911)
+- chore: ignore the whole .claude directory, not just settings.local.json (#183) (adf8bccc)
+- fix(togglegroup): drop the Tooltip the story could not make reachable (#182) (eba3c2b2)
+- fix(tooling): give the unit project a timeout that fits config resolution (#181) (ee581e71)
+- fix(suggestion): preserve search text and verify consumer compatibility (#178) (c6bbb55c)
+- fix(tooling): reject unexpected published-type check failures (#179) (251fe086)
+- refactor(storybook): separate the component workbench from the portal (#176) (1bc1dfac)
+- chore: remove the documentation app; this repo is the component library (#171) (67c2e4e0)
+- chore(translations): only the namespaces the library reads; Header stories use a fixture (#170) (611b7d83)
+- feat(styles): ship Source Sans 3 in the package; one import for every framework (#175) (64f22aea)
+- feat: flat exports for the compound members Digdir ships (#173) (5da2c70e)
+- chore(docs): links point at Storybook and the docs platform, not the removed app (#172) (351684c6)
+- chore(deps-dev): bump the minor-and-patch group with 9 updates (de361337)
+- chore: regenerate AI artifacts with the lockfile's toolchain (313a8743)
+- feat(Header): controlled colorScheme with onColorSchemeChange (7d5a6983)
+- feat(manifest): list the primary components by name (#167) (f1a85776)
+- build: publiser CHANGELOG.md sammen med AI-artefaktene i Storybook-bygget (#165) (da1d6665)
+
+
 ## 1.4.1 (2026-09-03)
 
 - chore(lint): fjern fire døde tilordninger og slå på no-useless-assignment (#164) (4e9cd3ad)
