@@ -1,0 +1,70 @@
+# Tar visuelle baselines på nytt på den delte poolen og committer dem til
+# branchen pipelinen kjøres på. Samme flyt som
+# .github/workflows/update-visual-baselines.yml: kjøres manuelt på PR-branchen
+# ved tilsiktede visuelle endringer, og aldri direkte på main.
+#
+# Baselines må tas på samme type agent som sammenligner dem – ellers gir
+# fonter og rendering små pikselavvik som ikke er ekte regresjoner.
+
+trigger: none
+pr: none
+
+pool:
+  name: mdp-prod-devopspool-azdo-shared-euw
+
+variables:
+  - name: PLAYWRIGHT_BROWSERS_PATH
+    value: $(Pipeline.Workspace)/ms-playwright
+
+jobs:
+  - job: update
+    displayName: Ta visuelle baselines på nytt
+    timeoutInMinutes: 30
+    workspace:
+      clean: all
+    steps:
+      - bash: |
+          if [ "$(Build.SourceBranch)" = "refs/heads/main" ]; then
+            echo "##vso[task.logissue type=error]Baselines regenereres aldri direkte på main – kjør pipelinen på PR-branchen."
+            exit 1
+          fi
+        displayName: Aldri på main
+
+      - checkout: self
+        clean: true
+        fetchDepth: 1
+        persistCredentials: true
+
+      - task: UseNode@1
+        displayName: Node 24
+        inputs:
+          version: '24.x'
+
+      - script: npm ci
+        displayName: Installer avhengigheter
+
+      - script: npx playwright install --with-deps chromium
+        displayName: Installer Playwright-nettleser
+
+      - script: npm run build-storybook
+        displayName: Bygg Storybook
+
+      - script: npm run test:visual:update
+        displayName: Ta baselines på nytt
+
+      - bash: |
+          set -euo pipefail
+          git config user.name "$(Build.RequestedFor)"
+          git config user.email "$(Build.RequestedForEmail)"
+          git add tests/visual/__screenshots__
+          if git diff --cached --quiet; then
+            echo "Baselines er uendret."
+          else
+            git commit -m "chore: update visual baselines on the Azure agent pool"
+            git push origin "HEAD:$(Build.SourceBranch)"
+          fi
+        displayName: Commit oppdaterte baselines
+
+      - bash: rm -rf "$PLAYWRIGHT_BROWSERS_PATH" node_modules
+        displayName: Rydd opp nettleser og node_modules
+        condition: always()
