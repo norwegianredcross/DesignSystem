@@ -18,6 +18,12 @@ describe.each([chromium, firefox, webkit].map((engine) => ({ engine, name: engin
   beforeAll(async () => {
     server = await createServer({ configFile: false, appType: 'custom',
       cacheDir: `node_modules/.vite-header-${engine.name()}`,
+      // Pre-bundle up front. Dependencies Vite first discovers during a
+      // hydration make it re-optimize and reload the page mid-test, which
+      // timed out or hung on the shared Azure agents.
+      optimizeDeps: {
+        include: ['react', 'react-dom/client', 'react/jsx-dev-runtime', '@digdir/designsystemet-react', '@navikt/aksel-icons'],
+      },
       server: { host: '127.0.0.1', port: 0 },
     });
     server.middlewares.use('/header-test.html', (_request, response) => {
