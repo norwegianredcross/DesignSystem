@@ -147,9 +147,11 @@ jobs:
 
           # AI-artefaktene bærer pakkeversjonen; uten regenerering feiler
           # artefakt-sjekken på hver branch kuttet fra main etter en release.
-          # Annotert tag og atomisk push: enten lander commit og tag, eller
-          # ingen av dem. Har main flyttet seg siden kjøringen startet, avvises
-          # pushen som non-fast-forward – det trygge utfallet.
+          # Azure Repos støtter ikke `git push --atomic`, så main og taggen
+          # pushes hver for seg – main først. Har main flyttet seg siden
+          # kjøringen startet, avvises den som non-fast-forward og ingenting
+          # er pushet. Taggen pushes etterpå og peker på en commit som
+          # allerede ligger på main, så den blir aldri foreldreløs.
           - bash: |
               set -euo pipefail
               git config user.name "$(Build.RequestedFor)"
@@ -160,8 +162,9 @@ jobs:
               git add package.json package-lock.json CHANGELOG.md metadata.json AI_DESIGN_SYSTEM_GUIDE.md ai-context.manifest.json
               git commit -m "chore(release): v$(NEW_VERSION)"
               git tag -a "v$(NEW_VERSION)" -m "v$(NEW_VERSION)"
-              git push --atomic origin HEAD:refs/heads/main "refs/tags/v$(NEW_VERSION)"
-            displayName: Commit, tag og push atomisk
+              git push origin HEAD:refs/heads/main
+              git push origin "refs/tags/v$(NEW_VERSION)"
+            displayName: Commit, tag og push
 
       # Idempotent: finnes versjonen allerede, hoppes publiseringen over i
       # stedet for å feile på EPUBLISHCONFLICT. Tokenet skrives til en
