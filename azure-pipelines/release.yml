@@ -48,6 +48,11 @@ variables:
   # dry-run skal kunne kjøres før tokenet finnes.
   - ${{ if ne(parameters.mode, 'dry-run') }}:
       - group: npm-publish
+  # Nettleserne legges i arbeidsmappen, som tømmes før hver kjøring. I
+  # hjemmemappen ville hver Playwright-versjon hope seg opp på en delt agent
+  # som allerede har lite diskplass.
+  - name: PLAYWRIGHT_BROWSERS_PATH
+    value: $(Pipeline.Workspace)/ms-playwright
 
 jobs:
   - job: release
@@ -94,7 +99,9 @@ jobs:
       - script: npm run typecheck
         displayName: Typecheck
 
-      - script: npx playwright install chromium
+      # Samme nettlesere som .github/workflows/ci.yml: progressive-enhancement-
+      # testene for Header og Footer kjører i chromium, firefox og webkit.
+      - script: npx playwright install --with-deps chromium firefox webkit
         displayName: Installer Playwright-nettlesere
 
       - script: npm test
