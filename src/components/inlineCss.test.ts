@@ -4,8 +4,8 @@ import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 
 /**
- * Header ships its CSS TWICE: styles.module.css (bundled into
- * dist/rk-designsystem.css) and the buildInlineCss() copy in index.tsx, which
+ * Some components still ship their CSS twice: styles.module.css (bundled into
+ * dist/rk-designsystem.css) and a build*InlineCss() copy in index.tsx, which
  * a useEffect injects into <head> on every mount.
  *
  * The injected copy is now prepended, so the bundled stylesheet wins wherever
@@ -33,9 +33,6 @@ import { describe, expect, it } from 'vitest';
  *   - comma-separated media lists (`@media (a), (b)`), which are treated as one
  *     opaque condition rather than an OR, so contexts where an OR-list rule and
  *     a narrower rule both apply are not enumerated
- * A browser-level check of the same invariant lives in Header.stories.tsx
- * (TestLogoPanelGeometry), which measures computed styles with the injected
- * sheet present, absent, and alone.
  */
 
 const componentsDir = path.dirname(fileURLToPath(import.meta.url));
@@ -357,8 +354,7 @@ for (const { name, moduleCss, indexTsx } of duplicated) {
   it('parses both copies, keeping nested media conditions', () => {
     expect(bundled.length).toBeGreaterThan(10);
     expect(injected.length).toBeGreaterThan(10);
-    // Where a component nests a media query (Header nests
-    // prefers-color-scheme inside its 850px block) the nested condition must
+    // Where a component nests a media query, the nested condition must
     // survive as a narrower context instead of collapsing into the outer one.
     const nested = [...bundled, ...injected].some((d) => d.conditions.length > 1);
     if (nested) expect(componentContexts.some((c) => c.length > 1)).toBe(true);
@@ -408,22 +404,6 @@ for (const { name, moduleCss, indexTsx } of duplicated) {
         'max-width or prefers-color-scheme query. Teach parseCondition about any new form ' +
         'rather than letting it be sampled as never-true.',
     ).toBe('');
-  });
-
-  // Agreement between the copies is not the same as being RIGHT. Below 850px
-  // Header hides the primary logo, so the desktop panel's fixed 119px would be
-  // an empty masthead — this pins the intent both copies must express, which
-  // the drift comparison alone would happily let them agree to lose. Only
-  // Header has this panel.
-  it.runIf(name === 'Header')('drops the desktop logo panel geometry on mobile in both copies', () => {
-    const mobile = ['(max-width: 850px)'];
-    for (const [sheetName, sheet] of [
-      ['styles.module.css', bundled],
-      ['buildInlineCss', injected],
-    ] as const) {
-      expect(effective(sheet, '.logoWrapper', 'height', mobile), sheetName).toBe('auto');
-      expect(effective(sheet, '.logoWrapper', 'background-color', mobile), sheetName).toBe('transparent');
-    }
   });
 
   for (const context of componentContexts) {

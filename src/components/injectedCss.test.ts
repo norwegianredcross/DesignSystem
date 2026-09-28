@@ -4,13 +4,13 @@ import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 
 /**
- * Seven components ship their CSS twice: a styles.module.css that ends up in
+ * Some components ship their CSS twice: a styles.module.css that ends up in
  * dist/rk-designsystem.css, and a build*InlineCss(styles) template literal that
  * a useEffect injects into <head> on mount.
  *
  * The injected copy exists so that a consumer who never imports
- * 'rk-designsystem/styles' still gets styled components, and must not be
- * removed. But it is a FALLBACK, and a fallback has to lose to the real
+ * 'rk-designsystem/styles' still gets styled components while they migrate
+ * to static styles. A fallback has to lose to the real
  * stylesheet wherever that is present.
  *
  * Appending it put it last in <head>, so at equal specificity it beat the
@@ -47,7 +47,6 @@ describe('runtime-injected CSS fallbacks', () => {
       'Donor',
       'Footer',
       'GraphicElement',
-      'Header',
     ]);
   });
 

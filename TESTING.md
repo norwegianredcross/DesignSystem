@@ -53,7 +53,7 @@ Kvalitet er et felles ansvar; testing er ikke en fase til slutt, men en del av h
 | Miljø | Bruk |
 |---|---|
 | Lokalt (`npm run storybook`) | Utvikling og utforskende testing |
-| CI (GitHub Actions, headless Chromium) | Automatisert kjøring av hele suiten |
+| CI (GitHub Actions) | Hele suiten i Chromium; Header-baseline også i Firefox og WebKit |
 | GitHub Pages (Storybook + docs) | «Staging»/demonstrasjon — alltid siste `main` |
 | npm-pakken | Produksjon — kun publisert via release-workflow |
 
@@ -159,3 +159,30 @@ Alvorlighetsgrader:
 - Nye bidragsytere leser denne planen og README-ens bidragsguide før første PR.
 - Testfunn som avdekker mønstre (f.eks. gjentatte a11y-feil) skal føre til oppdatering av denne planen eller av komponent-retningslinjene.
 - Planen revideres ved større endringer i verktøy eller organisering (f.eks. en eventuell overgang til Azure DevOps).
+
+### Header progressive enhancement
+
+`src/components/Header/progressiveEnhancement.test.ts` serves server-rendered
+HTML and the real styles, then tests Chromium, Firefox and WebKit with JavaScript
+disabled. It covers mobile/desktop navigation, keyboard opening and dismissal,
+missing CSS (before and after hydration), responsive changes, separate Header
+instances and login links. Offset Headers, short viewports and long menus must
+keep links reachable inside the viewport, not merely present in the DOM.
+Hydration tests open the native menu before loading React and verify that focus
+and open state survive without hydration errors. Run with:
+
+```sh
+npx vitest run --project unit src/components/Header/progressiveEnhancement.test.ts
+```
+
+Search, theme/language switches and callback-only actions are client enhancements.
+Applications need real navigation URLs and a separate search-page link when search
+must also be available without JavaScript. The packaged Header remains a Client
+Component; these tests establish its HTML baseline, not a server-only implementation.
+
+`npm run test:packaging` also builds the packed library in the Next.js App Router
+fixture at `tests/fixtures/next-header`. Its async page, layout and slotted menu
+import `server-only`; the Header must work without marking those files
+`use client`. The production output is exercised with JavaScript enabled and
+disabled, including real page navigation and hydration of the controlled theme.
+Next.js is installed only in the temporary consumer, not as a library dependency.
