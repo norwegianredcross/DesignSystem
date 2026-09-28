@@ -206,3 +206,10 @@ jobs:
               echo "##vso[task.logissue type=error]rk-designsystem@$(NEW_VERSION) dukket ikke opp på npm."
               exit 1
             displayName: Bekreft på npm
+
+      # Agentene er delte og har lite diskplass, og arbeidsmappen tømmes først
+      # ved neste kjøring. Rydd derfor bort nettleserne og node_modules med en
+      # gang, også når en tidligere steg feilet.
+      - bash: rm -rf "$PLAYWRIGHT_BROWSERS_PATH" node_modules
+        displayName: Rydd opp nettlesere og node_modules
+        condition: always()
