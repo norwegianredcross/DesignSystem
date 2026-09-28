@@ -195,24 +195,26 @@ jobs:
           env:
             NPM_TOKEN: $(NPM_TOKEN)
 
-      # --prefer-online: sjekken før publisering har allerede lagt pakke-
-      # dokumentet i npm-cachen, og registeret tillater at det caches i fem
-      # minutter. Uten flagget svarer npm fra cachen og ser ikke den nye
-      # versjonen – slik feilet den første prereleasen etter en vellykket
-      # publisering.
+      # Bekreftelse etter publisering. `npm publish` lykkes bare når registeret
+      # har tatt imot versjonen, så dette er en ekstra kontroll, ikke porten.
+      # Pakkedokumentet caches både av npm og av npm sitt CDN i flere minutter,
+      # og sjekken før publisering har allerede hentet det – derfor spørres det
+      # direkte etter versjonen, med en parameter som omgår cachen. Er den ikke
+      # synlig etter tre minutter, er det en advarsel: releasen er da allerede
+      # publisert, og tagget på main.
       - ${{ if ne(parameters.mode, 'dry-run') }}:
           - bash: |
-              set -euo pipefail
+              set -uo pipefail
+              URL="https://registry.npmjs.org/rk-designsystem/$(NEW_VERSION)"
               for attempt in $(seq 1 18); do
-                if npm view "rk-designsystem@$(NEW_VERSION)" version --prefer-online >/dev/null 2>&1; then
+                if curl -fsS -o /dev/null -H 'Cache-Control: no-cache' "$URL?t=$(date +%s)"; then
                   echo "rk-designsystem@$(NEW_VERSION) er på npm."
-                  npm view rk-designsystem dist-tags --prefer-online
+                  npm view rk-designsystem dist-tags --prefer-online || true
                   exit 0
                 fi
                 sleep 10
               done
-              echo "##vso[task.logissue type=error]rk-designsystem@$(NEW_VERSION) dukket ikke opp på npm."
-              exit 1
+              echo "##vso[task.logissue type=warning]rk-designsystem@$(NEW_VERSION) er ikke synlig i registeret etter tre minutter, men npm publish lyktes. Sjekk https://www.npmjs.com/package/rk-designsystem?activeTab=versions"
             displayName: Bekreft på npm
 
       # Agentene er delte og har lite diskplass, og arbeidsmappen tømmes først
