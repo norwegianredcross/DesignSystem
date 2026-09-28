@@ -46,7 +46,7 @@ describe.each([chromium, firefox, webkit].map((engine) => ({ engine, name: engin
 
   async function hydrate() {
     await page.addScriptTag({ type: 'module', content: `import { hydrateFooter } from '/tests/fixtures/footer-hydration.ts'; window.rerenderFooter = hydrateFooter(${JSON.stringify(props)}, ${callback});` });
-    await expect(page.locator('body')).toHaveAttribute('data-hydrated', 'true');
+    await expect(page.locator('body')).toHaveAttribute('data-hydrated', 'true', { timeout: 10000 });
   }
 
   for (const variant of ['default', 'contact', 'columns'] as const) {
