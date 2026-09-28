@@ -2118,9 +2118,30 @@
         "required": false
       },
       {
+        "name": "newsletterAction",
+        "type": "string",
+        "description": "Native newsletter endpoint. Receives the email field without JavaScript; the consuming application handles validation, subscription and the response.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "newsletterMethod",
+        "type": "'get' | 'post'",
+        "description": "Native form method. Defaults to POST so email addresses are not put in the URL.",
+        "defaultValue": "post",
+        "required": false
+      },
+      {
+        "name": "newsletterInputName",
+        "type": "string",
+        "description": "Field name expected by the newsletter endpoint. Defaults to \"email\".",
+        "defaultValue": "email",
+        "required": false
+      },
+      {
         "name": "onNewsletterSubmit",
         "type": "((email: string) => void)",
-        "description": "Callback when newsletter form is submitted",
+        "description": "Optional client enhancement. Overrides native submission after hydration; provide newsletterAction for a working no-JavaScript baseline.",
         "defaultValue": null,
         "required": false
       },

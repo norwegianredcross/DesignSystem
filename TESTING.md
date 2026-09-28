@@ -53,7 +53,7 @@ Kvalitet er et felles ansvar; testing er ikke en fase til slutt, men en del av h
 | Miljø | Bruk |
 |---|---|
 | Lokalt (`npm run storybook`) | Utvikling og utforskende testing |
-| CI (GitHub Actions) | Hele suiten i Chromium; Header-baseline også i Firefox og WebKit |
+| CI (GitHub Actions) | Hele suiten i Chromium; Header- og Footer-baseline også i Firefox og WebKit |
 | GitHub Pages (Storybook + docs) | «Staging»/demonstrasjon — alltid siste `main` |
 | npm-pakken | Produksjon — kun publisert via release-workflow |
 
@@ -186,3 +186,16 @@ import `server-only`; the Header must work without marking those files
 `use client`. The production output is exercised with JavaScript enabled and
 disabled, including real page navigation and hydration of the controlled theme.
 Next.js is installed only in the temporary consumer, not as a library dependency.
+
+### Footer progressive enhancement
+
+`src/components/Footer/progressiveEnhancement.test.ts` covers all three Footer
+variants in Chromium, Firefox and WebKit. It checks HTML navigation with and
+without CSS, native newsletter POST/GET payloads, required/email validation,
+callback-only controls, typed values and focus through hydration, missing CSS
+after hydration, narrow layouts, reduced motion and forwarded root props/refs.
+
+The packed Next.js consumer also imports Footer in async server-only pages and
+layouts, passes server-rendered slot content and submits a real native form to a
+local test endpoint with JavaScript enabled and disabled. No external newsletter
+service is contacted; production processing remains the consumer's responsibility.

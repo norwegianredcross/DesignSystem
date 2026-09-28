@@ -17,6 +17,7 @@ import * as FooterStories from './Footer.stories';
 
 ```tsx
 import { Footer } from 'rk-designsystem';
+import 'rk-designsystem/styles';
 
 const AppFooter = () => (
   <Footer
@@ -26,14 +27,13 @@ const AppFooter = () => (
       { title: 'Snarveier', links: [{ label: 'Design', href: '#design' }] },
       { title: 'Lenker', links: [{ label: 'GitHub', href: 'https://github.com/…' }] },
     ]}
-    onNewsletterSubmit={(email) => subscribe(email)}
   />
 );
 ```
 
 ### Varianter
 
-- **`default`**: nyhetsbrevpåmelding (med `onNewsletterSubmit`), lenkekolonner
+- **`default`**: nyhetsbrevpåmelding (med `newsletterAction` eller `onNewsletterSubmit`), lenkekolonner
   (`shortcutsLinks`/`linksLinks`) og kontaktinfo (`visitingAddress`,
   `organizationNumber`, `email`). Nyhetsbrevet kan skjules med
   `hideNewsletter`.
@@ -87,3 +87,40 @@ resten av siden (den hvite logoseksjonen forblir lys — det er meningen).
   samtykketekst settes med `newsletterConsentText`.
 - Kontrast er testet i alle tre temaer (lys, mørk, sekundærskop) av
   axe-gaten i testsuiten.
+
+## Progressiv forbedring og serverkomponenter
+
+Navigasjon og kontaktinformasjon finnes i serverens HTML i alle tre varianter.
+Bruk faktiske lenker i `shortcutsLinks`, `linksLinks`, `columns` og `legalLinks`;
+standardlenkene er plassholdere. Importer `rk-designsystem/styles` i applikasjonen.
+Footer injiserer ikke CSS ved hydrering.
+
+Footer kan importeres direkte i en Next.js-serverkomponent eller serverlayout.
+Siden trenger ikke `use client` når du sender vanlige data og serverrendret
+innhold i `whiteSectionSlot` (`default` og `contact`).
+
+For nyhetsbrev uten JavaScript bruker du et vanlig skjemaendepunkt:
+
+```tsx
+<Footer
+  newsletterAction="/newsletter"
+  newsletterDescription="Motta nyheter fra oss"
+  newsletterConsentText="Din samtykketekst og faktiske lenker"
+  shortcutsLinks={[{ label: 'Kontakt', href: '/kontakt' }]}
+  linksLinks={[{ label: 'Personvern', href: '/personvern' }]}
+/>
+```
+
+Skjemaet sender `email` med POST som standard. Tilpass `newsletterMethod` og
+`newsletterInputName` hvis endepunktet krever det. Applikasjonen eier endepunktet,
+validering på serveren, selve påmeldingen og siden som viser resultatet.
+Nettleseren kontrollerer at e-postfeltet er utfylt og har gyldig format.
+
+`onNewsletterSubmit` er en valgfri klientforbedring som overtar innsendingen etter
+hydrering. Den krever en liten klientkomponent hos konsumenten. Behold
+`newsletterAction` for innsending uten JavaScript. Brukes bare callbacken, er
+felt og knapp deaktivert frem til hydrering. Uten endepunkt eller callback er
+skjemaet deaktivert; sett `hideNewsletter` hvis påmelding ikke tilbys.
+
+Tekst og fokus beholdes gjennom hydrering. Lenkeoverganger respekterer redusert
+bevegelse, og hover-effekter gjelder bare enheter med egnet peker.
