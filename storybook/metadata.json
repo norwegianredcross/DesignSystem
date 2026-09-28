@@ -986,52 +986,10 @@
         "required": false
       },
       {
-        "name": "asChild",
-        "type": "boolean",
-        "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
-        "defaultValue": "false",
-        "required": false
-      },
-      {
-        "name": "type",
-        "type": "'button' | 'submit' | 'reset'",
-        "description": "Specify the type of button. Unset when `asChild` is true",
-        "defaultValue": "'button'",
-        "required": false
-      },
-      {
-        "name": "icon",
-        "type": "boolean",
-        "description": "Toggle icon only styling, pass icon as children\nWhen combined with loading, the loading-icon will be shown instead of the icon.",
-        "defaultValue": "false",
-        "required": false
-      },
-      {
-        "name": "command",
+        "name": "aria-label",
         "type": "string",
-        "description": "Native invoker commands. Specifies actions to perform on an element specified by commandfor. Polyfilled by designsystemet-web and includes a custom --show-non-modal command.\n\"show-modal\", \"close\", \"request-close\", \"show-popover\", \"hide-popover\", \"toggle-popover\", \"--show-non-modal\"",
+        "description": "Aria label for the clear button\n@deprecated Please use `--dsc-suggestion-sr-clear` or `data-sr-clear` on Suggestion to set label.",
         "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "commandfor",
-        "type": "string",
-        "description": "Specifies the target element for \"command\".\nvalue is ID of target",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "commandFor",
-        "type": "string",
-        "description": "",
-        "defaultValue": null,
-        "required": false
-      },
-      {
-        "name": "loading",
-        "type": "ReactNode",
-        "description": "Toggle loading state.\nPass an element if you want to display a custom loader.",
-        "defaultValue": "false",
         "required": false
       }
     ]
@@ -2542,16 +2500,16 @@
         "required": false
       },
       {
-        "name": "onOpen",
+        "name": "onClose",
         "type": "(() => void)",
-        "description": "Callback when the popover wants to open.",
+        "description": "Callback when the popover wants to close.",
         "defaultValue": null,
         "required": false
       },
       {
-        "name": "onClose",
+        "name": "onOpen",
         "type": "(() => void)",
-        "description": "Callback when the popover wants to close.",
+        "description": "Callback when the popover wants to open.",
         "defaultValue": null,
         "required": false
       },
@@ -3956,7 +3914,14 @@
       {
         "name": "initials",
         "type": "string",
-        "description": "Initials to display inside the avatar.",
+        "description": "Initials to display inside the avatar.\n@deprecated Please use text content as children instead",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-initials",
+        "type": "string",
+        "description": "Initials to display inside the avatar.\n@deprecated Please use text content as children instead",
         "defaultValue": null,
         "required": false
       },
@@ -3970,7 +3935,7 @@
       {
         "name": "children",
         "type": "ReactNode",
-        "description": "Image, icon or initials to display inside the avatar.\n\nGets `aria-hidden=\"true\"`",
+        "description": "Image, icon or initials to display inside the avatar.",
         "defaultValue": null,
         "required": false
       }

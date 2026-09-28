@@ -665,6 +665,7 @@ import { Avatar } from 'rk-designsystem';
   asChild={false} // valgfri, default false: boolean
   // children — valgfri: ReactNode
   // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
+  data-initials="…" // valgfri: string
   data-size="sm" // valgfri: 'sm' | 'md' | 'lg' | 'xs'
   data-tooltip="…" // valgfri: string
   initials="…" // valgfri: string
@@ -1254,15 +1255,9 @@ import { SearchButton } from 'rk-designsystem';
 import { SearchClear } from 'rk-designsystem';
 
 <SearchClear
-  asChild={false} // valgfri, default false: boolean
-  command="…" // valgfri: string
-  commandfor="…" // valgfri: string
-  commandFor="…" // valgfri: string
+  aria-label="…" // valgfri: string
   // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
   // data-size — valgfri: Size | (string & {})
-  icon={false} // valgfri, default false: boolean
-  // loading — valgfri, default false: ReactNode
-  type="button" // valgfri, default 'button': 'button' | 'submit' | 'reset'
  />
 ```
 

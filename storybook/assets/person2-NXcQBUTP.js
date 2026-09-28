@@ -1,0 +1,1 @@
+import{r as s,j as t}from"./iframe-BaeVrwQ8.js";import{w as o}from"./tooltip-Bj8f17Iw.js";const e=s.forwardRef((a,r)=>t.jsx(o,{ref:r,...a}));e.displayName="Avatar";const n="/DesignSystem/storybook/assets/person2-CvwgDb6X.jpg";export{e as A,n as a};
