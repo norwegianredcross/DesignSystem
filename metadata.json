@@ -640,7 +640,7 @@
   {
     "componentName": "Suggestion",
     "importPath": "rk-designsystem",
-    "description": "Suggestion-komponent for autofullfør/søkeforslag.\nMerk: Dette er en eksperimentell komponent fra DigDir.",
+    "description": "Experimental Digdir Suggestion with query preservation.",
     "props": [
       {
         "name": "filter",

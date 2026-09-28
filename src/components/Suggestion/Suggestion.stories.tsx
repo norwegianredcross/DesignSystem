@@ -409,42 +409,105 @@ export const NoFilter: Story = {
 
 // --- INTERACTION TESTS ---
 
-/**
- * Shared render helper for interaction tests: a controlled single-select
- * Suggestion that forwards selection changes to the onSelectedChange spy
- * provided via args (so the Actions panel still logs them).
- */
+// The fixture owns the wording and selected-item markup; Digdir may change its defaults.
+// Set both aria-label (1.21) and data-sr-clear (1.22's screen-reader text setting).
+const clearSelectionLabel = 'Fjern valgt destinasjon';
+const renderSelectedDestination = ({ label, value }: StorySuggestionItem) => (
+  <span data-testid="selected-destination" data-value={value}>{label}</span>
+);
+
+/** Controlled single-select fixture with forwarded selection callbacks. */
 const SingleSelectTestRender = (args: SuggestionProps) => {
-  const [selected, setSelected] = useState<StorySuggestionItem | undefined>(
-    undefined,
-  );
+  // null is an empty controlled selection; undefined switches to uncontrolled.
+  const [selected, setSelected] = useState<StorySuggestionItem | null>(null);
   return (
-    <Field>
-      <Label>Velg en destinasjon</Label>
-      <Suggestion
-        {...args}
-        selected={selected as any}
-        onSelectedChange={((item: unknown) => {
-          (args.onSelectedChange as any)?.(item);
-          if (!Array.isArray(item)) {
-            setSelected((item ?? undefined) as StorySuggestionItem | undefined);
-          }
-        }) as any}
-        name="test-destination"
-      >
-        <Suggestion.Input />
-        <Suggestion.Clear />
-        <Suggestion.List>
-          <Suggestion.Empty>Ingen treff</Suggestion.Empty>
-          {defaultOptions.map((opt) => (
-            <Suggestion.Option key={opt.value} label={opt.label} value={opt.value}>
-              {opt.label}
-            </Suggestion.Option>
-          ))}
-        </Suggestion.List>
-      </Suggestion>
-    </Field>
+    <form onSubmit={(event) => event.preventDefault()}>
+      <Field>
+        <Label>Velg en destinasjon</Label>
+        <Suggestion
+          {...args}
+          selected={selected as any}
+          renderSelected={renderSelectedDestination}
+          data-sr-clear={clearSelectionLabel}
+          onSelectedChange={((item: unknown) => {
+            (args.onSelectedChange as any)?.(item);
+            if (!Array.isArray(item)) {
+              setSelected(item as StorySuggestionItem | null);
+            }
+          }) as any}
+          name="test-destination"
+        >
+          <Suggestion.Input />
+          <Suggestion.Clear aria-label={clearSelectionLabel} />
+          <Suggestion.List>
+            <Suggestion.Empty>Ingen treff</Suggestion.Empty>
+            {defaultOptions.map((opt) => (
+              <Suggestion.Option key={opt.value} label={opt.label} value={opt.value}>
+                {opt.label}
+              </Suggestion.Option>
+            ))}
+          </Suggestion.List>
+        </Suggestion>
+      </Field>
+    </form>
   );
+};
+
+const MultiSelectTestRender = ({
+  controlled = true,
+  ...args
+}: SuggestionProps & { controlled?: boolean }) => {
+  const [selected, setSelected] = useState<StorySuggestionItem[]>([]);
+  return (
+    <form onSubmit={(event) => event.preventDefault()}>
+      <Field>
+        <Label>Velg destinasjoner</Label>
+        <Suggestion
+          {...args}
+          multiple
+          // Both regression modes start empty, regardless of Storybook args.
+          defaultSelected={undefined}
+          selected={controlled ? selected : undefined}
+          renderSelected={renderSelectedDestination}
+          data-sr-clear={clearSelectionLabel}
+          onSelectedChange={(items: StorySuggestionItem[]) => {
+            (args.onSelectedChange as any)?.(items);
+            if (controlled) setSelected(items);
+          }}
+          name="test-multi-destination"
+        >
+          <Suggestion.Input />
+          <Suggestion.Clear aria-label={clearSelectionLabel} />
+          <Suggestion.List>
+            <Suggestion.Empty>Ingen treff</Suggestion.Empty>
+            {defaultOptions.map((opt) => (
+              <Suggestion.Option key={opt.value} label={opt.label} value={opt.value}>
+                {opt.label}
+              </Suggestion.Option>
+            ))}
+          </Suggestion.List>
+        </Suggestion>
+      </Field>
+    </form>
+  );
+};
+
+const findVisibleSuggestionOption = async (canvasElement: HTMLElement, label: string) =>
+  await waitFor(() => {
+    const option = within(canvasElement).getByRole('option', { name: label });
+    expect(option).toBeVisible();
+    expect(option).not.toHaveAttribute('aria-disabled', 'true');
+    return option;
+  });
+
+// Verify rendered and submitted state, not just callbacks.
+const expectSuggestionSelection = (canvasElement: HTMLElement, name: string, values: string[]) => {
+  const selectedValues = within(canvasElement).queryAllByTestId('selected-destination')
+    .map((el) => el.getAttribute('data-value'));
+  expect(selectedValues).toEqual(values);
+  const form = canvasElement.querySelector('form');
+  expect(form).not.toBeNull();
+  expect(new FormData(form!).getAll(name)).toEqual(values);
 };
 
 /** Wait for the async label/field wiring, then return the combobox input. */
@@ -455,7 +518,7 @@ const findSuggestionInput = async (canvas: ReturnType<typeof within>) =>
 
 /**
  * Tests combobox ARIA wiring on the input: role, aria-autocomplete,
- * aria-controls pointing at the listbox, and expanded state on focus.
+ * aria-controls pointing at the listbox, and expanded state when opened.
  */
 export const TestComboboxAria: Story = {
   name: 'Test: Combobox Aria Attributes',
@@ -472,13 +535,13 @@ export const TestComboboxAria: Story = {
     // is a second listbox, so this lookup would be ambiguous there.
     const list = await canvas.findByRole('listbox', { hidden: true });
 
-    // Opening the field exposes the controlled list: the combobox points at
-    // the listbox, reports expanded, and the list shows. Since Digdir 1.21
-    // the wiring happens on first interaction and the list opens on input
-    // (typing / arrow keys) rather than on bare focus - the standard
-    // combobox pattern - so nothing is asserted before the user types.
-    await userEvent.click(input);
-    await userEvent.type(input, 'o');
+    // Native popover state needs real focus/key events in the browser test.
+    // Keep the story playable in Storybook, where Vitest's provider is absent.
+    const interactions = import.meta.env.MODE === 'test'
+      ? (await import('@vitest/browser/context')).userEvent
+      : userEvent;
+    await interactions.click(input);
+    await interactions.keyboard('{ArrowDown}');
     // The web component opens the popover asynchronously; under a full
     // parallel suite run the default 1 s wait is occasionally too short.
     await waitFor(
@@ -505,26 +568,20 @@ export const TestFilterOnTyping: Story = {
 
     await userEvent.click(input);
 
-    // All five options are available before typing
-    const options = Array.from(
-      canvasElement.querySelectorAll('u-option:not([data-empty])'),
-    );
-    expect(options).toHaveLength(defaultOptions.length);
+    // Check what users can reach, independent of the tags or hiding attributes.
     await waitFor(() => {
-      for (const option of options) {
-        expect(option).toHaveAttribute('aria-hidden', 'false');
+      expect(canvas.getAllByRole('option')).toHaveLength(defaultOptions.length);
+      for (const { label } of defaultOptions) {
+        expect(canvas.getByRole('option', { name: label })).toBeVisible();
       }
     });
 
     // Typing narrows the list down to the single match ("Bergen")
     await userEvent.type(input, 'berg');
     await waitFor(() => {
-      const bergen = options.find((o) => o.textContent === 'Bergen');
-      const oslo = options.find((o) => o.textContent === 'Oslo');
-      expect(bergen).toHaveAttribute('aria-hidden', 'false');
-      expect(bergen).not.toHaveAttribute('disabled');
-      expect(oslo).toHaveAttribute('aria-hidden', 'true');
-      expect(oslo).toHaveAttribute('disabled');
+      expect(canvas.getAllByRole('option')).toHaveLength(1);
+      expect(canvas.getByRole('option', { name: 'Bergen' })).toBeVisible();
+      expect(canvas.queryByRole('option', { name: 'Oslo' })).not.toBeInTheDocument();
     });
   },
 };
@@ -579,18 +636,12 @@ export const TestMouseSelection: Story = {
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
     const input = await findSuggestionInput(canvas);
-    const list = canvasElement.querySelector('u-datalist');
+    const list = await canvas.findByRole('listbox', { hidden: true });
 
     await userEvent.click(input);
     await userEvent.type(input, 'trond');
 
-    const trondheim = await waitFor(() => {
-      const option = Array.from(
-        canvasElement.querySelectorAll('u-option:not([data-empty])'),
-      ).find((o) => o.textContent === 'Trondheim');
-      expect(option).toHaveAttribute('aria-hidden', 'false');
-      return option as HTMLElement;
-    });
+    const trondheim = await findVisibleSuggestionOption(canvasElement, 'Trondheim');
 
     await userEvent.click(trondheim);
     await waitFor(() => {
@@ -599,7 +650,7 @@ export const TestMouseSelection: Story = {
         value: 'trondheim',
       });
       expect(input).toHaveValue('Trondheim');
-      expect(list).toHaveAttribute('hidden');
+      expect(list).not.toBeVisible();
     });
   },
 };
@@ -614,16 +665,17 @@ export const TestEscapeClosesList: Story = {
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
     const input = await findSuggestionInput(canvas);
-    const list = canvasElement.querySelector('u-datalist');
+    const list = await canvas.findByRole('listbox', { hidden: true });
 
     await userEvent.click(input);
+    await userEvent.keyboard('{ArrowDown}');
     await waitFor(() => {
-      expect(list).not.toHaveAttribute('hidden');
+      expect(list).toBeVisible();
     });
 
     await userEvent.keyboard('{Escape}');
     await waitFor(() => {
-      expect(list).toHaveAttribute('hidden');
+      expect(list).not.toBeVisible();
     });
     // Known issue #24: aria-expanded stays "true" on desktop even when the
     // list is closed (upstream u-datalist behavior).
@@ -650,10 +702,8 @@ export const TestEmptyState: Story = {
     const empty = await waitFor(() => canvas.getByText('Ingen treff'));
     expect(empty).toBeVisible();
     await waitFor(() => {
-      for (const option of canvasElement.querySelectorAll(
-        'u-option:not([data-empty])',
-      )) {
-        expect(option).toHaveAttribute('aria-hidden', 'true');
+      for (const { label } of defaultOptions) {
+        expect(canvas.queryByRole('option', { name: label })).not.toBeInTheDocument();
       }
     });
   },
@@ -674,21 +724,16 @@ export const TestClearSelection: Story = {
     // Select "Sogndal" first
     await userEvent.click(input);
     await userEvent.type(input, 'sogn');
-    const sogndal = await waitFor(() => {
-      const option = Array.from(
-        canvasElement.querySelectorAll('u-option:not([data-empty])'),
-      ).find((o) => o.textContent === 'Sogndal');
-      expect(option).toHaveAttribute('aria-hidden', 'false');
-      return option as HTMLElement;
-    });
+    const sogndal = await findVisibleSuggestionOption(canvasElement, 'Sogndal');
     await userEvent.click(sogndal);
     await waitFor(() => {
+      expect(args.onSelectedChange).toHaveBeenLastCalledWith({ label: 'Sogndal', value: 'sogndal' });
       expect(input).toHaveValue('Sogndal');
+      expectSuggestionSelection(canvasElement, 'test-destination', ['sogndal']);
     });
 
-    // Clear the selection via the clear control - found by its accessible
-    // name, whatever element Digdir renders it as.
-    const clearButton = await canvas.findByRole('button', { name: 'Tøm' });
+    // Find the clear control by its accessible name.
+    const clearButton = await canvas.findByRole('button', { name: clearSelectionLabel });
     await userEvent.click(clearButton);
 
     // The input is emptied and refocused immediately...
@@ -697,53 +742,25 @@ export const TestClearSelection: Story = {
     });
     expect(input).toHaveFocus();
 
-    // ...while the deselection itself is committed when the field is left
-    // (u-combobox dispatches the change on blur/Enter, not per keystroke)
+    // Deselection is committed on blur, not per keystroke.
     await userEvent.tab();
     await waitFor(() => {
       expect(args.onSelectedChange).toHaveBeenLastCalledWith(null);
       expect(input).toHaveValue('');
+      expectSuggestionSelection(canvasElement, 'test-destination', []);
+    });
+    await userEvent.click(input);
+    await waitFor(() => {
+      expect(input).toHaveValue('');
+      expectSuggestionSelection(canvasElement, 'test-destination', []);
     });
   },
 };
 
-/**
- * Tests multi-select: each chosen option is added to the selection,
- * the callback receives the accumulated array, and selected items are
- * rendered as removable chips.
- */
+/** Verify accumulated selections, chips, and submitted values. */
 export const TestMultiSelect: Story = {
   name: 'Test: Multi-Select Interaction',
-  render: (args) => {
-    const [selected, setSelected] = useState<StorySuggestionItem[]>([]);
-    return (
-      <Field>
-        <Label>Velg destinasjoner</Label>
-        <Suggestion
-          {...args}
-          selected={selected as any}
-          onSelectedChange={((items: unknown) => {
-            (args.onSelectedChange as any)?.(items);
-            if (Array.isArray(items)) {
-              setSelected(items as StorySuggestionItem[]);
-            }
-          }) as any}
-          name="test-multi-destination"
-        >
-          <Suggestion.Input />
-          <Suggestion.Clear />
-          <Suggestion.List>
-            <Suggestion.Empty>Ingen treff</Suggestion.Empty>
-            {defaultOptions.map((opt) => (
-              <Suggestion.Option key={opt.value} label={opt.label} value={opt.value}>
-                {opt.label}
-              </Suggestion.Option>
-            ))}
-          </Suggestion.List>
-        </Suggestion>
-      </Field>
-    );
-  },
+  render: (args) => <MultiSelectTestRender {...args} />,
   args: {
     multiple: true,
     onSelectedChange: fn() as any,
@@ -754,14 +771,7 @@ export const TestMultiSelect: Story = {
 
     const clickOption = async (label: string) => {
       await userEvent.click(input);
-      const option = await waitFor(() => {
-        const el = Array.from(
-          canvasElement.querySelectorAll('u-option:not([data-empty])'),
-        ).find((o) => o.textContent === label);
-        expect(el).toHaveAttribute('aria-hidden', 'false');
-        return el as HTMLElement;
-      });
-      await userEvent.click(option);
+      await userEvent.click(await findVisibleSuggestionOption(canvasElement, label));
     };
 
     await clickOption('Oslo');
@@ -769,6 +779,8 @@ export const TestMultiSelect: Story = {
       expect(args.onSelectedChange).toHaveBeenLastCalledWith([
         { label: 'Oslo', value: 'oslo' },
       ]);
+      expect(input).toHaveValue('');
+      expectSuggestionSelection(canvasElement, 'test-multi-destination', ['oslo']);
     });
 
     await clickOption('Bergen');
@@ -777,15 +789,75 @@ export const TestMultiSelect: Story = {
         { label: 'Oslo', value: 'oslo' },
         { label: 'Bergen', value: 'bergen' },
       ]);
+      expect(input).toHaveValue('');
+      expectSuggestionSelection(canvasElement, 'test-multi-destination', ['oslo', 'bergen']);
+    });
+  },
+};
+
+export const TestMultiSelectPreservesQuery: Story = {
+  name: 'Test: Multi-Select Preserves Typed Query',
+  render: (args) => <MultiSelectTestRender {...args} />,
+  args: { multiple: true, onSelectedChange: fn() as any },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const input = await waitFor(() => canvas.getByRole('combobox', { name: 'Velg destinasjoner' }));
+    await userEvent.click(input);
+    await userEvent.type(input, 'o');
+    await userEvent.click(await findVisibleSuggestionOption(canvasElement, 'Oslo'));
+    await waitFor(() => {
+      expect(args.onSelectedChange).toHaveBeenLastCalledWith([{ label: 'Oslo', value: 'oslo' }]);
+      expect(input).toHaveValue('o');
+      expectSuggestionSelection(canvasElement, 'test-multi-destination', ['oslo']);
     });
 
-    // Selected items are rendered as <data value> elements (the chips); the
-    // values, not any state attribute, are the contract.
+    // Preserve the query, not the chosen option's value; another match stays usable.
+    await userEvent.click(input);
+    await userEvent.click(await findVisibleSuggestionOption(canvasElement, 'Trondheim'));
     await waitFor(() => {
-      const values = Array.from(canvasElement.querySelectorAll('data[value]')).map((el) =>
-        el.getAttribute('value'),
-      );
-      expect(values).toEqual(['oslo', 'bergen']);
+      expect(args.onSelectedChange).toHaveBeenLastCalledWith([
+        { label: 'Oslo', value: 'oslo' },
+        { label: 'Trondheim', value: 'trondheim' },
+      ]);
+      expect(input).toHaveValue('o');
+      expectSuggestionSelection(canvasElement, 'test-multi-destination', ['oslo', 'trondheim']);
+    });
+  },
+};
+
+export const TestUncontrolledMultiSelect: Story = {
+  name: 'Test: Uncontrolled Multi-Select Mouse and Keyboard',
+  render: (args) => <MultiSelectTestRender {...args} controlled={false} />,
+  args: { multiple: true, onSelectedChange: fn() as any },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const input = await waitFor(() => canvas.getByRole('combobox', { name: 'Velg destinasjoner' }));
+    await userEvent.click(input);
+    await userEvent.click(await findVisibleSuggestionOption(canvasElement, 'Oslo'));
+    await waitFor(() => {
+      expect(args.onSelectedChange).toHaveBeenLastCalledWith([{ label: 'Oslo', value: 'oslo' }]);
+      expect(input).toHaveValue('');
+      expectSuggestionSelection(canvasElement, 'test-multi-destination', ['oslo']);
+    });
+
+    await userEvent.type(input, 'berg');
+    await findVisibleSuggestionOption(canvasElement, 'Bergen');
+    await userEvent.keyboard('{ArrowDown}');
+    await waitFor(() => {
+      const activeId = input.getAttribute('aria-activedescendant');
+      expect(activeId).toBeTruthy();
+      const active = canvasElement.ownerDocument.getElementById(activeId ?? '');
+      expect(active).toHaveAttribute('role', 'option');
+      expect(active?.textContent).toBe('Bergen');
+    });
+    await userEvent.keyboard('{Enter}');
+    await waitFor(() => {
+      expect(args.onSelectedChange).toHaveBeenLastCalledWith([
+        { label: 'Oslo', value: 'oslo' },
+        { label: 'Bergen', value: 'bergen' },
+      ]);
+      expect(input).toHaveValue('berg');
+      expectSuggestionSelection(canvasElement, 'test-multi-destination', ['oslo', 'bergen']);
     });
   },
 };
