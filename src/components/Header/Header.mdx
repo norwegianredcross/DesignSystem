@@ -22,33 +22,18 @@ Header-komponenten er ment å ligge øverst i applikasjonen og være vedvarende 
 ```tsx
 import { Header } from 'rk-designsystem';
 
-const MyApp = () => {
-  const [page, setPage] = useState('home');
-
-  return (
-    <div>
-      <Header 
-        activePage={page} 
-        setPage={setPage} 
-        showUser={true}
-        userName="Kari Nordmann"
-        showSearch={true}
-        searchItems={mySearchItems}
-        showLogin={false}
-      >
-        {/* Innholdet i den utvidbare menyen */}
-        <nav>
-          <a href="#" onClick={() => setPage('home')}>Hjem</a>
-          <a href="#" onClick={() => setPage('about')}>Om oss</a>
-        </nav>
-      </Header>
-      
-      <main>
-        {/* Sideinnhold */}
-      </main>
-    </div>
-  );
-};
+const MyApp = () => (
+  <Header
+    navItems={[
+      { label: 'Hjem', href: '/' },
+      { label: 'Om oss', href: '/om-oss' },
+    ]}
+  >
+    <nav aria-label="Flere sider">
+      <a href="/kontakt">Kontakt oss</a>
+    </nav>
+  </Header>
+);
 ```
 
 ### Varianter
@@ -57,7 +42,7 @@ const MyApp = () => {
 Viser "Logg inn" i stedet for brukerprofil.
 
 ```tsx
-<Header showUser={false} showLogin={true} />
+<Header showUser={false} showLogin={true} loginHref="/logg-inn" />
 ```
 
 #### Uten søk
@@ -96,9 +81,29 @@ Headeren har en `children`-prop som rendres inne i den utvidbare menyen (burgerm
 ## Tilgjengelighet (A11y)
 - **ARIA-labels:** Alle knapper har beskrivende `aria-label` attributter.
 - **Tastaturnavigasjon:** Menyer og søk kan åpnes og lukkes med tastatur.
-- **Fokus-styring:** På mobil, der menyen dekker hele skjermen, sykler Tab/Shift+Tab mellom menyknappen og menyens egne kontroller (fokusfelle). På desktop er menyen et panel under toppraden, og toppradens kontroller forblir tilgjengelige. Escape lukker og returnerer fokus til knappen som åpnet; lukkes menyen på annen måte, hentes fokus tilbake til menyknappen.
+- **Fokus-styring:** Menyen er en native, ikke-modal popover. Nettleseren håndterer åpning, Escape og lukking ved klikk utenfor. Menyen har også en egen lukkeknapp. Tab følger vanlig rekkefølge uten en egendefinert fokusfelle.
 
 ## Bruker, innlogging og søk
 
 Alle tre er av som standard. `showUser` viser brukerblokken bare når `userName` er satt; `showLogin` trenger `loginHref` og/eller `onLoginClick`; `showSearch` matcher forslag mot `searchItems` (`{ id, title, path }`) og sender `setPage('search/<søk>')` ved innsending. Headeren har ingen egen data.
 
+
+## Baseline uten JavaScript
+
+Importer `rk-designsystem/styles` for utseendet. Header injiserer ikke CSS ved kjøring.
+Navigasjonslenker og menyinnhold rendres på serveren. Menyen bruker Popover API,
+og CSS styrer mobil- og desktopvisning. Nettlesere uten Popover API viser menyinnholdet
+som vanlig innhold. Uten CSS kan lenkene fortsatt brukes.
+
+Bruk ekte URL-er i `navItems` og i menyinnholdet. `setPage` er en valgfri forbedring.
+Søk, språkvalg, temabytte og handlinger som bare har callbacks aktiveres etter
+hydrering. Hvis søk er nødvendig uten JavaScript, legg inn en lenke til en søkeside.
+Send `colorScheme` fra serveren når riktig tema må gjelde fra første visning.
+Header er fortsatt en Client Component i pakken og kan importeres fra en Server
+Component med serialiserbare props.
+
+Sider og layouts i Next.js kan fortsatt være Server Components: importer Header
+med vanlige, serialiserbare props som `navItems` og `colorScheme`. Pakken setter
+klientgrensen for Header. Callback-props som `setPage` og `onCtaClick` må defineres
+i en liten Client Component som bruker Header; de krever ikke at hele siden
+merkes `use client`.

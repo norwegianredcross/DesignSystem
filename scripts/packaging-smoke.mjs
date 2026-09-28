@@ -31,6 +31,7 @@ import { verifyNextFooter } from './footer-next-smoke.mjs';
 import { expect } from '@playwright/test';
 import { typecheckPublishedTypes } from './typecheck-published-types.mjs';
 import { consumerOverrides } from './consumer-overrides.mjs';
+import { verifyNextHeader } from './header-next-smoke.mjs';
 
 const ROOT = process.cwd();
 const repoPkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
@@ -674,6 +675,7 @@ export default defineConfig({ base: './', plugins: [react()] });
   }
   console.log(`✅ Tree-shaking OK: Button-only-bundle ${shakeJs.length} bytes, uten Donor/Carousel-markører.`);
 
+  await verifyNextHeader(tarball, path.join(tmp, 'next-header'), dev);
   await verifyNextFooter(tarball, path.join(tmp, 'next-footer'), dev);
 
   console.log('✅ Pakke-røyktest bestått.');
