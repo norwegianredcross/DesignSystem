@@ -91,10 +91,9 @@ jobs:
       - script: git diff --exit-code metadata.json AI_DESIGN_SYSTEM_GUIDE.md ai-context.manifest.json
         displayName: AI-kontekstartefaktene er oppdaterte
 
-      # Baselines er tatt på GitHubs agenter. Fonter og rendering kan avvike på
-      # den delte poolen, så sjekken er foreløpig ikke blokkerende: den kjører
-      # og laster opp bildene, men stopper ikke PR-en. Gjør den blokkerende når
-      # baselines er tatt på nytt i Azure.
+      # Baselines tas på den delte poolen med pipelinen
+      # «rk-designsystem visual baselines». Ved tilsiktede visuelle endringer:
+      # kjør den på PR-branchen, så committes nye baselines dit.
       - bash: |
           set -euo pipefail
           if [ -d tests/visual/__screenshots__ ]; then
@@ -104,7 +103,6 @@ jobs:
             npm run test:visual:update
           fi
         displayName: Visuell regresjon (nøkkel-stories)
-        continueOnError: true
 
       # Ved avvik ligger expected/actual/diff-bildene her til review.
       - bash: |
