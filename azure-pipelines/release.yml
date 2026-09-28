@@ -168,7 +168,7 @@ jobs:
       # midlertidig .npmrc utenfor repoet og slettes når steget er ferdig.
       - bash: |
           set -euo pipefail
-          if npm view "rk-designsystem@$(NEW_VERSION)" version >/dev/null 2>&1; then
+          if npm view "rk-designsystem@$(NEW_VERSION)" version --prefer-online >/dev/null 2>&1; then
             echo "##vso[task.logissue type=warning]rk-designsystem@$(NEW_VERSION) finnes allerede på npm – hopper over."
             exit 0
           fi
@@ -192,13 +192,18 @@ jobs:
           env:
             NPM_TOKEN: $(NPM_TOKEN)
 
+      # --prefer-online: sjekken før publisering har allerede lagt pakke-
+      # dokumentet i npm-cachen, og registeret tillater at det caches i fem
+      # minutter. Uten flagget svarer npm fra cachen og ser ikke den nye
+      # versjonen – slik feilet den første prereleasen etter en vellykket
+      # publisering.
       - ${{ if ne(parameters.mode, 'dry-run') }}:
           - bash: |
               set -euo pipefail
-              for attempt in 1 2 3 4 5 6; do
-                if npm view "rk-designsystem@$(NEW_VERSION)" version >/dev/null 2>&1; then
+              for attempt in $(seq 1 18); do
+                if npm view "rk-designsystem@$(NEW_VERSION)" version --prefer-online >/dev/null 2>&1; then
                   echo "rk-designsystem@$(NEW_VERSION) er på npm."
-                  npm view rk-designsystem dist-tags
+                  npm view rk-designsystem dist-tags --prefer-online
                   exit 0
                 fi
                 sleep 10
