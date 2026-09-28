@@ -46,6 +46,12 @@ export default defineConfig({
           name: 'unit',
           include: ['src/**/*.test.ts', 'tests/tooling/**/*.test.ts'],
           environment: 'node',
+          // build-isolation.test.ts resolves the library Vite config, and that
+          // instantiates vite-plugin-dts — which reads tsconfig.dts.json and
+          // stands up a TypeScript program. That alone is ~2.9 s of vitest's
+          // 5 s default, so the case passed on an idle machine and timed out
+          // on a loaded one. Same budget the browser projects already use.
+          testTimeout: 30000,
         },
       },
       storybookProject('storybook'),
