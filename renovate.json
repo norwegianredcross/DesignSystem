@@ -1,0 +1,34 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "timezone": "Europe/Oslo",
+  "schedule": ["before 7am on monday"],
+  "prConcurrentLimit": 2,
+  "enabledManagers": ["npm"],
+  "packageRules": [
+    {
+      "description": "Én samlet PR i uka for minor og patch, som Dependabot-gruppen fra GitHub. Designtokens går utenom, se under.",
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchPackageNames": ["!rk-design-tokens"],
+      "groupName": "minor-and-patch"
+    },
+    {
+      "description": "Toolchain- og Digdir-majors er migreringer, ikke bumps – tas for hånd. Scoped pakker trenger egne mønstre: eslint* treffer ikke @eslint/js.",
+      "matchPackageNames": [
+        "vite", "vite-plugin-dts", "@vitejs/**",
+        "vitest", "@vitest/**",
+        "storybook", "@storybook/**",
+        "eslint*", "@eslint/**", "@typescript-eslint/**",
+        "typescript", "typescript-eslint",
+        "@digdir/**"
+      ],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
+      "description": "Ny versjon av designtokens gir egen PR med en gang. Erstatter token-bump.yml; visuell regresjon kjører på PR-en gjennom CI.",
+      "matchPackageNames": ["rk-design-tokens"],
+      "schedule": ["at any time"],
+      "rangeStrategy": "bump"
+    }
+  ]
+}
