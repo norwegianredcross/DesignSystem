@@ -4,7 +4,7 @@
  * komponenter — ikke bare at importene lar seg løse.
  *
  * Flyt: npm pack → installer tarball i en midlertidig Vite-app (samme
- * avhengighetsversjoner som repoet) → bygg → åpne i Chromium og les
+ * avhengighetsspenn som repoet, uten repoets lockfil) → bygg → åpne i Chromium og les
  * computed styles.
  *
  * Verifiserer tre lag:
@@ -25,11 +25,92 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import http from 'node:http';
+import { createRequire } from 'node:module';
 import { chromium } from 'playwright';
+import { expect } from '@playwright/test';
 import { typecheckPublishedTypes } from './typecheck-published-types.mjs';
 
 const ROOT = process.cwd();
 const repoPkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
+// Optional exact versions reproduce regressions without the repository lockfile.
+const smokeDigdir = process.env.RK_SMOKE_DIGDIR_VERSION;
+const smokeCombobox = process.env.RK_SMOKE_COMBOBOX_VERSION;
+
+function verifySuggestionDependencies(dir) {
+  const appRequire = createRequire(path.join(dir, 'package.json'));
+  const reactEntry = appRequire.resolve('@digdir/designsystemet-react');
+  const webEntry = createRequire(reactEntry).resolve('@digdir/designsystemet-web');
+  const comboboxEntry = createRequire(webEntry).resolve('@u-elements/u-combobox');
+  // Read the dependency Digdir actually resolves, even with nested installs.
+  function versionOf(entry, name) {
+    for (let folder = path.dirname(entry); folder !== path.dirname(folder); folder = path.dirname(folder)) {
+      const manifest = path.join(folder, 'package.json');
+      if (fs.existsSync(manifest)) {
+        const pkg = JSON.parse(fs.readFileSync(manifest, 'utf8'));
+        if (pkg.name === name) return pkg.version;
+      }
+    }
+    throw new Error(`Cannot locate manifest for ${name}`);
+  }
+  const digdir = versionOf(reactEntry, '@digdir/designsystemet-react');
+  const combobox = versionOf(comboboxEntry, '@u-elements/u-combobox');
+  if (smokeDigdir) expect(digdir).toBe(smokeDigdir);
+  if (smokeCombobox) expect(combobox).toBe(smokeCombobox);
+  console.log(`Suggestion consumer: Digdir ${digdir}, resolved u-combobox ${combobox}`);
+}
+
+async function verifySuggestionInteractions(page, label) {
+  page.setDefaultTimeout(10000);
+  const single = page.locator('#smoke-single');
+  await expect(single.getByTestId('suggestion-root')).toHaveAttribute('data-smoke-ref', 'connected');
+  // u-datalist assigns the combobox role when this standalone input gains focus.
+  const singleInput = single.getByLabel('smoke-single');
+  await singleInput.click();
+  await singleInput.fill('sogn');
+  await expect(singleInput).toHaveAttribute('role', 'combobox');
+  await expect(singleInput).toHaveAttribute('aria-expanded', 'true');
+  await expect(single.getByTestId('suggestion-options')).toBeVisible();
+  await single.getByRole('option', { name: 'Sogndal', exact: true }).click();
+  await expect(singleInput).toHaveValue('Sogndal');
+  await expect.poll(() => single.evaluate(form => new FormData(form).getAll('destination')))
+    .toEqual(['sogndal']);
+  await single.getByRole('button', { name: 'Clear selection', exact: true }).click();
+  await expect(singleInput).toHaveValue('');
+  await expect(singleInput).toBeFocused();
+  await singleInput.press('Tab');
+  await expect.poll(() => single.evaluate(form => new FormData(form).getAll('destination')))
+    .toEqual([]);
+  await expect(singleInput).toHaveValue('');
+  await singleInput.click();
+  await expect(singleInput).toHaveValue('');
+  await singleInput.press('Escape');
+  await expect(single.getByTestId('suggestion-options')).not.toBeVisible();
+
+  for (const [id, query, nextLabel, nextValue] of [
+    ['smoke-multi-empty', '', 'Bergen', 'bergen'],
+    ['smoke-multi-query', 'o', 'Trondheim', 'trondheim'],
+  ]) {
+    const form = page.locator(`#${id}`);
+    await expect(form.getByTestId('suggestion-root')).toHaveAttribute('data-smoke-ref', 'connected');
+    const input = form.getByLabel(id);
+    await input.click();
+    await expect(input).toHaveAttribute('role', 'combobox');
+    if (query) await input.fill(query);
+    await form.getByRole('option', { name: 'Oslo', exact: true }).click();
+    await expect(input).toHaveValue(query);
+    await expect.poll(() => form.evaluate(el => new FormData(el).getAll('destination')))
+      .toEqual(['oslo']);
+    await input.click();
+    await form.getByRole('option', { name: nextLabel, exact: true }).click();
+    await expect(input).toHaveValue(query);
+    await expect.poll(() => form.evaluate(el => new FormData(el).getAll('destination')))
+      .toEqual(['oslo', nextValue]);
+    // Close the list so it doesn't cover the next fixture's input.
+    await input.press('Escape');
+    await expect(form.getByTestId('suggestion-options')).not.toBeVisible();
+  }
+  console.log(`✅ [${label}] Packed Suggestion clears selection and preserves empty/typed multi-select queries.`);
+}
 
 function fail(msg) {
   console.error(`❌ ${msg}`);
@@ -110,6 +191,7 @@ async function verifyRenderedStyles(dir, label) {
     console.log(
       `✅ [${label}] Computed styles OK: token=${result.redToken}, bg=${result.buttonBackground}, radius=${result.buttonRadius}`,
     );
+    await verifySuggestionInteractions(page, label);
   } finally {
     await browser.close();
     server.close();
@@ -192,15 +274,49 @@ try {
   );
   fs.writeFileSync(
     path.join(appDir, 'src/main.jsx'),
-    `import { createRoot } from 'react-dom/client';
+    `import { useState } from 'react';
+import { createRoot } from 'react-dom/client';
 import 'rk-designsystem/styles';
-import { Alert, Button, GraphicElement } from 'rk-designsystem';
+import { Alert, Button, GraphicElement, Suggestion } from 'rk-designsystem';
+
+const options = [
+  { label: 'Sogndal', value: 'sogndal' },
+  { label: 'Oslo', value: 'oslo' },
+  { label: 'Bergen', value: 'bergen' },
+  { label: 'Trondheim', value: 'trondheim' },
+];
+
+// Set both clear labels: 1.21 uses aria-label; 1.22 applies data-sr-clear.
+function SuggestionFixture({ id, multiple = false }) {
+  const [selected, setSelected] = useState(multiple ? [] : null);
+  return (
+    <form id={id}>
+      <Suggestion multiple={multiple} selected={selected} onSelectedChange={setSelected} name="destination"
+        data-testid="suggestion-root"
+        data-sr-clear="Clear selection"
+        ref={node => { if (node) node.dataset.smokeRef = 'connected'; }}>
+        <Suggestion.Input aria-label={id} />
+        <Suggestion.Clear aria-label="Clear selection" />
+        <Suggestion.List data-testid="suggestion-options">
+          {options.map(option => (
+            <Suggestion.Option key={option.value} value={option.value} label={option.label}>
+              {option.label}
+            </Suggestion.Option>
+          ))}
+        </Suggestion.List>
+      </Suggestion>
+    </form>
+  );
+}
 
 createRoot(document.getElementById('root')).render(
   <main>
     <Alert data-color="info">Viktig melding</Alert>
     <Button id="smoke-button">Gi 250 kr</Button>
     <GraphicElement shape="cross" aria-hidden />
+    <SuggestionFixture id="smoke-single" />
+    <SuggestionFixture id="smoke-multi-empty" multiple />
+    <SuggestionFixture id="smoke-multi-query" multiple />
   </main>,
 );
 `,
@@ -219,8 +335,9 @@ export default defineConfig({ base: './', plugins: [react()] });
     JSON.stringify(tarball),
     `react@${dev.react}`,
     `react-dom@${dev['react-dom']}`,
-    `@digdir/designsystemet-react@${dev['@digdir/designsystemet-react']}`,
-    `@digdir/designsystemet-css@${dev['@digdir/designsystemet-css']}`,
+    JSON.stringify(`@digdir/designsystemet-react@${smokeDigdir ?? dev['@digdir/designsystemet-react']}`),
+    JSON.stringify(`@digdir/designsystemet-css@${smokeDigdir ?? dev['@digdir/designsystemet-css']}`),
+    ...(smokeCombobox ? [JSON.stringify(`@u-elements/u-combobox@${smokeCombobox}`)] : []),
     `vite@${dev.vite}`,
     `@vitejs/plugin-react@${dev['@vitejs/plugin-react']}`,
     // For the type-check leg: the consumer compiles our published d.ts itself.
@@ -231,6 +348,7 @@ export default defineConfig({ base: './', plugins: [react()] });
   ].join(' ');
   console.log('Installerer tarball + avhengigheter i konsument-appen …');
   run(`npm install --no-audit --no-fund --loglevel=error ${deps}`, appDir);
+  verifySuggestionDependencies(appDir);
 
   // 2b. README-ens importsti må finnes i den PAKKEDE pakken, ikke bare i
   // repoet: exports-kartet er det som avgjør om `rk-designsystem/styles`
@@ -267,7 +385,7 @@ console.log(fileURLToPath(import.meta.resolve('rk-designsystem/styles')));
   fs.writeFileSync(
     path.join(appDir, 'src/typecheck.tsx'),
     `import 'rk-designsystem/styles';
-import type { ComponentProps } from 'react';
+import { createRef, type ComponentProps, type ComponentRef } from 'react';
 import {
   Alert, Badge, BadgePosition, Button, DatePicker, Donor, Footer,
   GraphicElement, Header, Suggestion, Tag,
@@ -279,6 +397,27 @@ import {
 // way a consumer's IDE does.
 const button: ButtonProps = { children: 'Gi 250 kr' };
 const tag: TagProps = { children: 'Ny' };
+const suggestionRef = createRef<ComponentRef<typeof Suggestion>>();
+const singleSuggestion = (
+  <Suggestion ref={suggestionRef} selected={null} onSelectedChange={item => {
+    const label: string | undefined = item?.label;
+    void label;
+  }}>
+    <Suggestion.Input />
+    <Suggestion.Clear />
+    <Suggestion.Toggle />
+    <Suggestion.List>
+      <Suggestion.Option value="oslo">Oslo</Suggestion.Option>
+      <Suggestion.Empty>No matches</Suggestion.Empty>
+    </Suggestion.List>
+  </Suggestion>
+);
+const multipleSuggestion = <Suggestion multiple selected={[]} onSelectedChange={items => {
+  const values: string[] = items.map(item => item.value);
+  void values;
+}} />;
+void singleSuggestion;
+void multipleSuggestion;
 
 // data-color is compile-checked: the published d.ts embeds rk-design-tokens'
 // ColorDefinitions augmentation, so real scopes pass and dead scopes fail.
@@ -448,13 +587,15 @@ export function App(props: Fixture) {
     'react-dom@18.3.1',
     '@types/react@18',
     '@types/react-dom@18',
-    `@digdir/designsystemet-react@${dev['@digdir/designsystemet-react']}`,
-    `@digdir/designsystemet-css@${dev['@digdir/designsystemet-css']}`,
+    JSON.stringify(`@digdir/designsystemet-react@${smokeDigdir ?? dev['@digdir/designsystemet-react']}`),
+    JSON.stringify(`@digdir/designsystemet-css@${smokeDigdir ?? dev['@digdir/designsystemet-css']}`),
+    ...(smokeCombobox ? [JSON.stringify(`@u-elements/u-combobox@${smokeCombobox}`)] : []),
     `vite@${dev.vite}`,
     `@vitejs/plugin-react@${dev['@vitejs/plugin-react']}`,
     `typescript@${dev.typescript}`,
   ].join(' ');
   run(`npm install --no-audit --no-fund --loglevel=error ${deps18}`, app18Dir);
+  verifySuggestionDependencies(app18Dir);
   run('npx vite build --logLevel error', app18Dir);
   // NodeNext-legen er dekket av React 19-appen; typeforskjellen mellom
   // React-versjonene ligger i @types/react, ikke i oppløsningsmodusen.

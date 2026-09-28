@@ -100,6 +100,13 @@ semantikk (aktiv `aria-activedescendant`, tilgjengelig beskrivelse på
 tooltip-utløseren, valgte verdier som `<data value>`), og slike tester er
 normen: en Digdir-bump skal ikke feile på hvordan Digdir bygger DOM-en.
 
+Interaksjonstester bruker tilgjengelige roller og synlighet fremfor Digdirs
+interne tagger og nøyaktige skjuleattributter. Når en test finner en kontroll
+via tekst, setter test-fixturen teksten eksplisitt; oppstrøms standardtekster
+kan endres. Valg verifiseres også som innsendte skjemaverdier. Pakke-røyktesten
+installerer en fersk konsument fra avhengighetsspennene, uten repoets lockfil,
+og kan derfor teste en nyere Digdir-versjon enn Storybook-suiten.
+
 | Digdir | Utfall (før omskrivingen) |
 | --- | --- |
 | 1.13.3 | grønn |
