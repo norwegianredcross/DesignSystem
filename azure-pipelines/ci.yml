@@ -28,6 +28,10 @@ variables:
   # som allerede har lite diskplass.
   - name: PLAYWRIGHT_BROWSERS_PATH
     value: $(Pipeline.Workspace)/ms-playwright
+  # npm-cachen legges også i arbeidsmappen. I ~/.npm ville den vokse med hver
+  # kjøring, siden verken workspace: clean eller oppryddingen når den.
+  - name: npm_config_cache
+    value: $(Pipeline.Workspace)/.npm
 
 jobs:
   - job: test
@@ -124,6 +128,6 @@ jobs:
       # Agentene er delte og har lite diskplass, og arbeidsmappen tømmes først
       # ved neste kjøring. Rydd derfor bort nettleserne og node_modules med en
       # gang, også når en tidligere steg feilet.
-      - bash: rm -rf "$PLAYWRIGHT_BROWSERS_PATH" node_modules
+      - bash: rm -rf "$PLAYWRIGHT_BROWSERS_PATH" "$NPM_CONFIG_CACHE" node_modules
         displayName: Rydd opp nettlesere og node_modules
         condition: always()

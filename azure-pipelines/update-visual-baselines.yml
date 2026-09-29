@@ -15,6 +15,10 @@ pool:
 variables:
   - name: PLAYWRIGHT_BROWSERS_PATH
     value: $(Pipeline.Workspace)/ms-playwright
+  # npm-cachen legges også i arbeidsmappen. I ~/.npm ville den vokse med hver
+  # kjøring, siden verken workspace: clean eller oppryddingen når den.
+  - name: npm_config_cache
+    value: $(Pipeline.Workspace)/.npm
 
 jobs:
   - job: update
@@ -65,6 +69,6 @@ jobs:
           fi
         displayName: Commit oppdaterte baselines
 
-      - bash: rm -rf "$PLAYWRIGHT_BROWSERS_PATH" node_modules
+      - bash: rm -rf "$PLAYWRIGHT_BROWSERS_PATH" "$NPM_CONFIG_CACHE" node_modules
         displayName: Rydd opp nettleser og node_modules
         condition: always()
