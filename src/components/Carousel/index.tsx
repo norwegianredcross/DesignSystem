@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import styles from './styles.module.css';
 import type { DefaultProps } from '../../types';
@@ -59,26 +59,52 @@ export const Carousel: React.FC<CarouselProps> = ({
 }) => {
   const { t } = useLanguageOptional();
 
-  // Fallback: inject minimal Carousel styles if consumer did not import the CSS bundle.
+  // Server and first client render use the same native gallery. Browser
+  // preferences and stylesheet availability are checked only after hydration.
+  const [motionAllowed, setMotionAllowed] = useState(false);
   useEffect(() => {
-    const styleId = 'rk-carousel-inline-styles';
-    if (typeof document === 'undefined') return;
-    if (document.getElementById(styleId)) return;
-    const css = buildCarouselInlineCss(styles);
-    const tag = document.createElement('style');
-    tag.id = styleId;
-    tag.textContent = css;
-    // prepend, NOT appendChild: this copy is a FALLBACK for consumers who never
-    // import 'rk-designsystem/styles', and it must lose to the real stylesheet
-    // whenever that is present. Appending put it last in <head>, so at equal
-    // specificity it beat the bundled sheet for EVERY consumer — silently
-    // replacing responsive @media values it does not reproduce with its own
-    // desktop base values. Placing it first keeps it a safety net instead.
-    document.head.prepend(tag);
+    const preference = window.matchMedia('(prefers-reduced-motion: no-preference)');
+    const update = () => setMotionAllowed(preference.matches);
+    update();
+    preference.addEventListener('change', update);
+    return () => preference.removeEventListener('change', update);
   }, []);
+
+  const [viewport, setViewport] = useState<HTMLDivElement | null>(null);
+  const [stylesReady, setStylesReady] = useState(false);
+  const initialSlide = useRef(0);
+  useEffect(() => {
+    const track = viewport?.firstElementChild;
+    if (!viewport || !(track instanceof HTMLElement) || typeof ResizeObserver === 'undefined') return;
+    const checkLayout = () => {
+      const ready = getComputedStyle(track).display === 'flex';
+      if (ready && viewport.scrollLeft) {
+        const slides = Array.from(track.children);
+        const first = slides[0]?.getBoundingClientRect().left ?? 0;
+        let nearest = Infinity;
+        slides.forEach((slide, index) => {
+          const distance = Math.abs(slide.getBoundingClientRect().left - first - viewport.scrollLeft);
+          if (distance < nearest) {
+            nearest = distance;
+            initialSlide.current = index;
+          }
+        });
+      }
+      setStylesReady(ready);
+    };
+    checkLayout();
+    // CSS arriving late or being removed changes the track's layout. Reuse
+    // that signal instead of injecting another stylesheet or polling the DOM.
+    const observer = new ResizeObserver(checkLayout);
+    observer.observe(viewport);
+    observer.observe(track);
+    return () => observer.disconnect();
+  }, [viewport]);
 
   // Options for Embla
   const options = {
+    active: stylesReady && (showArrows || showDots),
+    duration: motionAllowed ? 25 : 0,
     loop: true,
     align: 'start' as const,
     containScroll: 'trimSnaps' as const,
@@ -86,6 +112,11 @@ export const Carousel: React.FC<CarouselProps> = ({
   };
 
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
+  const attachViewport = useCallback((node: HTMLDivElement | null) => {
+    setViewport(node);
+    emblaRef(node);
+  }, [emblaRef]);
+  const enhanced = stylesReady && (showArrows || showDots) && Boolean(emblaApi);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
   // Which slides are actually visible, straight from Embla — with
@@ -101,31 +132,54 @@ export const Carousel: React.FC<CarouselProps> = ({
   // Håndterer oppdatering av valgt indeks når karusellen scroller
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
+    setScrollSnaps(emblaApi.scrollSnapList());
     setSelectedIndex(emblaApi.selectedScrollSnap());
     setSlidesInView(emblaApi.slidesInView());
   }, [emblaApi]);
 
+  // Keyboard focus stops rotation until an explicit restart (APG).
+  // Hover suspends it only while the pointer is inside.
+  const [userPaused, setUserPaused] = useState(false);
+  const [hoverPaused, setHoverPaused] = useState(false);
+  const pointerPauseAction = useRef<boolean | null>(null);
+
   // Hjelpefunksjoner for navigering
-  const scrollTo = useCallback((index: number) => emblaApi && emblaApi.scrollTo(index), [emblaApi]);
-  const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
-  const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
+  const scrollTo = useCallback((index: number) => {
+    setUserPaused(true);
+    emblaApi?.scrollTo(index);
+  }, [emblaApi]);
+  const scrollPrev = useCallback(() => {
+    setUserPaused(true);
+    emblaApi?.scrollPrev();
+  }, [emblaApi]);
+  const scrollNext = useCallback(() => {
+    setUserPaused(true);
+    emblaApi?.scrollNext();
+  }, [emblaApi]);
 
   // Setter opp lyttere for carousel-hendelser
   useEffect(() => {
-    if (!emblaApi) return;
+    if (!enhanced || !emblaApi) return;
+    const stopRotation = () => setUserPaused(true);
+    emblaApi.on('pointerDown', stopRotation);
     emblaApi.on('select', onSelect);
     emblaApi.on('reInit', onSelect);
     // Fires as slides scroll into/out of view (also mid-drag), so the
     // hidden-from-AT set tracks what is on screen, not just the snap.
     emblaApi.on('slidesInView', onSelect);
-    setScrollSnaps(emblaApi.scrollSnapList());
-    setSlidesInView(emblaApi.slidesInView());
+    const root = emblaApi.rootNode();
+    root.scrollLeft = 0;
+    emblaApi.scrollTo(initialSlide.current, true);
+    onSelect();
+    // Focus acquired before hydration must also stop automatic rotation.
+    if (root.parentElement?.contains(document.activeElement)) setUserPaused(true);
     return () => {
+      emblaApi.off('pointerDown', stopRotation);
       emblaApi.off('select', onSelect);
       emblaApi.off('reInit', onSelect);
       emblaApi.off('slidesInView', onSelect);
     };
-  }, [emblaApi, onSelect]);
+  }, [emblaApi, enhanced, onSelect]);
 
   // Re-initialiserer karusellen hvis bilder endres eller layout endres
   useEffect(() => {
@@ -135,13 +189,7 @@ export const Carousel: React.FC<CarouselProps> = ({
     }
   }, [emblaApi, images, slidesPerView, slideSpacing]);
 
-  // WCAG 2.2.2: automatisk avspilling kan alltid pauses. Eksplisitt
-  // pause (knappen) huskes til brukeren starter igjen; hover/fokus
-  // pauser bare midlertidig og gjenopptar når interaksjonen slutter.
-  const [userPaused, setUserPaused] = useState(false);
-  const [hoverPaused, setHoverPaused] = useState(false);
-  const [focusPaused, setFocusPaused] = useState(false);
-  const autoplayActive = autoPlay && !userPaused && !hoverPaused && !focusPaused;
+  const autoplayActive = enhanced && autoPlay && motionAllowed && !userPaused && !hoverPaused;
 
   useEffect(() => {
     if (!autoplayActive || !emblaApi || !images || images.length <= 1) return;
@@ -160,11 +208,10 @@ export const Carousel: React.FC<CarouselProps> = ({
   const slideFlexBasis = `${100 / safeSlideCount}%`;
   const halfSpacing = slideSpacing / 2;
 
-  // Before Embla has reported anything (first paint, SSR) the first
-  // slidesPerView slides are the ones on screen; after that Embla is the
-  // source of truth.
+  // The native gallery exposes all images. Only a working carousel may
+  // hide off-screen slides from assistive technology.
   const isSlideVisible = (index: number) =>
-    slidesInView.length > 0 ? slidesInView.includes(index) : index < safeSlideCount;
+    !enhanced || (slidesInView.length > 0 ? slidesInView.includes(index) : index < safeSlideCount);
   const imageCount = images?.length ?? 0;
   const slideOf = (index: number) =>
     t('carousel.slideOf').replace('{index}', String(index + 1)).replace('{total}', String(imageCount));
@@ -181,25 +228,89 @@ export const Carousel: React.FC<CarouselProps> = ({
     <div
       className={styles.carouselContainer}
       role="region"
-      aria-roledescription="carousel"
+      aria-roledescription={enhanced ? 'carousel' : undefined}
+      data-enhanced={enhanced || undefined}
       aria-label={ariaLabel ?? t('carousel.label')}
       data-color={dataColor}
       data-size={dataSize}
       data-variant={variant}
       onMouseEnter={autoPlay ? () => setHoverPaused(true) : undefined}
       onMouseLeave={autoPlay ? () => setHoverPaused(false) : undefined}
-      onFocus={autoPlay ? () => setFocusPaused(true) : undefined}
-      onBlur={
-        autoPlay
-          ? (event) => {
-              if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
-                setFocusPaused(false);
-              }
-            }
-          : undefined
-      }
+      onFocus={autoPlay ? (event) => {
+        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setUserPaused(true);
+      } : undefined}
     >
-      <div className={styles.viewport} ref={emblaRef}>
+      {enhanced && (showArrows || showDotControls || showPauseControl) && (
+        <div className={styles.controls} aria-hidden="false">
+
+          {(showDotControls || showPauseControl) && (
+            // One translucent pill holds the pause control and the dots; the
+            // dots alone form the labelled "Bildeposisjon" group so the
+            // pause button is not announced as part of the position picker.
+            <div className={styles.dots}>
+              {showPauseControl && (
+                <button
+                  type="button"
+                  className={styles.playPause}
+                  disabled={!motionAllowed}
+                  onPointerDown={() => { pointerPauseAction.current = !userPaused; }}
+                  onPointerCancel={() => { pointerPauseAction.current = null; }}
+                  onClick={(event) => {
+                    setUserPaused(event.detail > 0 ? pointerPauseAction.current ?? !userPaused : !userPaused);
+                    pointerPauseAction.current = null;
+                  }}
+                  aria-label={!motionAllowed || userPaused ? t('carousel.resumeAutoplay') : t('carousel.pauseAutoplay')}
+                >
+                  {!motionAllowed || userPaused ? <PlayIcon aria-hidden /> : <PauseIcon aria-hidden />}
+                </button>
+              )}
+              {showDotControls && (
+                <div className={styles.dotGroup} role="group" aria-label={t('carousel.imagePosition')}>
+                  {scrollSnaps.map((_, index) => {
+                    const isActive = index === selectedIndex;
+                    return (
+                      <button
+                        key={`dot-${index}`}
+                        type="button"
+                        className={`${styles.dot} ${isActive ? styles.dotActive : ''}`}
+                        onClick={isActive ? undefined : () => scrollTo(index)}
+                        aria-disabled={isActive || undefined}
+                        aria-label={`${t('carousel.goToImage')} ${index + 1}`}
+                        aria-current={isActive || undefined}
+                      />
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
+          {showArrows && (
+            <div className={styles.arrows}>
+              <Button
+                variant="primary"
+                icon={true}
+                aria-label={t('carousel.previousImage')}
+                onClick={scrollPrev}
+                disabled={!hasMultiple}
+              >
+                <ChevronLeftIcon aria-hidden />
+              </Button>
+              <Button
+                variant="primary"
+                icon={true}
+                aria-label={t('carousel.nextImage')}
+                onClick={scrollNext}
+                disabled={!hasMultiple}
+              >
+                <ChevronRightIcon aria-hidden />
+              </Button>
+            </div>
+          )}
+
+        </div>
+      )}
+
+      <div className={styles.viewport} ref={attachViewport} tabIndex={-1}>
         <div 
           className={styles.slides}
           style={{ 
@@ -213,11 +324,11 @@ export const Carousel: React.FC<CarouselProps> = ({
                 className={styles.slide}
                 key={`image-${index}-${image.src}`}
                 role="group"
-                aria-roledescription="slide"
+                tabIndex={enhanced ? -1 : 0}
+                aria-roledescription={enhanced ? 'slide' : undefined}
                 aria-label={slideOf(index)}
-                // Off-screen slides leave the accessibility tree. aria-hidden
-                // is sufficient here (no `inert` needed) because a slide holds
-                // only an <img> — nothing focusable.
+                // Native Tab navigation reveals each baseline slide. Once
+                // enhanced, controls navigate and only visible slides are read.
                 aria-hidden={isSlideVisible(index) ? undefined : true}
                 style={{
                   flex: `0 0 ${slideFlexBasis}`,
@@ -252,274 +363,16 @@ export const Carousel: React.FC<CarouselProps> = ({
           drives the carousel; switched OFF while autoplay is rotating, as the
           APG pattern requires — a live region that fires every few seconds
           on its own would talk over everything else on the page. */}
-      {hasMultiple && (
+      {enhanced && hasMultiple && (
         <div role="status" aria-live={autoplayActive ? 'off' : 'polite'} className={styles.srOnly}>
           {slideOf(selectedIndex)}
           {images[selectedIndex]?.alt ? `: ${images[selectedIndex].alt}` : ''}
         </div>
       )}
 
-      {(showArrows || showDotControls || showPauseControl) && (
-        <div className={styles.controls} aria-hidden="false">
-          {showArrows && (
-            <div className={styles.arrows}>
-              <Button
-                variant="primary"
-                icon={true}
-                aria-label={t('carousel.previousImage')}
-                onClick={scrollPrev}
-                disabled={!hasMultiple}
-              >
-                <ChevronLeftIcon aria-hidden />
-              </Button>
-              <Button
-                variant="primary"
-                icon={true}
-                aria-label={t('carousel.nextImage')}
-                onClick={scrollNext}
-                disabled={!hasMultiple}
-              >
-                <ChevronRightIcon aria-hidden />
-              </Button>
-            </div>
-          )}
 
-          {(showDotControls || showPauseControl) && (
-            // One translucent pill holds the pause control and the dots; the
-            // dots alone form the labelled "Bildeposisjon" group so the
-            // pause button is not announced as part of the position picker.
-            <div className={styles.dots}>
-              {showPauseControl && (
-                <button
-                  type="button"
-                  className={styles.playPause}
-                  onClick={() => setUserPaused((paused) => !paused)}
-                  aria-label={userPaused ? t('carousel.resumeAutoplay') : t('carousel.pauseAutoplay')}
-                  aria-pressed={userPaused}
-                >
-                  {userPaused ? <PlayIcon aria-hidden /> : <PauseIcon aria-hidden />}
-                </button>
-              )}
-              {showDotControls && (
-                <div className={styles.dotGroup} role="group" aria-label={t('carousel.imagePosition')}>
-                  {scrollSnaps.map((_, index) => {
-                    const isActive = index === selectedIndex;
-                    return (
-                      <button
-                        key={`dot-${index}`}
-                        type="button"
-                        className={`${styles.dot} ${isActive ? styles.dotActive : ''}`}
-                        onClick={() => scrollTo(index)}
-                        aria-label={`${t('carousel.goToImage')} ${index + 1}`}
-                        aria-current={isActive || undefined}
-                      />
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-      )}
     </div>
   );
 };
 
 Carousel.displayName = 'Carousel';
-
-// Build a minimal CSS fallback using the hashed class names from the CSS module.
-function buildCarouselInlineCss(s: Record<string, string>): string {
-  return `
-.${s.carouselContainer} {
-  position: relative;
-  display: block;
-  width: 100%;
-  height: 100%;
-  min-height: 200px;
-  background-color: var(--ds-color-neutral-background-default, #fff);
-  color: var(--ds-color-neutral-text-default, #2b2b2b);
-  border-radius: var(--ds-border-radius-md, 4px);
-  box-sizing: border-box;
-  max-width: 100%;
-}
-.${s.viewport} {
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
-}
-.${s.slides} {
-  display: flex;
-  height: 100%;
-  user-select: none;
-  -webkit-touch-callout: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-}
-.${s.slide} {
-  position: relative;
-  min-width: 0;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-}
-.${s.slideInner} {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  background-color: var(--ds-color-neutral-surface-tinted, #f5f5f5);
-  overflow: hidden;
-}
-.${s.image} {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 1;
-}
-.${s.empty} {
-  color: var(--ds-color-neutral-text-subtle, #5d5d5d);
-  font-size: var(--ds-font-size-2, 14px);
-  text-align: center;
-}
-.${s.srOnly} {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-.${s.controls} {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-  z-index: 10;
-}
-.${s.arrows} {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0 var(--ds-size-4, 16px);
-  box-sizing: border-box;
-  pointer-events: auto;
-}
-.${s.dots} {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: var(--ds-size-3, 12px);
-  display: inline-flex;
-  align-items: center;
-  gap: var(--ds-size-2, 8px);
-  pointer-events: auto;
-  background-color: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(4px);
-  padding: var(--ds-size-1, 4px) var(--ds-size-2, 8px);
-  border-radius: 999px;
-}
-.${s.dotGroup} {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--ds-size-1, 4px);
-}
-.${s.dot} {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--ds-size-6, 24px);
-  height: var(--ds-size-6, 24px);
-  border: 0;
-  border-radius: 999px;
-  background: transparent;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
-}
-.${s.dot}::before {
-  content: "";
-  width: 12px;
-  height: 12px;
-  border-radius: 999px;
-  border: var(--ds-border-width-default, 1px) solid var(--ds-color-neutral-border-subtle, #d6d6d6);
-  background-color: rgba(255, 255, 255, 0.6);
-  box-sizing: border-box;
-  transition: all 0.2s ease;
-}
-.${s.playPause} {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--ds-size-6, 24px);
-  height: var(--ds-size-6, 24px);
-  border-radius: 999px;
-  border: var(--ds-border-width-default, 1px) solid var(--ds-color-neutral-border-subtle, #d6d6d6);
-  background-color: rgba(255, 255, 255, 0.85);
-  /* Pinned to match the hardcoded pill — see styles.module.css. */
-  color: #1e1e1e;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
-}
-.${s.dotActive}::before {
-  background-color: var(--ds-color-primary-color-red-base-default, #D52B1E);
-  border-color: var(--ds-color-primary-color-red-base-default, #D52B1E);
-  transform: scale(1.1);
-}
-@media (max-width: 640px) {
-  .${s.carouselContainer} {
-    height: auto;
-    min-height: 150px;
-    aspect-ratio: 16 / 9;
-  }
-  .${s.viewport} {
-    aspect-ratio: 16 / 9;
-    height: auto;
-  }
-  .${s.slides} {
-    height: auto;
-    min-height: 150px;
-  }
-  .${s.slide} {
-    height: auto;
-    min-height: 150px;
-  }
-  .${s.slideInner} {
-    aspect-ratio: 16 / 9;
-    height: auto;
-  }
-  .${s.arrows} {
-    padding: 0 var(--ds-size-2, 8px);
-  }
-  .${s.dots} {
-    bottom: var(--ds-size-2, 8px);
-    gap: var(--ds-size-1, 4px);
-  }
-  .${s.dot}::before {
-    width: 10px;
-    height: 10px;
-  }
-}
-@media (max-width: 400px) {
-  .${s.carouselContainer} {
-    min-height: 120px;
-  }
-  .${s.arrows} {
-    padding: 0 var(--ds-size-1, 4px);
-  }
-  .${s.arrows} button {
-    transform: scale(0.85);
-  }
-}
-`;
-}
