@@ -78,8 +78,11 @@ export const Carousel: React.FC<CarouselProps> = ({
     if (!viewport || !(track instanceof HTMLElement) || typeof ResizeObserver === 'undefined') return;
     const checkLayout = () => {
       const ready = getComputedStyle(track).display === 'flex';
-      if (ready && viewport.scrollLeft) {
-        const slides = Array.from(track.children);
+      const slides = Array.from(track.children);
+      const focused = slides.findIndex((slide) => slide.contains(document.activeElement));
+      if (focused >= 0) {
+        initialSlide.current = focused;
+      } else if (ready && viewport.scrollLeft) {
         const first = slides[0]?.getBoundingClientRect().left ?? 0;
         let nearest = Infinity;
         slides.forEach((slide, index) => {
@@ -161,6 +164,8 @@ export const Carousel: React.FC<CarouselProps> = ({
   useEffect(() => {
     if (!enhanced || !emblaApi) return;
     const stopRotation = () => setUserPaused(true);
+    const rememberSelection = () => { initialSlide.current = emblaApi.selectedScrollSnap(); };
+    emblaApi.on('select', rememberSelection);
     emblaApi.on('pointerDown', stopRotation);
     emblaApi.on('select', onSelect);
     emblaApi.on('reInit', onSelect);
@@ -174,6 +179,7 @@ export const Carousel: React.FC<CarouselProps> = ({
     // Focus acquired before hydration must also stop automatic rotation.
     if (root.parentElement?.contains(document.activeElement)) setUserPaused(true);
     return () => {
+      emblaApi.off('select', rememberSelection);
       emblaApi.off('pointerDown', stopRotation);
       emblaApi.off('select', onSelect);
       emblaApi.off('reInit', onSelect);
@@ -334,11 +340,10 @@ export const Carousel: React.FC<CarouselProps> = ({
                   flex: `0 0 ${slideFlexBasis}`,
                   paddingLeft: `${halfSpacing}px`,
                   paddingRight: `${halfSpacing}px`,
-                  borderRadius: cornerRadius > 0 ? `${cornerRadius}px` : undefined,
-                  overflow: 'hidden' // Ensure radius clips content
+                  borderRadius: cornerRadius > 0 ? `${cornerRadius}px` : undefined
                 }}
               >
-                <div className={styles.slideInner} style={{ borderRadius: `${cornerRadius}px`, overflow: 'hidden', position: 'relative', width: '100%', height: '100%' }}>
+                <div className={styles.slideInner} style={{ borderRadius: `${cornerRadius}px` }}>
                   {/* Native image loading also works before hydration. Do not
                       gate visibility or alternative text on a JS load event. */}
                   <img

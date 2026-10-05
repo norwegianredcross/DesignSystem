@@ -27,8 +27,20 @@
 }
 
 .slide:focus-visible {
+  outline: none;
+}
+
+/* Draw above the image, inside its edges, so clipping and image colours
+   cannot obscure the two-colour focus treatment. */
+.slide:focus-visible .slideInner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 calc(var(--ds-border-width-focus, 3px) * 2) var(--ds-color-focus-inner, #fff);
   outline: var(--ds-border-width-focus, 3px) solid var(--ds-color-focus-outer, #000);
-  outline-offset: -3px;
+  outline-offset: calc(var(--ds-border-width-focus, 3px) * -1);
 }
 
 .slides {

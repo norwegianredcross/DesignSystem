@@ -141,6 +141,51 @@ describe.each([chromium, firefox, webkit].map((engine) => ({ engine, name: engin
     expect(errors).toEqual([]);
   });
 
+  it('preserves the focused image when CSS arrives after an unstyled baseline', async () => {
+    await render({ styled: false, javaScriptEnabled: true });
+    const errors = await hydrate();
+    const thirdSlide = page.getByRole('group', { name: 'Bilde 3 av 3' });
+    await thirdSlide.focus();
+    await page.evaluate(() => window.dispatchEvent(new Event('allow-test-styles')));
+    await page.addStyleTag({ url: '/src/components/Carousel/styles.module.css?direct' });
+    await browserExpect(page.getByRole('status')).toContainText('Third image');
+    await browserExpect(thirdSlide).toBeFocused();
+    await expectLoadedImage('Third image');
+    expect(errors).toEqual([]);
+  });
+
+  it('preserves the selected image when CSS is removed and restored', async () => {
+    await render({ javaScriptEnabled: true });
+    const errors = await hydrate();
+    await page.getByRole('button', { name: 'Gå til bilde 3' }).click();
+    await expectLoadedImage('Third image');
+    await page.evaluate(() => document.querySelectorAll('link[rel="stylesheet"], style').forEach((node) => node.remove()));
+    await browserExpect(page.getByRole('img')).toHaveCount(3);
+    await page.addStyleTag({ url: '/src/components/Carousel/styles.module.css?direct' });
+    await browserExpect(page.getByRole('status')).toContainText('Third image');
+    await expectLoadedImage('Third image');
+    expect(errors).toEqual([]);
+  });
+
+  it('does not clip large intrinsic images when CSS fails on a narrow screen', async () => {
+    const src = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="2000" height="1000"><rect width="2000" height="1000" fill="red"/></svg>');
+    await render({ styled: false, width: 375, props: { images: [{ src, alt: 'Large image' }] } });
+    const image = page.getByRole('img', { name: 'Large image' });
+    // An unstyled image can exceed the screen, but its far edge must be
+    // reachable by document scrolling rather than clipped by the component.
+    const clipped = await image.evaluate((element) => {
+      const rect = element.getBoundingClientRect();
+      for (let parent = element.parentElement; parent; parent = parent.parentElement) {
+        const style = getComputedStyle(parent);
+        const bounds = parent.getBoundingClientRect();
+        if (['hidden', 'clip'].includes(style.overflowX) && rect.right > bounds.right) return true;
+        if (['hidden', 'clip'].includes(style.overflowY) && rect.bottom > bounds.bottom) return true;
+      }
+      return false;
+    });
+    expect(clipped).toBe(false);
+  });
+
   it('keeps native navigation when both sets of navigation controls are disabled', async () => {
     const props = { showArrows: false, showDots: false, autoPlay: true };
     await render({ javaScriptEnabled: true, props });
