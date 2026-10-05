@@ -6,6 +6,20 @@
   "enabledManagers": ["npm"],
   "packageRules": [
     {
+      "description": "AI-kontekstfilene genereres fra komponent-API-et, også det som kommer fra Digdir. Endrer en oppdatering API-et, legger Renovate de nye filene i samme PR – ellers stopper CI-sjekken «AI-kontekstartefaktene er oppdaterte» den. Kommandoene må være tillatt i allowedCommands i renovate-repoet.",
+      "matchPackageNames": ["/.*/"],
+      "postUpgradeTasks": {
+        "commands": [
+          "npm ci --ignore-scripts --no-audit --no-fund",
+          "npm run generate-metadata",
+          "npm run update-ai-guide-components",
+          "npm run generate-ai-context-manifest"
+        ],
+        "fileFilters": ["metadata.json", "AI_DESIGN_SYSTEM_GUIDE.md", "ai-context.manifest.json"],
+        "executionMode": "branch"
+      }
+    },
+    {
       "description": "Én samlet PR i uka for minor og patch, som Dependabot-gruppen fra GitHub. Designtokens går utenom, se under.",
       "matchUpdateTypes": ["minor", "patch"],
       "matchPackageNames": ["!rk-design-tokens"],
