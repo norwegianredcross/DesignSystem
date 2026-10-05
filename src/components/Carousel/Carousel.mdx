@@ -41,14 +41,12 @@ const images = [
 - Tokens for farger, mellomrom og radii brukes i CSS‑modulen.
 - Vil du lese bilder fra Supabase? Se historien “WithSupabase” – den henter bilder og sender dem inn via `images`.
 
-## Bilder før JavaScript
+## Testet bildevisning
 
 Bildene bruker nettleserens egen lasting og vises uten å vente på hydrering.
 En lastespinner skjuler ikke innholdet, og nettleserens alternative tekst
 beholdes hvis et bilde ikke kan lastes.
 
-Carousel kan importeres i en serverkomponent med serialiserbare bildeprops;
-siden trenger ikke `use client`. Navigasjon mellom bildene og automatisk
-avspilling krever fortsatt JavaScript. Dette er derfor en forbedring av
-bildevisningen, ikke en fullstendig løsning for karusellnavigasjon uten JavaScript.
-
+Testene dekker bildevisning uten JavaScript og etter hydrering, også i en
+Next.js-server-side som bruker den pakkede komponenten. Navigasjon mellom
+bildene og automatisk avspilling krever fortsatt JavaScript.
