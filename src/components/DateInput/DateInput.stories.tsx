@@ -511,6 +511,13 @@ export const TestEditingDateParts: Story = {
       await userEvent.keyboard('5');
       expect(input).toHaveValue('15.06.2025');
       expect(input.selectionStart).toBe(2);
+      input.setSelectionRange(2, 6);
+      await userEvent.keyboard('{Delete}');
+      expect(input).toHaveValue('152025');
+      expect(input.selectionStart).toBe(2);
+      await userEvent.keyboard('.06.');
+      expect(input).toHaveValue('15.06.2025');
+      expect(input.selectionStart).toBe(6);
       input.setSelectionRange(3, 5);
       await userEvent.keyboard('12');
       expect(input).toHaveValue('15.12.2025');

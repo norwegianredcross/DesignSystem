@@ -171,7 +171,8 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
 
     // Oppdater visningsverdien når kontrollert verdi endres
     useEffect(() => {
-      if (isControlled) {
+      // An echoed edit is already displayed; formatting it again can move the caret.
+      if (isControlled && controlledValue !== displayValue) {
         const formattedPropValue = getFormattedValue(controlledValue);
         if (formattedPropValue !== displayValue) {
           setDisplayValue(formattedPropValue);
