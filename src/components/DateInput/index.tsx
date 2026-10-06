@@ -46,7 +46,7 @@ export type DateInputProps = MergeRight<
     error?: React.ReactNode;
     value?: string | null;
     defaultValue?: string | null;
-    /** Kalles ved endring med hendelsen og den formaterte verdien (dd.mm.åååå). */
+    /** Kalles med den ekte input-hendelsen og feltets verdi. Delvise endringer bevares. */
     onChange?: (
       event: React.ChangeEvent<HTMLInputElement>,
       formattedValue: string,
@@ -76,14 +76,12 @@ const getDigits = (value: string | null | undefined): string => {
 };
 
 /**
- * Kalendervaliditet for en komplett dato. Ufullstendige datoer er `null`
- * (uavklart); komplette datoer valideres mot ekte kalender via date-fns,
- * slik at 31.02.2024 og 29.02.2023 er ugyldige. Inndata skrives aldri om.
+ * Validate the displayed date, without joining incomplete day/month/year parts.
+ * Partial input stays undecided until blur; full dates use calendar validation.
  */
-const computeValidity = (digits: string): boolean | null => {
-  if (digits.length < 8) return null;
-  const parsed = parse(formatNorwegianDate(digits), "dd.MM.yyyy", new Date());
-  return isValid(parsed);
+const computeValidity = (value: string): boolean | null => {
+  if (!/^\d{2}\.\d{2}\.\d{4}$/.test(value)) return value.length < 10 ? null : false;
+  return isValid(parse(value, "dd.MM.yyyy", new Date()));
 };
 
 /**
@@ -127,6 +125,7 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
       placeholder = "dd.mm.åååå",
       id,
       name,
+      form,
       required,
       disabled,
       onClick,
@@ -135,6 +134,7 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
       autoComplete = "off",
       "aria-label": ariaLabel,
       "aria-labelledby": ariaLabelledby,
+      "aria-describedby": ariaDescribedBy,
       description,
       error,
       "data-color": dataColor,
@@ -160,7 +160,8 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
     );
 
     const getFormattedValue = useCallback(
-      (val: string | null | undefined) => formatNorwegianDate(getDigits(val)),
+      (val: string | null | undefined) =>
+        val && /^\d{1,8}$/.test(val) ? formatNorwegianDate(val) : (val ?? ""),
       [],
     );
 
@@ -185,52 +186,64 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
     }, [controlledValue, isControlled, displayValue, getFormattedValue]);
 
 
-    // Endringer håndteres synkront slik at kontrollerte skjema får riktig
-    // rundtur-timing, og hendelsen som sendes videre beholder det ekte
-    // input-elementet som target (name, id, validity, focus() osv. virker).
+    // Reset belongs to the form; honor cancellation and leave controlled values
+    // with the consumer. Wait until the browser has performed its native reset.
+    useEffect(() => {
+      const input = internalInputRef.current;
+      const owner = input?.form;
+      if (isControlled || !input || !owner) return;
+      const handleReset = (event: Event) => {
+        queueMicrotask(() => {
+          if (internalInputRef.current !== input || !input.isConnected || event.defaultPrevented) return;
+          const value = getFormattedValue(defaultValue);
+          input.value = value;
+          setDisplayValue(value);
+          reportValidity(value ? computeValidity(value) : null, value);
+        });
+      };
+      owner.addEventListener('reset', handleReset);
+      return () => {
+        owner.removeEventListener('reset', handleReset);
+      };
+    }, [isControlled, form, defaultValue, getFormattedValue, reportValidity]);
+
     const handleInputChange = useCallback(
       (event: React.ChangeEvent<HTMLInputElement>) => {
         const input = event.target;
-        const previousFormattedValue = displayValue;
+        const rawValue = input.value;
+        const atEnd = input.selectionStart === rawValue.length;
+        // Keep formatting for sequential digit entry, but never repartition a
+        // middle edit or deletion: "1.06.2025" must not become "10.62.025".
+        const appendedDigits = rawValue.startsWith(displayValue)
+          ? rawValue.slice(displayValue.length)
+          : '';
+        const appendToFormattedPrefix =
+          atEnd && /^\d+$/.test(appendedDigits) &&
+          displayValue === formatNorwegianDate(getDigits(displayValue));
+        const completeDigitsInserted =
+          atEnd && /^\d{8}$/.test(rawValue) &&
+          (event.nativeEvent as InputEvent).inputType?.startsWith('insert');
+        const value = appendToFormattedPrefix || completeDigitsInserted
+          ? formatNorwegianDate(getDigits(rawValue))
+          : rawValue;
 
-        const currentDigits = getDigits(input.value);
-        const formatted = formatNorwegianDate(currentDigits);
-
-        // Caret lands after the last typed digit, skipping the dots the
-        // formatter inserted after day (>2 digits) and month (>4 digits).
-        const numDigits = currentDigits.length;
-        const rawCursorPos =
-          numDigits <= 2 ? numDigits : numDigits <= 4 ? numDigits + 1 : numDigits + 2;
-        const cursorPos = Math.min(rawCursorPos, formatted.length);
-
-        setDisplayValue(formatted);
-        input.value = formatted;
-        input.setSelectionRange(cursorPos, cursorPos);
-
-        if (formatted !== previousFormattedValue || isControlled) {
-          onChangeProp?.(event, formatted);
+        setDisplayValue(value);
+        if (value !== rawValue) {
+          input.value = value;
+          input.setSelectionRange(value.length, value.length);
         }
-
-        // Under utfylling rapporteres bare komplett/tom tilstand;
-        // ufullstendig dato avgjøres først ved blur.
-        const validity = computeValidity(currentDigits);
-        if (currentDigits.length === 0 || currentDigits.length === 8) {
-          reportValidity(currentDigits.length === 0 ? null : validity, formatted);
+        if (value !== displayValue || isControlled) {
+          onChangeProp?.(event, value);
         }
+        reportValidity(computeValidity(value), value);
       },
       [displayValue, isControlled, onChangeProp, reportValidity],
     );
 
     const handleBlur = useCallback(
       (event: React.FocusEvent<HTMLInputElement>) => {
-        const digits = getDigits(event.target.value);
-        if (digits.length === 0) {
-          reportValidity(null, "");
-        } else if (digits.length < 8) {
-          reportValidity(false, formatNorwegianDate(digits));
-        } else {
-          reportValidity(computeValidity(digits), formatNorwegianDate(digits));
-        }
+        const value = event.target.value;
+        reportValidity(value ? (computeValidity(value) ?? false) : null, value);
         onBlur?.(event);
       },
       [onBlur, reportValidity],
@@ -271,7 +284,9 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
     const labelId = label ? `${inputId}-label` : undefined;
     const descriptionId = description ? `${inputId}-desc` : undefined;
     const errorId = error ? `${inputId}-err` : undefined;
-    const describedByIds = [descriptionId, errorId].filter(Boolean).join(' ') || undefined;
+    const describedByIds = [...new Set(
+      [descriptionId, errorId, ariaDescribedBy].filter(Boolean).join(' ').split(/\s+/).filter(Boolean),
+    )].join(' ') || undefined;
     const labelledBy = ariaLabelledby ?? labelId;
 
     return (
@@ -305,6 +320,7 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
             placeholder={placeholder}
             id={inputId}
             name={name}
+            form={form}
             required={required}
             disabled={disabled}
             onClick={onClick}
@@ -323,10 +339,10 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
             <button
               type="button"
               className={suffixButtonClasses}
-              onClick={!disabled ? onSuffixClick : undefined}
-              tabIndex={onSuffixClick && !disabled ? 0 : -1}
+              onClick={!disabled && !readOnly ? onSuffixClick : undefined}
+              tabIndex={onSuffixClick && !disabled && !readOnly ? 0 : -1}
               aria-hidden={!onSuffixClick}
-              disabled={disabled}
+              disabled={disabled || readOnly}
               aria-label={onSuffixClick ? t('dateInput.openDatePicker') : undefined}
             >
               {suffixIcon}

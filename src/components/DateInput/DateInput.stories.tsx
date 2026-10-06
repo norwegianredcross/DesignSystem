@@ -488,3 +488,156 @@ export const TestRichLabelIsAssociated: Story = {
     expect(canvasElement.ownerDocument.activeElement).toBe(input);
   },
 };
+
+
+export const TestEditingDateParts: Story = {
+  name: 'Test: Edit Date Parts Without Moving The Caret',
+  render: () => {
+    const [value, setValue] = useState('15.06.2025');
+    return <>
+      <DateInput label="Ukontrollert" defaultValue="15.06.2025" />
+      <DateInput label="Kontrollert" value={value} onChange={(_, next) => setValue(next)} />
+    </>;
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    for (const input of canvas.getAllByRole('textbox')) {
+      if (!(input instanceof HTMLInputElement)) throw new Error('Expected a date input');
+      await userEvent.click(input);
+      input.setSelectionRange(1, 1);
+      await userEvent.keyboard('{Delete}');
+      expect(input).toHaveValue('1.06.2025');
+      expect(input.selectionStart).toBe(1);
+      await userEvent.keyboard('5');
+      expect(input).toHaveValue('15.06.2025');
+      expect(input.selectionStart).toBe(2);
+      input.setSelectionRange(3, 5);
+      await userEvent.keyboard('12');
+      expect(input).toHaveValue('15.12.2025');
+      expect(input.selectionStart).toBe(5);
+      input.setSelectionRange(6, 10);
+      await userEvent.keyboard('20');
+      expect(input).toHaveValue('15.12.20');
+      await userEvent.tab();
+      expect(input).toHaveValue('15.12.20');
+    }
+  },
+};
+
+export const TestPasteAndSeparators: Story = {
+  name: 'Test: Paste And Correct Separators',
+  args: { label: 'Lim inn dato', defaultValue: '15.06.2025' },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole('textbox');
+    if (!(input instanceof HTMLInputElement)) throw new Error('Expected a date input');
+    await userEvent.click(input);
+    input.select();
+    await userEvent.paste('29022024');
+    expect(input).toHaveValue('29.02.2024');
+    expect(input.selectionStart).toBe(10);
+    input.setSelectionRange(3, 3);
+    await userEvent.keyboard('{Backspace}');
+    expect(input).toHaveValue('2902.2024');
+    expect(input.selectionStart).toBe(2);
+    await userEvent.keyboard('.');
+    expect(input).toHaveValue('29.02.2024');
+    expect(input.selectionStart).toBe(3);
+    input.select();
+    await userEvent.paste('31.02.2024');
+    await userEvent.tab();
+    expect(input).toHaveValue('31.02.2024');
+  },
+};
+
+export const TestMergedDescriptions: Story = {
+  name: 'Test: Preserve Internal And External Descriptions',
+  render: (args) => <>
+    <p id="date-external-hint">Ekstern veiledning.</p>
+    <DateInput {...args} />
+  </>,
+  args: {
+    id: 'merged-date', label: 'Dato med beskrivelser',
+    description: 'Bruk dd.mm.åååå.', error: 'Datoen finnes ikke.',
+    'aria-describedby': 'date-external-hint merged-date-desc date-external-hint',
+  },
+  play: async ({ canvasElement }) => {
+    const input = within(canvasElement).getByRole('textbox');
+    expect(input).toHaveAccessibleDescription('Bruk dd.mm.åååå. Datoen finnes ikke. Ekstern veiledning.');
+    const ids = input.getAttribute('aria-describedby')?.split(/\s+/) ?? [];
+    expect(new Set(ids).size).toBe(ids.length);
+    expect(input).toHaveAttribute('aria-invalid', 'true');
+  },
+};
+
+export const TestReadonlyCalendarAction: Story = {
+  name: 'Test: Readonly Date Cannot Open A Changing Calendar',
+  args: {
+    label: 'Låst dato', readOnly: true, defaultValue: '15.06.2025',
+    suffixIcon: <CalendarIcon aria-hidden />, onSuffixClick: fn(),
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole('textbox');
+    const button = canvas.getByRole('button');
+    expect(button).toBeDisabled();
+    await userEvent.click(input);
+    await userEvent.keyboard('123');
+    expect(input).toHaveValue('15.06.2025');
+    await userEvent.click(button);
+    expect(args.onSuffixClick).not.toHaveBeenCalled();
+  },
+};
+
+export const TestFormReset: Story = {
+  name: 'Test: Reset Defaults And Honor Cancelled Reset',
+  render: (args) => {
+    const [cancel, setCancel] = useState(false);
+    const [resets, setResets] = useState(0);
+    const [value, setValue] = useState('01.01.2020');
+    return <>
+      <form id="date-reset-form" onReset={event => { setResets(count => count + 1); if (cancel) event.preventDefault(); }}>
+        <DateInput label="Tom fra start" name="empty" onValidationChange={(...values) => args.onValidationChange?.(...values)} />
+        <DateInput label="Forhåndsutfylt" name="prefilled" defaultValue="01022026" />
+        <DateInput label="Kontrollert reset" value={value} onChange={(_, next) => setValue(next)} />
+        <label><input type="checkbox" checked={cancel} onChange={e => setCancel(e.target.checked)} />Avbryt reset</label>
+        <button type="reset">Nullstill skjema</button>
+        <output>Antall tilbakestillinger: {resets}</output>
+      </form>
+      <DateInput label="Eksternt felt" name="external" form="date-reset-form" defaultValue="02.02.2026" />
+    </>;
+  },
+  args: { onValidationChange: fn() },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    for (const input of canvas.getAllByRole('textbox')) {
+      await userEvent.clear(input);
+      await userEvent.type(input, '15062025');
+    }
+    await userEvent.click(canvas.getByRole('button', { name: 'Nullstill skjema' }));
+    await waitFor(() => expect(canvas.getByRole('textbox', { name: 'Tom fra start' })).toHaveValue(''));
+    expect(canvas.getByRole('textbox', { name: 'Forhåndsutfylt' })).toHaveValue('01.02.2026');
+    expect(canvas.getByRole('textbox', { name: 'Eksternt felt' })).toHaveValue('02.02.2026');
+    expect(canvas.getByRole('textbox', { name: 'Kontrollert reset' })).toHaveValue('15.06.2025');
+    expect(args.onValidationChange).toHaveBeenLastCalledWith(null, '');
+    await userEvent.type(canvas.getByRole('textbox', { name: 'Tom fra start' }), '06102026');
+    await userEvent.click(canvas.getByRole('checkbox', { name: 'Avbryt reset' }));
+    await userEvent.click(canvas.getByRole('button', { name: 'Nullstill skjema' }));
+    expect(canvas.getByRole('textbox', { name: 'Tom fra start' })).toHaveValue('06.10.2026');
+  },
+};
+
+export const TestValidityWhileEditing: Story = {
+  name: 'Test: Partial Edits Clear Previous Validity',
+  args: { label: 'Validering under redigering', onValidationChange: fn() },
+  play: async ({ canvasElement, args }) => {
+    const input = within(canvasElement).getByRole('textbox');
+    await userEvent.type(input, '29022024');
+    expect(args.onValidationChange).toHaveBeenLastCalledWith(true, '29.02.2024');
+    await userEvent.keyboard('{Backspace}');
+    expect(args.onValidationChange).toHaveBeenLastCalledWith(null, '29.02.202');
+    await userEvent.tab();
+    expect(args.onValidationChange).toHaveBeenLastCalledWith(false, '29.02.202');
+    expect(input).toHaveValue('29.02.202');
+  },
+};
