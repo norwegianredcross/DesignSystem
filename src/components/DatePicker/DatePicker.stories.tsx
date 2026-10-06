@@ -616,3 +616,42 @@ export const TestCombinedPartialInput: StoryObj<typeof DatePickerInputCombo> = {
     expect(canvas.queryByRole('gridcell', { selected: true })).not.toBeInTheDocument();
   },
 };
+
+export const TestCalendarBoundaries: CalendarStory = {
+  name: 'Test: Month And Year Boundaries',
+  args: { initialDate: new Date(2024, 0, 31) },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const active = () => canvasElement.ownerDocument.activeElement;
+    canvas.getByRole('gridcell', { name: '31. januar 2024' }).focus();
+    await userEvent.keyboard('{PageDown}');
+    expect(active()).toHaveAccessibleName('29. februar 2024');
+    await userEvent.keyboard('{Shift>}{PageDown}{/Shift}');
+    expect(active()).toHaveAccessibleName('28. februar 2025');
+    await userEvent.keyboard('{Shift>}{PageUp}{/Shift}');
+    expect(active()).toHaveAccessibleName('28. februar 2024');
+    await userEvent.keyboard('{Home}');
+    expect(active()).toHaveAccessibleName('26. februar 2024');
+    await userEvent.keyboard('{End}');
+    expect(active()).toHaveAccessibleName('3. mars 2024');
+    expect(canvas.getByRole('columnheader', { name: 'mandag' })).toHaveTextContent('Ma');
+    expect(canvas.getByRole('grid').querySelectorAll('[tabindex="0"]')).toHaveLength(1);
+    await userEvent.tab();
+    expect(canvas.getByRole('grid')).not.toContainElement(active() as HTMLElement);
+  },
+};
+
+export const TestInvalidDateProps: CalendarStory = {
+  name: 'Test: Invalid Dates Keep The Calendar Usable',
+  args: { initialDate: new Date(NaN), selectedDate: new Date(NaN), onDateSelect: fn() },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const grid = await canvas.findByRole('grid');
+    expect(canvas.getAllByRole('columnheader')).toHaveLength(7);
+    const today = grid.querySelector<HTMLElement>('[aria-current="date"]');
+    if (!today) throw new Error('Expected the current date as the fallback');
+    await userEvent.click(today);
+    expect(args.onDateSelect).toHaveBeenCalled();
+    expect(grid.querySelectorAll('[tabindex="0"]')).toHaveLength(1);
+  },
+};

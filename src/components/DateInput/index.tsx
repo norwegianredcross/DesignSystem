@@ -92,24 +92,6 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
   (props, ref) => {
     const { t } = useLanguageOptional();
 
-    // Fallback: inject minimal DateInput styles if consumer did not import the CSS bundle.
-    useEffect(() => {
-      const styleId = 'rk-dateinput-inline-styles';
-      if (typeof document === 'undefined') return;
-      if (document.getElementById(styleId)) return;
-      const css = buildDateInputInlineCss(styles);
-      const tag = document.createElement('style');
-      tag.id = styleId;
-      tag.textContent = css;
-      // prepend, NOT appendChild: this copy is a FALLBACK for consumers who never
-      // import 'rk-designsystem/styles', and it must lose to the real stylesheet
-      // whenever that is present. Appending put it last in <head>, so at equal
-      // specificity it beat the bundled sheet for EVERY consumer — silently
-      // replacing responsive @media values it does not reproduce with its own
-      // desktop base values. Placing it first keeps it a safety net instead.
-      document.head.prepend(tag);
-    }, []);
-
     const {
       label,
       suffixIcon,
@@ -313,7 +295,7 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
           <input
             ref={internalInputRef}
             type="text"
-            inputMode="numeric"
+            inputMode="text"
             pattern="\d{2}\.\d{2}\.\d{4}"
             maxLength={10}
             value={displayValue}
@@ -337,17 +319,19 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
             {...rest}
           />
           {suffixIcon && (
-            <button
-              type="button"
-              className={suffixButtonClasses}
-              onClick={!disabled && !readOnly ? onSuffixClick : undefined}
-              tabIndex={onSuffixClick && !disabled && !readOnly ? 0 : -1}
-              aria-hidden={!onSuffixClick}
-              disabled={disabled || readOnly}
-              aria-label={onSuffixClick ? t('dateInput.openDatePicker') : undefined}
-            >
-              {suffixIcon}
-            </button>
+            <DateInputSuffix interactive={Boolean(onSuffixClick)}>
+              <button
+                type="button"
+                className={suffixButtonClasses}
+                onClick={!disabled && !readOnly ? onSuffixClick : undefined}
+                tabIndex={onSuffixClick && !disabled && !readOnly ? 0 : -1}
+                aria-hidden={!onSuffixClick}
+                disabled={disabled || readOnly}
+                aria-label={onSuffixClick ? t('dateInput.openDatePicker') : undefined}
+              >
+                {suffixIcon}
+              </button>
+            </DateInputSuffix>
           )}
         </div>
 
@@ -363,97 +347,11 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
 
 DateInput.displayName = 'DateInput';
 
-// Build a minimal CSS fallback using the hashed class names from the CSS module.
-function buildDateInputInlineCss(s: Record<string, string>): string {
-  return `
-.${s.fieldset} {
-  margin-bottom: var(--ds-size-4, 16px);
-}
-.${s.fieldset} label {
-  display: block;
-  margin-bottom: var(--ds-size-1, 4px);
-  font-weight: var(--ds-font-weight-medium, 500);
-  color: var(--ds-color-neutral-text-default, #2b2b2b);
-}
-.${s.description} {
-  font-size: var(--ds-font-size-2, 14px);
-  color: var(--ds-color-neutral-text-subtle, #5d5d5d);
-  margin-top: var(--ds-size-1, 4px);
-  margin-bottom: var(--ds-size-2, 8px);
-}
-.${s.error} {
-  font-size: var(--ds-font-size-2, 14px);
-  color: var(--ds-color-danger-text-default, #c30000);
-  margin-top: var(--ds-size-1, 4px);
-}
-.${s.inputWrapper} {
-  display: flex;
-  align-items: stretch;
-  width: 100%;
-  position: relative;
-  border: var(--ds-border-width-default, 1px) solid var(--ds-color-neutral-border-default, #797979);
-  border-radius: var(--ds-border-radius-md, 4px);
-  overflow: hidden;
-  transition: border-color 0.1s ease-out, outline 0.1s ease-out;
-}
-.${s.inputWrapperError} {
-  border-color: var(--ds-color-danger-border-default, #c30000);
-}
-.${s.inputWrapper}:focus-within {
-  outline: var(--ds-border-width-focus, 3px) solid var(--ds-color-focus-outer, #2B2B2B);
-  outline-offset: var(--ds-border-width-focus, 2px);
-}
-.${s.inputWrapper} input {
-  box-sizing: border-box;
-  flex-grow: 1;
-  width: auto;
-  min-width: 0;
-  background-color: var(--ds-color-neutral-background-default, #fff);
-  color: var(--ds-color-neutral-text-default, #2b2b2b);
-  border: none;
-  border-radius: 0;
-  outline: none;
-  padding: var(--ds-size-2, 8px) var(--ds-size-3, 12px);
-  font-family: inherit;
-  font-size: inherit;
-  appearance: none;
-  -webkit-appearance: none;
-}
-.${s.inputWrapper} input:disabled {
-  opacity: var(--ds-opacity-disabled, 0.5);
-  cursor: not-allowed;
-  background-color: var(--ds-color-neutral-surface-tinted, #f0f0f0);
-  color: var(--ds-color-neutral-text-subtle, #5d5d5d);
-}
-.${s.suffixButton} {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  padding: 0 var(--ds-size-3, 12px);
-  margin: 0;
-  border: none;
-  border-radius: 0;
-  border-left: var(--ds-border-width-default, 1px) solid var(--ds-color-neutral-border-default, #797979);
-  background-color: var(--ds-color-neutral-surface-tinted, #e8e8e8);
-  color: var(--ds-color-neutral-text-subtle, #5d5d5d);
-  font-size: 1.25rem;
-  box-sizing: border-box;
-  cursor: default;
-  transition: background-color 0.15s ease-out, border-color 0.15s ease-out, color 0.15s ease-out;
-}
-.${s.suffixButtonInteractive} {
-  cursor: pointer;
-}
-.${s.suffixButtonInteractive}:hover:not(:disabled) {
-  color: var(--ds-color-neutral-text-default, #2b2b2b);
-  background-color: var(--ds-color-neutral-surface-hover, #dadada);
-}
-.${s.suffixButton}:disabled {
-  opacity: var(--ds-opacity-disabled, 0.3);
-  cursor: not-allowed;
-  background-color: var(--ds-color-neutral-surface-tinted, #e8e8e8);
-  border-left-color: var(--ds-color-neutral-border-default, #797979);
-}
-`;
+
+// Mount only the optional action after hydration, without rerendering the input
+// and overwriting text that the user entered before scripts arrived.
+function DateInputSuffix({ interactive, children }: { interactive: boolean; children: React.ReactNode }) {
+  const [ready, setReady] = useState(false);
+  useEffect(() => setReady(true), []);
+  return interactive && !ready ? null : <>{children}</>;
 }

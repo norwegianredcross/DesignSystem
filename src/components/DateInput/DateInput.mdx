@@ -53,6 +53,11 @@ DateInput formaterer fortløpende sifferinntasting og innliming av åtte sifre t
 
 `onChange` mottar den ekte input-hendelsen og feltets nåværende verdi, som kan være ufullstendig. `onValidationChange` rapporterer kalendergyldighet; servervalidering er fortsatt konsumentens ansvar.
 
+Importer `rk-designsystem/styles` i konsumentens layout. Feltet injiserer ikke CSS.
+Manuell inntasting i formatet `dd.mm.åååå` og vanlig skjemainnsending fungerer uten
+JavaScript. Standard tastaturmodus er tekst, slik at punktum er tilgjengelig.
+En interaktiv kalenderknapp vises først etter initialisering.
+
 Ukontrollerte felt tilbakestilles til `defaultValue` ved vanlig skjematilbakestilling. Konsumenten styrer tilbakestilling av kontrollerte verdier. En readonly dato deaktiverer kalenderknappen.
 
 ---

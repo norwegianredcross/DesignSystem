@@ -5,7 +5,22 @@ import * as DatePickerStories from './DatePicker.stories';
 
 # DatePicker (Calendar)
 
-#### `DatePicker` er den visuelle kalenderkomponenten som lar en bruker velge en dato. Den er designet for å brukes alene eller i kombinasjon med `DateInput`.
+#### `DatePicker` er den visuelle kalenderkomponenten som lar en bruker velge en dato. Den er en valgfri forbedring av manuell datoinntasting.
+
+Kalenderen vises først etter at JavaScript er initialisert. Bruk alltid et navngitt
+`DateInput` (eller et annet egnet datofelt) utenfor kalenderen når brukeren skal
+sende inn en dato. Feltet og vanlig skjemainnsending skal fungere uten JavaScript.
+`DatePicker` sender ikke inn en skjemaverdi på egen hånd.
+
+Importer `rk-designsystem/styles` i konsumentens layout. Komponentene injiserer
+ikke CSS ved kjøring. Siden kan være en serverkomponent; bare komposisjonen som
+kobler `onDateSelect` til feltets state trenger en klientgrense.
+
+`Date`-props tolkes fortsatt i nettleserens lokale tidssone. Kalenderen rendres
+ikke på serveren, slik at ulike tidssoner ikke gir hydration-avvik i kalenderen.
+En ugyldig `selectedDate` behandles som ingen valgt dato. Hvis også `initialDate`
+er ugyldig, åpnes inneværende måned. Dette er ikke en konvertering til tidssoneuavhengige kalenderdatoer. Konsumenten
+eier servervalidering og eventuell tjenestespesifikk tidssone.
 
 <Primary />
 
@@ -16,7 +31,7 @@ import * as DatePickerStories from './DatePicker.stories';
 ## Bruk
 
 ```tsx
-import { DatePicker } from '@rk-designsystem';
+import { DatePicker } from 'rk-designsystem';
 import { useState } from 'react';
 
 // For å bruke kalenderen, må du håndtere state selv.
@@ -71,7 +86,7 @@ const MyCalendar = () => {
 
 ## Retningslinjer
 
-#### Bruk `DatePicker` når brukere trenger en visuell måte å velge en dato på, i stedet for å skrive den manuelt.
+#### Bruk `DatePicker` når brukere trenger en visuell måte å velge en dato på, i tillegg til å skrive den manuelt.
 
 #### Gjør dette
  * **Synkroniser state:** Sørg for at `DateInput`-verdien og `DatePicker`-valget er synkronisert.
@@ -83,9 +98,13 @@ const MyCalendar = () => {
 
 ## Tilgjengelighet
 
-* **Knapp-roller:** Hver dato i kalenderen er en `<div>` med `role="button"` og `tabIndex={0}` for å være tastatur-navigerbar.
-* **Aria-attributter:** `aria-pressed` brukes for den valgte datoen, og `aria-label` gir en fullstendig, lesbar dato (f.eks. "5. november 2025").
-* **Navigasjon:** Månedsvelgerne er knapper med `aria-label` (f.eks. "Forrige måned").
+* **Grid:** Ett tabstopp, fullstendige ukedagsnavn og `aria-selected` på valgt dato.
+* **Tastatur:** Piltaster flytter én dag/uke, Home/End går til ukens start/slutt,
+  PageUp/PageDown bytter måned og Shift+PageUp/PageDown bytter år. Enter eller
+  mellomrom velger en dato. Tab forlater den inline kalenderen.
+* **Navigasjon:** Månedsvelgerne har navn, og månedsoverskriften annonserer endringer.
+* **Plass:** Alle sju kolonner tilpasses tilgjengelig bredde, også i en smal kolonne
+  på en bred skjerm. Fokus og valgt dato markeres også i forced-colors-modus.
 
 ## CSS-variabler (fra styles.module.css)
 

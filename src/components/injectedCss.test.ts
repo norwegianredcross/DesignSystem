@@ -42,8 +42,6 @@ describe('runtime-injected CSS fallbacks', () => {
     // would vacuously pass.
     expect(injectors.map((i) => i.name).sort()).toEqual([
       'Carousel',
-      'DateInput',
-      'DatePicker',
       'Donor',
       'GraphicElement',
     ]);

@@ -22,6 +22,7 @@
   background-color: var(--ds-color-neutral-background-default, #fff);
   font-family: var(--ds-font-family, sans-serif);
   color: var(--ds-color-neutral-text-default, #2b2b2b);
+  width: calc(7 * var(--rk-calendar-cell, 64px) + 2 * var(--ds-size-7, 28px) + 1px);
   max-width: 100%;
   box-sizing: border-box;
 }
@@ -31,6 +32,8 @@
   justify-content: space-between;
   align-items: center;
   align-self: stretch;
+  flex-wrap: wrap;
+  gap: var(--ds-size-2, 8px);
 }
 
 .monthYear {
@@ -66,17 +69,10 @@
 
 .gridRow {
   display: grid;
-  /* The design gives every cell — weekday header and date alike — a fixed 64px
-     box. repeat(7, 1fr) with width:100% threw that away and stretched cells to
-     whatever the container offered, so the grid drove the calendar's width
-     instead of the other way round. A fixed track restores the design's cell
-     and gives the calendar an intrinsic width, so no arbitrary cap is needed.
-     It also keeps the two rows aligned: the weekday cell has less padding than
-     a date cell, so content-sized tracks would size the header row narrower
-     than the grid below it. Mobile overrides this to 1fr to fill the screen. */
-  grid-template-columns: repeat(7, var(--rk-calendar-cell, 64px));
-  width: max-content;
-  max-width: 100%;
+  /* Preserve the preferred cell size when space permits, and shrink the
+     seven tracks together inside a narrow consumer container. */
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  width: 100%;
   text-align: center;
 }
 
@@ -100,7 +96,7 @@
 
 .dateCell {
   display: flex;
-  padding: var(--ds-size-5, 20px);
+  padding: var(--ds-size-5, 20px) 0;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -122,7 +118,6 @@
   -webkit-font-feature-settings: 'tnum' 1;
   -moz-font-feature-settings: 'tnum' 1;
   cursor: pointer;
-  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
   user-select: none;
   min-width: 0;
 }
@@ -141,19 +136,21 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  transition: color 0.15s ease-in-out, font-weight 0.15s ease-in-out;
   line-height: 1;
   box-sizing: border-box;
   background-color: transparent;
 }
 
-.dateCell:hover:not(.otherMonth):not(.disabled) {
+@media (hover: hover) and (pointer: fine) {
+.dateCell:hover:not(.otherMonth):not(.selectedDate) {
   background-color: var(--ds-color-neutral-surface-hover, #eee); /* Use global token */
   position: relative;
   z-index: 1;
 }
-.dateCell:hover:not(.otherMonth):not(.disabled) .dateNumberContainer {
+.dateCell:hover:not(.otherMonth):not(.selectedDate) .dateNumberContainer {
   background-color: transparent;
+}
+
 }
 
 .otherMonth {
@@ -190,18 +187,6 @@
   box-shadow: none;
 }
 
-/* --- Mobile responsiveness --- */
-/* The fixed 64px track gives the calendar a natural 506px. Below roughly that
-   plus page margins it would overflow its container, and the mobile rules do
-   not start until 480px — so go fluid here. Both rows switch together, which
-   is what keeps the weekday header aligned with the dates. */
-@media (max-width: 600px) {
-  .gridRow {
-    grid-template-columns: repeat(7, minmax(0, 1fr));
-    width: 100%;
-  }
-}
-
 @media (max-width: 480px) {
   .calendarContainer {
     padding: var(--ds-size-4, 16px);
@@ -219,7 +204,7 @@
   }
 
   .dateCell {
-    padding: var(--ds-size-2, 8px);
+    padding: var(--ds-size-2, 8px) 0;
     font-size: var(--ds-font-size-1, 12px);
   }
 
@@ -240,7 +225,7 @@
   }
 
   .dateCell {
-    padding: var(--ds-size-1, 4px);
+    padding: var(--ds-size-1, 4px) 0;
     font-size: 11px;
   }
 
@@ -255,4 +240,14 @@
    about it, and the emphasis survived purely because nothing competed. */
 .todayDate .dateNumberContainer {
   font-weight: var(--ds-font-weight-semibold, 600);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .dateCell { transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out; }
+  .dateNumberContainer { transition: color 0.15s ease-in-out, font-weight 0.15s ease-in-out; }
+}
+
+@media (forced-colors: active) {
+  .selectedDate { outline: calc(2 * var(--ds-border-width-default, 1px)) solid Highlight; outline-offset: calc(-1 * var(--ds-border-width-focus, 3px)); }
+  .dateCell:focus-visible { outline: var(--ds-border-width-focus, 3px) dashed CanvasText; outline-offset: calc(-1 * var(--ds-border-width-focus, 3px)); }
 }
