@@ -655,3 +655,57 @@ export const TestInvalidDateProps: CalendarStory = {
     expect(grid.querySelectorAll('[tabindex="0"]')).toHaveLength(1);
   },
 };
+
+/** Native selection uses the browser's form state, including reset. */
+export const NativeFormCalendar: CalendarStory = {
+  args: { serverCalendar: {month: '2024-02', name: 'appointment', defaultValue: '2024-01-31'} },
+  render: args => <form aria-label="Appointment"><DatePicker {...args}/><button type="reset">Reset</button></form>,
+  play: async ({canvasElement}) => {
+    const canvas = within(canvasElement);
+    const form = canvas.getByRole('form') as HTMLFormElement;
+    expect(canvas.getByRole('table')).toHaveAccessibleName('Februar 2024');
+    expect(new FormData(form).get('appointment')).toBe('2024-01-31');
+    await userEvent.click(canvas.getByRole('radio', {name:'29. februar 2024'}));
+    expect(new FormData(form).getAll('appointment')).toEqual(['2024-02-29']);
+    await userEvent.click(canvas.getByRole('button', {name:'Reset'}));
+    expect(new FormData(form).getAll('appointment')).toEqual(['2024-01-31']);
+  },
+};
+
+export const NativeCalendarWithError: CalendarStory = {
+  args: { serverCalendar: {
+    month: '2024-02', name: 'appointment', defaultValue: '2024-02-16', required: true,
+    'aria-invalid': true, 'aria-describedby': 'native-date-help native-date-error',
+  } },
+  render: function ErrorCalendar(args) {
+    const root = React.useRef<HTMLDivElement>(null);
+    return <form aria-label="Appointment with error">
+      <p id="native-date-label">Appointment date</p>
+      <p id="native-date-help">Choose a date from the calendar (required).</p>
+      <p id="native-date-error">This date is unavailable. Choose another date.</p>
+      <button type="button" onClick={() => root.current?.focus()}>Go to date</button>
+      <DatePicker {...args} ref={root} id="native-date" role="group" aria-labelledby="native-date-label" tabIndex={-1} />
+    </form>;
+  },
+  play: async ({canvasElement}) => {
+    const canvas = within(canvasElement);
+    const radio = canvas.getByRole('radio', {name: '16. februar 2024'});
+    expect(radio).toBeChecked();
+    expect(radio).toBeRequired();
+    expect(radio).toHaveAttribute('aria-invalid', 'true');
+    expect(radio).toHaveAccessibleDescription('Choose a date from the calendar (required). This date is unavailable. Choose another date.');
+    await userEvent.click(canvas.getByRole('button', {name: 'Go to date'}));
+    expect(canvas.getByRole('group', {name: 'Appointment date'})).toHaveFocus();
+  },
+};
+
+export const DisabledNativeCalendar: CalendarStory = {
+  args: { serverCalendar: {month: '2024-02', name: 'appointment', defaultValue: '2024-01-31', disabled: true,
+    navigation: {action: '/choose-date'}} },
+  render: args => <form aria-label="Disabled date"><DatePicker {...args}/></form>,
+  play: async ({canvasElement}) => {
+    const canvas = within(canvasElement);
+    for (const control of [...canvas.getAllByRole('radio'), ...canvas.getAllByRole('button')]) expect(control).toBeDisabled();
+    expect(new FormData(canvas.getByRole('form') as HTMLFormElement).has('appointment')).toBe(false);
+  },
+};

@@ -3107,7 +3107,7 @@
   {
     "componentName": "DatePicker",
     "importPath": "rk-designsystem",
-    "description": "DatePicker-komponent for å velge en dato fra en kalender.\nKalenderen følger ARIA-grid-mønsteret: ett tabstopp, piltaster mellom\ndager (på tvers av måneder), Home/End til start/slutt av uken og\nPageUp/PageDown mellom måneder.",
+    "description": "DatePicker-komponent for å velge en dato fra en kalender.\nserverCalendar bruker native radiofelt og vanlig skjemainnsending.\nCallback-modus følger ARIA-grid-mønsteret: ett tabstopp, piltaster mellom\ndager (på tvers av måneder), Home/End til start/slutt av uken og\nPageUp/PageDown mellom måneder.",
     "props": [
       {
         "name": "data-size",
@@ -3131,6 +3131,13 @@
         "required": false
       },
       {
+        "name": "serverCalendar",
+        "type": "ServerCalendar",
+        "description": "Server-rendered calendar with native selection and optional GET navigation. Overrides Date-based display props.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
         "name": "selectedDate",
         "type": "Date | null",
         "description": "Valgt dato. Utheves i kalenderen.",
@@ -3140,7 +3147,7 @@
       {
         "name": "onDateSelect",
         "type": "((date: Date) => void)",
-        "description": "Kalles når brukeren velger en dato.",
+        "description": "Kalles ved valg i callback-modus (uten serverCalendar), med nettleserlokal Date.",
         "defaultValue": null,
         "required": false
       }

@@ -49,7 +49,7 @@ export type {
 
 // DatePicker (Custom component)
 export { DatePicker } from './components/DatePicker';
-export type { DatePickerProps } from './components/DatePicker';
+export type { DatePickerProps, ServerCalendar } from './components/DatePicker';
 
 // DateInput (Custom component)
 export { DateInput } from './components/DateInput';

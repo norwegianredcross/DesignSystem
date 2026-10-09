@@ -5,22 +5,95 @@ import * as DatePickerStories from './DatePicker.stories';
 
 # DatePicker (Calendar)
 
-#### `DatePicker` er den visuelle kalenderkomponenten som lar en bruker velge en dato. Den er en valgfri forbedring av manuell datoinntasting.
+`DatePicker` har to bruksmåter. Begge bruker en HTML-tabell slik at datoer og
+ukedager beholder sammenhengen uten CSS.
 
-Kalenderen vises først etter at JavaScript er initialisert. Bruk alltid et navngitt
-`DateInput` (eller et annet egnet datofelt) utenfor kalenderen når brukeren skal
-sende inn en dato. Feltet og vanlig skjemainnsending skal fungere uten JavaScript.
-`DatePicker` sender ikke inn en skjemaverdi på egen hånd.
+## Kalender uten JavaScript
 
-Importer `rk-designsystem/styles` i konsumentens layout. Komponentene injiserer
-ikke CSS ved kjøring. Siden kan være en serverkomponent; bare komposisjonen som
-kobler `onDateSelect` til feltets state trenger en klientgrense.
+`serverCalendar` rendrer tabellen og native radioknapper på serveren. Et valg
+sender inn én verdi i formatet `YYYY-MM-DD`. Vanlig skjematilbakestilling støttes.
+Ingen callback eller klientgrense er nødvendig i konsumentens side.
 
-`Date`-props tolkes fortsatt i nettleserens lokale tidssone. Kalenderen rendres
-ikke på serveren, slik at ulike tidssoner ikke gir hydration-avvik i kalenderen.
-En ugyldig `selectedDate` behandles som ingen valgt dato. Hvis også `initialDate`
-er ugyldig, åpnes inneværende måned. Dette er ikke en konvertering til tidssoneuavhengige kalenderdatoer. Konsumenten
-eier servervalidering og eventuell tjenestespesifikk tidssone.
+```tsx
+<form action="/appointments" method="get">
+  <button type="submit">Bekreft dato</button>
+  <DatePicker serverCalendar={{
+    month: '2024-02',
+    name: 'appointment',
+    defaultValue: '2024-02-15',
+    navigation: { action: '/choose-date', monthName: 'month' },
+  }} />
+</form>
+```
+
+Månedsvelgerne sender skjemaet med GET til `navigation.action`, med valgt dato,
+øvrige skjemafelt og ønsket måned. Konsumenten må lese og validere disse verdiene,
+rendre den forespurte måneden og sende valget tilbake som `defaultValue`.
+Et valg utenfor vist måned vises som en egen radioknapp under tabellen. Det beholder
+valget gjennom flere månedsskifter, uten skjulte duplikatverdier.
+
+Plasser skjemaets primære send-knapp før kalenderen i HTML-rekkefølgen.
+Nettleseren bruker den første send-knappen når Enter sender inn et tekstfelt;
+ellers kan Enter aktivere forrige måned. Bruk et eget skjema for datosøket dersom
+øvrige skjemaverdier ikke skal sendes i URL-en. Månedsbytte hopper over
+nettleserens skjemavalidering; endelig innsending og servervalidering eies av
+konsumenten. Uten `navigation` vises bare den angitte måneden. `form` kan knytte
+kalenderens kontroller til et eksternt skjema.
+
+`month` må være en gyldig `YYYY-MM` (år 0001–9999), og `name` må være utfylt. Bruk ulike navn for
+flere kalendere i samme skjema. `defaultValue` og valgfri `today` er datoer i
+`YYYY-MM-DD`. Disse er kalenderdatoer, uavhengige av tidssone. `serverCalendar`
+styrer visning og startvalg fremfor `initialDate` og `selectedDate`.
+Beregning og formatering bruker UTC internt slik at lokale tidssoner ikke kan
+fjerne kalenderdatoer. Verdien som sendes inn er fortsatt en dato uten tidssone.
+`onDateSelect` gjelder bare callback-modus. I native modus leser konsumenten
+skjemaverdien; eventuelle klientobservatører kan bruke root-elementets `onChange`.
+Radiogruppen følger nettleserens vanlige tastaturbetjening; endring av
+`defaultValue` er ikke et kontrollert React-valg.
+
+### Påkrevd dato og serverfeil
+
+`required`, `disabled`, `aria-invalid` og `aria-describedby` i `serverCalendar`
+går til alle radiofeltene, også et bevart valg utenfor vist måned. `required`
+håndhever et valg ved vanlig innsending; månedsbytte bruker fortsatt
+`formNoValidate` slik at en tom kalender kan navigeres. Serveren må validere på nytt. Opplys også i synlig ledetekst eller hjelpetekst
+at dato er påkrevd; ikke stol på at `required` alene blir formidlet til brukeren.
+
+```tsx
+<p id="appointment-label">Avtaledato</p>
+<p id="appointment-help">Du må velge en dato.</p>
+<p id="appointment-error">Datoen er ikke tilgjengelig. Velg en annen dato.</p>
+<DatePicker
+  id="appointment-calendar"
+  role="group"
+  aria-labelledby="appointment-label"
+  tabIndex={-1}
+  serverCalendar={{
+    month: '2024-02', name: 'appointment', defaultValue: '2024-02-16',
+    required: true,
+    'aria-invalid': true,
+    'aria-describedby': 'appointment-help appointment-error',
+  }}
+/>
+```
+
+Behold den avviste datoen som `defaultValue` når serveren viser feilen igjen.
+Konsumenten gir feltet et navn som beskriver formålet, og lager feilmeldingen.
+`ref`, `id`, `className` og vanlige HTML/ARIA-props går til kalenderens rot.
+Bruk unike felt-, overskrifts- og feil-ID-er når flere kalendere vises sammen.
+
+## Kalender som forbedring av DateInput
+
+Uten `serverCalendar` vises kalenderen etter at JavaScript er initialisert.
+Behold et navngitt `DateInput` utenfor kalenderen slik at manuell inntasting og
+skjemainnsending fungerer uten JavaScript. Koble `selectedDate` og `onDateSelect`
+i en liten klientkomponent; resten av siden kan fortsatt være en serverkomponent.
+
+`Date`-props tolkes i nettleserens lokale tidssone. En ugyldig `selectedDate`
+behandles som ingen valgt dato. Hvis også `initialDate` er ugyldig, åpnes
+inneværende måned. Konsumenten eier servervalidering og tjenestens tidssone.
+
+Importer `rk-designsystem/styles` i konsumentens layout. Ingen CSS injiseres ved kjøring.
 
 <Primary />
 
@@ -48,7 +121,7 @@ const MyCalendar = () => {
 }
 ```
 
-#### Komponenten er en kontrollert kalendervisning. Du må tilby en `selectedDate` (den valgte datoen) og en `onDateSelect`-funksjon for å fange opp når brukeren velger en ny dato.
+#### Uten `serverCalendar` er komponenten en kontrollert kalendervisning. Du må tilby en `selectedDate` (den valgte datoen) og en `onDateSelect`-funksjon for å fange opp når brukeren velger en ny dato.
 
 ---
 
@@ -94,12 +167,14 @@ const MyCalendar = () => {
 
 #### Unngå dette
 * **Ikke for tid:** Denne komponenten er kun for å velge dato (dag, måned, år).
-* **Ikke uten `onDateSelect`:** Komponenten er ubrukelig med mindre du lytter til `onDateSelect`-hendelsen for å lagre brukerens valg.
+* **Callback-modus:** Koble `onDateSelect` til `selectedDate` og et datofelt. Native skjemamodus trenger ingen callback.
 
 ## Tilgjengelighet
 
-* **Grid:** Ett tabstopp, fullstendige ukedagsnavn og `aria-selected` på valgt dato.
-* **Tastatur:** Piltaster flytter én dag/uke, Home/End går til ukens start/slutt,
+* **Native skjemamodus:** HTML-tabell med kolonneoverskrifter og radioknapper med fullstendige datonavn.
+
+* **Callback-modus – grid:** Ett tabstopp, fullstendige ukedagsnavn og `aria-selected` på valgt dato.
+* **Callback-modus – tastatur:** Piltaster flytter én dag/uke, Home/End går til ukens start/slutt,
   PageUp/PageDown bytter måned og Shift+PageUp/PageDown bytter år. Enter eller
   mellomrom velger en dato. Tab forlater den inline kalenderen.
 * **Navigasjon:** Månedsvelgerne har navn, og månedsoverskriften annonserer endringer.

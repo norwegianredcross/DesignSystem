@@ -6,13 +6,9 @@
    focus, which keep --ds-color-base-* below. */
 
 .calendarContainer {
-  /* Half a cell border. The cells overlap each other by this much so two
-     adjacent 1px borders land on top of each other and read as one line; the
-     grid wrapper pays the same amount back as padding so the outermost edges
-     are not clipped. Both sides of that bargain must use the same number. */
-  --rk-calendar-border-overlap: 0.5px;
   display: inline-flex;
   padding: var(--ds-size-7, 28px);
+  padding-inline: min(var(--ds-size-7, 28px), 6%);
   flex-direction: column;
   align-items: flex-start;
   gap: var(--ds-size-3, 12px);
@@ -37,6 +33,8 @@
 }
 
 .monthYear {
+  overflow-wrap: anywhere;
+  min-width: 0;
   color: var(--ds-color-neutral-text-default, #2b2b2b);
   font-family: var(--ds-font-family, 'Myriad VF', sans-serif);
   font-size: var(--ds-heading-sm-font-size, 1.5rem);
@@ -56,32 +54,23 @@
   opacity: var(--ds-opacity-disabled, 0.3);
 }
 
+/* Scroll only the table when enlarged text cannot fit seven readable columns. */
+.calendarViewport {
+  width: 100%;
+  overflow-x: auto;
+}
+
 .gridWrapper {
   width: 100%;
-  /* Give back the half pixel the cells hang outside the grid by. Without it
-     overflow:hidden cuts the last row's bottom border and the last column's
-     right border, leaving the grid open on two sides — the container border
-     used to cover that up, so removing the border exposed it. */
-  padding: var(--rk-calendar-border-overlap, 0.5px);
-  overflow: hidden;
-  box-sizing: border-box;
+  table-layout: auto;
+  border-collapse: collapse;
 }
 
-.gridRow {
-  display: grid;
-  /* Preserve the preferred cell size when space permits, and shrink the
-     seven tracks together inside a narrow consumer container. */
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  width: 100%;
-  text-align: center;
-}
+.gridRow { text-align: center; }
 
 .dayNameCell {
-  display: flex;
-  padding: var(--ds-size-2, 8px);
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  padding: var(--ds-size-2, 8px) 0.125em;
+  width: calc(100% / 7);
   color: var(--ds-color-neutral-text-default, #2b2b2b);
   text-align: center;
   font-family: var(--ds-font-family, 'Myriad VF', sans-serif);
@@ -95,17 +84,10 @@
 }
 
 .dateCell {
-  display: flex;
   padding: var(--ds-size-5, 20px) 0;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  position: relative;
   border: var(--ds-border-width-default, 1px) solid var(--ds-color-neutral-border-subtle, #bcbcbc);
   box-sizing: border-box;
-  /* Pull each cell half a border width up and left so its top/left border
-     coincides with the neighbour's bottom/right one instead of stacking into
-     a 2px line. Paid back by .gridWrapper's padding. */
-  margin: calc(-1 * var(--rk-calendar-border-overlap, 0.5px));
   font-family: var(--ds-font-family, 'Myriad VF', sans-serif);
   color: var(--ds-color-neutral-text-default, #2b2b2b);
   text-align: center;
@@ -122,7 +104,7 @@
   min-width: 0;
 }
 
-.dateCell:focus-visible {
+.dateCell:is(:focus-visible, :has(input:focus-visible)) {
   outline: var(--ds-border-width-focus, 3px) solid var(--ds-color-focus-outer, #2b2b2b);
   outline-offset: calc(-1 * var(--ds-border-width-focus, 3px));
   position: relative;
@@ -130,11 +112,14 @@
 }
 
 .dateNumberContainer {
+  margin-inline: auto;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 24px;
   height: 24px;
+  min-width: 2ch;
+  min-height: 1em;
   border-radius: 50%;
   line-height: 1;
   box-sizing: border-box;
@@ -142,12 +127,12 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-.dateCell:hover:not(.otherMonth):not(.selectedDate) {
+.dateCell:hover:not(.otherMonth):not(.selectedDate):not(:has(input:checked)) {
   background-color: var(--ds-color-neutral-surface-hover, #eee); /* Use global token */
   position: relative;
   z-index: 1;
 }
-.dateCell:hover:not(.otherMonth):not(.selectedDate) .dateNumberContainer {
+.dateCell:hover:not(.otherMonth):not(.selectedDate):not(:has(input:checked)) .dateNumberContainer {
   background-color: transparent;
 }
 
@@ -162,7 +147,6 @@
   pointer-events: none;
   background-color: var(--ds-color-neutral-surface-tinted, #e8e8e8);
   border: var(--ds-border-width-default, 1px) solid var(--ds-color-neutral-border-subtle, #bcbcbc);
-  margin: calc(-1 * var(--rk-calendar-border-overlap, 0.5px));
 }
 .otherMonth .dateNumberContainer {
   color: var(--ds-color-neutral-text-subtle, #aaa);
@@ -173,14 +157,14 @@
 /* The "selected" state should use the "base" color for the active/selected state,
   which is what the global token file provides.
 */
-.selectedDate {
+.dateCell:is(.selectedDate, :has(input:checked)) {
   background-color: var(--ds-color-base-default, #C30000);
   border-color: var(--ds-color-base-default, #C30000);
   color: var(--ds-color-base-contrast-default, #fff); /* Text on top of base */
   position: relative;
   z-index: 1;
 }
-.selectedDate .dateNumberContainer {
+.dateCell:is(.selectedDate, :has(input:checked)) .dateNumberContainer {
   color: var(--ds-color-base-contrast-default, #fff); /* Text on top of base */
   font-weight: var(--ds-font-weight-semibold, 600);
   background-color: transparent;
@@ -190,6 +174,7 @@
 @media (max-width: 480px) {
   .calendarContainer {
     padding: var(--ds-size-4, 16px);
+    padding-inline: min(var(--ds-size-4, 16px), 6%);
     gap: var(--ds-size-2, 8px);
     width: 100%;
   }
@@ -199,7 +184,7 @@
   }
 
   .dayNameCell {
-    padding: var(--ds-size-1, 4px);
+    padding: var(--ds-size-1, 4px) 0.125em;
     font-size: var(--ds-font-size-1, 12px);
   }
 
@@ -217,16 +202,17 @@
 @media (max-width: 360px) {
   .calendarContainer {
     padding: var(--ds-size-2, 8px);
+    padding-inline: min(var(--ds-size-2, 8px), 6%);
   }
 
   .dayNameCell {
-    padding: 2px;
-    font-size: 10px;
+    padding: 2px 0.125em;
+    font-size: 0.625rem;
   }
 
   .dateCell {
     padding: var(--ds-size-1, 4px) 0;
-    font-size: 11px;
+    font-size: 0.6875rem;
   }
 
   .dateNumberContainer {
@@ -248,6 +234,23 @@
 }
 
 @media (forced-colors: active) {
-  .selectedDate { outline: calc(2 * var(--ds-border-width-default, 1px)) solid Highlight; outline-offset: calc(-1 * var(--ds-border-width-focus, 3px)); }
-  .dateCell:focus-visible { outline: var(--ds-border-width-focus, 3px) dashed CanvasText; outline-offset: calc(-1 * var(--ds-border-width-focus, 3px)); }
+  .dateCell:is(.selectedDate, :has(input:checked)) { outline: calc(2 * var(--ds-border-width-default, 1px)) solid Highlight; outline-offset: calc(-1 * var(--ds-border-width-focus, 3px)); }
+  .dateCell:is(:focus-visible, :has(input:focus-visible)) { outline: var(--ds-border-width-focus, 3px) dashed CanvasText; outline-offset: calc(-1 * var(--ds-border-width-focus, 3px)); }
 }
+
+/* The same native radio remains in the document before and after hydration. */
+.nativeDay { cursor: pointer; }
+@supports selector(:has(input:checked)) {
+.nativeDay input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+}
+
+.nativeDay input:disabled { cursor: default; }
+.nativeDay input:disabled + .dateNumberContainer { opacity: var(--ds-opacity-disabled, 0.3); }

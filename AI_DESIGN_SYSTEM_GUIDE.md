@@ -378,6 +378,7 @@ import { DatePicker } from 'rk-designsystem';
   // initialDate — valgfri, default new Date(): Date
   onDateSelect={(date) => {}} // valgfri: ((date: Date) => void)
   // selectedDate — valgfri, default null: Date | null
+  // serverCalendar — valgfri: ServerCalendar
  />
 ```
 
