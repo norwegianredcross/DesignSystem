@@ -151,7 +151,11 @@ describe.each([chromium, firefox, webkit].map(engine => ({ engine, name: engine.
       await region.getByRole('button', {name: 'Submit required date'}).click();
       await expect(page).toHaveURL(/dates.html$/);
       expect(await radio.evaluate((input: HTMLInputElement) => input.validity.valueMissing)).toBe(true);
+      // Linux Firefox/WebKit validation popups can cover unstyled date radios.
+      // Dismiss the browser UI with a real outside click before choosing a date.
+      await region.getByText('Appointment date', {exact: true}).click();
       await radio.check();
+      expect(await radio.evaluate((input: HTMLInputElement) => input.validity.valueMissing)).toBe(false);
       await region.getByRole('button', {name: 'Reset required date'}).click();
       await expect(radio).not.toBeChecked();
       await radio.check();
