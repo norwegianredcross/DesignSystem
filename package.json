@@ -117,7 +117,7 @@
     "@navikt/aksel-icons": "^8.16.1",
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.6.0",
-    "@norwegianredcross/design-tokens": "^1.0.50"
+    "@norwegianredcross/design-tokens": "^1.0.52"
   },
   "publishConfig": {
     "access": "public"
