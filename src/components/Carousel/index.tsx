@@ -1,11 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import styles from './styles.module.css';
 import type { DefaultProps } from '../../types';
 import type { MergeRight } from '../../utilities';
 import { ChevronLeftIcon, ChevronRightIcon, PauseIcon, PlayIcon } from '@navikt/aksel-icons';
 import { Button } from '../Button';
-import { Spinner } from '../SpinnerLoader';
 import { useLanguageOptional } from '../../context/LanguageContext';
 
 // --- Typer ---
@@ -95,31 +94,6 @@ export const Carousel: React.FC<CarouselProps> = ({
   // slide markup), otherwise a screen reader reads all N images as one
   // long list regardless of what is on screen.
   const [slidesInView, setSlidesInView] = useState<number[]>([]);
-  const [loadedFlags, setLoadedFlags] = useState<boolean[]>([]);
-  const imageRefs = useRef<(HTMLImageElement | null)[]>([]);
-
-  // Nullstill lastet-status kun når bildeINNHOLDET endres, ikke ved ny
-  // array-identitet fra en forelder-render. Allerede lastede (cachede)
-  // bilder fyrer aldri load på nytt, så statusen leses fra img.complete.
-  const imagesKey = (images ?? []).map((image) => image.src).join('\n');
-  useEffect(() => {
-    setLoadedFlags(
-      (images ?? []).map((_, index) => {
-        const el = imageRefs.current[index];
-        return Boolean(el && el.complete && el.naturalWidth > 0);
-      }),
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [imagesKey]);
-
-  const markImageLoaded = useCallback((index: number) => {
-    setLoadedFlags((prev) => {
-      if (prev[index]) return prev;
-      const newFlags = [...prev];
-      newFlags[index] = true;
-      return newFlags;
-    });
-  }, []);
 
   // Konverterer forsinkelse fra sekunder til millisekunder
   const autoDelayMs = useMemo(() => autoDelay * 1000, [autoDelay]);
@@ -243,7 +217,7 @@ export const Carousel: React.FC<CarouselProps> = ({
                 aria-label={slideOf(index)}
                 // Off-screen slides leave the accessibility tree. aria-hidden
                 // is sufficient here (no `inert` needed) because a slide holds
-                // only an <img> and a spinner — nothing focusable.
+                // only an <img> — nothing focusable.
                 aria-hidden={isSlideVisible(index) ? undefined : true}
                 style={{
                   flex: `0 0 ${slideFlexBasis}`,
@@ -254,25 +228,14 @@ export const Carousel: React.FC<CarouselProps> = ({
                 }}
               >
                 <div className={styles.slideInner} style={{ borderRadius: `${cornerRadius}px`, overflow: 'hidden', position: 'relative', width: '100%', height: '100%' }}>
-                   {!loadedFlags[index] && (
-                    <div className={styles.loaderOverlay}>
-                      <Spinner aria-label={t('carousel.loading')} />
-                    </div>
-                  )}
+                  {/* Native image loading also works before hydration. Do not
+                      gate visibility or alternative text on a JS load event. */}
                   <img
-                    ref={(el) => {
-                      imageRefs.current[index] = el;
-                    }}
-                    className={`${styles.image} ${loadedFlags[index] ? styles.loaded : styles.loadingImage}`}
+                    className={styles.image}
                     src={image.src}
                     alt={image.alt}
                     loading={index < safeSlideCount ? 'eager' : 'lazy'}
                     crossOrigin={crossOrigin}
-                    onLoad={() => markImageLoaded(index)}
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).style.display = 'none';
-                      markImageLoaded(index); // Hide loader even if error
-                    }}
                   />
                 </div>
               </div>
@@ -409,34 +372,13 @@ function buildCarouselInlineCss(s: Record<string, string>): string {
   background-color: var(--ds-color-neutral-surface-tinted, #f5f5f5);
   overflow: hidden;
 }
-.${s.loaderOverlay} {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(0, 0, 0, 0.05);
-  z-index: 2;
-}
 .${s.image} {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
   z-index: 1;
-}
-.${s.image}.${s.loaded} {
-  opacity: 1;
-}
-.${s.loading} {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--ds-size-2, 8px);
-  color: var(--ds-color-neutral-text-subtle, #5d5d5d);
-  font-size: var(--ds-font-size-2, 14px);
 }
 .${s.empty} {
   color: var(--ds-color-neutral-text-subtle, #5d5d5d);

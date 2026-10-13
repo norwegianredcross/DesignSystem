@@ -3,6 +3,8 @@
  * Eksporterer alle komponenter og typer.
  */
 
+import './rk-theme.css';
+
 // Alert
 export { Alert } from './components/Alert';
 export type { AlertProps } from './components/Alert';

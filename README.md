@@ -184,6 +184,15 @@ component CSS and Source Sans 3. The font ships inside the package and Next
 copies it into the build, so there is no Google Fonts request and nothing to
 configure with `next/font`.
 
+The component stylesheet also includes `src/rk-theme.css`: RK-specific bindings
+to existing foundation tokens for Popover, text inputs/Field, Suggestion,
+Dropdown, ErrorSummary, Badge dots and ToggleGroup. These bindings follow the
+reviewed [Figma Main Kitchen Sink](https://www.figma.com/design/zCMN259qfgUaA5zTAXq5hQ/02.-Components?node-id=17567-9125&m=dev).
+They ship through the combined styles import above. Consumers do not need a
+separate override file. Digdir still supplies component behaviour; regenerating
+the token package keeps its standard structure and does not generate these
+component-specific rules.
+
 ### 3. Use Components
 
 ```tsx

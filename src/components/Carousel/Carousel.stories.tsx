@@ -598,7 +598,7 @@ export const TestDotsAccessibility: Story = {
 
 /**
  * A parent re-render passing a new array literal with identical content must
- * not blank already-loaded slides (loaded state survives identity changes).
+ * not blank already-loaded slides.
  */
 export const TestRerenderKeepsSlides: Story = {
   name: 'Test: Re-render Keeps Slides Visible',
