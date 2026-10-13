@@ -50,6 +50,13 @@ Kvalitet er et felles ansvar; testing er ikke en fase til slutt, men en del av h
 
 ## 6. Testmiljøer
 
+Før en PR opprettes eller oppdateres, kjøres alle kvalitetssjekkene i
+`azure-pipelines/ci.yml` på den aktuelle committen i et Linux-miljø med samme
+Node- og Playwright-versjoner som CI. Dette inkluderer hele nettlesersuiten,
+pakking og visuell regresjon. Lokale macOS-tester eller bare Linux-skjermbilder
+erstatter ikke denne kjøringen. Feil eller sjekker som ikke er kjørt, må avklares
+før PR-en opprettes eller oppdateres.
+
 | Miljø | Bruk |
 |---|---|
 | Lokalt (`npm run storybook`) | Utvikling og utforskende testing |
