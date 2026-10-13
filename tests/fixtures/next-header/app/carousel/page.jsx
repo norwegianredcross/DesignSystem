@@ -1,5 +1,5 @@
 import 'server-only';
-import { Carousel } from 'rk-designsystem';
+import { Carousel } from '@norwegianredcross/designsystem';
 
 const src = 'data:image/svg+xml,' + encodeURIComponent(
   '<svg xmlns="http://www.w3.org/2000/svg" width="600" height="300"><rect width="600" height="300" fill="red"/></svg>',
