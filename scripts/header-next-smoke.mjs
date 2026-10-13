@@ -71,21 +71,37 @@ export async function verifyNextHeader(tarball, appDir, dependencies) {
           await section.getByRole('link', { name: 'Server-rendered menu link' }).click();
           await expect(page.getByRole('heading', { name: 'About page' })).toBeVisible();
         }
-        // Carousel shares this consumer build so its server-page contract
-        // does not require another Next installation/build on every PR.
-        await page.goto(`${origin}/carousel/`);
-        const gallery = page.getByRole('region', { name: 'Server gallery' });
-        const firstImage = gallery.getByRole('img', { name: 'First image' });
-        await expect(firstImage).toHaveJSProperty('complete', true);
-        await expect(firstImage).not.toHaveJSProperty('naturalWidth', 0);
-        await expect(firstImage).toHaveCSS('opacity', '1');
-        await expect(firstImage).toBeInViewport({ ratio: 0.9 });
-        await expect(gallery.getByLabel('Laster bilde', { exact: true })).toHaveCount(0);
-        if (javaScriptEnabled) {
-          await gallery.getByRole('button', { name: 'Gå til bilde 2' }).waitFor();
-          await gallery.getByRole('button', { name: 'Neste bilde' }).click();
-          await expect(gallery.getByRole('status')).toContainText('Second image');
-          await expect(gallery.getByRole('img', { name: 'Second image' })).toHaveCSS('opacity', '1');
+        // Reuse this packed consumer for Carousel's server-page contract.
+        for (const styled of [true, false]) {
+          if (!styled) await page.route('**/*.css*', (route) => route.fulfill({ contentType: 'text/css', body: '' }));
+          await page.goto(`${origin}/carousel/`);
+          if (javaScriptEnabled) {
+            // The layout's existing Header confirms React has hydrated even
+            // when Carousel correctly stays at its unstyled HTML baseline.
+            await expect(page.locator('header')).toHaveAttribute('data-enhanced', 'true');
+          }
+          const gallery = page.getByRole('region', { name: 'Server gallery' });
+          if (javaScriptEnabled && styled) {
+            const next = gallery.getByRole('button', { name: 'Neste bilde' });
+            await next.click();
+            await expect(gallery.getByRole('status')).toContainText('Second image');
+            await expect(gallery.getByRole('img', { name: 'Second image' })).toBeInViewport({ ratio: 0.9 });
+            await expect(next).toBeFocused();
+          } else {
+            await expect(gallery.getByRole('button')).toHaveCount(0);
+            await expect(gallery.getByRole('img')).toHaveCount(3);
+            for (const name of ['First image', 'Second image', 'Third image']) {
+              const image = gallery.getByRole('img', { name });
+              await image.scrollIntoViewIfNeeded();
+              await expect(image).toHaveJSProperty('complete', true);
+              await expect(image).not.toHaveJSProperty('naturalWidth', 0);
+              await expect(image).toHaveCSS('opacity', '1');
+              // Unstyled images may exceed a narrow viewport, but must remain
+              // reachable rather than hidden behind carousel clipping.
+              await expect(image).toBeInViewport();
+            }
+          }
+          await expect(gallery.getByLabel('Laster bilde', { exact: true })).toHaveCount(0);
         }
         assert.deepEqual(errors, [], 'Next consumer must hydrate without runtime/console errors');
       } finally {
@@ -93,7 +109,7 @@ export async function verifyNextHeader(tarball, appDir, dependencies) {
       }
     }
     console.log('✅ Next server page/layout: packed Header, server-rendered children, hydration and no-JS navigation passed.');
-    console.log('✅ Next server page: packed Carousel images without JS and navigation after hydration passed.');
+    console.log('✅ Next server page: packed Carousel baseline with missing JS/CSS and navigation after hydration passed.');
   } finally {
     await browser?.close();
     await new Promise((resolve) => server.close(resolve));

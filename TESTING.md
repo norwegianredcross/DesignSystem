@@ -206,3 +206,17 @@ The packed Next.js consumer also imports Footer in async server-only pages and
 layouts, passes server-rendered slot content and submits a real native form to a
 local test endpoint with JavaScript enabled and disabled. No external newsletter
 service is contacted; production processing remains the consumer's responsibility.
+
+### Carousel progressive enhancement
+
+`src/components/Carousel/imageBaseline.test.ts` exercises Chromium, Firefox
+and WebKit with real server-rendered markup. It verifies access to every image
+without JavaScript, native Tab navigation, missing and delayed CSS, scroll position
+and focus through hydration, navigation, reduced motion, and explicit autoplay
+restart after keyboard focus. The existing packed Next.js Header consumer also
+checks Carousel on a server-only page with JavaScript and CSS independently absent.
+
+Manual acceptance must include VoiceOver/Safari and NVDA/Firefox or Chrome:
+read every baseline image, identify the enhanced controls, navigate repeatedly
+without unexpected focus movement, and verify announcements and autoplay pause.
+Automated role queries and axe checks do not replace this screen-reader check.

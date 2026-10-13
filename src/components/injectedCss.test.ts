@@ -41,7 +41,6 @@ describe('runtime-injected CSS fallbacks', () => {
     // Guards the discovery itself: if this drops to zero the assertions below
     // would vacuously pass.
     expect(injectors.map((i) => i.name).sort()).toEqual([
-      'Carousel',
       'Donor',
       'GraphicElement',
     ]);

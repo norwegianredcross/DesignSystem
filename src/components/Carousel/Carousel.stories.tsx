@@ -668,14 +668,11 @@ export const TestAutoplayPauseControl: Story = {
     const canvas = within(canvasElement);
 
     const pauseButton = await canvas.findByRole('button', { name: /pause automatisk/i });
-    expect(pauseButton).toHaveAttribute('aria-pressed', 'false');
+    expect(pauseButton).not.toHaveAttribute('aria-pressed');
 
     // Pause immediately, then verify the carousel stays on slide 1
     await userEvent.click(pauseButton);
-    expect(canvas.getByRole('button', { name: /start automatisk/i })).toHaveAttribute(
-      'aria-pressed',
-      'true',
-    );
+    expect(canvas.getByRole('button', { name: /start automatisk/i })).toBeInTheDocument();
 
     const dots = canvas.getAllByRole('button', { name: /gå til bilde/i });
     await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -758,7 +755,7 @@ export const TestPauseControlWithoutDots: Story = {
   name: 'Test: Pause Control Renders Without Dots',
   args: {
     images: localImages,
-    showArrows: false,
+    showArrows: true,
     showDots: false,
     autoPlay: true,
     autoDelay: 0.4,
@@ -777,14 +774,10 @@ export const TestPauseControlWithoutDots: Story = {
     expect(canvas.queryAllByRole('button', { name: /gå til bilde/i })).toHaveLength(0);
     expect(canvas.queryByRole('group', { name: /bildeposisjon/i })).not.toBeInTheDocument();
 
-    // And it is wired to the explicit-pause state (aria-pressed mirrors
-    // userPaused; hover/focus pauses do not touch it). The rotation
-    // mechanics themselves are covered by "Test: Autoplay Pause Control".
+    // The changing accessible name describes the next action. Rotation
+    // mechanics are covered by "Test: Autoplay Pause Control".
     await userEvent.click(pauseButton);
-    expect(canvas.getByRole('button', { name: /start automatisk/i })).toHaveAttribute(
-      'aria-pressed',
-      'true',
-    );
+    expect(canvas.getByRole('button', { name: /start automatisk/i })).toBeInTheDocument();
   },
 };
 
@@ -811,7 +804,7 @@ export const TestCarouselSemantics: Story = {
     const canvas = within(canvasElement);
 
     const region = canvas.getByRole('region', { name: /bildekarusell/i });
-    expect(region).toHaveAttribute('aria-roledescription', 'carousel');
+    await waitFor(() => expect(region).toHaveAttribute('aria-roledescription', 'carousel'));
 
     // Wait for Embla to report what is in view
     await waitFor(() => {

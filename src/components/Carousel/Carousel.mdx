@@ -41,12 +41,19 @@ const images = [
 - Tokens for farger, mellomrom og radii brukes i CSS‑modulen.
 - Vil du lese bilder fra Supabase? Se historien “WithSupabase” – den henter bilder og sender dem inn via `images`.
 
-## Testet bildevisning
+## Testet HTML-baseline
 
-Bildene bruker nettleserens egen lasting og vises uten å vente på hydrering.
-En lastespinner skjuler ikke innholdet, og nettleserens alternative tekst
-beholdes hvis et bilde ikke kan lastes.
+Uten JavaScript er alle bilder tilgjengelige i et galleri som kan rulles.
+Tab flytter fokus mellom bildene og bringer dem inn i visningen. Bilder og
+alternativ tekst er også tilgjengelige hvis stilarket mangler.
 
-Testene dekker bildevisning uten JavaScript og etter hydrering, også i en
-Next.js-server-side som bruker den pakkede komponenten. Navigasjon mellom
-bildene og automatisk avspilling krever fortsatt JavaScript.
+Når stilarket og JavaScript er klare, aktiveres Embla og kontrollene vises.
+Testene dekker sen hydrering, bevart fokus og bildeposisjon, manglende CSS
+før og etter hydrering, redusert bevegelse og bruk fra en pakket Next.js-server-side.
+
+Autoplay er av som standard. Redusert bevegelse stopper autoplay og
+animerte overganger. Tastaturfokus stopper autoplay til brukeren starter den igjen.
+Når både piler og bildevelger er slått av, beholdes det native galleriet uten autoplay.
+
+Forbruker-fixturen importerer `rk-designsystem/styles` for det forbedrede
+karuselloppsettet. Ingen ekstra kopi av CSS injiseres ved kjøretid.
