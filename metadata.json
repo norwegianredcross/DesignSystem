@@ -1,7 +1,7 @@
 [
   {
     "componentName": "ValidationMessage",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -29,7 +29,7 @@
   },
   {
     "componentName": "Tooltip",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -92,7 +92,7 @@
   },
   {
     "componentName": "ToggleGroup",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -169,7 +169,7 @@
   },
   {
     "componentName": "ToggleGroupItem",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -204,7 +204,7 @@
   },
   {
     "componentName": "Textfield",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -323,7 +323,7 @@
   },
   {
     "componentName": "Textarea",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -344,12 +344,12 @@
   },
   {
     "componentName": "Tag",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
         "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'info' | 'success' | 'warning' | 'danger'",
+        "type": "'hoved-beige' | 'neutral' | 'hoved-rosa' | 'hoved-mint' | 'hoved-lysebla' | 'hoved-neutral' | 'red-cta' | 'secondary-color-orange' | 'rust-main' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'secondary-color-warm-beige' | 'primary-color-red' | 'secondary-color-rust' | 'info' | 'success' | 'warning' | 'danger'",
         "description": "Color scheme. Follows Digdir's `data-color` cascade.",
         "defaultValue": null,
         "required": false
@@ -379,7 +379,7 @@
   },
   {
     "componentName": "Tabs",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -421,13 +421,13 @@
   },
   {
     "componentName": "TabsList",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": []
   },
   {
     "componentName": "TabsPanel",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -441,7 +441,7 @@
   },
   {
     "componentName": "TabsTab",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -455,7 +455,7 @@
   },
   {
     "componentName": "Table",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -504,31 +504,31 @@
   },
   {
     "componentName": "TableBody",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": []
   },
   {
     "componentName": "TableCell",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": []
   },
   {
     "componentName": "TableFoot",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": []
   },
   {
     "componentName": "TableHead",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": []
   },
   {
     "componentName": "TableHeaderCell",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -542,13 +542,13 @@
   },
   {
     "componentName": "TableRow",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": []
   },
   {
     "componentName": "Switch",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -618,7 +618,7 @@
   },
   {
     "componentName": "Fieldset",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -639,7 +639,7 @@
   },
   {
     "componentName": "Suggestion",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "Experimental Digdir Suggestion with query preservation.",
     "props": [
       {
@@ -709,7 +709,7 @@
   },
   {
     "componentName": "Spinner",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -730,7 +730,7 @@
   },
   {
     "componentName": "SkipLink",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -765,7 +765,7 @@
   },
   {
     "componentName": "SkeletonLoader",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -807,7 +807,7 @@
   },
   {
     "componentName": "Select",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -842,7 +842,7 @@
   },
   {
     "componentName": "SelectOptgroup",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -856,7 +856,7 @@
   },
   {
     "componentName": "SelectOption",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -870,7 +870,7 @@
   },
   {
     "componentName": "Search",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -891,7 +891,7 @@
   },
   {
     "componentName": "SearchButton",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "SearchButton component, used to display a search button within a Search component.",
     "props": [
       {
@@ -968,7 +968,7 @@
   },
   {
     "componentName": "SearchClear",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "SearchClear component, used to display a clear button when the search input is not empty.",
     "props": [
       {
@@ -996,7 +996,7 @@
   },
   {
     "componentName": "SearchInput",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "SearchInput component, used to display a search input within the Search component.",
     "props": [
       {
@@ -1024,7 +1024,7 @@
   },
   {
     "componentName": "Radio",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -1122,7 +1122,7 @@
   },
   {
     "componentName": "Popover",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -1199,7 +1199,7 @@
   },
   {
     "componentName": "PopoverTrigger",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -1276,13 +1276,13 @@
   },
   {
     "componentName": "PopoverTriggerContext",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": []
   },
   {
     "componentName": "Paragraph",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -1310,7 +1310,7 @@
   },
   {
     "componentName": "Pagination",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -1359,7 +1359,7 @@
   },
   {
     "componentName": "PaginationList",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -1373,7 +1373,7 @@
   },
   {
     "componentName": "PaginationItem",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -1387,7 +1387,7 @@
   },
   {
     "componentName": "PaginationButton",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -1457,13 +1457,13 @@
   },
   {
     "componentName": "List",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "List-komponent for punktlister (ul) og nummererte lister (ol).",
     "props": []
   },
   {
     "componentName": "ListItem",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -1477,7 +1477,7 @@
   },
   {
     "componentName": "ListOrdered",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -1505,7 +1505,7 @@
   },
   {
     "componentName": "ListUnordered",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -1533,7 +1533,7 @@
   },
   {
     "componentName": "Link",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -1568,7 +1568,7 @@
   },
   {
     "componentName": "Label",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -1603,7 +1603,7 @@
   },
   {
     "componentName": "Input",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -1666,7 +1666,7 @@
   },
   {
     "componentName": "Heading",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -1694,7 +1694,7 @@
   },
   {
     "componentName": "Header",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -1706,7 +1706,7 @@
       },
       {
         "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'primary'",
+        "type": "'hoved-beige' | 'neutral' | 'hoved-rosa' | 'hoved-mint' | 'hoved-lysebla' | 'hoved-neutral' | 'red-cta' | 'secondary-color-orange' | 'rust-main' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'secondary-color-warm-beige' | 'primary-color-red' | 'secondary-color-rust' | 'primary'",
         "description": "Theme scope for the header extension (top bar) — any real `data-color`\nscope from the design tokens. The extension background uses the scope's\nbase color with matching contrast text.",
         "defaultValue": "primary-color-red",
         "required": false
@@ -1925,7 +1925,7 @@
   },
   {
     "componentName": "GraphicElement",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "GraphicElement - Decorative brand graphic elements derived from the cross.\n\nThe four arms of the cross are split up and used as independent\ngraphic elements - angles, corners, hearts, bars - all derived from\nthe same base form. Used as visual accents across Røde Kors web\nprojects to create recognition, direction and cohesion.",
     "props": [
       {
@@ -1951,8 +1951,8 @@
       },
       {
         "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
-        "description": "Color scope from the theme (rk-design-tokens). Available scopes:\n'primary-color-red' (the default resolved value when inheriting\nfrom the surrounding scope), 'secondary-color-orange',\n'secondary-color-rust', 'secondary-color-pink',\n'additional-color-ocean', 'additional-color-jungle' and 'neutral'.",
+        "type": "'hoved-beige' | 'neutral' | 'hoved-rosa' | 'hoved-mint' | 'hoved-lysebla' | 'hoved-neutral' | 'red-cta' | 'secondary-color-orange' | 'rust-main' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'secondary-color-warm-beige' | 'primary-color-red' | 'secondary-color-rust'",
+        "description": "Color scope from the theme (@norwegianredcross/design-tokens). Available scopes:\n'primary-color-red' (the default resolved value when inheriting\nfrom the surrounding scope), 'secondary-color-orange',\n'secondary-color-rust', 'secondary-color-pink',\n'additional-color-ocean', 'additional-color-jungle' and 'neutral'.",
         "defaultValue": null,
         "required": false
       },
@@ -2002,12 +2002,12 @@
   },
   {
     "componentName": "Footer",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
         "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'primary' | 'additional'",
+        "type": "'hoved-beige' | 'neutral' | 'hoved-rosa' | 'hoved-mint' | 'hoved-lysebla' | 'hoved-neutral' | 'red-cta' | 'secondary-color-orange' | 'rust-main' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'secondary-color-warm-beige' | 'primary-color-red' | 'secondary-color-rust' | 'primary' | 'additional'",
         "description": "Theme scope for the main section — any real `data-color` scope from the\ndesign tokens. The background uses the scope's tinted background token.",
         "defaultValue": "neutral",
         "required": false
@@ -2226,7 +2226,7 @@
   },
   {
     "componentName": "FieldsetDescription",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -2254,7 +2254,7 @@
   },
   {
     "componentName": "FieldsetLegend",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -2275,7 +2275,7 @@
   },
   {
     "componentName": "Field",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "Field-komponent for å omslutte skjemafelter.\nInkluderer støtte for beskrivelse og tegn-teller.",
     "props": [
       {
@@ -2310,25 +2310,25 @@
   },
   {
     "componentName": "FieldDescription",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": []
   },
   {
     "componentName": "FieldAffix",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": []
   },
   {
     "componentName": "FieldAffixes",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": []
   },
   {
     "componentName": "ErrorSummary",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -2356,7 +2356,7 @@
   },
   {
     "componentName": "ErrorSummaryHeading",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -2384,7 +2384,7 @@
   },
   {
     "componentName": "ErrorSummaryItem",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -2398,7 +2398,7 @@
   },
   {
     "componentName": "ErrorSummaryLink",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -2426,7 +2426,7 @@
   },
   {
     "componentName": "ErrorSummaryList",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -2454,7 +2454,7 @@
   },
   {
     "componentName": "Dropdown",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -2524,7 +2524,7 @@
   },
   {
     "componentName": "DropdownTrigger",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -2601,13 +2601,13 @@
   },
   {
     "componentName": "DropdownTriggerContext",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": []
   },
   {
     "componentName": "DropdownHeading",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -2635,19 +2635,19 @@
   },
   {
     "componentName": "DropdownList",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": []
   },
   {
     "componentName": "DropdownItem",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": []
   },
   {
     "componentName": "DropdownButton",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -2717,12 +2717,12 @@
   },
   {
     "componentName": "Donor",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
         "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'primary'",
+        "type": "'hoved-beige' | 'neutral' | 'hoved-rosa' | 'hoved-mint' | 'hoved-lysebla' | 'hoved-neutral' | 'red-cta' | 'secondary-color-orange' | 'rust-main' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'secondary-color-warm-beige' | 'primary-color-red' | 'secondary-color-rust' | 'primary'",
         "description": "Theme scope for the whole component — any real `data-color` scope from\nthe design tokens (same vocabulary as every other component).",
         "defaultValue": "primary-color-red",
         "required": false
@@ -2857,13 +2857,13 @@
   },
   {
     "componentName": "Divider",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": []
   },
   {
     "componentName": "Dialog",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -2933,7 +2933,7 @@
   },
   {
     "componentName": "DialogBlock",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -2947,7 +2947,7 @@
   },
   {
     "componentName": "DialogTrigger",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -3024,13 +3024,13 @@
   },
   {
     "componentName": "DialogTriggerContext",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": []
   },
   {
     "componentName": "Details",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -3086,13 +3086,13 @@
   },
   {
     "componentName": "DetailsContent",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": []
   },
   {
     "componentName": "DetailsSummary",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -3106,7 +3106,7 @@
   },
   {
     "componentName": "DatePicker",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "DatePicker-komponent for å velge en dato fra en kalender.\nKalenderen følger ARIA-grid-mønsteret: ett tabstopp, piltaster mellom\ndager (på tvers av måneder), Home/End til start/slutt av uken og\nPageUp/PageDown mellom måneder.",
     "props": [
       {
@@ -3118,7 +3118,7 @@
       },
       {
         "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
+        "type": "'hoved-beige' | 'neutral' | 'hoved-rosa' | 'hoved-mint' | 'hoved-lysebla' | 'hoved-neutral' | 'red-cta' | 'secondary-color-orange' | 'rust-main' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'secondary-color-warm-beige' | 'primary-color-red' | 'secondary-color-rust'",
         "description": "Endrer farge for underliggende Designsystemet-komponenter.\nVelg fra forhåndsdefinerte farger og farger definert med theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
@@ -3148,7 +3148,7 @@
   },
   {
     "componentName": "DateInput",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "DateInput-komponent for inntasting av datoer i norsk format (dd.mm.åååå).\nHåndterer automatisk formatering og validering av datoer.",
     "props": [
       {
@@ -3160,7 +3160,7 @@
       },
       {
         "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
+        "type": "'hoved-beige' | 'neutral' | 'hoved-rosa' | 'hoved-mint' | 'hoved-lysebla' | 'hoved-neutral' | 'red-cta' | 'secondary-color-orange' | 'rust-main' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'secondary-color-warm-beige' | 'primary-color-red' | 'secondary-color-rust'",
         "description": "Endrer farge for underliggende Designsystemet-komponenter.\nVelg fra forhåndsdefinerte farger og farger definert med theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
@@ -3260,13 +3260,13 @@
   },
   {
     "componentName": "Chip",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "Chip-komponent for filtrering, valg eller handlinger.",
     "props": []
   },
   {
     "componentName": "Button",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -3278,7 +3278,7 @@
       },
       {
         "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'danger'",
+        "type": "'hoved-beige' | 'neutral' | 'hoved-rosa' | 'hoved-mint' | 'hoved-lysebla' | 'hoved-neutral' | 'red-cta' | 'secondary-color-orange' | 'rust-main' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'secondary-color-warm-beige' | 'primary-color-red' | 'secondary-color-rust' | 'danger'",
         "description": "",
         "defaultValue": null,
         "required": false
@@ -3343,7 +3343,7 @@
   },
   {
     "componentName": "Checkbox",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -3441,7 +3441,7 @@
   },
   {
     "componentName": "ChipButton",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -3476,7 +3476,7 @@
   },
   {
     "componentName": "ChipCheckbox",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -3511,7 +3511,7 @@
   },
   {
     "componentName": "ChipRadio",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -3546,7 +3546,7 @@
   },
   {
     "componentName": "ChipRemovable",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -3581,7 +3581,7 @@
   },
   {
     "componentName": "Carousel",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "Carousel-komponent for å vise en bildeserie.\nBruker embla-carousel-react for funksjonalitet.",
     "props": [
       {
@@ -3593,7 +3593,7 @@
       },
       {
         "name": "data-color",
-        "type": "'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'",
+        "type": "'hoved-beige' | 'neutral' | 'hoved-rosa' | 'hoved-mint' | 'hoved-lysebla' | 'hoved-neutral' | 'red-cta' | 'secondary-color-orange' | 'rust-main' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'secondary-color-warm-beige' | 'primary-color-red' | 'secondary-color-rust'",
         "description": "Endrer farge for underliggende Designsystemet-komponenter.\nVelg fra forhåndsdefinerte farger og farger definert med theme.designsystemet.no.",
         "defaultValue": null,
         "required": false
@@ -3679,7 +3679,7 @@
   },
   {
     "componentName": "Card",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -3721,7 +3721,7 @@
   },
   {
     "componentName": "Breadcrumbs",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -3749,19 +3749,19 @@
   },
   {
     "componentName": "BreadcrumbsList",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": []
   },
   {
     "componentName": "BreadcrumbsItem",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": []
   },
   {
     "componentName": "BreadcrumbsLink",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -3789,7 +3789,7 @@
   },
   {
     "componentName": "Badge",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -3831,7 +3831,7 @@
   },
   {
     "componentName": "BadgePosition",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -3866,7 +3866,7 @@
   },
   {
     "componentName": "Avatar",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {
@@ -3943,7 +3943,7 @@
   },
   {
     "componentName": "Alert",
-    "importPath": "rk-designsystem",
+    "importPath": "@norwegianredcross/designsystem",
     "description": "",
     "props": [
       {

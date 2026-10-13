@@ -22,7 +22,7 @@
     {
       "description": "Én samlet PR i uka for minor og patch, som Dependabot-gruppen fra GitHub. Designtokens går utenom, se under.",
       "matchUpdateTypes": ["minor", "patch"],
-      "matchPackageNames": ["!rk-design-tokens"],
+      "matchPackageNames": ["!@norwegianredcross/design-tokens"],
       "groupName": "minor-and-patch"
     },
     {
@@ -40,7 +40,7 @@
     },
     {
       "description": "Ny versjon av designtokens gir egen PR med en gang. Erstatter token-bump.yml; visuell regresjon kjører på PR-en gjennom CI.",
-      "matchPackageNames": ["rk-design-tokens"],
+      "matchPackageNames": ["@norwegianredcross/design-tokens"],
       "schedule": ["at any time"],
       "rangeStrategy": "bump"
     }

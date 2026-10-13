@@ -1,5 +1,5 @@
 {
-  "$comment": "Kanonisk oversikt over den offentlige API-flaten i rk-designsystem. Kilden er src/index.ts — generate-metadata.mjs validerer at denne listen samsvarer med de faktiske eksportene og feiler ved avvik. 'primary' = selvstendig komponent, 'part' = del av en sammensatt komponent (parent), 'hook' = React-hook, 'provider' = context-provider.",
+  "$comment": "Kanonisk oversikt over den offentlige API-flaten i @norwegianredcross/designsystem. Kilden er src/index.ts — generate-metadata.mjs validerer at denne listen samsvarer med de faktiske eksportene og feiler ved avvik. 'primary' = selvstendig komponent, 'part' = del av en sammensatt komponent (parent), 'hook' = React-hook, 'provider' = context-provider.",
   "exports": [
     { "name": "Alert", "kind": "primary" },
     { "name": "Avatar", "kind": "primary" },

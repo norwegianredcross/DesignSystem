@@ -20,7 +20,7 @@ Header-komponenten er ment å ligge øverst i applikasjonen og være vedvarende 
 ### Grunnleggende oppsett
 
 ```tsx
-import { Header } from 'rk-designsystem';
+import { Header } from '@norwegianredcross/designsystem';
 
 const MyApp = () => (
   <Header
@@ -90,7 +90,7 @@ Alle tre er av som standard. `showUser` viser brukerblokken bare når `userName`
 
 ## Baseline uten JavaScript
 
-Importer `rk-designsystem/styles` for utseendet. Header injiserer ikke CSS ved kjøring.
+Importer `@norwegianredcross/designsystem/styles` for utseendet. Header injiserer ikke CSS ved kjøring.
 Navigasjonslenker og menyinnhold rendres på serveren. Menyen bruker Popover API,
 og CSS styrer mobil- og desktopvisning. Nettlesere uten Popover API viser menyinnholdet
 som vanlig innhold. Uten CSS kan lenkene fortsatt brukes.

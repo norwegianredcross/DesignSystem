@@ -1,6 +1,6 @@
 /**
  * Token-vakt: alle `--ds-*`-referanser i kildekoden må finnes blant tokens
- * definert av rk-design-tokens eller Digdir Designsystemet. Døde referanser
+ * definert av @norwegianredcross/design-tokens eller Digdir Designsystemet. Døde referanser
  * faller stille tilbake til nettleser-standarder (eller fallback-verdien) og
  * er derfor nesten usynlige feil — denne sjekken gjør dem til byggfeil.
  *
@@ -16,8 +16,8 @@ const ROOT = process.cwd();
 const TOKEN_PATTERN = /--ds-[a-zA-Z0-9-]+/g;
 
 const DEFINITION_SOURCES = [
-  'node_modules/rk-design-tokens/design-tokens-build/theme.css',
-  'node_modules/rk-design-tokens/design-tokens-build/konferansesenter.css',
+  'node_modules/@norwegianredcross/design-tokens/design-tokens-build/theme.css',
+  'node_modules/@norwegianredcross/design-tokens/design-tokens-build/konferansesenter.css',
   'node_modules/@digdir/designsystemet-css/dist/src/index.css',
   'node_modules/@digdir/designsystemet-css/dist/theme/designsystemet.css',
 ];
@@ -82,7 +82,7 @@ for (const file of sourceFiles) {
 
 // 4. Rapport
 if (violations.length > 0) {
-  console.error(`❌ ${violations.length} token-brudd (tokens som ikke finnes i rk-design-tokens/Digdir):\n`);
+  console.error(`❌ ${violations.length} token-brudd (tokens som ikke finnes i @norwegianredcross/design-tokens/Digdir):\n`);
   const byFile = new Map();
   for (const v of violations) {
     if (!byFile.has(v.file)) byFile.set(v.file, []);

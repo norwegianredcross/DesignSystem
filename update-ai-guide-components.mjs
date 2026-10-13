@@ -183,8 +183,8 @@ function generateComponentDoc(component) {
   
   // Generate import statement
   const imports = subComponents.length > 0
-    ? `import { ${component.componentName}${subComponents.map(sc => `, ${sc}`).join('')} } from 'rk-designsystem';`
-    : `import { ${component.componentName} } from 'rk-designsystem';`;
+    ? `import { ${component.componentName}${subComponents.map(sc => `, ${sc}`).join('')} } from '@norwegianredcross/designsystem';`
+    : `import { ${component.componentName} } from '@norwegianredcross/designsystem';`;
   
   // Generate component usage example
   const componentExample = subComponents.length > 0
@@ -376,7 +376,7 @@ function main() {
   // Generate new components section
   const header = `## Available Components
 
-All components are exported from \`rk-designsystem\`. Below is a comprehensive list with all props:
+All components are exported from \`@norwegianredcross/designsystem\`. Below is a comprehensive list with all props:
 
 `;
   

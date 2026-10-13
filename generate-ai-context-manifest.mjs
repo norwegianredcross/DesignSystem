@@ -50,7 +50,7 @@ const manifest = {
   ruleHints: [
     {
       id: "prefer-rk-components",
-      summary: "Prefer rk-designsystem components over custom HTML for common UI.",
+      summary: "Prefer @norwegianredcross/designsystem components over custom HTML for common UI.",
     },
     {
       id: "use-ds-size-tokens",

@@ -56,7 +56,7 @@ body:
   - type: input
     id: version
     attributes:
-      label: Versjon av rk-designsystem
+      label: Versjon av @norwegianredcross/designsystem
       placeholder: 'Eksempel: 1.2.5'
     validations:
       required: true

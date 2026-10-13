@@ -1,6 +1,6 @@
 # Testplan — Røde Kors Designsystem
 
-> Denne testplanen følger Norges Røde Kors' testpolicy, overordnede teststrategi og «Testing – prinsipper og praksis». Den beskriver hvordan testing er organisert for designsystemet (`rk-designsystem`).
+> Denne testplanen følger Norges Røde Kors' testpolicy, overordnede teststrategi og «Testing – prinsipper og praksis». Den beskriver hvordan testing er organisert for designsystemet (`@norwegianredcross/designsystem`).
 >
 > **Testhåndteringssystem:** Organisasjonens dokumenter beskriver Azure DevOps som verktøy. Dette produktet utvikles på **GitHub**, og inntil en eventuell overgang er GitHub vårt testhåndteringssystem: GitHub Actions (kjøring og rapportering), Pull Requests (godkjenning og sporbarhet) og GitHub Issues (feilhåndtering). Prinsippene er de samme — sporbarhet mellom krav, kode og test i ett verktøy.
 
@@ -22,7 +22,7 @@ Kvalitet er et felles ansvar; testing er ikke en fase til slutt, men en del av h
 ## 3. Testbasis
 
 - Komponentkrav: Storybook-stories og MDX-dokumentasjon per komponent
-- Designgrunnlag: «Design retning»-boarden i Figma og `rk-design-tokens`
+- Designgrunnlag: «Design retning»-boarden i Figma og `@norwegianredcross/design-tokens`
 - API-kontrakt: `metadata.json` (genereres fra koden) og `AI_DESIGN_SYSTEM_GUIDE.md`
 - Digdir Designsystemet som underliggende leverandørdokumentasjon
 
@@ -70,7 +70,7 @@ Testinnsatsen prioriteres der feil gjør mest skade. Vurdering per område:
 | Skjemakomponenter (Input, Select, Checkbox, Radio, DatePicker, DateInput) | Høy (brukere får ikke fullført oppgaver) | Middels | **Høy** | Interaksjonstester, negativ testing, a11y |
 | Header/Footer (alle flater) | Høy (synlig overalt) | Middels | **Høy** | Interaksjonstester, responsiv + mørk modus-verifisering |
 | Donor (donasjonsflyt) | Høy (økonomi/omdømme) | Middels | **Høy** | Interaksjonstester på beløpsvalg og callbacks |
-| Tokens-integrasjon (`rk-design-tokens`) | Høy (endrer alt visuelt) | Middels (bump kommer som daglig PR) | **Høy** | Token-bump er en reviewbar PR («Token bump PR»-workflowen) med full regresjon + visuell regresjon som gate |
+| Tokens-integrasjon (`@norwegianredcross/design-tokens`) | Høy (endrer alt visuelt) | Middels (bump kommer som daglig PR) | **Høy** | Token-bump er en reviewbar PR («Token bump PR»-workflowen) med full regresjon + visuell regresjon som gate |
 | Visningskomponenter (Tag, Badge, Avatar, …) | Lav–middels | Lav | Lav | Assertion-bærende kontraktstory + a11y |
 
 **Akseptert risiko** (bevisste valg, jf. kap. 12.3.2 E):

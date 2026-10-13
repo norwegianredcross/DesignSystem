@@ -1,5 +1,60 @@
 # Røde Kors Design System Component Library (Norwegian Red Cross)
 
+## Moving to the Norwegian Red Cross npm organization
+
+The packages are moving to organization ownership. Version numbering continues;
+the package names change. Updating the old dependencies with `npm update` does
+not switch them to the organization scope.
+
+| Previous package | New package | Migration version |
+| --- | --- | --- |
+| `rk-design-tokens` | [`@norwegianredcross/design-tokens`](https://www.npmjs.com/package/@norwegianredcross/design-tokens) | `1.0.50` |
+| `rk-designsystem` | [`@norwegianredcross/designsystem`](https://www.npmjs.com/package/@norwegianredcross/designsystem) | `1.5.x` (normal release numbering continues) |
+
+**Release status:** these instructions are prepared for the migration. Run them
+after both scoped versions are available on npm.
+
+```sh
+npm view @norwegianredcross/design-tokens@1.0.50 version
+npm view @norwegianredcross/designsystem version
+npm uninstall rk-designsystem rk-design-tokens
+npm install @norwegianredcross/designsystem@^1.5.0
+```
+
+If the application imports tokens directly, also run:
+
+```sh
+npm install @norwegianredcross/design-tokens@^1.0.50
+```
+
+Replace component and style imports throughout the application:
+
+```tsx
+import { Button } from '@norwegianredcross/designsystem';
+import '@norwegianredcross/designsystem/styles';
+```
+
+The combined stylesheet includes Digdir styles, the theme, component styles and
+bundled Source Sans 3. Do not also import the token theme into the same application
+when using this combined stylesheet. A tokens-only consumer instead uses:
+
+```css
+@import '@norwegianredcross/design-tokens/design-tokens-build/theme.css';
+```
+
+Other token subpaths, such as `design-tokens-build/konferansesenter.css` and
+`design-tokens-build/shadcn-theme.css`, keep their paths under the new package name.
+Update package aliases, bundler configuration, dependency automation and any npm
+links as well. Commit the dependency and lockfile changes produced by npm; do not
+hand-edit lockfile registry URLs or integrity values. Run a clean install, the
+application build and its tests, then verify styles and fonts in the browser.
+Check the lockfile for old packages still required by other dependencies.
+Existing unscoped releases remain separate packages; their history does not move
+to the scoped names. This package migration does not implement the separately
+reviewed component appearance changes.
+
+
+
 ## Documentation and development tools
 
 - **Public documentation** belongs in [norwegianredcross/designportal](https://github.com/norwegianredcross/designportal) (local checkout: `Desktop/designsystem-docs`), public address to come. It owns authored component guidance, design direction, guides, tokens documentation and release-note presentation.
@@ -74,7 +129,7 @@ The design system includes the following components:
 ### 1. Install
 
 ```bash
-npm install rk-designsystem
+npm install @norwegianredcross/designsystem
 ```
 
 > Since 1.4.0 the library declares `@digdir/designsystemet-react` and
@@ -109,7 +164,7 @@ and report it in their output; they do not validate the broken release.
 
 ```tsx
 // src/app/layout.tsx (App Router)
-import 'rk-designsystem/styles';
+import '@norwegianredcross/designsystem/styles';
 
 export default function RootLayout({
   children,
@@ -132,7 +187,7 @@ configure with `next/font`.
 ### 3. Use Components
 
 ```tsx
-import { Button, Alert } from 'rk-designsystem';
+import { Button, Alert } from '@norwegianredcross/designsystem';
 
 export default function Page() {
   return (
@@ -152,14 +207,14 @@ For non-Next.js projects, use the combined styles import:
 ### 1. Install
 
 ```bash
-npm install rk-designsystem
+npm install @norwegianredcross/designsystem
 ```
 
 ### 2. Import Styles
 
 ```typescript
 // main.tsx or index.tsx
-import 'rk-designsystem/styles';
+import '@norwegianredcross/designsystem/styles';
 ```
 
 This single import includes base styles, theme, component CSS and Source Sans 3
@@ -168,7 +223,7 @@ This single import includes base styles, theme, component CSS and Source Sans 3
 ### 3. Use Components
 
 ```tsx
-import { Button, Alert } from 'rk-designsystem';
+import { Button, Alert } from '@norwegianredcross/designsystem';
 
 function App() {
   return (
@@ -185,7 +240,7 @@ function App() {
 
 ```tsx
 // pages/_app.tsx
-import 'rk-designsystem/styles';
+import '@norwegianredcross/designsystem/styles';
 import type { AppProps } from 'next/app';
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -254,11 +309,11 @@ Button prop removals, mislabeled as a patch — 1.2.5 is deprecated.)
   accessible name in 1.21 (the tooltip becomes `aria-description`), and
   `ToggleGroup`'s `data-toggle-group` is deprecated in favour of `aria-label`.
 - **ESM-only (1.4.0):** the CommonJS/UMD entry is removed, so
-  `require('rk-designsystem')` now fails explicitly. It never actually worked:
+  `require('@norwegianredcross/designsystem')` now fails explicitly. It never actually worked:
   the UMD file was parsed as ESM (the package is `"type": "module"`), and the
   underlying Digdir library's own CJS entry is broken as well. Use `import`
   (every bundler and modern Node setup).
-- **`import 'rk-designsystem/styles'` now delivers everything:** Digdir base,
+- **`import '@norwegianredcross/designsystem/styles'` now delivers everything:** Digdir base,
   the Røde Kors theme, the component CSS and Source Sans 3.
 - **Button:** `shape`/`pill` and `soft` props are removed — styling comes
   from the design tokens.
@@ -385,7 +440,7 @@ Your Storybook file is the executable development and test reference. Keep its e
 
 ## Using NAV/Aksel Icons
 
-This library is designed to work seamlessly with the official icon set from NAV/Aksel. Since 1.4.0, `@navikt/aksel-icons` ships as a regular dependency of `rk-designsystem` — no separate install needed. To use the icons directly in your own code:
+This library is designed to work seamlessly with the official icon set from NAV/Aksel. Since 1.4.0, `@navikt/aksel-icons` ships as a regular dependency of `@norwegianredcross/designsystem` — no separate install needed. To use the icons directly in your own code:
 
 ### Install (only for direct use in your app)
 
@@ -406,7 +461,7 @@ Icons are exported as named React components. Import only the icons you need (tr
 
 ```tsx
 import { AirplaneIcon, NewspaperIcon } from '@navikt/aksel-icons';
-import { Button, Tag } from 'rk-designsystem';
+import { Button, Tag } from '@norwegianredcross/designsystem';
 
 export function IconsExample() {
   return (
@@ -439,3 +494,26 @@ export function IconsExample() {
 ### Performance
 
 Use named imports from `@navikt/aksel-icons` to keep bundles small—unused icons are tree‑shaken by modern bundlers.
+
+## Organization package release
+
+The first scoped releases can be published locally by an organization member
+with npm 2FA enabled. Publish `@norwegianredcross/design-tokens@1.0.50` first,
+then resolve that registry dependency and run the component release checks.
+Publish the reviewed component commit with `npm publish --access public`.
+The scoped component package starts at the existing `1.5.0` version; subsequent
+releases follow the normal patch/minor/major sequence. Existing unscoped tags and
+versions must not be replaced. Keep the first scoped release's commit SHA for
+traceability.
+
+The release pipeline is `azure-pipelines/release.yml`. It publishes the scoped
+package using the secret `NPM_TOKEN` in the `npm-publish` variable group. The
+credential must belong to an authorized npm organization member and permit this
+package. The GitHub trusted publisher on the old package cannot authenticate
+an Azure job. The normal patch/minor/major version sequence continues.
+
+The migration lockfile resolves `@norwegianredcross/design-tokens@1.0.50` from
+the public npm registry. Use `npm ci` for the release checkout, followed by lint,
+token checks, typecheck, the full test suite, package and Storybook builds, and
+`npm run test:packaging`. Local tarball testing alone does not replace a clean
+installation of the registry dependencies.

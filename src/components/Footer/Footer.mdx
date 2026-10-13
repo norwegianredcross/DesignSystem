@@ -16,8 +16,8 @@ import * as FooterStories from './Footer.stories';
 ## Bruk
 
 ```tsx
-import { Footer } from 'rk-designsystem';
-import 'rk-designsystem/styles';
+import { Footer } from '@norwegianredcross/designsystem';
+import '@norwegianredcross/designsystem/styles';
 
 const AppFooter = () => (
   <Footer
@@ -92,7 +92,7 @@ resten av siden (den hvite logoseksjonen forblir lys — det er meningen).
 
 Navigasjon og kontaktinformasjon finnes i serverens HTML i alle tre varianter.
 Bruk faktiske lenker i `shortcutsLinks`, `linksLinks`, `columns` og `legalLinks`;
-standardlenkene er plassholdere. Importer `rk-designsystem/styles` i applikasjonen.
+standardlenkene er plassholdere. Importer `@norwegianredcross/designsystem/styles` i applikasjonen.
 Footer injiserer ikke CSS ved hydrering.
 
 Footer kan importeres direkte i en Next.js-serverkomponent eller serverlayout.

@@ -77,8 +77,8 @@
      - Include focus indicators
 
   9. ☐ **Am I using the design system Header and Footer?**
-     - ✅ **ALWAYS** use `<Header>` from `rk-designsystem` for page headers
-     - ✅ **ALWAYS** use `<Footer>` from `rk-designsystem` for page footers
+     - ✅ **ALWAYS** use `<Header>` from `@norwegianredcross/designsystem` for page headers
+     - ✅ **ALWAYS** use `<Footer>` from `@norwegianredcross/designsystem` for page footers
      - ❌ **NEVER** create custom header or footer components
      - ❌ **NEVER** recreate header/footer layouts from Figma manually
      - The `<Header>` and `<Footer>` components are pre-built with all Røde Kors branding, responsive behavior, and accessibility features
@@ -155,7 +155,7 @@
   1. Fetch the AI guide: curl -o AI_DESIGN_SYSTEM_GUIDE.md https://norwegianredcross.github.io/DesignSystem/storybook/AI_DESIGN_SYSTEM_GUIDE.md
   2. Reference component metadata: https://norwegianredcross.github.io/DesignSystem/storybook/metadata.json
   3. Use design tokens from: https://norwegianredcross.github.io/design-tokens/theme.css
-  4. Always use existing components from rk-designsystem when possible
+  4. Always use existing components from @norwegianredcross/designsystem when possible
   5. Never use hardcoded values - always use design tokens (var(--ds-*))
   ```
 
@@ -185,12 +185,12 @@
   - **Storybook**: https://norwegianredcross.github.io/DesignSystem/storybook/
   - **Design Tokens CSS**: https://norwegianredcross.github.io/design-tokens/theme.css
   - **Component Metadata**: https://norwegianredcross.github.io/DesignSystem/storybook/metadata.json
-  - **Package Name**: `rk-designsystem`
+  - **Package Name**: `@norwegianredcross/designsystem`
 
   ### Installation (Simplified)
 
   ```bash
-  npm install rk-designsystem
+  npm install @norwegianredcross/designsystem
   ```
 
   ### Import Styles (One Import - Includes Font!)
@@ -198,7 +198,7 @@
   Add this single import to your entry file (`layout.tsx`, `_app.tsx`, or `main.tsx`):
 
   ```tsx
-  import 'rk-designsystem/styles';
+  import '@norwegianredcross/designsystem/styles';
   ```
 
   **That's it!** This single import includes:
@@ -213,7 +213,7 @@
   ```tsx
   // src/app/layout.tsx
   import '@digdir/designsystemet-css/index.css';
-  import 'rk-design-tokens/design-tokens-build/theme.css';
+  import '@norwegianredcross/design-tokens/design-tokens-build/theme.css';
   import { Source_Sans_3 } from "next/font/google";
 
   const sourceSans3 = Source_Sans_3({
@@ -247,7 +247,7 @@
   ```tsx
   // pages/_app.tsx
   import '@digdir/designsystemet-css/index.css';
-  import 'rk-design-tokens/design-tokens-build/theme.css';
+  import '@norwegianredcross/design-tokens/design-tokens-build/theme.css';
   import { Source_Sans_3 } from "next/font/google";
   import type { AppProps } from 'next/app';
 
@@ -272,7 +272,7 @@
 
   ```tsx
   // main.tsx or App.tsx
-  import 'rk-designsystem/styles'; // Includes font via Google Fonts CSS import
+  import '@norwegianredcross/designsystem/styles'; // Includes font via Google Fonts CSS import
   ```
 
   **Note:** This loads the font via CSS `@import` from Google Fonts. For Next.js projects, the `next/font` approach above is recommended for better performance.
@@ -302,20 +302,20 @@
 
   ## Available Components
 
-All components are exported from `rk-designsystem`. Below is a comprehensive list with all props:
+All components are exported from `@norwegianredcross/designsystem`. Below is a comprehensive list with all props:
 
 ### Form Components
 
 #### Button
 ```tsx
-import { Button } from 'rk-designsystem';
+import { Button } from '@norwegianredcross/designsystem';
 
 <Button
   asChild={false} // valgfri: boolean
   command="…" // valgfri: string
   commandfor="…" // valgfri: string
   commandFor="…" // valgfri: string
-  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'danger'
+  data-color="hoved-beige" // valgfri: 'hoved-beige' | 'neutral' | 'hoved-rosa' | 'hoved-mint' | 'hoved-lysebla' | 'hoved-neutral' | 'red-cta' | 'secondary-color-orange' | 'rust-main' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'secondary-color-warm-beige' | 'primary-color-red' | 'secondary-color-rust' | 'danger'
   data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
   icon={false} // valgfri: boolean
   // loading — valgfri: ReactNode
@@ -326,7 +326,7 @@ import { Button } from 'rk-designsystem';
 
 #### Checkbox
 ```tsx
-import { Checkbox } from 'rk-designsystem';
+import { Checkbox } from '@norwegianredcross/designsystem';
 
 <Checkbox
   aria-label="…" // valgfri: string
@@ -347,12 +347,12 @@ import { Checkbox } from 'rk-designsystem';
 
 #### DateInput
 ```tsx
-import { DateInput } from 'rk-designsystem';
+import { DateInput } from '@norwegianredcross/designsystem';
 
 <DateInput
   aria-label="…" // valgfri: string
   aria-labelledby="…" // valgfri: string
-  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'
+  data-color="hoved-beige" // valgfri: 'hoved-beige' | 'neutral' | 'hoved-rosa' | 'hoved-mint' | 'hoved-lysebla' | 'hoved-neutral' | 'red-cta' | 'secondary-color-orange' | 'rust-main' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'secondary-color-warm-beige' | 'primary-color-red' | 'secondary-color-rust'
   data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
   // defaultValue — valgfri: string | null
   // description — valgfri: ReactNode
@@ -370,10 +370,10 @@ import { DateInput } from 'rk-designsystem';
 
 #### DatePicker
 ```tsx
-import { DatePicker } from 'rk-designsystem';
+import { DatePicker } from '@norwegianredcross/designsystem';
 
 <DatePicker
-  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'
+  data-color="hoved-beige" // valgfri: 'hoved-beige' | 'neutral' | 'hoved-rosa' | 'hoved-mint' | 'hoved-lysebla' | 'hoved-neutral' | 'red-cta' | 'secondary-color-orange' | 'rust-main' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'secondary-color-warm-beige' | 'primary-color-red' | 'secondary-color-rust'
   data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
   // initialDate — valgfri, default new Date(): Date
   onDateSelect={(date) => {}} // valgfri: ((date: Date) => void)
@@ -383,7 +383,7 @@ import { DatePicker } from 'rk-designsystem';
 
 #### Input
 ```tsx
-import { Input } from 'rk-designsystem';
+import { Input } from '@norwegianredcross/designsystem';
 
 <Input
   // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
@@ -399,7 +399,7 @@ import { Input } from 'rk-designsystem';
 
 #### Radio
 ```tsx
-import { Radio } from 'rk-designsystem';
+import { Radio } from '@norwegianredcross/designsystem';
 
 <Radio
   aria-label="…" // valgfri: string
@@ -420,7 +420,7 @@ import { Radio } from 'rk-designsystem';
 
 #### Select
 ```tsx
-import { Select } from 'rk-designsystem';
+import { Select } from '@norwegianredcross/designsystem';
 
 <Select
   // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
@@ -432,7 +432,7 @@ import { Select } from 'rk-designsystem';
 
 #### Switch
 ```tsx
-import { Switch } from 'rk-designsystem';
+import { Switch } from '@norwegianredcross/designsystem';
 
 <Switch
   aria-label="…" // valgfri: string
@@ -449,7 +449,7 @@ import { Switch } from 'rk-designsystem';
 
 #### Textarea
 ```tsx
-import { Textarea } from 'rk-designsystem';
+import { Textarea } from '@norwegianredcross/designsystem';
 
 <Textarea
   // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
@@ -459,7 +459,7 @@ import { Textarea } from 'rk-designsystem';
 
 #### Textfield
 ```tsx
-import { Textfield } from 'rk-designsystem';
+import { Textfield } from '@norwegianredcross/designsystem';
 
 <Textfield
   aria-label="…" // valgfri: string
@@ -485,7 +485,7 @@ import { Textfield } from 'rk-designsystem';
 
 #### Card
 ```tsx
-import { Card, CardBlock } from 'rk-designsystem';
+import { Card, CardBlock } from '@norwegianredcross/designsystem';
 
 <Card
   // children — PÅKREVD: ReactNode
@@ -502,14 +502,14 @@ Use `<CardBlock>` for content sections inside `<Card>`.
 
 #### Divider
 ```tsx
-import { Divider } from 'rk-designsystem';
+import { Divider } from '@norwegianredcross/designsystem';
 
 <Divider />
 ```
 
 #### Field
 ```tsx
-import { Field, FieldDescription, FieldCounter } from 'rk-designsystem';
+import { Field, FieldDescription, FieldCounter } from '@norwegianredcross/designsystem';
 
 <Field
   asChild={false} // valgfri, default false: boolean
@@ -525,7 +525,7 @@ Use `<FieldDescription>` and `<FieldCounter>` as children.
 
 #### Fieldset
 ```tsx
-import { Fieldset } from 'rk-designsystem';
+import { Fieldset } from '@norwegianredcross/designsystem';
 
 <Fieldset
   // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
@@ -537,7 +537,7 @@ import { Fieldset } from 'rk-designsystem';
 
 #### Breadcrumbs
 ```tsx
-import { Breadcrumbs, BreadcrumbsList, BreadcrumbsItem, BreadcrumbsLink } from 'rk-designsystem';
+import { Breadcrumbs, BreadcrumbsList, BreadcrumbsItem, BreadcrumbsLink } from '@norwegianredcross/designsystem';
 
 <Breadcrumbs
   aria-label="Du er her" // valgfri, default 'Du er her': string
@@ -552,7 +552,7 @@ Use `<BreadcrumbsList>`, `<BreadcrumbsItem>`, and `<BreadcrumbsLink>` for struct
 
 #### Pagination
 ```tsx
-import { Pagination } from 'rk-designsystem';
+import { Pagination } from '@norwegianredcross/designsystem';
 
 <Pagination
   aria-label="Bla i sider" // valgfri, default 'Bla i sider': string
@@ -566,7 +566,7 @@ import { Pagination } from 'rk-designsystem';
 
 #### Tabs
 ```tsx
-import { Tabs } from 'rk-designsystem';
+import { Tabs } from '@norwegianredcross/designsystem';
 
 <Tabs
   // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
@@ -581,7 +581,7 @@ import { Tabs } from 'rk-designsystem';
 
 #### Alert
 ```tsx
-import { Alert } from 'rk-designsystem';
+import { Alert } from '@norwegianredcross/designsystem';
 
 <Alert
   // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
@@ -593,7 +593,7 @@ import { Alert } from 'rk-designsystem';
 
 #### Dialog
 ```tsx
-import { Dialog } from 'rk-designsystem';
+import { Dialog } from '@norwegianredcross/designsystem';
 
 <Dialog
   asChild={false} // valgfri, default false: boolean
@@ -610,7 +610,7 @@ import { Dialog } from 'rk-designsystem';
 
 #### ErrorSummary
 ```tsx
-import { ErrorSummary } from 'rk-designsystem';
+import { ErrorSummary } from '@norwegianredcross/designsystem';
 
 <ErrorSummary
   // asChild — valgfri: ReactNode
@@ -621,7 +621,7 @@ import { ErrorSummary } from 'rk-designsystem';
 
 #### Popover
 ```tsx
-import { Popover } from 'rk-designsystem';
+import { Popover } from '@norwegianredcross/designsystem';
 
 <Popover
   asChild={false} // valgfri, default false: boolean
@@ -639,7 +639,7 @@ import { Popover } from 'rk-designsystem';
 
 #### Tooltip
 ```tsx
-import { Tooltip } from 'rk-designsystem';
+import { Tooltip } from '@norwegianredcross/designsystem';
 
 <Tooltip
   // children — PÅKREVD: ReactNode
@@ -657,7 +657,7 @@ import { Tooltip } from 'rk-designsystem';
 
 #### Avatar
 ```tsx
-import { Avatar } from 'rk-designsystem';
+import { Avatar } from '@norwegianredcross/designsystem';
 
 <Avatar
   // aria-hidden — valgfri: Booleanish
@@ -675,7 +675,7 @@ import { Avatar } from 'rk-designsystem';
 
 #### Badge
 ```tsx
-import { Badge } from 'rk-designsystem';
+import { Badge } from '@norwegianredcross/designsystem';
 
 <Badge
   count={0} // valgfri: number
@@ -688,7 +688,7 @@ import { Badge } from 'rk-designsystem';
 
 #### Chip
 ```tsx
-import { Chip, Chip.Button, Chip.Checkbox, Chip.Radio } from 'rk-designsystem';
+import { Chip, Chip.Button, Chip.Checkbox, Chip.Radio } from '@norwegianredcross/designsystem';
 
 <Chip>
   {/* Content */}
@@ -699,7 +699,7 @@ Use `<Chip.Button>`, `<Chip.Checkbox>`, or `<Chip.Radio>` for different variants
 
 #### SkeletonLoader
 ```tsx
-import { SkeletonLoader } from 'rk-designsystem';
+import { SkeletonLoader } from '@norwegianredcross/designsystem';
 
 <SkeletonLoader
   asChild={false} // valgfri, default false: boolean
@@ -712,7 +712,7 @@ import { SkeletonLoader } from 'rk-designsystem';
 
 #### Spinner
 ```tsx
-import { Spinner } from 'rk-designsystem';
+import { Spinner } from '@norwegianredcross/designsystem';
 
 <Spinner
   aria-label="…" // valgfri: string
@@ -722,10 +722,10 @@ import { Spinner } from 'rk-designsystem';
 
 #### Tag
 ```tsx
-import { Tag } from 'rk-designsystem';
+import { Tag } from '@norwegianredcross/designsystem';
 
 <Tag
-  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'info' | 'success' | 'warning' | 'danger'
+  data-color="hoved-beige" // valgfri: 'hoved-beige' | 'neutral' | 'hoved-rosa' | 'hoved-mint' | 'hoved-lysebla' | 'hoved-neutral' | 'red-cta' | 'secondary-color-orange' | 'rust-main' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'secondary-color-warm-beige' | 'primary-color-red' | 'secondary-color-rust' | 'info' | 'success' | 'warning' | 'danger'
   data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
   shape="squared" // valgfri, default 'squared': 'squared' | 'rounded'
   variant="default" // valgfri, default 'default': 'default' | 'outline'
@@ -736,7 +736,7 @@ import { Tag } from 'rk-designsystem';
 
 #### List
 ```tsx
-import { List, List.Unordered, List.Ordered, List.Item } from 'rk-designsystem';
+import { List, List.Unordered, List.Ordered, List.Item } from '@norwegianredcross/designsystem';
 
 <List>
   {/* Content */}
@@ -747,7 +747,7 @@ Use `<List.Unordered>` or `<List.Ordered>` with `<List.Item>` for items.
 
 #### Table
 ```tsx
-import { Table } from 'rk-designsystem';
+import { Table } from '@norwegianredcross/designsystem';
 
 <Table
   border={false} // valgfri, default false: boolean
@@ -763,7 +763,7 @@ import { Table } from 'rk-designsystem';
 
 #### BadgePosition
 ```tsx
-import { BadgePosition } from 'rk-designsystem';
+import { BadgePosition } from '@norwegianredcross/designsystem';
 
 <BadgePosition
   // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
@@ -775,14 +775,14 @@ import { BadgePosition } from 'rk-designsystem';
 
 #### BreadcrumbsItem
 ```tsx
-import { BreadcrumbsItem } from 'rk-designsystem';
+import { BreadcrumbsItem } from '@norwegianredcross/designsystem';
 
 <BreadcrumbsItem />
 ```
 
 #### BreadcrumbsLink
 ```tsx
-import { BreadcrumbsLink } from 'rk-designsystem';
+import { BreadcrumbsLink } from '@norwegianredcross/designsystem';
 
 <BreadcrumbsLink
   asChild={false} // valgfri: boolean
@@ -793,14 +793,14 @@ import { BreadcrumbsLink } from 'rk-designsystem';
 
 #### BreadcrumbsList
 ```tsx
-import { BreadcrumbsList } from 'rk-designsystem';
+import { BreadcrumbsList } from '@norwegianredcross/designsystem';
 
 <BreadcrumbsList />
 ```
 
 #### ChipButton
 ```tsx
-import { ChipButton } from 'rk-designsystem';
+import { ChipButton } from '@norwegianredcross/designsystem';
 
 <ChipButton
   asChild={false} // valgfri, default false: boolean
@@ -812,7 +812,7 @@ import { ChipButton } from 'rk-designsystem';
 
 #### ChipCheckbox
 ```tsx
-import { ChipCheckbox } from 'rk-designsystem';
+import { ChipCheckbox } from '@norwegianredcross/designsystem';
 
 <ChipCheckbox
   asChild={false} // valgfri, default false: boolean
@@ -824,7 +824,7 @@ import { ChipCheckbox } from 'rk-designsystem';
 
 #### ChipRadio
 ```tsx
-import { ChipRadio } from 'rk-designsystem';
+import { ChipRadio } from '@norwegianredcross/designsystem';
 
 <ChipRadio
   asChild={false} // valgfri, default false: boolean
@@ -836,7 +836,7 @@ import { ChipRadio } from 'rk-designsystem';
 
 #### ChipRemovable
 ```tsx
-import { ChipRemovable } from 'rk-designsystem';
+import { ChipRemovable } from '@norwegianredcross/designsystem';
 
 <ChipRemovable
   asChild={false} // valgfri, default false: boolean
@@ -848,7 +848,7 @@ import { ChipRemovable } from 'rk-designsystem';
 
 #### Details
 ```tsx
-import { Details, Details.Summary, Details.Content } from 'rk-designsystem';
+import { Details, Details.Summary, Details.Content } from '@norwegianredcross/designsystem';
 
 <Details
   // children — valgfri: ReactNode
@@ -867,14 +867,14 @@ Use `<Details.Summary>` and `<Details.Content>` for accordion structure.
 
 #### DetailsContent
 ```tsx
-import { DetailsContent } from 'rk-designsystem';
+import { DetailsContent } from '@norwegianredcross/designsystem';
 
 <DetailsContent />
 ```
 
 #### DetailsSummary
 ```tsx
-import { DetailsSummary } from 'rk-designsystem';
+import { DetailsSummary } from '@norwegianredcross/designsystem';
 
 <DetailsSummary
   // children — valgfri: ReactNode
@@ -883,7 +883,7 @@ import { DetailsSummary } from 'rk-designsystem';
 
 #### DialogBlock
 ```tsx
-import { DialogBlock } from 'rk-designsystem';
+import { DialogBlock } from '@norwegianredcross/designsystem';
 
 <DialogBlock
   asChild={false} // valgfri, default false: boolean
@@ -892,7 +892,7 @@ import { DialogBlock } from 'rk-designsystem';
 
 #### DialogTrigger
 ```tsx
-import { DialogTrigger } from 'rk-designsystem';
+import { DialogTrigger } from '@norwegianredcross/designsystem';
 
 <DialogTrigger
   asChild={false} // valgfri: boolean
@@ -910,14 +910,14 @@ import { DialogTrigger } from 'rk-designsystem';
 
 #### DialogTriggerContext
 ```tsx
-import { DialogTriggerContext } from 'rk-designsystem';
+import { DialogTriggerContext } from '@norwegianredcross/designsystem';
 
 <DialogTriggerContext />
 ```
 
 #### Dropdown
 ```tsx
-import { Dropdown } from 'rk-designsystem';
+import { Dropdown } from '@norwegianredcross/designsystem';
 
 <Dropdown
   asChild={false} // valgfri, default false: boolean
@@ -934,7 +934,7 @@ import { Dropdown } from 'rk-designsystem';
 
 #### DropdownButton
 ```tsx
-import { DropdownButton } from 'rk-designsystem';
+import { DropdownButton } from '@norwegianredcross/designsystem';
 
 <DropdownButton
   asChild={false} // valgfri, default false: boolean
@@ -951,7 +951,7 @@ import { DropdownButton } from 'rk-designsystem';
 
 #### DropdownHeading
 ```tsx
-import { DropdownHeading } from 'rk-designsystem';
+import { DropdownHeading } from '@norwegianredcross/designsystem';
 
 <DropdownHeading
   asChild={false} // valgfri: boolean
@@ -962,21 +962,21 @@ import { DropdownHeading } from 'rk-designsystem';
 
 #### DropdownItem
 ```tsx
-import { DropdownItem } from 'rk-designsystem';
+import { DropdownItem } from '@norwegianredcross/designsystem';
 
 <DropdownItem />
 ```
 
 #### DropdownList
 ```tsx
-import { DropdownList } from 'rk-designsystem';
+import { DropdownList } from '@norwegianredcross/designsystem';
 
 <DropdownList />
 ```
 
 #### DropdownTrigger
 ```tsx
-import { DropdownTrigger } from 'rk-designsystem';
+import { DropdownTrigger } from '@norwegianredcross/designsystem';
 
 <DropdownTrigger
   asChild={false} // valgfri, default false false: boolean
@@ -994,14 +994,14 @@ import { DropdownTrigger } from 'rk-designsystem';
 
 #### DropdownTriggerContext
 ```tsx
-import { DropdownTriggerContext } from 'rk-designsystem';
+import { DropdownTriggerContext } from '@norwegianredcross/designsystem';
 
 <DropdownTriggerContext />
 ```
 
 #### ErrorSummaryHeading
 ```tsx
-import { ErrorSummaryHeading } from 'rk-designsystem';
+import { ErrorSummaryHeading } from '@norwegianredcross/designsystem';
 
 <ErrorSummaryHeading
   asChild={false} // valgfri: boolean
@@ -1012,7 +1012,7 @@ import { ErrorSummaryHeading } from 'rk-designsystem';
 
 #### ErrorSummaryItem
 ```tsx
-import { ErrorSummaryItem } from 'rk-designsystem';
+import { ErrorSummaryItem } from '@norwegianredcross/designsystem';
 
 <ErrorSummaryItem
   asChild={false} // valgfri: boolean
@@ -1021,7 +1021,7 @@ import { ErrorSummaryItem } from 'rk-designsystem';
 
 #### ErrorSummaryLink
 ```tsx
-import { ErrorSummaryLink } from 'rk-designsystem';
+import { ErrorSummaryLink } from '@norwegianredcross/designsystem';
 
 <ErrorSummaryLink
   asChild={false} // valgfri: boolean
@@ -1032,7 +1032,7 @@ import { ErrorSummaryLink } from 'rk-designsystem';
 
 #### ErrorSummaryList
 ```tsx
-import { ErrorSummaryList } from 'rk-designsystem';
+import { ErrorSummaryList } from '@norwegianredcross/designsystem';
 
 <ErrorSummaryList
   asChild={false} // valgfri: boolean
@@ -1043,28 +1043,28 @@ import { ErrorSummaryList } from 'rk-designsystem';
 
 #### FieldAffix
 ```tsx
-import { FieldAffix } from 'rk-designsystem';
+import { FieldAffix } from '@norwegianredcross/designsystem';
 
 <FieldAffix />
 ```
 
 #### FieldAffixes
 ```tsx
-import { FieldAffixes } from 'rk-designsystem';
+import { FieldAffixes } from '@norwegianredcross/designsystem';
 
 <FieldAffixes />
 ```
 
 #### FieldDescription
 ```tsx
-import { FieldDescription } from 'rk-designsystem';
+import { FieldDescription } from '@norwegianredcross/designsystem';
 
 <FieldDescription />
 ```
 
 #### FieldsetDescription
 ```tsx
-import { FieldsetDescription } from 'rk-designsystem';
+import { FieldsetDescription } from '@norwegianredcross/designsystem';
 
 <FieldsetDescription
   asChild={false} // valgfri: boolean
@@ -1075,7 +1075,7 @@ import { FieldsetDescription } from 'rk-designsystem';
 
 #### FieldsetLegend
 ```tsx
-import { FieldsetLegend } from 'rk-designsystem';
+import { FieldsetLegend } from '@norwegianredcross/designsystem';
 
 <FieldsetLegend
   // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
@@ -1085,7 +1085,7 @@ import { FieldsetLegend } from 'rk-designsystem';
 
 #### Heading
 ```tsx
-import { Heading } from 'rk-designsystem';
+import { Heading } from '@norwegianredcross/designsystem';
 
 <Heading
   // level — PÅKREVD: 1 | 2 | 3 | 4 | 5 | 6
@@ -1098,7 +1098,7 @@ import { Heading } from 'rk-designsystem';
 
 #### Label
 ```tsx
-import { Label } from 'rk-designsystem';
+import { Label } from '@norwegianredcross/designsystem';
 
 <Label
   asChild={false} // valgfri, default false: boolean
@@ -1110,7 +1110,7 @@ import { Label } from 'rk-designsystem';
 
 #### Link
 ```tsx
-import { Link } from 'rk-designsystem';
+import { Link } from '@norwegianredcross/designsystem';
 
 <Link
   // children — PÅKREVD: ReactNode
@@ -1122,7 +1122,7 @@ import { Link } from 'rk-designsystem';
 
 #### ListItem
 ```tsx
-import { ListItem } from 'rk-designsystem';
+import { ListItem } from '@norwegianredcross/designsystem';
 
 <ListItem
   asChild={false} // valgfri, default false: boolean
@@ -1131,7 +1131,7 @@ import { ListItem } from 'rk-designsystem';
 
 #### ListOrdered
 ```tsx
-import { ListOrdered } from 'rk-designsystem';
+import { ListOrdered } from '@norwegianredcross/designsystem';
 
 <ListOrdered
   asChild={false} // valgfri, default false: boolean
@@ -1142,7 +1142,7 @@ import { ListOrdered } from 'rk-designsystem';
 
 #### ListUnordered
 ```tsx
-import { ListUnordered } from 'rk-designsystem';
+import { ListUnordered } from '@norwegianredcross/designsystem';
 
 <ListUnordered
   asChild={false} // valgfri, default false: boolean
@@ -1153,7 +1153,7 @@ import { ListUnordered } from 'rk-designsystem';
 
 #### PaginationButton
 ```tsx
-import { PaginationButton } from 'rk-designsystem';
+import { PaginationButton } from '@norwegianredcross/designsystem';
 
 <PaginationButton
   aria-current="false" // valgfri, default false: boolean | 'true' | 'false' | 'page' | 'step' | 'location' | 'date' | 'time'
@@ -1170,7 +1170,7 @@ import { PaginationButton } from 'rk-designsystem';
 
 #### PaginationItem
 ```tsx
-import { PaginationItem } from 'rk-designsystem';
+import { PaginationItem } from '@norwegianredcross/designsystem';
 
 <PaginationItem
   asChild={false} // valgfri, default false: boolean
@@ -1179,7 +1179,7 @@ import { PaginationItem } from 'rk-designsystem';
 
 #### PaginationList
 ```tsx
-import { PaginationList } from 'rk-designsystem';
+import { PaginationList } from '@norwegianredcross/designsystem';
 
 <PaginationList
   asChild={false} // valgfri, default false: boolean
@@ -1188,7 +1188,7 @@ import { PaginationList } from 'rk-designsystem';
 
 #### Paragraph
 ```tsx
-import { Paragraph } from 'rk-designsystem';
+import { Paragraph } from '@norwegianredcross/designsystem';
 
 <Paragraph
   asChild={false} // valgfri, default false: boolean
@@ -1199,7 +1199,7 @@ import { Paragraph } from 'rk-designsystem';
 
 #### PopoverTrigger
 ```tsx
-import { PopoverTrigger } from 'rk-designsystem';
+import { PopoverTrigger } from '@norwegianredcross/designsystem';
 
 <PopoverTrigger
   asChild={false} // valgfri, default false false: boolean
@@ -1217,14 +1217,14 @@ import { PopoverTrigger } from 'rk-designsystem';
 
 #### PopoverTriggerContext
 ```tsx
-import { PopoverTriggerContext } from 'rk-designsystem';
+import { PopoverTriggerContext } from '@norwegianredcross/designsystem';
 
 <PopoverTriggerContext />
 ```
 
 #### Search
 ```tsx
-import { Search } from 'rk-designsystem';
+import { Search } from '@norwegianredcross/designsystem';
 
 <Search
   // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
@@ -1234,7 +1234,7 @@ import { Search } from 'rk-designsystem';
 
 #### SearchButton
 ```tsx
-import { SearchButton } from 'rk-designsystem';
+import { SearchButton } from '@norwegianredcross/designsystem';
 
 <SearchButton
   asChild={false} // valgfri: boolean
@@ -1252,7 +1252,7 @@ import { SearchButton } from 'rk-designsystem';
 
 #### SearchClear
 ```tsx
-import { SearchClear } from 'rk-designsystem';
+import { SearchClear } from '@norwegianredcross/designsystem';
 
 <SearchClear
   aria-label="…" // valgfri: string
@@ -1263,7 +1263,7 @@ import { SearchClear } from 'rk-designsystem';
 
 #### SearchInput
 ```tsx
-import { SearchInput } from 'rk-designsystem';
+import { SearchInput } from '@norwegianredcross/designsystem';
 
 <SearchInput
   // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
@@ -1274,7 +1274,7 @@ import { SearchInput } from 'rk-designsystem';
 
 #### SelectOptgroup
 ```tsx
-import { SelectOptgroup } from 'rk-designsystem';
+import { SelectOptgroup } from '@norwegianredcross/designsystem';
 
 <SelectOptgroup
   asChild={false} // valgfri, default false: boolean
@@ -1283,7 +1283,7 @@ import { SelectOptgroup } from 'rk-designsystem';
 
 #### SelectOption
 ```tsx
-import { SelectOption } from 'rk-designsystem';
+import { SelectOption } from '@norwegianredcross/designsystem';
 
 <SelectOption
   asChild={false} // valgfri, default false: boolean
@@ -1292,7 +1292,7 @@ import { SelectOption } from 'rk-designsystem';
 
 #### SkipLink
 ```tsx
-import { SkipLink } from 'rk-designsystem';
+import { SkipLink } from '@norwegianredcross/designsystem';
 
 <SkipLink
   // children — PÅKREVD: ReactNode
@@ -1304,7 +1304,7 @@ import { SkipLink } from 'rk-designsystem';
 
 #### Suggestion
 ```tsx
-import { Suggestion, Suggestion.Input, Suggestion.List, Suggestion.Option, Suggestion.Empty, Suggestion.Clear } from 'rk-designsystem';
+import { Suggestion, Suggestion.Input, Suggestion.List, Suggestion.Option, Suggestion.Empty, Suggestion.Clear } from '@norwegianredcross/designsystem';
 
 <Suggestion
   creatable={false} // valgfri, default false: boolean
@@ -1325,35 +1325,35 @@ Use `<Suggestion.Input>`, `<Suggestion.List>`, `<Suggestion.Option>`, `<Suggesti
 
 #### TableBody
 ```tsx
-import { TableBody } from 'rk-designsystem';
+import { TableBody } from '@norwegianredcross/designsystem';
 
 <TableBody />
 ```
 
 #### TableCell
 ```tsx
-import { TableCell } from 'rk-designsystem';
+import { TableCell } from '@norwegianredcross/designsystem';
 
 <TableCell />
 ```
 
 #### TableFoot
 ```tsx
-import { TableFoot } from 'rk-designsystem';
+import { TableFoot } from '@norwegianredcross/designsystem';
 
 <TableFoot />
 ```
 
 #### TableHead
 ```tsx
-import { TableHead } from 'rk-designsystem';
+import { TableHead } from '@norwegianredcross/designsystem';
 
 <TableHead />
 ```
 
 #### TableHeaderCell
 ```tsx
-import { TableHeaderCell } from 'rk-designsystem';
+import { TableHeaderCell } from '@norwegianredcross/designsystem';
 
 <TableHeaderCell
   sort="none" // valgfri, default undefined: 'none' | 'ascending' | 'descending' | 'other'
@@ -1362,21 +1362,21 @@ import { TableHeaderCell } from 'rk-designsystem';
 
 #### TableRow
 ```tsx
-import { TableRow } from 'rk-designsystem';
+import { TableRow } from '@norwegianredcross/designsystem';
 
 <TableRow />
 ```
 
 #### TabsList
 ```tsx
-import { TabsList } from 'rk-designsystem';
+import { TabsList } from '@norwegianredcross/designsystem';
 
 <TabsList />
 ```
 
 #### TabsPanel
 ```tsx
-import { TabsPanel } from 'rk-designsystem';
+import { TabsPanel } from '@norwegianredcross/designsystem';
 
 <TabsPanel
   value="…" // PÅKREVD: string
@@ -1385,7 +1385,7 @@ import { TabsPanel } from 'rk-designsystem';
 
 #### TabsTab
 ```tsx
-import { TabsTab } from 'rk-designsystem';
+import { TabsTab } from '@norwegianredcross/designsystem';
 
 <TabsTab
   value="…" // PÅKREVD: string
@@ -1394,7 +1394,7 @@ import { TabsTab } from 'rk-designsystem';
 
 #### ToggleGroup
 ```tsx
-import { ToggleGroup } from 'rk-designsystem';
+import { ToggleGroup } from '@norwegianredcross/designsystem';
 
 <ToggleGroup
   aria-label="…" // valgfri: string
@@ -1412,7 +1412,7 @@ import { ToggleGroup } from 'rk-designsystem';
 
 #### ToggleGroupItem
 ```tsx
-import { ToggleGroupItem } from 'rk-designsystem';
+import { ToggleGroupItem } from '@norwegianredcross/designsystem';
 
 <ToggleGroupItem
   // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
@@ -1424,7 +1424,7 @@ import { ToggleGroupItem } from 'rk-designsystem';
 
 #### ValidationMessage
 ```tsx
-import { ValidationMessage } from 'rk-designsystem';
+import { ValidationMessage } from '@norwegianredcross/designsystem';
 
 <ValidationMessage
   asChild={false} // valgfri, default false: boolean
@@ -1437,7 +1437,7 @@ import { ValidationMessage } from 'rk-designsystem';
 
 #### Carousel
 ```tsx
-import { Carousel } from 'rk-designsystem';
+import { Carousel } from '@norwegianredcross/designsystem';
 
 <Carousel
   // images — PÅKREVD: { src: string; alt: string; }[]
@@ -1446,7 +1446,7 @@ import { Carousel } from 'rk-designsystem';
   autoPlay={false} // valgfri, default false: boolean
   cornerRadius={0} // valgfri, default 0: number
   crossOrigin="anonymous" // valgfri: 'anonymous' | 'use-credentials'
-  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'
+  data-color="hoved-beige" // valgfri: 'hoved-beige' | 'neutral' | 'hoved-rosa' | 'hoved-mint' | 'hoved-lysebla' | 'hoved-neutral' | 'red-cta' | 'secondary-color-orange' | 'rust-main' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'secondary-color-warm-beige' | 'primary-color-red' | 'secondary-color-rust'
   data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
   showArrows={true} // valgfri, default true: boolean
   showDots={true} // valgfri, default true: boolean
@@ -1458,7 +1458,7 @@ import { Carousel } from 'rk-designsystem';
 
 #### Donor
 ```tsx
-import { Donor } from 'rk-designsystem';
+import { Donor } from '@norwegianredcross/designsystem';
 
 <Donor
   amountLabel="Velg ønsket beløp:" // valgfri, default Velg ønsket beløp:: string
@@ -1467,7 +1467,7 @@ import { Donor } from 'rk-designsystem';
   avtalegiroLabel="Gi med avtalegiro" // valgfri, default Gi med avtalegiro: string
   currencySuffix="kr" // valgfri, default kr: string
   customAmountPlaceholder="Valgfritt beløp" // valgfri, default Valgfritt beløp: string
-  data-color="primary-color-red" // valgfri, default primary-color-red: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'primary'
+  data-color="primary-color-red" // valgfri, default primary-color-red: 'hoved-beige' | 'neutral' | 'hoved-rosa' | 'hoved-mint' | 'hoved-lysebla' | 'hoved-neutral' | 'red-cta' | 'secondary-color-orange' | 'rust-main' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'secondary-color-warm-beige' | 'primary-color-red' | 'secondary-color-rust' | 'primary'
   defaultAmount={345} // valgfri, default 345: number
   heartVariant="outlined" // valgfri, default outlined: 'filled' | 'outlined'
   impactMessage="En gave på {amount} bidrar til ..." // valgfri, default En gave på {amount} bidrar til ...: string
@@ -1485,14 +1485,14 @@ import { Donor } from 'rk-designsystem';
 
 #### Footer
 ```tsx
-import { Footer } from 'rk-designsystem';
+import { Footer } from '@norwegianredcross/designsystem';
 
 <Footer
   colorScheme="light" // valgfri: 'light' | 'dark'
   // columns — valgfri: { title: string; links: FooterLink[]; }[]
   // contactPersons — valgfri, default []: ContactPerson[]
   contactPersonsTitle="…" // valgfri: string
-  data-color="neutral" // valgfri, default neutral: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'primary' | 'additional'
+  data-color="neutral" // valgfri, default neutral: 'hoved-beige' | 'neutral' | 'hoved-rosa' | 'hoved-mint' | 'hoved-lysebla' | 'hoved-neutral' | 'red-cta' | 'secondary-color-orange' | 'rust-main' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'secondary-color-warm-beige' | 'primary-color-red' | 'secondary-color-rust' | 'primary' | 'additional'
   email="post@redcross.no" // valgfri, default post@redcross.no: string
   hideNewsletter={false} // valgfri, default false: boolean
   // legalLinks — valgfri, default []: LegalLink[]
@@ -1524,13 +1524,13 @@ import { Footer } from 'rk-designsystem';
 
 #### GraphicElement
 ```tsx
-import { GraphicElement } from 'rk-designsystem';
+import { GraphicElement } from '@norwegianredcross/designsystem';
 
 <GraphicElement
   aria-hidden={true} // valgfri, default true: boolean
   aria-label="…" // valgfri: string
   className="…" // valgfri: string
-  data-color="primary-color-red" // valgfri: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral'
+  data-color="hoved-beige" // valgfri: 'hoved-beige' | 'neutral' | 'hoved-rosa' | 'hoved-mint' | 'hoved-lysebla' | 'hoved-neutral' | 'red-cta' | 'secondary-color-orange' | 'rust-main' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'secondary-color-warm-beige' | 'primary-color-red' | 'secondary-color-rust'
   data-size="sm" // valgfri: 'sm' | 'md' | 'lg'
   mirrored={false} // valgfri, default false: boolean
   position="top-left" // valgfri, default top-left: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
@@ -1542,14 +1542,14 @@ import { GraphicElement } from 'rk-designsystem';
 
 #### Header
 ```tsx
-import { Header } from 'rk-designsystem';
+import { Header } from '@norwegianredcross/designsystem';
 
 <Header
   activePage="…" // valgfri: string
   colorScheme="light" // valgfri: 'light' | 'dark'
   // ctaIcon — valgfri, default <HeartIcon aria-hidden />: ReactNode
   ctaLabel="…" // valgfri: string
-  data-color="primary-color-red" // valgfri, default primary-color-red: 'primary-color-red' | 'secondary-color-orange' | 'secondary-color-rust' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'neutral' | 'primary'
+  data-color="primary-color-red" // valgfri, default primary-color-red: 'hoved-beige' | 'neutral' | 'hoved-rosa' | 'hoved-mint' | 'hoved-lysebla' | 'hoved-neutral' | 'red-cta' | 'secondary-color-orange' | 'rust-main' | 'secondary-color-pink' | 'additional-color-ocean' | 'additional-color-jungle' | 'secondary-color-warm-beige' | 'primary-color-red' | 'secondary-color-rust' | 'primary'
   extensionColor="neutral" // valgfri: 'neutral' | 'primary' | 'tinted'
   loginHref="…" // valgfri: string
   // navItems — valgfri: { label: string; href: string; }[]
@@ -1766,7 +1766,7 @@ import { Header } from 'rk-designsystem';
 
   For a complete list of all available design tokens, refer to the theme CSS file:
   - **URL**: https://norwegianredcross.github.io/design-tokens/theme.css
-  - **Local**: Import from `rk-design-tokens/design-tokens-build/theme.css`
+  - **Local**: Import from `@norwegianredcross/design-tokens/design-tokens-build/theme.css`
 
   **Key Token Categories Available:**
 
@@ -1856,13 +1856,13 @@ import { Header } from 'rk-designsystem';
 
   **To include in your project (recommended):**
   ```tsx
-  import 'rk-designsystem/styles'; // Includes base styles, theme, and font
+  import '@norwegianredcross/designsystem/styles'; // Includes base styles, theme, and font
   ```
 
   **Or manually (advanced):**
   ```tsx
   import '@digdir/designsystemet-css/index.css';
-  import 'rk-design-tokens/design-tokens-build/theme.css';
+  import '@norwegianredcross/design-tokens/design-tokens-build/theme.css';
   ```
 
   **Complete Theme CSS File:**
@@ -2411,7 +2411,7 @@ import { Header } from 'rk-designsystem';
 
   ### Import Pattern
   ```tsx
-  import { ComponentName } from 'rk-designsystem';
+  import { ComponentName } from '@norwegianredcross/designsystem';
   ```
 
   ### Token Pattern
@@ -2431,7 +2431,7 @@ import { Header } from 'rk-designsystem';
 
   ---
 
-  **Last Updated**: Based on rk-designsystem v1.1.88
+  **Last Updated**: Based on @norwegianredcross/designsystem v1.1.88
 
   **Guide URL**: https://norwegianredcross.github.io/DesignSystem/storybook/AI_DESIGN_SYSTEM_GUIDE.md
 

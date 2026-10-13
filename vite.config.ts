@@ -27,6 +27,7 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'ComponentLibrary',
+      cssFileName: 'rk-designsystem',
       // ESM-only: the UMD build advertised a require() path that never worked —
       // the file sat in a "type": "module" package (Node parsed it as ESM), and
       // Digdir's own CJS entry is broken too, so no CJS consumer could get

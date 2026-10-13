@@ -1,5 +1,5 @@
 import 'server-only';
-import { Header } from 'rk-designsystem';
+import { Header } from '@norwegianredcross/designsystem';
 import ServerMenu from './server-menu';
 
 export default async function Page() {

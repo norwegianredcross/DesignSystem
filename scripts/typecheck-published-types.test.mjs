@@ -126,7 +126,7 @@ for (const [name, source, expected] of [
 for (const [name, diagnostic] of [
   [
     'library errors',
-    "node_modules/rk-designsystem/dist/index.d.ts(1,1): error TS2307: Cannot find module 'preact' or its corresponding type declarations.",
+    "node_modules/@norwegianredcross/designsystem/dist/index.d.ts(1,1): error TS2307: Cannot find module 'preact' or its corresponding type declarations.",
   ],
   [
     'fixture errors',
@@ -150,15 +150,15 @@ for (const [name, diagnostic] of [
   ],
   [
     'global augmentation errors elsewhere',
-    'node_modules/rk-designsystem/dist/index.d.ts(26,9): error TS2669: Augmentations for the global scope can only be directly nested in external modules or ambient module declarations.',
+    'node_modules/@norwegianredcross/designsystem/dist/index.d.ts(26,9): error TS2669: Augmentations for the global scope can only be directly nested in external modules or ambient module declarations.',
   ],
   [
     'formerly ignored missing Digdir exports',
-    `node_modules/rk-designsystem/dist/index.d.ts(1,10): error TS2305: Module '"@digdir/designsystemet-react"' has no exported member 'Missing'.`,
+    `node_modules/@norwegianredcross/designsystem/dist/index.d.ts(1,10): error TS2305: Module '"@digdir/designsystemet-react"' has no exported member 'Missing'.`,
   ],
   [
     'formerly ignored misspelled Digdir exports',
-    `node_modules/rk-designsystem/dist/index.d.ts(1,10): error TS2724: '"@digdir/designsystemet-react"' has no exported member named 'Buton'. Did you mean 'Button'?`,
+    `node_modules/@norwegianredcross/designsystem/dist/index.d.ts(1,10): error TS2724: '"@digdir/designsystemet-react"' has no exported member named 'Buton'. Did you mean 'Button'?`,
   ],
 ]) {
   test(`rejects ${name}, even alongside a known diagnostic`, (t) => {
@@ -215,14 +215,14 @@ for (const mode of ['bundler', 'NodeNext']) {
     assert.doesNotThrow(() => typecheckPublishedTypes(dir, [mode]));
     fs.writeFileSync(path.join(dir, 'src/typecheck.tsx'), 'export const count: number = "invalid";\n');
     assert.throws(() => typecheckPublishedTypes(dir, [mode]), /TS2322/);
-    const library = path.join(dir, 'node_modules/rk-designsystem');
-    fs.mkdirSync(library);
+    const library = path.join(dir, 'node_modules/@norwegianredcross/designsystem');
+    fs.mkdirSync(library, { recursive: true });
     fs.writeFileSync(
       path.join(library, 'package.json'),
-      JSON.stringify({ name: 'rk-designsystem', types: 'index.d.ts' })
+      JSON.stringify({ name: '@norwegianredcross/designsystem', types: 'index.d.ts' })
     );
     fs.writeFileSync(path.join(library, 'index.d.ts'), 'export declare const value: MissingType;\n');
-    fs.writeFileSync(path.join(dir, 'src/typecheck.tsx'), "export { value } from 'rk-designsystem';\n");
+    fs.writeFileSync(path.join(dir, 'src/typecheck.tsx'), "export { value } from '@norwegianredcross/designsystem';\n");
     assert.throws(() => typecheckPublishedTypes(dir, [mode]), /TS2304/);
   });
 }

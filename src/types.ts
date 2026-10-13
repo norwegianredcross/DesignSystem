@@ -6,7 +6,7 @@ import type {
   Size,
   Color,
 } from '@digdir/designsystemet-types';
-// Side-effect type import: rk-design-tokens ships a ColorDefinitions
+// Side-effect type import: @norwegianredcross/design-tokens ships a ColorDefinitions
 // augmentation listing the real Røde Kors theme scopes. Loading it turns
 // Digdir's `Color` from `string` into the closed union of those scopes, so a
 // dead scope like data-color="accent" becomes a compile error everywhere in
@@ -21,7 +21,7 @@ import type {
 // peers (package.json) so npm dedupes them to one copy - the lockfile holds
 // a single entry, and the weekly canary pins the types package to whichever
 // Digdir version each leg installs.
-import type {} from 'rk-design-tokens/design-tokens-build/types';
+import type {} from '@norwegianredcross/design-tokens/design-tokens-build/types';
 import type { ReactNode } from 'react';
 
 // Re-eksporterer disse slik at de er tilgjengelige fra ett sted om nødvendig

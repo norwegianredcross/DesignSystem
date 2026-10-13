@@ -35,7 +35,7 @@ export interface ButtonProps
 }
 
 // Appearance (colors, border radius) is owned by the design tokens
-// (rk-design-tokens) — no component-level style overrides.
+// (@norwegianredcross/design-tokens) — no component-level style overrides.
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   { variant, ...rest },
   ref,

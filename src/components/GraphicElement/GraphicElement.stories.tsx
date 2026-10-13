@@ -3,7 +3,7 @@ import { expect } from 'storybook/test';
 import { GraphicElement, GraphicElementProps, GraphicElementShape } from './index';
 
 const ALL_SHAPES: GraphicElementShape[] = ['square', 'corner', 'angle', 'heart', 'tee', 'bar', 'cross'];
-// Color scopes defined by the rk-design-tokens theme
+// Color scopes defined by the @norwegianredcross/design-tokens theme
 const ALL_COLORS = [
   'primary-color-red',
   'secondary-color-orange',
@@ -67,7 +67,7 @@ const meta: Meta<typeof GraphicElement> = {
       control: 'select',
       options: [...ALL_COLORS],
       description:
-        'Color scope from the rk-design-tokens theme: primary-color-red, secondary-color-orange, secondary-color-rust, secondary-color-pink, additional-color-ocean, additional-color-jungle or neutral.',
+        'Color scope from the @norwegianredcross/design-tokens theme: primary-color-red, secondary-color-orange, secondary-color-rust, secondary-color-pink, additional-color-ocean, additional-color-jungle or neutral.',
       table: {
         defaultValue: { summary: 'inherits scope (resolves to primary-color-red)' },
       },

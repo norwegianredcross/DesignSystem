@@ -122,7 +122,7 @@ export type GraphicElementProps = MergeRight<
      */
     size?: GraphicElementSize;
     /**
-     * Color scope from the theme (rk-design-tokens). Available scopes:
+     * Color scope from the theme (@norwegianredcross/design-tokens). Available scopes:
      * 'primary-color-red' (the default resolved value when inheriting
      * from the surrounding scope), 'secondary-color-orange',
      * 'secondary-color-rust', 'secondary-color-pink',
@@ -499,7 +499,7 @@ export const GraphicElement = forwardRef<SVGSVGElement, GraphicElementProps>(
       tag.id = styleId;
       tag.textContent = css;
       // prepend, NOT appendChild: this copy is a FALLBACK for consumers who never
-      // import 'rk-designsystem/styles', and it must lose to the real stylesheet
+      // import '@norwegianredcross/designsystem/styles', and it must lose to the real stylesheet
       // whenever that is present. Appending put it last in <head>, so at equal
       // specificity it beat the bundled sheet for EVERY consumer — silently
       // replacing responsive @media values it does not reproduce with its own

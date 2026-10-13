@@ -11,7 +11,7 @@ import { describe, expect, it } from 'vitest';
  * The injected copy is now prepended, so the bundled stylesheet wins wherever
  * it declares something (see src/components/injectedCss.test.ts for why). It
  * still has to be FAITHFUL: it is the only stylesheet a consumer who never
- * imports 'rk-designsystem/styles' ever gets, so wherever the two disagree,
+ * imports '@norwegianredcross/designsystem/styles' ever gets, so wherever the two disagree,
  * that consumer is shown a design the library does not actually specify.
  *
  * Four shipped bugs came from exactly this drift: the injected copy repainted
@@ -412,7 +412,7 @@ for (const { name, moduleCss, indexTsx } of duplicated) {
       expect(
         conflictsIn(bundled, injected, context).sort().join('\n\n'),
         'buildInlineCss is the only stylesheet a consumer who does not import ' +
-          "'rk-designsystem/styles' receives. Each entry below is a property where it " +
+          "'@norwegianredcross/designsystem/styles' receives. Each entry below is a property where it " +
           'shows them something different from the real design. Either match the bundled ' +
           'value or drop the declaration.',
       ).toBe('');

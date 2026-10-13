@@ -1,6 +1,6 @@
 /**
  * Pakke-røyktest: verifiserer at en konsument som installerer npm-pakken og
- * følger README-en («import 'rk-designsystem/styles'») faktisk får stylede
+ * følger README-en («import '@norwegianredcross/designsystem/styles'») faktisk får stylede
  * komponenter — ikke bare at importene lar seg løse.
  *
  * Flyt: npm pack → installer tarball i en midlertidig Vite-app (samme
@@ -281,8 +281,8 @@ try {
     path.join(appDir, 'src/main.jsx'),
     `import { useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import 'rk-designsystem/styles';
-import { Alert, Button, GraphicElement, Suggestion } from 'rk-designsystem';
+import '@norwegianredcross/designsystem/styles';
+import { Alert, Button, GraphicElement, Suggestion } from '@norwegianredcross/designsystem';
 
 const options = [
   { label: 'Sogndal', value: 'sogndal' },
@@ -356,7 +356,7 @@ export default defineConfig({ base: './', plugins: [react()] });
   verifySuggestionDependencies(appDir);
 
   // 2b. README-ens importsti må finnes i den PAKKEDE pakken, ikke bare i
-  // repoet: exports-kartet er det som avgjør om `rk-designsystem/styles`
+  // repoet: exports-kartet er det som avgjør om `@norwegianredcross/designsystem/styles`
   // resolver hos en konsument. Sjekkes via Node's egen ESM-oppløsning fra
   // konsumentens node_modules, med en fil (spesifikatoren inneholder
   // anførselstegn, og en fil i app-katalogen resolver som appens egne
@@ -364,7 +364,7 @@ export default defineConfig({ base: './', plugins: [react()] });
   fs.writeFileSync(
     path.join(appDir, 'resolve-test.mjs'),
     `import { fileURLToPath } from 'node:url';
-console.log(fileURLToPath(import.meta.resolve('rk-designsystem/styles')));
+console.log(fileURLToPath(import.meta.resolve('@norwegianredcross/designsystem/styles')));
 `,
   );
   let resolvedStyles;
@@ -372,9 +372,9 @@ console.log(fileURLToPath(import.meta.resolve('rk-designsystem/styles')));
     resolvedStyles = execSync('node resolve-test.mjs', { cwd: appDir, stdio: 'pipe' }).toString().trim();
   } catch (error) {
     console.error(String(error.stderr ?? error));
-    fail("'rk-designsystem/styles' resolver ikke fra konsumentens node_modules — sjekk \"exports\" i package.json.");
+    fail("'@norwegianredcross/designsystem/styles' resolver ikke fra konsumentens node_modules — sjekk \"exports\" i package.json.");
   }
-  if (!fs.existsSync(resolvedStyles)) fail(`'rk-designsystem/styles' peker på ${resolvedStyles}, som ikke finnes i tarballen.`);
+  if (!fs.existsSync(resolvedStyles)) fail(`'@norwegianredcross/designsystem/styles' peker på ${resolvedStyles}, som ikke finnes i tarballen.`);
   console.log('✅ README-ens stilimport resolver fra den pakkede pakken.');
 
   // 3. Bygg konsument-appen
@@ -389,14 +389,14 @@ console.log(fileURLToPath(import.meta.resolve('rk-designsystem/styles')));
   // that only exist in this repo's source tree.
   fs.writeFileSync(
     path.join(appDir, 'src/typecheck.tsx'),
-    `import 'rk-designsystem/styles';
+    `import '@norwegianredcross/designsystem/styles';
 import { createRef, type ComponentProps, type ComponentRef } from 'react';
 import {
   Alert, Badge, BadgePosition, Button, DatePicker, Donor, Footer,
   GraphicElement, Header, Suggestion, Tag,
   type AlertProps, type ButtonProps, type DatePickerProps, type DonorProps,
   type SuggestionProps, type TagProps,
-} from 'rk-designsystem';
+} from '@norwegianredcross/designsystem';
 
 // Using the prop types standalone forces tsc to resolve and expand them the
 // way a consumer's IDE does.
@@ -424,7 +424,7 @@ const multipleSuggestion = <Suggestion multiple selected={[]} onSelectedChange={
 void singleSuggestion;
 void multipleSuggestion;
 
-// data-color is compile-checked: the published d.ts embeds rk-design-tokens'
+// data-color is compile-checked: the published d.ts embeds @norwegianredcross/design-tokens'
 // ColorDefinitions augmentation, so real scopes pass and dead scopes fail.
 // The expect-error directive inverts the check — if 'accent' ever compiles
 // again (augmentation lost), the unused directive itself becomes the error.
@@ -498,7 +498,7 @@ export function App(props: Fixture) {
   // because the package is "type": "module"), and require() from a consumer
   // must fail loudly instead of half-working.
   const installedPkg = JSON.parse(
-    fs.readFileSync(path.join(appDir, 'node_modules/rk-designsystem/package.json'), 'utf8'),
+    fs.readFileSync(path.join(appDir, 'node_modules/@norwegianredcross/designsystem/package.json'), 'utf8'),
   );
   if (installedPkg.main || installedPkg.exports?.['.']?.require) {
     fail('Pakken averterer fortsatt en CJS-inngang (main/exports.require) — kontrakten er ESM-only.');
@@ -507,13 +507,13 @@ export function App(props: Fixture) {
   try {
     // A .cjs script is the realistic CJS consumer: require() must throw
     // ERR_PACKAGE_PATH_NOT_EXPORTED because no "require" condition exists.
-    fs.writeFileSync(path.join(appDir, 'require-test.cjs'), "require('rk-designsystem');\n");
+    fs.writeFileSync(path.join(appDir, 'require-test.cjs'), "require('@norwegianredcross/designsystem');\n");
     execSync('node require-test.cjs', { cwd: appDir, stdio: 'pipe' });
   } catch {
     requireRejected = true;
   }
   if (!requireRejected) {
-    fail("require('rk-designsystem') lyktes — ESM-only-kontrakten håndheves ikke.");
+    fail("require('@norwegianredcross/designsystem') lyktes — ESM-only-kontrakten håndheves ikke.");
   }
   console.log('✅ ESM-only: ingen CJS-inngang averteres, og require() feiler eksplisitt.');
 
@@ -556,7 +556,7 @@ export function App(props: Fixture) {
       dependencies: {
         react: '17.0.2',
         'react-dom': '17.0.2',
-        'rk-designsystem': `file:${tarball}`,
+        '@norwegianredcross/designsystem': `file:${tarball}`,
       },
     }),
   );
@@ -616,7 +616,7 @@ export function App(props: Fixture) {
   console.log('Tree-shaking-sjekk (Button-only-app) …');
   // Unbundlet dist: markørene ligger nå i hver sin modulfil, så hele
   // dist-treet leses samlet.
-  const libDistDir = path.join(appDir, 'node_modules/rk-designsystem/dist');
+  const libDistDir = path.join(appDir, 'node_modules/@norwegianredcross/designsystem/dist');
   const libFiles = [];
   (function walkLib(dir) {
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -643,7 +643,7 @@ export function App(props: Fixture) {
   fs.writeFileSync(
     path.join(shakeDir, 'src/main.jsx'),
     `import { createRoot } from 'react-dom/client';
-import { Button } from 'rk-designsystem';
+import { Button } from '@norwegianredcross/designsystem';
 
 createRoot(document.getElementById('root')).render(<Button>Knapp</Button>);
 `,

@@ -1,5 +1,5 @@
 import 'server-only';
-import { Footer } from 'rk-designsystem';
+import { Footer } from '@norwegianredcross/designsystem';
 
 export default async function Page() {
   return (

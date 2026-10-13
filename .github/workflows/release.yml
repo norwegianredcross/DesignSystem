@@ -197,9 +197,9 @@ jobs:
       - name: Skip if the version is already on npm
         id: exists
         run: |
-          if npm view "rk-designsystem@${{ steps.target.outputs.version }}" version >/dev/null 2>&1; then
+          if npm view "@norwegianredcross/designsystem@${{ steps.target.outputs.version }}" version >/dev/null 2>&1; then
             echo "already=true" >> "$GITHUB_OUTPUT"
-            echo "::notice::rk-designsystem@${{ steps.target.outputs.version }} finnes allerede på npm — hopper over publisering."
+            echo "::notice::@norwegianredcross/designsystem@${{ steps.target.outputs.version }} finnes allerede på npm — hopper over publisering."
           else
             echo "already=false" >> "$GITHUB_OUTPUT"
           fi

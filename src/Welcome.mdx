@@ -13,38 +13,26 @@ import { Meta } from '@storybook/addon-docs/blocks';
 ### 1. Installasjon
 
 ```bash
-npm install rk-designsystem
+npm install @norwegianredcross/designsystem
 ```
 
-### 2. Sett opp layout med font (Next.js)
+### 2. Importer stiler og font
 
 ```tsx
 // src/app/layout.tsx
-import '@digdir/designsystemet-css/index.css';
-import 'rk-design-tokens/design-tokens-build/theme.css';
-import { Source_Sans_3 } from 'next/font/google';
-
-const sourceSans3 = Source_Sans_3({
-  subsets: ['latin'],
-  weight: ['200', '300', '400', '500', '600', '700', '800', '900'],
-  style: ['normal', 'italic'],
-});
+import '@norwegianredcross/designsystem/styles';
 
 export default function RootLayout({ children }) {
-  return (
-    <html lang="no">
-      <body className={sourceSans3.className}>{children}</body>
-    </html>
-  );
+  return <html lang="no"><body>{children}</body></html>;
 }
 ```
 
-**Viktig:** Bruk `className`, IKKE `variable`. `variable` oppretter bare en CSS-variabel uten å faktisk bruke fonten.
+Stilfilen inkluderer Digdir, tema, komponentstiler og Source Sans 3 fra pakken.
 
 ### 3. Bruk komponenter
 
 ```tsx
-import { Alert } from 'rk-designsystem';
+import { Alert } from '@norwegianredcross/designsystem';
 
 export function Example() {
   return (
@@ -65,7 +53,7 @@ export function Example() {
 
 ## Tips
 
-- Inkluder alltid base‑CSS før tema‑fila.
+- Importer `@norwegianredcross/designsystem/styles` én gang i appens rot.
 - Bruk `data-size` og `data-color` for visuelle varianter.
 - Foretrekk kontrollerte mønstre når du trenger programmatisk styring (`value`/`onChange`).
 
@@ -83,10 +71,10 @@ npm install @navikt/aksel-icons
 
 ```tsx
 import { AirplaneIcon } from '@navikt/aksel-icons';
-import { Button } from 'rk-designsystem';
+import { Button } from '@norwegianredcross/designsystem';
 
 <Button>
-  <AirplaneIcon aria-hidden style={{ marginRight: 'var(--ds-spacing-1, 4px)' }} />
+  <AirplaneIcon aria-hidden style={{ marginRight: 'var(--ds-size-1)' }} />
   Fly
 </Button>
 ```
@@ -97,3 +85,65 @@ import { Button } from 'rk-designsystem';
 - Størrelse: bruk `fontSize` eller `style={{ fontSize: '1.25rem' }}`
 
 
+
+---
+
+## Flytting til organisasjonens npm-pakker
+
+Pakkene flyttes til npm-organisasjonen **norwegianredcross**. Versjonsnummereringen
+fortsetter. Et vanlig `npm update` av de gamle pakkene bytter ikke pakkenavn.
+
+| Tidligere pakke | Ny pakke | Versjon ved flytting |
+| --- | --- | --- |
+| `rk-design-tokens` | [@norwegianredcross/design-tokens](https://www.npmjs.com/package/@norwegianredcross/design-tokens) | 1.0.50 |
+| `rk-designsystem` | [@norwegianredcross/designsystem](https://www.npmjs.com/package/@norwegianredcross/designsystem) | 1.5.x |
+
+**Publiseringsstatus:** veiledningen er klargjort for flyttingen. Kjør kommandoene
+når begge versjonene er tilgjengelige på npm.
+
+### 1. Bytt avhengigheter
+
+```sh
+npm view @norwegianredcross/design-tokens@1.0.50 version
+npm view @norwegianredcross/designsystem version
+npm uninstall rk-designsystem rk-design-tokens
+npm install @norwegianredcross/designsystem@^1.5.0
+```
+
+Dersom prosjektet importerer tokens direkte, installer også:
+
+```sh
+npm install @norwegianredcross/design-tokens@^1.0.50
+```
+
+### 2. Oppdater importene
+
+```tsx
+import { Button } from '@norwegianredcross/designsystem';
+import '@norwegianredcross/designsystem/styles';
+```
+
+Stilimporten inkluderer Digdir, tema, komponentstiler og Source Sans 3. Fonten
+følger med pakken. Du trenger ikke en egen Google Fonts-import. Ikke importer
+token-temaet i tillegg til denne samlede stilfilen.
+
+Prosjekter som bare bruker tokens, bruker i stedet:
+
+```css
+@import '@norwegianredcross/design-tokens/design-tokens-build/theme.css';
+```
+
+Andre token-stier, som `design-tokens-build/konferansesenter.css` og
+`design-tokens-build/shadcn-theme.css`, beholdes under det nye pakkenavnet.
+
+### 3. Kontroller prosjektet
+
+Oppdater også aliaser, byggeverktøy, automatiske avhengighetsoppdateringer og lenker
+til npm. La npm oppdatere låsefilen, og sjekk inn både `package.json` og låsefilen.
+Ikke endre registeradresser eller integritetsverdier i låsefilen manuelt.
+Kjør en ren installasjon, prosjektets bygg og tester. Kontroller stiler og fonter
+i nettleseren. Se etter gamle pakker som fortsatt trekkes inn av andre avhengigheter.
+
+De gamle npm-utgivelsene forblir egne pakker; versjonshistorikken flyttes ikke
+automatisk. Flyttingen endrer ikke komponentenes API-er og gjennomfører ikke de
+separat foreslåtte visuelle komponentendringene.

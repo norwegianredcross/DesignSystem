@@ -1,5 +1,5 @@
 # Dependabot covers everything the token-bump workflow does not: npm
-# dependencies and the SHA-pinned actions. rk-design-tokens stays with
+# dependencies and the SHA-pinned actions. @norwegianredcross/design-tokens stays with
 # token-bump.yml, which also runs the visual gate the tokens need.
 #
 # Cadence is deliberately low. The first run opened eight PRs at once, four
@@ -17,7 +17,7 @@ updates:
       day: monday
     open-pull-requests-limit: 2
     ignore:
-      - dependency-name: rk-design-tokens
+      - dependency-name: "@norwegianredcross/design-tokens"
       # Toolchain majors are migrations, not bumps - taken by hand.
       - dependency-name: vite
         update-types: ["version-update:semver-major"]

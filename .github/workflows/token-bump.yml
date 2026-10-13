@@ -36,16 +36,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Update rk-design-tokens
+      - name: Update @norwegianredcross/design-tokens
         id: bump
         run: |
-          npm update rk-design-tokens
+          npm update @norwegianredcross/design-tokens
           if git diff --quiet package-lock.json; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "Ingen ny tokens-versjon."
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
-            VERSION=$(node -p "require('./node_modules/rk-design-tokens/package.json').version")
+            VERSION=$(node -p "require('./node_modules/@norwegianredcross/design-tokens/package.json').version")
             echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           fi
 
@@ -95,19 +95,19 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git checkout -B chore/token-bump
           git add package.json package-lock.json
-          git commit -m "chore(deps): update rk-design-tokens to ${VERSION}"
+          git commit -m "chore(deps): update @norwegianredcross/design-tokens to ${VERSION}"
           git push --force origin chore/token-bump
 
           if [ "${{ steps.tests.outcome }}" = "success" ]; then TESTS="✅ testsuite grønn"; else TESTS="❌ testsuite FEILER"; fi
           if [ "${{ steps.visual.outcome }}" = "success" ]; then VISUAL="✅ ingen visuelle diffs"; else VISUAL="⚠️ visuelle diffs — se artefakten token-bump-visual-diffs i workflow-kjøringen, og kjør «Update visual baselines» på denne branchen hvis endringen er tilsiktet"; fi
-          BODY="rk-design-tokens → ${VERSION}. Verifisert i bump-workflowen (PR-en får ikke egne checks fordi den er laget av GITHUB_TOKEN): ${TESTS}; ${VISUAL}."
+          BODY="@norwegianredcross/design-tokens → ${VERSION}. Verifisert i bump-workflowen (PR-en får ikke egne checks fordi den er laget av GITHUB_TOKEN): ${TESTS}; ${VISUAL}."
 
           EXISTING=$(gh pr list --head chore/token-bump --state open --json number --jq '.[0].number // empty')
           if [ -n "$EXISTING" ]; then
             gh pr edit "$EXISTING" --body "$BODY"
           else
             gh pr create --base main --head chore/token-bump \
-              --title "chore(deps): update rk-design-tokens to ${VERSION}" \
+              --title "chore(deps): update @norwegianredcross/design-tokens to ${VERSION}" \
               --body "$BODY"
           fi
 

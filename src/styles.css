@@ -4,7 +4,7 @@
  * Source for dist/styles.css (see scripts/build-styles.mjs), the one file a
  * consumer imports:
  *
- *   import 'rk-designsystem/styles';
+ *   import '@norwegianredcross/designsystem/styles';
  *
  * Digdir base, the Røde Kors theme, the component CSS and Source Sans 3
  * itself (src/fonts.css). This file holds only @import rules: CSS requires
@@ -18,4 +18,4 @@
 @import '@digdir/designsystemet-css/index.css';
 
 /* Røde Kors theme tokens (must be after base styles) */
-@import 'rk-design-tokens/design-tokens-build/theme.css';
+@import '@norwegianredcross/design-tokens/design-tokens-build/theme.css';

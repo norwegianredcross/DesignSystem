@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "package": {
-    "name": "rk-designsystem",
+    "name": "@norwegianredcross/designsystem",
     "version": "1.5.0"
   },
   "resources": {
@@ -174,7 +174,7 @@
   "ruleHints": [
     {
       "id": "prefer-rk-components",
-      "summary": "Prefer rk-designsystem components over custom HTML for common UI."
+      "summary": "Prefer @norwegianredcross/designsystem components over custom HTML for common UI."
     },
     {
       "id": "use-ds-size-tokens",

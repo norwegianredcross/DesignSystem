@@ -7,7 +7,7 @@ import { themeDecorator } from './themeDecorator';
 import { paddingDecorator } from './paddingDecorator';
 
 import '../src/index.css';
-import 'rk-design-tokens/design-tokens-build/theme.css';
+import '@norwegianredcross/design-tokens/design-tokens-build/theme.css';
 import '@digdir/designsystemet-css/index.css';
 
 const preview: Preview = {
@@ -29,7 +29,7 @@ const preview: Preview = {
       toolbar: {
         icon: 'paintbrush',
         // These values are stamped as data-color on the preview root and
-        // MUST match the scopes defined in rk-design-tokens' theme.css.
+        // MUST match the scopes defined in @norwegianredcross/design-tokens' theme.css.
         // The old names (primary-brand, secondary-hav, ...) matched no
         // scope, so the generic --ds-color-* tokens silently fell back to
         // theme defaults and Storybook rendered off-palette compared to

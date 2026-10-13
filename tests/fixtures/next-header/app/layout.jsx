@@ -1,6 +1,6 @@
 import 'server-only';
-import 'rk-designsystem/styles';
-import { Header } from 'rk-designsystem';
+import '@norwegianredcross/designsystem/styles';
+import { Header } from '@norwegianredcross/designsystem';
 import ServerMenu from './server-menu';
 
 export default async function Layout({ children }) {

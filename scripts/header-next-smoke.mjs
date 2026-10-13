@@ -19,7 +19,7 @@ export async function verifyNextHeader(tarball, appDir, dependencies) {
       react: dependencies.react, 'react-dom': dependencies['react-dom'],
       '@digdir/designsystemet-react': dependencies['@digdir/designsystemet-react'],
       '@digdir/designsystemet-css': dependencies['@digdir/designsystemet-css'],
-      'rk-designsystem': `file:${tarball}`,
+      '@norwegianredcross/designsystem': `file:${tarball}`,
     },
   }, null, 2));
   const options = { cwd: appDir, stdio: 'inherit', timeout: 240_000,

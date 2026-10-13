@@ -9,7 +9,7 @@ const COMPONENTS_DIR = path.join(ROOT_DIR, 'src/components');
 const ENTRY_FILE = path.join(ROOT_DIR, 'src/index.ts'); // Source of truth for exports
 const INVENTORY_FILE = path.join(ROOT_DIR, 'src/component-inventory.json');
 const OUTPUT_FILE = path.join(ROOT_DIR, 'metadata.json');
-const PACKAGE_NAME = 'rk-designsystem'; // The name of your package
+const PACKAGE_NAME = '@norwegianredcross/designsystem'; // The name of your package
 
 console.log('Starting metadata generation...');
 
@@ -65,7 +65,7 @@ if (componentFiles.length === 0) {
 
 // 3. Parse all found files.
 // withCustomConfig makes docgen compile with the repo's real tsconfig — that
-// loads the ColorDefinitions augmentation from rk-design-tokens, so types
+// loads the ColorDefinitions augmentation from @norwegianredcross/design-tokens, so types
 // like `Color` resolve to the actual scope union instead of `string`/`any`.
 const options = {
   savePropValueAsString: true,

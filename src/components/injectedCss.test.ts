@@ -9,7 +9,7 @@ import { describe, expect, it } from 'vitest';
  * a useEffect injects into <head> on mount.
  *
  * The injected copy exists so that a consumer who never imports
- * 'rk-designsystem/styles' still gets styled components while they migrate
+ * '@norwegianredcross/designsystem/styles' still gets styled components while they migrate
  * to static styles. A fallback has to lose to the real
  * stylesheet wherever that is present.
  *
