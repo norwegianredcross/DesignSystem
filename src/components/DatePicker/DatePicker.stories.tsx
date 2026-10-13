@@ -1,5 +1,5 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/react-vite';
-import React, { useState, useEffect } from 'react'; // Import useState and useEffect
+import React, { useState } from 'react';
 // --- CORRECTED IMPORT ---
 import { format, parse, isValid, subDays, isSameDay } from 'date-fns';
 import { nb } from 'date-fns/locale';
@@ -193,9 +193,9 @@ const DatePickerInputCombo: React.FC<DatePickerProps> = (args) => {
 
   // Handler for when a date is selected IN THE CALENDAR (DatePicker)
   const handleDateSelect = (date: Date) => {
-    setSelectedDate(date); // Update the Date object state
+    setSelectedDate(date);
+    setInputValue(format(date, 'dd.MM.yyyy', { locale: nb }));
     action('dateSelected (Calendar)')(date); // Log action in Storybook
-    // The useEffect below handles updating the input field's text
   };
 
   // Handler for when the text input changes
@@ -211,38 +211,22 @@ const DatePickerInputCombo: React.FC<DatePickerProps> = (args) => {
     });
 
     // If parsing is successful and results in a valid date (and full length)
-    if (isValid(parsedDate) && formattedValue.length === 10) {
+    if (/^\d{2}\.\d{2}\.\d{4}$/.test(formattedValue) && isValid(parsedDate)) {
       // Only update selectedDate if it's different to avoid unnecessary changes
       // *** isSameDay is used here ***
       if (!selectedDate || !isSameDay(parsedDate, selectedDate)) {
         setSelectedDate(parsedDate); // Update the Date state
         action('inputParsedAndDateSelected (Input)')(parsedDate); // Log action
       }
-    } else if (formattedValue === '') {
+    } else {
       // Handle clearing the input
       if (selectedDate !== null) {
         setSelectedDate(null); // Clear the Date state
         action('inputCleared (Input)')();
       }
     }
-    // If input is invalid or incomplete, only inputValue changes.
-    // selectedDate remains as it was, keeping calendar highlight consistent.
+    // Raw text belongs to the input; an incomplete date has no calendar selection.
   };
-
-  // Effect to update the input field string when the Date object state changes
-  // This handles the Calendar -> Input update.
-  useEffect(() => {
-    const formattedString = selectedDate
-      ? format(selectedDate, 'dd.MM.yyyy', { locale: nb })
-      : '';
-    // Only update input value if it differs from the formatted date string
-    // Prevents potential cursor jumps if formatting doesn't change the string
-    if (formattedString !== inputValue) {
-      setInputValue(formattedString);
-    }
-    // This effect runs whenever 'selectedDate' changes.
-    // We also include inputValue here to re-sync if external changes occur, though less common.
-  }, [selectedDate, inputValue]);
 
   // Display text showing the currently selected date (for demonstration)
   const formattedDateDisplay = selectedDate
@@ -606,5 +590,122 @@ export const TestFollowsUiLanguage: CalendarStory = {
     expect(canvas.getByRole('gridcell', { name: '15 January 2025' })).toBeInTheDocument();
     // Weekday headers follow too, and the week still starts on Monday (en-GB)
     expect(canvas.getAllByRole('columnheader')[0]).toHaveTextContent(/^Mo/);
+  },
+};
+
+
+export const TestCombinedPartialInput: StoryObj<typeof DatePickerInputCombo> = {
+  name: 'Test: Combined Input Preserves Partial Dates',
+  render: (args) => <DatePickerInputCombo {...args} />,
+  args: { initialDate: new Date(2024, 1, 15) },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole('textbox');
+    await userEvent.type(input, '1');
+    expect(input).toHaveValue('1');
+    await userEvent.type(input, '5022024');
+    expect(input).toHaveValue('15.02.2024');
+    expect(canvas.getByRole('gridcell', { selected: true })).toHaveAccessibleName('15. februar 2024');
+    await userEvent.keyboard('{Backspace}');
+    expect(input).toHaveValue('15.02.202');
+    expect(canvas.queryByRole('gridcell', { selected: true })).not.toBeInTheDocument();
+    await userEvent.click(canvas.getByRole('gridcell', { name: '16. februar 2024' }));
+    expect(input).toHaveValue('16.02.2024');
+    await userEvent.clear(input);
+    expect(input).toHaveValue('');
+    expect(canvas.queryByRole('gridcell', { selected: true })).not.toBeInTheDocument();
+  },
+};
+
+export const TestCalendarBoundaries: CalendarStory = {
+  name: 'Test: Month And Year Boundaries',
+  args: { initialDate: new Date(2024, 0, 31) },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const active = () => canvasElement.ownerDocument.activeElement;
+    canvas.getByRole('gridcell', { name: '31. januar 2024' }).focus();
+    await userEvent.keyboard('{PageDown}');
+    expect(active()).toHaveAccessibleName('29. februar 2024');
+    await userEvent.keyboard('{Shift>}{PageDown}{/Shift}');
+    expect(active()).toHaveAccessibleName('28. februar 2025');
+    await userEvent.keyboard('{Shift>}{PageUp}{/Shift}');
+    expect(active()).toHaveAccessibleName('28. februar 2024');
+    await userEvent.keyboard('{Home}');
+    expect(active()).toHaveAccessibleName('26. februar 2024');
+    await userEvent.keyboard('{End}');
+    expect(active()).toHaveAccessibleName('3. mars 2024');
+    expect(canvas.getByRole('columnheader', { name: 'mandag' })).toHaveTextContent('Ma');
+    expect(canvas.getByRole('grid').querySelectorAll('[tabindex="0"]')).toHaveLength(1);
+    await userEvent.tab();
+    expect(canvas.getByRole('grid')).not.toContainElement(active() as HTMLElement);
+  },
+};
+
+export const TestInvalidDateProps: CalendarStory = {
+  name: 'Test: Invalid Dates Keep The Calendar Usable',
+  args: { initialDate: new Date(NaN), selectedDate: new Date(NaN), onDateSelect: fn() },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const grid = await canvas.findByRole('grid');
+    expect(canvas.getAllByRole('columnheader')).toHaveLength(7);
+    const today = grid.querySelector<HTMLElement>('[aria-current="date"]');
+    if (!today) throw new Error('Expected the current date as the fallback');
+    await userEvent.click(today);
+    expect(args.onDateSelect).toHaveBeenCalled();
+    expect(grid.querySelectorAll('[tabindex="0"]')).toHaveLength(1);
+  },
+};
+
+/** Native selection uses the browser's form state, including reset. */
+export const NativeFormCalendar: CalendarStory = {
+  args: { serverCalendar: {month: '2024-02', name: 'appointment', defaultValue: '2024-01-31'} },
+  render: args => <form aria-label="Appointment"><DatePicker {...args}/><button type="reset">Reset</button></form>,
+  play: async ({canvasElement}) => {
+    const canvas = within(canvasElement);
+    const form = canvas.getByRole('form') as HTMLFormElement;
+    expect(canvas.getByRole('table')).toHaveAccessibleName('Februar 2024');
+    expect(new FormData(form).get('appointment')).toBe('2024-01-31');
+    await userEvent.click(canvas.getByRole('radio', {name:'29. februar 2024'}));
+    expect(new FormData(form).getAll('appointment')).toEqual(['2024-02-29']);
+    await userEvent.click(canvas.getByRole('button', {name:'Reset'}));
+    expect(new FormData(form).getAll('appointment')).toEqual(['2024-01-31']);
+  },
+};
+
+export const NativeCalendarWithError: CalendarStory = {
+  args: { serverCalendar: {
+    month: '2024-02', name: 'appointment', defaultValue: '2024-02-16', required: true,
+    'aria-invalid': true, 'aria-describedby': 'native-date-help native-date-error',
+  } },
+  render: function ErrorCalendar(args) {
+    const root = React.useRef<HTMLDivElement>(null);
+    return <form aria-label="Appointment with error">
+      <p id="native-date-label">Appointment date</p>
+      <p id="native-date-help">Choose a date from the calendar (required).</p>
+      <p id="native-date-error">This date is unavailable. Choose another date.</p>
+      <button type="button" onClick={() => root.current?.focus()}>Go to date</button>
+      <DatePicker {...args} ref={root} id="native-date" role="group" aria-labelledby="native-date-label" tabIndex={-1} />
+    </form>;
+  },
+  play: async ({canvasElement}) => {
+    const canvas = within(canvasElement);
+    const radio = canvas.getByRole('radio', {name: '16. februar 2024'});
+    expect(radio).toBeChecked();
+    expect(radio).toBeRequired();
+    expect(radio).toHaveAttribute('aria-invalid', 'true');
+    expect(radio).toHaveAccessibleDescription('Choose a date from the calendar (required). This date is unavailable. Choose another date.');
+    await userEvent.click(canvas.getByRole('button', {name: 'Go to date'}));
+    expect(canvas.getByRole('group', {name: 'Appointment date'})).toHaveFocus();
+  },
+};
+
+export const DisabledNativeCalendar: CalendarStory = {
+  args: { serverCalendar: {month: '2024-02', name: 'appointment', defaultValue: '2024-01-31', disabled: true,
+    navigation: {action: '/choose-date'}} },
+  render: args => <form aria-label="Disabled date"><DatePicker {...args}/></form>,
+  play: async ({canvasElement}) => {
+    const canvas = within(canvasElement);
+    for (const control of [...canvas.getAllByRole('radio'), ...canvas.getAllByRole('button')]) expect(control).toBeDisabled();
+    expect(new FormData(canvas.getByRole('form') as HTMLFormElement).has('appointment')).toBe(false);
   },
 };
