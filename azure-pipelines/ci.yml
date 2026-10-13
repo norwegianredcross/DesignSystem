@@ -1,4 +1,4 @@
-# Kvalitetssjekk av rk-designsystem i Azure DevOps.
+# Kvalitetssjekk av @norwegianredcross/designsystem i Azure DevOps.
 #
 # Testpolicy: test tidlig og kontinuerlig, full regresjon på hver endring,
 # ingenting produksjonssettes utestet (se TESTING.md). Samme sjekker som

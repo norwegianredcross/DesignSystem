@@ -515,6 +515,12 @@ releases follow the normal patch/minor/major sequence. Existing unscoped tags an
 versions must not be replaced. Keep the first scoped release's commit SHA for
 traceability.
 
+The release pipeline is `azure-pipelines/release.yml`. It publishes the scoped
+package using the secret `NPM_TOKEN` in the `npm-publish` variable group. The
+credential must belong to an authorized npm organization member and permit this
+package. The GitHub trusted publisher on the old package cannot authenticate
+an Azure job. The normal patch/minor/major version sequence continues.
+
 The migration lockfile resolves `@norwegianredcross/design-tokens@1.0.50` from
 the public npm registry. Use `npm ci` for the release checkout, followed by lint,
 token checks, typecheck, the full test suite, package and Storybook builds, and
