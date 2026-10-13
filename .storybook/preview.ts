@@ -9,6 +9,7 @@ import { paddingDecorator } from './paddingDecorator';
 import '../src/index.css';
 import 'rk-design-tokens/design-tokens-build/theme.css';
 import '@digdir/designsystemet-css/index.css';
+import '../src/rk-theme.css';
 
 const preview: Preview = {
   globalTypes: {

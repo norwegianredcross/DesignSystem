@@ -1574,7 +1574,7 @@
       {
         "name": "weight",
         "type": "'regular' | 'medium' | 'semibold'",
-        "description": "Adjusts font weight. Use this when you have a label hierarchy, such as checkboxes/radios in a fieldset",
+        "description": "Adjusts font weight. Use this when you have a label hierarchy, such as checkboxes/radios in a fieldset\n@deprecated as field now automatically changes font-weight based on input type",
         "defaultValue": null,
         "required": false
       },

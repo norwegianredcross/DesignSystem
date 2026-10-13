@@ -1,0 +1,103 @@
+/* RK component bindings, measured against Figma Main 17567:9125.
+ * Foundation values remain in design-tokens; Digdir owns component behaviour.
+ * Keep these rules after Digdir CSS. Use public component variables when exposed.
+ */
+.ds-popover {
+  --dsc-popover-border-radius: var(--ds-border-radius-xl);
+  /* Figma's inside stroke is included in its panel padding. */
+  --dsc-popover-padding: calc(var(--ds-size-3) - var(--ds-border-width-default))
+    calc(var(--ds-size-4) - var(--ds-border-width-default));
+}
+.ds-popover .ds-button[data-variant='tertiary'] {
+  --dsc-button-color: var(--ds-color-text-default);
+}
+
+/* Text inputs only: checkbox/radio/switch geometry and colours are independent. */
+.ds-input:where(:not([type='checkbox'], [type='radio'], select)) {
+  --dsc-input-border-radius: var(--ds-border-radius-lg);
+  --dsc-input-border-color: var(--ds-color-border-default);
+  --dsc-input-outline-color--hover: var(--ds-color-border-default);
+  --dsc-input-color: var(--ds-color-text-default);
+}
+.ds-input:where(:not([type='checkbox'], [type='radio'], select))[aria-invalid='true'] {
+  --dsc-input-color: var(--ds-color-danger-text-default);
+}
+.ds-field:where(:has(.ds-input:not([type='checkbox'], [type='radio'], select))) {
+  color: var(--ds-color-text-default);
+}
+.ds-field:where(
+  :has(.ds-input:not([type='checkbox'], [type='radio'], select)[aria-invalid='true'])
+) {
+  --dsc-field-description-color: var(--ds-color-danger-text-subtle);
+  color: var(--ds-color-danger-text-default);
+}
+.ds-field:where(:has(.ds-input:not([type='checkbox'], [type='radio'], select)[aria-invalid='true']))
+  > .ds-validation-message {
+  line-height: var(--ds-line-height-sm);
+}
+
+.ds-suggestion {
+  --dsc-suggestion-list-border-radius: var(--ds-border-radius-xl);
+  --dsc-suggestion-border-color: var(--ds-color-border-subtle);
+  --dsc-suggestion-list-padding: calc(var(--ds-size-3) - var(--ds-border-width-default))
+    calc(var(--ds-size-2) - var(--ds-border-width-default));
+}
+
+.ds-dropdown {
+  --dsc-dropdown-border-color: var(--ds-color-border-subtle);
+  --dsc-dropdown-item-size: calc(1.5em + var(--ds-size-4));
+  /* Main's item padding includes the button's transparent border. */
+  --dsc-dropdown-item-padding: calc(var(--ds-size-2) - var(--ds-border-width-default))
+    calc(var(--ds-size-4) - var(--ds-border-width-default));
+  border-radius: var(--ds-border-radius-xl);
+}
+.ds-dropdown > ul > li > :is(a, button, [role='button']) {
+  --dsc-button-border-radius: var(--ds-border-radius-sm);
+  --dsc-button-color: var(--ds-color-text-default);
+  line-height: var(--ds-line-height-md);
+}
+.ds-dropdown > ul > li > :is(a, button, [role='button'])[aria-current]:not([aria-current='false']) {
+  --dsc-button-background: var(--ds-color-surface-active);
+  --dsc-button-background--hover: var(--ds-color-surface-active);
+}
+
+.ds-error-summary {
+  --dsc-errorsummary-border-radius: var(--ds-border-radius-lg);
+  --dsc-errorsummary-padding: var(--ds-size-6) var(--ds-size-8);
+  --dsc-errorsummary-link-color: var(--ds-color-danger-text-default);
+}
+.ds-error-summary :is(h1, h2, h3, h4, h5, h6) {
+  font-size: var(--ds-font-size-5);
+  margin-bottom: var(--ds-size-3);
+}
+.ds-error-summary li {
+  min-height: var(--ds-size-7);
+}
+.ds-error-summary li::marker {
+  color: var(--ds-color-danger-base-default);
+}
+
+.ds-badge {
+  --dsc-badge-size: var(--ds-size-3);
+}
+
+/* Joined segments: round only the group's outside corners, including in RTL. */
+:is(.ds-togglegroup, .ds-toggle-group) > :is(a, label, button) {
+  border-radius: 0;
+}
+:is(.ds-togglegroup, .ds-toggle-group) > :is(a, label, button):first-child {
+  border-start-start-radius: var(--dsc-togglegroup-border-radius);
+  border-end-start-radius: var(--dsc-togglegroup-border-radius);
+}
+:is(.ds-togglegroup, .ds-toggle-group) > :is(a, label, button):last-child {
+  border-start-end-radius: var(--dsc-togglegroup-border-radius);
+  border-end-end-radius: var(--dsc-togglegroup-border-radius);
+}
+:is(.ds-togglegroup, .ds-toggle-group):not([data-variant='secondary'])
+  > [data-variant='tertiary']:is(
+    label:has(input:checked),
+    button[aria-checked='true'],
+    a[aria-current='true']
+  ) {
+  --dsc-button-background: var(--ds-color-base-active);
+}
