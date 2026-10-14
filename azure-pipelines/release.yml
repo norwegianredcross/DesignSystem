@@ -7,7 +7,7 @@
 #                `latest` flyttes ikke, og ^-ranges plukker ikke opp
 #                prerelease-versjoner, så ingen forbrukere får den.
 #                Pusher ingenting til git.
-#   release    – som .github/workflows/release.yml: bump, changelog,
+#   release    – bump, changelog,
 #                AI-artefakter, atomisk push av commit + tag til main,
 #                og først deretter publisering, slik at git og npm aldri
 #                kommer ut av synk.
@@ -103,7 +103,7 @@ jobs:
       - script: npm run typecheck
         displayName: Typecheck
 
-      # Samme nettlesere som .github/workflows/ci.yml: progressive-enhancement-
+      # Samme nettlesere som ci.yml: progressive-enhancement-
       # testene for Header og Footer kjører i chromium, firefox og webkit.
       - script: npx playwright install --with-deps chromium firefox webkit
         displayName: Installer Playwright-nettlesere

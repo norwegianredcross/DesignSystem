@@ -282,7 +282,7 @@ Invoke-WebRequest -Uri "https://norwegianredcross.github.io/DesignSystem/storybo
 
 - **Component Metadata**: https://norwegianredcross.github.io/DesignSystem/storybook/metadata.json
 - **AI Context Manifest**: https://norwegianredcross.github.io/DesignSystem/storybook/ai-context.manifest.json
-- **Design Tokens**: https://norwegianredcross.github.io/design-tokens/theme.css
+- **Design Tokens**: https://cdn.jsdelivr.net/npm/@norwegianredcross/design-tokens/design-tokens-build/theme.css
 - **GitHub Repository**: https://github.com/norwegianredcross/DesignSystem
 
 ### Published Context Bundle

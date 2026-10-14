@@ -1,6 +1,5 @@
 # Tar visuelle baselines på nytt på den delte poolen og committer dem til
-# branchen pipelinen kjøres på. Samme flyt som
-# .github/workflows/update-visual-baselines.yml: kjøres manuelt på PR-branchen
+# branchen pipelinen kjøres på. Kjøres manuelt på PR-branchen
 # ved tilsiktede visuelle endringer, og aldri direkte på main.
 #
 # Baselines må tas på samme type agent som sammenligner dem – ellers gir

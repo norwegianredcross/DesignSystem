@@ -154,7 +154,7 @@
   When working with Figma designs or the Røde Kors Design System:
   1. Fetch the AI guide: curl -o AI_DESIGN_SYSTEM_GUIDE.md https://norwegianredcross.github.io/DesignSystem/storybook/AI_DESIGN_SYSTEM_GUIDE.md
   2. Reference component metadata: https://norwegianredcross.github.io/DesignSystem/storybook/metadata.json
-  3. Use design tokens from: https://norwegianredcross.github.io/design-tokens/theme.css
+  3. Use design tokens from: https://cdn.jsdelivr.net/npm/@norwegianredcross/design-tokens/design-tokens-build/theme.css
   4. Always use existing components from @norwegianredcross/designsystem when possible
   5. Never use hardcoded values - always use design tokens (var(--ds-*))
   ```
@@ -183,7 +183,7 @@
 
   ### Key Resources
   - **Storybook**: https://norwegianredcross.github.io/DesignSystem/storybook/
-  - **Design Tokens CSS**: https://norwegianredcross.github.io/design-tokens/theme.css
+  - **Design Tokens CSS**: https://cdn.jsdelivr.net/npm/@norwegianredcross/design-tokens/design-tokens-build/theme.css
   - **Component Metadata**: https://norwegianredcross.github.io/DesignSystem/storybook/metadata.json
   - **Package Name**: `@norwegianredcross/designsystem`
 
@@ -1766,7 +1766,7 @@ import { Header } from '@norwegianredcross/designsystem';
   ### Complete Token Reference
 
   For a complete list of all available design tokens, refer to the theme CSS file:
-  - **URL**: https://norwegianredcross.github.io/design-tokens/theme.css
+  - **URL**: https://cdn.jsdelivr.net/npm/@norwegianredcross/design-tokens/design-tokens-build/theme.css
   - **Local**: Import from `@norwegianredcross/design-tokens/design-tokens-build/theme.css`
 
   **Key Token Categories Available:**
@@ -1844,7 +1844,7 @@ import { Header } from '@norwegianredcross/designsystem';
 
   The complete design tokens CSS file is available at:
   ```
-  https://norwegianredcross.github.io/design-tokens/theme.css
+  https://cdn.jsdelivr.net/npm/@norwegianredcross/design-tokens/design-tokens-build/theme.css
   ```
 
   You can view the full file to see all available tokens, including:
@@ -1967,7 +1967,7 @@ import { Header } from '@norwegianredcross/designsystem';
   }
   ```
 
-  > **Note:** The complete CSS file includes extensive color definitions for light and dark modes (hundreds of color tokens). The full file with all color definitions is available at: https://norwegianredcross.github.io/design-tokens/theme.css. The sections shown above demonstrate the size-mode and type-scale structure. All color tokens follow the patterns documented in the "Color Tokens" section above.
+  > **Note:** The complete CSS file includes extensive color definitions for light and dark modes (hundreds of color tokens). The full file with all color definitions is available at: https://cdn.jsdelivr.net/npm/@norwegianredcross/design-tokens/design-tokens-build/theme.css. The sections shown above demonstrate the size-mode and type-scale structure. All color tokens follow the patterns documented in the "Color Tokens" section above.
 
   </details>
 
@@ -2052,7 +2052,7 @@ import { Header } from '@norwegianredcross/designsystem';
   ALWAYS follow these rules:
   1. **Documentation:** Refer to the indexed design system documentation (@RødeKors) for component usage, patterns, and guidelines.
   2. **Metadata:** Use component metadata from: https://norwegianredcross.github.io/DesignSystem/storybook/metadata.json
-  3. **Tokens:** Always use CSS variables/tokens defined in: https://norwegianredcross.github.io/design-tokens/theme.css (e.g., var(--ds-size-4)). Note: Use `--ds-size-*` tokens, NOT `--ds-spacing-*`.
+  3. **Tokens:** Always use CSS variables/tokens defined in: https://cdn.jsdelivr.net/npm/@norwegianredcross/design-tokens/design-tokens-build/theme.css (e.g., var(--ds-size-4)). Note: Use `--ds-size-*` tokens, NOT `--ds-spacing-*`.
   4. **Figma MCP:** When a Figma link is provided, use the `figma` tool to inspect node properties.
 
   Note: Make sure you have indexed the documentation (Step 0) before using these rules. Reference @RødeKors in chat when you need design system context.
@@ -2072,7 +2072,7 @@ import { Header } from '@norwegianredcross/designsystem';
 
   **Option A: Manual Context** (Quick, one-time)
   - In chat, type `@` and paste:
-    - `@https://norwegianredcross.github.io/design-tokens/theme.css`
+    - `@https://cdn.jsdelivr.net/npm/@norwegianredcross/design-tokens/design-tokens-build/theme.css`
     - `@https://norwegianredcross.github.io/DesignSystem/storybook/metadata.json`
   - Paste the Figma link
 
@@ -2401,7 +2401,7 @@ import { Header } from '@norwegianredcross/designsystem';
   ## Additional Resources
 
   - **Storybook**: https://norwegianredcross.github.io/DesignSystem/storybook/
-  - **Design Tokens**: https://norwegianredcross.github.io/design-tokens/theme.css
+  - **Design Tokens**: https://cdn.jsdelivr.net/npm/@norwegianredcross/design-tokens/design-tokens-build/theme.css
   - **Component Metadata**: https://norwegianredcross.github.io/DesignSystem/storybook/metadata.json
   - **GitHub Repository**: https://github.com/norwegianredcross/DesignSystem
   - **NAV/Aksel Icons**: https://aksel.nav.no/komponenter/ikoner

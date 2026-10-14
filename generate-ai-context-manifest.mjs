@@ -34,7 +34,7 @@ const manifest = {
     guideUrl: `${storybookBaseUrl}/AI_DESIGN_SYSTEM_GUIDE.md`,
     metadataUrl: `${storybookBaseUrl}/metadata.json`,
     manifestUrl: `${storybookBaseUrl}/ai-context.manifest.json`,
-    themeUrl: "https://norwegianredcross.github.io/design-tokens/theme.css",
+    themeUrl: "https://cdn.jsdelivr.net/npm/@norwegianredcross/design-tokens/design-tokens-build/theme.css",
   },
   summary: {
     componentCount: primaryComponents.length,

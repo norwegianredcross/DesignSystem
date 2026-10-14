@@ -9,7 +9,7 @@
     "guideUrl": "https://norwegianredcross.github.io/DesignSystem/storybook/AI_DESIGN_SYSTEM_GUIDE.md",
     "metadataUrl": "https://norwegianredcross.github.io/DesignSystem/storybook/metadata.json",
     "manifestUrl": "https://norwegianredcross.github.io/DesignSystem/storybook/ai-context.manifest.json",
-    "themeUrl": "https://norwegianredcross.github.io/design-tokens/theme.css"
+    "themeUrl": "https://cdn.jsdelivr.net/npm/@norwegianredcross/design-tokens/design-tokens-build/theme.css"
   },
   "summary": {
     "componentCount": 46,

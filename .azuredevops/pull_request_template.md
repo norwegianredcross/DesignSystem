@@ -18,4 +18,4 @@
 
 <!-- Hva er bevisst ikke testet, og hvorfor? Skriv «Ingen» hvis alt er dekket. -->
 
-Fixes #
+<!-- Knytt feil og oppgaver under «Work items» i PR-en. -->

@@ -1,8 +1,7 @@
 # Kvalitetssjekk av @norwegianredcross/designsystem i Azure DevOps.
 #
 # Testpolicy: test tidlig og kontinuerlig, full regresjon på hver endring,
-# ingenting produksjonssettes utestet (se TESTING.md). Samme sjekker som
-# test-jobben i .github/workflows/ci.yml.
+# ingenting produksjonssettes utestet (se TESTING.md).
 #
 # Kjører på push til main. PR-er valideres gjennom branch policyen «Build
 # validation» på main: for Azure Repos Git styres PR-kjøringer der, ikke av en

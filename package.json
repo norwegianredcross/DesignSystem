@@ -74,8 +74,6 @@
     "generate-metadata": "node generate-metadata.mjs",
     "update-ai-guide-components": "node update-ai-guide-components.mjs",
     "generate-ai-context-manifest": "node generate-ai-context-manifest.mjs",
-    "predeploy:storybook": "npm run build-storybook",
-    "deploy:storybook": "gh-pages -d storybook-build -b gh-pages -r https://github.com/norwegianredcross/DesignSystem.git --dest storybook",
     "test:visual": "playwright test -c playwright.visual.config.ts",
     "test:visual:update": "playwright test -c playwright.visual.config.ts --update-snapshots"
   },
@@ -96,7 +94,6 @@
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.5.5",
-    "gh-pages": "^6.3.0",
     "glob": "^13.0.6",
     "globals": "^17.11.0",
     "playwright": "^1.52.0",
@@ -115,9 +112,9 @@
   "dependencies": {
     "@digdir/designsystemet-types": "^1.21.0",
     "@navikt/aksel-icons": "^8.16.1",
+    "@norwegianredcross/design-tokens": "^1.0.52",
     "date-fns": "^4.1.0",
-    "embla-carousel-react": "^8.6.0",
-    "@norwegianredcross/design-tokens": "^1.0.52"
+    "embla-carousel-react": "^8.6.0"
   },
   "publishConfig": {
     "access": "public"

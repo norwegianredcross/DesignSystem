@@ -2,11 +2,11 @@
 
 > Denne testplanen følger Norges Røde Kors' testpolicy, overordnede teststrategi og «Testing – prinsipper og praksis». Den beskriver hvordan testing er organisert for designsystemet (`@norwegianredcross/designsystem`).
 >
-> **Testhåndteringssystem:** Organisasjonens dokumenter beskriver Azure DevOps som verktøy. Dette produktet utvikles på **GitHub**, og inntil en eventuell overgang er GitHub vårt testhåndteringssystem: GitHub Actions (kjøring og rapportering), Pull Requests (godkjenning og sporbarhet) og GitHub Issues (feilhåndtering). Prinsippene er de samme — sporbarhet mellom krav, kode og test i ett verktøy.
+> **Testhåndteringssystem:** Organisasjonens dokumenter beskriver Azure DevOps som verktøy. Produktet utvikles i **Azure DevOps** (prosjektet DesignPlatform), som er testhåndteringssystemet: Azure Pipelines (kjøring og rapportering), Pull Requests (godkjenning og sporbarhet) og Azure Boards (feilhåndtering). Prinsippene er de samme — sporbarhet mellom krav, kode og test i ett verktøy.
 
 ## 1. Omfang
 
-Testplanen gjelder komponentbiblioteket (`src/components`), designtokens-integrasjonen, Storybook som utviklings- og testverktøy og den eksisterende dokumentasjonsappen (`src/pages`). Den dekker all endring som skal publiseres til npm eller deployes til GitHub Pages. Forfattet offentlig dokumentasjon tilhører dokumentasjonsplattformen i eget repo (norwegianredcross/designportal, lokalt `Desktop/designsystem-docs`), med egen testplan. Den eksisterende appen og dens testdekning beholdes til migreringen er fullført.
+Testplanen gjelder komponentbiblioteket (`src/components`), designtokens-integrasjonen, Storybook som utviklings- og testverktøy og den eksisterende dokumentasjonsappen (`src/pages`). Den dekker all endring som skal publiseres til npm eller deployes som Storybook på app-plattformen. Forfattet offentlig dokumentasjon tilhører dokumentasjonsplattformen i eget repo (`DesignPlatform/designportal` i Azure DevOps), med egen testplan. Den eksisterende appen og dens testdekning beholdes til migreringen er fullført.
 
 ## 2. Roller og ansvar
 
@@ -15,7 +15,7 @@ Testplanen gjelder komponentbiblioteket (`src/components`), designtokens-integra
 | Produkteier/maintainer | Godkjenner PR-er (= akseptanse), eier akseptert risiko, prioriterer testinnsats, tildeler feilrettinger |
 | Utviklere (interne og agenter) | Skriver og vedlikeholder story-tester for egne endringer, kjører full suite lokalt før PR |
 | Testleder-funksjonen | Ivaretas av maintainer: vedlikeholder denne planen, overvåker testdekning og risiko |
-| Konsumerende team | Melder feil via GitHub Issues (bug-mal), deltar i akseptansetesting av nye komponenter |
+| Konsumerende team | Melder feil som Bug i Azure Boards, deltar i akseptansetesting av nye komponenter |
 
 Kvalitet er et felles ansvar; testing er ikke en fase til slutt, men en del av hver endring.
 
@@ -32,9 +32,9 @@ Kvalitet er et felles ansvar; testing er ikke en fase til slutt, men en del av h
 |---|---|---|
 | **Enhetstest** | Hver offentlig komponent har minst én assertion-bærende kontraktstory; komponenter med brukeradferd har i tillegg risikobaserte interaksjonstester | Vitest + Storybook addon, headless Chromium (Playwright) |
 | **Integrasjonstest** | Sammensatte komponenter (Header, Footer, Donor, skjema-komposisjoner) testes gjennom sine stories; den eksisterende dokumentasjonsappen bygger mot biblioteket | Samme suite + `vite build` |
-| **Systemtest** | Full bygg av npm-pakke, Storybook-verktøyet og eksisterende docs-app i CI ved hver endring | GitHub Actions |
-| **Akseptansetest (UAT)** | PR-review: reviewer verifiserer endringen i Storybook/localhost før merge. Merge til `main` = godkjenning. Nye komponenter demonstreres for konsumerende team ved behov | GitHub PR + Storybook |
-| **Regresjonstest** | Hele testsuite (alle stories, alle komponenter) kjøres på **hver PR** og hver push til `main` — ikke bare det som er endret | GitHub Actions |
+| **Systemtest** | Full bygg av npm-pakke, Storybook-verktøyet og eksisterende docs-app i CI ved hver endring | Azure Pipelines |
+| **Akseptansetest (UAT)** | PR-review: reviewer verifiserer endringen i Storybook/localhost før merge. Merge til `main` = godkjenning. Nye komponenter demonstreres for konsumerende team ved behov | Azure DevOps PR + Storybook |
+| **Regresjonstest** | Hele testsuite (alle stories, alle komponenter) kjøres på **hver PR** og hver push til `main` — ikke bare det som er endret | Azure Pipelines |
 
 ## 5. Testtyper (jf. praksisguiden kap. 4.2)
 
@@ -44,7 +44,7 @@ Kvalitet er et felles ansvar; testing er ikke en fase til slutt, men en del av h
 - **Visuell testing:** Manuell verifisering i Storybook (lys/mørk modus, tre brand-varianter) som del av PR-review. Skjermbilder i PR-beskrivelsen ved visuelle endringer.
 - **Tema-matrise (automatisert):** Hele story-suiten (inkl. axe-kontrastsjekk) kjøres i tre temaer per `npm test`: lys modus med standardskopet, mørk modus (`data-color-scheme="dark"`) og et sekundærskop (`data-color="secondary-color-rust"`). Se `vitest.config.ts` og `.storybook/vitest.setup.theme.ts`.
 - **Negativ testing:** Stories skal dekke feiltilstander (disabled, error, tomme verdier) der komponenten har dem.
-- **Sikkerhetstesting:** `npm audit` og Dependabot for avhengigheter; ingen egenutviklet autentisering/datalagring i biblioteket (se «avgrensninger»). Peer-avhengigheter eksternaliseres slik at konsumenter styrer sine versjoner.
+- **Sikkerhetstesting:** `npm audit` og Renovate (med sikkerhetsvarsler) for avhengigheter; ingen egenutviklet autentisering/datalagring i biblioteket (se «avgrensninger»). Peer-avhengigheter eksternaliseres slik at konsumenter styrer sine versjoner.
 - **Typesikkerhet:** `tsc --noEmit` (strict) og publisert `.d.ts` er del av kontraktstestingen mot konsumenter.
 - **Byggisolasjon:** Tester i `tests/tooling/` verifiserer at Storybook og browser-testene bruker egen Vite-konfigurasjon uten bibliotekets deklarasjonsgenerator. Pakke-konfigurasjonen beholder ESM-/klientmoduler og deklarasjonsbygg.
 
@@ -60,8 +60,8 @@ før PR-en opprettes eller oppdateres.
 | Miljø | Bruk |
 |---|---|
 | Lokalt (`npm run storybook`) | Utvikling og utforskende testing |
-| CI (GitHub Actions) | Hele suiten i Chromium; Header- og Footer-baseline også i Firefox og WebKit |
-| GitHub Pages (Storybook + docs) | «Staging»/demonstrasjon — alltid siste `main` |
+| CI (Azure Pipelines, `azure-pipelines/ci.yml`) | Hele suiten i Chromium; Header- og Footer-baseline også i Firefox og WebKit |
+| Storybook på storybook.lunix.cloud | «Staging»/demonstrasjon — siste release |
 | npm-pakken | Produksjon — kun publisert via release-workflow |
 
 ## 7. Testdata
@@ -95,7 +95,7 @@ Når testing begrenses utover dette skal det dokumenteres i PR-beskrivelsen med 
 
 Peer-spennet er `^1.21.0`: vi følger nyeste Digdir 1.x, og lockfilen pinner
 den versjonen suiten sist var grønn på. Det er en policy, ikke et tak — bumper
-kommer ukentlig fra Dependabot (minor/patch-gruppen) og må gjennom hele
+kommer ukentlig fra Renovate (minor/patch-gruppen) og må gjennom hele
 suiten og den visuelle gaten som enhver annen endring.
 
 Spennet var lenge `~1.13.3`, målt: suiten feilet fra 1.14.0. Bruddene hadde
@@ -135,19 +135,19 @@ Kanariens `upstream-latest`-legg rapporterer fortsatt ukentlig hva nyeste
 **«Klar til produksjon» (før merge/release):**
 - [ ] Alle CI-sjekker er grønne (lint, typecheck, full testsuite, bygg av pakke + Storybook)
 - [ ] PR er godkjent av maintainer (akseptanse)
-- [ ] Kjente feil er dokumentert som Issues; akseptert risiko står i PR-beskrivelsen
+- [ ] Kjente feil er registrert som Bug i Azure Boards; akseptert risiko står i PR-beskrivelsen
 - [ ] Breaking changes er flagget (`!` i commit / PR-tittel) og beskrevet
 - [ ] AI-kontekstartefakter er regenerert ved API-endringer (`metadata.json`, guide, manifest)
 
 **Produksjonssetting (npm-release):**
 - [ ] Release-workflow kjøres kun fra grønn `main`
 - [ ] Versjonsbump følger semver (breaking = major). **Unntak i før-produksjonsfasen:** så lenge biblioteket ikke har reelle produksjonskonsumenter, shippes breaking changes som minor-versjoner (besluttet for 1.3.0 og 1.4.0); migrasjonsnotatene i README dokumenterer dem uansett. Regelen breaking = major trer i kraft ved produksjonsadopsjon.
-- [ ] Rollback-plan: `npm deprecate` av defekt versjon + ny patch; GitHub Pages redeployes fra forrige grønne `main`
+- [ ] Rollback-plan: `npm deprecate` av defekt versjon + ny patch; Storybook deployes på nytt fra forrige release
 - [ ] Verifisering etter publisering: installer pakken i et konsumentprosjekt eller kjør `npm pack`-sjekk
 
 ## 10. Feilhåndtering (jf. praksisguiden kap. 9.4)
 
-Feil registreres som **GitHub Issues med bug-malen** (`.github/ISSUE_TEMPLATE/bug_report.yml`). Malen krever: tydelig tittel, faktisk og forventet resultat, steg for å reprodusere, alvorlighetsgrad, versjon og skjermbilde ved visuelle feil. Retting kobles til issuen via `Fixes #N` i PR-en — det gir sporbarheten krav → feil → test → fiks.
+Feil registreres som **Bug i Azure Boards** (DesignPlatform). En feilrapport skal ha: tydelig tittel, faktisk og forventet resultat, steg for å reprodusere, alvorlighetsgrad, versjon og skjermbilde ved visuelle feil. Retting kobles til buggen under «Work items» i PR-en — det gir sporbarheten krav → feil → test → fiks.
 
 Alvorlighetsgrader:
 - **Kritisk** — komponent ubrukelig, sikkerhets- eller tilgjengelighetsbrudd, feil i produksjon hos konsumenter
@@ -157,8 +157,8 @@ Alvorlighetsgrader:
 
 ## 11. Rapportering (jf. teststrategien kap. 7)
 
-- **Teststatus og -resultater:** GitHub Actions-kjøringen på hver PR og hver push er testrapporten — den viser hva som er kjørt, hva som passerte og hva som feilet, med historikk over tid.
-- **Sluttrapport per release:** GitHub Release-notatene oppsummerer endringer; CHANGELOG.md vedlikeholdes automatisk av release-workflowen. Kjente avvik og akseptert risiko refereres fra release-notatene ved behov.
+- **Teststatus og -resultater:** Azure Pipelines-kjøringen på hver PR og hver push er testrapporten — den viser hva som er kjørt, hva som passerte og hva som feilet, med historikk over tid.
+- **Sluttrapport per release:** CHANGELOG.md oppsummerer endringer og vedlikeholdes automatisk av release-pipelinen (`azure-pipelines/release.yml`). Kjente avvik og akseptert risiko refereres fra PR-beskrivelsene ved behov.
 - **Trend:** Actions-historikken gir utvikling over tid (antall kjøringer, feilrate).
 
 ## 12. Kompetanse og forbedring (jf. praksisguiden kap. 15)
