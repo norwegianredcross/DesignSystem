@@ -9,10 +9,13 @@
 # kilden, og ingen arbeider på GitHub. Tagger pushes uten --force, så en
 # publisert tag aldri flyttes.
 #
-# Tilgang: en deploy key med skrivetilgang på GitHub-repoet (ikke en personlig
-# konto). Den private nøkkelen ligger som secure file
-# `github-mirror-deploy-key` i Pipelines → Library, og deploy keyen står i
-# bypass-listen til rulesettet «Protect main» på GitHub.
+# Tilgang: GitHub-appen `rk-designsystem-mirror`, eid av organisasjonen
+# norwegianredcross (ikke en personlig konto), med Contents: read and write på
+# DesignSystem og i bypass-listen til rulesettet «Protect main». Agentene
+# slipper bare ut med HTTPS, så SSH og deploy keys virker ikke herfra.
+# Appens private nøkkel ligger som secure file `github-mirror-app-key.pem` i
+# Pipelines → Library; hver kjøring lager et installasjonstoken som varer i en
+# time.
 
 trigger:
   branches:
@@ -25,6 +28,11 @@ resources:
     - pipeline: release
       source: rk-designsystem release
       trigger: true
+
+variables:
+  # App ID står på appens side på GitHub. Den er ikke hemmelig.
+  - name: githubAppId
+    value: 'FYLL-INN'
 
 # Organisasjonens delte pool. Aldri `vmImage:` – se rkdotno sin
 # azure-pipelines-skill.
@@ -40,20 +48,41 @@ steps:
     clean: true
     persistCredentials: true
 
-  # GitHubs offentlige ed25519-vertsnøkkel (api.github.com/meta,
-  # SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU). Agentene slipper ikke
-  # ut på port 22, så SSH går via ssh.github.com på port 443.
-  - task: InstallSSHKey@0
-    displayName: Deploy key for GitHub
+  - task: DownloadSecureFile@1
+    name: appKey
+    displayName: GitHub-appens private nøkkel
     inputs:
-      knownHostsEntry: '[ssh.github.com]:443 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl'
-      sshKeySecureFile: github-mirror-deploy-key
+      secureFile: github-mirror-app-key.pem
 
   - script: |
       set -euo pipefail
       git fetch --quiet --tags origin main
-      remote=ssh://git@ssh.github.com:443/norwegianredcross/DesignSystem.git
+
+      # Azure-legitimasjonen fra checkouten skal aldri følge med til GitHub.
+      git config --get-regexp '^http\..*extraheader$' | cut -d' ' -f1 | sort -u |
+        while read -r key; do git config --unset-all "$key"; done
+
+      case "$GITHUB_APP_ID" in ''|FYLL-INN) echo "##vso[task.logissue type=error]githubAppId mangler"; exit 1;; esac
+
+      # Et kortlivet JWT signert med appens nøkkel gir et installasjonstoken.
+      b64url() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
+      now=$(date +%s)
+      header=$(printf '{"alg":"RS256","typ":"JWT"}' | b64url)
+      payload=$(printf '{"iat":%s,"exp":%s,"iss":"%s"}' "$((now - 60))" "$((now + 540))" "$GITHUB_APP_ID" | b64url)
+      signature=$(printf '%s.%s' "$header" "$payload" | openssl dgst -sha256 -sign "$APP_KEY" | b64url)
+      jwt="$header.$payload.$signature"
+
+      api() { curl -sSf -H "Authorization: Bearer $1" -H "Accept: application/vnd.github+json" "${@:2}"; }
+      json() { node -pe "JSON.parse(require('fs').readFileSync(0, 'utf8')).$1"; }
+      installation=$(api "$jwt" https://api.github.com/repos/norwegianredcross/DesignSystem/installation | json id)
+      token=$(api "$jwt" -X POST "https://api.github.com/app/installations/$installation/access_tokens" | json token)
+      echo "##vso[task.setsecret]$token"
+
+      remote="https://x-access-token:$token@github.com/norwegianredcross/DesignSystem.git"
       git push --force "$remote" "refs/remotes/origin/main:refs/heads/main"
       tags=$(git tag --list 'v*' | sed 's|^|refs/tags/|')
       if [ -n "$tags" ]; then git push "$remote" $tags; fi
     displayName: Speil main og tagger til GitHub
+    env:
+      GITHUB_APP_ID: $(githubAppId)
+      APP_KEY: $(appKey.secureFilePath)
