@@ -111,12 +111,12 @@
 
   **Using curl (Claude Code, Cursor, or any terminal):**
   ```bash
-  curl -o AI_DESIGN_SYSTEM_GUIDE.md https://norwegianredcross.github.io/DesignSystem/storybook/AI_DESIGN_SYSTEM_GUIDE.md
+  curl -o AI_DESIGN_SYSTEM_GUIDE.md https://storybook.lunix.cloud/AI_DESIGN_SYSTEM_GUIDE.md
   ```
 
   **Direct URL for reference:**
   ```
-  https://norwegianredcross.github.io/DesignSystem/storybook/AI_DESIGN_SYSTEM_GUIDE.md
+  https://storybook.lunix.cloud/AI_DESIGN_SYSTEM_GUIDE.md
   ```
 
   ### When to Use This Guide
@@ -133,7 +133,7 @@
   **For Claude Code:**
   ```bash
   # Fetch the guide
-  curl -o AI_DESIGN_SYSTEM_GUIDE.md https://norwegianredcross.github.io/DesignSystem/storybook/AI_DESIGN_SYSTEM_GUIDE.md
+  curl -o AI_DESIGN_SYSTEM_GUIDE.md https://storybook.lunix.cloud/AI_DESIGN_SYSTEM_GUIDE.md
 
   # Then reference it in your prompts:
   # "Using the AI_DESIGN_SYSTEM_GUIDE.md file, implement..."
@@ -142,7 +142,7 @@
   **For Cursor:**
   ```bash
   # Fetch the guide
-  curl -o AI_DESIGN_SYSTEM_GUIDE.md https://norwegianredcross.github.io/DesignSystem/storybook/AI_DESIGN_SYSTEM_GUIDE.md
+  curl -o AI_DESIGN_SYSTEM_GUIDE.md https://storybook.lunix.cloud/AI_DESIGN_SYSTEM_GUIDE.md
 
   # Or reference directly in chat:
   # "@AI_DESIGN_SYSTEM_GUIDE.md implement a component based on this Figma design..."
@@ -152,8 +152,8 @@
   Add this to your `.cursorrules` file:
   ```
   When working with Figma designs or the Røde Kors Design System:
-  1. Fetch the AI guide: curl -o AI_DESIGN_SYSTEM_GUIDE.md https://norwegianredcross.github.io/DesignSystem/storybook/AI_DESIGN_SYSTEM_GUIDE.md
-  2. Reference component metadata: https://norwegianredcross.github.io/DesignSystem/storybook/metadata.json
+  1. Fetch the AI guide: curl -o AI_DESIGN_SYSTEM_GUIDE.md https://storybook.lunix.cloud/AI_DESIGN_SYSTEM_GUIDE.md
+  2. Reference component metadata: https://storybook.lunix.cloud/metadata.json
   3. Use design tokens from: https://cdn.jsdelivr.net/npm/@norwegianredcross/design-tokens/design-tokens-build/theme.css
   4. Always use existing components from @norwegianredcross/designsystem when possible
   5. Never use hardcoded values - always use design tokens (var(--ds-*))
@@ -182,9 +182,9 @@
   The **Røde Kors Design System** (Norwegian Red Cross) is a React component library built on top of Digdir's Designsystemet. It provides pre-configured components with the official Røde Kors brand theme through design tokens.
 
   ### Key Resources
-  - **Storybook**: https://norwegianredcross.github.io/DesignSystem/storybook/
+  - **Storybook**: https://storybook.lunix.cloud/
   - **Design Tokens CSS**: https://cdn.jsdelivr.net/npm/@norwegianredcross/design-tokens/design-tokens-build/theme.css
-  - **Component Metadata**: https://norwegianredcross.github.io/DesignSystem/storybook/metadata.json
+  - **Component Metadata**: https://storybook.lunix.cloud/metadata.json
   - **Package Name**: `@norwegianredcross/designsystem`
 
   ### Installation (Simplified)
@@ -2036,7 +2036,7 @@ import { Header } from '@norwegianredcross/designsystem';
 
   1. Open Chat in Cursor (Cmd/Ctrl + L)
   2. Type `@Docs` and select "Add new doc"
-  3. Paste: `https://norwegianredcross.github.io/DesignSystem/storybook/`
+  3. Paste: `https://storybook.lunix.cloud/`
   4. Name it: `RødeKors` (or similar)
   5. Confirm
 
@@ -2051,7 +2051,7 @@ import { Header } from '@norwegianredcross/designsystem';
 
   ALWAYS follow these rules:
   1. **Documentation:** Refer to the indexed design system documentation (@RødeKors) for component usage, patterns, and guidelines.
-  2. **Metadata:** Use component metadata from: https://norwegianredcross.github.io/DesignSystem/storybook/metadata.json
+  2. **Metadata:** Use component metadata from: https://storybook.lunix.cloud/metadata.json
   3. **Tokens:** Always use CSS variables/tokens defined in: https://cdn.jsdelivr.net/npm/@norwegianredcross/design-tokens/design-tokens-build/theme.css (e.g., var(--ds-size-4)). Note: Use `--ds-size-*` tokens, NOT `--ds-spacing-*`.
   4. **Figma MCP:** When a Figma link is provided, use the `figma` tool to inspect node properties.
 
@@ -2073,7 +2073,7 @@ import { Header } from '@norwegianredcross/designsystem';
   **Option A: Manual Context** (Quick, one-time)
   - In chat, type `@` and paste:
     - `@https://cdn.jsdelivr.net/npm/@norwegianredcross/design-tokens/design-tokens-build/theme.css`
-    - `@https://norwegianredcross.github.io/DesignSystem/storybook/metadata.json`
+    - `@https://storybook.lunix.cloud/metadata.json`
   - Paste the Figma link
 
   **Option B: Automated** (Recommended, with .cursorrules)
@@ -2400,10 +2400,10 @@ import { Header } from '@norwegianredcross/designsystem';
 
   ## Additional Resources
 
-  - **Storybook**: https://norwegianredcross.github.io/DesignSystem/storybook/
+  - **Storybook**: https://storybook.lunix.cloud/
   - **Design Tokens**: https://cdn.jsdelivr.net/npm/@norwegianredcross/design-tokens/design-tokens-build/theme.css
-  - **Component Metadata**: https://norwegianredcross.github.io/DesignSystem/storybook/metadata.json
-  - **GitHub Repository**: https://github.com/norwegianredcross/DesignSystem
+  - **Component Metadata**: https://storybook.lunix.cloud/metadata.json
+  - **Repository**: https://dev.azure.com/RedCrossNorway/DesignPlatform/_git/DesignSystem (public read-only copy: https://github.com/norwegianredcross/DesignSystem)
   - **NAV/Aksel Icons**: https://aksel.nav.no/komponenter/ikoner
 
   ---
@@ -2434,5 +2434,5 @@ import { Header } from '@norwegianredcross/designsystem';
 
   **Last Updated**: Based on @norwegianredcross/designsystem v1.1.88
 
-  **Guide URL**: https://norwegianredcross.github.io/DesignSystem/storybook/AI_DESIGN_SYSTEM_GUIDE.md
+  **Guide URL**: https://storybook.lunix.cloud/AI_DESIGN_SYSTEM_GUIDE.md
 

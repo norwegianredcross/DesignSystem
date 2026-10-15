@@ -5,10 +5,10 @@
     "version": "1.5.1"
   },
   "resources": {
-    "storybookUrl": "https://norwegianredcross.github.io/DesignSystem/storybook",
-    "guideUrl": "https://norwegianredcross.github.io/DesignSystem/storybook/AI_DESIGN_SYSTEM_GUIDE.md",
-    "metadataUrl": "https://norwegianredcross.github.io/DesignSystem/storybook/metadata.json",
-    "manifestUrl": "https://norwegianredcross.github.io/DesignSystem/storybook/ai-context.manifest.json",
+    "storybookUrl": "https://storybook.lunix.cloud",
+    "guideUrl": "https://storybook.lunix.cloud/AI_DESIGN_SYSTEM_GUIDE.md",
+    "metadataUrl": "https://storybook.lunix.cloud/metadata.json",
+    "manifestUrl": "https://storybook.lunix.cloud/ai-context.manifest.json",
     "themeUrl": "https://cdn.jsdelivr.net/npm/@norwegianredcross/design-tokens/design-tokens-build/theme.css"
   },
   "summary": {
