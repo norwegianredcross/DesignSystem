@@ -41,17 +41,18 @@ steps:
     persistCredentials: true
 
   # GitHubs offentlige ed25519-vertsnøkkel (api.github.com/meta,
-  # SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU).
+  # SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU). Agentene slipper ikke
+  # ut på port 22, så SSH går via ssh.github.com på port 443.
   - task: InstallSSHKey@0
     displayName: Deploy key for GitHub
     inputs:
-      knownHostsEntry: github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl
+      knownHostsEntry: '[ssh.github.com]:443 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl'
       sshKeySecureFile: github-mirror-deploy-key
 
   - script: |
       set -euo pipefail
       git fetch --quiet --tags origin main
-      remote=git@github.com:norwegianredcross/DesignSystem.git
+      remote=ssh://git@ssh.github.com:443/norwegianredcross/DesignSystem.git
       git push --force "$remote" "refs/remotes/origin/main:refs/heads/main"
       tags=$(git tag --list 'v*' | sed 's|^|refs/tags/|')
       if [ -n "$tags" ]; then git push "$remote" $tags; fi
