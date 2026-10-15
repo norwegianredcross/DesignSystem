@@ -71,6 +71,16 @@ export async function verifyNextHeader(tarball, appDir, dependencies) {
           await section.getByRole('link', { name: 'Server-rendered menu link' }).click();
           await expect(page.getByRole('heading', { name: 'About page' })).toBeVisible();
         }
+        await page.goto(`${origin}/file-upload/`);
+        if (javaScriptEnabled) await expect(page.locator('header')).toHaveAttribute('data-enhanced', 'true');
+        const attachment = page.getByLabel('Attachment', { exact: true });
+        await expect(attachment).toHaveAccessibleName('Attachment');
+        if (javaScriptEnabled) await expect(attachment).toHaveAccessibleDescription('Choose a PDF file.');
+        else await expect(page.getByText('Choose a PDF file.', { exact: true })).toBeVisible();
+        await attachment.setInputFiles({ name: 'attachment.pdf', mimeType: 'application/pdf', buffer: Buffer.from('PDF fixture') });
+        await expect(attachment).not.toHaveValue('');
+        await page.getByRole('button', { name: 'Reset', exact: true }).click();
+        await expect(attachment).toHaveValue('');
         // Reuse this packed consumer for Carousel's server-page contract.
         for (const styled of [true, false]) {
           if (!styled) await page.route('**/*.css*', (route) => route.fulfill({ contentType: 'text/css', body: '' }));
@@ -109,6 +119,7 @@ export async function verifyNextHeader(tarball, appDir, dependencies) {
       }
     }
     console.log('✅ Next server page/layout: packed Header, server-rendered children, hydration and no-JS navigation passed.');
+    console.log('✅ Packed FileUpload: server-page imports, labelled selection and reset passed with and without JS.');
     console.log('✅ Next server page: packed Carousel baseline with missing JS/CSS and navigation after hydration passed.');
   } finally {
     await browser?.close();

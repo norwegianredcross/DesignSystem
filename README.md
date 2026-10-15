@@ -80,6 +80,8 @@ The primary goal is to ensure brand consistency, improve development efficiency,
 
 ## Available Components
 
+`EXPERIMENTAL_FileUpload` exposes Digdir’s experimental file-upload container unchanged. Its API may change. Follow Digdir’s `Field`, `Label` and `Field.Description` composition around a native `<input type="file">`. Keep explicit label associations and a `name` for server-rendered forms. `Field` connects descriptions with JavaScript; without scripts the help text remains visible but is not automatically associated with the input. On native inputs, `suppressHydrationWarning` accounts for attributes that `Field` connects before React hydrates. Digdir uses a transparent input overlay: selection and native multipart submission work without JavaScript. The examples add no custom file-selection state or filename display; consumers supply any selected-file feedback. Use `Input type="file"` when the browser’s filename display must work without scripts. Consumers provide the POST endpoint and server validation; the component does not upload files or enforce file limits. Use `disabled`, not `readOnly`, to prevent selection. Examples are under **Experimental/FileUpload** in Storybook.
+
 The design system includes the following components:
 
 | Component | Description |

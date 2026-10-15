@@ -2225,6 +2225,27 @@
     ]
   },
   {
+    "componentName": "EXPERIMENTAL_FileUpload",
+    "importPath": "@norwegianredcross/designsystem",
+    "description": "Experimental Digdir file-upload container. Provide a labelled native file input.\nUses Digdir's appearance unchanged. Selected-file feedback is consumer-owned.\nUpload handling and server validation belong to the consumer application.",
+    "props": [
+      {
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
     "componentName": "FieldsetDescription",
     "importPath": "@norwegianredcross/designsystem",
     "description": "",

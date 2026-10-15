@@ -13,6 +13,10 @@ export type { AlertProps } from './components/Alert';
 export { Avatar } from './components/Avatar';
 export type { AvatarProps } from './components/Avatar';
 
+// Experimental FileUpload
+export { EXPERIMENTAL_FileUpload } from './components/FileUpload';
+export type { FileUploadProps } from './components/FileUpload';
+
 // Badge
 export { Badge, BadgePosition } from './components/Badge';
 export type { BadgeProps, BadgePositionProps } from './components/Badge';
