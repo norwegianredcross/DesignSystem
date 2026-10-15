@@ -137,6 +137,23 @@ function getComponentNotes(componentName) {
 
 // Generate component documentation
 function generateComponentDoc(component) {
+  // AvatarStack needs list items, not a self-closing example with deprecated props.
+  if (component.componentName === 'EXPERIMENTAL_AvatarStack') {
+    return `#### EXPERIMENTAL_AvatarStack
+
+Experimental Digdir component, exported unchanged. The API may change.
+
+\`\`\`tsx
+import { EXPERIMENTAL_AvatarStack, Avatar } from '@norwegianredcross/designsystem';
+
+<EXPERIMENTAL_AvatarStack aria-label="Deltakere">
+  <li><Avatar aria-label="Ola Nordmann">ON</Avatar></li>
+  <li><Avatar aria-label="Kari Hansen">KH</Avatar></li>
+  <li>+5 deltakere</li>
+</EXPERIMENTAL_AvatarStack>
+\`\`\`
+`;
+  }
   const props = component.props || [];
   
   // Filter out common internal props that shouldn't be documented

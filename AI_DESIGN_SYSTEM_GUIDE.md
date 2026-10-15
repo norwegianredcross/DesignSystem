@@ -1042,6 +1042,20 @@ import { ErrorSummaryList } from '@norwegianredcross/designsystem';
  />
 ```
 
+#### EXPERIMENTAL_AvatarStack
+
+Experimental Digdir component, exported unchanged. The API may change.
+
+```tsx
+import { EXPERIMENTAL_AvatarStack, Avatar } from '@norwegianredcross/designsystem';
+
+<EXPERIMENTAL_AvatarStack aria-label="Deltakere">
+  <li><Avatar aria-label="Ola Nordmann">ON</Avatar></li>
+  <li><Avatar aria-label="Kari Hansen">KH</Avatar></li>
+  <li>+5 deltakere</li>
+</EXPERIMENTAL_AvatarStack>
+```
+
 #### FieldAffix
 ```tsx
 import { FieldAffix } from '@norwegianredcross/designsystem';

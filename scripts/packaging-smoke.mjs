@@ -393,15 +393,22 @@ console.log(fileURLToPath(import.meta.resolve('@norwegianredcross/designsystem/s
 import { createRef, type ComponentProps, type ComponentRef } from 'react';
 import {
   Alert, Badge, BadgePosition, Button, DatePicker, Donor, Footer,
-  GraphicElement, Header, Suggestion, Tag,
+  GraphicElement, Header, Suggestion, Tag, EXPERIMENTAL_AvatarStack,
   type AlertProps, type ButtonProps, type DatePickerProps, type DonorProps,
-  type SuggestionProps, type TagProps,
+  type SuggestionProps, type TagProps, type AvatarStackProps,
 } from '@norwegianredcross/designsystem';
 
 // Using the prop types standalone forces tsc to resolve and expand them the
 // way a consumer's IDE does.
 const button: ButtonProps = { children: 'Gi 250 kr' };
 const tag: TagProps = { children: 'Ny' };
+const stack: AvatarStackProps = { expandable: true, 'aria-label': 'Participants' };
+const avatarStack = (
+  <EXPERIMENTAL_AvatarStack {...stack} ref={createRef<HTMLUListElement>()}>
+    <li>Ola</li>
+  </EXPERIMENTAL_AvatarStack>
+);
+void avatarStack;
 const suggestionRef = createRef<ComponentRef<typeof Suggestion>>();
 const singleSuggestion = (
   <Suggestion ref={suggestionRef} selected={null} onSelectedChange={item => {

@@ -13,6 +13,10 @@ export type { AlertProps } from './components/Alert';
 export { Avatar } from './components/Avatar';
 export type { AvatarProps } from './components/Avatar';
 
+// Experimental Digdir component
+export { EXPERIMENTAL_AvatarStack } from './components/AvatarStack';
+export type { AvatarStackProps } from './components/AvatarStack';
+
 // Badge
 export { Badge, BadgePosition } from './components/Badge';
 export type { BadgeProps, BadgePositionProps } from './components/Badge';

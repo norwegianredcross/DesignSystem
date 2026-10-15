@@ -95,6 +95,8 @@ The primary goal is to ensure brand consistency, improve development efficiency,
 
 ## Available Components
 
+`EXPERIMENTAL_AvatarStack` exposes Digdir's experimental avatar stack unchanged, including its types, styling and behaviour. Its API may change. Supply `<li>` children with labelled avatars; prefer a short list and a trailing count. Examples are under **Experimental/AvatarStack** in Storybook.
+
 The design system includes the following components:
 
 | Component | Description |
