@@ -1,5 +1,19 @@
 # Røde Kors Design System Component Library (Norwegian Red Cross)
 
+> [!IMPORTANT]
+> **This is a public, read-only copy of the Norwegian Red Cross design system.**
+> It is here so anyone can see, learn from and adapt our components.
+> Development happens in Azure DevOps
+> ([RedCrossNorway / DesignPlatform / DesignSystem](https://dev.azure.com/RedCrossNorway/DesignPlatform/_git/DesignSystem)),
+> and this repository follows its `main`, so pull requests and issues opened
+> here are not picked up. Want to suggest a change or a new component?
+> Get in touch with the design system team at Norwegian Red Cross.
+>
+> To build with the design system you need neither this code nor any access:
+> install [`@norwegianredcross/designsystem`](https://www.npmjs.com/package/@norwegianredcross/designsystem)
+> (formerly `rk-designsystem`) and use the documentation in
+> [Storybook](https://storybook.lunix.cloud/).
+
 ## Documentation and development tools
 
 - **Public documentation** belongs in [norwegianredcross/designportal](https://github.com/norwegianredcross/designportal) (local checkout: `Desktop/designsystem-docs`), public address to come. It owns authored component guidance, design direction, guides, tokens documentation and release-note presentation.
