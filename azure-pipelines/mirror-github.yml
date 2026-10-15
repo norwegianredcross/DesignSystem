@@ -32,10 +32,13 @@ pool:
   name: mdp-prod-devopspool-azdo-shared-euw
 
 steps:
+  # persistCredentials: steget under henter main på nytt fra Azure. Etter en
+  # release står checkouten på commiten før release-commiten.
   - checkout: self
     fetchDepth: 0
     fetchTags: true
     clean: true
+    persistCredentials: true
 
   # GitHubs offentlige ed25519-vertsnøkkel (api.github.com/meta,
   # SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU).
