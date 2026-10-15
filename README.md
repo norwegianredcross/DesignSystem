@@ -1,5 +1,21 @@
 # Røde Kors Design System Component Library (Norwegian Red Cross)
 
+## Where the code lives
+
+Development happens in Azure DevOps:
+[RedCrossNorway / DesignPlatform / DesignSystem](https://dev.azure.com/RedCrossNorway/DesignPlatform/_git/DesignSystem). Pull requests,
+work items and releases are handled there.
+
+[github.com/norwegianredcross/DesignSystem](https://github.com/norwegianredcross/DesignSystem)
+is a public, read-only copy that follows `main`, so anyone can see, learn
+from and adapt the components. Pull requests and issues opened on GitHub are
+not picked up; to suggest a change or a new component, contact the design
+system team at Norwegian Red Cross.
+
+To build with the design system you need neither this code nor any access:
+install [`@norwegianredcross/designsystem`](https://www.npmjs.com/package/@norwegianredcross/designsystem)
+and use [Storybook](https://storybook.lunix.cloud/) and the [design portal](https://designsystem.lunix.cloud/).
+
 ## Moving to the Norwegian Red Cross npm organization
 
 The packages are moving to organization ownership. Version numbering continues;
@@ -57,9 +73,8 @@ reviewed component appearance changes.
 
 ## Documentation and development tools
 
-- **Public documentation** belongs in [norwegianredcross/designportal](https://github.com/norwegianredcross/designportal) (local checkout: `Desktop/designsystem-docs`), public address to come. It owns authored component guidance, design direction, guides, tokens documentation and release-note presentation.
-- **[Storybook workbench](https://norwegianredcross.github.io/DesignSystem/storybook/)** is a development and test tool: component states, controls, interaction tests and accessibility checks.
-- **[Legacy documentation app](https://norwegianredcross.github.io/DesignSystem/#)** remains available while the portal migration is in progress.
+- **Public documentation** belongs in the design portal ([designsystem.lunix.cloud](https://designsystem.lunix.cloud/), code in the `designportal` repository in Azure DevOps). It owns authored component guidance, design direction, guides, tokens documentation and release-note presentation.
+- **[Storybook workbench](https://storybook.lunix.cloud/)** is a development and test tool: component states, controls, interaction tests and accessibility checks.
 
 Existing app pages, MDX references and published context URLs remain available until the portal can serve their replacements. Component source comments and generated metadata stay tied to the library; the portal consumes that contract.
 
@@ -265,25 +280,25 @@ For AI assistants (Claude Code, Cursor, etc.) working with this design system, a
 
 **Direct URL:**
 ```
-https://norwegianredcross.github.io/DesignSystem/storybook/AI_DESIGN_SYSTEM_GUIDE.md
+https://storybook.lunix.cloud/AI_DESIGN_SYSTEM_GUIDE.md
 ```
 
 ### Fetching the Guide
 
 ```bash
 # macOS/Linux/Git Bash
-curl -o AI_DESIGN_SYSTEM_GUIDE.md https://norwegianredcross.github.io/DesignSystem/storybook/AI_DESIGN_SYSTEM_GUIDE.md
+curl -o AI_DESIGN_SYSTEM_GUIDE.md https://storybook.lunix.cloud/AI_DESIGN_SYSTEM_GUIDE.md
 
 # Windows PowerShell
-Invoke-WebRequest -Uri "https://norwegianredcross.github.io/DesignSystem/storybook/AI_DESIGN_SYSTEM_GUIDE.md" -OutFile "AI_DESIGN_SYSTEM_GUIDE.md"
+Invoke-WebRequest -Uri "https://storybook.lunix.cloud/AI_DESIGN_SYSTEM_GUIDE.md" -OutFile "AI_DESIGN_SYSTEM_GUIDE.md"
 ```
 
 ### Related Resources
 
-- **Component Metadata**: https://norwegianredcross.github.io/DesignSystem/storybook/metadata.json
-- **AI Context Manifest**: https://norwegianredcross.github.io/DesignSystem/storybook/ai-context.manifest.json
+- **Component Metadata**: https://storybook.lunix.cloud/metadata.json
+- **AI Context Manifest**: https://storybook.lunix.cloud/ai-context.manifest.json
 - **Design Tokens**: https://cdn.jsdelivr.net/npm/@norwegianredcross/design-tokens/design-tokens-build/theme.css
-- **GitHub Repository**: https://github.com/norwegianredcross/DesignSystem
+- **Repository**: https://dev.azure.com/RedCrossNorway/DesignPlatform/_git/DesignSystem (public read-only copy: https://github.com/norwegianredcross/DesignSystem)
 
 ### Published Context Bundle
 
@@ -361,7 +376,7 @@ Testing i dette repoet følger Norges Røde Kors' testpolicy og overordnede test
 
 - Stories er testene: hver offentlig komponent har en assertion-bærende kontraktstory i ekte nettleser, og komponenter med brukeradferd har risikobaserte interaksjonstester. Automatisk WCAG-sjekk inngår i begge nivåer (brudd feiler bygget).
 - Full regresjon (`npm test`) kjøres på hver pull request og hver push til `main` — ingenting merges eller publiseres utestet.
-- Feil meldes som GitHub Issues med bug-malen; alvorlighetsgrad og reproduksjonssteg er påkrevd.
+- Feil meldes som Bug i Azure Boards (DesignPlatform); alvorlighetsgrad og reproduksjonssteg er påkrevd.
 
 ## Core Principles
 
@@ -440,7 +455,7 @@ Your Storybook file is the executable development and test reference. Keep its e
 
 1.  **Create a Branch:** Pull the latest changes from the `main` branch and create a new feature branch: `git checkout -b feat/my-new-component`.
 
-2.  **Open a Draft PR:** As soon as you start, open a **draft** pull request on GitHub. This prevents duplicate work and allows others to see what you're working on.
+2.  **Open a Draft PR:** As soon as you start, open a **draft** pull request in Azure DevOps. This prevents duplicate work and allows others to see what you're working on.
 
 3.  **Commit Your Changes:** As you work, make small, logical commits.
 
@@ -517,9 +532,10 @@ traceability.
 
 The release pipeline is `azure-pipelines/release.yml`. It publishes the scoped
 package using the secret `NPM_TOKEN` in the `npm-publish` variable group. The
-credential must belong to an authorized npm organization member and permit this
-package. The GitHub trusted publisher on the old package cannot authenticate
-an Azure job. The normal patch/minor/major version sequence continues.
+token is a granular access token from the shared npm account
+`integration-platform`, limited to the two `@norwegianredcross` packages; Azure
+Pipelines cannot be an npm trusted publisher. The old unscoped packages no
+longer accept tokens. The normal patch/minor/major version sequence continues.
 
 The migration lockfile resolves `@norwegianredcross/design-tokens@1.0.50` from
 the public npm registry. Use `npm ci` for the release checkout, followed by lint,
