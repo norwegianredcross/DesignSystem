@@ -1,0 +1,55 @@
+# Speiler main og release-taggene til det offentlige GitHub-repoet
+# norwegianredcross/DesignSystem. Azure DevOps er kilden; GitHub er en
+# offentlig kopi som bare leses (se «Where the code lives» i README).
+#
+# Kjører på hver push til main, og etter hver release: release-commiten har
+# [skip ci], så den starter ikke en push-kjøring, men release-pipelinen gjør.
+#
+# GitHub-main overskrives med Azure-main (--force): kopien skal være lik
+# kilden, og ingen arbeider på GitHub. Tagger pushes uten --force, så en
+# publisert tag aldri flyttes.
+#
+# Tilgang: en deploy key med skrivetilgang på GitHub-repoet (ikke en personlig
+# konto). Den private nøkkelen ligger som secure file
+# `github-mirror-deploy-key` i Pipelines → Library, og deploy keyen står i
+# bypass-listen til rulesettet «Protect main» på GitHub.
+
+trigger:
+  branches:
+    include:
+      - main
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: release
+      source: rk-designsystem release
+      trigger: true
+
+# Organisasjonens delte pool. Aldri `vmImage:` – se rkdotno sin
+# azure-pipelines-skill.
+pool:
+  name: mdp-prod-devopspool-azdo-shared-euw
+
+steps:
+  - checkout: self
+    fetchDepth: 0
+    fetchTags: true
+    clean: true
+
+  # GitHubs offentlige ed25519-vertsnøkkel (api.github.com/meta,
+  # SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU).
+  - task: InstallSSHKey@0
+    displayName: Deploy key for GitHub
+    inputs:
+      knownHostsEntry: github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl
+      sshKeySecureFile: github-mirror-deploy-key
+
+  - script: |
+      set -euo pipefail
+      git fetch --quiet --tags origin main
+      remote=git@github.com:norwegianredcross/DesignSystem.git
+      git push --force "$remote" "refs/remotes/origin/main:refs/heads/main"
+      tags=$(git tag --list 'v*' | sed 's|^|refs/tags/|')
+      if [ -n "$tags" ]; then git push "$remote" $tags; fi
+    displayName: Speil main og tagger til GitHub
