@@ -32,7 +32,7 @@ resources:
 variables:
   # App ID står på appens side på GitHub. Den er ikke hemmelig.
   - name: githubAppId
-    value: 'FYLL-INN'
+    value: '5331294'
 
 # Organisasjonens delte pool. Aldri `vmImage:` – se rkdotno sin
 # azure-pipelines-skill.
