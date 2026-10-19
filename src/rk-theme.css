@@ -101,3 +101,22 @@
   ) {
   --dsc-button-background: var(--ds-color-base-active);
 }
+
+/* Form labels and descriptions as before Digdir 1.23, which made labels
+ * semibold, toggle labels inherit that, descriptions the text colour and
+ * toggle descriptions one step smaller. Figma Main keeps the earlier look
+ * (Riccardo, 19.10.2026; work item #29590). An explicit data-weight on a
+ * Label still wins. */
+.ds-label:not([data-weight]) {
+  font-weight: var(--ds-font-weight-medium);
+}
+.ds-field:has(input[type='radio'], input[type='checkbox']) label {
+  font-weight: var(--ds-font-weight-regular);
+}
+.ds-field {
+  --dsc-field-description-color: var(--ds-color-neutral-text-subtle);
+  --dsc-field-description-font-size--toggle: 1em;
+}
+.ds-fieldset {
+  --dsc-fieldset-description-color: var(--ds-color-neutral-text-subtle);
+}
