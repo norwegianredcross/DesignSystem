@@ -2288,7 +2288,8 @@ import { Header } from '@norwegianredcross/designsystem';
   | Figma Element | Component | Notes |
   |--------------|-----------|-------|
   | Button | `<Button>` | Check variant (primary/secondary/tertiary) |
-  | Text Input | `<Textfield>` or `<Input>` | Use Textfield for labels/errors |
+  | Textfield | `<Textfield>` or `<Input>` | Use Textfield for labels/errors |
+  | Multi suggestion | `<Suggestion multiple>` | Searchable multi-select |
   | Dropdown | `<Select>` or `<Dropdown>` | Select for form, Dropdown for actions |
   | Card/Container | `<Card>` | Use CardBlock for content sections |
   | Alert/Banner | `<Alert>` | Set data-color for variant |
