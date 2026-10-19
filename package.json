@@ -17,9 +17,9 @@
     "type": "git",
     "url": "git+https://dev.azure.com/RedCrossNorway/DesignPlatform/_git/DesignSystem"
   },
-  "homepage": "https://norwegianredcross.github.io/DesignSystem/storybook",
+  "homepage": "https://storybook.lunix.cloud",
   "bugs": {
-    "url": "https://github.com/norwegianredcross/DesignSystem/issues"
+    "url": "https://dev.azure.com/RedCrossNorway/DesignPlatform/_workitems"
   },
   "engines": {
     "node": ">=22.0.0"

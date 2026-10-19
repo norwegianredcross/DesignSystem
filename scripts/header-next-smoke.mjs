@@ -71,6 +71,18 @@ export async function verifyNextHeader(tarball, appDir, dependencies) {
           await section.getByRole('link', { name: 'Server-rendered menu link' }).click();
           await expect(page.getByRole('heading', { name: 'About page' })).toBeVisible();
         }
+        // AvatarStack must also work when imported directly from a server page.
+        await page.goto(`${origin}/avatar-stack/`);
+        const participants = page.getByRole('list', { name: 'Participants' });
+        await expect(participants.getByRole('listitem')).toHaveCount(3);
+        const firstParticipant = participants.getByRole('link', { name: 'Ola Nordmann' });
+        await firstParticipant.focus();
+        await page.keyboard.press('Tab');
+        const secondParticipant = participants.getByRole('link', { name: 'Kari Hansen' });
+        await expect(secondParticipant).toBeFocused();
+        await page.keyboard.press('Enter');
+        await expect(page.getByRole('heading', { name: 'About page' })).toBeVisible();
+
         await page.goto(`${origin}/file-upload/`);
         if (javaScriptEnabled) await expect(page.locator('header')).toHaveAttribute('data-enhanced', 'true');
         const attachment = page.getByLabel('Attachment', { exact: true });
@@ -118,6 +130,7 @@ export async function verifyNextHeader(tarball, appDir, dependencies) {
         await context.close();
       }
     }
+    console.log('✅ Packed AvatarStack: server-page import, list semantics and keyboard navigation passed with and without JS.');
     console.log('✅ Next server page/layout: packed Header, server-rendered children, hydration and no-JS navigation passed.');
     console.log('✅ Packed FileUpload: server-page imports, labelled selection and reset passed with and without JS.');
     console.log('✅ Next server page: packed Carousel baseline with missing JS/CSS and navigation after hydration passed.');

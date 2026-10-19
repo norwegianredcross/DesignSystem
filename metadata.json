@@ -3893,6 +3893,48 @@
     ]
   },
   {
+    "componentName": "EXPERIMENTAL_AvatarStack",
+    "importPath": "@norwegianredcross/designsystem",
+    "description": "Experimental Digdir avatar stack. Supply list items with labelled avatars.\nThe API may change; prefer the default sizing and a short list with a count.",
+    "props": [
+      {
+        "name": "gap",
+        "type": "string",
+        "description": "Adjusts gap-mask between avatars in the stack. Must be a valid css length value (px, em, rem, var(--ds-size-1) etc.)\n@deprecated Please use `style={{ '--dsc-avatar-stack-gap': VALUE }}` instead",
+        "defaultValue": "2px",
+        "required": false
+      },
+      {
+        "name": "avatarSize",
+        "type": "string",
+        "description": "Control the size of the avatars. Must be a valid css length value (px, em, rem, var(--ds-size-12) etc.)\n@deprecated Please use `style={{ '--dsc-avatar-stack-size': VALUE }}` instead",
+        "defaultValue": "'var(--ds-size-12)'",
+        "required": false
+      },
+      {
+        "name": "overlap",
+        "type": "string | number",
+        "description": "A number which represents the percentage value of how much avatars should overlap.\n@deprecated Please use `style={{ '--dsc-avatar-stack-overlap': VALUE }}` instead",
+        "defaultValue": "50",
+        "required": false
+      },
+      {
+        "name": "suffix",
+        "type": "string",
+        "description": "Text to the right of the avatars to show a number representing additional avatars not shown such as '+5'\".\n@deprecated Please use a trailing `<li>` with text instead",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "expandable",
+        "type": "boolean | 'fixed'",
+        "description": "Expand on hover to show full avatars.\n'fixed': AvatarStack physical width does not change when avatars are expanded.",
+        "defaultValue": "undefined",
+        "required": false
+      }
+    ]
+  },
+  {
     "componentName": "Avatar",
     "importPath": "@norwegianredcross/designsystem",
     "description": "",

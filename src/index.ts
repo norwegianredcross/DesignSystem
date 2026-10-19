@@ -13,6 +13,10 @@ export type { AlertProps } from './components/Alert';
 export { Avatar } from './components/Avatar';
 export type { AvatarProps } from './components/Avatar';
 
+// Experimental Digdir component
+export { EXPERIMENTAL_AvatarStack } from './components/AvatarStack';
+export type { AvatarStackProps } from './components/AvatarStack';
+
 // Experimental FileUpload
 export { EXPERIMENTAL_FileUpload } from './components/FileUpload';
 export type { FileUploadProps } from './components/FileUpload';
