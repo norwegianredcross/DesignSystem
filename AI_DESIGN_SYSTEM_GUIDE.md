@@ -34,11 +34,11 @@
      - ✅ Use `<Alert data-color="info">` NOT `<div className="alert">`
      - ✅ Use `<Tag>` NOT `<span className="tag">`
      - ✅ Use `<Textfield>` NOT `<input>` with custom styling
-     - ✅ Use `<List.Unordered>` and `<List.Item>` NOT `<ul>` and `<li>` with custom styles
+     - ✅ Use `<ListUnordered>` and `<ListItem>` (or `List.Unordered`/`List.Item` in client components) NOT `<ul>` and `<li>` with custom styles
 
   3. ☐ **Am I configuring components via props, NOT styling them?**
      - ✅ Use `data-size="sm" | "md" | "lg"` prop
-     - ✅ Use `data-color="accent" | "neutral" | "danger" | etc.` prop
+     - ✅ Use `data-color="primary-color-red" | "secondary-color-orange" | "neutral" | "danger" | etc.` prop
      - ✅ Use `variant="primary" | "secondary" | "tertiary"` prop
      - ✅ Use `level={1 | 2 | 3 | 4 | 5 | 6}` prop for Heading
      - ❌ **NEVER** add `className` or `style` props to design system components
@@ -187,95 +187,67 @@
   - **Component Metadata**: https://storybook.lunix.cloud/metadata.json
   - **Package Name**: `@norwegianredcross/designsystem`
 
-  ### Installation (Simplified)
+  ### Installation
 
   ```bash
-  npm install @norwegianredcross/designsystem
+  npm install @norwegianredcross/designsystem @digdir/designsystemet-react @digdir/designsystemet-css
   ```
 
-  ### Import Styles (One Import - Includes Font!)
+  The Digdir packages are peer dependencies. npm and pnpm install them automatically; Yarn does not, so list them explicitly. Do **not** install or import `@norwegianredcross/design-tokens` yourself: it is a dependency of the design system and comes with the styles import.
 
-  Add this single import to your entry file (`layout.tsx`, `_app.tsx`, or `main.tsx`):
+  ### Import Styles (One Import - Includes the Font)
+
+  Add this single import to your root layout or entry file:
 
   ```tsx
   import '@norwegianredcross/designsystem/styles';
   ```
 
-  **That's it!** This single import includes:
-  - Base component styles from Digdir
-  - Røde Kors theme (colors, spacing, etc.)
-  - Source Sans 3 font (loaded automatically via Google Fonts)
+  **That's it.** This single import includes, in the right order:
+  - Digdir's base component styles
+  - The Røde Kors theme (all `--ds-*` tokens: colors, sizes, typography, radius)
+  - The styles of the Røde Kors components (Header, Footer, DateInput, ...)
+  - Source Sans 3 as `@font-face`, with the font files shipped inside the package
 
-  ### Complete Next.js Example (App Router) - Recommended
+  There is **no Google Fonts request and no `next/font` setup**. Do not import `theme.css` or `@digdir/designsystemet-css` separately.
 
-  For Next.js projects, use `next/font` for optimal performance (no layout shift, local hosting):
+  ### Next.js Example (App Router)
 
   ```tsx
   // src/app/layout.tsx
-  import '@digdir/designsystemet-css/index.css';
-  import '@norwegianredcross/design-tokens/design-tokens-build/theme.css';
-  import { Source_Sans_3 } from "next/font/google";
+  import '@norwegianredcross/designsystem/styles';
 
-  const sourceSans3 = Source_Sans_3({
-    subsets: ["latin"],
-    weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
-    style: ["normal", "italic"],
-  });
-
-  export const metadata = {
-    title: "Your App Title",
-    description: "Your app description",
-  };
-
-  export default function RootLayout({
-    children,
-  }: {
-    children: React.ReactNode;
-  }) {
+  export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
       <html lang="no">
-        <body className={sourceSans3.className}>{children}</body>
+        <body>{children}</body>
       </html>
     );
   }
   ```
 
-  **Important:** Use `className`, NOT `variable`. The `variable` option only creates a CSS custom property without actually applying the font.
+  The package already carries `'use client'`, so its components can be rendered from server components. Only files with their own state, event handlers or browser APIs need the directive.
 
-  ### Complete Next.js Example (Pages Router)
+  ### Next.js Example (Pages Router)
 
   ```tsx
   // pages/_app.tsx
-  import '@digdir/designsystemet-css/index.css';
-  import '@norwegianredcross/design-tokens/design-tokens-build/theme.css';
-  import { Source_Sans_3 } from "next/font/google";
+  import '@norwegianredcross/designsystem/styles';
   import type { AppProps } from 'next/app';
 
-  const sourceSans3 = Source_Sans_3({
-    subsets: ["latin"],
-    weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
-    style: ["normal", "italic"],
-  });
-
   export default function App({ Component, pageProps }: AppProps) {
-    return (
-      <main className={sourceSans3.className}>
-        <Component {...pageProps} />
-      </main>
-    );
+    return <Component {...pageProps} />;
   }
   ```
 
-  ### Alternative: Simple Import (Non-Next.js or Quick Setup)
-
-  For Vite, Create React App, or quick prototyping, use the combined styles import:
+  ### Vite and Other React Setups
 
   ```tsx
-  // main.tsx or App.tsx
-  import '@norwegianredcross/designsystem/styles'; // Includes font via Google Fonts CSS import
+  // main.tsx
+  import '@norwegianredcross/designsystem/styles';
   ```
 
-  **Note:** This loads the font via CSS `@import` from Google Fonts. For Next.js projects, the `next/font` approach above is recommended for better performance.
+  **Check:** the button is red, the text is Source Sans 3, and the network tab shows no requests to fonts.googleapis.com.
 
   ---
 
@@ -284,10 +256,10 @@
   ### Component Types
 
   1. **Wrapped Components (Simple)**: Direct re-exports from `@digdir/designsystemet-react`
-    - Example: `Button`
+    - Example: `Divider`
 
-  2. **Wrapped Components (with Style Overrides)**: Digdir components with custom CSS overrides
-    - Example: `Alert`
+  2. **Wrapped Components (with Style Overrides)**: Digdir components restyled for Røde Kors
+    - Shared overrides of Digdir classes live in `src/rk-theme.css` (e.g. `.ds-field`, `.ds-popover`, `.ds-suggestion`)
 
   3. **Custom Components**: Built from scratch for unique functionality
     - Examples: `DateInput`, `DatePicker`, `Carousel`
@@ -1651,11 +1623,10 @@ import { Header } from '@norwegianredcross/designsystem';
   - `--ds-color-warning-*`
   - `--ds-color-info-*`
 
-  **Brand Colors:**
-  - `--ds-color-brand1-*`
-  - `--ds-color-brand2-*`
-  - `--ds-color-brand3-*`
-  - `--ds-color-accent-*`
+  **Brand Colors** (also valid `data-color` values):
+  - `--ds-color-primary-color-red-*` (default)
+  - `--ds-color-secondary-color-orange-*`, `--ds-color-secondary-color-pink-*`, `--ds-color-secondary-color-rust-*`, `--ds-color-secondary-color-warm-beige-*`
+  - `--ds-color-additional-color-jungle-*`, `--ds-color-additional-color-ocean-*`
 
   **Usage:**
   ```css
@@ -1695,9 +1666,9 @@ import { Header } from '@norwegianredcross/designsystem';
   #### 3. Typography (`--ds-font-*`, `--ds-body-*`, `--ds-heading-*`)
 
   **Font Family:**
-  - `--ds-font-family`: "Source Sans Pro" (or "Source Sans 3" when configured)
+  - `--ds-font-family`: "Source Sans 3"
 
-  > **Note:** Before using font tokens, you must set up the Source Sans 3 font. See the [Font Setup](#font-setup-nextjs-app-router) section in the Installation guide for Next.js configuration.
+  > **Note:** The font ships with `import '@norwegianredcross/designsystem/styles'`; no extra setup is needed.
 
   **Base Font Sizes (Scale 1-10):**
   - `--ds-font-size-1` through `--ds-font-size-10`
@@ -2021,80 +1992,58 @@ import { Header } from '@norwegianredcross/designsystem';
 
   ## Figma MCP Integration
 
-  ### Prerequisites
+  Use Figma's official MCP server. It runs at Figma (`https://mcp.figma.com/mcp`) and signs in with your Figma account in the browser, so no access token is needed. A Full or Dev seat in Figma is required.
 
-  1. **Figma Access Token**
-    - Go to Figma → Settings → Personal Access Tokens
-    - Generate new token with scopes: `File content: Read` and `File metadata: Read`
-    - Copy the token (you won't see it again)
+  ### Claude Code
 
-  2. **MCP Server Setup** (One-time setup)
+  The Figma plugin for Claude Code sets up the server and adds skills for common tasks:
 
-    **For Cursor/Windsurf:**
-    - In Cursor/Windsurf: Settings → Features → MCP
-    - Add New MCP Server:
-      - Type: `command`
-      - Name: `figma`
-      - Command: `npx -y @modelcontextprotocol/server-figma`
-      - Environment Variable:
-        - Key: `FIGMA_ACCESS_TOKEN`
-        - Value: `[your-token]`
+  ```bash
+  claude plugin install figma@claude-plugins-official
+  ```
 
-    **For Claude Code (Crucial Step!):**
-    
-    To enable Claude Code to read Figma designs directly, you must add the Figma MCP server using the command line:
-    
-    1. **Start the Figma MCP server locally:**
-        ```bash
-        # Set your Figma access token
-        export FIGMA_ACCESS_TOKEN=your_token_here
-        
-        # Start the MCP server
-        npx -y @modelcontextprotocol/server-figma
-        ```
-        The server will run on `http://127.0.0.1:3845/sse` by default.
-    
-    2. **Add the MCP server to Claude Code:**
-        ```bash
-        claude mcp add --transport sse figma http://127.0.0.1:3845/sse
-        ```
-    
-    3. **Using Figma MCP in Claude:**
-        Once configured, you can use Figma links directly in your prompts:
-        ```
-        "Using this Figma design [paste Figma link], create a React component 
-        following the design system guidelines from AI_DESIGN_SYSTEM_GUIDE.md"
-        ```
-    
-    **Important:** The MCP server must be running locally before Claude Code can access Figma designs. The MCP server allows Claude to automatically read Figma node properties, dimensions, and design tokens, making the conversion from design to code much more accurate.
+  Or add the server by hand (add `--scope user` to make it available in all projects):
 
-  ### Documentation Indexing (One-time per project)
+  ```bash
+  claude mcp add --transport http figma https://mcp.figma.com/mcp
+  ```
 
-  To give AI full context about the design system:
+  Then run `/mcp` in Claude Code, select `figma` and sign in.
 
-  1. Open Chat in Cursor (Cmd/Ctrl + L)
-  2. Type `@Docs` and select "Add new doc"
-  3. Paste: `https://storybook.lunix.cloud/`
-  4. Name it: `RødeKors` (or similar)
-  5. Confirm
+  ### Cursor
 
-  This indexes all documentation so you can reference `@RødeKors` in future chats.
+  Type `/add-plugin figma` in the agent chat, or add the server to `.cursor/mcp.json`:
 
-  ### Alternative: .cursorrules File
+  ```json
+  {
+    "mcpServers": {
+      "figma": { "url": "https://mcp.figma.com/mcp" }
+    }
+  }
+  ```
 
-  Create `.cursorrules` in project root:
+  Then open Cursor Settings → Tools & MCP and click Connect next to `figma`.
+
+  ### Project Rule for Cursor
+
+  Create `.cursor/rules/designsystem.mdc` so the assistant always follows the design system:
 
   ```
-  You are an expert Frontend Developer implementing designs from Figma.
+  ---
+  description: Røde Kors designsystem
+  alwaysApply: true
+  ---
+  You are an expert frontend developer implementing designs from Figma.
 
-  ALWAYS follow these rules:
-  1. **Documentation:** Refer to the indexed design system documentation (@RødeKors) for component usage, patterns, and guidelines.
-  2. **Metadata:** Use component metadata from: https://storybook.lunix.cloud/metadata.json
-  3. **Tokens:** Always use CSS variables/tokens defined in: https://cdn.jsdelivr.net/npm/@norwegianredcross/design-tokens/design-tokens-build/theme.css (e.g., var(--ds-size-4)). Note: Use `--ds-size-*` tokens, NOT `--ds-spacing-*`.
-  4. **Figma MCP:** When a Figma link is provided, use the `figma` tool to inspect node properties.
-
-  Note: Make sure you have indexed the documentation (Step 0) before using these rules. Reference @RødeKors in chat when you need design system context.
+  Always follow these rules:
+  1. AI guide: Read AI_DESIGN_SYSTEM_GUIDE.md in the project root. If it is missing, fetch it: curl -o AI_DESIGN_SYSTEM_GUIDE.md https://storybook.lunix.cloud/AI_DESIGN_SYSTEM_GUIDE.md
+  2. Components: Import from @norwegianredcross/designsystem. Components and props: https://storybook.lunix.cloud/metadata.json
+  3. Tokens: Use the --ds-* CSS variables, e.g. var(--ds-size-4). There are no --ds-spacing-* tokens.
+  4. Styles: The only stylesheet import is '@norwegianredcross/designsystem/styles' in the root layout. It includes the font.
+  5. Figma: When a Figma link is provided, use the figma MCP tools to read the design.
   ```
+
+  The design system documentation is at https://designsystem.lunix.cloud; Cursor can index it under Docs.
 
   ---
 
@@ -2114,9 +2063,9 @@ import { Header } from '@norwegianredcross/designsystem';
     - `@https://storybook.lunix.cloud/metadata.json`
   - Paste the Figma link
 
-  **Option B: Automated** (Recommended, with .cursorrules)
+  **Option B: Automated** (Recommended, with a project rule)
   - Just paste the Figma link
-  - AI automatically checks .cursorrules for design system context
+  - The assistant reads the project rule (`.cursor/rules/designsystem.mdc` or your `CLAUDE.md`) for design system context
 
   ### Step 3: Generate Code
 
@@ -2229,8 +2178,8 @@ import { Header } from '@norwegianredcross/designsystem';
 
   **Use data attributes:**
   ```tsx
-  <Button data-size="lg" data-color="accent">
-    Large Accent Button
+  <Button data-size="lg" data-color="secondary-color-orange">
+    Large Orange Button
   </Button>
 
   <Card data-size="md" data-color="neutral">
@@ -2422,14 +2371,14 @@ import { Header } from '@norwegianredcross/designsystem';
 
   ### Figma MCP Not Working
 
-  1. Verify token is set correctly
-  2. Check MCP server status (should be green)
+  1. Check that you are signed in: `/mcp` in Claude Code, or Tools & MCP in Cursor
+  2. Check that your Figma seat is Full or Dev
   3. Ensure Figma link uses "Copy link to selection"
   4. Verify file permissions in Figma
 
   ### Styling Issues
 
-  1. Verify CSS import order (base → theme)
+  1. Verify that `@norwegianredcross/designsystem/styles` is the only stylesheet import (no separate theme.css)
   2. Check token names match exactly
   3. Ensure CSS Modules are imported correctly
   4. Check for specificity conflicts
@@ -2465,12 +2414,12 @@ import { Header } from '@norwegianredcross/designsystem';
 
   ### Color Pattern
   ```tsx
-  <Component data-color="accent" | "neutral" | "danger" | etc. />
+  <Component data-color="primary-color-red" | "neutral" | "danger" | etc. />
   ```
 
   ---
 
-  **Last Updated**: Based on @norwegianredcross/designsystem v1.1.88
+  **Published with every release** of @norwegianredcross/designsystem
 
   **Guide URL**: https://storybook.lunix.cloud/AI_DESIGN_SYSTEM_GUIDE.md
 

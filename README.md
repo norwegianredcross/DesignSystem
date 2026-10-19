@@ -369,7 +369,7 @@ npm ci
 npm run build
 
 # 3. Start Storybook, the component development and test workbench
-pnpm storybook
+npm run storybook
 ```
 
 Node 24 (see `.nvmrc`). The browser tests need Chromium, Firefox and WebKit: `npx playwright install chromium firefox webkit`. On Linux, add `--with-deps` to install their system dependencies.
@@ -398,12 +398,12 @@ Before you start coding, determine what kind of component you need. Most of our 
 1.  **Wrapped Component (Simple):**
     *   **What it is:** A component that directly wraps and re-exports a component from `@digdir/designsystemet-react` with no modifications.
     *   **When to use:** When the base Digdir component meets our needs perfectly, but we want to include it in our own library for a consistent import source.
-    *   **Example:** The `Buttons` component is a perfect example of this.
+    *   **Example:** The `Divider` component is a perfect example of this.
 
 2.  **Wrapped Component (with Style Overrides):**
     *   **What it is:** A wrapped Digdir component where we apply custom CSS to tweak its appearance to better match Røde Kors's specific design language.
     *   **When to use:** When a Digdir component is functionally correct but needs visual adjustments (e.g., different icons, border radius, padding).
-    *   **Example:** The `Alert` component, which uses `composes` in its CSS to inherit base styles and then applies its own overrides.
+    *   **Example:** The shared overrides of Digdir classes in `src/rk-theme.css`, such as `.ds-field`, `.ds-popover` and `.ds-suggestion`.
 
 3.  **Custom Component (from Scratch):**
     *   **What it is:** A completely new component built when no existing Digdir component meets our requirements.
@@ -418,16 +418,17 @@ To maintain consistency, every new component should follow this file structure. 
 src/
 └── components/
     └── MyNewComponent/
-        ├── index.ts                 // Public API - exports the component and props
-        ├── MyNewComponent.tsx       // The React component logic and JSX
-        ├── MyNewComponent.stories.tsx // Executable examples and interaction tests
-        ├── styles.module.css        // Scoped CSS (only for custom components)
-        └── MyNewComponent.test.tsx  // (Optional but Recommended) Unit tests
+        ├── index.tsx                   // The component and its props type
+        ├── MyNewComponent.stories.tsx  // Executable examples and interaction tests
+        ├── MyNewComponent.mdx          // Storybook docs page
+        └── styles.module.css           // Scoped CSS (only for custom components)
 ```
+
+Export the component and its props type from `src/index.ts`. Stories are the tests (`npm test`); add a `.test.ts` file only for what stories cannot cover, such as progressive enhancement.
 
 ## Coding Guidelines
 
-### 1. Component Logic (`MyNewComponent.tsx`)
+### 1. Component Logic (`index.tsx`)
 
 *   **TypeScript First:** All components must be written in TypeScript. Define a `Props` interface for your component, extending from the base HTML element or Digdir component props if applicable.
 *   **Forward Refs:** Always use `React.forwardRef` to allow parent components to get a `ref` to the underlying DOM element.
@@ -443,7 +444,7 @@ src/
 
 *   **CSS Modules:** For **custom components**, all styles must be placed in a `styles.module.css` file. This scopes class names locally and prevents global style conflicts.
 *   **Design Tokens:** Always use our design system tokens (`var(--ds-...)`) for colors, spacing, fonts, etc. Do not use hardcoded values (e.g., `#FFF`, `16px`).
-*   **Overriding Wrapped Components:** For **wrapped components**, use a standard CSS file. Use the `@layer` and `composes` keywords to extend base Digdir styles without increasing CSS specificity unnecessarily.
+*   **Overriding Wrapped Components:** Shared overrides of Digdir classes (`.ds-*`) go in `src/rk-theme.css`. Keep the selectors simple so specificity does not grow unnecessarily.
 
 ### 3. Workbench stories (`MyNewComponent.stories.tsx`)
 
@@ -496,14 +497,14 @@ export function IconsExample() {
     <div style={{ display: 'flex', gap: 12 }}>
       {/* Icon + text: hide icon from AT */}
       <Button>
-        <AirplaneIcon aria-hidden style={{ marginRight: 'var(--ds-spacing-1, 4px)' }} />
+        <AirplaneIcon aria-hidden style={{ marginRight: 'var(--ds-size-1)' }} />
         Fly
       </Button>
 
       {/* Icon inside Tag */}
       <Tag data-color="info">
         <span style={{ display: 'inline-flex', alignItems: 'center' }}>
-          <NewspaperIcon aria-hidden style={{ marginRight: 'var(--ds-spacing-1, 4px)' }} />
+          <NewspaperIcon aria-hidden style={{ marginRight: 'var(--ds-size-1)' }} />
           Ny
         </span>
       </Tag>
