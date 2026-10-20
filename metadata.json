@@ -1286,6 +1286,20 @@
     "description": "",
     "props": [
       {
+        "name": "weight",
+        "type": "'regular' | 'medium' | 'bold'",
+        "description": "Skriftvekt. Uten verdi brukes Digdirs standardvekt.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "italic",
+        "type": "boolean",
+        "description": "Vis teksten i kursiv. Endrer ikke skriftvekten.",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
         "name": "data-size",
         "type": "'sm' | 'md' | 'lg' | 'xs' | 'xl'",
         "description": "Changes text sizing",

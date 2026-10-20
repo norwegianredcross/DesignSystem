@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { verifyNextParagraph } from './paragraph-next-smoke.mjs';
 import { consumerOverrides } from './consumer-overrides.mjs';
 import { execFileSync } from 'node:child_process';
 import { cp, readFile, writeFile } from 'node:fs/promises';
@@ -60,6 +61,7 @@ export async function verifyNextHeader(tarball, appDir, dependencies) {
         const errors = [];
         page.on('pageerror', (error) => errors.push(error.message));
         page.on('console', (message) => { if (message.type() === 'error') errors.push(message.text()); });
+        await verifyNextParagraph(page, origin);
         for (const name of ['Layout header', 'Page header']) {
           await page.goto(origin);
           const section = page.getByRole('region', { name, exact: true });

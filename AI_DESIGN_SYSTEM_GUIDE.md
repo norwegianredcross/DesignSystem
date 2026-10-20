@@ -1229,7 +1229,9 @@ import { Paragraph } from '@norwegianredcross/designsystem';
 <Paragraph
   asChild={false} // valgfri, default false: boolean
   data-size="sm" // valgfri: 'sm' | 'md' | 'lg' | 'xs' | 'xl'
+  italic={false} // valgfri, default false: boolean
   variant="default" // valgfri, default 'default': 'default' | 'long' | 'short'
+  weight="regular" // valgfri: 'regular' | 'medium' | 'bold'
  />
 ```
 
