@@ -1596,7 +1596,7 @@ import { Header } from '@norwegianredcross/designsystem';
   onLoginClick={() => {}} // valgfri: (() => void)
   onUserClick={() => {}} // valgfri: (() => void)
   // searchItems — valgfri, default []: HeaderSearchItem[]
-  secondaryLogo={false} // valgfri, default false: boolean
+  // secondaryLogo — valgfri, default false: ReactNode
   secondaryLogoAlt="Secondary Logo" // valgfri, default Secondary Logo: string
   secondaryLogoSrc="…" // valgfri: string
   secondaryLogoSrcDark="…" // valgfri: string
@@ -1609,6 +1609,7 @@ import { Header } from '@norwegianredcross/designsystem';
   showModeToggle={false} // valgfri, default false: boolean
   showNavItems={true} // valgfri, default true: boolean
   showSearch={false} // valgfri, default false: boolean
+  showSecondaryLogo={true} // valgfri, default true: boolean
   showThemeToggle={false} // valgfri, default false: boolean
   showUser={false} // valgfri, default false: boolean
   userAvatarSrc="…" // valgfri: string

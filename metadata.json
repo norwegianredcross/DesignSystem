@@ -1832,9 +1832,16 @@
       },
       {
         "name": "secondaryLogo",
-        "type": "boolean",
-        "description": "",
+        "type": "ReactNode",
+        "description": "Secondary logo slot. Supply an image, link or component with an accessible name.\n`true` retains the legacy secondaryLogoSrc/secondaryLogoSrcDark behaviour.",
         "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "showSecondaryLogo",
+        "type": "boolean",
+        "description": "Show the secondary logo on desktop. Mobile visibility is unchanged.",
+        "defaultValue": "true",
         "required": false
       },
       {

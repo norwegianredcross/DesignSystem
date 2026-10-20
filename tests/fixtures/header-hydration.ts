@@ -12,3 +12,14 @@ export function renderHeader(props: HeaderProps = {}) {
 export function hydrateHeader(props: HeaderProps = {}) {
   hydrateRoot(document.getElementById('root')!, renderHeader(props));
 }
+
+export function renderHeaderWithLogo(props: HeaderProps = {}) {
+  return renderHeader({ ...props, secondaryLogo: createElement('a', { href: '#partner', 'aria-label': 'Partner home' },
+    createElement('svg', { width: 112, height: 28, viewBox: '0 0 112 28', 'aria-hidden': true },
+      createElement('text', { x: 0, y: 21, fill: 'currentColor', fontSize: 22 }, 'Partner'))),
+  });
+}
+
+export function hydrateHeaderWithLogo(props: HeaderProps = {}) {
+  hydrateRoot(document.getElementById('root')!, renderHeaderWithLogo(props));
+}

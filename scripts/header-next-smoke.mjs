@@ -95,6 +95,17 @@ export async function verifyNextHeader(tarball, appDir, dependencies) {
         await expect(attachment).not.toHaveValue('');
         await page.getByRole('button', { name: 'Reset', exact: true }).click();
         await expect(attachment).toHaveValue('');
+        await page.goto(origin);
+        const pageHeader = page.getByRole('region', { name: 'Page header', exact: true });
+        if (javaScriptEnabled) await expect(pageHeader.locator('header')).toHaveAttribute('data-enhanced', 'true');
+        const partner = pageHeader.getByRole('link', { name: 'Partner home' });
+        for (const width of [375, 1280]) {
+          await page.setViewportSize({ width, height: 800 });
+          await expect(partner).toBeVisible();
+        }
+        await partner.click();
+        await expect(page.getByRole('heading', { name: 'About page' })).toBeVisible();
+        await page.setViewportSize({ width: 375, height: 800 });
         // Reuse this packed consumer for Carousel's server-page contract.
         for (const styled of [true, false]) {
           if (!styled) await page.route('**/*.css*', (route) => route.fulfill({ contentType: 'text/css', body: '' }));

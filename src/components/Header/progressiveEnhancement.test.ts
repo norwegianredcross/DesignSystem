@@ -13,6 +13,7 @@ describe.each([chromium, firefox, webkit].map((engine) => ({ engine, name: engin
   let context: BrowserContext;
   let page: Page;
   let html: string;
+  let renderHeaderWithLogo: typeof import('../../../tests/fixtures/header-hydration').renderHeaderWithLogo;
   let renderHeader: typeof import('../../../tests/fixtures/header-hydration').renderHeader;
 
   beforeAll(async () => {
@@ -31,18 +32,62 @@ describe.each([chromium, firefox, webkit].map((engine) => ({ engine, name: engin
       response.end(html);
     });
     await server.listen();
-    ({ renderHeader } = await server.ssrLoadModule('/tests/fixtures/header-hydration.ts'));
+    ({ renderHeader, renderHeaderWithLogo } = await server.ssrLoadModule('/tests/fixtures/header-hydration.ts'));
     browser = await engine.launch();
   }, 30000);
   afterEach(async () => { await context?.close(); });
   afterAll(async () => { await browser?.close(); await server?.close(); });
 
-  async function render({ width = 375, styled = true, javaScriptEnabled = false, props = {} as HeaderProps, multiple = false, height = 800, offset = 0 } = {}) {
-    html = `<!doctype html><html lang="en" data-color-scheme="dark"><head>${styled ? '<link rel="stylesheet" href="/src/styles.css"><link rel="stylesheet" href="/src/components/Header/styles.module.css?direct">' : ''}</head><body><div style="height:${offset}px"></div><div id="root">${renderToString(multiple ? createElement('div', null, renderHeader(props), renderHeader(props)) : renderHeader(props))}</div><main><h1 id="volunteer">Volunteer page</h1><a href="#after">After header</a></main></body></html>`;
+  async function render({ width = 375, styled = true, javaScriptEnabled = false, props = {} as HeaderProps, multiple = false, height = 800, offset = 0, logo = false } = {}) {
+    html = `<!doctype html><html lang="en" data-color-scheme="dark"><head>${styled ? '<link rel="stylesheet" href="/src/styles.css"><link rel="stylesheet" href="/src/components/Header/styles.module.css?direct">' : ''}</head><body><div style="height:${offset}px"></div><div id="root">${renderToString(multiple ? createElement('div', null, renderHeader(props), renderHeader(props)) : logo ? renderHeaderWithLogo(props) : renderHeader(props))}</div><main><h1 id="volunteer">Volunteer page</h1><a href="#after">After header</a></main></body></html>`;
     context = await browser.newContext({ javaScriptEnabled, viewport: { width, height } });
     page = await context.newPage();
     await page.goto(`${server.resolvedUrls!.local[0]}header-test.html`);
   }
+
+  it.each(['default', 'compact'] as const)('keeps the %s logo and controls within a narrow viewport after hydration', async (variant) => {
+    const props = { variant, showSearch: true };
+    await render({ width: 320, javaScriptEnabled: true, props, logo: true });
+    const errors: string[] = [];
+    page.on('pageerror', error => errors.push(error.message));
+    page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
+    const logo = page.getByRole('link', { name: 'Partner home' });
+    await logo.focus();
+    await page.addScriptTag({ type: 'module', content: `import { hydrateHeaderWithLogo } from '/tests/fixtures/header-hydration.ts'; hydrateHeaderWithLogo(${JSON.stringify(props)});` });
+    await browserExpect(page.locator('header')).toHaveAttribute('data-enhanced', 'true');
+    await browserExpect(logo).toBeFocused();
+    for (const width of [320, 375, 1280]) {
+      await page.setViewportSize({ width, height: 800 });
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
+      await browserExpect(logo).toBeInViewport();
+      await browserExpect(page.getByRole('button', { name: 'Meny', exact: true })).toBeInViewport();
+    }
+    expect(errors).toEqual([]);
+  });
+
+  it.each([375, 850, 851, 1280])('renders the logo slot and desktop visibility without JS at %ipx', async (width) => {
+    await render({ width, props: {
+      secondaryLogo: createElement('a', { href: '#partner' }, 'Partner home'),
+      showSecondaryLogo: false,
+    } });
+    const logo = page.getByRole('link', { name: 'Partner home', includeHidden: true });
+    if (width > 850) {
+      await browserExpect(logo).toBeHidden();
+      await page.setViewportSize({ width: 375, height: 800 });
+    }
+    await browserExpect(logo).toBeVisible();
+    await logo.click();
+    await browserExpect(page).toHaveURL(/#partner$/);
+  });
+
+  it.each(['default', 'compact'] as const)('keeps a %s logo slot usable without CSS or JS', async (variant) => {
+    await render({ styled: false, props: {
+      variant,
+      secondaryLogo: createElement('a', { href: '#partner' }, 'Partner home'),
+    } });
+    await page.getByRole('link', { name: 'Partner home' }).click();
+    await browserExpect(page).toHaveURL(/#partner$/);
+  });
 
   it.each([375, 1280])('opens menu links and follows their destinations without JS at %ipx', async (width) => {
     await render({ width });

@@ -53,13 +53,19 @@ Skjuler søkeknappen hvis applikasjonen ikke har globalt søk.
 ```
 
 #### Sekundær logo
-Viser en ekstra logo ved siden av hovedlogoen (f.eks. for samarbeidspartnere eller underavdelinger).
+
+`secondaryLogo` tar imot React-innhold, også fra en serverkomponent. Gi logoen et tilgjengelig navn og tilpass størrelsen på innholdet. `showSecondaryLogo={false}` skjuler plassen på desktop; den er fortsatt synlig på mobil. For å skjule den overalt, utelat `secondaryLogo`.
+
+Eksisterende bruk med `secondaryLogo={true}`, `secondaryLogoSrc`, `secondaryLogoSrcDark` og `secondaryLogoAlt` fungerer fortsatt. `children` er fremdeles innholdet i menyen.
 
 ```tsx
 <Header 
-  secondaryLogo={true}
-  secondaryLogoSrc="https://..."
-  secondaryLogoAlt="Partner Logo"
+  secondaryLogo={
+    <a href="/partner">
+      <img src="/partner.svg" alt="Partnerens startside" width={112} height={28} />
+    </a>
+  }
+  showSecondaryLogo={true}
 />
 ```
 
