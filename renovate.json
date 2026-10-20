@@ -26,6 +26,14 @@
       "groupName": "minor-and-patch"
     },
     {
+      "description": "Digdir minor og patch får egen PR, ikke inni minor-and-patch. Digdir kan endre hvordan komponentene ser ut (1.23 gjorde skjemaetikettene halvfete, #29590), så PR-en skal sjekkes mot Figma Components – Main sammen med designer før merge.",
+      "matchPackageNames": ["@digdir/**"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "Digdir",
+      "labels": ["design-review"],
+      "prBodyNotes": ["**Digdir-oppdatering:** sjekk visuelle endringer (Storybook og «Visuell regresjon») mot Figma Components – Main sammen med designer før merge. Avvik overstyres i `src/rk-theme.css`, se #29590."]
+    },
+    {
       "description": "Toolchain- og Digdir-majors er migreringer, ikke bumps – tas for hånd. Scoped pakker trenger egne mønstre: eslint* treffer ikke @eslint/js.",
       "matchPackageNames": [
         "vite", "vite-plugin-dts", "@vitejs/**",
