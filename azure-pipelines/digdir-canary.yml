@@ -1,0 +1,139 @@
+# Ukentlig kanari for Digdir-avhengighetene, overført fra GitHubs
+# digdir-canary.yml.
+#
+# Peer-kontrakten er ^1.21.0, men lockfilen tester alltid nøyaktig én
+# versjon. Kanarien kjører hele testsuiten mot tre punkter:
+#
+#   minimum          gulvet i peer-spennet
+#   newest           nyeste versjon innenfor peer-spennet
+#   upstream-latest  Digdirs «latest» uansett spenn – informativ, blokkerer ikke
+#
+# Feiler «newest», har Digdir endret noe innenfor spennet som treffer oss
+# (mest utsatt: EXPERIMENTAL_Suggestion, re-eksportert som stabilt API). Da må
+# koden tilpasses eller spennet strammes inn før konsumentene treffer det
+# samme. Feiler «upstream-latest», er det ventet til spennet heves (for
+# eksempel en ny major); jobbsammendraget viser versjonen.
+#
+# Kanarien endrer aldri lockfilen og åpner ingen PR. Visuelle endringer i en
+# ny Digdir-versjon fanges i Renovates egen Digdir-PR, ikke her.
+
+trigger: none
+pr: none
+
+schedules:
+  - cron: '0 5 * * 1'
+    displayName: Mandag 05:00 UTC
+    branches:
+      include:
+        - main
+    always: true
+
+parameters:
+  - name: legs
+    type: object
+    default:
+      - minimum
+      - newest
+      - upstream-latest
+
+# Organisasjonens delte pool. Aldri `vmImage:` – se rkdotno sin
+# azure-pipelines-skill.
+pool:
+  name: mdp-prod-devopspool-azdo-shared-euw
+
+variables:
+  - name: PLAYWRIGHT_BROWSERS_PATH
+    value: $(Pipeline.Workspace)/ms-playwright
+  - name: npm_config_cache
+    value: $(Pipeline.Workspace)/.npm
+
+jobs:
+  - ${{ each leg in parameters.legs }}:
+      - job: ${{ replace(leg, '-', '_') }}
+        displayName: Digdir ${{ leg }}
+        timeoutInMinutes: 45
+        # Det informative legget skal ikke gjøre den ukentlige kjøringen rød;
+        # et permanent rødt kryss blir ignorert.
+        continueOnError: ${{ eq(leg, 'upstream-latest') }}
+        workspace:
+          clean: all
+        steps:
+          - checkout: self
+            clean: true
+            fetchDepth: 1
+            persistCredentials: false
+
+          - task: UseNode@1
+            displayName: Node 24
+            inputs:
+              version: '24.x'
+
+          - script: npm ci
+            displayName: Installer avhengigheter
+
+          # --no-save: kanarien endrer aldri lockfilen, bare node_modules.
+          # designsystemet-types installeres i samme versjon som -react, ellers
+          # nester npm en ekstra kopi og fargeaugmenteringen mister effekt (se
+          # src/types.ts).
+          - bash: |
+              set -euo pipefail
+              RANGE=$(node -p "require('./package.json').peerDependencies['@digdir/designsystemet-react']")
+              case "${{ leg }}" in
+                minimum)
+                  VERSION=$(node -p "'${RANGE}'.replace(/^[^0-9]*/, '')") ;;
+                newest)
+                  VERSION=$(npm view "@digdir/designsystemet-react@${RANGE}" version --json \
+                    | node -p "const v=JSON.parse(require('fs').readFileSync(0,'utf8')); Array.isArray(v)?v[v.length-1]:v") ;;
+                upstream-latest)
+                  # Bevisst utenfor peer-spennet: måler avstanden til oppstrøms.
+                  VERSION=$(npm view "@digdir/designsystemet-react" version) ;;
+              esac
+              echo "Tester mot @digdir/*@${VERSION}"
+              npm install --no-save --no-audit --no-fund \
+                "@digdir/designsystemet-react@${VERSION}" \
+                "@digdir/designsystemet-css@${VERSION}" \
+                "@digdir/designsystemet-types@${VERSION}"
+              # Ikke `npm ls`: legget installerer bevisst en annen versjon enn
+              # manifestet, og npm ls feiler på det. Les det som ligger på disk.
+              for pkg in designsystemet-react designsystemet-types designsystemet-css; do
+                INSTALLED=$(node -p "JSON.parse(require('fs').readFileSync('node_modules/@digdir/${pkg}/package.json','utf8')).version")
+                echo "@digdir/${pkg}: ${INSTALLED}"
+                if [ "${INSTALLED}" != "${VERSION}" ]; then
+                  echo "##vso[task.logissue type=error]@digdir/${pkg} er ${INSTALLED}, forventet ${VERSION}"
+                  exit 1
+                fi
+              done
+              echo "##vso[task.setvariable variable=DIGDIR_VERSION]${VERSION}"
+              echo "##vso[task.setvariable variable=DIGDIR_RANGE]${RANGE}"
+            displayName: Lås Digdir til ${{ leg }}
+
+          - script: npx playwright install --with-deps chromium firefox webkit
+            displayName: Installer Playwright-nettlesere
+
+          - script: npm test
+            displayName: Test (full regresjon mot låst Digdir)
+            timeoutInMinutes: 20
+
+          - script: npm run build
+            displayName: Bygg pakken
+
+          - bash: |
+              set -euo pipefail
+              if [ "$(Agent.JobStatus)" = "Succeeded" ]; then RESULT="passed"; else RESULT="FAILED"; fi
+              SUMMARY="$(Agent.TempDirectory)/digdir-${{ leg }}.md"
+              {
+                echo "### Digdir ${{ leg }}: \`${DIGDIR_VERSION:-?}\` – ${RESULT}"
+                echo ""
+                echo "Peer-spenn i dag: \`${DIGDIR_RANGE:-?}\`"
+                if [ "${{ leg }}" = "upstream-latest" ] && [ "${RESULT}" = "FAILED" ]; then
+                  echo ""
+                  echo "Oppstrøms har gått videre og suiten feiler der. Spennet kan ikke heves før det er fikset."
+                fi
+              } > "$SUMMARY"
+              echo "##vso[task.uploadsummary]${SUMMARY}"
+            displayName: Sammendrag
+            condition: always()
+
+          - bash: rm -rf "$PLAYWRIGHT_BROWSERS_PATH" "$NPM_CONFIG_CACHE" node_modules
+            displayName: Rydd opp nettlesere og node_modules
+            condition: always()
