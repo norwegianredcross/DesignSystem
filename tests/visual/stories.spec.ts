@@ -31,6 +31,9 @@ const STORIES = [
   'components-graphicelement--all-shapes-and-variants',
   'components-switch--grouped',
   'components-textfield--default',
+  'components-field--affix-examples',
+  'components-fieldset--with-textfields',
+  'components-textfield--affix-states',
 ];
 
 // Skjemaet settes som Storybook-GLOBAL, ikke som attributt på <html>:

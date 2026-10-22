@@ -113,7 +113,7 @@ export const AffixExamples: Story = {
         <Field data-size={args['data-size']} style={{ display: 'inline-block', width: 'max-content' }}>
           <DigDirField.Affixes>
             <DigDirField.Affix>NOK</DigDirField.Affix>
-            <Textfield
+            <Input
               id="affix-example1"
               type="number"
               aria-labelledby="affix-example1-label"
@@ -190,7 +190,7 @@ export const AffixExamples: Story = {
         <Field data-size="sm" style={{ display: 'inline-block', width: 'max-content' }}>
           <DigDirField.Affixes>
             <DigDirField.Affix>NOK</DigDirField.Affix>
-            <Textfield id="affix-example7" aria-labelledby="affix-example7-label" />
+            <Input id="affix-example7" aria-labelledby="affix-example7-label" />
             <DigDirField.Affix>pr. mnd.</DigDirField.Affix>
           </DigDirField.Affixes>
         </Field>
@@ -203,7 +203,7 @@ export const AffixExamples: Story = {
         <Field data-size="lg" style={{ display: 'inline-block', width: 'max-content' }}>
           <DigDirField.Affixes>
             <DigDirField.Affix>NOK</DigDirField.Affix>
-            <Textfield id="affix-example8" aria-labelledby="affix-example8-label" />
+            <Input id="affix-example8" aria-labelledby="affix-example8-label" />
             <DigDirField.Affix>pr. mnd.</DigDirField.Affix>
           </DigDirField.Affixes>
         </Field>
@@ -216,6 +216,29 @@ export const AffixExamples: Story = {
   },
   argTypes: {
     position: { control: false },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const groups = canvasElement.querySelectorAll('.ds-field-affixes');
+    expect(groups.length).toBeGreaterThan(0);
+
+    for (const group of groups) {
+      expect(group.querySelector('.ds-field-affixes')).toBeNull();
+      const first = group.firstElementChild!;
+      const last = group.lastElementChild!;
+      const wrapperStyle = getComputedStyle(group);
+      expect(getComputedStyle(first).borderTopLeftRadius).toBe(wrapperStyle.borderTopLeftRadius);
+      expect(getComputedStyle(last).borderTopRightRadius).toBe(wrapperStyle.borderTopRightRadius);
+      for (const child of Array.from(group.children)) {
+        if (child !== first) expect(getComputedStyle(child).borderTopLeftRadius).toBe('0px');
+        if (child !== last) expect(getComputedStyle(child).borderTopRightRadius).toBe('0px');
+      }
+    }
+
+    const amount = canvas.getByRole('spinbutton', { name: 'Hvor mange kroner koster det per måned?' });
+    await userEvent.type(amount, '250');
+    expect(amount).toHaveValue(250);
+    expect(amount).toHaveFocus();
   },
 };
 

@@ -495,3 +495,70 @@ export const TestCharacterCounter: Story = {
     });
   },
 };
+
+export const AffixStates: Story = {
+  name: 'Affixes: Default, Error, Read-only And Disabled',
+  render: () => (
+    <div style={{ display: 'grid', gap: 'var(--ds-size-6)' }}>
+      {(['sm', 'md', 'lg'] as const).map((size) => (
+        <div key={size} data-size={size} style={{ display: 'grid', gap: 'var(--ds-size-4)' }}>
+          {(['default', 'error', 'readonly', 'disabled'] as const).map((state) => (
+            <Textfield
+              key={state}
+              label={`${size}: ${state}`}
+              description="Beløp i kroner"
+              defaultValue="250"
+              prefix="NOK"
+              suffix="pr. mnd."
+              error={state === 'error' ? 'Kontroller beløpet' : undefined}
+              readOnly={state === 'readonly'}
+              disabled={state === 'disabled'}
+            />
+          ))}
+        </div>
+      ))}
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    for (const size of ['sm', 'md', 'lg']) {
+      for (const state of ['default', 'error', 'readonly', 'disabled']) {
+        const input = await waitFor(() => canvas.getByRole('textbox', { name: `${size}: ${state}` }));
+        const group = input.closest('.ds-field-affixes')!;
+        const field = input.closest('.ds-field')!;
+        const affixes = group.querySelectorAll('.ds-field-affix');
+        const scope = state === 'error' ? 'danger-' : state === 'readonly' ? 'neutral-' : '';
+        const probe = document.createElement('span');
+        group.appendChild(probe);
+        const tokenColor = (token: string) => {
+          probe.style.color = `var(--ds-color-${token})`;
+          return getComputedStyle(probe).color;
+        };
+        const border = state === 'readonly' ? 'neutral-border-subtle' : `${scope}border-default`;
+        for (const affix of affixes) {
+          expect(getComputedStyle(affix).borderTopColor).toBe(getComputedStyle(input).borderTopColor);
+          expect(getComputedStyle(affix).color).toBe(tokenColor(`${scope}text-subtle`));
+        }
+        if (state !== 'error') expect(getComputedStyle(input).borderTopColor).toBe(tokenColor(border));
+        expect(getComputedStyle(group).backgroundColor).toBe(tokenColor(`${scope}surface-tinted`));
+        expect(getComputedStyle(input).backgroundColor).toBe(
+          tokenColor(state === 'readonly' ? 'neutral-surface-tinted' : `${scope}surface-default`),
+        );
+        probe.style.paddingInline = 'var(--ds-size-4)';
+        expect(getComputedStyle(input).paddingInlineStart).toBe(getComputedStyle(probe).paddingInlineStart);
+        expect(getComputedStyle(field.querySelector('label')!).color).toBe(tokenColor(`${scope}text-default`));
+        probe.remove();
+        if (state === 'disabled') {
+          expect(input).toBeDisabled();
+        } else if (state === 'readonly') {
+          expect(input).toHaveAttribute('readonly');
+        } else {
+          await userEvent.clear(input);
+          await userEvent.type(input, '500');
+          expect(input).toHaveValue('500');
+          expect(input).toHaveFocus();
+        }
+      }
+    }
+  },
+};
