@@ -134,17 +134,18 @@
  * semibold, toggle labels inherit that, descriptions the text colour and
  * toggle descriptions one step smaller. Figma Main keeps the earlier look
  * (Riccardo, 19.10.2026; work item #29590). An explicit data-weight on a
- * Label still wins. */
+ * Label still wins; the description colours are fallbacks under :where so the
+ * text-input, invalid and read-only rules above still apply. */
 .ds-label:not([data-weight]) {
   font-weight: var(--ds-font-weight-medium);
 }
 .ds-field:has(input[type='radio'], input[type='checkbox']) label {
   font-weight: var(--ds-font-weight-regular);
 }
-.ds-field {
+:where(.ds-field) {
   --dsc-field-description-color: var(--ds-color-neutral-text-subtle);
   --dsc-field-description-font-size--toggle: 1em;
 }
-.ds-fieldset {
+:where(.ds-fieldset) {
   --dsc-fieldset-description-color: var(--ds-color-neutral-text-subtle);
 }
