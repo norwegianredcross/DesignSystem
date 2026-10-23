@@ -248,6 +248,12 @@
   background-color: var(--ds-color-neutral-background-default); /* Match header background */
 }
 
+@media (width > 850px) {
+  .secondaryLogoHiddenOnDesktop {
+    display: none;
+  }
+}
+
 .slotComponent {
   background-color: var(--ds-color-neutral-surface-default);
   border: 2px dashed var(--ds-color-neutral-border-default);
@@ -627,6 +633,10 @@
 }
 
 @media (max-width: 850px) {
+  .headerInner:has(.secondaryLogoWrapper) {
+    flex-wrap: wrap;
+  }
+
   .header {
     z-index: 10000; /* Ensure header stays above full-screen menu */
     position: relative; /* Create stacking context */

@@ -1042,6 +1042,41 @@ import { ErrorSummaryList } from '@norwegianredcross/designsystem';
  />
 ```
 
+#### EXPERIMENTAL_AvatarStack
+
+Experimental Digdir component, exported unchanged. The API may change.
+
+```tsx
+import { EXPERIMENTAL_AvatarStack, Avatar } from '@norwegianredcross/designsystem';
+
+<EXPERIMENTAL_AvatarStack aria-label="Deltakere">
+  <li><Avatar aria-label="Ola Nordmann">ON</Avatar></li>
+  <li><Avatar aria-label="Kari Hansen">KH</Avatar></li>
+  <li>+5 deltakere</li>
+</EXPERIMENTAL_AvatarStack>
+```
+
+#### EXPERIMENTAL_FileUpload
+
+Experimental: the API may change. Field connects descriptions when JavaScript runs. Explicit label associations keep the field named without scripts; help text remains visible.
+
+```tsx
+import { EXPERIMENTAL_FileUpload, Field, FieldDescription, Label, Button } from '@norwegianredcross/designsystem';
+
+<form action="/upload" method="post" encType="multipart/form-data">
+  <Field>
+    <Label htmlFor="attachment">Vedlegg</Label>
+    <EXPERIMENTAL_FileUpload>
+      <FieldDescription id="attachment-help">Velg en PDF-fil.</FieldDescription>
+      <Button asChild variant="secondary"><span>Velg fil</span></Button>
+      <input id="attachment" type="file" name="attachment" accept="application/pdf"
+        suppressHydrationWarning />
+    </EXPERIMENTAL_FileUpload>
+  </Field>
+  <Button type="submit">Send vedlegg</Button>
+</form>
+```
+
 #### FieldAffix
 ```tsx
 import { FieldAffix } from '@norwegianredcross/designsystem';
@@ -1194,7 +1229,9 @@ import { Paragraph } from '@norwegianredcross/designsystem';
 <Paragraph
   asChild={false} // valgfri, default false: boolean
   data-size="sm" // valgfri: 'sm' | 'md' | 'lg' | 'xs' | 'xl'
+  italic={false} // valgfri, default false: boolean
   variant="default" // valgfri, default 'default': 'default' | 'long' | 'short'
+  weight="regular" // valgfri: 'regular' | 'medium' | 'bold'
  />
 ```
 
@@ -1559,7 +1596,7 @@ import { Header } from '@norwegianredcross/designsystem';
   onLoginClick={() => {}} // valgfri: (() => void)
   onUserClick={() => {}} // valgfri: (() => void)
   // searchItems — valgfri, default []: HeaderSearchItem[]
-  secondaryLogo={false} // valgfri, default false: boolean
+  // secondaryLogo — valgfri, default false: ReactNode
   secondaryLogoAlt="Secondary Logo" // valgfri, default Secondary Logo: string
   secondaryLogoSrc="…" // valgfri: string
   secondaryLogoSrcDark="…" // valgfri: string
@@ -1572,6 +1609,7 @@ import { Header } from '@norwegianredcross/designsystem';
   showModeToggle={false} // valgfri, default false: boolean
   showNavItems={true} // valgfri, default true: boolean
   showSearch={false} // valgfri, default false: boolean
+  showSecondaryLogo={true} // valgfri, default true: boolean
   showThemeToggle={false} // valgfri, default false: boolean
   showUser={false} // valgfri, default false: boolean
   userAvatarSrc="…" // valgfri: string

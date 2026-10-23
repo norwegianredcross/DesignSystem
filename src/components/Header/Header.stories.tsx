@@ -69,9 +69,13 @@ const meta: Meta<typeof Header> = {
       description: 'Content to display in the expandable menu',
     },
     secondaryLogo: {
+      control: false,
+      description: 'Secondary logo slot. Legacy boolean + secondaryLogoSrc is still supported.',
+    },
+    showSecondaryLogo: {
       control: 'boolean',
-      description: 'Show a secondary logo next to the main logo',
-      defaultValue: false,
+      description: 'Show the secondary logo on desktop. Mobile is unaffected.',
+      table: { defaultValue: { summary: 'true' } },
     },
     secondaryLogoSrc: {
       control: 'text',
@@ -969,3 +973,39 @@ export const TestLoginDestination: Story = {
 
 // Native menu keyboard navigation, Escape and pre-hydration interaction are
 // exercised in progressiveEnhancement.test.ts using real browser input.
+
+export const SecondaryLogoSlot: Story = {
+  args: {
+    secondaryLogo: <a href="#partner" aria-label="Partnerens startside">
+      <svg width="112" height="28" viewBox="0 0 112 28" aria-hidden="true">
+        <text x="0" y="21" fill="currentColor" fontSize="22">Partner</text>
+      </svg>
+    </a>,
+    showSecondaryLogo: true,
+    showSearch: true,
+    children: <a href="#about">Om oss</a>,
+  },
+};
+
+export const SecondaryLogoMobileOnly: Story = {
+  ...SecondaryLogoSlot,
+  args: { ...SecondaryLogoSlot.args, showSecondaryLogo: false },
+  parameters: { viewport: { defaultViewport: 'mobile' } },
+};
+
+export const TestSecondaryLogoSlot: Story = {
+  ...SecondaryLogoSlot,
+  name: 'Test: Secondary Logo Slot Survives Search and Menu',
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const logo = canvas.getByRole('link', { name: 'Partnerens startside' });
+    expect(logo).toHaveAttribute('href', '#partner');
+    await userEvent.click(canvas.getByRole('button', { name: /søk/i }));
+    expect(logo).toBeInTheDocument();
+    await userEvent.keyboard('{Escape}');
+    await userEvent.click(canvas.getByRole('button', { name: 'Meny' }));
+    expect(logo).toBeInTheDocument();
+    await userEvent.keyboard('{Escape}');
+    expect(logo).toBeVisible();
+  },
+};

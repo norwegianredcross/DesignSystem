@@ -1,0 +1,5 @@
+/* Layout between the example form's field and reset button only. */
+.example {
+  display: grid;
+  gap: var(--ds-size-4);
+}

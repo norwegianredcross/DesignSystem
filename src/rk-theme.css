@@ -15,15 +15,43 @@
 /* Text inputs only: checkbox/radio/switch geometry and colours are independent. */
 .ds-input:where(:not([type='checkbox'], [type='radio'], select)) {
   --dsc-input-border-radius: var(--ds-border-radius-lg);
+  --dsc-input-padding-inline: var(--ds-size-4);
+  --dsc-input-background: var(--ds-color-surface-default);
   --dsc-input-border-color: var(--ds-color-border-default);
   --dsc-input-outline-color--hover: var(--ds-color-border-default);
   --dsc-input-color: var(--ds-color-text-default);
 }
 .ds-input:where(:not([type='checkbox'], [type='radio'], select))[aria-invalid='true'] {
+  --dsc-input-accent-color--invalid: var(--ds-color-danger-border-strong);
+  --dsc-input-background: var(--ds-color-danger-surface-default);
   --dsc-input-color: var(--ds-color-danger-text-default);
 }
+.ds-field-affixes:where(:has(> .ds-input:not([type='checkbox'], [type='radio'], select))) {
+  --dsc-field-affix-background: var(--ds-color-surface-tinted);
+  --dsc-field-affix-border-color: var(--ds-color-border-default);
+  --dsc-field-affix-color: var(--ds-color-text-subtle);
+  border-radius: var(--ds-border-radius-lg);
+
+  &:has(> .ds-input[aria-invalid='true']) {
+    --dsc-field-affix-background: var(--ds-color-danger-surface-tinted);
+    --dsc-field-affix-border-color: var(--ds-color-danger-border-strong);
+    --dsc-field-affix-color: var(--ds-color-danger-text-subtle);
+  }
+
+  &:has(> .ds-input:is([readonly], [aria-readonly='true'])) {
+    --dsc-field-affix-background: var(--ds-color-neutral-surface-tinted);
+    --dsc-field-affix-border-color: var(--ds-color-neutral-border-subtle);
+    --dsc-field-affix-color: var(--ds-color-neutral-text-subtle);
+  }
+}
 .ds-field:where(:has(.ds-input:not([type='checkbox'], [type='radio'], select))) {
+  --dsc-field-description-color: var(--ds-color-text-subtle);
   color: var(--ds-color-text-default);
+
+  &:has(> .ds-field-affixes > .ds-input:is([readonly], [aria-readonly='true'])) {
+    --dsc-field-description-color: var(--ds-color-neutral-text-subtle);
+    color: var(--ds-color-neutral-text-default);
+  }
 }
 .ds-field:where(
   :has(.ds-input:not([type='checkbox'], [type='radio'], select)[aria-invalid='true'])

@@ -74,7 +74,12 @@ export interface HeaderProps {
   colorScheme?: 'light' | 'dark';
   /** The toggle's request to change the scheme. Required to make a controlled Header interactive; optional otherwise. */
   onColorSchemeChange?: (scheme: 'light' | 'dark') => void;
-  secondaryLogo?: boolean;
+  /** Secondary logo slot. Supply an image, link or component with an accessible name.
+   * `true` retains the legacy secondaryLogoSrc/secondaryLogoSrcDark behaviour.
+   */
+  secondaryLogo?: React.ReactNode;
+  /** Show the secondary logo on desktop. Mobile visibility is unchanged. */
+  showSecondaryLogo?: boolean;
   secondaryLogoSrc?: string;
   secondaryLogoSrcDark?: string;
   secondaryLogoAlt?: string;
@@ -132,6 +137,7 @@ export const Header = ({
   colorScheme,
   onColorSchemeChange,
   secondaryLogo = false,
+  showSecondaryLogo = true,
   secondaryLogoSrc,
   secondaryLogoSrcDark,
   secondaryLogoAlt = "Secondary Logo",
@@ -338,27 +344,24 @@ export const Header = ({
             <RedCrossLogo className={styles.redCrossLogo} />
           </Link>
           
-          {/* Added Design System Logo - Now via Props */}
-          {/* Rendered only when there IS a secondary logo: the wrapper carries
-              horizontal padding, so an empty one still reserved 48px and pushed
-              the nav and actions right for every consumer using the default
-              secondaryLogo={false}. */}
-          {secondaryLogo && (
-          <div className={styles.secondaryLogoWrapper}>
-            {secondaryLogoSrc ? (
-              <img 
-                src={theme === 'dark' && secondaryLogoSrcDark ? secondaryLogoSrcDark : secondaryLogoSrc} 
-                alt={secondaryLogoAlt} 
-                className={styles.secondaryLogo} 
-              />
-            ) : (
-              <div className={styles.slotComponent}>
-                <div className={styles.slotContainer}>
-                  <p className={styles.slotText}>SLOT</p>
-                </div>
-              </div>
-            )}
-          </div>
+          {secondaryLogo !== false && secondaryLogo != null && secondaryLogo !== '' && (
+            <div className={`${styles.secondaryLogoWrapper} ${!showSecondaryLogo ? styles.secondaryLogoHiddenOnDesktop : ''}`}>
+              {secondaryLogo === true ? (
+                secondaryLogoSrc ? (
+                  <img
+                    src={theme === 'dark' && secondaryLogoSrcDark ? secondaryLogoSrcDark : secondaryLogoSrc}
+                    alt={secondaryLogoAlt}
+                    className={styles.secondaryLogo}
+                  />
+                ) : (
+                  <div className={styles.slotComponent}>
+                    <div className={styles.slotContainer}>
+                      <p className={styles.slotText}>SLOT</p>
+                    </div>
+                  </div>
+                )
+              ) : secondaryLogo}
+            </div>
           )}
         </div>
 

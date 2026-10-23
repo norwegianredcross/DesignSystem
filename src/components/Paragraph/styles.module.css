@@ -1,0 +1,15 @@
+.paragraph.paragraph[data-weight='regular'] {
+  font-weight: var(--ds-font-weight-regular);
+}
+
+.paragraph.paragraph[data-weight='medium'] {
+  font-weight: var(--ds-font-weight-medium);
+}
+
+.paragraph.paragraph[data-weight='bold'] {
+  font-weight: var(--ds-font-weight-bold);
+}
+
+.paragraph[data-italic='true'] {
+  font-style: italic;
+}

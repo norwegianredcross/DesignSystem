@@ -12,7 +12,7 @@
     "themeUrl": "https://cdn.jsdelivr.net/npm/@norwegianredcross/design-tokens/design-tokens-build/theme.css"
   },
   "summary": {
-    "componentCount": 46,
+    "componentCount": 48,
     "primaryComponents": [
       "Alert",
       "Avatar",
@@ -30,6 +30,8 @@
       "Divider",
       "Donor",
       "Dropdown",
+      "EXPERIMENTAL_AvatarStack",
+      "EXPERIMENTAL_FileUpload",
       "ErrorSummary",
       "Field",
       "Fieldset",
@@ -61,7 +63,7 @@
       "Tooltip",
       "ValidationMessage"
     ],
-    "documentedComponentCount": 97,
+    "documentedComponentCount": 99,
     "exportedComponents": [
       "Alert",
       "Avatar",
@@ -99,6 +101,8 @@
       "DropdownList",
       "DropdownTrigger",
       "DropdownTriggerContext",
+      "EXPERIMENTAL_AvatarStack",
+      "EXPERIMENTAL_FileUpload",
       "ErrorSummary",
       "ErrorSummaryHeading",
       "ErrorSummaryItem",

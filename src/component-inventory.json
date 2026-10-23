@@ -3,6 +3,8 @@
   "exports": [
     { "name": "Alert", "kind": "primary" },
     { "name": "Avatar", "kind": "primary" },
+    { "name": "EXPERIMENTAL_AvatarStack", "kind": "primary" },
+    { "name": "EXPERIMENTAL_FileUpload", "kind": "primary" },
     { "name": "Badge", "kind": "primary" },
     { "name": "BadgePosition", "kind": "part", "parent": "Badge" },
     { "name": "Breadcrumbs", "kind": "primary" },

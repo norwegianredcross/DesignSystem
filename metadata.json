@@ -1286,6 +1286,20 @@
     "description": "",
     "props": [
       {
+        "name": "weight",
+        "type": "'regular' | 'medium' | 'bold'",
+        "description": "Skriftvekt. Uten verdi brukes Digdirs standardvekt.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "italic",
+        "type": "boolean",
+        "description": "Vis teksten i kursiv. Endrer ikke skriftvekten.",
+        "defaultValue": "false",
+        "required": false
+      },
+      {
         "name": "data-size",
         "type": "'sm' | 'md' | 'lg' | 'xs' | 'xl'",
         "description": "Changes text sizing",
@@ -1818,9 +1832,16 @@
       },
       {
         "name": "secondaryLogo",
-        "type": "boolean",
-        "description": "",
+        "type": "ReactNode",
+        "description": "Secondary logo slot. Supply an image, link or component with an accessible name.\n`true` retains the legacy secondaryLogoSrc/secondaryLogoSrcDark behaviour.",
         "defaultValue": "false",
+        "required": false
+      },
+      {
+        "name": "showSecondaryLogo",
+        "type": "boolean",
+        "description": "Show the secondary logo on desktop. Mobile visibility is unchanged.",
+        "defaultValue": "true",
         "required": false
       },
       {
@@ -2219,6 +2240,27 @@
         "name": "contactPersonsTitle",
         "type": "string",
         "description": "Title for contact persons section (contact variant)",
+        "defaultValue": null,
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "EXPERIMENTAL_FileUpload",
+    "importPath": "@norwegianredcross/designsystem",
+    "description": "Experimental Digdir file-upload container. Provide a labelled native file input.\nUses Digdir's appearance unchanged. Selected-file feedback is consumer-owned.\nUpload handling and server validation belong to the consumer application.",
+    "props": [
+      {
+        "name": "data-size",
+        "type": "Size | (string & {})",
+        "description": "Use `data-size` to change the size for descendant Designsystemet components and variables.\n\nSelect from predefined sizes or define your own size.",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "data-color",
+        "type": "(string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions",
+        "description": "Use `data-color` to change the color for descendant Designsystemet components and variables.\n\nSelect from predefined colors and colors defined using theme.designsystemet.no.\n@link https://theme.designsystemet.no",
         "defaultValue": null,
         "required": false
       }
@@ -3867,6 +3909,48 @@
         "type": "'circle' | 'rectangle'",
         "description": "Use when badge is floating to change the position of the badge",
         "defaultValue": "rectangle",
+        "required": false
+      }
+    ]
+  },
+  {
+    "componentName": "EXPERIMENTAL_AvatarStack",
+    "importPath": "@norwegianredcross/designsystem",
+    "description": "Experimental Digdir avatar stack. Supply list items with labelled avatars.\nThe API may change; prefer the default sizing and a short list with a count.",
+    "props": [
+      {
+        "name": "gap",
+        "type": "string",
+        "description": "Adjusts gap-mask between avatars in the stack. Must be a valid css length value (px, em, rem, var(--ds-size-1) etc.)\n@deprecated Please use `style={{ '--dsc-avatar-stack-gap': VALUE }}` instead",
+        "defaultValue": "2px",
+        "required": false
+      },
+      {
+        "name": "avatarSize",
+        "type": "string",
+        "description": "Control the size of the avatars. Must be a valid css length value (px, em, rem, var(--ds-size-12) etc.)\n@deprecated Please use `style={{ '--dsc-avatar-stack-size': VALUE }}` instead",
+        "defaultValue": "'var(--ds-size-12)'",
+        "required": false
+      },
+      {
+        "name": "overlap",
+        "type": "string | number",
+        "description": "A number which represents the percentage value of how much avatars should overlap.\n@deprecated Please use `style={{ '--dsc-avatar-stack-overlap': VALUE }}` instead",
+        "defaultValue": "50",
+        "required": false
+      },
+      {
+        "name": "suffix",
+        "type": "string",
+        "description": "Text to the right of the avatars to show a number representing additional avatars not shown such as '+5'\".\n@deprecated Please use a trailing `<li>` with text instead",
+        "defaultValue": null,
+        "required": false
+      },
+      {
+        "name": "expandable",
+        "type": "boolean | 'fixed'",
+        "description": "Expand on hover to show full avatars.\n'fixed': AvatarStack physical width does not change when avatars are expanded.",
+        "defaultValue": "undefined",
         "required": false
       }
     ]

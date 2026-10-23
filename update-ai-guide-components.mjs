@@ -137,6 +137,43 @@ function getComponentNotes(componentName) {
 
 // Generate component documentation
 function generateComponentDoc(component) {
+  // AvatarStack needs list items, not a self-closing example with deprecated props.
+  if (component.componentName === 'EXPERIMENTAL_AvatarStack') {
+    return `#### EXPERIMENTAL_AvatarStack
+
+Experimental Digdir component, exported unchanged. The API may change.
+
+\`\`\`tsx
+import { EXPERIMENTAL_AvatarStack, Avatar } from '@norwegianredcross/designsystem';
+
+<EXPERIMENTAL_AvatarStack aria-label="Deltakere">
+  <li><Avatar aria-label="Ola Nordmann">ON</Avatar></li>
+  <li><Avatar aria-label="Kari Hansen">KH</Avatar></li>
+  <li>+5 deltakere</li>
+</EXPERIMENTAL_AvatarStack>
+\`\`\`
+`;
+  }
+  // FileUpload needs a labelled native input, not a self-closing container.
+  const experimentalExamples = {
+    EXPERIMENTAL_FileUpload: `import { EXPERIMENTAL_FileUpload, Field, FieldDescription, Label, Button } from '@norwegianredcross/designsystem';
+
+<form action="/upload" method="post" encType="multipart/form-data">
+  <Field>
+    <Label htmlFor="attachment">Vedlegg</Label>
+    <EXPERIMENTAL_FileUpload>
+      <FieldDescription id="attachment-help">Velg en PDF-fil.</FieldDescription>
+      <Button asChild variant="secondary"><span>Velg fil</span></Button>
+      <input id="attachment" type="file" name="attachment" accept="application/pdf"
+        suppressHydrationWarning />
+    </EXPERIMENTAL_FileUpload>
+  </Field>
+  <Button type="submit">Send vedlegg</Button>
+</form>`,
+  };
+  if (experimentalExamples[component.componentName]) {
+    return `#### ${component.componentName}\n\nExperimental: the API may change. Field connects descriptions when JavaScript runs. Explicit label associations keep the field named without scripts; help text remains visible.\n\n\`\`\`tsx\n${experimentalExamples[component.componentName]}\n\`\`\`\n`;
+  }
   const props = component.props || [];
   
   // Filter out common internal props that shouldn't be documented
