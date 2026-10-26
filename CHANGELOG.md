@@ -1,5 +1,32 @@
 # Changelog
 
+## 1.6.0 (2026-10-26)
+
+- test(textfield): exempt the disabled affix examples from color-contrast (173651b)
+- ci: run the Digdir canary in Azure (9c17e90)
+- chore(renovate): give Digdir updates their own pull request (ac1fb7e)
+- docs(ai-guide): Figma names in the mapping table, Textfield and Multi suggestion (41d19db)
+- docs: correct the AI guide and contributor notes (7178969)
+- chore: update visual baselines on the Azure agent pool (f63b648)
+- fix(forms): keep the field description colours as fallbacks (e4619b7)
+- feat(header): support a secondary logo slot (6cdd7ac)
+- fix(input): align affix corners and styling with Figma (ed74bb2)
+- feat(paragraph): support font weight and italic (869c030)
+- feat(avatar-stack): expose experimental Digdir component (15b62ff)
+- fix(forms): keep labels and descriptions as before Digdir 1.23 (8be9aaa)
+- fix(ci): name the mirror's GitHub App (d75c2ed)
+- fix(ci): mirror over HTTPS with a GitHub App (9559427)
+- fix(ci): mirror over SSH on port 443 (5d47dcb)
+- fix(ci): let the mirror fetch main from Azure (db869a3)
+- ci: mirror main and release tags to the public GitHub copy (3cd591b)
+- feat(file-upload): expose experimental Digdir component (41990d7)
+- docs: Storybook and AI context at storybook.lunix.cloud, bugs in Azure Boards (44dda2a)
+- docs: README says where the code lives, and points at Azure (018d04c)
+- chore: retire the GitHub leftovers; tokens CSS from npm's CDN (5b3f73d)
+- chore(deps): update minor-and-patch (cd1ae4d)
+- chore(deps): update dependency @norwegianredcross/design-tokens to ^1.0.52 (c76ce45)
+
+
 ## 1.5.1 (2026-10-13)
 
 - chore: update visual baselines on the Azure agent pool (b2e3951)
