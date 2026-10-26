@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vitest/config';
 
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
+import { playwright } from '@vitest/browser-playwright';
 
 const dirname =
   typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url));
@@ -23,12 +24,12 @@ function storybookProject(name: string, env?: Record<string, string>) {
       browser: {
         enabled: true,
         headless: true,
-        provider: 'playwright' as const,
+        provider: playwright(),
         instances: [{ browser: 'chromium' as const }],
         connectTimeout: 120000,
-        api: {
-          host: '127.0.0.1',
-        },
+      },
+      api: {
+        host: '127.0.0.1',
       },
       testTimeout: 30000,
       fileParallelism: false,

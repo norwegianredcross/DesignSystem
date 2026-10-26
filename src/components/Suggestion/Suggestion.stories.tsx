@@ -538,7 +538,7 @@ export const TestComboboxAria: Story = {
     // Native popover state needs real focus/key events in the browser test.
     // Keep the story playable in Storybook, where Vitest's provider is absent.
     const interactions = import.meta.env.MODE === 'test'
-      ? (await import('@vitest/browser/context')).userEvent
+      ? (await import('vitest/browser')).userEvent
       : userEvent;
     await interactions.click(input);
     await interactions.keyboard('{ArrowDown}');
