@@ -498,22 +498,35 @@ export const TestCharacterCounter: Story = {
 
 export const AffixStates: Story = {
   name: 'Affixes: Default, Error, Read-only And Disabled',
+  // color-contrast is exempt ONLY inside the disabled examples: Digdir 1.21
+  // (the floor of the peer range) fades every child of a disabled field,
+  // description and affixes included. WCAG 1.4.3 exempts text in inactive
+  // controls, but axe cannot associate those elements with the disabled
+  // input. The other states are still contrast-checked.
+  parameters: {
+    a11y: {
+      config: {
+        rules: [{ id: 'color-contrast', selector: '*:not([data-disabled-example] *)' }],
+      },
+    },
+  },
   render: () => (
     <div style={{ display: 'grid', gap: 'var(--ds-size-6)' }}>
       {(['sm', 'md', 'lg'] as const).map((size) => (
         <div key={size} data-size={size} style={{ display: 'grid', gap: 'var(--ds-size-4)' }}>
           {(['default', 'error', 'readonly', 'disabled'] as const).map((state) => (
-            <Textfield
-              key={state}
-              label={`${size}: ${state}`}
-              description="Beløp i kroner"
-              defaultValue="250"
-              prefix="NOK"
-              suffix="pr. mnd."
-              error={state === 'error' ? 'Kontroller beløpet' : undefined}
-              readOnly={state === 'readonly'}
-              disabled={state === 'disabled'}
-            />
+            <div key={state} data-disabled-example={state === 'disabled' || undefined} style={{ display: 'contents' }}>
+              <Textfield
+                label={`${size}: ${state}`}
+                description="Beløp i kroner"
+                defaultValue="250"
+                prefix="NOK"
+                suffix="pr. mnd."
+                error={state === 'error' ? 'Kontroller beløpet' : undefined}
+                readOnly={state === 'readonly'}
+                disabled={state === 'disabled'}
+              />
+            </div>
           ))}
         </div>
       ))}
