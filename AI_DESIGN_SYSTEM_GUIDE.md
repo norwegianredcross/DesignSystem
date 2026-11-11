@@ -864,6 +864,8 @@ import { DialogBlock } from '@norwegianredcross/designsystem';
 ```
 
 #### DialogTrigger
+**Deprecated:** Removed in Designsystemet 2.0. Use `Button` with `command="show-modal"` and `commandfor` set to the dialog's `id`.
+
 ```tsx
 import { DialogTrigger } from '@norwegianredcross/designsystem';
 
@@ -882,6 +884,8 @@ import { DialogTrigger } from '@norwegianredcross/designsystem';
 ```
 
 #### DialogTriggerContext
+**Deprecated:** Removed in Designsystemet 2.0. Use `Button` with `command="show-modal"` and `commandfor` set to the dialog's `id`.
+
 ```tsx
 import { DialogTriggerContext } from '@norwegianredcross/designsystem';
 
@@ -948,6 +952,8 @@ import { DropdownList } from '@norwegianredcross/designsystem';
 ```
 
 #### DropdownTrigger
+**Deprecated:** Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the dropdown's `id`.
+
 ```tsx
 import { DropdownTrigger } from '@norwegianredcross/designsystem';
 
@@ -966,6 +972,8 @@ import { DropdownTrigger } from '@norwegianredcross/designsystem';
 ```
 
 #### DropdownTriggerContext
+**Deprecated:** Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the dropdown's `id`.
+
 ```tsx
 import { DropdownTriggerContext } from '@norwegianredcross/designsystem';
 
@@ -1208,6 +1216,8 @@ import { Paragraph } from '@norwegianredcross/designsystem';
 ```
 
 #### PopoverTrigger
+**Deprecated:** Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the popover's `id`.
+
 ```tsx
 import { PopoverTrigger } from '@norwegianredcross/designsystem';
 
@@ -1226,6 +1236,8 @@ import { PopoverTrigger } from '@norwegianredcross/designsystem';
 ```
 
 #### PopoverTriggerContext
+**Deprecated:** Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the popover's `id`.
+
 ```tsx
 import { PopoverTriggerContext } from '@norwegianredcross/designsystem';
 
@@ -1233,6 +1245,8 @@ import { PopoverTriggerContext } from '@norwegianredcross/designsystem';
 ```
 
 #### Search
+**Deprecated:** Removed in Designsystemet 2.0. See Digdir's guide "Search is being removed, what should you do?".
+
 ```tsx
 import { Search } from '@norwegianredcross/designsystem';
 
@@ -1243,6 +1257,8 @@ import { Search } from '@norwegianredcross/designsystem';
 ```
 
 #### SearchButton
+**Deprecated:** Removed in Designsystemet 2.0. See Digdir's guide "Search is being removed, what should you do?".
+
 ```tsx
 import { SearchButton } from '@norwegianredcross/designsystem';
 
@@ -1261,6 +1277,8 @@ import { SearchButton } from '@norwegianredcross/designsystem';
 ```
 
 #### SearchClear
+**Deprecated:** Removed in Designsystemet 2.0. See Digdir's guide "Search is being removed, what should you do?".
+
 ```tsx
 import { SearchClear } from '@norwegianredcross/designsystem';
 
@@ -1272,6 +1290,8 @@ import { SearchClear } from '@norwegianredcross/designsystem';
 ```
 
 #### SearchInput
+**Deprecated:** Removed in Designsystemet 2.0. See Digdir's guide "Search is being removed, what should you do?".
+
 ```tsx
 import { SearchInput } from '@norwegianredcross/designsystem';
 

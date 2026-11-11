@@ -15,11 +15,12 @@ import {
 export type PopoverProps = DigDirPopoverProps;
 export const Popover: typeof DigDirPopover = DigDirPopover;
 
-// Flat exports of the compound's members, in addition to `Popover.*`. A server
-// component cannot reach `Popover.Member` across the client boundary the way
-// client code can, so consumers composing on the server need the members as
-// named imports. Digdir exports them this way; the facade passes them on.
+// Flat exports: server components can't reach `Popover.Trigger` across the client boundary.
+/** @deprecated Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the popover's `id`. */
 export type PopoverTriggerProps = DigDirPopoverTriggerProps;
+/** @deprecated Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the popover's `id`. */
 export const PopoverTrigger: typeof DigDirPopoverTrigger = DigDirPopoverTrigger;
+/** @deprecated Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the popover's `id`. */
 export type PopoverTriggerContextProps = DigDirPopoverTriggerContextProps;
+/** @deprecated Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the popover's `id`. */
 export const PopoverTriggerContext: typeof DigDirPopoverTriggerContext = DigDirPopoverTriggerContext;

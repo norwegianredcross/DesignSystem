@@ -321,6 +321,14 @@ The guide remains the main human-readable reference. The manifest is additive an
 
 This guide provides a set of standards and best practices for creating new components. Following these guidelines ensures that our component library remains consistent, accessible, and easy to maintain.
 
+## Deprecated with Designsystemet 1.24
+
+These still work, but are removed in Designsystemet 2.0:
+
+- `Search`, `SearchInput`, `SearchClear` and `SearchButton`: see Digdir's guide "Search is being removed, what should you do?".
+- `DialogTrigger` and `DialogTriggerContext`: use `<Button command="show-modal" commandfor="dialog-id">`.
+- `DropdownTrigger`, `DropdownTriggerContext`, `PopoverTrigger` and `PopoverTriggerContext`: use `<Button popovertarget="dropdown-id">`.
+
 ## Migration notes (1.3.0 / 1.4.0)
 
 The library is pre-production, so breaking changes ship as minor versions

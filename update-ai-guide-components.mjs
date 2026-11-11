@@ -232,8 +232,10 @@ import { EXPERIMENTAL_AvatarStack, Avatar } from '@norwegianredcross/designsyste
   const notes = getComponentNotes(component.componentName);
   const notesSection = notes ? `\n\n${notes}` : '';
   
+  const deprecated = component.deprecated ? `**Deprecated:** ${component.deprecated}\n\n` : '';
+
   return `#### ${component.componentName}
-\`\`\`tsx
+${deprecated}\`\`\`tsx
 ${imports}
 
 ${componentExample}

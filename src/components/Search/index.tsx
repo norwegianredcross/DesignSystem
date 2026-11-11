@@ -1,29 +1,47 @@
 import {
   Search as DigDirSearch,
-  SearchButton,
-  SearchClear,
-  SearchInput,
+  SearchButton as DigDirSearchButton,
+  SearchClear as DigDirSearchClear,
+  SearchInput as DigDirSearchInput,
   type SearchProps as DigDirSearchProps,
-  type SearchButtonProps,
-  type SearchClearProps,
-  type SearchInputProps,
+  type SearchButtonProps as DigDirSearchButtonProps,
+  type SearchClearProps as DigDirSearchClearProps,
+  type SearchInputProps as DigDirSearchInputProps,
 } from '@digdir/designsystemet-react';
 
+/** @deprecated Removed in Designsystemet 2.0. See Digdir's guide "Search is being removed, what should you do?". */
 export type SearchProps = DigDirSearchProps;
+/** @deprecated Removed in Designsystemet 2.0. See Digdir's guide "Search is being removed, what should you do?". */
+export type SearchButtonProps = DigDirSearchButtonProps;
+/** @deprecated Removed in Designsystemet 2.0. See Digdir's guide "Search is being removed, what should you do?". */
+export type SearchClearProps = DigDirSearchClearProps;
+/** @deprecated Removed in Designsystemet 2.0. See Digdir's guide "Search is being removed, what should you do?". */
+export type SearchInputProps = DigDirSearchInputProps;
 
+/** @deprecated Removed in Designsystemet 2.0. See Digdir's guide "Search is being removed, what should you do?". */
 export const Search: typeof DigDirSearch & {
-  Button: typeof SearchButton;
-  ClearButton: typeof SearchClear;
-  Input: typeof SearchInput;
+  Button: typeof DigDirSearchButton;
+  ClearButton: typeof DigDirSearchClear;
+  Input: typeof DigDirSearchInput;
 } = Object.assign(DigDirSearch, {
-  Button: SearchButton,
-  ClearButton: SearchClear,
-  Input: SearchInput,
+  Button: DigDirSearchButton,
+  ClearButton: DigDirSearchClear,
+  Input: DigDirSearchInput,
 });
 
-// Flat exports of the compound's members, in addition to `Search.*`. A server
-// component cannot reach `Search.Member` across the client boundary the way
-// client code can, so consumers composing on the server need the members as
-// named imports. Digdir exports them this way; the facade passes them on.
-export { SearchButton, SearchClear, SearchInput };
-export type { SearchButtonProps, SearchClearProps, SearchInputProps };
+// Flat exports: server components can't reach `Search.Input` across the client boundary.
+/**
+ * Search button inside a `Search`.
+ * @deprecated Removed in Designsystemet 2.0. See Digdir's guide "Search is being removed, what should you do?".
+ */
+export const SearchButton: typeof DigDirSearchButton = DigDirSearchButton;
+/**
+ * Clear button, shown when the search input is not empty.
+ * @deprecated Removed in Designsystemet 2.0. See Digdir's guide "Search is being removed, what should you do?".
+ */
+export const SearchClear: typeof DigDirSearchClear = DigDirSearchClear;
+/**
+ * Search input inside a `Search`.
+ * @deprecated Removed in Designsystemet 2.0. See Digdir's guide "Search is being removed, what should you do?".
+ */
+export const SearchInput: typeof DigDirSearchInput = DigDirSearchInput;

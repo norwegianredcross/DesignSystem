@@ -16,9 +16,10 @@ import {
 
 /**
  * Dropdown-komponent for menyer.
- * Underkomponenter: DropdownTrigger, DropdownTriggerContext, DropdownHeading, DropdownList, DropdownItem, DropdownButton
+ * Underkomponenter: DropdownHeading, DropdownList, DropdownItem, DropdownButton
  */
 export type DropdownProps = DigDirDropdownProps;
+/** @deprecated Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the dropdown's `id`. */
 export type DropdownTriggerContextProps = DigDirDropdownTriggerContextProps;
 export type DropdownHeadingProps = DigDirDropdownHeadingProps;
 export type DropdownListProps = DigDirDropdownListProps;
@@ -26,7 +27,9 @@ export type DropdownItemProps = DigDirDropdownItemProps;
 export type DropdownButtonProps = DigDirDropdownButtonProps;
 
 export const Dropdown: typeof DigDirDropdown = DigDirDropdown;
+/** @deprecated Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the dropdown's `id`. */
 export const DropdownTrigger: typeof DigDirDropdownTrigger = DigDirDropdownTrigger;
+/** @deprecated Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the dropdown's `id`. */
 export const DropdownTriggerContext: typeof DigDirDropdownTriggerContext = DigDirDropdownTriggerContext;
 export const DropdownHeading: typeof DigDirDropdownHeading = DigDirDropdownHeading;
 export const DropdownList: typeof DigDirDropdownList = DigDirDropdownList;
