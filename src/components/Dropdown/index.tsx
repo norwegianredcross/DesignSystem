@@ -13,6 +13,7 @@ import {
   type DropdownItemProps as DigDirDropdownItemProps,
   type DropdownButtonProps as DigDirDropdownButtonProps,
 } from '@digdir/designsystemet-react';
+import type { WithoutMembers } from '../../utilities';
 
 /**
  * Dropdown-komponent for menyer.
@@ -26,7 +27,12 @@ export type DropdownListProps = DigDirDropdownListProps;
 export type DropdownItemProps = DigDirDropdownItemProps;
 export type DropdownButtonProps = DigDirDropdownButtonProps;
 
-export const Dropdown: typeof DigDirDropdown = DigDirDropdown;
+export const Dropdown: WithoutMembers<typeof DigDirDropdown, 'Trigger' | 'TriggerContext'> & {
+  /** @deprecated Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the dropdown's `id`. */
+  Trigger: typeof DigDirDropdownTrigger;
+  /** @deprecated Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the dropdown's `id`. */
+  TriggerContext: typeof DigDirDropdownTriggerContext;
+} = DigDirDropdown;
 /** @deprecated Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the dropdown's `id`. */
 export const DropdownTrigger: typeof DigDirDropdownTrigger = DigDirDropdownTrigger;
 /** @deprecated Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the dropdown's `id`. */

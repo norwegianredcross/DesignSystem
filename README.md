@@ -325,7 +325,7 @@ This guide provides a set of standards and best practices for creating new compo
 
 These still work, but are removed in Designsystemet 2.0:
 
-- `Search`, `SearchInput`, `SearchClear` and `SearchButton`: see Digdir's guide "Search is being removed, what should you do?".
+- `Search`, `SearchInput`, `SearchClear` and `SearchButton`: see Digdir's guide [Search is being removed, what should you do?](https://designsystemet.no/en/blog/search-is-being-removed-what-should-you-do).
 - `DialogTrigger` and `DialogTriggerContext`: use `<Button command="show-modal" commandfor="dialog-id">`.
 - `DropdownTrigger`, `DropdownTriggerContext`, `PopoverTrigger` and `PopoverTriggerContext`: use `<Button popovertarget="dropdown-id">`.
 

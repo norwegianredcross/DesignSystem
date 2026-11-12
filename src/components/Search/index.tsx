@@ -8,6 +8,7 @@ import {
   type SearchClearProps as DigDirSearchClearProps,
   type SearchInputProps as DigDirSearchInputProps,
 } from '@digdir/designsystemet-react';
+import type { WithoutMembers } from '../../utilities';
 
 /** @deprecated Removed in Designsystemet 2.0. See Digdir's guide "Search is being removed, what should you do?". */
 export type SearchProps = DigDirSearchProps;
@@ -19,9 +20,14 @@ export type SearchClearProps = DigDirSearchClearProps;
 export type SearchInputProps = DigDirSearchInputProps;
 
 /** @deprecated Removed in Designsystemet 2.0. See Digdir's guide "Search is being removed, what should you do?". */
-export const Search: typeof DigDirSearch & {
+export const Search: WithoutMembers<typeof DigDirSearch, 'Button' | 'Clear' | 'Input'> & {
+  /** @deprecated Removed in Designsystemet 2.0. See Digdir's guide "Search is being removed, what should you do?". */
   Button: typeof DigDirSearchButton;
+  /** @deprecated Removed in Designsystemet 2.0. See Digdir's guide "Search is being removed, what should you do?". */
+  Clear: typeof DigDirSearchClear;
+  /** @deprecated Removed in Designsystemet 2.0. See Digdir's guide "Search is being removed, what should you do?". */
   ClearButton: typeof DigDirSearchClear;
+  /** @deprecated Removed in Designsystemet 2.0. See Digdir's guide "Search is being removed, what should you do?". */
   Input: typeof DigDirSearchInput;
 } = Object.assign(DigDirSearch, {
   Button: DigDirSearchButton,

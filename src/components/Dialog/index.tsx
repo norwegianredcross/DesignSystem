@@ -10,12 +10,18 @@ import {
   DialogTriggerContext as DigDirDialogTriggerContext,
   type DialogTriggerContextProps as DigDirDialogTriggerContextProps,
 } from '@digdir/designsystemet-react';
+import type { WithoutMembers } from '../../utilities';
 
 /**
  * Dialog-komponent for modale vinduer.
  */
 export type DialogProps = DigDirDialogProps;
-export const Dialog: typeof DigDirDialog = DigDirDialog;
+export const Dialog: WithoutMembers<typeof DigDirDialog, 'Trigger' | 'TriggerContext'> & {
+  /** @deprecated Removed in Designsystemet 2.0. Use `Button` with `command="show-modal"` and `commandfor` set to the dialog's `id`. */
+  Trigger: typeof DigDirDialogTrigger;
+  /** @deprecated Removed in Designsystemet 2.0. Use `Button` with `command="show-modal"` and `commandfor` set to the dialog's `id`. */
+  TriggerContext: typeof DigDirDialogTriggerContext;
+} = DigDirDialog;
 
 // Flat exports: server components can't reach `Dialog.Block` across the client boundary.
 export type DialogBlockProps = DigDirDialogBlockProps;

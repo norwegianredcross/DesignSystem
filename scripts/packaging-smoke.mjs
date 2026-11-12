@@ -29,6 +29,7 @@ import { createRequire } from 'node:module';
 import { chromium } from 'playwright';
 import { verifyNextFooter } from './footer-next-smoke.mjs';
 import { expect } from '@playwright/test';
+import { checkDeprecatedExports } from './deprecated-exports.mjs';
 import { typecheckPublishedTypes } from './typecheck-published-types.mjs';
 import { consumerOverrides } from './consumer-overrides.mjs';
 import { verifyNextHeader } from './header-next-smoke.mjs';
@@ -506,6 +507,13 @@ export function App(props: Fixture) {
     fail('attw rapporterer problemer med de publiserte typene.');
   }
   console.log('✅ attw: ingen problemer i ESM-oppløsningene.');
+
+  const deprecations = checkDeprecatedExports(appDir, '@norwegianredcross/designsystem');
+  if (deprecations.errors.length || deprecations.missing.length || deprecations.unexpected.length) {
+    console.error(JSON.stringify(deprecations, null, 2));
+    fail('De publiserte typene markerer ikke riktige API-er som deprecated.');
+  }
+  console.log('✅ Deprecated API-er er markert i de publiserte typene.');
 
   // 3d. The ESM-only contract itself. The tarball must not advertise a
   // require() path (the old UMD entry never worked — Node parsed it as ESM
