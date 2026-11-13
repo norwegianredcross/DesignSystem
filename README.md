@@ -95,7 +95,7 @@ The primary goal is to ensure brand consistency, improve development efficiency,
 
 ## Available Components
 
-`EXPERIMENTAL_AvatarStack` exposes Digdir's experimental avatar stack unchanged, including its types, styling and behaviour. Its API may change. Supply `<li>` children with labelled avatars; prefer a short list and a trailing count. Examples are under **Experimental/AvatarStack** in Storybook.
+`AvatarStack` exposes Digdir's avatar stack unchanged, including its types, styling and behaviour. Supply `<li>` children with labelled avatars; prefer a short list and a trailing count. Examples are under **Components/AvatarStack** in Storybook.
 
 `EXPERIMENTAL_FileUpload` exposes Digdir’s experimental file-upload container unchanged. Its API may change. Follow Digdir’s `Field`, `Label` and `Field.Description` composition around a native `<input type="file">`. Keep explicit label associations and a `name` for server-rendered forms. `Field` connects descriptions with JavaScript; without scripts the help text remains visible but is not automatically associated with the input. On native inputs, `suppressHydrationWarning` accounts for attributes that `Field` connects before React hydrates. Digdir uses a transparent input overlay: selection and native multipart submission work without JavaScript. The examples add no custom file-selection state or filename display; consumers supply any selected-file feedback. Use `Input type="file"` when the browser’s filename display must work without scripts. Consumers provide the POST endpoint and server validation; the component does not upload files or enforce file limits. Use `disabled`, not `readOnly`, to prevent selection. Examples are under **Experimental/FileUpload** in Storybook.
 
@@ -152,7 +152,7 @@ npm install @norwegianredcross/designsystem
 ```
 
 > Since 1.4.0 the library declares `@digdir/designsystemet-react` and
-> `@digdir/designsystemet-css` as peer dependencies (`^1.21.0`) and requires
+> `@digdir/designsystemet-css` as peer dependencies (`^1.24.0`) and requires
 > React `^18.3.1`. npm 7+ installs peers automatically; with older
 > setups install them alongside the package.
 
@@ -328,6 +328,17 @@ These still work, but are removed in Designsystemet 2.0:
 - `Search`, `SearchInput`, `SearchClear` and `SearchButton`: see Digdir's guide [Search is being removed, what should you do?](https://designsystemet.no/en/blog/search-is-being-removed-what-should-you-do).
 - `DialogTrigger` and `DialogTriggerContext`: use `<Button command="show-modal" commandfor="dialog-id">`.
 - `DropdownTrigger`, `DropdownTriggerContext`, `PopoverTrigger` and `PopoverTriggerContext`: use `<Button popovertarget="dropdown-id">`.
+- `EXPERIMENTAL_AvatarStack`: use `AvatarStack`, which is stable in 1.24.
+
+## Migration notes (Designsystemet 1.24)
+
+`@digdir/designsystemet-react` and `@digdir/designsystemet-css` must now be
+`^1.24.0`. Apps that declare `^1.21` resolve upward on install; apps pinned to
+1.21–1.23 must upgrade, or npm refuses to resolve the peers:
+
+```bash
+npm install @digdir/designsystemet-react@^1.24 @digdir/designsystemet-css@^1.24
+```
 
 ## Migration notes (1.3.0 / 1.4.0)
 

@@ -137,20 +137,21 @@ function getComponentNotes(componentName) {
 
 // Generate component documentation
 function generateComponentDoc(component) {
-  // AvatarStack needs list items, not a self-closing example with deprecated props.
   if (component.componentName === 'EXPERIMENTAL_AvatarStack') {
-    return `#### EXPERIMENTAL_AvatarStack
-
-Experimental Digdir component, exported unchanged. The API may change.
+    return `#### EXPERIMENTAL_AvatarStack\n\n**Deprecated:** ${component.deprecated}\n`;
+  }
+  // AvatarStack needs list items, not a self-closing example with deprecated props.
+  if (component.componentName === 'AvatarStack') {
+    return `#### AvatarStack
 
 \`\`\`tsx
-import { EXPERIMENTAL_AvatarStack, Avatar } from '@norwegianredcross/designsystem';
+import { AvatarStack, Avatar } from '@norwegianredcross/designsystem';
 
-<EXPERIMENTAL_AvatarStack aria-label="Deltakere">
+<AvatarStack aria-label="Deltakere">
   <li><Avatar aria-label="Ola Nordmann">ON</Avatar></li>
   <li><Avatar aria-label="Kari Hansen">KH</Avatar></li>
   <li>+5 deltakere</li>
-</EXPERIMENTAL_AvatarStack>
+</AvatarStack>
 \`\`\`
 `;
   }

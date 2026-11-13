@@ -1,17 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, userEvent, within } from 'storybook/test';
 import { Avatar } from '../Avatar';
-import { EXPERIMENTAL_AvatarStack } from './index';
+import { AvatarStack } from './index';
 
 const meta = {
-  title: 'Experimental/AvatarStack',
-  component: EXPERIMENTAL_AvatarStack,
+  title: 'Components/AvatarStack',
+  component: AvatarStack,
   tags: ['autodocs'],
   parameters: {
     docs: {
       description: {
         component:
-          'Experimental Digdir component. The API may change. Use list items, meaningful names, and a short list plus a count. Essential names must also be available outside a tooltip.',
+          'Digdir component. Use list items, meaningful names, and a short list plus a count. Essential names must also be available outside a tooltip.',
       },
     },
   },
@@ -28,7 +28,7 @@ const meta = {
   },
   args: { 'aria-label': 'Deltakere' },
   render: (args) => (
-    <EXPERIMENTAL_AvatarStack {...args}>
+    <AvatarStack {...args}>
       <li>
         <Avatar aria-label="Ola Nordmann">ON</Avatar>
       </li>
@@ -39,9 +39,9 @@ const meta = {
         <Avatar aria-label="Per Olsen">PO</Avatar>
       </li>
       <li>+5 deltakere</li>
-    </EXPERIMENTAL_AvatarStack>
+    </AvatarStack>
   ),
-} satisfies Meta<typeof EXPERIMENTAL_AvatarStack>;
+} satisfies Meta<typeof AvatarStack>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -58,7 +58,7 @@ export const Expandable: Story = { args: { expandable: true } };
 
 export const LinkedAvatars: Story = {
   render: (args) => (
-    <EXPERIMENTAL_AvatarStack {...args}>
+    <AvatarStack {...args}>
       <li>
         <Avatar asChild aria-label="Ola Nordmann">
           <a href="#ola">ON</a>
@@ -69,7 +69,7 @@ export const LinkedAvatars: Story = {
           <a href="#kari">KH</a>
         </Avatar>
       </li>
-    </EXPERIMENTAL_AvatarStack>
+    </AvatarStack>
   ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);

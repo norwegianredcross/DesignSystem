@@ -1,7 +1,7 @@
 # Ukentlig kanari for Digdir-avhengighetene, overført fra GitHubs
 # digdir-canary.yml.
 #
-# Peer-kontrakten er ^1.21.0, men lockfilen tester alltid nøyaktig én
+# Peer-kontrakten er ^1.24.0, men lockfilen tester alltid nøyaktig én
 # versjon. Kanarien kjører hele testsuiten mot tre punkter:
 #
 #   minimum          gulvet i peer-spennet

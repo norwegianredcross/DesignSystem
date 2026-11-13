@@ -16,6 +16,7 @@
     "primaryComponents": [
       "Alert",
       "Avatar",
+      "AvatarStack",
       "Badge",
       "Breadcrumbs",
       "Button",
@@ -30,7 +31,6 @@
       "Divider",
       "Donor",
       "Dropdown",
-      "EXPERIMENTAL_AvatarStack",
       "EXPERIMENTAL_FileUpload",
       "ErrorSummary",
       "Field",
@@ -63,10 +63,11 @@
       "Tooltip",
       "ValidationMessage"
     ],
-    "documentedComponentCount": 99,
+    "documentedComponentCount": 100,
     "exportedComponents": [
       "Alert",
       "Avatar",
+      "AvatarStack",
       "Badge",
       "BadgePosition",
       "Breadcrumbs",

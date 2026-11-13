@@ -10,9 +10,9 @@ const TRIGGERS = [
   'PopoverTrigger',
   'PopoverTriggerContext',
 ];
-const KEPT = ['Dialog', 'Dropdown', 'Popover', 'DialogBlock', 'DropdownHeading', 'DropdownList', 'DropdownItem', 'DropdownButton'];
+const KEPT = ['Dialog', 'Dropdown', 'Popover', 'DialogBlock', 'DropdownHeading', 'DropdownList', 'DropdownItem', 'DropdownButton', 'AvatarStack'];
 
-export const DEPRECATED = [...SEARCH, ...TRIGGERS];
+export const DEPRECATED = [...SEARCH, ...TRIGGERS, 'EXPERIMENTAL_AvatarStack'];
 export const DEPRECATED_TYPES = [
   'SearchProps',
   'SearchButtonProps',
@@ -33,6 +33,7 @@ const KEPT_TYPES = [
   'DropdownItemProps',
   'DropdownButtonProps',
   'PopoverProps',
+  'AvatarStackProps',
 ];
 
 const DEPRECATED_MEMBERS = [

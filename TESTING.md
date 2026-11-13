@@ -94,7 +94,7 @@ Når testing begrenses utover dette skal det dokumenteres i PR-beskrivelsen med 
 
 ## 8b. Digdir-versjonen
 
-Peer-spennet er `^1.21.0`: vi følger nyeste Digdir 1.x, og lockfilen pinner
+Peer-spennet er `^1.24.0`: vi følger nyeste Digdir 1.x, og lockfilen pinner
 den versjonen suiten sist var grønn på. Det er en policy, ikke et tak — bumper
 kommer ukentlig fra Renovate (minor/patch-gruppen) og må gjennom hele
 suiten og den visuelle gaten som enhver annen endring.

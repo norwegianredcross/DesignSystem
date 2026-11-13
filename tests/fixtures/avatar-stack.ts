@@ -1,10 +1,10 @@
 import { createElement as h } from 'react';
 import { Avatar } from '../../src/components/Avatar';
-import { EXPERIMENTAL_AvatarStack } from '../../src/components/AvatarStack';
+import { AvatarStack } from '../../src/components/AvatarStack';
 
 export function renderAvatarStack() {
   return h(
-    EXPERIMENTAL_AvatarStack,
+    AvatarStack,
     { 'aria-label': 'Participants' },
     h(
       'li',

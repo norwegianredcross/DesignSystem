@@ -734,6 +734,18 @@ import { Table } from '@norwegianredcross/designsystem';
 
 ### Other Components
 
+#### AvatarStack
+
+```tsx
+import { AvatarStack, Avatar } from '@norwegianredcross/designsystem';
+
+<AvatarStack aria-label="Deltakere">
+  <li><Avatar aria-label="Ola Nordmann">ON</Avatar></li>
+  <li><Avatar aria-label="Kari Hansen">KH</Avatar></li>
+  <li>+5 deltakere</li>
+</AvatarStack>
+```
+
 #### BadgePosition
 ```tsx
 import { BadgePosition } from '@norwegianredcross/designsystem';
@@ -1024,17 +1036,7 @@ import { ErrorSummaryList } from '@norwegianredcross/designsystem';
 
 #### EXPERIMENTAL_AvatarStack
 
-Experimental Digdir component, exported unchanged. The API may change.
-
-```tsx
-import { EXPERIMENTAL_AvatarStack, Avatar } from '@norwegianredcross/designsystem';
-
-<EXPERIMENTAL_AvatarStack aria-label="Deltakere">
-  <li><Avatar aria-label="Ola Nordmann">ON</Avatar></li>
-  <li><Avatar aria-label="Kari Hansen">KH</Avatar></li>
-  <li>+5 deltakere</li>
-</EXPERIMENTAL_AvatarStack>
-```
+**Deprecated:** AvatarStack is stable since Designsystemet 1.24. Use `AvatarStack`.
 
 #### EXPERIMENTAL_FileUpload
 
