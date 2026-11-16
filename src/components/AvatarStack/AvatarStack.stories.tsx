@@ -19,7 +19,7 @@ const meta = {
     expandable: {
       description: 'Expand the stack on hover or focus. Fixed keeps the stack width unchanged.',
       control: 'select',
-      options: [undefined, true, 'fixed'],
+      options: [true, false, 'fixed'],
     },
     'aria-label': {
       description: 'Accessible name for the list of people.',
