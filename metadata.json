@@ -1146,7 +1146,7 @@
       {
         "name": "id",
         "type": "string",
-        "description": "id to connect the trigger with the popover, using `popovertarget` on the trigger.",
+        "description": "id to connect the trigger with the popover - required when not using Popover.Context.",
         "defaultValue": null,
         "required": false
       },
@@ -2522,7 +2522,7 @@
       {
         "name": "id",
         "type": "string",
-        "description": "id to connect the trigger with the popover, using `popovertarget` on the trigger.",
+        "description": "id to connect the trigger with the popover - required when not using Popover.Context.",
         "defaultValue": null,
         "required": false
       },
