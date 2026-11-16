@@ -19,7 +19,7 @@ const meta = {
     expandable: {
       description: 'Expand the stack on hover or focus. Fixed keeps the stack width unchanged.',
       control: 'select',
-      options: [undefined, true, false, 'fixed'],
+      options: [undefined, true, 'fixed'],
     },
     'aria-label': {
       description: 'Accessible name for the list of people.',
@@ -55,6 +55,8 @@ export const Default: Story = {
 };
 
 export const Expandable: Story = { args: { expandable: true } };
+
+export const Fixed: Story = { args: { expandable: 'fixed' } };
 
 export const LinkedAvatars: Story = {
   render: (args) => (

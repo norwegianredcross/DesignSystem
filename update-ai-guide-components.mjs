@@ -137,9 +137,6 @@ function getComponentNotes(componentName) {
 
 // Generate component documentation
 function generateComponentDoc(component) {
-  if (component.componentName === 'EXPERIMENTAL_AvatarStack') {
-    return `#### EXPERIMENTAL_AvatarStack\n\n**Deprecated:** ${component.deprecated}\n`;
-  }
   // AvatarStack needs list items, not a self-closing example with deprecated props.
   if (component.componentName === 'AvatarStack') {
     return `#### AvatarStack

@@ -994,7 +994,7 @@ import { ErrorSummaryList } from '@norwegianredcross/designsystem';
 
 #### EXPERIMENTAL_AvatarStack
 
-**Deprecated:** AvatarStack is stable since Designsystemet 1.24. Use `AvatarStack`.
+> ⚠️ Deprecated – do not use in new code. AvatarStack is stable since Designsystemet 1.24. Use `AvatarStack`.
 
 #### EXPERIMENTAL_FileUpload
 

@@ -89,6 +89,11 @@
   --dsc-button-background--hover: var(--ds-color-surface-active);
 }
 
+/* Figma keeps Alert at lg; Digdir 1.24 moved it to md. */
+.ds-alert {
+  --dsc-alert-border-radius: var(--ds-border-radius-lg);
+}
+
 .ds-error-summary {
   --dsc-errorsummary-border-radius: var(--ds-border-radius-lg);
   --dsc-errorsummary-padding: var(--ds-size-6) var(--ds-size-8);

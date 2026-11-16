@@ -81,12 +81,11 @@ Testinnsatsen prioriteres der feil gjør mest skade. Vurdering per område:
 | Visningskomponenter (Tag, Badge, Avatar, …) | Lav–middels | Lav | Lav | Assertion-bærende kontraktstory + a11y |
 
 **Akseptert risiko** (bevisste valg, jf. kap. 12.3.2 E):
-- Visuell regresjon (skjermbilde-diff) dekker ~15 nøkkelstories i CI (`npm run test:visual`, baselines i `tests/visual/__screenshots__`; regenereres via workflowen «Update visual baselines»). Stories utenfor utvalget dekkes fortsatt kun av manuell Storybook-review i PR.
+- Visuell regresjon (skjermbilde-diff) dekker 20 nøkkelstories i CI (`npm run test:visual`, baselines i `tests/visual/__screenshots__`; regenereres via workflowen «Update visual baselines»). Stories utenfor utvalget dekkes fortsatt kun av manuell Storybook-review i PR.
 - Ingen ytelsestesting av komponenter — lav last, statiske komponenter.
 - Dokumentasjonsplattformen har ikke egne automatiserte tester — lav konsekvens, dekkes av typecheck og manuell review.
 - Suggestion: axe-reglene `aria-allowed-role`, `aria-required-parent` og `aria-valid-attr-value` er unntatt (kun for denne komponenten). Bruddene ligger i Digdir sin EXPERIMENTAL_Suggestion-markup og kan ikke rettes i vår wrapper; alle øvrige axe-regler håndheves. Unntaket fjernes når Digdir retter komponenten.
 - Switch (grupperte stories): `aria-allowed-role` er unntatt (Digdir Fieldset setter redundant `role="group"` på `<fieldset>`), og `color-contrast` er unntatt kun for beskrivelsestekst (`[data-field="description"]`) fordi Digdir toner ned beskrivelsen til deaktiverte brytere — WCAG 1.4.3 unntar tekst i inaktive kontroller. Alle øvrige regler håndheves.
-- Textfield (`Affixes: Default, Error, Read-only And Disabled`): `color-contrast` er unntatt kun inne i de deaktiverte eksemplene (`[data-disabled-example]`). Digdir 1.21, gulvet i peer-spennet, toner ned alt i et deaktivert felt, også beskrivelse og affikser; axe kobler dem ikke til det deaktiverte feltet. Øvrige tilstander kontrastsjekkes.
 
 Statiske komponenter er ikke akseptert risiko: de skal oppfylle nivå 1. Nivå 2 er bare relevant når komponenten har observerbar brukeradferd.
 
