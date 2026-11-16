@@ -17,20 +17,20 @@ import type { WithoutMembers } from '../../utilities';
  */
 export type DialogProps = DigDirDialogProps;
 export const Dialog: WithoutMembers<typeof DigDirDialog, 'Trigger' | 'TriggerContext'> & {
-  /** @deprecated Removed in Designsystemet 2.0. Use `Button` with `command="show-modal"` and `commandfor` set to the dialog's `id`. */
+  /** @deprecated Will be removed in the next major version. Use a `Button` with `command="show-modal"` (or `command="--show-non-modal"`) and `commandfor` set to the dialog's `id` instead. */
   Trigger: typeof DigDirDialogTrigger;
-  /** @deprecated Removed in Designsystemet 2.0. Use `Button` with `command="show-modal"` and `commandfor` set to the dialog's `id`. */
+  /** @deprecated Will be removed in the next major version. Connect a `Button` to the dialog with `command="show-modal"` (or `command="--show-non-modal"`) and `commandfor` set to the dialog's `id` instead. */
   TriggerContext: typeof DigDirDialogTriggerContext;
 } = DigDirDialog;
 
 // Flat exports: server components can't reach `Dialog.Block` across the client boundary.
 export type DialogBlockProps = DigDirDialogBlockProps;
 export const DialogBlock: typeof DigDirDialogBlock = DigDirDialogBlock;
-/** @deprecated Removed in Designsystemet 2.0. Use `Button` with `command="show-modal"` and `commandfor` set to the dialog's `id`. */
+/** @deprecated Will be removed in the next major version. Use a `Button` with `command="show-modal"` (or `command="--show-non-modal"`) and `commandfor` set to the dialog's `id` instead. */
 export type DialogTriggerProps = DigDirDialogTriggerProps;
-/** @deprecated Removed in Designsystemet 2.0. Use `Button` with `command="show-modal"` and `commandfor` set to the dialog's `id`. */
+/** @deprecated Will be removed in the next major version. Use a `Button` with `command="show-modal"` (or `command="--show-non-modal"`) and `commandfor` set to the dialog's `id` instead. */
 export const DialogTrigger: typeof DigDirDialogTrigger = DigDirDialogTrigger;
-/** @deprecated Removed in Designsystemet 2.0. Use `Button` with `command="show-modal"` and `commandfor` set to the dialog's `id`. */
+/** @deprecated Will be removed in the next major version. Connect a `Button` to the dialog with `command="show-modal"` (or `command="--show-non-modal"`) and `commandfor` set to the dialog's `id` instead. */
 export type DialogTriggerContextProps = DigDirDialogTriggerContextProps;
-/** @deprecated Removed in Designsystemet 2.0. Use `Button` with `command="show-modal"` and `commandfor` set to the dialog's `id`. */
+/** @deprecated Will be removed in the next major version. Connect a `Button` to the dialog with `command="show-modal"` (or `command="--show-non-modal"`) and `commandfor` set to the dialog's `id` instead. */
 export const DialogTriggerContext: typeof DigDirDialogTriggerContext = DigDirDialogTriggerContext;

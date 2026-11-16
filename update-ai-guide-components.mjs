@@ -175,6 +175,14 @@ import { AvatarStack, Avatar } from '@norwegianredcross/designsystem';
   if (experimentalExamples[component.componentName]) {
     return `#### ${component.componentName}\n\nExperimental: the API may change. Field connects descriptions when JavaScript runs. Explicit label associations keep the field named without scripts; help text remains visible.\n\n\`\`\`tsx\n${experimentalExamples[component.componentName]}\n\`\`\`\n`;
   }
+  // Deprecated components get no usage example, so agents don't copy them into new code.
+  if (component.deprecated !== undefined) {
+    const reason = component.deprecated.replace(
+      /\{@link\s+([^\s|}]+)\s*(?:\|\s*)?([^}]*?)\s*\}/g,
+      (_, url, label) => `[${label || url}](${url})`,
+    );
+    return `#### ${component.componentName}\n\n> ⚠️ Deprecated – do not use in new code.${reason ? ` ${reason}` : ''}\n`;
+  }
   const props = component.props || [];
   
   // Filter out common internal props that shouldn't be documented
@@ -233,10 +241,8 @@ import { AvatarStack, Avatar } from '@norwegianredcross/designsystem';
   const notes = getComponentNotes(component.componentName);
   const notesSection = notes ? `\n\n${notes}` : '';
   
-  const deprecated = component.deprecated ? `**Deprecated:** ${component.deprecated}\n\n` : '';
-
   return `#### ${component.componentName}
-${deprecated}\`\`\`tsx
+\`\`\`tsx
 ${imports}
 
 ${componentExample}

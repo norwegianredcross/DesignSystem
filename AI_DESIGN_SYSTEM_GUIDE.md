@@ -876,33 +876,12 @@ import { DialogBlock } from '@norwegianredcross/designsystem';
 ```
 
 #### DialogTrigger
-**Deprecated:** Removed in Designsystemet 2.0. Use `Button` with `command="show-modal"` and `commandfor` set to the dialog's `id`.
 
-```tsx
-import { DialogTrigger } from '@norwegianredcross/designsystem';
-
-<DialogTrigger
-  asChild={false} // valgfri: boolean
-  command="…" // valgfri: string
-  commandfor="…" // valgfri: string
-  commandFor="…" // valgfri: string
-  // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
-  // data-size — valgfri: Size | (string & {})
-  icon={false} // valgfri: boolean
-  // loading — valgfri: ReactNode
-  type="button" // valgfri: 'button' | 'submit' | 'reset'
-  variant="primary" // valgfri: 'primary' | 'secondary' | 'tertiary'
- />
-```
+> ⚠️ Deprecated – do not use in new code. Will be removed in the next major version. Use a `Button` with `command="show-modal"` (or `command="--show-non-modal"`) and `commandfor` set to the dialog's `id` instead.
 
 #### DialogTriggerContext
-**Deprecated:** Removed in Designsystemet 2.0. Use `Button` with `command="show-modal"` and `commandfor` set to the dialog's `id`.
 
-```tsx
-import { DialogTriggerContext } from '@norwegianredcross/designsystem';
-
-<DialogTriggerContext />
-```
+> ⚠️ Deprecated – do not use in new code. Will be removed in the next major version. Connect a `Button` to the dialog with `command="show-modal"` (or `command="--show-non-modal"`) and `commandfor` set to the dialog's `id` instead.
 
 #### Dropdown
 ```tsx
@@ -964,33 +943,12 @@ import { DropdownList } from '@norwegianredcross/designsystem';
 ```
 
 #### DropdownTrigger
-**Deprecated:** Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the dropdown's `id`.
 
-```tsx
-import { DropdownTrigger } from '@norwegianredcross/designsystem';
-
-<DropdownTrigger
-  asChild={false} // valgfri, default false false: boolean
-  command="…" // valgfri: string
-  commandfor="…" // valgfri: string
-  commandFor="…" // valgfri: string
-  // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
-  // data-size — valgfri: Size | (string & {})
-  icon={false} // valgfri, default false: boolean
-  inline={false} // valgfri, default false false: boolean
-  // loading — valgfri, default false: ReactNode
-  variant="primary" // valgfri, default 'primary': 'primary' | 'secondary' | 'tertiary'
- />
-```
+> ⚠️ Deprecated – do not use in new code. Will be removed in the next major version. Use a `Button` with `popovertarget` set to the dropdown's `id` instead.
 
 #### DropdownTriggerContext
-**Deprecated:** Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the dropdown's `id`.
 
-```tsx
-import { DropdownTriggerContext } from '@norwegianredcross/designsystem';
-
-<DropdownTriggerContext />
-```
+> ⚠️ Deprecated – do not use in new code. Will be removed in the next major version. Connect a `Button` to the dropdown with `popovertarget` set to the dropdown's `id` instead.
 
 #### ErrorSummaryHeading
 ```tsx
@@ -1218,91 +1176,28 @@ import { Paragraph } from '@norwegianredcross/designsystem';
 ```
 
 #### PopoverTrigger
-**Deprecated:** Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the popover's `id`.
 
-```tsx
-import { PopoverTrigger } from '@norwegianredcross/designsystem';
-
-<PopoverTrigger
-  asChild={false} // valgfri, default false false: boolean
-  command="…" // valgfri: string
-  commandfor="…" // valgfri: string
-  commandFor="…" // valgfri: string
-  // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
-  // data-size — valgfri: Size | (string & {})
-  icon={false} // valgfri, default false: boolean
-  inline={false} // valgfri, default false false: boolean
-  // loading — valgfri, default false: ReactNode
-  variant="primary" // valgfri, default 'primary': 'primary' | 'secondary' | 'tertiary'
- />
-```
+> ⚠️ Deprecated – do not use in new code. Will be removed in the next major version. Use a `Button` with `popovertarget` set to the popover's `id` instead. For an inline trigger, use a `<button>` with `data-popover="inline"`.
 
 #### PopoverTriggerContext
-**Deprecated:** Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the popover's `id`.
 
-```tsx
-import { PopoverTriggerContext } from '@norwegianredcross/designsystem';
-
-<PopoverTriggerContext />
-```
+> ⚠️ Deprecated – do not use in new code. Will be removed in the next major version. Connect a `Button` to the popover with `popovertarget` set to the popover's `id` instead.
 
 #### Search
-**Deprecated:** Removed in Designsystemet 2.0. See Digdir's guide "Search is being removed, what should you do?".
 
-```tsx
-import { Search } from '@norwegianredcross/designsystem';
-
-<Search
-  // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
-  // data-size — valgfri: Size | (string & {})
- />
-```
+> ⚠️ Deprecated – do not use in new code. Will be removed in the next major version. Use `Input` with `type="search"` in a `Field` instead. See [Search is being removed, what should you do?](https://designsystemet.no/en/blog/search-is-being-removed-what-should-you-do) for how to add a search button, search icon or clear button.
 
 #### SearchButton
-**Deprecated:** Removed in Designsystemet 2.0. See Digdir's guide "Search is being removed, what should you do?".
 
-```tsx
-import { SearchButton } from '@norwegianredcross/designsystem';
-
-<SearchButton
-  asChild={false} // valgfri: boolean
-  command="…" // valgfri: string
-  commandfor="…" // valgfri: string
-  commandFor="…" // valgfri: string
-  // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
-  // data-size — valgfri: Size | (string & {})
-  icon={false} // valgfri: boolean
-  // loading — valgfri: ReactNode
-  type="button" // valgfri: 'button' | 'submit' | 'reset'
-  variant="primary" // valgfri: 'primary' | 'secondary' | 'tertiary'
- />
-```
+> ⚠️ Deprecated – do not use in new code. Will be removed in the next major version. Use a `Button` with `type="submit"` instead.
 
 #### SearchClear
-**Deprecated:** Removed in Designsystemet 2.0. See Digdir's guide "Search is being removed, what should you do?".
 
-```tsx
-import { SearchClear } from '@norwegianredcross/designsystem';
-
-<SearchClear
-  aria-label="…" // valgfri: string
-  // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
-  // data-size — valgfri: Size | (string & {})
- />
-```
+> ⚠️ Deprecated – do not use in new code. Will be removed in the next major version. Use a `<button type="reset">` with an `aria-label` inside a `<form>` instead. See [Search is being removed, what should you do?](https://designsystemet.no/en/blog/search-is-being-removed-what-should-you-do).
 
 #### SearchInput
-**Deprecated:** Removed in Designsystemet 2.0. See Digdir's guide "Search is being removed, what should you do?".
 
-```tsx
-import { SearchInput } from '@norwegianredcross/designsystem';
-
-<SearchInput
-  // data-color — valgfri: (string & {}) | keyof ColorDefinitions | keyof SeverityColorDefinitions
-  // data-size — valgfri: Size | (string & {})
-  type="search" // valgfri, default 'search': 'search' | 'text'
- />
-```
+> ⚠️ Deprecated – do not use in new code. Will be removed in the next major version. Use `Input` with `type="search"` in a `Field` instead.
 
 #### SelectOptgroup
 ```tsx
