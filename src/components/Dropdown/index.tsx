@@ -20,7 +20,7 @@ import type { WithoutMembers } from '../../utilities';
  * Underkomponenter: DropdownHeading, DropdownList, DropdownItem, DropdownButton
  */
 export type DropdownProps = DigDirDropdownProps;
-/** @deprecated Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the dropdown's `id`. */
+/** @deprecated Will be removed in the next major version. Connect a `Button` to the dropdown with `popovertarget` set to the dropdown's `id` instead. */
 export type DropdownTriggerContextProps = DigDirDropdownTriggerContextProps;
 export type DropdownHeadingProps = DigDirDropdownHeadingProps;
 export type DropdownListProps = DigDirDropdownListProps;
@@ -28,14 +28,14 @@ export type DropdownItemProps = DigDirDropdownItemProps;
 export type DropdownButtonProps = DigDirDropdownButtonProps;
 
 export const Dropdown: WithoutMembers<typeof DigDirDropdown, 'Trigger' | 'TriggerContext'> & {
-  /** @deprecated Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the dropdown's `id`. */
+  /** @deprecated Will be removed in the next major version. Use a `Button` with `popovertarget` set to the dropdown's `id` instead. */
   Trigger: typeof DigDirDropdownTrigger;
-  /** @deprecated Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the dropdown's `id`. */
+  /** @deprecated Will be removed in the next major version. Connect a `Button` to the dropdown with `popovertarget` set to the dropdown's `id` instead. */
   TriggerContext: typeof DigDirDropdownTriggerContext;
 } = DigDirDropdown;
-/** @deprecated Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the dropdown's `id`. */
+/** @deprecated Will be removed in the next major version. Use a `Button` with `popovertarget` set to the dropdown's `id` instead. */
 export const DropdownTrigger: typeof DigDirDropdownTrigger = DigDirDropdownTrigger;
-/** @deprecated Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the dropdown's `id`. */
+/** @deprecated Will be removed in the next major version. Connect a `Button` to the dropdown with `popovertarget` set to the dropdown's `id` instead. */
 export const DropdownTriggerContext: typeof DigDirDropdownTriggerContext = DigDirDropdownTriggerContext;
 export const DropdownHeading: typeof DigDirDropdownHeading = DigDirDropdownHeading;
 export const DropdownList: typeof DigDirDropdownList = DigDirDropdownList;

@@ -872,7 +872,7 @@
     "componentName": "Search",
     "importPath": "@norwegianredcross/designsystem",
     "description": "",
-    "deprecated": "Removed in Designsystemet 2.0. See Digdir's guide \"Search is being removed, what should you do?\".",
+    "deprecated": "Will be removed in the next major version. Use `Input` with `type=\"search\"` in a `Field` instead. See {@link https://designsystemet.no/en/blog/search-is-being-removed-what-should-you-do Search is being removed, what should you do?} for how to add a search button, search icon or clear button.",
     "props": [
       {
         "name": "data-size",
@@ -894,7 +894,7 @@
     "componentName": "SearchButton",
     "importPath": "@norwegianredcross/designsystem",
     "description": "Search button inside a `Search`.",
-    "deprecated": "Removed in Designsystemet 2.0. See Digdir's guide \"Search is being removed, what should you do?\".",
+    "deprecated": "Will be removed in the next major version. Use a `Button` with `type=\"submit\"` instead.",
     "props": [
       {
         "name": "data-size",
@@ -972,7 +972,7 @@
     "componentName": "SearchClear",
     "importPath": "@norwegianredcross/designsystem",
     "description": "Clear button, shown when the search input is not empty.",
-    "deprecated": "Removed in Designsystemet 2.0. See Digdir's guide \"Search is being removed, what should you do?\".",
+    "deprecated": "Will be removed in the next major version. Use a `<button type=\"reset\">` with an `aria-label` inside a `<form>` instead. See {@link https://designsystemet.no/en/blog/search-is-being-removed-what-should-you-do Search is being removed, what should you do?}.",
     "props": [
       {
         "name": "data-size",
@@ -1001,7 +1001,7 @@
     "componentName": "SearchInput",
     "importPath": "@norwegianredcross/designsystem",
     "description": "Search input inside a `Search`.",
-    "deprecated": "Removed in Designsystemet 2.0. See Digdir's guide \"Search is being removed, what should you do?\".",
+    "deprecated": "Will be removed in the next major version. Use `Input` with `type=\"search\"` in a `Field` instead.",
     "props": [
       {
         "name": "data-size",
@@ -1146,7 +1146,7 @@
       {
         "name": "id",
         "type": "string",
-        "description": "id to connect the trigger with the popover - required when not using Popover.Context.",
+        "description": "id to connect the trigger with the popover, using `popovertarget` on the trigger.",
         "defaultValue": null,
         "required": false
       },
@@ -1205,7 +1205,7 @@
     "componentName": "PopoverTrigger",
     "importPath": "@norwegianredcross/designsystem",
     "description": "",
-    "deprecated": "Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the popover's `id`.",
+    "deprecated": "Will be removed in the next major version. Use a `Button` with `popovertarget` set to the popover's `id` instead. For an inline trigger, use a `<button>` with `data-popover=\"inline\"`.",
     "props": [
       {
         "name": "inline",
@@ -1283,7 +1283,7 @@
     "componentName": "PopoverTriggerContext",
     "importPath": "@norwegianredcross/designsystem",
     "description": "",
-    "deprecated": "Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the popover's `id`.",
+    "deprecated": "Will be removed in the next major version. Connect a `Button` to the popover with `popovertarget` set to the popover's `id` instead.",
     "props": []
   },
   {
@@ -2522,7 +2522,7 @@
       {
         "name": "id",
         "type": "string",
-        "description": "id to connect the trigger with the popover - required when not using Popover.Context.",
+        "description": "id to connect the trigger with the popover, using `popovertarget` on the trigger.",
         "defaultValue": null,
         "required": false
       },
@@ -2574,7 +2574,7 @@
     "componentName": "DropdownTrigger",
     "importPath": "@norwegianredcross/designsystem",
     "description": "",
-    "deprecated": "Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the dropdown's `id`.",
+    "deprecated": "Will be removed in the next major version. Use a `Button` with `popovertarget` set to the dropdown's `id` instead.",
     "props": [
       {
         "name": "inline",
@@ -2652,7 +2652,7 @@
     "componentName": "DropdownTriggerContext",
     "importPath": "@norwegianredcross/designsystem",
     "description": "",
-    "deprecated": "Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the dropdown's `id`.",
+    "deprecated": "Will be removed in the next major version. Connect a `Button` to the dropdown with `popovertarget` set to the dropdown's `id` instead.",
     "props": []
   },
   {
@@ -2999,7 +2999,7 @@
     "componentName": "DialogTrigger",
     "importPath": "@norwegianredcross/designsystem",
     "description": "",
-    "deprecated": "Removed in Designsystemet 2.0. Use `Button` with `command=\"show-modal\"` and `commandfor` set to the dialog's `id`.",
+    "deprecated": "Will be removed in the next major version. Use a `Button` with `command=\"show-modal\"` (or `command=\"--show-non-modal\"`) and `commandfor` set to the dialog's `id` instead.",
     "props": [
       {
         "name": "data-size",
@@ -3077,7 +3077,7 @@
     "componentName": "DialogTriggerContext",
     "importPath": "@norwegianredcross/designsystem",
     "description": "",
-    "deprecated": "Removed in Designsystemet 2.0. Use `Button` with `command=\"show-modal\"` and `commandfor` set to the dialog's `id`.",
+    "deprecated": "Will be removed in the next major version. Connect a `Button` to the dialog with `command=\"show-modal\"` (or `command=\"--show-non-modal\"`) and `commandfor` set to the dialog's `id` instead.",
     "props": []
   },
   {

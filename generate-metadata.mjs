@@ -104,7 +104,7 @@ const parsedMetadata = allComponentsInfo
       componentName: component.displayName,
       importPath: PACKAGE_NAME,
       description: component.description,
-      ...(component.tags?.deprecated && { deprecated: component.tags.deprecated }),
+      ...('deprecated' in (component.tags ?? {}) && { deprecated: component.tags.deprecated ?? '' }),
       props: props,
     };
   });

@@ -15,18 +15,18 @@ import type { WithoutMembers } from '../../utilities';
  */
 export type PopoverProps = DigDirPopoverProps;
 export const Popover: WithoutMembers<typeof DigDirPopover, 'Trigger' | 'TriggerContext'> & {
-  /** @deprecated Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the popover's `id`. */
+  /** @deprecated Will be removed in the next major version. Use a `Button` with `popovertarget` set to the popover's `id` instead. For an inline trigger, use a `<button>` with `data-popover="inline"`. */
   Trigger: typeof DigDirPopoverTrigger;
-  /** @deprecated Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the popover's `id`. */
+  /** @deprecated Will be removed in the next major version. Connect a `Button` to the popover with `popovertarget` set to the popover's `id` instead. */
   TriggerContext: typeof DigDirPopoverTriggerContext;
 } = DigDirPopover;
 
 // Flat exports: server components can't reach `Popover.Trigger` across the client boundary.
-/** @deprecated Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the popover's `id`. */
+/** @deprecated Will be removed in the next major version. Use a `Button` with `popovertarget` set to the popover's `id` instead. For an inline trigger, use a `<button>` with `data-popover="inline"`. */
 export type PopoverTriggerProps = DigDirPopoverTriggerProps;
-/** @deprecated Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the popover's `id`. */
+/** @deprecated Will be removed in the next major version. Use a `Button` with `popovertarget` set to the popover's `id` instead. For an inline trigger, use a `<button>` with `data-popover="inline"`. */
 export const PopoverTrigger: typeof DigDirPopoverTrigger = DigDirPopoverTrigger;
-/** @deprecated Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the popover's `id`. */
+/** @deprecated Will be removed in the next major version. Connect a `Button` to the popover with `popovertarget` set to the popover's `id` instead. */
 export type PopoverTriggerContextProps = DigDirPopoverTriggerContextProps;
-/** @deprecated Removed in Designsystemet 2.0. Use `Button` with `popovertarget` set to the popover's `id`. */
+/** @deprecated Will be removed in the next major version. Connect a `Button` to the popover with `popovertarget` set to the popover's `id` instead. */
 export const PopoverTriggerContext: typeof DigDirPopoverTriggerContext = DigDirPopoverTriggerContext;
