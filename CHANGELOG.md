@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.7.0 (2026-11-17)
+
+- chore: update visual baselines on the Azure agent pool (8b08016)
+- chore: offer true, false and fixed for expandable (f2f0cd2)
+- fix: keep Alert on Figma's radius and answer the 1.24 review (32e95c0)
+- chore: regenerate metadata for the locked Digdir version (a4a5c08)
+- chore: use Digdir's 1.24 deprecation texts (e346931)
+- feat: export the stable AvatarStack and require Designsystemet 1.24 (c2eb63c)
+- chore: flag the deprecated compound members too (d2bba20)
+- chore: mark the APIs Digdir deprecated in 1.24 (1113eb3)
+- chore(test): move to Vitest 5 (0440e91)
+
+
 ## 1.6.0 (2026-10-26)
 
 - test(textfield): exempt the disabled affix examples from color-contrast (173651b)
